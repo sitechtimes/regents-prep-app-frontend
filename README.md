@@ -1,1 +1,1 @@
-# regents-prep-app-frontend
+# Regents Prep App Frontend
