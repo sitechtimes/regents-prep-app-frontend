@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card {
+  width: 300px;
+  height: 300px;
+  border-radius: 8px;
+}
+
+.teacher {
+  background-color: #f1f3f4;
+}
+
+.student {
+  background-color: #e8eaed;
+}
+
+.icon {
+  width: 80px;
+  height: 80px;
+}
+
+h2 {
+  color: #3c4043;
+}
+
+p {
+  color: #5f6368;
+}
+
+button {
+  width: 200px;
+  height: 40px;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+.teacher button {
+  background-color: #1a73e8;
+}
+
+.student button {
+  background-color: #34a853;
+}
