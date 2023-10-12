@@ -14,7 +14,8 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "nuxt": "^3.7.3"
+    "nuxt": "^3.7.3",
+    "tailwindcss": "^3.3.3"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
