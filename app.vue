@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1>Test Page</h1>
+    <h1 class="text-3xl font-bold underline">Test Page</h1>
   </div>
 </template>
 
+<style>
+
+</style>
