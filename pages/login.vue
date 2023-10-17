@@ -29,10 +29,8 @@
 
 
 
-
-
 <script>
-  import {userState} from   '~/stores/users'
+import {userState} from   '~/stores/users'
 
 export default {
   name: 'Login',
@@ -47,6 +45,7 @@ export default {
       const userInfo = userState() // With Nuxt, userInfo has to be declared through the userState() every time it is used in a function.
       console.log(userInfo.user.loggedIn)
       console.log(this.email);
+      this.email = ''
     },
   },
 };
