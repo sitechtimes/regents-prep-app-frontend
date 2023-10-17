@@ -28,9 +28,6 @@
 </template>
 
 <script>
-import { userInfo } from "@/stores/users";
-const userInfo = userInfo();
-
 export default {
   data() {
     return {
