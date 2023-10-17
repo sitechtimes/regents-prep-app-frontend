@@ -27,8 +27,15 @@
   </div>
 </template>
 
+
+
+
+
 <script>
+  import {userState} from   '~/stores/users'
+
 export default {
+  name: 'Login',
   data() {
     return {
       email: ref(""),
@@ -36,8 +43,9 @@ export default {
     };
   },
   methods: {
-    getUser() {
-      userInfo.user.loggedIn = true;
+    async getUser() {
+      const userInfo = userState() // With Nuxt, userInfo has to be declared through the userState() every time it is used in a function.
+      console.log(userInfo.user.loggedIn)
       console.log(this.email);
     },
   },
