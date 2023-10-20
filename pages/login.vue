@@ -1,6 +1,29 @@
+<script setup>
+import { userState } from "~/stores/users";
+
+const email = ref("");
+const password = ref("");
+
+async function getUser() {
+  const userInfo = userState();
+  console.log(email.value);
+  console.log(userInfo.user.loggedIn);
+  if (email.value == "student") {
+    const userInfo = userState();
+    userInfo.user.name == "student-placeholder";
+    userInfo.user.student = true;
+    location.replace(`/user-${userInfo.user.name}/studentdashboard`);
+  } else if (email.value == "teacher") {
+    const userInfo = userState();
+    userInfo.user.name == "teacher-placeholder";
+    userInfo.user.student = false;
+    location.replace(`/user-${userInfo.user.name}/teacherdashboard`);
+  }
+}
+</script>
+
 <template>
   <div>
-14-login-page-setup
     <div></div>
     <h1>Login</h1>
     <h2>Email</h2>
@@ -25,32 +48,7 @@
         > -->Login<!-- </NuxtLink
       > -->
     </button>
-
   </div>
 </template>
-
-
-
-<script>
-import {userState} from   '~/stores/users'
-
-export default {
-  name: 'Login',
-  data() {
-    return {
-      email: ref(""),
-      password: ref(""),
-    };
-  },
-  methods: {
-    async getUser() {
-      const userInfo = userState() // With Nuxt, userInfo has to be declared through the userState() every time it is used in a function.
-      console.log(userInfo.user.loggedIn)
-      console.log(this.email);
-      this.email = ''
-    },
-  },
-};
-</script>
 
 <style lang="css" scoped></style>

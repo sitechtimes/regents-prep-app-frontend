@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>teacher dashboard</h1>
+    <h1>Welcome {{ $route.params.teacher }}</h1>
   </div>
 </template>
 
