@@ -7,4 +7,5 @@ export const userState = defineStore("settings", () => {
         student: null,
     });
     const loggedIn = ref(false);
+    return {user, loggedIn}
 });
