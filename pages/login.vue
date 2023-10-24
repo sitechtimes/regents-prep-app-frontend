@@ -32,17 +32,16 @@
         id="passwordInput"
         class="relative mt-2 shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
       />
-      <button
-        @click.prevent="getUser"
-        class="bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-inner items-center justify-center inline-flex mt-[27px] hover:scale-105 duration-300"
-      >
-        <NuxtLink
-          to="/teacher/teacherdashboard"
-          class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px]"
+      <NuxtLink
+        to="/teacher/teacherdashboard"
+        class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px]"
+        ><button
+          @click.prevent="getUser"
+          class="bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-inner items-center justify-center inline-flex mt-[27px] hover:scale-105 hover:drop-shadow-2xl duration-300"
         >
           Login
-        </NuxtLink>
-      </button>
+        </button>
+      </NuxtLink>
     </div>
   </div>
 </template>
