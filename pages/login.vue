@@ -1,16 +1,18 @@
 <script setup>
+import { storeToRefs } from "pinia";
 import { userState } from "~/stores/users";
 
 const username = ref("");
 const password = ref("");
 
 const userStore = userState();
+const { user } = storeToRefs(userStore);
 const router = useRouter();
 
 const config = useRuntimeConfig();
 
 async function getUser() {
-  /* 
+  /*
   try {
     const response = await fetch(`${config.public.API_URL}/auth/login/`, {
       method: "POST",
@@ -34,8 +36,9 @@ async function getUser() {
   }*/
 
   const userStore = userState();
+  //const { user } = storeToRefs(userStore);
   console.log(username.value);
-  username.value == userStore.user.name;
+  userStore.user.name = username.value;
   console.log(userStore.user.name);
   userStore.loggedIn = true;
   if (username.value == "student") {
