@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <h1>teacher dashboard</h1>
-  </div>
+  <!-- Navigation -->
+  <div class="h-[109px] bg-[#EAE9CA] shadow"></div>
 </template>
 
-<script></script>
+<script></script> 
 
-<style lang="scss" scoped></style>
+<style scoped></style>

@@ -34,6 +34,16 @@
       />
       <NuxtLink
         to="/teacher/teacherdashboard"
+        class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px] mt-[27px]"
+        ><button
+          id="loginRedirect"
+          class="button bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-inner items-center justify-center inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300"
+        >
+          Login
+        </button></NuxtLink
+      >
+<!--       <NuxtLink
+        to="/teacher/teacherdashboard"
         class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px]"
         ><button
           @click.prevent="getUser"
@@ -41,7 +51,7 @@
         >
           Login
         </button>
-      </NuxtLink>
+      </NuxtLink> -->
     </div>
   </div>
 </template>
