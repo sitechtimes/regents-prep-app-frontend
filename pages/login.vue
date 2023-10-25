@@ -6,7 +6,6 @@ const username = ref("");
 const password = ref("");
 
 const userStore = userState();
-const { user } = storeToRefs(userStore);
 const router = useRouter();
 
 const config = useRuntimeConfig();
@@ -45,12 +44,12 @@ async function getUser() {
     const userStore = userState();
     userStore.user.name == "student-placeholder";
     userStore.user.student = true;
-    // location.replace(`/user-${userStore.user.name}/studentdashboard`);
+    location.replace(`/user-${userStore.user.name}/studentdashboard`);
   } else if (username.value == "teacher") {
     const userStore = userState();
     userStore.user.name == "teacher-placeholder";
     userStore.user.student = false;
-    // location.replace(`/user-${userStore.user.name}/teacherdashboard`);
+    location.replace(`/user-${userStore.user.name}/teacherdashboard`);
   }
 }
 </script>
