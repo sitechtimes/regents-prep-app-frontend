@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen flex flex-col items-center justify-center gap-[57px]">
     <h1
-      class="w-[2000px] h-[167px] text-center text-black text-[150px] font-medium drop-shadow-xl"
+      class="w-[1800px] h-[167px] text-center text-black text-[150px] font-medium drop-shadow-xl"
     >
       Regents Prep App
     </h1>
