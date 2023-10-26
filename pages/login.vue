@@ -35,21 +35,17 @@ async function getUser() {
   }*/
 
   const userStore = userState();
-  //const { user } = storeToRefs(userStore);
-  console.log(username.value);
-  userStore.user.name = username.value;
-  console.log(userStore.user.name);
   userStore.loggedIn = true;
   if (username.value == "student") {
     const userStore = userState();
-    userStore.user.name == "student-placeholder";
+    userStore.user.name = "student-placeholder";
     userStore.user.student = true;
-    location.replace(`/user-${userStore.user.name}/studentdashboard`);
+    router.push({ path: `/user-${userStore.user.name}/studentdashboard` });
   } else if (username.value == "teacher") {
     const userStore = userState();
-    userStore.user.name == "teacher-placeholder";
+    userStore.user.name = "teacher-placeholder";
     userStore.user.student = false;
-    location.replace(`/user-${userStore.user.name}/teacherdashboard`);
+    router.push({ path: `/user-${userStore.user.name}/teacherdashboard` });
   }
 }
 </script>

@@ -9,3 +9,4 @@ export const userState = defineStore("settings", () => {
     const loggedIn = ref(false);
     return {user, loggedIn}
 });
+
