@@ -1,3 +1,55 @@
+<script setup>
+import { storeToRefs } from "pinia";
+import { userState } from "~/stores/users";
+
+const username = ref("");
+const password = ref("");
+
+const userStore = userState();
+const router = useRouter();
+
+const config = useRuntimeConfig();
+
+async function getUser() {
+  /*
+  try {
+    const response = await fetch(`${config.public.API_URL}/auth/login/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username.value,
+        password: password.value,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+
+    userStore.user = data.user;
+    userStore.loggedIn = true;
+
+    router.push("home");
+  } catch (error) {
+    console.log(error);
+  }*/
+
+  const userStore = userState();
+  userStore.loggedIn = true;
+  if (username.value == "student") {
+    const userStore = userState();
+    userStore.user.name = "student-placeholder";
+    userStore.user.student = true;
+    router.push({ path: `/user-${userStore.user.name}/studentdashboard` });
+  } else if (username.value == "teacher") {
+    const userStore = userState();
+    userStore.user.name = "teacher-placeholder";
+    userStore.user.student = false;
+    router.push({ path: `/user-${userStore.user.name}/teacherdashboard` });
+  }
+}
+</script>
+
 <template>
   <div class="h-screen flex items-center justify-center">
     <div
@@ -55,28 +107,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import { userState } from "~/stores/users";
-
-export default {
-  name: "Login",
-  data() {
-    return {
-      email: ref(""),
-      password: ref(""),
-    };
-  },
-  methods: {
-    async getUser() {
-      const userInfo = userState(); // With Nuxt, userInfo has to be declared through the userState() every time it is used in a function.
-      console.log(userInfo.user.loggedIn);
-      console.log(this.email);
-      this.email = "";
-    },
-  },
-};
-</script>
 
 <style lang="css" scoped>
 h2 {

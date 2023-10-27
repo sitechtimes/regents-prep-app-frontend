@@ -1,3 +1,9 @@
+<script setup>
+import { userState } from "~/stores/users";
+
+const userStore = userState();
+</script>
+
 <template>
   <div class="h-screen flex flex-col items-center justify-center gap-[57px]">
     <h1
@@ -19,7 +25,5 @@
     </label>
   </div>
 </template>
-
-<script></script>
 
 <style lang="css" scoped></style>
