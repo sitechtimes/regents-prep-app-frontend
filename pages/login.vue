@@ -64,7 +64,7 @@ async function getUser() {
       </h1>
       <label
         for="usernameInput"
-        class="w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[50px] drop-shadow-md pr-[700px]"
+        class="email w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[50px] drop-shadow-md pr-[700px]"
       >
         Email:
       </label>
@@ -78,7 +78,7 @@ async function getUser() {
       <!-- Note that the tailwind for both inputs is a placeholder just to see the input boxes. Please feel free to change them if needed. -->
       <label
       for="password"  
-      class="w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[60px] pr-[700px] drop-shadow-md"
+      class="password w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[60px] pr-[700px] drop-shadow-md"
       >
         Password:
       </label>
@@ -116,7 +116,7 @@ async function getUser() {
 </template>
 
 <style lang="css" scoped>
-h2 {
+.email, .password {
   -webkit-text-stroke: 2px black;
 }
 h3 {
