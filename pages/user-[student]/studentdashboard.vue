@@ -10,7 +10,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <h1>Welcome {{ userStore.user.email }}</h1>
+    <h1>Welcome {{ userStore.user.name }}</h1>
   </div>
 </template>
 
