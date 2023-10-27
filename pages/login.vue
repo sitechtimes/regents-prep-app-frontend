@@ -36,6 +36,7 @@ async function getUser() {
 
   const userStore = userState();
   userStore.loggedIn = true;
+  userStore.user.name = username.value;
   if (username.value == "student") {
     const userStore = userState();
     userStore.user.name = "student-placeholder";
@@ -51,6 +52,7 @@ async function getUser() {
 </script>
 
 <template>
+  <form @submit.prevent="getUser">
   <div class="h-screen flex items-center justify-center">
     <div
       class="w-[779px] h-[690px] flex flex-col items-center justify-center bg-lime-800 rounded-[40px] border-2 border-black m-auto"
@@ -60,40 +62,43 @@ async function getUser() {
       >
         Login
       </h1>
-      <h2
+      <label
+        for="usernameInput"
         class="w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[50px] drop-shadow-md pr-[700px]"
       >
         Email:
-      </h2>
+      </label>
       <input
         type="text"
-        name="email"
-        id="emailInput"
+        name="username"
+        id="usernameInput"
         class="relative shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
-        v-model="email"
+        v-model="username"
       />
       <!-- Note that the tailwind for both inputs is a placeholder just to see the input boxes. Please feel free to change them if needed. -->
-      <h2
-        class="w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[60px] pr-[700px] drop-shadow-md"
+      <label
+      for="password"  
+      class="w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[60px] pr-[700px] drop-shadow-md"
       >
         Password:
-      </h2>
+      </label>
       <input
         type="input"
         name="password"
         id="passwordInput"
         class="relative mt-2 shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
       />
-      <NuxtLink
-        to="/teacher/teacherdashboard"
+      <label
+        
         class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px] mt-[27px]"
         ><button
           id="loginRedirect"
           class="button bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-inner items-center justify-center inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300"
         >
           Login
-        </button></NuxtLink
+        </button></label
       >
+      
 <!--       <NuxtLink
         to="/teacher/teacherdashboard"
         class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px]"
@@ -104,8 +109,10 @@ async function getUser() {
           Login
         </button>
       </NuxtLink> -->
+      
     </div>
   </div>
+</form>
 </template>
 
 <style lang="css" scoped>
