@@ -4,7 +4,7 @@ import { userState } from "~/stores/users";
 const userStore = userState();
 
 onMounted(() => {
-  console.log(userStore.user.email);
+  console.log(userStore.user.name);
 });
 </script>
 

@@ -11,8 +11,7 @@ const router = useRouter();
 const config = useRuntimeConfig();
 
 async function getUser() {
-  /*
-  try {
+  /*  try {
     const response = await fetch(`${config.public.API_URL}/auth/login/`, {
       method: "POST",
       headers: {
@@ -32,30 +31,25 @@ async function getUser() {
     router.push("home");
   } catch (error) {
     console.log(error);
-  }*/
+  } */
 
   const userStore = userState();
-  userStore.$patch({
-    loggedIn: true,
-  });
   userStore.user.name = username.value;
   if (username.value == "student") {
     const userStore = userState();
     userStore.$patch((state) => {
       state.user.student = true;
-    });
-    userStore.$subscribe((mutation, state) => {
-      mutation.type === "patch object";
-      mutation.storeId === "user";
-      mutation.payload;
-      localStorage.setItem("user", JSON.stringify(state));
+      state.user.name = "student-placeholder";
+      router.push({ path: `/user-${state.user.name}/studentdashboard` });
     });
     // router.push({ path: `/user-${userStore.user.name}/studentdashboard` });
   } else if (username.value == "teacher") {
     const userStore = userState();
-    userStore.user.name = "teacher-placeholder";
-    userStore.user.student = false;
-    router.push({ path: `/user-${userStore.user.name}/teacherdashboard` });
+    userStore.$patch((state) => {
+      state.user.student = false;
+      state.user.name = "teacher-placeholder";
+      router.push({ path: `/user-${state.user.name}/teacherdashboard` });
+    });
   }
 }
 </script>

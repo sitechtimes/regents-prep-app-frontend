@@ -4,15 +4,14 @@ import { userState } from "~/stores/users";
 const userStore = userState();
 
 onMounted(() => {
-  console.log(userStore.user.email);
+  console.log(userStore.user.name);
 });
 </script>
-
 
 <template>
   <!-- Navigation -->
   <!--   <div class="h-[109px] bg-[#EAE9CA] shadow"></div> -->
-<!--   <div>
+  <!--   <div>
     <header>
       <nav class="h-[109px] bg-[#EAE9CA] shadow">
         <h1>Navbar</h1>
@@ -20,9 +19,8 @@ onMounted(() => {
     </header>
   </div> -->
   <div>
-    <h1> {{userStore.user.name}}'s dashboard</h1>
+    <h1>{{ userStore.user.name }}'s dashboard</h1>
   </div>
 </template>
-
 
 <style scoped></style>
