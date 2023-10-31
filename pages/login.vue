@@ -24,7 +24,6 @@ async function getUser() {
     });
     const data = await response.json();
     console.log(data);
-
     userStore.user = data.user;
     userStore.loggedIn = true;
 
@@ -32,7 +31,8 @@ async function getUser() {
   } catch (error) {
     console.log(error);
   } */
-
+  //refresh token
+  //username and password, refetch the information.
   const userStore = userState();
   userStore.user.name = username.value;
   if (username.value == "student") {
