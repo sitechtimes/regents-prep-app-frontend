@@ -3,12 +3,10 @@ import { userState } from "~/stores/users";
 
 const userStore = userState();
 
-onMounted(() => {
-  const className = ref();
-  const courseName = ref();
-  const courses = ref([]);
-  const courseColor = ref();
-});
+const className = ref();
+const courseName = ref();
+const courses = ref([]);
+const courseColor = ref();
 </script>
 
 <template>
