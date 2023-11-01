@@ -38,6 +38,7 @@ async function getUser() {
   if (username.value == "student") {
     const userStore = userState();
     userStore.$patch((state) => {
+      state.loggedIn = true;
       state.user.student = true;
       state.user.name = "student-placeholder";
       router.push({ path: `/user-${state.user.name}/studentdashboard` });
@@ -46,6 +47,7 @@ async function getUser() {
   } else if (username.value == "teacher") {
     const userStore = userState();
     userStore.$patch((state) => {
+      state.loggedIn = true;
       state.user.student = false;
       state.user.name = "teacher-placeholder";
       router.push({ path: `/user-${state.user.name}/teacherdashboard` });

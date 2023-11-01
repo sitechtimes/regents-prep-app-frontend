@@ -1,7 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { userState } from "~/stores/users";
 
 const userStore = userState();
+
+onMounted(() => {
+  const className = ref();
+  const courseName = ref();
+  const courses = ref([]);
+  const courseColor = ref();
+});
 </script>
 
 <template>
@@ -16,7 +23,7 @@ const userStore = userState();
             type="text"
             name="classname"
             id="classInput"
-            v-model="classname"
+            v-model="className"
           />
         </div>
         <div>
@@ -33,6 +40,7 @@ const userStore = userState();
             <option v-for="color in courses">{{ color.color }}</option>
           </select>
         </div>
+        <submitButton>Test submit button</submitButton>
       </div>
     </div>
   </form>
