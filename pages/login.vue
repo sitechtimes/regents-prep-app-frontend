@@ -49,6 +49,9 @@ async function getUser() {
     router.push({ path: `/user-${userStore.user.name}/teacherdashboard` });
   }
 }
+definePageMeta({
+  layout: false,
+})
 </script>
 
 <template>
