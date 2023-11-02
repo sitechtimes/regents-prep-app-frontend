@@ -1,5 +1,4 @@
-<script setup>
-import { storeToRefs } from "pinia";
+<script setup lang="ts">
 import { userState } from "~/stores/users";
 
 const username = ref("");
@@ -28,29 +27,35 @@ async function getUser() {
     userStore.loggedIn = true;
 
     router.push("home");
+
+    //Note: the 'home' page is a placeholder.
+
   } catch (error) {
     console.log(error);
   } */
   //refresh token
   //username and password, refetch the information.
-  const userStore = userState();
-  userStore.user.name = username.value;
+
+  const userStore = userState(); //Pinia State is declared
+  userStore.user.name = username.value; //Name that user put into the website is put into the Pinia state
   if (username.value == "student") {
+    // If the user is a student, they are redirected to the studentdashboard. $patch() is a method that allows multiple changes to be applied to the states at the same time.
     const userStore = userState();
     userStore.$patch((state) => {
       state.loggedIn = true;
       state.user.student = true;
-      state.user.name = "student-placeholder";
       router.push({ path: `/user-${state.user.name}/studentdashboard` });
+      //The 'student' and 'loggedIn' attributes of the state are set to true, and the user is redirected to the studentdashboard.
     });
     // router.push({ path: `/user-${userStore.user.name}/studentdashboard` });
   } else if (username.value == "teacher") {
+    //If the user is a teacher
     const userStore = userState();
     userStore.$patch((state) => {
       state.loggedIn = true;
       state.user.student = false;
-      state.user.name = "teacher-placeholder";
       router.push({ path: `/user-${state.user.name}/teacherdashboard` });
+      //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
     });
   }
 }
@@ -91,6 +96,7 @@ async function getUser() {
           type="input"
           name="password"
           id="passwordInput"
+          v-model="password"
           class="relative mt-2 shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
         />
         <label

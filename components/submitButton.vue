@@ -2,6 +2,6 @@
 
 <template>
   <div>
-    <button class="button"><slot></slot></button>
+    <button><slot></slot></button>
   </div>
 </template>

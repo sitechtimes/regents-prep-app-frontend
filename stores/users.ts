@@ -2,9 +2,9 @@ import { defineStore } from 'pinia'
 
 export const userState = defineStore("settings", () => {
     const user = ref({
-        email: null,
-        name: null,
-        student: null,
+        email: '',
+        name: '',
+        student: false,
     });
     const loggedIn = ref(false);
     return {user, loggedIn}
