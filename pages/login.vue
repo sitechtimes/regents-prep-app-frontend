@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
 
-const username = ref("");
+const email = ref("");
 const password = ref("");
 
 const userStore = userState();
@@ -36,25 +36,37 @@ async function getUser() {
   //refresh token
   //username and password, refetch the information.
 
+  function name() {
+    //function to extract the 'username' from a given email.
+    const userStore = userState();
+    let fullUser = Array.from(`${email.value}`); // The email input by the user is turned into an array
+    userStore.user.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+  }
+
+  name();
+
   const userStore = userState(); //Pinia State is declared
-  userStore.user.name = username.value; //Name that user put into the website is put into the Pinia state
-  if (username.value == "student") {
+
+  userStore.$patch((state) => {
+    state.loggedIn = true;
+    state.user.email = email.value;
+  });
+
+  if (email.value == "student") {
     // If the user is a student, they are redirected to the studentdashboard. $patch() is a method that allows multiple changes to be applied to the states at the same time.
     const userStore = userState();
     userStore.$patch((state) => {
-      state.loggedIn = true;
       state.user.student = true;
-      router.push({ path: `/user-${state.user.name}/studentdashboard` });
+      router.push({ path: `/user-${state.user.username}/studentdashboard` });
       //The 'student' and 'loggedIn' attributes of the state are set to true, and the user is redirected to the studentdashboard.
     });
     // router.push({ path: `/user-${userStore.user.name}/studentdashboard` });
-  } else if (username.value == "teacher") {
+  } else if (email.value == "teacher") {
     //If the user is a teacher
     const userStore = userState();
     userStore.$patch((state) => {
-      state.loggedIn = true;
       state.user.student = false;
-      router.push({ path: `/user-${state.user.name}/teacherdashboard` });
+      router.push({ path: `/user-${state.user.username}/teacherdashboard` });
       //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
     });
   }
@@ -83,7 +95,7 @@ async function getUser() {
           name="username"
           id="usernameInput"
           class="relative shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
-          v-model="username"
+          v-model="email"
         />
         <!-- Note that the tailwind for both inputs is a placeholder just to see the input boxes. Please feel free to change them if needed. -->
         <label

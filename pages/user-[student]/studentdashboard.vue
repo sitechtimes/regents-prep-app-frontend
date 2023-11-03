@@ -4,13 +4,13 @@ import { userState } from "~/stores/users";
 const userStore = userState();
 
 onMounted(() => {
-  console.log(userStore.user.name);
+  console.log(userStore.user.username);
 });
 </script>
 
 <template>
   <div>
-    <h1>Welcome {{ userStore.user.name }}</h1>
+    <h1>Welcome {{ userStore.user.username }}</h1>
   </div>
 </template>
 
