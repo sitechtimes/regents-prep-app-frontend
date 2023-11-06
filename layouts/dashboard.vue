@@ -9,7 +9,7 @@
             <h2
               class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
             >
-              default branch
+              User's Name
             </h2>
           </div>
         </div>
@@ -25,6 +25,13 @@
               </h1>
             </div>
           </div>
+        </div>
+        <div
+          id="create-btn"
+          class="w-[73px] h-[73px] bg-[#426B1F] rounded-full shadow-inner items-center justify-center"
+        >
+          <div class="w-[12px] h-[50px] bg-white rounded-[30px] m-auto"></div>
+          <div class="w-[50px] h-[12px] bg-white rounded-[30px]"></div>
         </div>
         <div
           id="dashboard-btn"
