@@ -4,7 +4,7 @@ import { userState } from "~/stores/users";
 const userStore = userState();
 
 onMounted(() => {
-  console.log(userStore.user.name);
+  console.log(userStore.user.username);
 });
 </script>
 
@@ -19,7 +19,7 @@ onMounted(() => {
     </header>
   </div> -->
   <div>
-    <h1>{{ userStore.user.name }}'s dashboard</h1>
+    <h1>{{ userStore.user.fullname }}'s dashboard</h1>
   </div>
 </template>
 

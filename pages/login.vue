@@ -36,14 +36,16 @@ async function getUser() {
   //refresh token
   //username and password, refetch the information.
 
-  function name() {
+  function seperateName() {
     //function to extract the 'username' from a given email.
     const userStore = userState();
-    let fullUser = Array.from(`${email.value}`); // The email input by the user is turned into an array
+    const fullUser = Array.from(`${email.value}`); // as const The email input by the user is turned into an array
+    console.log(fullUser.toSpliced(1, 2));
     userStore.user.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+    console.log(fullUser.slice(0, fullUser.indexOf("@")).join(""));
   }
 
-  name();
+  seperateName();
 
   const userStore = userState(); //Pinia State is declared
 
@@ -52,7 +54,7 @@ async function getUser() {
     state.user.email = email.value;
   });
 
-  if (email.value == "student") {
+  if (userStore.user.username == "student") {
     // If the user is a student, they are redirected to the studentdashboard. $patch() is a method that allows multiple changes to be applied to the states at the same time.
     const userStore = userState();
     userStore.$patch((state) => {
