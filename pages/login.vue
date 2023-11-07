@@ -39,21 +39,26 @@ async function getUser() {
   function seperateName() {
     //function to extract the 'username' from a given email.
     const userStore = userState();
-    const fullUser = Array.from(`${email.value}`); // as const The email input by the user is turned into an array
-    console.log(fullUser.toSpliced(1, 2));
-    userStore.user.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
-    console.log(fullUser.slice(0, fullUser.indexOf("@")).join(""));
+    const fullUser = Array.from(`${email.value}`); //  The email input by the user is turned into an array
+    if (fullUser.includes('@')) { // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
+      userStore.user.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+      console.log(userStore.user.username); 
+    }
+    else{
+      userStore.user.username = email.value //If the email has no '@' symbol, then it is simply registered as the username. 
+      console.log(userStore.user.username)
+    } 
   }
 
   seperateName();
 
   const userStore = userState(); //Pinia State is declared
 
-  userStore.$patch((state) => {
+/*   userStore.$patch((state) => {
     state.loggedIn = true;
-    state.user.email = email.value;
+    state.user.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now.
   });
-
+ */
   if (userStore.user.username == "student") {
     // If the user is a student, they are redirected to the studentdashboard. $patch() is a method that allows multiple changes to be applied to the states at the same time.
     const userStore = userState();
