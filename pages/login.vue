@@ -41,13 +41,13 @@ async function getUser() {
     const userStore = userState();
     const fullUser = Array.from(`${email.value}`); //  The email input by the user is turned into an array
     if (fullUser.includes('@')) { // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
-      userStore.user.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+    userStore.user.email = email.value
+    userStore.user.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
       console.log(userStore.user.username); 
     }
     else{
       userStore.user.username = email.value //If the email has no '@' symbol, then it is simply registered as the username. 
-      console.log(userStore.user.username)
-    } 
+      console.log(userStore.user.username)} 
   }
 
   seperateName();
