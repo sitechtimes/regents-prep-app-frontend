@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { userState } from "~/stores/users";
 
 const userStore = userState();
 
 onMounted(() => {
-  console.log(userStore.user.name);
+  console.log(userStore.user.username);
 });
 
 function getClass() {
@@ -103,6 +103,7 @@ function getClass() {
         </button>
       </div>
     </div>
+
   </div>
 
   <!-- add new class -->

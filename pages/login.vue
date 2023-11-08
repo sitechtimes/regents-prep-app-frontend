@@ -1,8 +1,7 @@
-<script setup>
-import { storeToRefs } from "pinia";
+<script setup lang="ts">
 import { userState } from "~/stores/users";
 
-const username = ref("");
+const email = ref("");
 const password = ref("");
 
 const userStore = userState();
@@ -11,8 +10,7 @@ const router = useRouter();
 const config = useRuntimeConfig();
 
 async function getUser() {
-  /*
-  try {
+  /*  try {
     const response = await fetch(`${config.public.API_URL}/auth/login/`, {
       method: "POST",
       headers: {
@@ -25,30 +23,60 @@ async function getUser() {
     });
     const data = await response.json();
     console.log(data);
-
     userStore.user = data.user;
     userStore.loggedIn = true;
 
     router.push("home");
+
+    //Note: the 'home' page is a placeholder.
+
   } catch (error) {
     console.log(error);
-  }*/
+  } */
+  //refresh token
+  //username and password, refetch the information.
 
-  const userStore = userState();
-  userStore.loggedIn = true;
-  userStore.user.name = username.value;
-  if (username.value == "student") {
+  function seperateName() {
+    //function to extract the 'username' from a given email.
+    const userStore = userState();
+    const fullUser = Array.from(`${email.value}`); //  The email input by the user is turned into an array
+    if (fullUser.includes('@')) { // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
+    userStore.user.email = email.value
+    userStore.user.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+      console.log(userStore.user.username); 
+    }
+    else{
+      userStore.user.username = email.value //If the email has no '@' symbol, then it is simply registered as the username. 
+      console.log(userStore.user.username)} 
+  }
+
+  seperateName();
+
+  const userStore = userState(); //Pinia State is declared
+
+/*   userStore.$patch((state) => {
+    state.loggedIn = true;
+    state.user.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now.
+  });
+ */
+  if (userStore.user.username == "student") {
+    // If the user is a student, they are redirected to the studentdashboard. $patch() is a method that allows multiple changes to be applied to the states at the same time.
     const userStore = userState();
     userStore.$patch((state) => {
       state.user.student = true;
-      state.user.name = "student-placeholder";
-      router.push({ path: `/user-${state.user.name}/studentdashboard` });
+      router.push({ path: `/user-${state.user.username}/studentdashboard` });
+      //The 'student' and 'loggedIn' attributes of the state are set to true, and the user is redirected to the studentdashboard.
     });
-  } else if (username.value == "teacher") {
+    // router.push({ path: `/user-${userStore.user.name}/studentdashboard` });
+  } else if (email.value == "teacher") {
+    //If the user is a teacher
+
     const userStore = userState();
-    userStore.user.name = "teacher-placeholder";
-    userStore.user.student = false;
-    router.push({ path: `/user-${userStore.user.name}/teacherdashboard` });
+    userStore.$patch((state) => {
+      state.user.student = false;
+      router.push({ path: `/user-${state.user.username}/teacherdashboard` });
+      //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
+    });
   }
 }
 </script>
@@ -67,6 +95,7 @@ async function getUser() {
         <label
           for="usernameInput"
           class="email w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[50px] drop-shadow-md pr-[700px]"
+
         >
           Email:
         </label>
@@ -75,19 +104,22 @@ async function getUser() {
           name="username"
           id="usernameInput"
           class="relative shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
-          v-model="username"
+          v-model="email"
         />
         <!-- Note that the tailwind for both inputs is a placeholder just to see the input boxes. Please feel free to change them if needed. -->
         <label
           for="password"
           class="password w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[60px] pr-[700px] drop-shadow-md"
+
         >
           Password:
         </label>
         <input
+
           type="password"
           name="password"
           id="passwordInput"
+          v-model="password"
           class="relative mt-2 shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
         />
         <label
