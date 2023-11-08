@@ -6,6 +6,9 @@ const userStore = userState();
 onMounted(() => {
   console.log(userStore.user.email);
 });
+definePageMeta({
+  layout: 'dashboard',
+});
 </script>
 
 <template>
