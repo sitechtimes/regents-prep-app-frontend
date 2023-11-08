@@ -2,13 +2,14 @@
 import { userState } from "~/stores/users";
 
 const userStore = userState();
+const router = useRouter();
 
 onMounted(() => {
   console.log(userStore.user.username);
 });
 
 function getClass() {
-  router.push({ path: `/user-${state.user.name}/class` });
+  router.push({ path: `/user-${userStore.user.username}/class` });
 }
 </script>
 
@@ -103,7 +104,6 @@ function getClass() {
         </button>
       </div>
     </div>
-
   </div>
 
   <!-- add new class -->
