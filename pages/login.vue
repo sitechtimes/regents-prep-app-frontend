@@ -11,7 +11,7 @@ const config = useRuntimeConfig();
 
 async function getUser() {
     try {
-    const response = await fetch(`${config.public.API_URL}/auth/login/`, {
+    const response = await fetch('http://localhost:8000/api/token/', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ async function getUser() {
     // userStore.user = data.user;
     // userStore.loggedIn = true;
 
-   // router.push("home");
+    router.push("home");
 
     //Note: the 'home' page is a placeholder.
 
