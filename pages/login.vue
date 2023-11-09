@@ -10,29 +10,29 @@ const router = useRouter();
 const config = useRuntimeConfig();
 
 async function getUser() {
-  /*  try {
+    try {
     const response = await fetch(`${config.public.API_URL}/auth/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: username.value,
+        username: email.value,
         password: password.value,
       }),
     });
     const data = await response.json();
     console.log(data);
-    userStore.user = data.user;
-    userStore.loggedIn = true;
+    // userStore.user = data.user;
+    // userStore.loggedIn = true;
 
-    router.push("home");
+   // router.push("home");
 
     //Note: the 'home' page is a placeholder.
 
   } catch (error) {
     console.log(error);
-  } */
+  } 
   //refresh token
   //username and password, refetch the information.
 
