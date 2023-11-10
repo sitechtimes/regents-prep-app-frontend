@@ -1,5 +1,6 @@
 <script setup>
 import { userState } from "~/stores/users";
+import { TeacherClass } from "#build/components";
 
 const userStore = userState();
 
@@ -7,17 +8,36 @@ onMounted(() => {
   console.log(userStore.user.email);
 });
 definePageMeta({
-  layout: 'dashboard',
+  layout: "dashboard",
 });
 </script>
 
-
 <template>
-  
+  <div
+    class="w-[840px] h-[825px] flex flex-col items-center justify-center m-auto"
+  >
+    <div
+      class="w-[840px] h-[720px] bg-[#426B1F] rounded-[30px] border-2 border-black"
+    >
+      <h1
+        class="w-[291px] h-[90px] text-center text-white text-[85px] font-medium m-auto mb-[40px]"
+      >
+        Classes
+      </h1>
+      <div
+        class="w-[787px] h-[553px] bg-[#EAE9CA] rounded-[23px] border-2 border-black m-auto mt-[30px]"
+      >
+        <TeacherClass></TeacherClass>
+      </div>
+    </div>
+  </div>
 </template>
 
-
-<style scoped></style>
+<style scoped>
+h1 {
+  -webkit-text-stroke: 2px black;
+}
+</style>
 
 <!-- 
   <div class="w-[840px] h-[690px] relative flex-col justify-start items-start inline-flex">
