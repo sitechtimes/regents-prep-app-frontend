@@ -1,23 +1,23 @@
 <template>
-  <div 
-    class="w-[787px] h-[93px] bg-[#AAB840] rounded-[21px] shadow-inner border-2 border-black"
+  <div
+    class="w-[785px] h-[93px] bg-[#AAB840] rounded-[21px] shadow-[inset_0_4px_3px_rgba(0,0,0,0.3)] border-2 border-black flex flex-row m-auto"
   >
     <h2
-      class="w-[330px] h-[93px] text-white text-[35px] font-medium font-['Outfit']"
+      class="h-[93px] text-white text-[35px] font-medium pt-[17px] pl-[3%] pr-[30%]"
     >
       Class Name
     </h2>
     <h3
-      class="w-[330px] h-[93px] text-right text-white text-[35px] font-medium font-['Outfit']"
+      class="h-[93px] text-right text-white text-[35px] pt-[17px] font-medium"
     >
       Access Code: xxxxx
-    </div>
+    </h3>
   </div>
 </template>
 
 <script>
 export default {
-    name: "TeacherClass",
+  name: "TeacherClass",
 };
 </script>
 

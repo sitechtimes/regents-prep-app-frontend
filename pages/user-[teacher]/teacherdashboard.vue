@@ -1,6 +1,6 @@
 <script setup>
 import { userState } from "~/stores/users";
-import { TeacherClass } from "#build/components";
+import { TeacherClass } from "~/components/teacherClass";
 
 const userStore = userState();
 
@@ -27,7 +27,6 @@ definePageMeta({
       <div
         class="w-[787px] h-[553px] bg-[#EAE9CA] rounded-[23px] border-2 border-black m-auto mt-[30px]"
       >
-        <TeacherClass></TeacherClass>
       </div>
     </div>
   </div>
