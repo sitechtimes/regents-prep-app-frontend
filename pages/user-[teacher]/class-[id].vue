@@ -33,14 +33,20 @@
         <div id="currentAssignmentsHeader">
           <h3>Current Assignments</h3>
         </div>
-        <!--Components with assignments in the forms of divs will go here.-->
+        <!--<TeacherComponentsAssignment />
+        TeacherComponentsAssignment with v-for for the 5 current assignments for the current student will go here.
+        -->
       </div>
       <div id="pastAssigments">
         <div id="pastAssignmentsHeader">
           <h3>Past Assignments</h3>
         </div>
-        <TeacherComponentsassignment>test</TeacherComponentsassignment>
-        <!--Components with assignments in the forms of divs will go here.-->
+        <!--<TeacherComponentsAssignment />
+        TeacherComponentsAssignment with v-for for the 5 past assignments for the current student will go here.
+        -->
+      </div>
+      <div>
+        <submitButton>Assign Student Homework</submitButton>
       </div>
     </div>
   </div>
