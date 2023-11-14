@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   '@pinia/nuxt', '@nuxtjs/tailwindcss'],
   runtimeConfig: {
     public:{
-        API_URL: process.env.API_URL
+        API_URL: process.env.API_URL || 'http://localhost:8000'
     }
   },
 })

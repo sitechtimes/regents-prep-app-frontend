@@ -11,7 +11,7 @@ const config = useRuntimeConfig();
 
 async function getUser() {
     try {
-    const response = await fetch('http://localhost:8000/api/token/', {
+    let response = await fetch(`${config.public.API_URL}/api/token/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,18 +21,60 @@ async function getUser() {
         password: password.value,
       }),
     });
-    const data = await response.json();
-    console.log(data);
+
+    console.log(response)
+    const tokens = await response.json();
+    localStorage.setItem("access_token", tokens.access);
+    localStorage.setItem("refresh_token", tokens.refresh);
+    console.log(tokens);
+    if (response.status === 401) {
+     const refreshToken = localStorage.getItem('refresh_token')
+     if (refreshToken) {
+        await refreshAccessToken(refreshToken);
+        // Retry the failed request
+        response = await fetch(`${config.public.API_URL}/api/token/`);
+      } else {
+        // Handle the case where there is no refresh token
+        // For example, redirect the user to the login page
+        router.push('login');
+        return;
+      }
+    }
     // userStore.user = data.user;
     // userStore.loggedIn = true;
-
     router.push("home");
-
     //Note: the 'home' page is a placeholder.
-
   } catch (error) {
     console.log(error);
   } 
+  function getStoredTokens() {
+    const accessToken = localStorage.getItem('access_token')
+    const refreshToken = localStorage.getItem('refresh_token')
+    return { accessToken, refreshToken }
+  }
+  getStoredTokens()
+  async function refreshAccessToken(refreshToken : string) {
+      const response = await fetch(`${config.public.API_URL}/api/token/refresh/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          refresh: refreshToken,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to refresh access token');
+      }
+      const data = await response.json();
+      localStorage.setItem('accessToken', data.access);
+      console.log(data);
+      // userStore.user = data.user;
+      // userStore.loggedIn = true;
+      // router.push("home");
+ 
+  }
   //refresh token
   //username and password, refetch the information.
 
