@@ -1,21 +1,24 @@
 <script setup lang="ts">
 const props = defineProps({
-  name: { type: String, required: true },
-  month: { type: Number, required: true },
-  day: { type: Number, required: true },
+  name: { type: String },
+  month: { type: Number },
+  day: { type: Number},
 });
 </script>
 
 <template>
-  <div
-    class="w-[549px] h-[57px] flex flex-col items-center justify-center bg-[#AAB941] bg-opacity-62 rounded-full"
+  <div 
+    class="w-[549px] h-[57px] flex flex-col items-center justify-center bg-[#AAB941] bg-opacity-62 rounded-full relative shadow-blue shadow-sm"
   >
-    <h2 id="assignmentName" class="place-content-center text-black">
+  <div class="static" >
+    <h2 id="assignmentName" class="place-content-center text-black" >
       {{ name }}
     </h2>
-    <div>
-      <h3 id="dueDate" class="text-black">Due: {{ month }}/{{ day }}</h3>
-    </div>
+  </div>
+      <div class="flex flex-col items-center justify-center absolute right-0 rounded-[73.50px] 
+      backdrop-blur-sm bg-[#8B9930]  h-[57px] w-[107px] " >
+        <h3 id="dueDate" class="text-center text-white">Due: {{ month }}/{{ day }}</h3>
+      </div>
   </div>
 </template>
 

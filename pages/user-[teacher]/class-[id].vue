@@ -41,8 +41,8 @@
         <div id="pastAssignmentsHeader">
           <h3>Past Assignments</h3>
         </div>
-        <!--<TeacherComponentsAssignment />
-        TeacherComponentsAssignment with v-for for the 5 past assignments for the current student will go here.
+        <TeacherComponentsAssignment name="Solar Power" />
+        <!--TeacherComponentsAssignment with v-for for the 5 past assignments for the current student will go here.
         -->
       </div>
       <div>

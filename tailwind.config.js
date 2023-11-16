@@ -10,6 +10,10 @@ export default {
   ],
   theme: {
     extend: {},
+    boxShadow: {
+      innervariant: 'inset 0 10px 15px 0 rgba(0, 0, 0, 0.75)',
+    },
+
   },
   plugins: [],
 }
