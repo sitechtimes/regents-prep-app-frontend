@@ -1,6 +1,5 @@
 <script setup>
 import { userState } from "~/stores/users";
-import { TeacherClass } from "~/components/teacherClass";
 
 const userStore = userState();
 
