@@ -40,21 +40,24 @@ async function getUser() {
     //function to extract the 'username' from a given email.
     const userStore = userState();
     const fullUser = Array.from(`${email.value}`); //  The email input by the user is turned into an array
-    if (fullUser.includes('@')) { // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
-    userStore.user.email = email.value
-    userStore.user.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
-      console.log(userStore.user.username); 
+    if (fullUser.includes("@")) {
+      // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
+      userStore.user.email = email.value;
+      userStore.user.username = fullUser
+        .slice(0, fullUser.indexOf("@"))
+        .join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+      console.log(userStore.user.username);
+    } else {
+      userStore.user.username = email.value; //If the email has no '@' symbol, then it is simply registered as the username.
+      console.log(userStore.user.username);
     }
-    else{
-      userStore.user.username = email.value //If the email has no '@' symbol, then it is simply registered as the username. 
-      console.log(userStore.user.username)} 
   }
 
   seperateName();
 
   const userStore = userState(); //Pinia State is declared
 
-/*   userStore.$patch((state) => {
+  /*   userStore.$patch((state) => {
     state.loggedIn = true;
     state.user.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now.
   });
@@ -95,7 +98,6 @@ async function getUser() {
         <label
           for="usernameInput"
           class="email w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[50px] drop-shadow-md pr-[700px]"
-
         >
           Email:
         </label>
@@ -110,12 +112,10 @@ async function getUser() {
         <label
           for="password"
           class="password w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[60px] pr-[700px] drop-shadow-md"
-
         >
           Password:
         </label>
         <input
-
           type="password"
           name="password"
           id="passwordInput"
@@ -126,7 +126,7 @@ async function getUser() {
           class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px] mt-[27px]"
           ><button
             id="loginRedirect"
-            class="button bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-inner items-center justify-center inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300"
+            class="button bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-innervar shadow-black items-center justify-center inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
           >
             Login
           </button></label

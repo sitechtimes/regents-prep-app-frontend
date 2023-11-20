@@ -17,7 +17,8 @@ export default {
 module.exports = {
   theme: {
     boxShadow: {
-      innervar: "inset 3px 2.5px 7.5px -5px  rgba(0, 0, 0, 0.06)",
+      innervar: "inset 3px 2.5px 8px -4px  rgba(0, 0, 0, 0.06)",
+      innerhover: "inset -3px -2.5px 2.5px -4px  rgba(0, 0, 0, 0.06)",
     },
   },
 };
