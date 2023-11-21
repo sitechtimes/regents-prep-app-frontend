@@ -1,3 +1,4 @@
+
 <script setup lang="ts">
 import Assignments from "../components/Assignments.vue";
 import CurrentAssignmentsButton from "../components/CurrentAssignmentsButton.vue";
