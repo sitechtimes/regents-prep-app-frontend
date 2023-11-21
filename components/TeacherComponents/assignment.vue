@@ -10,7 +10,7 @@ const props = defineProps({
   <div
     class="max-w-min m-2.5 h-[57px] flex items-center justify-center drop-shadow-md shadow-black bg-[#AAB941] bg-opacity-62 rounded-full relative shadow-2xl"
   >
-    <div class="static w-max mx-16">
+    <div class="static w-max mx-12">
       <h2
         id="assignmentName"
         class="text-[36px] place-content-center text-black"
