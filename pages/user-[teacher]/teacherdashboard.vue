@@ -27,11 +27,39 @@ definePageMeta({
       <div
         class="w-[787px] h-[553px] bg-[#EAE9CA] rounded-[23px] border-2 border-black m-auto mt-[30px]"
       >
-        <TeacherClass />
+        <TeacherClass
+          v-for="teacherclass in teacherclasses"
+          :key="teacherclass.name"
+          :name="teacherclass.name"
+          :code="teacherclass.code"
+        />
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "teacherDashboard",
+  components: {
+    TeacherClass,
+  },
+  data() {
+    return {
+      teacherclasses: [
+        {
+          name: "Physics - P1",
+          code: 11111,
+        },
+        {
+          name: "Chemistry - P2",
+          code: 22222,
+        }
+      ]
+    }
+  }
+} 
+</script>
 
 <style scoped>
 h1 {

@@ -3,14 +3,14 @@
     class="w-[785px] h-[93px] bg-[#AAB840] rounded-[21px] shadow-[inset_0_4px_3px_rgba(0,0,0,0.3)] border-2 border-black flex flex-row m-auto"
   >
     <h2
-      class="h-[93px] text-white text-[35px] font-medium pt-[17px] pl-[3%] pr-[30%]"
+      class="h-[93px] text-white text-[35px] font-medium pt-[17px] pl-[3%]"
     >
-      Class Name
+      {{ name }}
     </h2>
     <h3
-      class="h-[93px] text-right text-white text-[35px] pt-[17px] font-medium"
+      class="h-[93px] text-right text-white text-[35px] pt-[17px] font-medium pr-[3%]"
     >
-      Access Code: xxxxx
+      Access Code: {{ code }}
     </h3>
   </div>
 </template>
@@ -18,6 +18,10 @@
 <script>
 export default {
   name: "TeacherClass",
+  props: {
+    name: String,
+    code: Number,
+  },
 };
 </script>
 
