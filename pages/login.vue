@@ -11,39 +11,35 @@ const config = useRuntimeConfig();
 
 async function getUser() {
     try {
+    //gets stored tokens
+    const { accessToken, refreshToken } = getStoredTokens();
     let response = await fetch(`${config.public.API_URL}/api/token/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         username: email.value,
         password: password.value,
       }),
     });
-
-    console.log(response)
-    const tokens = await response.json();
-    localStorage.setItem("access_token", tokens.access);
-    localStorage.setItem("refresh_token", tokens.refresh);
-    console.log(tokens);
-    if (response.status === 401) {
+    if (response.status === 401 && refreshToken) {
+    console.log("401 status code! Refreshing token...")
      const refreshToken = localStorage.getItem('refresh_token')
      if (refreshToken) {
         await refreshAccessToken(refreshToken);
         // Retry the failed request
         response = await fetch(`${config.public.API_URL}/api/token/`);
       } else {
-        // Handle the case where there is no refresh token
-        // For example, redirect the user to the login page
-        router.push('login');
-        return;
+        console.log('Unable to refresh access token');
       }
     }
-    // userStore.user = data.user;
-    // userStore.loggedIn = true;
-    router.push("home");
-    //Note: the 'home' page is a placeholder.
+    const tokens = await response.json();
+    localStorage.setItem("access_token", tokens.access);
+    localStorage.setItem("refresh_token", tokens.refresh);
+    console.log(tokens);
+ 
   } catch (error) {
     console.log(error);
   } 
