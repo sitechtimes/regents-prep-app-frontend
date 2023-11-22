@@ -54,7 +54,7 @@ export default {
         {
           name: "Chemistry - P2",
           code: 22222,
-        }
+        },
       ]
     }
   }
