@@ -9,70 +9,88 @@ const router = useRouter();
 
 const config = useRuntimeConfig();
 
+function setCookie(name: string, value: string) {
+  document.cookie = name + "=" + (value || "") + "; path=/";
+}
+function getCookie(name: string) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == " ") c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0)
+      return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+function getStoredTokens() {
+  const refreshToken = getCookie('refresh_token')
+  return { refreshToken }
+}
+
+async function refreshAccessToken(refreshToken : string) {
+  const response = await fetch(`${config.public.API_URL}/api/token/refresh/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      refresh: refreshToken,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to refresh access token');
+  }
+  const data = await response.json();
+  localStorage.setItem('access_token', data.access);
+  console.log(data);
+  return data.access;
+}
+
 async function getUser() {
-    try {
+  try {
     //gets stored tokens
-    const { accessToken, refreshToken } = getStoredTokens();
+    const { refreshToken } = getStoredTokens();
     let response = await fetch(`${config.public.API_URL}/api/token/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         username: email.value,
         password: password.value,
       }),
     });
+
     if (response.status === 401 && refreshToken) {
-    console.log("401 status code! Refreshing token...")
-     const refreshToken = localStorage.getItem('refresh_token')
-     if (refreshToken) {
-        await refreshAccessToken(refreshToken);
-        // Retry the failed request
-        response = await fetch(`${config.public.API_URL}/api/token/`);
-      } else {
-        console.log('Unable to refresh access token');
-      }
+      console.log("401 status code! Refreshing token...")
+      const newAccessToken = await refreshAccessToken(refreshToken);
+      // Retry the failed request
+      response = await fetch(`${config.public.API_URL}/api/token/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${newAccessToken}`,
+        },
+        body: JSON.stringify({
+          username: email.value,
+          password: password.value,
+        }),
+      });
     }
+
     const tokens = await response.json();
     localStorage.setItem("access_token", tokens.access);
     localStorage.setItem("refresh_token", tokens.refresh);
+    setCookie('refresh_token', tokens.refresh)
+    console.log(refreshToken)
     console.log(tokens);
  
   } catch (error) {
     console.log(error);
   } 
-  function getStoredTokens() {
-    const accessToken = localStorage.getItem('access_token')
-    const refreshToken = localStorage.getItem('refresh_token')
-    return { accessToken, refreshToken }
-  }
-  getStoredTokens()
-  async function refreshAccessToken(refreshToken : string) {
-      const response = await fetch(`${config.public.API_URL}/api/token/refresh/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          refresh: refreshToken,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to refresh access token');
-      }
-      const data = await response.json();
-      localStorage.setItem('accessToken', data.access);
-      console.log(data);
-      // userStore.user = data.user;
-      // userStore.loggedIn = true;
-      // router.push("home");
- 
-  }
-  //refresh token
-  //username and password, refetch the information.
 
   function seperateName() {
     //function to extract the 'username' from a given email.
