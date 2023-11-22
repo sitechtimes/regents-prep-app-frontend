@@ -11,6 +11,18 @@ onMounted(() => {
 function getClass() {
   router.push({ path: `/user-${userStore.user.username}/studentclass` });
 }
+
+//All color themes for student's classes are fetched.
+//Below is an example of one of the color themes being fetched and having the hex value of the class accordingly changed.
+// Every 'color scheme' for each class will have to be organized into three categories: an assignment color, background color, and a button color.
+
+const physclass = [
+  {
+    assignmentColor: "violet",
+    backgroundColor: "indigo",
+    buttonColor: "stone",
+  },
+];
 </script>
 
 <template>
