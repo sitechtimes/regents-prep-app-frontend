@@ -14,7 +14,7 @@ definePageMeta({
 
 <template>
   <div
-    class="w-[840px] h-[825px] flex flex-col items-center justify-center m-auto"
+    class="w-[840px] h-[800px] flex flex-col items-center justify-center m-auto"
   >
     <div
       class="w-[840px] h-[720px] bg-[#426B1F] rounded-[30px] border-2 border-black"
@@ -25,7 +25,7 @@ definePageMeta({
         Classes
       </h1>
       <div
-        class="w-[787px] h-[553px] bg-[#EAE9CA] rounded-[23px] border-2 border-black m-auto mt-[30px]"
+        class="w-[787px] h-[548px] bg-[#EAE9CA] rounded-[23px] border-2 border-black m-auto mt-[30px]"
       >
         <TeacherClass
           v-for="teacherclass in teacherclasses"
@@ -48,12 +48,16 @@ export default {
     return {
       teacherclasses: [
         {
-          name: "Physics - P1",
-          code: 11111,
+          name: "Regents Physics - P1",
+          code: "mo31b",
         },
         {
-          name: "Chemistry - P2",
-          code: 22222,
+          name: "Regents Chemistry - P2",
+          code: "98bh8",
+        },
+        {
+          name: "Regents Algebra - P3",
+          code: "wn43u",
         },
       ]
     }
