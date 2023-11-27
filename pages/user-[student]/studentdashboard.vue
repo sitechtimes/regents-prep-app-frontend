@@ -15,14 +15,6 @@ function getClass() {
 //All color themes for student's classes are fetched.
 //Below is an example of one of the color themes being fetched and having the hex value of the class accordingly changed.
 // Every 'color scheme' for each class will have to be organized into three categories: an assignment color, background color, and a button color.
-
-const physclass = [
-  {
-    assignmentColor: "violet",
-    backgroundColor: "indigo",
-    buttonColor: "stone",
-  },
-];
 </script>
 
 <template>
@@ -76,7 +68,11 @@ const physclass = [
   </div> -->
   <!-- nuxt navbar to be inserted here -->
 
-  <StudentComponentsClasspreview />
+  <StudentComponentsClasspreview
+    border="indigo"
+    assignment="violet"
+    title="stone"
+  />
 
   <!-- add new class -->
   <!-- <div class="w-[444px] h-[189px] absolute">
