@@ -16,17 +16,20 @@ const theme = defineProps({
   assignment: String,
   title: String,
   border: String,
+  background: String,
 });
 
 const assignmentTheme = ref(`text-${theme.assignment}-700`);
 const titleTheme = ref(`text-${theme.title}-50`);
 const borderTheme = ref(`bg-${theme.border}-400`);
+const backgroundTheme = ref(`bg-${theme.background}-200`);
 </script>
 
 <template>
   <div class="w-[390px] h-[371px] relative m-12">
     <div
-      class="w-full h-[371px] relative bg-pink-200 bg-opacity-30 rounded-[60px] shadow-inner"
+      :class="backgroundTheme"
+      class="w-full h-[371px] relative bg-opacity-30 rounded-[60px] shadow-inner"
     >
       <div
         :class="[titleTheme, borderTheme]"

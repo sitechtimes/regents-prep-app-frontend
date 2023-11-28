@@ -12,6 +12,27 @@ function getClass() {
   router.push({ path: `/user-${userStore.user.username}/studentclass` });
 }
 
+const classInfo = ref({
+  room: {
+    physics: {
+      theme: {
+        assignment: `violet`,
+        title: `stone`,
+        border: `indigo`,
+        background: `pink`,
+      },
+    },
+    physics1: {
+      theme: {
+        assignment: `violet`,
+        title: `stone`,
+        border: `indigo`,
+        background: `pink`,
+      },
+    },
+  },
+});
+
 //All color themes for student's classes are fetched.
 //Below is an example of one of the color themes being fetched and having the hex value of the class accordingly changed.
 // Every 'color scheme' for each class will have to be organized into three categories: an assignment color, background color, and a button color.
@@ -69,9 +90,11 @@ function getClass() {
   <!-- nuxt navbar to be inserted here -->
 
   <StudentComponentsClasspreview
-    border="indigo"
-    assignment="violet"
+    v-for="{ item } in classInfo.room"
+    :assignment="`classInfo.room.${item}.theme.assignment`"
     title="stone"
+    border="indigo"
+    background="pink"
   />
 
   <!-- add new class -->
