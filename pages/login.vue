@@ -85,9 +85,9 @@ async function getUser() {
     localStorage.setItem("access_token", tokens.access);
     localStorage.setItem("refresh_token", tokens.refresh);
     setCookie('refresh_token', tokens.refresh)
-    console.log(refreshToken)
     console.log(tokens);
- 
+    console.log(document.cookie)
+    router.push('home')
   } catch (error) {
     console.log(error);
   } 
