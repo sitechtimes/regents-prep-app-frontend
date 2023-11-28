@@ -1,6 +1,6 @@
 <template>
   <button
-    class="w-[787px] h-[93px] bg-[#AAB840] rounded-[21px] shadow-[inset_0_4px_3px_rgba(0,0,0,0.3)] relative border-[2px] border-black flex flex-row m-auto ml-[-2px] mt-[-2px]"
+    class="w-[785px] h-[93px] bg-[#AAB840] rounded-[21px] shadow-[inset_0_4px_3px_rgba(0,0,0,0.3)] relative border-[2px] border-l-0 border-r-0 border-black flex flex-row m-auto ml-[-2px] mt-[-2px] mb-0"
   >
     <h2 class="h-[93px] text-white text-[35px] font-medium pt-[17px] pl-[3%]">
       {{ name }}
