@@ -13,24 +13,20 @@ function getClass() {
 }
 
 const classInfo = ref({
-  room: {
-    physics: {
-      theme: {
+  room: [
+   {
         assignment: `violet`,
         title: `stone`,
         border: `indigo`,
         background: `pink`,
       },
-    },
-    physics1: {
-      theme: {
+     {
         assignment: `violet`,
         title: `stone`,
         border: `indigo`,
         background: `pink`,
       },
-    },
-  },
+    ],
 });
 
 //All color themes for student's classes are fetched.
@@ -91,7 +87,7 @@ const classInfo = ref({
 
   <StudentComponentsClasspreview
     v-for="{ item } in classInfo.room"
-    :assignment="`classInfo.room.${item}.theme.assignment`"
+    :assignment="`classInfo.room.${item}.assignment`"
     title="stone"
     border="indigo"
     background="pink"
