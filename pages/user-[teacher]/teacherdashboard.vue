@@ -25,7 +25,7 @@ definePageMeta({
         Classes
       </h1>
       <div
-        class="scroll w-[787px] h-[548px] bg-[#EAE9CA] rounded-[23px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-auto"
+        class="scroll w-[787px] h-[548px] bg-[#EAE9CA] rounded-[23px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-y-auto"
       >
         <TeacherClass
           v-for="teacherclass in teacherclasses"
@@ -60,15 +60,7 @@ export default {
           code: "wn43u",
         },
         {
-          name: "Regents Algebra - P3",
-          code: "wn43u",
-        },
-        {
-          name: "Regents Algebra - P3",
-          code: "wn43u",
-        },
-        {
-          name: "Regents Algebra - P3",
+          name: "Regents Algebra - P4",
           code: "wn43u",
         },
       ],
@@ -85,6 +77,8 @@ h1 {
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
+  margin-right: 100px;
+  display: none;
 }
 
 /* Track */
