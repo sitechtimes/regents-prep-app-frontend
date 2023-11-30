@@ -12,12 +12,12 @@ function getClass() {
   router.push({ path: `/user-${userStore.user.username}/studentclass` });
 }
 
-const theme = defineProps({
-  assignment: String,
-  title: String,
-  border: String,
-  background: String,
-});
+const theme = defineProps<{
+  assignment?: String;
+  title?: String;
+  border?: String;
+  background?: String;
+}>();
 
 const assignmentTheme = ref(`text-${theme.assignment}-700`);
 const titleTheme = ref(`text-${theme.title}-50`);

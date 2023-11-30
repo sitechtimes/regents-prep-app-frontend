@@ -12,22 +12,20 @@ function getClass() {
   router.push({ path: `/user-${userStore.user.username}/studentclass` });
 }
 
-const classInfo = ref([
-  {
-    assignment: `blue`,
-    title: `stone`,
-    border: `indigo`,
-    background: `pink`,
-    classCode: 1,
-  },
-  {
+const classInfo = {
+  assignment: `violet`,
+  title: `stone`,
+  border: `indigo`,
+  background: `pink`,
+  classCode: 1,
+};
+/*   {
     assignment: `violet`,
     title: `stone`,
     border: `indigo`,
     background: `pink`,
     classCode: 2,
-  },
-]);
+  }, */
 
 //All color themes for student's classes are fetched.
 //Below is an example of one of the color themes being fetched and having the hex value of the class accordingly changed.
@@ -85,13 +83,7 @@ const classInfo = ref([
   </div> -->
   <!-- nuxt navbar to be inserted here -->
 
-  <StudentComponentsClasspreview
-    v-for="{ assignment, title, border, background } in classInfo"
-    :assignment="`${assignment}`"
-    :title="`${title}`"
-    :border="`${border}`"
-    :background="`${background}`"
-  />
+  <StudentComponentsClasspreview v-bind="classInfo" />
 
   <!-- add new class -->
   <!-- <div class="w-[444px] h-[189px] absolute">
