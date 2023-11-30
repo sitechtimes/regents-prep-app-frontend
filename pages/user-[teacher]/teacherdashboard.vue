@@ -17,7 +17,7 @@ definePageMeta({
     class="w-[840px] h-[800px] flex flex-col items-center justify-center m-auto"
   >
     <div
-      class="w-[840px] h-[720px] bg-[#426B1F] rounded-[30px] border-2 border-black"
+      class="w-[840px] h-[720px] bg-[#426B1F] rounded-[30px] border-2 border-black z-20"
     >
       <h1
         class="w-[291px] h-[90px] text-center text-white text-[85px] font-medium m-auto mb-[40px]"
@@ -27,7 +27,7 @@ definePageMeta({
       <div
         class="scroll w-[787px] h-[548px] bg-[#EAE9CA] rounded-[23px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-y-auto"
       >
-        <TeacherClass
+        <TeacherClass class="z-0"
           v-for="teacherclass in teacherclasses"
           :key="teacherclass.name"
           :name="teacherclass.name"
