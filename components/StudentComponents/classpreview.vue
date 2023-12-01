@@ -19,7 +19,7 @@ const theme = defineProps<{
   background?: String;
 }>();
 
-const assignmentTheme = ref(`text-${theme.assignment}-700`);
+const assignmentTheme = ref(`${theme.assignment}`);
 const titleTheme = ref(`text-${theme.title}-50`);
 const borderTheme = ref(`bg-${theme.border}-400`);
 const backgroundTheme = ref(`bg-${theme.background}-200`);

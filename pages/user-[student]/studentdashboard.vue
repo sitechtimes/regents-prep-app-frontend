@@ -13,7 +13,7 @@ function getClass() {
 }
 
 const classInfo = {
-  assignment: `violet`,
+  assignment: 'text-red-700',
   title: `stone`,
   border: `indigo`,
   background: `pink`,
