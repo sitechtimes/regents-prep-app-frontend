@@ -19,10 +19,10 @@ const theme = defineProps<{
   background?: String;
 }>();
 
-const assignmentTheme = ref(`${theme.assignment}`);
-const titleTheme = ref(`text-${theme.title}-50`);
-const borderTheme = ref(`bg-${theme.border}-400`);
-const backgroundTheme = ref(`bg-${theme.background}-200`);
+const assignmentTheme = ref(theme.assignment);
+const titleTheme = ref(theme.title);
+const borderTheme = ref(theme.border);
+const backgroundTheme = ref(theme.background);
 </script>
 
 <template>

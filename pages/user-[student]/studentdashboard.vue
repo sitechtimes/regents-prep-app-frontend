@@ -13,12 +13,39 @@ function getClass() {
 }
 
 const classInfo = {
-  assignment: 'text-red-700',
-  title: `stone`,
-  border: `indigo`,
-  background: `pink`,
+  assignment: "text-violet-700",
+  title: `text-stone-50`,
+  border: `bg-indigo-400`,
+  background: `bg-pink-200`,
   classCode: 1,
 };
+
+const colorThemes = {
+  purple: {
+    assignment: `text-violet-700`,
+    title: `text-stone-50`,
+    border: `bg-indigo-400`,
+    background: `bg-pink-200`,
+  },
+  blue: {
+    assignment: "text-blue-700",
+    title: `text-gray-50`,
+    border: `bg-violet-400`,
+    background: `bg-blue-200`,
+  },
+};
+
+let test = "purple";
+
+/*
+Purple,
+Blue,
+Red- DF6161,
+Green,
+Orange
+Pink
+*/
+
 /*   {
     assignment: `violet`,
     title: `stone`,
@@ -83,7 +110,7 @@ const classInfo = {
   </div> -->
   <!-- nuxt navbar to be inserted here -->
 
-  <StudentComponentsClasspreview v-bind="classInfo" />
+  <StudentComponentsClasspreview v-bind="colorThemes.purple" />
 
   <!-- add new class -->
   <!-- <div class="w-[444px] h-[189px] absolute">
