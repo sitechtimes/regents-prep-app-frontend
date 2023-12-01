@@ -27,7 +27,8 @@ definePageMeta({
       <div
         class="scroll w-[787px] h-[548px] bg-[#EAE9CA] rounded-[23px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-y-auto"
       >
-        <TeacherClass class="z-0"
+        <TeacherClass
+          class="z-10"
           v-for="teacherclass in teacherclasses"
           :key="teacherclass.name"
           :name="teacherclass.name"
@@ -88,7 +89,7 @@ h1 {
   border-radius: 5px;
 }
 .scroll::-webkit-scrollbar {
-   position: absolute;
+  position: absolute;
 }
 
 /* Handle */
