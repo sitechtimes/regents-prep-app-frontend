@@ -7,8 +7,8 @@ defineProps({
 });
 
 /* temp data to be deleted later */
-const assignmentName = ref("Kinetics Practice");
-const assignmentScore = ref("5");
+const assignmentName = ref("Solar Power");
+const assignmentScore = ref("5/5");
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const assignmentScore = ref("5");
     <div class="text-[50px] px-[2rem] font-medium">{{ assignmentName }}</div>
 
     <div
-      class="w-[75px] h-full right-[0%] bg-purple-400 rounded-full shadow-black shadow-innervar"
+      class="w-[100px] h-full right-[0%] bg-purple-400 rounded-full shadow-black shadow-innervar"
     >
       <div class="w-full h-full text-center text-white text-[50px] font-medium">
         {{ assignmentScore }}
