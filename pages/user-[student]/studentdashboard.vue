@@ -13,6 +13,7 @@ function getClass() {
 }
 
 const classInfo = {
+  theme: "purple",
   assignment: "text-violet-700",
   title: `text-stone-50`,
   border: `bg-indigo-400`,
@@ -35,7 +36,9 @@ const colorThemes = {
   },
 };
 
-let test = "purple";
+let test = ref("purple");
+
+let purple = ref(true);
 
 /*
 Purple,
@@ -110,7 +113,9 @@ Pink
   </div> -->
   <!-- nuxt navbar to be inserted here -->
 
-  <StudentComponentsClasspreview v-bind="colorThemes.purple" />
+  <StudentComponentsClasspreview
+    :assignment="`${colorThemes.purple.assignment}`"
+  />
 
   <!-- add new class -->
   <!-- <div class="w-[444px] h-[189px] absolute">
