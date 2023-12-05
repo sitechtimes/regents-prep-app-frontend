@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { userState } from "~/stores/users";
 
 const userStore = userState();
@@ -20,7 +20,7 @@ definePageMeta({
         class="loginLink w-[294px] h-[50px] text-center text-white text-[37px] font-medium tracking-wide"
         ><button
           id="loginRedirect"
-          class="button bg-[#426B1F] w-[265px] h-24 pt-[19.72px] rounded-[20px] shadow-inner flex-col items-center gap-[447.72px] inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300"
+          class="button bg-[#426B1F] w-[265px] h-24 pt-[19.72px] rounded-[20px] shadow-innervar shadow-black flex-col items-center gap-[447.72px] inline-flex hover:scale-105 hover:drop-shadow-2xl hover:shadow-transparent duration-300"
         >
           Login
         </button></NuxtLink

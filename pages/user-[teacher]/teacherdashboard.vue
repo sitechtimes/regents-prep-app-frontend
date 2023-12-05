@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { userState } from "~/stores/users";
 import { TeacherClass } from "#components";
 
 const userStore = userState();
 
 onMounted(() => {
-  console.log(userStore.user.email);
+  console.log(userStore.user.username);
 });
 definePageMeta({
   layout: "dashboard",
