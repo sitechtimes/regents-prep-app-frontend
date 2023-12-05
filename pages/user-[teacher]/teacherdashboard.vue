@@ -7,6 +7,7 @@ const userStore = userState();
 onMounted(() => {
   console.log(userStore.user.username);
 });
+
 definePageMeta({
   layout: "dashboard",
 });
