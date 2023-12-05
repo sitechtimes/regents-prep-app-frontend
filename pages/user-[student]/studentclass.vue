@@ -2,22 +2,27 @@
 import { ref, onMounted } from "vue";
 import CurrentAssignments from "../components/CurrentAssignments.vue";
 import PastAssignments from "../components/PastAssignments.vue";
-/* import api from "api" */
+import { array } from "./tempArray.js";
 
+const toggle = ref("Current");
 const CurrentStatus = ref(true);
 const PastStatus = ref(false);
 
 function toggleAssignments() {
   if (CurrentStatus.value === true) {
     CurrentStatus.value = false;
+    toggle.value = "Past";
   } else if (CurrentStatus.value === false) {
     CurrentStatus.value = true;
+    toggle.value = "Current";
   }
 
   if (PastStatus.value === true) {
     PastStatus.value = false;
+    toggle.value = "Current";
   } else if (PastStatus.value === false) {
     PastStatus.value = true;
+    toggle.value = "Past";
   }
 }
 /* async function loadAssignments(api) {} */
@@ -34,7 +39,7 @@ function toggleAssignments() {
           <span class="slider round"></span>
         </label>
 
-        <div class="w-[80%] right-[0%] pl-4">Current Assignments</div>
+        <div class="w-[80%] right-[0%] pl-4">{{ toggle }} Assignments</div>
       </div>
 
       <button class="px-5 text-center text-white bg-[#C898C8] rounded-[27px]">
