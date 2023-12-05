@@ -12,14 +12,28 @@ function getClass() {
   router.push({ path: `/user-${userStore.user.username}/studentclass` });
 }
 
+// NEED TO FIX THEMING
+
 const classInfo = {
-  theme: "purple",
-  assignment: "text-violet-700",
-  title: `text-stone-50`,
-  border: `bg-indigo-400`,
-  background: `bg-pink-200`,
-  classCode: 1,
+  physics: {
+    theme: "purple",
+    assignment: "text-violet-700",
+    title: `text-stone-50`,
+    border: `bg-indigo-400`,
+    background: `bg-pink-200`,
+    classCode: 1,
+  },
+  chemistry: {
+    theme: "blue",
+    assignment: "text-violet-700",
+    title: `text-stone-50`,
+    border: `bg-indigo-400`,
+    background: `bg-pink-200`,
+    classCode: 1,
+  },
 };
+
+// const key = "purple";
 
 const colorThemes = {
   purple: {
@@ -35,8 +49,6 @@ const colorThemes = {
     background: `bg-blue-200`,
   },
 };
-
-let test = ref("purple");
 
 let purple = ref(true);
 
@@ -114,7 +126,8 @@ Pink
   <!-- nuxt navbar to be inserted here -->
 
   <StudentComponentsClasspreview
-    :assignment="`${colorThemes.purple.assignment}`"
+    v-for="item in classInfo"
+    :theme="item.theme"
   />
 
   <!-- add new class -->

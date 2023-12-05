@@ -13,11 +13,16 @@ function getClass() {
 }
 
 const theme = defineProps<{
-  assignment?: String;
-  title?: String;
-  border?: String;
-  background?: String;
+  assignment: Object;
+  title: Object;
+  border: Object;
+  background: Object;
 }>();
+
+/* const information = defineProps<{
+  title?: String;
+  teacher?: String;
+}>(); */
 
 const assignmentTheme = ref(theme.assignment);
 const titleTheme = ref(theme.title);
