@@ -82,6 +82,9 @@ async function getUser() {
     });
   }
 }
+definePageMeta({
+  layout: false,
+})
 </script>
 
 <template>

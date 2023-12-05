@@ -2,6 +2,9 @@
 import { userState } from "~/stores/users";
 
 const userStore = userState();
+definePageMeta({
+  layout: false,
+})
 </script>
 
 <template>

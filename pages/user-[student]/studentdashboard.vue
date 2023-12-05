@@ -7,7 +7,9 @@ const router = useRouter();
 onMounted(() => {
   console.log(userStore.user.username);
 });
-
+definePageMeta({
+  layout: 'dashboard',
+});
 function getClass() {
   router.push({ path: `/user-${userStore.user.username}/studentclass` });
 }
