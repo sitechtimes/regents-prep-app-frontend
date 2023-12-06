@@ -40,7 +40,7 @@ definePageMeta({
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: "teacherDashboard",
   components: {
@@ -97,5 +97,9 @@ h1 {
 ::-webkit-scrollbar-thumb {
   background: #000;
   border-radius: 5px;
+}
+
+@media all and (max-width: 100rem) {
+  
 }
 </style>
