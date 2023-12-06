@@ -91,7 +91,7 @@ definePageMeta({
   <form @submit.prevent="getUser">
     <div class="h-screen flex items-center justify-center">
       <div
-        class="w-[779px] h-[690px] flex flex-col items-center justify-center bg-lime-800 rounded-[40px] border-2 border-black m-auto"
+        class="login w-[779px] h-[690px] flex flex-col items-center justify-center bg-lime-800 rounded-[40px] border-2 border-black m-auto"
       >
         <h1
           class="w-[293px] h-[90px] text-center text-[#FDFDF0] text-[90px] font-medium"
@@ -157,5 +157,31 @@ definePageMeta({
 }
 h3 {
   -webkit-text-stroke: 1.5px black;
+}
+@media all and (max-width: 100rem) {
+  .login{
+    width: 650px;
+    height: 550px;
+  }
+  h1 {
+    font-size: 75px;
+  }
+  label {
+    font-size: 45px;
+    padding-right: 600px;
+  }
+  input {
+    width: 600px;
+    font-size: 30px;
+  }
+  button {
+    width: 170px;
+    height: 70px;
+    font-size: 40px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 600px;
+    margin-bottom: 20px;
+  }
 }
 </style>
