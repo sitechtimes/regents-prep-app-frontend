@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
+import { Theme } from "~/interfaces/interfaces";
 
 const userStore = userState();
 const router = useRouter();
@@ -13,42 +14,33 @@ function getClass() {
 }
 
 // NEED TO FIX THEMING
-
-const classInfo = {
-  physics: {
-    theme: "purple",
-    assignment: "text-violet-700",
-    title: `text-stone-50`,
-    border: `bg-indigo-400`,
-    background: `bg-pink-200`,
-    classCode: 1,
-  },
-  chemistry: {
-    theme: "blue",
-    assignment: "text-violet-700",
-    title: `text-stone-50`,
-    border: `bg-indigo-400`,
-    background: `bg-pink-200`,
-    classCode: 1,
-  },
-};
-
-// const key = "purple";
-
 const colorThemes = {
   purple: {
     assignment: `text-violet-700`,
     title: `text-stone-50`,
     border: `bg-indigo-400`,
     background: `bg-pink-200`,
-  },
+  } as Theme,
   blue: {
     assignment: "text-blue-700",
     title: `text-gray-50`,
     border: `bg-violet-400`,
     background: `bg-blue-200`,
+  } as Theme,
+};
+
+const classInfo = {
+  physics: {
+    theme: colorThemes.purple,
+    classCode: 1,
+  },
+  chemistry: {
+    theme: colorThemes.blue,
+    classCode: 1,
   },
 };
+
+// const key = "purple";
 
 let purple = ref(true);
 
@@ -130,6 +122,10 @@ Pink
     :theme="item.theme"
   />
 
+  <!-- :assignment="item.theme.assignment"
+    :title="item.theme.title"
+    :border="item.theme.border"
+    :background="item.theme.background" -->
   <!-- add new class -->
   <!-- <div class="w-[444px] h-[189px] absolute">
     <div

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Theme } from "~/interfaces/interfaces";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
@@ -12,22 +13,19 @@ function getClass() {
   router.push({ path: `/user-${userStore.user.username}/studentclass` });
 }
 
-const theme = defineProps<{
-  assignment: Object;
-  title: Object;
-  border: Object;
-  background: Object;
+const props = defineProps<{
+  theme: Theme;
 }>();
 
 /* const information = defineProps<{
-  title?: String;
-  teacher?: String;
+  title: Object;
+  teacher: Object;
 }>(); */
 
-const assignmentTheme = ref(theme.assignment);
-const titleTheme = ref(theme.title);
-const borderTheme = ref(theme.border);
-const backgroundTheme = ref(theme.background);
+const assignmentTheme = ref(props.theme.assignment);
+const titleTheme = ref(props.theme.title);
+const borderTheme = ref(props.theme.border);
+const backgroundTheme = ref(props.theme.background);
 </script>
 
 <template>
