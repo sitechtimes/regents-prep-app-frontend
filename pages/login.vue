@@ -71,7 +71,7 @@ async function getUser() {
       //The 'student' and 'loggedIn' attributes of the state are set to true, and the user is redirected to the studentdashboard.
     });
     // router.push({ path: `/user-${userStore.user.name}/studentdashboard` });
-  } else if (email.value == "teacher") {
+  } else if (userStore.user.username == "teacher") {
     //If the user is a teacher
 
     const userStore = userState();
