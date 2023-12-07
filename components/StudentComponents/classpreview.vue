@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Theme } from "~/interfaces/interfaces";
+import { Theme, Information } from "~/interfaces/interfaces";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
@@ -15,17 +15,16 @@ function getClass() {
 
 const props = defineProps<{
   theme: Theme;
+  information: Information;
 }>();
-
-/* const information = defineProps<{
-  title: Object;
-  teacher: Object;
-}>(); */
 
 const assignmentTheme = ref(props.theme.assignment);
 const titleTheme = ref(props.theme.title);
 const borderTheme = ref(props.theme.border);
 const backgroundTheme = ref(props.theme.background);
+
+const titleInformation = ref(props.information.title);
+const teacherInformation = ref(props.information.teacher);
 </script>
 
 <template>
@@ -38,10 +37,12 @@ const backgroundTheme = ref(props.theme.background);
         :class="[titleTheme, borderTheme]"
         class="w-full text-center text-xl font-medium shadow-md pt-12 pb-6 px-5 rounded-[60px_60px_0px_0px] max-md:px-5"
       >
-        <span v-on:click="getClass" :class="titleTheme" class="text-[35px]"
-          >Regents Physics - P1
+        <span v-on:click="getClass" :class="titleTheme" class="text-[35px]">
+          {{ titleInformation }}
         </span>
-        <span :class="titleTheme" class="text-xl">Mr. Colangelo</span>
+        <span :class="titleTheme" class="text-xl">
+          with {{ teacherInformation }}</span
+        >
       </div>
 
       <div class="text-[27px] py-5 relative text-center">

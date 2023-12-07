@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-import { Theme } from "~/interfaces/interfaces";
+import { Theme, Information } from "~/interfaces/interfaces";
 
 const userStore = userState();
 const router = useRouter();
 
 onMounted(() => {
   console.log(userStore.user.username);
+  let date: Date = new Date();
+  console.log(date.toString().split(" ")[0]);
 });
 
 function getClass() {
   router.push({ path: `/user-${userStore.user.username}/studentclass` });
 }
 
-// NEED TO FIX THEMING
 const colorThemes = {
   purple: {
     assignment: `text-violet-700`,
@@ -32,17 +33,21 @@ const colorThemes = {
 const classInfo = {
   physics: {
     theme: colorThemes.purple,
+    information: {
+      title: "Regents Physics - P1",
+      teacher: "Mr. Colangelo",
+    } as Information,
     classCode: 1,
   },
   chemistry: {
     theme: colorThemes.blue,
+    information: {
+      title: "Regents Physics - P1",
+      teacher: "Mr. Colangelo",
+    } as Information,
     classCode: 1,
   },
 };
-
-// const key = "purple";
-
-let purple = ref(true);
 
 /*
 Purple,
@@ -52,14 +57,6 @@ Green,
 Orange
 Pink
 */
-
-/*   {
-    assignment: `violet`,
-    title: `stone`,
-    border: `indigo`,
-    background: `pink`,
-    classCode: 2,
-  }, */
 
 //All color themes for student's classes are fetched.
 //Below is an example of one of the color themes being fetched and having the hex value of the class accordingly changed.
@@ -120,6 +117,7 @@ Pink
   <StudentComponentsClasspreview
     v-for="item in classInfo"
     :theme="item.theme"
+    :information="item.information"
   />
 
   <!-- :assignment="item.theme.assignment"

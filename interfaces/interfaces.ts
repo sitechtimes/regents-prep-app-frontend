@@ -4,3 +4,8 @@ export interface Theme {
     border: string,
     background: string,
 }
+
+export interface Information{
+    title: string,
+    teacher: string,
+}
