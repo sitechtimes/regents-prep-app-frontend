@@ -42,8 +42,17 @@ function toggleAssignments() {
         <div class="w-[80%] right-[0%] pl-4">{{ toggle }} Assignments</div>
       </div>
 
-      <button class="px-5 text-center text-white bg-[#C898C8] rounded-[27px]">
+      <button
+        v-if="CurrentStatus"
+        class="px-5 text-center text-white bg-[#C898C8] rounded-[27px]"
+      >
         Start Assignment
+      </button>
+      <button
+        v-if="PastStatus"
+        class="px-5 text-center text-white bg-[#C898C8] rounded-[27px]"
+      >
+        View Statistics
       </button>
     </div>
 
