@@ -9,3 +9,8 @@ export interface Information{
     title: string,
     teacher: string,
 }
+
+export interface Assignment{
+    today: Object,
+    otherDay: String[],
+}

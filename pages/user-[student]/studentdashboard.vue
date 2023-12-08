@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-import { Theme, Information } from "~/interfaces/interfaces";
+import { Theme, Information, Assignment } from "~/interfaces/interfaces";
 
 const userStore = userState();
 const router = useRouter();
@@ -36,7 +36,12 @@ const classInfo = {
     information: {
       title: "Regents Physics - P1",
       teacher: "Mr. Colangelo",
+      todayAssignment: "Due Today",
     } as Information,
+    assignment: {
+      today: { test: "Kinematics (1)", test1: "Power (5)" },
+      otherDay: [],
+    } as Assignment,
     classCode: 1,
   },
   chemistry: {
@@ -45,6 +50,10 @@ const classInfo = {
       title: "Regents Physics - P1",
       teacher: "Mr. Colangelo",
     } as Information,
+    assignment: {
+      today: ["Kinematics (5)", "Power (5)"],
+      otherDay: [],
+    } as Assignment,
     classCode: 1,
   },
 };
@@ -118,6 +127,7 @@ Pink
     v-for="item in classInfo"
     :theme="item.theme"
     :information="item.information"
+    :assignment="item.assignment"
   />
 
   <!-- :assignment="item.theme.assignment"

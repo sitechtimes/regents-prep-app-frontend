@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Theme, Information } from "~/interfaces/interfaces";
+import { Theme, Information, Assignment } from "~/interfaces/interfaces";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
@@ -16,6 +16,7 @@ function getClass() {
 const props = defineProps<{
   theme: Theme;
   information: Information;
+  assignment: Assignment;
 }>();
 
 const assignmentTheme = ref(props.theme.assignment);
@@ -25,6 +26,9 @@ const backgroundTheme = ref(props.theme.background);
 
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
+
+const todayAssignment = ref(props.assignment.today);
+const otherAssignment = ref(props.assignment.otherDay);
 </script>
 
 <template>
@@ -46,14 +50,16 @@ const teacherInformation = ref(props.information.teacher);
       </div>
 
       <div class="text-[27px] py-5 relative text-center">
-        <span :class="assignmentTheme" class="font-sembibold">Due today: </span>
+        <span :class="assignmentTheme" class="font-sembibold">
+          {{ todayAssignment }}
+        </span>
         <button :class="assignmentTheme">Kinematics (5)</button> <br />
         <button :class="assignmentTheme">Power (2)</button> <br />
+        <br />
         <span :class="assignmentTheme" class="font-semibold"
           >Due Wednesday: </span
         ><button :class="assignmentTheme">Energy (10)</button>
       </div>
-
       <div
         :class="borderTheme"
         class="w-full h-[65px] bottom-[0%] absolute rounded-b-[60px] shadow-inner"
