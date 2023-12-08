@@ -19,7 +19,7 @@
               class="w-[277px] h-[73px] bg-[#426B1F] rounded-[20px] shadow shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] drop-shadow-lg"
             >
               <h1
-                class="w-[277px] h-[73px] text-center text-white text-[50px] font-medium font-['Outfit']"
+                class="w-[277px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
                 Dashboard
               </h1>
@@ -43,7 +43,7 @@
             class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] hover:scale-105 hover:drop-shadow-xl duration-300"
           >
             <h2
-              class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium font-['Outfit']"
+              class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium"
             >
               Logout
             </h2>

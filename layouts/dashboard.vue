@@ -11,8 +11,10 @@ onMounted(() => {
 async function pushUser() {
   if (userStore.user.username == "teacher") {
     const userStore = userState();
+    console.log("hey im a teacher")
     userStore.$patch((state) => {
       router.push({ path: `/user-${state.user.username}/createclass` });
+      console.log("hey");
     });
   } else if (userStore.user.username == "student") {
     console.log("hi");
@@ -53,6 +55,7 @@ async function pushUser() {
           class="w-[168] pr-[2%] flex items-center justify-center hover:scale-105 hover:drop-shadow-xl duration-300"
         >
           <div
+            @click.prevent="pushUser"
             id="create-btn"
             class="w-[73px] h-[73px] bg-[#426B1F] rounded-full shadow-inner items-center justify-center mt-[17px]"
           >
@@ -78,7 +81,6 @@ async function pushUser() {
         </div>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            @click.prevent="pushUser"
             class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] relative hover:scale-105 hover:drop-shadow-xl duration-300"
           >
             <h2
