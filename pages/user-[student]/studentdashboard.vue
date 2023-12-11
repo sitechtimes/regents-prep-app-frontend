@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
 
-import studentClass from "../components/studentClass.vue";
+import classTemp from "../components/classTemp.vue";
 
 const userStore = userState();
 const router = useRouter();
@@ -62,7 +62,7 @@ onMounted(() => {
   </div> -->
   <!-- nuxt navbar to be inserted here -->
 
-  <studentClass />
+  <classTemp />
 
   <!-- add new class -->
   <!-- <div class="w-[444px] h-[189px] absolute">
