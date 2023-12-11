@@ -17,16 +17,16 @@ function getClass() {
 
 const colorThemes = {
   purple: {
-    assignment: `text-violet-700`,
+    assignment: `text-[#674A68]`,
     title: `text-stone-50`,
-    border: `bg-indigo-400`,
-    background: `bg-pink-200`,
+    border: `bg-[#B77CB7]`,
+    background: `bg-[#EACBEB]`,
   } as Theme,
   blue: {
-    assignment: "text-blue-700",
+    assignment: "text-[#4A5868]",
     title: `text-gray-50`,
-    border: `bg-violet-400`,
-    background: `bg-blue-200`,
+    border: `bg-[#7CB7B4]`,
+    background: `bg-[#95EBE6]`,
   } as Theme,
 };
 
@@ -39,7 +39,7 @@ const classInfo = {
       todayAssignment: "Due Today",
     } as Information,
     assignment: {
-      today: { test: "Kinematics (1)", test1: "Power (5)" },
+      today: "test",
       otherDay: [],
     } as Assignment,
     classCode: 1,
@@ -51,7 +51,7 @@ const classInfo = {
       teacher: "Mr. Colangelo",
     } as Information,
     assignment: {
-      today: ["Kinematics (5)", "Power (5)"],
+      today: "Kinematics (5)",
       otherDay: [],
     } as Assignment,
     classCode: 1,

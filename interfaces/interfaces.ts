@@ -11,6 +11,6 @@ export interface Information{
 }
 
 export interface Assignment{
-    today: Object,
+    today: String,
     otherDay: String[],
 }

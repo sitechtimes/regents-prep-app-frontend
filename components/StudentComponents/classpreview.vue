@@ -39,7 +39,7 @@ const otherAssignment = ref(props.assignment.otherDay);
     >
       <div
         :class="[titleTheme, borderTheme]"
-        class="w-full text-center text-xl font-medium shadow-md pt-12 pb-6 px-5 rounded-[60px_60px_0px_0px] max-md:px-5"
+        class="w-full text-center text-xl font-medium shadow-md pt-12 pb-6 px-5 rounded-[60px_60px_0px_0px] max-md:px-5 shadow-innervar shadow-black"
       >
         <span v-on:click="getClass" :class="titleTheme" class="text-[35px]">
           {{ titleInformation }}
@@ -51,9 +51,13 @@ const otherAssignment = ref(props.assignment.otherDay);
 
       <div class="text-[27px] py-5 relative text-center">
         <span :class="assignmentTheme" class="font-sembibold">
-          {{ todayAssignment }}
+          Due Today: {{ todayAssignment }}
         </span>
-        <button :class="assignmentTheme">Kinematics (5)</button> <br />
+        <button
+          :class="assignmentTheme"
+          v-for="assignment in todayAssignment"
+        ></button>
+        <br />
         <button :class="assignmentTheme">Power (2)</button> <br />
         <br />
         <span :class="assignmentTheme" class="font-semibold"
