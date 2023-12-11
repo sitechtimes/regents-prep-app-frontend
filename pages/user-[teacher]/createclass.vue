@@ -14,12 +14,16 @@ function createClass() {
   console.log(className.value);
   className.value = "";
 }
+
+definePageMeta({
+  layout: "createclass",
+});
 </script>
 
 <template>
   <form @submit.prevent="createClass">
     <div>
-      <h2 >Create new Class</h2>
+      <h1 class="w-[795px] h-[824px]">Create new Class</h1>
       <div>
         <div>
           <h2>Class name</h2>
