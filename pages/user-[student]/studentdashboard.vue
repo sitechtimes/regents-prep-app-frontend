@@ -39,8 +39,8 @@ const classInfo = {
       todayAssignment: "Due Today",
     } as Information,
     assignment: {
-      today: "test",
-      otherDay: [],
+      today: ["Kinematics (5)", "Power (2)"],
+      otherDay: ["Energy (10)", "Circuits (4)"],
     } as Assignment,
     classCode: 1,
   },
@@ -51,8 +51,8 @@ const classInfo = {
       teacher: "Mr. Colangelo",
     } as Information,
     assignment: {
-      today: "Kinematics (5)",
-      otherDay: [],
+      today: ["Atomic Weights (5)", " Stochiometry (2)"],
+      otherDay: ["Sig Figs (10)"],
     } as Assignment,
     classCode: 1,
   },
