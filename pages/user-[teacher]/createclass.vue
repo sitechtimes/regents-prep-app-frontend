@@ -21,9 +21,17 @@ definePageMeta({
 </script>
 
 <template>
-  <form @submit.prevent="createClass">
-    <div>
-      <h1 class="w-[795px] h-[824px]">Create new Class</h1>
+  <form @submit.prevent="createClass" class="m-auto w-[795px] h-[760px] items-center justify-center flex flex-col">
+    <div
+      class="w-[795px] h-[760px] flex flex-col bg-[#F2F0CC] rounded-2xl mt-[30px] shadow-[inset_0_4px_10px_rgba(0,0,0,0.3)]"
+    >
+      <div class="bg-[#AAB840] bg-opacity-[55%] w-[795px] h-[115px] rounded-t-2xl items-center justify-center shadow-inner">
+        <h1
+          class="m-auto"
+        >
+          Create new Class
+        </h1>
+      </div>
       <div>
         <div>
           <h2>Class name</h2>
