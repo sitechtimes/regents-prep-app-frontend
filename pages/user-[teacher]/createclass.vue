@@ -21,22 +21,32 @@ definePageMeta({
 </script>
 
 <template>
-  <form @submit.prevent="createClass" class="m-auto w-[795px] h-[760px] items-center justify-center flex flex-col">
+  <form
+    @submit.prevent="createClass"
+    class="m-auto w-[795px] h-[760px] items-center justify-center flex flex-col"
+  >
     <div
-      class="w-[795px] h-[760px] flex flex-col bg-[#F2F0CC] rounded-2xl mt-[30px] shadow-[inset_0_4px_10px_rgba(0,0,0,0.3)]"
+      class="w-[795px] h-[760px] flex flex-col bg-[#F2F0CC] rounded-2xl mt-[30px] shadow-[inset_0_4px_10px_rgba(0,0,0,0.3)] text-center"
     >
-      <div class="bg-[#AAB840] bg-opacity-[55%] w-[795px] h-[115px] rounded-t-2xl items-center justify-center shadow-inner">
+      <div
+        class="bg-[#AAB840] bg-opacity-[60%] w-[795px] h-[115px] rounded-t-2xl items-center justify-center shadow-inner"
+      >
         <h1
-          class="m-auto"
+          id="header"
+          class="m-auto w-[795px] h-[115px] text-center text-[#FDFDF0] font-medium text-[90px] mt-[-10px]"
         >
-          Create new Class
+          Create New Class
         </h1>
       </div>
       <div>
-        <div>
-          <h2>Class name</h2>
-          <label for="classInput"></label>
+        <div class="flex flex-col m-auto items-center justify-center">
+          <label
+            for="classInput"
+            class="text-black text-[50px] font-semibold drop-shadow-md pr-[260px]"
+            >Class Name:</label
+          >
           <input
+            class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500"
             type="text"
             name="classname"
             id="classInput"
@@ -44,16 +54,37 @@ definePageMeta({
           />
         </div>
         <div>
-          <h2>Choose Course Type</h2>
-          <label for="courseType"></label>
-          <select id="courseType" name="type" v-model="courseName">
-            <option v-for="course in courses">{{ course }}</option>
+          <label
+            for="courseType"
+            class="text-black text-[50px] font-semibold drop-shadow-md pr-[75px]"
+            >Choose Course Type</label
+          >
+          <select
+            id="courseType"
+            class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500"
+            name="type"
+            v-model="courseName"
+          >
+            <option
+              v-for="course in courses"
+              class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500"
+            >
+              {{ course }}
+            </option>
           </select>
         </div>
         <div>
-          <h2>Choose Color</h2>
-          <label for="courseColor"></label>
-          <select id="courseColor" name="color" v-model="courseColor">
+          <label
+            for="courseColor"
+            class="text-black text-[50px] font-semibold drop-shadow-md"
+            >Choose Color</label
+          >
+          <select
+            id="courseColor"
+            name="color"
+            v-model="courseColor"
+            class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500"
+          >
             <option v-for="color in courses">{{ color }}</option>
           </select>
         </div>
@@ -68,6 +99,12 @@ definePageMeta({
     </div>
   </form>
 </template>
+
+<style>
+#header {
+  -webkit-text-stroke: 1.5px black;
+}
+</style>
 
 <!-- <div class="w-[795px] h-[824px] relative">
   <div class="w-[795px] h-[824px] left-0 top-0 absolute bg-lime-100 rounded-2xl shadow-inner"></div>

@@ -8,13 +8,12 @@ onMounted(() => {
   console.log(userStore.user.email);
 });
 
+//this function pushes user to create class page if they are a teacher and if they are a student, then they get a pop-up
 async function pushUser() {
   if (userStore.user.username == "teacher") {
     const userStore = userState();
-    console.log("hey im a teacher")
     userStore.$patch((state) => {
       router.push({ path: `/user-${state.user.username}/createclass` });
-      console.log("hey");
     });
   } else if (userStore.user.username == "student") {
     console.log("hi");
