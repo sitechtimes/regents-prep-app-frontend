@@ -61,12 +61,18 @@ const otherAssignment = ref(props.assignment.otherDay);
           >Due Wednesday:
         </span>
         <div>
-          <template v-for="(assignment, index) in todayAssignment">
-            <button :class="assignmentTheme" v-if="todayAssignment">
-              {{ assignment }}
-            </button>
-            <button :class="assignmentTheme" v-else>False</button> </template
-          >\
+          <div v-for="(tAssignment, index) in todayAssignment">
+          <template v-for="(oAssignment, index) in otherAssignment" v-if="index !== 1">
+<!--             <button :class="assignmentTheme" v-if="index !== 1">{{ oAssignment }}</button>
+            <button :class="assignmentTheme" v-else></button> -->
+            {{ index }}
+          </template>
+          <template v-else-if="index ==1" v-for="(oAssignment, index) in otherAssignment" >
+<!--             <button :class="assignmentTheme" v-if="index !== 2">{{ oAssignment }}</button>
+            <button :class="assignmentTheme" v-else>test</button> -->
+            ONE ASSIGNMENT
+          </template>
+        </div>
         </div>
       </div>
       <div
