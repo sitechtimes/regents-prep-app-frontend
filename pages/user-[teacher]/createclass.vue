@@ -39,62 +39,62 @@ definePageMeta({
         </h1>
       </div>
       <div>
-        <div class="flex flex-col m-auto items-center justify-center">
+        <div class="flex flex-col m-auto items-center justify-center pt-[20px]">
           <label
             for="classInput"
             class="text-black text-[50px] font-semibold drop-shadow-md pr-[260px]"
             >Class Name:</label
           >
           <input
-            class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500"
+            class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500 text-[35px] px-1"
             type="text"
             name="classname"
             id="classInput"
             v-model="className"
           />
         </div>
-        <div>
+        <div class="pt-[20px]">
           <label
             for="courseType"
-            class="text-black text-[50px] font-semibold drop-shadow-md pr-[75px]"
-            >Choose Course Type</label
+            class="text-black text-[50px] font-semibold drop-shadow-md pr-[65px]"
+            >Choose Course Type:</label
           >
           <select
             id="courseType"
-            class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500"
+            class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500 text-[35px]"
             name="type"
             v-model="courseName"
           >
+          <option>Regents Something</option>
             <option
               v-for="course in courses"
-              class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500"
+              class="bg-[#FAF9E5] pt-[-2px] border border-neutral-500"
             >
               {{ course }}
             </option>
           </select>
         </div>
-        <div>
+        <div class="pt-[20px] pb-[32px]">
           <label
             for="courseColor"
-            class="text-black text-[50px] font-semibold drop-shadow-md"
-            >Choose Color</label
+            class="text-black text-[50px] font-semibold drop-shadow-md pr-[215px]"
+            >Choose Color:</label
           >
           <select
             id="courseColor"
             name="color"
             v-model="courseColor"
-            class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500"
+            class="w-[541px] h-[65px] bg-[#FAF9E5] border border-neutral-500 text-[35px]"
           >
+          <option>Some Color</option>
             <option v-for="color in courses">{{ color }}</option>
           </select>
         </div>
-        <submitButton>
-          <button
-            class="font-bold py-2 px-4 rounded bg-blue-500 text-white self-center"
-          >
-            Create
-          </button></submitButton
+        <button
+          class="w-[217.55px] h-[73.26px] text-center text-stone-50 text-[40px] font-medium bg-[#AAB840] rounded-[20px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
         >
+          Create
+        </button>
       </div>
     </div>
   </form>
