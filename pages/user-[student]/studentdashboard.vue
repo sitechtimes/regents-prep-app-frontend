@@ -36,7 +36,7 @@ const classInfo = {
     information: {
       title: "Regents Physics - P1",
       teacher: "Mr. Colangelo",
-      classCode: 1
+      classCode: 1,
     } as Information,
     assignment: {
       today: ["Kinematics (5)"],
@@ -48,7 +48,7 @@ const classInfo = {
     information: {
       title: "Regents Chemistry - P4",
       teacher: "Mr. Weitzman",
-      classCode: 2
+      classCode: 2,
     } as Information,
     assignment: {
       today: ["Atomic Weights (5)", " Stochiometry (2)"],
