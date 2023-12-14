@@ -49,39 +49,30 @@ const otherAssignment = ref(props.assignment.otherDay);
         >
       </div>
 
-      <div class="text-[27px] py-5 relative text-center">
-        <span :class="assignmentTheme" class="font-sembibold">
-          Due Today:
+      <div class="text-[27px] py-6 relative text-center">
+        <div>
+        <span :class="assignmentTheme" class="font-semibold"
+        >Due Today:
         </span>
-        <button :class="assignmentTheme" v-for="assignment in todayAssignment">
-          {{ assignment }}
+        <button :class="assignmentTheme" >
+          {{ todayAssignment[0] }}
         </button>
-        <br />
+        <button :class="assignmentTheme" >
+          {{ todayAssignment[1] }}
+        </button>
+      </div>
         <span :class="assignmentTheme" class="font-semibold"
           >Due Wednesday:
         </span>
-        <div>
-          <div v-for="(tAssignment, index) in todayAssignment">
-            <template
-              v-for="(oAssignment, index) in otherAssignment"
-              :class="assignmentTheme"
-              v-if="index >= 1"
-            >
-              <button :class="assignmentTheme"></button>
-            </template>
-            <template>
-              <h2>{{ otherAssignment }} -{{ index }}</h2>
-            </template>
+          <template v-if="todayAssignment.length >= 2">
+            <button :class="assignmentTheme" >{{ otherAssignment[0] }}</button>
+          </template>
+          <template v-else-if="todayAssignment.length <= 1">
+            <button :class="assignmentTheme" >{{ otherAssignment[0] }}</button>
+            <br/>
+            <button :class="assignmentTheme" >{{ otherAssignment[1] }}</button>
+          </template>
 
-            <!--             <button :class="assignmentTheme" v-else></button> -->
-
-            <!--             <template v-else-if="index == 0">
-                           <button :class="assignmentTheme" v-if="index !== 2">{{ oAssignment }}</button>
-            <button :class="assignmentTheme" v-else>test</button> 
-              MORE THAN ONE ASSIGNMENT
-            </template> -->
-          </div>
-        </div>
       </div>
       <div
         :class="borderTheme"

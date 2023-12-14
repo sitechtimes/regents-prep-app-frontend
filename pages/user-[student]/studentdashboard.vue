@@ -39,7 +39,7 @@ const classInfo = {
       todayAssignment: "Due Today",
     } as Information,
     assignment: {
-      today: ["Kinematics (5)", "Power (2)"],
+      today: ["Kinematics (5)"],
       otherDay: ["Energy (10)", "Circuits (4)"],
     } as Assignment,
     classCode: 1,
