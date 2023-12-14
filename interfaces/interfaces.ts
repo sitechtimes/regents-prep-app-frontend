@@ -8,6 +8,7 @@ export interface Theme {
 export interface Information{
     title: string,
     teacher: string,
+    classCode: number,
 }
 
 export interface Assignment{

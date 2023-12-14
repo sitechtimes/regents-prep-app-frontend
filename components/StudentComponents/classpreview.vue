@@ -10,7 +10,7 @@ onMounted(() => {
 });
 
 function getClass() {
-  router.push({ path: `/user-${userStore.user.username}/studentclass` });
+  router.push({ path: `/user-${userStore.user.username}/class-${teacherInformation}` });
 }
 
 const props = defineProps<{
@@ -26,6 +26,7 @@ const backgroundTheme = ref(props.theme.background);
 
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
+const classCode = ref(props.information.classCode)
 
 const todayAssignment = ref(props.assignment.today);
 const otherAssignment = ref(props.assignment.otherDay);
@@ -41,19 +42,19 @@ const otherAssignment = ref(props.assignment.otherDay);
         :class="[titleTheme, borderTheme]"
         class="w-full text-center text-xl font-medium shadow-md pt-12 pb-6 px-5 rounded-[60px_60px_0px_0px] max-md:px-5 shadow-innertop shadow-black"
       >
-        <span v-on:click="getClass" :class="titleTheme" class="text-[35px]">
+        <h2 v-on:click="getClass" :class="titleTheme" class="text-[37.5px] ">
           {{ titleInformation }}
-        </span>
-        <span :class="titleTheme" class="text-xl">
-          with {{ teacherInformation }}</span
+        </h2>
+        <h2 :class="titleTheme" class="text-lg">
+          with {{ teacherInformation }}</h2
         >
       </div>
 
-      <div class="text-[27px] py-6 relative text-center">
+      <div class="text-[27px] py-1 relative text-center">
         <div>
-        <span :class="assignmentTheme" class="font-semibold"
+        <h2 :class="assignmentTheme" class="font-semibold"
         >Due Today:
-        </span>
+        </h2>
         <button :class="assignmentTheme" >
           {{ todayAssignment[0] }}
         </button>
@@ -61,9 +62,9 @@ const otherAssignment = ref(props.assignment.otherDay);
           {{ todayAssignment[1] }}
         </button>
       </div>
-        <span :class="assignmentTheme" class="font-semibold"
+        <h3 :class="assignmentTheme" class="font-semibold"
           >Due Wednesday:
-        </span>
+        </h3>
           <template v-if="todayAssignment.length >= 2">
             <button :class="assignmentTheme" >{{ otherAssignment[0] }}</button>
           </template>

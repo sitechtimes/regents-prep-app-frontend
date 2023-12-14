@@ -36,25 +36,24 @@ const classInfo = {
     information: {
       title: "Regents Physics - P1",
       teacher: "Mr. Colangelo",
-      todayAssignment: "Due Today",
+      classCode: 1
     } as Information,
     assignment: {
       today: ["Kinematics (5)"],
       otherDay: ["Energy (10)", "Circuits (4)"],
     } as Assignment,
-    classCode: 1,
   },
   chemistry: {
     theme: colorThemes.blue,
     information: {
-      title: "Regents Physics - P1",
-      teacher: "Mr. Colangelo",
+      title: "Regents Chemistry - P4",
+      teacher: "Mr. Weitzman",
+      classCode: 2
     } as Information,
     assignment: {
       today: ["Atomic Weights (5)", " Stochiometry (2)"],
       otherDay: ["Sig Figs (10)"],
     } as Assignment,
-    classCode: 1,
   },
 };
 
