@@ -13,7 +13,7 @@ const props = defineProps<{
   theme: Theme;
   information: Information;
   assignment: Assignment;
-}>();
+}>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
 const assignmentTheme = ref(props.theme.assignment);
 const titleTheme = ref(props.theme.title);
@@ -27,11 +27,7 @@ const classCode = ref(props.information.classCode);
 const todayAssignment = ref(props.assignment.today);
 const otherAssignment = ref(props.assignment.otherDay);
 
-function getClass() {
-  router.push({
-    path: `/user-${userStore.user.username}/class-${classCode}`,
-  });
-}
+//The props are registered separately. Every prop name correlates to the dynamic parts of every class preview.
 </script>
 
 <template>

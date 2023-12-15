@@ -1,25 +1,16 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-import {
-  Theme,
-  Information,
-  Assignment,
-} from "~/interfaces/interfaces";
+import { Theme, Information, Assignment } from "~/interfaces/interfaces";
 
 const userStore = userState();
 const router = useRouter();
 
-onMounted(() => {
+/* onMounted(() => {
   console.log(userStore.user.username);
   let date: Date = new Date();
   console.log(date.toString().split(" ")[0]);
-});
-
-function getClass() {
-  router.push({
-    path: `/user-${userStore.user.username}/studentclass`,
-  });
-}
+}); */
+//This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
 
 const colorThemes = {
   purple: {
@@ -35,6 +26,9 @@ const colorThemes = {
     background: `bg-[#95EBE6]`,
   } as Theme,
 };
+
+//Above are the color themes that will be used within for both the class previews and the classes as well. These will be stored within the backend, and are currently here as placeholders.
+// TRANSFER THEM TO A TYPESCRIPT FILE TO BE USED GLOBALLY
 
 const classInfo = {
   physics: {
@@ -63,6 +57,8 @@ const classInfo = {
   },
 };
 
+//Above are the format in which props will be passed into the class previews. The theme, followed by the information (the title of the class as well as the teacher), the assignments (for the current and a past day), and the class Code. This is only the format, and is a placeholder until the backend will be connected to the frontend.
+
 /*
 Purple,
 Blue,
@@ -71,63 +67,9 @@ Green,
 Orange
 Pink
 */
-
-//All color themes for student's classes are fetched.
-//Below is an example of one of the color themes being fetched and having the hex value of the class accordingly changed.
-// Every 'color scheme' for each class will have to be organized into three categories: an assignment color, background color, and a button color.
 </script>
 
 <template>
-  <!-- <div
-    id="navbar"
-    class="w-[max] h-[8rem] bg-lime-100 drop-shadow-lg py-7 px-5"
-  >
-    <div class="w-[373px] h-[83px] bg-lime-100 rounded-2xl shadow-1xl">
-      <div
-        class="w-[max] h-[max] text-center text-stone-600 text-[55px] font-medium"
-      >
-        Student Name
-      </div>
-    </div>
-
-    <div
-      class="w-[277px] h-[73px] bg-lime-800 rounded-[20px] shadow shadow-inner"
-    >
-      <div
-        class="w-[max] h-[max] text-center text-white text-[50px] font-medium"
-      >
-        Dashboard
-      </div>
-    </div>
-
-    <div class="w-[74px] h-[74px] relative">
-      <div
-        class="w-[74px] h-[74px] left-0 top-0 absolute bg-lime-800 rounded-[14px] shadow-inner"
-      ></div>
-      <div
-        class="w-[42px] h-[42px] left-[16px] top-[16px] absolute bg-white rounded-[5px]"
-      ></div>
-    </div>
-
-    <div class="w-[73px] h-[73px] relative">
-      <div
-        class="w-[73px] h-[73px] left-0 top-0 absolute bg-lime-800 rounded-full shadow-inner"
-      ></div>
-      <div
-        class="w-[41px] h-[41px] left-[16px] top-[16px] absolute bg-white rounded-[36.50px]"
-      ></div>
-    </div>
-
-    <div class="w-[200px] h-[73px] bg-lime-800 rounded-[20px] shadow">
-      <div
-        class="w-[max] h-[max] text-center text-stone-50 text-[50px] font-medium"
-      >
-        Logout
-      </div>
-    </div>
-  </div> -->
-  <!-- nuxt navbar to be inserted here -->
-
   <StudentComponentsClasspreview
     v-for="item in classInfo"
     :theme="item.theme"
@@ -135,10 +77,6 @@ Pink
     :assignment="item.assignment"
   />
 
-  <!-- :assignment="item.theme.assignment"
-    :title="item.theme.title"
-    :border="item.theme.border"
-    :background="item.theme.background" -->
   <!-- add new class -->
   <!-- <div class="w-[444px] h-[189px] absolute">
     <div
