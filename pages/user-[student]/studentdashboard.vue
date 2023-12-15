@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-import { Theme, Information, Assignment } from "~/interfaces/interfaces";
+import {
+  Theme,
+  Information,
+  Assignment,
+} from "~/interfaces/interfaces";
 
 const userStore = userState();
 const router = useRouter();
@@ -12,7 +16,9 @@ onMounted(() => {
 });
 
 function getClass() {
-  router.push({ path: `/user-${userStore.user.username}/studentclass` });
+  router.push({
+    path: `/user-${userStore.user.username}/studentclass`,
+  });
 }
 
 const colorThemes = {
@@ -52,7 +58,7 @@ const classInfo = {
     } as Information,
     assignment: {
       today: ["Atomic Weights (5)", " Stochiometry (2)"],
-      otherDay: ["Sig Figs (10)"],
+      otherDay: ["Sig Figs (10)", "Temperature (1)"],
     } as Assignment,
   },
 };

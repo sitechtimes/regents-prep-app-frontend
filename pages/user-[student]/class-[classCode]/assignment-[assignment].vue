@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { userState } from "~/stores/users";
-import { Theme, Information, Assignment } from "~/interfaces/interfaces";
-
-const userStore = userState();
-//const router = useRouter();
+const route = useRoute();
 </script>
 
 <template>
-  <div></div>
+  <h1>{{ route.params.assignment }}</h1>
 </template>
 
 <style></style>
