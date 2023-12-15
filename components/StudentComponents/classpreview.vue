@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  Theme,
-  Information,
-  Assignment,
-} from "~/interfaces/interfaces";
+import { Theme, Information, Assignment } from "~/interfaces/interfaces";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
@@ -66,12 +62,7 @@ function getClass() {
 
       <div class="text-[27px] py-1 relative text-center">
         <div>
-          <h2
-            :class="assignmentTheme"
-            class="font-semibold"
-          >
-            Due Today:
-          </h2>
+          <h2 :class="assignmentTheme" class="font-semibold">Due Today:</h2>
           <h3
             v-on:click="
               router.push({
@@ -93,9 +84,7 @@ function getClass() {
             {{ todayAssignment[1] }}
           </h3>
         </div>
-        <h2 :class="assignmentTheme" class="font-semibold">
-          Due Wednesday:
-        </h2>
+        <h2 :class="assignmentTheme" class="font-semibold">Due Wednesday:</h2>
         <template v-if="todayAssignment.length >= 2">
           <h3
             v-on:click="
