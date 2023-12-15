@@ -1,17 +1,30 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import AssignmentsTemp from "./AssignmentsTemp.vue";
+import { currentA } from "../tempArray.js";
 
-defineProps({
+const props = defineProps({
   currentAssignmentDate: String,
 });
 
-/* temp data to be deleted later */
-const currentAssignmentDate = ref("Due Today");
+const dateCheck = ref(false);
+
+function datecheck() {
+  if (currentA[0].date === props.currentAssignmentDate) {
+    dateCheck.value = true;
+  } else {
+    dateCheck.value = false;
+  }
+}
+
+onMounted(() => {
+  datecheck();
+  console.log(props.currentAssignmentDate, currentA);
+});
 </script>
 
 <template>
-  <div class="h-auto relative bg-lime-100 rounded-[35px] shadow-lg">
+  <div class="h-auto mb-[2rem] relative bg-lime-100 rounded-[35px] shadow-lg">
     <div
       class="w-full h-[56px] flex flex-col justify-around bg-lime-50 rounded-t-[35px] shadow-black shadow-innervar"
     >
@@ -23,7 +36,11 @@ const currentAssignmentDate = ref("Due Today");
     <div
       class="pt-[2.5rem] flex flex-col items-center rounded-b-[35px] shadow-black shadow-innervar"
     >
-      <AssignmentsTemp />
+      <AssignmentsTemp
+        v-for="a in currentA"
+        :name="a.name"
+        :questions="a.questions"
+      />
     </div>
   </div>
 </template>

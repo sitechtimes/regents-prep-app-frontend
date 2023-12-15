@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import AssignmentsStat from "./AssignmentsStat.vue";
+import { pastA } from "../tempArray";
 
 defineProps({
   pastAssignmentDate: String,
 });
 
 /* temp data to be deleted later */
-const pastAssignmentDate = ref("09-20-23");
+/* const pastAssignmentDate = ref("09-20-23"); */
 </script>
 
 <template>
@@ -23,7 +24,7 @@ const pastAssignmentDate = ref("09-20-23");
     <div
       class="pt-[2.5rem] flex flex-col items-center shadow-black shadow-innervar rounded-b-[35px]"
     >
-      <AssignmentsStat />
+      <AssignmentsStat v-for="a in pastA" :name="a.name" :score="a.score" />
     </div>
   </div>
 </template>
