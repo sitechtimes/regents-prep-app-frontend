@@ -8,17 +8,12 @@ onMounted(() => {
   console.log(userStore.user.email);
 });
 
-async function pushUser() {
-  if (userStore.user.username == "teacher") {
-    const userStore = userState();
-    console.log("hey im a teacher");
-    userStore.$patch((state) => {
-      router.push({ path: `/user-${state.user.username}/createclass` });
-      console.log("hey");
-    });
-  } else if (userStore.user.username == "student") {
-    console.log("hi");
-  }
+//this function pushes user back to the teacher dashboard
+async function pushUserBack() {
+  const userStore = userState();
+  userStore.$patch((state) => {
+    router.push({ path: `/user-${state.user.username}/teacherdashboard` });
+  });
 }
 </script>
 
@@ -60,9 +55,10 @@ async function pushUser() {
             ></div>
           </div>
         </div>
-        <div
+        <btn
+          @click.prevent="pushUserBack"
           id="dashboard-btn"
-          class="w-[74px] h-[74px] flex items-center justify-center mt-[17px]"
+          class="w-[74px] h-[74px] flex items-center justify-center mt-[17px] hover:scale-105 hover:drop-shadow-xl duration-300"
         >
           <div
             class="w-[74px] h-[74px] bg-[#426B1F] rounded-[14px] shadow-inner items-center justify-center"
@@ -80,7 +76,7 @@ async function pushUser() {
               class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[38.85px] mt-[-19.83px]"
             ></div>
           </div>
-        </div>
+        </btn>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
             class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] relative hover:scale-105 hover:drop-shadow-xl duration-300"
