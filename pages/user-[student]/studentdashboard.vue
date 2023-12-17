@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-import { Theme, Information, Assignment } from "~/interfaces/interfaces";
+import {
+  Theme,
+  Information,
+  Assignment,
+} from "~/interfaces/interfaces";
 
 const userStore = userState();
 const router = useRouter();
@@ -25,10 +29,27 @@ const colorThemes = {
     border: `bg-[#7CB7B4]`,
     background: `bg-[#95EBE6]`,
   } as Theme,
+  red: {
+    assignment: `text-[#AB5B5B]`,
+    title: `text-neutral-50`,
+    border: `bg-[#D16C6C]`,
+    background: `bg-[#EBCBCB]`,
+  },
+  green: {
+    assignment: `text-[#56684B]`,
+    title: `text-teal-50`,
+    border: `bg-[#93B87D]`,
+    background: `bg-[#EBEFE7]`,
+  },
+  orange: {
+    assignment: `text-[#806C61]`,
+    title: `text-amber-50`,
+    border: `bg-[#D4965C]`,
+    background: `bg-[#FCE4D3]`,
+  },
 };
 
 //Above are the color themes that will be used within for both the class previews and the classes as well. These will be stored within the backend, and are currently here as placeholders.
-// TRANSFER THEM TO A TYPESCRIPT FILE TO BE USED GLOBALLY
 
 const classInfo = {
   physics: {
@@ -55,6 +76,42 @@ const classInfo = {
       otherDay: ["Sig Figs (10)", "Temperature (1)"],
     } as Assignment,
   },
+  chemistry1: {
+    theme: colorThemes.blue,
+    information: {
+      title: "Regents Chemistry - P4",
+      teacher: "Mr. Weitzman",
+      classCode: 2,
+    } as Information,
+    assignment: {
+      today: ["Atomic Weights (5)", " Stochiometry (2)"],
+      otherDay: ["Sig Figs (10)", "Temperature (1)"],
+    } as Assignment,
+  },
+  chemistry2: {
+    theme: colorThemes.green,
+    information: {
+      title: "Regents Chemistry - P4",
+      teacher: "Mr. Weitzman",
+      classCode: 2,
+    } as Information,
+    assignment: {
+      today: ["Atomic Weights (5)", " Stochiometry (2)"],
+      otherDay: ["Sig Figs (10)", "Temperature (1)"],
+    } as Assignment,
+  },
+  chemistry3: {
+    theme: colorThemes.red,
+    information: {
+      title: "Regents Chemistry - P4",
+      teacher: "Mr. Weitzman",
+      classCode: 2,
+    } as Information,
+    assignment: {
+      today: ["Atomic Weights (5)", " Stochiometry (2)"],
+      otherDay: ["Sig Figs (10)", "Temperature (1)"],
+    } as Assignment,
+  },
 };
 
 //Above are the format in which props will be passed into the class previews. The theme, followed by the information (the title of the class as well as the teacher), the assignments (for the current and a past day), and the class Code. This is only the format, and is a placeholder until the backend will be connected to the frontend.
@@ -65,17 +122,19 @@ Blue,
 Red- DF6161,
 Green,
 Orange
-Pink
 */
 </script>
 
 <template>
-  <StudentComponentsClasspreview
-    v-for="item in classInfo"
-    :theme="item.theme"
-    :information="item.information"
-    :assignment="item.assignment"
-  />
+  <div class="flex flex-wrap items-center space-x-30">
+    <StudentComponentsClasspreview
+      class=""
+      v-for="item in classInfo"
+      :theme="item.theme"
+      :information="item.information"
+      :assignment="item.assignment"
+    />
+  </div>
 
   <!-- add new class -->
   <!-- <div class="w-[444px] h-[189px] absolute">
