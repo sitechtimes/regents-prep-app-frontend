@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-import {
-  Theme,
-  Information,
-  Assignment,
-} from "~/interfaces/interfaces";
 
 const userStore = userState();
 const router = useRouter();
+
+import { classInfo } from "~/constants/classInfo";
 
 /* onMounted(() => {
   console.log(userStore.user.username);
@@ -15,114 +12,6 @@ const router = useRouter();
   console.log(date.toString().split(" ")[0]);
 }); */
 //This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
-
-const colorThemes = {
-  purple: {
-    assignment: `text-[#674A68]`,
-    title: `text-stone-50`,
-    border: `bg-[#B77CB7]`,
-    background: `bg-[#EACBEB]`,
-  } as Theme,
-  blue: {
-    assignment: "text-[#4A5868]",
-    title: `text-gray-50`,
-    border: `bg-[#7CB7B4]`,
-    background: `bg-[#95EBE6]`,
-  } as Theme,
-  red: {
-    assignment: `text-[#AB5B5B]`,
-    title: `text-neutral-50`,
-    border: `bg-[#D16C6C]`,
-    background: `bg-[#EBCBCB]`,
-  },
-  green: {
-    assignment: `text-[#56684B]`,
-    title: `text-teal-50`,
-    border: `bg-[#93B87D]`,
-    background: `bg-[#EBEFE7]`,
-  },
-  orange: {
-    assignment: `text-[#806C61]`,
-    title: `text-amber-50`,
-    border: `bg-[#D4965C]`,
-    background: `bg-[#FCE4D3]`,
-  },
-};
-
-//Above are the color themes that will be used within for both the class previews and the classes as well. These will be stored within the backend, and are currently here as placeholders.
-
-const classInfo = {
-  physics: {
-    theme: colorThemes.purple,
-    information: {
-      title: "Regents Physics - P1",
-      teacher: "Mr. Colangelo",
-      classCode: 1,
-    } as Information,
-    assignment: {
-      today: ["Kinematics (5)"],
-      otherDay: ["Energy (10)", "Circuits (4)"],
-    } as Assignment,
-  },
-  chemistry: {
-    theme: colorThemes.blue,
-    information: {
-      title: "Regents Chemistry - P4",
-      teacher: "Mr. Weitzman",
-      classCode: 2,
-    } as Information,
-    assignment: {
-      today: ["Atomic Weights (5)", " Stochiometry (2)"],
-      otherDay: ["Sig Figs (10)", "Temperature (1)"],
-    } as Assignment,
-  },
-  chemistry1: {
-    theme: colorThemes.blue,
-    information: {
-      title: "Regents Chemistry - P4",
-      teacher: "Mr. Weitzman",
-      classCode: 2,
-    } as Information,
-    assignment: {
-      today: ["Atomic Weights (5)", " Stochiometry (2)"],
-      otherDay: ["Sig Figs (10)", "Temperature (1)"],
-    } as Assignment,
-  },
-  chemistry2: {
-    theme: colorThemes.green,
-    information: {
-      title: "Regents Chemistry - P4",
-      teacher: "Mr. Weitzman",
-      classCode: 2,
-    } as Information,
-    assignment: {
-      today: ["Atomic Weights (5)", " Stochiometry (2)"],
-      otherDay: ["Sig Figs (10)", "Temperature (1)"],
-    } as Assignment,
-  },
-  chemistry3: {
-    theme: colorThemes.red,
-    information: {
-      title: "Regents Chemistry - P4",
-      teacher: "Mr. Weitzman",
-      classCode: 2,
-    } as Information,
-    assignment: {
-      today: ["Atomic Weights (5)", " Stochiometry (2)"],
-      otherDay: ["Sig Figs (10)", "Temperature (1)"],
-    } as Assignment,
-  },
-};
-
-//Above are the format in which props will be passed into the class previews. The theme, followed by the information (the title of the class as well as the teacher), the assignments (for the current and a past day), and the class Code. This is only the format, and is a placeholder until the backend will be connected to the frontend.
-
-/*
-Purple,
-Blue,
-Red- DF6161,
-Green,
-Orange
-*/
 </script>
 
 <template>
