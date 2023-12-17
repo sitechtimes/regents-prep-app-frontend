@@ -1,6 +1,6 @@
 import {
-  Information,
-  Assignment,
+  ClassPreviewInformation,
+  ClassPreviewAssignments,
 } from "~/interfaces/interfaces";
 
 import { colorThemes } from "~/constants/themes";
@@ -12,11 +12,11 @@ export const classInfo = {
       title: "Regents Physics - P1",
       teacher: "Mr. Colangelo",
       classCode: 1,
-    } as Information,
+    } as ClassPreviewInformation,
     assignment: {
       today: ["Kinematics (5)"],
       otherDay: ["Energy (10)", "Circuits (4)"],
-    } as Assignment,
+    } as ClassPreviewAssignments,
   },
   chemistry: {
     theme: colorThemes.blue,
@@ -24,11 +24,11 @@ export const classInfo = {
       title: "Regents Chemistry - P4",
       teacher: "Mr. Weitzman",
       classCode: 2,
-    } as Information,
+    } as ClassPreviewInformation,
     assignment: {
       today: ["Atomic Weights (5)", " Stochiometry (2)"],
       otherDay: ["Sig Figs (10)", "Temperature (1)"],
-    } as Assignment,
+    } as ClassPreviewAssignments,
   },
   chemistry1: {
     theme: colorThemes.blue,
@@ -36,11 +36,11 @@ export const classInfo = {
       title: "Regents Chemistry - P4",
       teacher: "Mr. Weitzman",
       classCode: 2,
-    } as Information,
+    } as ClassPreviewInformation,
     assignment: {
       today: ["Atomic Weights (5)", " Stochiometry (2)"],
       otherDay: ["Sig Figs (10)", "Temperature (1)"],
-    } as Assignment,
+    } as ClassPreviewAssignments,
   },
   chemistry2: {
     theme: colorThemes.green,
@@ -48,11 +48,11 @@ export const classInfo = {
       title: "Regents Chemistry - P4",
       teacher: "Mr. Weitzman",
       classCode: 2,
-    } as Information,
+    } as ClassPreviewInformation,
     assignment: {
       today: ["Atomic Weights (5)", " Stochiometry (2)"],
       otherDay: ["Sig Figs (10)", "Temperature (1)"],
-    } as Assignment,
+    } as ClassPreviewAssignments,
   },
   chemistry3: {
     theme: colorThemes.red,
@@ -60,11 +60,11 @@ export const classInfo = {
       title: "Regents Chemistry - P4",
       teacher: "Mr. Weitzman",
       classCode: 2,
-    } as Information,
+    } as ClassPreviewInformation,
     assignment: {
       today: ["Atomic Weights (5)", " Stochiometry (2)"],
       otherDay: ["Sig Figs (10)", "Temperature (1)"],
-    } as Assignment,
+    } as ClassPreviewAssignments,
   },
 };
 

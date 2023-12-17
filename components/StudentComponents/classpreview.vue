@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {
   Theme,
-  Information,
-  Assignment,
+  ClassPreviewInformation,
+  ClassPreviewAssignments,
 } from "~/interfaces/interfaces";
 import { userState } from "~/stores/users";
 
@@ -15,8 +15,8 @@ onMounted(() => {
 
 const props = defineProps<{
   theme: Theme;
-  information: Information;
-  assignment: Assignment;
+  information: ClassPreviewInformation;
+  assignment: ClassPreviewAssignments;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
 const assignmentTheme = ref(props.theme.assignment);
