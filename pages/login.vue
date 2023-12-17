@@ -129,7 +129,7 @@ definePageMeta({
           class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px] mt-[27px]"
           ><button
             id="loginRedirect"
-            class="button bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-innervar shadow-black items-center justify-center inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
+            class="button bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-innertop shadow-black items-center justify-center inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
           >
             Login
           </button></label

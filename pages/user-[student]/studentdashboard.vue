@@ -4,99 +4,31 @@ import { userState } from "~/stores/users";
 const userStore = userState();
 const router = useRouter();
 
-onMounted(() => {
+
+import { classInfo } from "~/constants/classInfo";
+
+/* onMounted(() => {
   console.log(userStore.user.username);
-});
+  let date: Date = new Date();
+  console.log(date.toString().split(" ")[0]);
+}); */
+//This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
+
 definePageMeta({
   layout: 'dashboard',
 });
-function getClass() {
-  router.push({ path: `/user-${userStore.user.username}/studentclass` });
-}
+
 </script>
 
 <template>
-  <!-- <div
-    id="navbar"
-    class="w-[max] h-[8rem] bg-lime-100 drop-shadow-lg py-7 px-5"
-  >
-    <div class="w-[373px] h-[83px] bg-lime-100 rounded-2xl shadow-1xl">
-      <div
-        class="w-[max] h-[max] text-center text-stone-600 text-[55px] font-medium"
-      >
-        Student Name
-      </div>
-    </div>
-
-    <div
-      class="w-[277px] h-[73px] bg-lime-800 rounded-[20px] shadow shadow-inner"
-    >
-      <div
-        class="w-[max] h-[max] text-center text-white text-[50px] font-medium"
-      >
-        Dashboard
-      </div>
-    </div>
-
-    <div class="w-[74px] h-[74px] relative">
-      <div
-        class="w-[74px] h-[74px] left-0 top-0 absolute bg-lime-800 rounded-[14px] shadow-inner"
-      ></div>
-      <div
-        class="w-[42px] h-[42px] left-[16px] top-[16px] absolute bg-white rounded-[5px]"
-      ></div>
-    </div>
-
-    <div class="w-[73px] h-[73px] relative">
-      <div
-        class="w-[73px] h-[73px] left-0 top-0 absolute bg-lime-800 rounded-full shadow-inner"
-      ></div>
-      <div
-        class="w-[41px] h-[41px] left-[16px] top-[16px] absolute bg-white rounded-[36.50px]"
-      ></div>
-    </div>
-
-    <div class="w-[200px] h-[73px] bg-lime-800 rounded-[20px] shadow">
-      <div
-        class="w-[max] h-[max] text-center text-stone-50 text-[50px] font-medium"
-      >
-        Logout
-      </div>
-    </div>
-  </div> -->
-  <!-- nuxt navbar to be inserted here -->
-
-  <div class="w-[390px] h-[371px] relative m-12">
-    <div
-      class="w-full h-[371px] relative bg-pink-200 bg-opacity-30 rounded-[60px] shadow-inner"
-    >
-      <div
-        class="w-full text-stone-50 text-center text-xl font-medium shadow-md bg-indigo-400 pt-12 pb-6 px-5 rounded-[60px_60px_0px_0px] max-md:px-5"
-      >
-        <span v-on:click="getClass" class="text-white text-[35px]"
-          >Regents Physics - P1
-        </span>
-        <span class="text-white text-xl">Mr. Colangelo</span>
-      </div>
-
-      <div class="text-[27px] py-5 relative text-center">
-        <span class="text-violet-700 font-semibold">Due today: </span>
-        <button class="text-violet-700">Kinematics (5)</button> <br />
-        <button class="text-violet-700">Power (2)</button> <br />
-        <span class="text-violet-700 font-semibold">Due Wednesday: </span
-        ><button class="text-violet-700">Energy (10)</button>
-      </div>
-
-      <div
-        class="w-full h-[65px] bottom-[0%] absolute bg-indigo-400 rounded-b-[60px] shadow-inner"
-      >
-        <button
-          class="w-full h-full relative text-center text-stone-50 text-[32px] font-medium"
-        >
-          Past assignments
-        </button>
-      </div>
-    </div>
+  <div class="flex flex-wrap items-center space-x-30">
+    <StudentComponentsClasspreview
+      class=""
+      v-for="item in classInfo"
+      :theme="item.theme"
+      :information="item.information"
+      :assignment="item.assignment"
+    />
   </div>
 
   <!-- add new class -->
