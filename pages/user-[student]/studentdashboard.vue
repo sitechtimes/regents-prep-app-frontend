@@ -4,6 +4,7 @@ import { userState } from "~/stores/users";
 const userStore = userState();
 const router = useRouter();
 
+
 import { classInfo } from "~/constants/classInfo";
 
 /* onMounted(() => {
@@ -12,6 +13,11 @@ import { classInfo } from "~/constants/classInfo";
   console.log(date.toString().split(" ")[0]);
 }); */
 //This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
+
+definePageMeta({
+  layout: 'dashboard',
+});
+
 </script>
 
 <template>
