@@ -5,6 +5,11 @@ export const currentA = [
     questions: "5",
   },
   {
+    date: "12-12-2023",
+    name: "Physics",
+    questions: "4",
+  },
+  {
     date: "12-20-2023",
     name: "Solar Power",
     questions: "4",

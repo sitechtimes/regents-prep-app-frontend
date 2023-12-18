@@ -6,9 +6,6 @@ import { pastA } from "../tempArray";
 defineProps({
   pastAssignmentDate: String,
 });
-
-/* temp data to be deleted later */
-/* const pastAssignmentDate = ref("09-20-23"); */
 </script>
 
 <template>

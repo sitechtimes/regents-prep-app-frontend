@@ -25,6 +25,15 @@ function toggleAssignments() {
     toggle.value = "Past";
   }
 }
+
+function sorting(currentA: any[]) {
+  const currentDates = ref([]);
+  currentA.forEach((e) => {
+    currentDates.value.push(e.dates);
+  });
+}
+
+sorting(currentA);
 </script>
 
 <template>
