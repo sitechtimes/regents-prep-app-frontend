@@ -37,14 +37,12 @@
 
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-import { currentA } from "../tempArray";
 
 const userStore = userState();
 const router = useRouter();
 
 function getClass() {
   router.push({ path: `/user-${userStore.user.username}/studentclass` });
-  console.log(currentA);
 }
 </script>
 

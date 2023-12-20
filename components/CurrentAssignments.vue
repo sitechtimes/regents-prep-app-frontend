@@ -7,7 +7,7 @@ const props = defineProps({
   currentAssignmentDate: String,
 });
 
-const dateCheck = ref(false);
+/* const dateCheck = ref(false);
 
 function datecheck() {
   if (currentA[0].date === props.currentAssignmentDate) {
@@ -15,12 +15,7 @@ function datecheck() {
   } else {
     dateCheck.value = false;
   }
-}
-
-onMounted(() => {
-  datecheck();
-  console.log(props.currentAssignmentDate, currentA);
-});
+} */
 </script>
 
 <template>

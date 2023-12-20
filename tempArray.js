@@ -20,4 +20,9 @@ export const currentA = [
     questions: "7",
   },
 ];
-export const pastA = [{ date: "09-20-23", name: "Solar Power", score: "5/5" }];
+export const pastA = [
+  { date: "09-20-23", name: "One", score: "5/5" },
+  { date: "08-30-23", name: "Two", score: "5/5" },
+  { date: "07-23-23", name: "Three", score: "5/5" },
+  { date: "06-18-23", name: "Four", score: "5/5" },
+];
