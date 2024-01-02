@@ -7,15 +7,15 @@ const props = defineProps({
   currentAssignmentDate: String,
 });
 
-/* const dateCheck = ref(false);
-
-function datecheck() {
-  if (currentA[0].date === props.currentAssignmentDate) {
-    dateCheck.value = true;
-  } else {
-    dateCheck.value = false;
-  }
-} */
+const currentDates: { date: string }[] = [];
+(function () {
+  currentA.forEach((e: any) => {
+    if (currentDates.includes(e.date)) {
+    } else {
+      currentDates.push(e.date);
+    }
+  });
+})();
 </script>
 
 <template>

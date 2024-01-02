@@ -7,10 +7,6 @@ import { currentA, pastA } from "../tempArray";
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
 let PastStatus = ref(false);
-
-const currentDates: { date: string }[] = [];
-const pastDates: { date: string }[] = [];
-
 function toggleAssignments() {
   if (CurrentStatus.value === true) {
     CurrentStatus.value = false;
@@ -28,25 +24,22 @@ function toggleAssignments() {
   }
 }
 
+const currentDates: { date: string }[] = [];
+const pastDates: { date: string }[] = [];
 (function () {
   currentA.forEach((e: any) => {
-    if (currentDates.includes({ date: e.date })) {
+    if (currentDates.includes(e.date)) {
     } else {
-      currentDates.push({ date: e.date });
+      currentDates.push(e.date);
     }
   });
-  pastA.forEach((e: { date: any }) => {
+  pastA.forEach((e: any) => {
     if (pastDates.includes(e.date)) {
     } else {
       pastDates.push(e.date);
     }
   });
 })();
-
-console.log("currentDates");
-console.log(currentDates);
-console.log("pastDates");
-console.log(pastDates);
 </script>
 
 <template>
@@ -80,12 +73,12 @@ console.log(pastDates);
     <CurrentAssignments
       v-if="CurrentStatus"
       v-for="a in currentDates"
-      :currentAssignmentDate="a.date"
+      :currentAssignmentDate="a"
     />
     <PastAssignments
       v-if="PastStatus"
       v-for="a in pastDates"
-      :pastAssignmentDate="a.date"
+      :pastAssignmentDate="a"
     />
   </div>
 </template>

@@ -21,8 +21,8 @@ export const currentA = [
   },
 ];
 export const pastA = [
-  { date: "09-20-23", name: "One", score: "5/5" },
-  { date: "08-30-23", name: "Two", score: "5/5" },
-  { date: "07-23-23", name: "Three", score: "5/5" },
-  { date: "06-18-23", name: "Four", score: "5/5" },
+  { date: "09-20-2023", name: "Solar Power", score: "4/4" },
+  { date: "08-30-2023", name: "Chemistry", score: "7/7" },
+  { date: "07-23-2023", name: "Physics", score: "4/4" },
+  { date: "06-18-2023", name: "Kinematics Practice", score: "5/5" },
 ];
