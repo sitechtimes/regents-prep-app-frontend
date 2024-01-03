@@ -6,16 +6,6 @@ import { currentA } from "../tempArray.js";
 const props = defineProps({
   currentAssignmentDate: String,
 });
-
-const currentDates: { date: string }[] = [];
-(function () {
-  currentA.forEach((e: any) => {
-    if (currentDates.includes(e.date)) {
-    } else {
-      currentDates.push(e.date);
-    }
-  });
-})();
 </script>
 
 <template>
@@ -33,8 +23,8 @@ const currentDates: { date: string }[] = [];
     >
       <AssignmentsTemp
         v-for="a in currentA"
-        :name="a.name"
-        :questions="a.questions"
+        :name="a.assignments.date"
+        :questions="a.assignments.questions"
       />
     </div>
   </div>
