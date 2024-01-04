@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import AssignmentsTemp from "./AssignmentsTemp.vue";
 import { currentA } from "../tempArray.js";
 
-const props = defineProps({
+defineProps({
   currentAssignmentDate: String,
 });
 </script>
@@ -23,11 +23,9 @@ const props = defineProps({
     >
       <AssignmentsTemp
         v-for="a in currentA"
-        :name="a.assignments.date"
-        :questions="a.assignments.questions"
+        :name="a.name"
+        :questions="a.questions"
       />
     </div>
   </div>
 </template>
-
-<style scoped></style>

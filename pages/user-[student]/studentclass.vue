@@ -24,8 +24,8 @@ function toggleAssignments() {
   }
 }
 
-/* const currentDates: { date: string }[] = [];
-const pastDates: { date: string }[] = [];
+const currentDates: any[] = [];
+const pastDates: any[] = [];
 (function () {
   currentA.forEach((e: any) => {
     if (currentDates.includes(e.date)) {
@@ -39,9 +39,7 @@ const pastDates: { date: string }[] = [];
       pastDates.push(e.date);
     }
   });
-})(); */
-
-console.log(currentA[1].assignments[0].name);
+})();
 </script>
 
 <template>
@@ -74,13 +72,13 @@ console.log(currentA[1].assignments[0].name);
 
     <CurrentAssignments
       v-if="CurrentStatus"
-      v-for="a in currentA"
-      :currentAssignmentDate="a.date"
+      v-for="(a, index) in currentDates"
+      :currentAssignmentDate="a"
     />
     <PastAssignments
       v-if="PastStatus"
-      v-for="a in pastA"
-      :pastAssignmentDate="a.date"
+      v-for="(a, index) in pastDates"
+      :pastAssignmentDate="a"
     />
   </div>
 </template>
