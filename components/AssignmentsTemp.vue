@@ -21,7 +21,7 @@ const currentDates: any[] = [];
 const assignmentsArr: any[] = [];
 (function () {})();
 
-let datevalue = false;
+let datevalue = ref(true);
 (function () {
   for (let i = 0; i < currentDates.length; i++) {
     if (currentDates[i] === n) {

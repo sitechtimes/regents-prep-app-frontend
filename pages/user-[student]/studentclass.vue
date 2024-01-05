@@ -2,7 +2,6 @@
 import { ref, onMounted } from "vue";
 import CurrentAssignments from "../components/CurrentAssignments.vue";
 import PastAssignments from "../components/PastAssignments.vue";
-import { currentA, pastA } from "../tempArray";
 
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
@@ -23,23 +22,6 @@ function toggleAssignments() {
     toggle.value = "Past";
   }
 }
-
-const currentDates: any[] = [];
-const pastDates: any[] = [];
-(function () {
-  currentA.forEach((e: any) => {
-    if (currentDates.includes(e.date)) {
-    } else {
-      currentDates.push(e.date);
-    }
-  });
-  pastA.forEach((e: any) => {
-    if (pastDates.includes(e.date)) {
-    } else {
-      pastDates.push(e.date);
-    }
-  });
-})();
 </script>
 
 <template>
@@ -70,16 +52,8 @@ const pastDates: any[] = [];
       </button>
     </div>
 
-    <CurrentAssignments
-      v-if="CurrentStatus"
-      v-for="(a, index) in currentDates"
-      :currentAssignmentDate="a"
-    />
-    <PastAssignments
-      v-if="PastStatus"
-      v-for="(a, index) in pastDates"
-      :pastAssignmentDate="a"
-    />
+    <CurrentAssignments v-if="CurrentStatus" />
+    <PastAssignments v-if="PastStatus" />
   </div>
 </template>
 
