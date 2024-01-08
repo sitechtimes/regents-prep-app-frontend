@@ -29,6 +29,14 @@ let datevalue = ref(true);
     }
   }
 })();
+
+function getAssignments() {
+  console.log("eiwubf");
+}
+
+onBeforeMount(() => {
+  getAssignments();
+});
 </script>
 
 <template>

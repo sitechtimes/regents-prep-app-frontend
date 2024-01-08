@@ -17,23 +17,42 @@ const currentArr: any[] = [];
   });
 })();
 
+// the code above is to filter through the currentA array
+// and make sure that the assignments dates displayed do not repeat
+// the problem with loading the assignments is
+// all the assignments appear under every due date
+//
+// option 1 (not reasonable | abandoned)
+// make an array for each date component to be filled with the assignments for that date
+//
+// option 2
+// make a function in this parent component and call it in the child component
+// the function cud match the date associated with the assignment name
+// to the date displayed in the parent component and display the correct assignments
+//
+// most reasonable solution rn
+// onBeforeMount hook in child component, which will run every time its rendered
+// somehow call the date value in parent component and match with assignment name value
 
 const assignmentArr: any[] = [];
-function getAssignments(x: Number) {
-  for (let i = 0; i < currentArr.length; i++) {
+function getAssignments() {
+  /* for (let i = 0; i < currentArr.length; i++) {
     let x = i
     const [x]array: any[] = [];
-    x++;
-
-  }
+    x++; 
+  } */
+  console.log("eiwubf");
 }
+
+onBeforeMount(() => {
+  getAssignments();
+});
 </script>
 
 <template>
   <div
     v-for="(a, index) in currentArr"
     :index="index"
-    @load="getAssignments"
     class="h-auto mb-[2rem] relative bg-lime-100 rounded-[35px] shadow-lg"
   >
     <div
@@ -48,7 +67,7 @@ function getAssignments(x: Number) {
       class="pt-[2.5rem] flex flex-col items-center rounded-b-[35px] shadow-black shadow-innervar"
     >
       <AssignmentsTemp
-        v-for="a in assignmentArr"
+        v-for="a in currentA"
         :name="a.name"
         :questions="a.questions"
       />
