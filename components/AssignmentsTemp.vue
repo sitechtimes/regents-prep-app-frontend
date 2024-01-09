@@ -18,9 +18,6 @@ const currentDates: any[] = [];
   });
 })();
 
-const assignmentsArr: any[] = [];
-(function () {})();
-
 let datevalue = ref(true);
 (function () {
   for (let i = 0; i < currentDates.length; i++) {
@@ -30,19 +27,20 @@ let datevalue = ref(true);
   }
 })();
 
-function getAssignments() {
+/* function getAssignments() {
   console.log("eiwubf");
 }
 
 onBeforeMount(() => {
   getAssignments();
-});
+}); */
 </script>
 
 <template>
-  <div class="">
+  <div>
     <div
       v-if="datevalue"
+      @loadeddata="this.$parent.checkAssignment"
       class="w-max h-[75px] mb-[2rem] flex flex-row relative bg-purple-400 bg-opacity-50 rounded-full shadow-black shadow-innervar hover:shadow-none"
     >
       <div class="text-[50px] px-[2rem] font-medium">{{ name }}</div>

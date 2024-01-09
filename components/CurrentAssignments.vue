@@ -35,7 +35,7 @@ const currentArr: any[] = [];
 // somehow call the date value in parent component and match with assignment name value
 
 const assignmentArr: any[] = [];
-function getAssignments() {
+function checkAssignments() {
   /* for (let i = 0; i < currentArr.length; i++) {
     let x = i
     const [x]array: any[] = [];
@@ -44,9 +44,9 @@ function getAssignments() {
   console.log("eiwubf");
 }
 
-onBeforeMount(() => {
-  getAssignments();
-});
+/* onBeforeMount(() => {
+  checkAssignments();
+}); */
 </script>
 
 <template>
