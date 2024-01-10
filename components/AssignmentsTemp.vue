@@ -37,23 +37,20 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div>
-    <div
-      v-if="datevalue"
-      @loadeddata="this.$parent.checkAssignment"
-      class="w-max h-[75px] mb-[2rem] flex flex-row relative bg-purple-400 bg-opacity-50 rounded-full shadow-black shadow-innervar hover:shadow-none"
-    >
-      <div class="text-[50px] px-[2rem] font-medium">{{ name }}</div>
+  <div
+    v-if="datevalue"
+    class="w-max h-[75px] mb-[2rem] flex flex-row relative bg-purple-400 bg-opacity-50 rounded-full shadow-black shadow-innervar hover:shadow-none"
+  >
+    <div class="text-[50px] px-[2rem] font-medium">{{ name }}</div>
 
-      <div
-        class="w-[75px] h-full right-[0%] bg-purple-400 rounded-full shadow-black shadow-innervar"
-      >
-        <div
-          class="w-full h-full text-center text-white text-[50px] font-medium"
-        >
-          {{ questions }}
-        </div>
+    <div
+      class="w-[75px] h-full right-[0%] bg-purple-400 rounded-full shadow-black shadow-innervar"
+    >
+      <div class="w-full h-full text-center text-white text-[50px] font-medium">
+        {{ questions }}
       </div>
     </div>
   </div>
 </template>
+
+<style @load="this.$parent.checkAssignments"></style>
