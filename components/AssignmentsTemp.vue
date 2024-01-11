@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { currentA } from "../tempArray.js";
+import checkAssignments from "./CurrentAssignments.vue";
 
 const props = defineProps({
   name: String,
@@ -27,13 +28,7 @@ let datevalue = ref(true);
   }
 })();
 
-/* function getAssignments() {
-  console.log("eiwubf");
-}
-
-onBeforeMount(() => {
-  getAssignments();
-}); */
+console.log();
 </script>
 
 <template>
@@ -53,4 +48,4 @@ onBeforeMount(() => {
   </div>
 </template>
 
-<style @load="this.$parent.checkAssignments"></style>
+<style></style>
