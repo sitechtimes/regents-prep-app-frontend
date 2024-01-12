@@ -23,13 +23,13 @@ definePageMeta({
 <template>
   <form
     @submit.prevent="createClass"
-    class="m-auto w-[795px] h-[760px] items-center justify-center flex flex-col"
+    class="flex items-center justify-center m-auto flex-col"
   >
     <div
-      class="w-[795px] h-[760px] flex flex-col bg-[#F2F0CC] rounded-2xl mt-[30px] shadow-[inset_0_4px_10px_rgba(0,0,0,0.3)] text-center"
+      class="w-[795px] h-[661px] flex flex-col bg-[#F2F0CC] rounded-2xl text-center m-auto border-solid border-2 border-[#AAB840]"
     >
       <div
-        class="bg-[#AAB840] bg-opacity-[60%] w-[795px] h-[115px] rounded-t-2xl items-center justify-center shadow-inner"
+        class="bg-[#AAB840] bg-opacity-[60%] w-[795px] h-[115px] rounded-t-2xl items-center justify-center ml-[-2px]"
       >
         <h1
           id="header"
@@ -39,7 +39,7 @@ definePageMeta({
         </h1>
       </div>
       <div>
-        <div class="flex flex-col m-auto items-center justify-center pt-[20px]">
+        <div class="flex flex-col m-auto items-center justify-center pt-[35px]">
           <label
             for="classInput"
             class="text-black text-[50px] font-semibold drop-shadow-md pr-[260px]"
@@ -53,7 +53,7 @@ definePageMeta({
             v-model="className"
           />
         </div>
-        <div class="pt-[20px]">
+        <div class="pt-[35px]">
           <label
             for="courseType"
             class="text-black text-[50px] font-semibold drop-shadow-md pr-[65px]"
@@ -74,7 +74,7 @@ definePageMeta({
             </option>
           </select>
         </div>
-        <div class="pt-[20px] pb-[32px]">
+        <!-- <div class="pt-[20px] pb-[32px]">
           <label
             for="courseColor"
             class="text-black text-[50px] font-semibold drop-shadow-md pr-[215px]"
@@ -89,9 +89,9 @@ definePageMeta({
           <option>Some Color</option>
             <option v-for="color in courses">{{ color }}</option>
           </select>
-        </div>
+        </div> -->
         <button
-          class="w-[217.55px] h-[73.26px] text-center text-stone-50 text-[40px] font-medium bg-[#AAB840] rounded-[20px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
+          class="w-[217.55px] h-[73.26px] text-center text-stone-50 text-[40px] font-medium bg-[#AAB840] rounded-[20px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent mt-[55px]"
         >
           Create
         </button>

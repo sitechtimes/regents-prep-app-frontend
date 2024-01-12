@@ -35,7 +35,7 @@ async function pushUserBack() {
         <div class="m-auto">
           <div id="dashboard" class="w-[277px] h-[73px] mt-[17px]">
             <div
-              class="w-[300px] h-[73px] bg-[#426B1F] rounded-2xl shadow shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] relative drop-shadow-lg"
+              class="w-[300px] h-[73px] bg-[#426B1F] rounded-2xl shadow shadow-inner relative drop-shadow-lg"
             >
               <h1
                 class="w-[300px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
