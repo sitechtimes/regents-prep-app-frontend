@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, getCurrentInstance } from "vue";
 import { currentA } from "../tempArray.js";
 import checkAssignments from "./CurrentAssignments.vue";
 
+const instance = getCurrentInstance();
 const props = defineProps({
   name: String,
   questions: String,
@@ -20,15 +21,22 @@ const currentDates: any[] = [];
 })();
 
 let datevalue = ref(true);
-(function () {
+/* (function () {
   for (let i = 0; i < currentDates.length; i++) {
     if (currentDates[i] === n) {
       let datevalue = true;
     }
   }
-})();
+})(); */
 
-console.log();
+console.log(
+  instance.parent,
+  instance.parent?.exposed,
+  instance.parent?.vnode.key,
+
+  instance.parent?.props.currentAssignmentDate,
+  props.name
+);
 </script>
 
 <template>
