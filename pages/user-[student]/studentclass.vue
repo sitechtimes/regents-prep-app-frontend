@@ -67,7 +67,6 @@ const currentArr: any[] = [];
     <CurrentAssignments
       v-if="CurrentStatus"
       v-for="(a, index) in currentArr"
-      :key="index"
       :a="a"
     />
     <PastAssignments v-if="PastStatus" />

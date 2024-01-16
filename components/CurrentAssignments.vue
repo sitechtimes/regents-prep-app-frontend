@@ -3,17 +3,13 @@ import { ref, onMounted } from "vue";
 import AssignmentsTemp from "./AssignmentsTemp.vue";
 import { currentA } from "../tempArray.js";
 
-defineProps({
+const props = defineProps({
   a: String,
 });
 
-const x = 2;
-
-/* defineExpose({
-  x,
-  currentArr,
+defineExpose({
+  props,
 });
-console.log(currentArr[0]); */
 </script>
 
 <template>
