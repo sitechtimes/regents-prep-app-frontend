@@ -48,10 +48,10 @@ async function pushUserBack() {
         <div class="w-[168] pr-[2%] flex items-center justify-center">
           <div
             id="create-btn"
-            class="w-[73px] h-[73px] bg-[#426B1F] rounded-full shadow-inner items-center justify-center mt-[17px]"
+            class="w-[73px] h-[73px] bg-[#426B1F] rounded-full items-center justify-center mt-[17px]"
           >
             <div
-              class="w-[41px] h-[41px] bg-white rounded-full shadow-inner items-center justify-center m-auto mt-[16px]"
+              class="w-[41px] h-[41px] bg-white rounded-full items-center justify-center m-auto mt-[16px]"
             ></div>
           </div>
         </div>

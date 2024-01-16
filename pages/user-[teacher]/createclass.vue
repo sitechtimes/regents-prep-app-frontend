@@ -23,7 +23,7 @@ definePageMeta({
 <template>
   <form
     @submit.prevent="createClass"
-    class="flex items-center justify-center m-auto flex-col"
+    class="h-[800px] flex items-center justify-center m-auto flex-col"
   >
     <div
       class="w-[795px] h-[661px] flex flex-col bg-[#F2F0CC] rounded-2xl text-center m-auto border-solid border-2 border-[#AAB840]"
