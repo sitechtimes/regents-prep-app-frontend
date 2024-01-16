@@ -1,10 +1,12 @@
-export interface Theme {
+/* export interface Theme {
   assignment: string;
   title: string;
   border: string;
   background: string;
-}
+} */
 //Every property within the 'theme' interface is a part of the props that are passed in to the classpreview in order to stylize it through tailwind. The assignment property gives each assignment a text color and the title assigns a text color to each class title. The border and background properties are both background colors for each of the class previews- the 'border' is the part of the class preview with a darker color, and is at the top and bottom of the class preview. The background is in the middle, and is the backdrop for each assignment.
+
+//Theme is currently not used because a redesign has excluded all colors except for green.
 
 export interface ClassPreviewInformation {
   title: string;

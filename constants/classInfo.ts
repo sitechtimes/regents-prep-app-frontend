@@ -3,11 +3,11 @@ import {
   ClassPreviewAssignments,
 } from "~/interfaces/interfaces";
 
-import { colorThemes } from "~/constants/themes";
+// import { colorThemes } from "~/constants/themes";
 
 export const classInfo = {
   physics: {
-    theme: colorThemes.purple,
+    // theme: colorThemes.purple,
     information: {
       title: "Regents Physics - P1",
       teacher: "Mr. Colangelo",
@@ -19,7 +19,7 @@ export const classInfo = {
     } as ClassPreviewAssignments,
   },
   chemistry: {
-    theme: colorThemes.blue,
+    // theme: colorThemes.blue,
     information: {
       title: "Regents Chemistry - P4",
       teacher: "Mr. Weitzman",
@@ -31,7 +31,7 @@ export const classInfo = {
     } as ClassPreviewAssignments,
   },
   chemistry1: {
-    theme: colorThemes.blue,
+    // theme: colorThemes.blue,
     information: {
       title: "Regents Chemistry - P4",
       teacher: "Mr. Weitzman",
@@ -43,7 +43,7 @@ export const classInfo = {
     } as ClassPreviewAssignments,
   },
   chemistry2: {
-    theme: colorThemes.green,
+    // theme: colorThemes.green,
     information: {
       title: "Regents Chemistry - P4",
       teacher: "Mr. Weitzman",
@@ -55,7 +55,7 @@ export const classInfo = {
     } as ClassPreviewAssignments,
   },
   chemistry3: {
-    theme: colorThemes.red,
+    // theme: colorThemes.red,
     information: {
       title: "Regents Chemistry - P4",
       teacher: "Mr. Weitzman",
