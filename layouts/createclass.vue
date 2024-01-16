@@ -33,9 +33,9 @@ async function pushUserBack() {
           </div>
         </div>
         <div class="m-auto">
-          <div id="dashboard" class="w-[277px] h-[73px] mt-[17px]">
+          <div id="dashboard" class="w-[277px] h-[73px] mt-[17px] mr-[110px]">
             <div
-              class="w-[300px] h-[73px] bg-[#426B1F] rounded-2xl shadow shadow-inner relative drop-shadow-lg"
+              class="w-[300px] h-[73px] bg-[#426B1F] rounded-2xl relative drop-shadow-lg"
             >
               <h1
                 class="w-[300px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
@@ -58,7 +58,7 @@ async function pushUserBack() {
         <button
           @click.prevent="pushUserBack"
           id="dashboard-btn"
-          class="w-[74px] h-[74px] flex items-center justify-center mt-[17px] hover:scale-105 hover:drop-shadow-xl duration-300"
+          class="w-[74px] h-[74px] flex items-center justify-center mt-[17px] hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
         >
           <div
             class="w-[74px] h-[74px] bg-[#426B1F] rounded-2xl shadow-inner items-center justify-center"
@@ -79,7 +79,7 @@ async function pushUserBack() {
         </button>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            class="w-[168px] h-[68px] bg-[#426B1F] rounded-2xl shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] relative hover:scale-105 hover:drop-shadow-xl duration-300"
+            class="w-[168px] h-[68px] bg-[#426B1F] rounded-2xl shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2
               class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium absolute bottom-[2px]"

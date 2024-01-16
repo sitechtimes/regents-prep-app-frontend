@@ -37,9 +37,9 @@ async function pushUser() {
           </div>
         </div>
         <div class="m-auto">
-          <div id="dashboard" class="w-[277px] h-[73px] mt-[17px]">
+          <div id="dashboard" class="w-[277px] h-[73px] mt-[17px] mr-[80px]">
             <div
-              class="w-[277px] h-[73px] bg-[#426B1F] rounded-[20px] shadow shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] relative drop-shadow-lg"
+              class="w-[277px] h-[73px] bg-[#426B1F] rounded-[20px] relative drop-shadow-lg"
             >
               <h1
                 class="w-[277px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
@@ -51,7 +51,7 @@ async function pushUser() {
         </div>
         <button
           id=""
-          class="w-[168] pr-[2%] flex items-center justify-center hover:scale-105 hover:drop-shadow-xl duration-300"
+          class="w-[168] pr-[2%] flex items-center justify-center hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
         >
           <div
             @click.prevent="pushUser"
@@ -80,7 +80,7 @@ async function pushUser() {
         </div>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] relative hover:scale-105 hover:drop-shadow-xl duration-300"
+            class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2
               class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium absolute bottom-[2px]"
