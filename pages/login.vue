@@ -84,14 +84,14 @@ async function getUser() {
 }
 definePageMeta({
   layout: false,
-})
+});
 </script>
 
 <template>
   <form @submit.prevent="getUser">
     <div class="h-screen flex items-center justify-center">
       <div
-        class="w-[779px] h-[690px] flex flex-col items-center justify-center bg-lime-800 rounded-[40px] border-2 border-black m-auto"
+        class="w-[779px] h-[690px] flex flex-col items-center justify-center bg-lime-800 rounded-[24px] border-2 border-black m-auto"
       >
         <h1
           class="w-[293px] h-[90px] text-center text-[#FDFDF0] text-[90px] font-medium"
@@ -129,7 +129,7 @@ definePageMeta({
           class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px] mt-[27px]"
           ><button
             id="loginRedirect"
-            class="button bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-innertop shadow-black items-center justify-center inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
+            class="button bg-[#AAB840] w-[202px] h-[81px] rounded-[24px] shadow-innertop shadow-black items-center justify-center inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
           >
             Login
           </button></label

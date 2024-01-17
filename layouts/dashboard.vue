@@ -68,7 +68,7 @@ onMounted(() => {
             class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] hover:shadow-transparent shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300"
           >
             <h2
-              class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium absolute bottom-[2px]"
+              class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium"
             >
               Logout
             </h2>

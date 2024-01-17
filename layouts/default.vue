@@ -38,10 +38,10 @@
         </div>
         <div id="logout-btn" class="w-[355] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] hover:scale-105 shadow-black shadow-innertop hover:drop-shadow-xl duration-300"
+            class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] place-items-center hover:scale-105 shadow-black shadow-innertop hover:drop-shadow-xl duration-300"
           >
             <h2
-              class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium"
+              class="w-[168px] h-[68px] text-center self-center text-white text-[45px] font-medium"
             >
               Logout
             </h2>
