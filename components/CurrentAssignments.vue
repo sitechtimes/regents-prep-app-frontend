@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
 import AssignmentsTemp from "./AssignmentsTemp.vue";
 import { currentA } from "../tempArray.js";
 

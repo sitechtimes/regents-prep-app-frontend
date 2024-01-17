@@ -1,28 +1,18 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
 import AssignmentsStat from "./AssignmentsStat.vue";
 import { pastA } from "../tempArray";
 
-defineProps({
-  pastAssignmentDate: String,
+const props = defineProps({
+  a: String,
 });
 
-const pastArr: any[] = [];
-(function () {
-  pastA.forEach((e: any) => {
-    if (pastArr.includes(e.date)) {
-    } else {
-      pastArr.push(e.date);
-    }
-  });
-})();
+defineExpose({
+  props,
+});
 </script>
 
 <template>
-  <div
-    v-for="a in pastArr"
-    class="h-auto mb-[2rem] relative bg-lime-100 rounded-[35px] shadow-lg"
-  >
+  <div class="h-auto mb-[2rem] relative bg-lime-100 rounded-[35px] shadow-lg">
     <div
       class="w-full h-[56px] flex flex-col justify-around bg-lime-50 rounded-t-[35px] shadow-black shadow-innervar"
     >
@@ -38,5 +28,3 @@ const pastArr: any[] = [];
     </div>
   </div>
 </template>
-
-<style scoped></style>

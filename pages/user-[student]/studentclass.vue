@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import CurrentAssignments from "../components/CurrentAssignments.vue";
 import PastAssignments from "../components/PastAssignments.vue";
-import { currentA } from "../tempArray.js";
+import { currentA, pastA } from "../tempArray.js";
 
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
@@ -25,12 +25,18 @@ function toggleAssignments() {
 }
 
 const currentArr: any[] = [];
+const pastArr: any[] = [];
 (function () {
   currentA.forEach((e: any) => {
     if (currentArr.includes(e.date)) {
     } else {
       currentArr.push(e.date);
-      console.log(e.date);
+    }
+  });
+  pastA.forEach((e: any) => {
+    if (pastArr.includes(e.date)) {
+    } else {
+      pastArr.push(e.date);
     }
   });
 })();
@@ -64,12 +70,8 @@ const currentArr: any[] = [];
       </button>
     </div>
 
-    <CurrentAssignments
-      v-if="CurrentStatus"
-      v-for="(a, index) in currentArr"
-      :a="a"
-    />
-    <PastAssignments v-if="PastStatus" />
+    <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a" />
+    <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" />
   </div>
 </template>
 
@@ -80,55 +82,42 @@ const currentArr: any[] = [];
   height: 100%;
   aspect-ratio: 1.75;
 }
-
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: #ccc;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
-
 .slider:before {
   position: absolute;
   content: "";
-  height: 32px;
+  height: 100%;
   aspect-ratio: 1;
-  left: 3px;
-  bottom: 3px;
   background-color: white;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
-
 input:checked + .slider {
   background-color: #426b1f;
 }
-
 input:focus + .slider {
   box-shadow: 0 0 1px #426b1f;
 }
-
 input:checked + .slider:before {
   -webkit-transform: translateX(28px);
   -ms-transform: translateX(28px);
   transform: translateX(28px);
 }
-
 .slider.round {
   border-radius: 34px;
 }
-
 .slider.round:before {
   border-radius: 50%;
 }

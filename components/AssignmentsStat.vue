@@ -1,14 +1,26 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { getCurrentInstance } from "vue";
+import { pastA } from "../tempArray.js";
 
-defineProps({
+const props = defineProps({
   name: String,
   score: String,
+});
+const instance = getCurrentInstance();
+const parentDate = instance.parent?.exposed.props.a;
+let dateValue = false;
+const filter = pastA.filter((a) => a.date === parentDate);
+
+filter.forEach((e) => {
+  if (e.name.includes(props.name)) {
+    dateValue = true;
+  }
 });
 </script>
 
 <template>
   <div
+    v-if="dateValue"
     class="w-max h-[75px] mb-[2rem] flex flex-row relative bg-purple-400 bg-opacity-50 rounded-full shadow-black shadow-innervar hover:shadow-none"
   >
     <div class="text-[50px] px-[2rem] font-medium">{{ name }}</div>
@@ -22,5 +34,3 @@ defineProps({
     </div>
   </div>
 </template>
-
-<style scoped></style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, getCurrentInstance } from "vue";
+import { getCurrentInstance } from "vue";
 import { currentA } from "../tempArray.js";
 
 const props = defineProps({
@@ -8,11 +8,14 @@ const props = defineProps({
 });
 const instance = getCurrentInstance();
 const parentDate = instance.parent?.exposed.props.a;
-let dateValue = true;
+let dateValue = false;
 const filter = currentA.filter((a) => a.date === parentDate);
-console.log(parentDate, props.name);
 
-console.log(filter, dateValue);
+filter.forEach((e) => {
+  if (e.name.includes(props.name)) {
+    dateValue = true;
+  }
+});
 </script>
 
 <template>
@@ -31,5 +34,3 @@ console.log(filter, dateValue);
     </div>
   </div>
 </template>
-
-<style></style>
