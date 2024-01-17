@@ -39,7 +39,7 @@ async function pushUser() {
         <div class="m-auto">
           <div id="dashboard" class="w-[277px] h-[73px] mt-[17px] mr-[80px]">
             <div
-              class="w-[277px] h-[73px] bg-[#426B1F] rounded-[20px] relative drop-shadow-lg"
+              class="w-[277px] h-[73px] bg-navbar rounded-[20px] relative drop-shadow-lg"
             >
               <h1
                 class="w-[277px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"

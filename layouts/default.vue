@@ -1,3 +1,22 @@
+<script setup lang="ts">
+import { userState } from "~/stores/users";
+
+const userStore = userState();
+const router = useRouter();
+
+onMounted(() => {
+  console.log(userStore.user.email);
+});
+
+//this function pushes user back to the teacher dashboard
+async function pushUserBack() {
+  const userStore = userState();
+  userStore.$patch((state) => {
+    router.push({ path: `/user-${state.user.username}/teacherdashboard` });
+  });
+}
+</script>
+
 <template>
   <div>
     <nav class="h-[109px] 2w-screen bg-[#EAE9CA] shadow">
@@ -27,6 +46,7 @@
           </div>
         </div>
         <button
+        @click="pushUserBack"
           id="dashboard-btn"
           class="w-[74px] h-[74px] flex items-center justify-center mt-[17px] hover:scale-105 hover:drop-shadow-xl duration-300"
         >
