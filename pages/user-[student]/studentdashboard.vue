@@ -4,7 +4,6 @@ import { userState } from "~/stores/users";
 const userStore = userState();
 const router = useRouter();
 
-
 import { classInfo } from "~/constants/classInfo";
 
 /* onMounted(() => {
@@ -15,9 +14,8 @@ import { classInfo } from "~/constants/classInfo";
 //This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
 
 definePageMeta({
-  layout: 'dashboard',
+  layout: "dashboard",
 });
-
 </script>
 
 <template>
@@ -25,7 +23,6 @@ definePageMeta({
     <StudentComponentsClasspreview
       class=""
       v-for="item in classInfo"
-      :theme="item.theme"
       :information="item.information"
       :assignment="item.assignment"
     />

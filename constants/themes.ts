@@ -1,6 +1,6 @@
-import { Theme } from "~/interfaces/interfaces";
+ import {  } from "~/interfaces/interfaces";
 
-export const colorThemes = {
+/* export const colorThemes = {
   purple: {
     assignment: `text-[#674A68]`,
     title: `text-stone-50`,
@@ -31,6 +31,6 @@ export const colorThemes = {
     border: `bg-[#D4965C]`,
     background: `bg-[#FCE4D3]`,
   } as Theme,
-};
+}; */
 
 //Above are the color themes that will be used within for both the class previews and the classes as well. These will be stored within the backend, and are currently here as placeholders.
