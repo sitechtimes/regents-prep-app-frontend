@@ -71,7 +71,7 @@ async function getUser() {
       //The 'student' and 'loggedIn' attributes of the state are set to true, and the user is redirected to the studentdashboard.
     });
     // router.push({ path: `/user-${userStore.user.name}/studentdashboard` });
-  } else if (email.value == "teacher") {
+  } else if (userStore.user.username == "teacher") {
     //If the user is a teacher
 
     const userStore = userState();
@@ -91,7 +91,9 @@ definePageMeta({
   <form @submit.prevent="getUser">
     <div class="h-screen flex items-center justify-center">
       <div
-        class="w-[779px] h-[690px] flex flex-col items-center justify-center bg-lime-800 rounded-[24px] border-2 border-black m-auto"
+
+        class="login w-[779px] h-[690px] flex flex-col items-center justify-center bg-lime-800 rounded-[40px] border-2 border-black m-auto"
+
       >
         <h1
           class="w-[293px] h-[90px] text-center text-[#FDFDF0] text-[90px] font-medium"
@@ -111,7 +113,6 @@ definePageMeta({
           class="relative shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
           v-model="email"
         />
-        <!-- Note that the tailwind for both inputs is a placeholder just to see the input boxes. Please feel free to change them if needed. -->
         <label
           for="password"
           class="password w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[60px] pr-[700px] drop-shadow-md"
@@ -157,5 +158,31 @@ definePageMeta({
 }
 h3 {
   -webkit-text-stroke: 1.5px black;
+}
+@media all and (max-width: 100rem) {
+  .login{
+    width: 650px;
+    height: 550px;
+  }
+  h1 {
+    font-size: 75px;
+  }
+  label {
+    font-size: 45px;
+    padding-right: 600px;
+  }
+  input {
+    width: 600px;
+    font-size: 30px;
+  }
+  button {
+    width: 170px;
+    height: 70px;
+    font-size: 40px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 600px;
+    margin-bottom: 20px;
+  }
 }
 </style>
