@@ -1,8 +1,7 @@
-
 <script setup lang="ts">
-import Assignments from "../components/Assignments.vue";
-import CurrentAssignmentsButton from "../components/CurrentAssignmentsButton.vue";
-import StartAssignmentsButton from "../components/StartAssignmentsButton.vue";
+import Assignments from "../../../components/assignments.vue";
+import CurrentAssignmentsButton from "../../../components/CurrentAssignmentsButton.vue";
+import StartAssignmentsButton from "../../../components/StartAssignmentsButton.vue";
 </script>
 
 <template>
