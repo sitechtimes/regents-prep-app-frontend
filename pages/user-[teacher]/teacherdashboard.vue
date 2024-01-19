@@ -40,7 +40,7 @@ definePageMeta({
   </div>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   name: "teacherDashboard",
   components: {
@@ -100,6 +100,5 @@ h1 {
 }
 
 @media all and (max-width: 100rem) {
-  
 }
 </style>
