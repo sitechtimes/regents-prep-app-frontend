@@ -5,7 +5,7 @@ import { TeacherClass } from "#components";
 const userStore = userState();
 
 onMounted(() => {
-  console.log(userStore.user.username);
+  console.log(userStore.username);
 });
 definePageMeta({
   layout: "dashboard",
