@@ -57,19 +57,19 @@ async function getUser() {
 
   const userStore = userState(); //Pinia State is declared
 
-  /*   userStore.$patch((state) => {
-    state.loggedIn = true;
-    state.user.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now.
-  });
+  /*
+    userStore.loggedIn = true;
+    userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now.
  */
   if (userStore.username == "student") {
-    // If the user is a student, they are redirected to the studentdashboard. $patch() is a method that allows multiple changes to be applied to the states at the same time.
+    // If the user is a student, they are redirected to the studentdashboard.
     userStore.student = true;
     router.push({
       path: `/user-${userStore.username}/studentdashboard`,
     });
+    userStore.loggedIn = true;
     //The 'student' and 'loggedIn' attributes of the state are set to true, and the user is redirected to the studentdashboard.
-    // router.push({ path: `/user-${userStore.user.name}/studentdashboard` });
+    // router.push({ path: `/user-${userStore.username}/studentdashboard` });
   } else if (userStore.username == "teacher") {
     //If the user is a teacher
     userStore.student = false;

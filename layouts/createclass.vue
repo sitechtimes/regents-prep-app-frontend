@@ -29,9 +29,16 @@ async function pushUserBack() {
             class="w-[500px] h-[83px] bg-[#F2F0CC] rounded-2xl shadow-[inset_0_4px_7px_rgba(0,0,0,0.3)] drop-shadow-md"
           >
             <h2
-              class="w-[500px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
+              class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
+              v-if="(userStore.fullname = '')"
             >
               {{ userStore.fullname }}
+            </h2>
+            <h2
+              class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
+              v-else
+            >
+              Logged in
             </h2>
           </div>
         </div>
