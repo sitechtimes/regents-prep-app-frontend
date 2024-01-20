@@ -1,11 +1,24 @@
-<script setup>
+<script setup lang="ts">
 import { userState } from "~/stores/users";
 
 const userStore = userState();
+const router = useRouter();
 
 onMounted(() => {
   console.log(userStore.email);
 });
+
+//this function pushes user to create class page if they are a teacher and if they are a student, then they get a pop-up
+async function pushUser() {
+  if (userStore.user.username == "teacher") {
+    const userStore = userState();
+    userStore.$patch((state) => {
+      router.push({ path: `/user-${state.user.username}/createclass` });
+    });
+  } else if (userStore.user.username == "student") {
+    console.log("hi");
+  }
+}
 </script>
 
 <template>
@@ -38,8 +51,11 @@ onMounted(() => {
             id="dashboard"
             class="w-[277px] h-[73px] mt-[17px]"
           >
+          <div id="dashboard" class="w-[277px] h-[73px] mt-[17px] mr-[80px]">
             <div
-              class="w-[277px] h-[73px] bg-[#426B1F] rounded-[20px] relative"
+
+              class="w-[277px] h-[73px] bg-navbar rounded-[20px] relative drop-shadow-lg"
+
             >
               <h1
                 class="w-[277px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
@@ -50,9 +66,12 @@ onMounted(() => {
           </div>
         </div>
         <button
-          class="w-[168] pr-[2%] flex items-center justify-center hover:scale-105 hover:drop-shadow-xl duration-300"
+          id=""
+          class="w-[168] pr-[2%] flex items-center justify-center hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
+
         >
           <div
+            @click.prevent="pushUser"
             id="create-btn"
             class="w-[73px] h-[73px] bg-[#426B1F] rounded-full shadow-inner items-center justify-center mt-[17px]"
           >
@@ -81,7 +100,7 @@ onMounted(() => {
           class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]"
         >
           <button
-            class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] hover:shadow-transparent shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300"
+            class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2
               class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium"

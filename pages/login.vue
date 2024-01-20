@@ -156,6 +156,7 @@ h3 {
 }
 @media all and (max-width: 100rem) {
   .login {
+
     width: 650px;
     height: 550px;
   }
