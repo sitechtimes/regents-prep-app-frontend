@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import CurrentAssignments from "../../components/CurrentAssignments.vue";
-import PastAssignments from "../../components/PastAssignments.vue";
+import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
+import PastAssignments from "../../components/StudentComponents/PastAssignments.vue";
 import { currentA, pastA } from "../../../tempArray.js";
 
 let toggle = ref("Current");
@@ -67,11 +67,57 @@ const pastArr: any[] = [];
       >
         View Statistics
       </button>
-
-      <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a" />
-      <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" />
     </div>
+
+    <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a" />
+    <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.switch {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+  aspect-ratio: 1.75;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 100%;
+  aspect-ratio: 1;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+input:checked + .slider {
+  background-color: #426b1f;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #426b1f;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(28px);
+  -ms-transform: translateX(28px);
+  transform: translateX(28px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
