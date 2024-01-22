@@ -5,9 +5,7 @@ const userStore = userState();
 const router = useRouter();
 
 onMounted(() => {
-
   console.log(userStore.email);
-
 });
 
 //this function pushes user back to the teacher dashboard
@@ -15,7 +13,6 @@ async function pushUserBack() {
   const userStore = userState();
   router.push({
     path: `/user-${userStore.username}/teacherdashboard`,
-
   });
 }
 </script>
@@ -24,12 +21,9 @@ async function pushUserBack() {
   <div>
     <nav class="h-[109px] bg-[#EAE9CA] shadow">
       <div class="flex flex-row">
-        <div
-          id="username"
-          class="w-[500px] h-[70px] mt-[12px] pl-[1%]"
-        >
+        <div id="username" class="w-[500px] h-[70px] mt-[12px] pl-[1%]">
           <div
-            class="w-[500px] h-[83px] bg-[#F2F0CC] rounded-2xl shadow-[inset_0_4px_7px_rgba(0,0,0,0.3)] drop-shadow-md"
+            class="w-[500px] h-[83px] bg-[#F2F0CC] rounded-2xl shadow-black shadow-innertop drop-shadow-md"
           >
             <h2
               class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
@@ -46,13 +40,8 @@ async function pushUserBack() {
           </div>
         </div>
         <div class="m-auto">
-          <div
-            id="dashboard"
-            class="w-[277px] h-[73px] mt-[17px]"
-          >
-            <div
-              class="w-[300px] h-[73px] bg-[#426B1F] rounded-2xl shadow shadow-inner shadow-[inset_0_5px_7px_rgba(0,0,0,0.3)] relative drop-shadow-lg"
-            >
+          <div id="dashboard" class="w-[277px] h-[73px] mt-[17px]">
+            <div class="w-[300px] h-[73px] bg-[#426B1F] rounded-2xl relative">
               <h1
                 class="w-[300px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
@@ -61,9 +50,7 @@ async function pushUserBack() {
             </div>
           </div>
         </div>
-        <div
-          class="w-[168] pr-[2%] flex items-center justify-center"
-        >
+        <div class="w-[168] pr-[2%] flex items-center justify-center">
           <div
             id="create-btn"
             class="w-[73px] h-[73px] bg-[#426B1F] rounded-full shadow-inner items-center justify-center mt-[17px]"
@@ -97,7 +84,7 @@ async function pushUserBack() {
         </button>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            class="w-[168px] h-[68px] bg-[#426B1F] rounded-2xl shadow-inner shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
+            class="w-[168px] h-[68px] bg-[#426B1F] rounded-2xl shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2
               class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium absolute bottom-[2px]"
