@@ -5,7 +5,7 @@ import { TeacherClass } from "#components";
 const userStore = userState();
 
 onMounted(() => {
-  console.log(userStore.user.username);
+  console.log(userStore.username);
 });
 
 definePageMeta({
@@ -40,7 +40,7 @@ definePageMeta({
   </div>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   name: "teacherDashboard",
   components: {
@@ -100,6 +100,5 @@ h1 {
 }
 
 @media all and (max-width: 100rem) {
-  
 }
 </style>
