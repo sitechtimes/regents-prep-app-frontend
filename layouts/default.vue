@@ -40,7 +40,7 @@ async function pushUserBack() {
         <div class="m-auto">
           <div id="dashboard" class="w-[350px] h-[73px] mt-[17px] mr-[190px]">
             <div
-              class="w-[350px] h-[73px] bg-[#426B1F] rounded-[20px] drop-shadow-lg"
+              class="w-[350px] h-[73px] bg-secondary rounded-[20px] drop-shadow-lg"
             >
               <h1
                 class="w-[350px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
@@ -56,7 +56,7 @@ async function pushUserBack() {
           class="w-[74px] h-[74px] flex items-center justify-center mt-[17px] hover:scale-105 hover:drop-shadow-xl duration-300"
         >
           <div
-            class="w-[74px] h-[74px] bg-[#426B1F] rounded-2xl shadow-inner items-center justify-center"
+            class="w-[74px] h-[74px] bg-secondary rounded-2xl shadow-inner items-center justify-center"
           >
             <div
               class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[15.73px] mt-[15.73px]"
@@ -74,7 +74,7 @@ async function pushUserBack() {
         </button>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] place-items-center hover:scale-105 shadow-black shadow-innertop hover:drop-shadow-xl duration-300"
+            class="w-[168px] h-[68px] bg-secondary rounded-[20px] place-items-center hover:scale-105 shadow-black shadow-innertop hover:drop-shadow-xl duration-300"
           >
             <h2
               class="w-[168px] h-[68px] text-center self-center text-white text-[45px] font-medium"

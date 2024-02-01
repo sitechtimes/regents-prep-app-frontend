@@ -88,7 +88,7 @@ definePageMeta({
   <form @submit.prevent="getUser">
     <div class="h-screen flex items-center justify-center">
       <div
-        class="login w-[779px] h-[690px] flex flex-col items-center justify-center bg-lime-800 rounded-[40px] border-2 border-black m-auto"
+        class="login w-[779px] h-[690px] flex flex-col items-center justify-center bg-secondary rounded-[40px] border-2 border-black m-auto"
       >
         <h1
           class="w-[293px] h-[90px] text-center text-[#FDFDF0] text-[90px] font-medium"

@@ -41,7 +41,7 @@ async function pushUserBack() {
         </div>
         <div class="m-auto">
           <div id="dashboard" class="w-[277px] h-[73px] mt-[17px]">
-            <div class="w-[300px] h-[73px] bg-[#426B1F] rounded-2xl relative">
+            <div class="w-[300px] h-[73px] bg-secondary rounded-2xl relative">
               <h1
                 class="w-[300px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
@@ -53,7 +53,7 @@ async function pushUserBack() {
         <div class="w-[168] pr-[2%] flex items-center justify-center">
           <div
             id="create-btn"
-            class="w-[73px] h-[73px] bg-[#426B1F] rounded-full shadow-inner items-center justify-center mt-[17px]"
+            class="w-[73px] h-[73px] bg-secondary rounded-full shadow-inner items-center justify-center mt-[17px]"
           >
             <div
               class="w-[41px] h-[41px] bg-white rounded-full shadow-inner items-center justify-center m-auto mt-[16px]"
@@ -66,7 +66,7 @@ async function pushUserBack() {
           class="w-[74px] h-[74px] flex items-center justify-center mt-[17px] hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
         >
           <div
-            class="w-[74px] h-[74px] bg-[#426B1F] rounded-2xl shadow-inner items-center justify-center"
+            class="w-[74px] h-[74px] bg-secondary rounded-2xl shadow-inner items-center justify-center"
           >
             <div
               class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[15.73px] mt-[15.73px]"
@@ -84,7 +84,7 @@ async function pushUserBack() {
         </button>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            class="w-[168px] h-[68px] bg-[#426B1F] rounded-2xl shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
+            class="w-[168px] h-[68px] bg-secondary rounded-2xl shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2
               class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium absolute bottom-[2px]"
