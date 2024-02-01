@@ -10,17 +10,12 @@ let PastStatus = ref(false);
 function toggleAssignments() {
   if (CurrentStatus.value === true) {
     CurrentStatus.value = false;
-    toggle.value = "Past";
-  } else if (CurrentStatus.value === false) {
-    CurrentStatus.value = true;
-    toggle.value = "Current";
-  }
-  if (PastStatus.value === true) {
-    PastStatus.value = false;
-    toggle.value = "Current";
-  } else if (PastStatus.value === false) {
     PastStatus.value = true;
     toggle.value = "Past";
+  } else {
+    CurrentStatus.value = true;
+    PastStatus.value = false;
+    toggle.value = "Current";
   }
 }
 const currentArr: any[] = [];
@@ -47,9 +42,16 @@ const pastArr: any[] = [];
       class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium"
     >
       <div class="pr-5 flex items-center bg-yellow-50 rounded-[27px]">
-        <label class="switch">
-          <input @click="toggleAssignments" type="checkbox" checked />
-          <span class="slider round"></span>
+        <label class="switch relative inline-block h-full aspect-[1.75]">
+          <input
+            class="opacity-0 w-0 h-0"
+            @click="toggleAssignments"
+            type="checkbox"
+            checked
+          />
+          <span
+            class="slider round absolute before:absolute cursor-pointer inset-0 rounded-[34px] before:rounded-[50%] duration-[0.4s] before:duration-[0.4s] bg-[#ccc] before:bg-white before:content[''] before:h-full before:aspect-square"
+          ></span>
         </label>
 
         <div class="w-[80%] right-[0%] pl-4">{{ toggle }} Assignments</div>
@@ -75,49 +77,10 @@ const pastArr: any[] = [];
 </template>
 
 <style scoped>
-.switch {
-  position: relative;
-  display: inline-block;
-  height: 100%;
-  aspect-ratio: 1.75;
-}
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.slider {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 100%;
-  aspect-ratio: 1;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
 input:checked + .slider {
   background-color: #426b1f;
 }
-input:focus + .slider {
-  box-shadow: 0 0 1px #426b1f;
-}
 input:checked + .slider:before {
-  -webkit-transform: translateX(28px);
-  -ms-transform: translateX(28px);
-  transform: translateX(28px);
-}
-.slider.round {
-  border-radius: 34px;
-}
-.slider.round:before {
-  border-radius: 50%;
+  transform: translateX(30px);
 }
 </style>
