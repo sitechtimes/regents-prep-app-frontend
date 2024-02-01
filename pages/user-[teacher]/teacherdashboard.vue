@@ -1,6 +1,5 @@
-<script setup>
+<script setup lang="ts">
 import { userState } from "~/stores/users";
-import { TeacherClass } from "#components";
 
 const userStore = userState();
 
@@ -11,6 +10,25 @@ onMounted(() => {
 definePageMeta({
   layout: "dashboard",
 });
+
+const test = [
+  {
+    name: "Regents Physics - P1",
+    code: "mo31b",
+  },
+  {
+    name: "Regents Chemistry - P2",
+    code: "98bh8",
+  },
+  {
+    name: "Regents Algebra - P3",
+    code: "wn43u",
+  },
+  {
+    name: "Regents Algebra - P4",
+    code: "wn43u",
+  },
+];
 </script>
 
 <template>
@@ -28,9 +46,9 @@ definePageMeta({
       <div
         class="scroll w-[787px] h-[548px] bg-[#EAE9CA] rounded-[24px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-y-auto"
       >
-        <TeacherClass
+        <teacherClass
           class="z-10"
-          v-for="teacherclass in teacherclasses"
+          v-for="teacherclass in test"
           :key="teacherclass.name"
           :name="teacherclass.name"
           :code="teacherclass.code"
@@ -40,7 +58,7 @@ definePageMeta({
   </div>
 </template>
 
-<script>
+<!-- <script>
 export default {
   name: "teacherDashboard",
   components: {
@@ -48,28 +66,11 @@ export default {
   },
   data() {
     return {
-      teacherclasses: [
-        {
-          name: "Regents Physics - P1",
-          code: "mo31b",
-        },
-        {
-          name: "Regents Chemistry - P2",
-          code: "98bh8",
-        },
-        {
-          name: "Regents Algebra - P3",
-          code: "wn43u",
-        },
-        {
-          name: "Regents Algebra - P4",
-          code: "wn43u",
-        },
-      ],
+      teacherclasses: [],
     };
   },
 };
-</script>
+</script> -->
 
 <style scoped>
 h1 {
