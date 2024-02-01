@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
+import { teacherClasses } from "~/constants/teacherClasses";
 
 const userStore = userState();
 
@@ -10,25 +11,6 @@ onMounted(() => {
 definePageMeta({
   layout: "dashboard",
 });
-
-const test = [
-  {
-    name: "Regents Physics - P1",
-    code: "mo31b",
-  },
-  {
-    name: "Regents Chemistry - P2",
-    code: "98bh8",
-  },
-  {
-    name: "Regents Algebra - P3",
-    code: "wn43u",
-  },
-  {
-    name: "Regents Algebra - P4",
-    code: "wn43u",
-  },
-];
 </script>
 
 <template>
@@ -48,7 +30,7 @@ const test = [
       >
         <teacherClass
           class="z-10"
-          v-for="teacherclass in test"
+          v-for="teacherclass in teacherClasses"
           :key="teacherclass.name"
           :name="teacherclass.name"
           :code="teacherclass.code"
