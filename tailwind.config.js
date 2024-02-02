@@ -20,7 +20,11 @@ module.exports = {
     },
     extend: {
       colors: {
-        'background': '#f1f0d6',
+        'bg': {
+          'light': '#FAF9E5',
+          'reg': '#f1f0d6',
+          'dark': '#F2F0CC'
+        },
         'primary': '#AAB840',
         'secondary': '#426B1F',
       },

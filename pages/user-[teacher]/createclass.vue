@@ -26,14 +26,14 @@ definePageMeta({
     class="h-[800px] flex items-center justify-center m-auto flex-col"
   >
     <div
-      class="w-[795px] h-[661px] flex flex-col bg-[#F2F0CC] rounded-2xl text-center m-auto border-solid border-2 border-[#AAB840]"
+      class="w-[795px] h-[661px] flex flex-col bg-background-dark rounded-2xl text-center m-auto border-solid border-2 border-primary"
     >
       <div
-        class="bg-[#AAB840] bg-opacity-[60%] w-[795px] h-[115px] rounded-t-2xl items-center justify-center ml-[-2px]"
+        class="bg-primary bg-opacity-[60%] w-[795px] h-[115px] rounded-t-2xl items-center justify-center ml-[-2px]"
       >
         <h1
           id="header"
-          class="m-auto w-[795px] h-[115px] text-center text-[#FDFDF0] font-medium text-[90px] mt-[-10px]"
+          class="m-auto w-[795px] h-[115px] text-center text-[#FAF9E5] font-medium text-[90px] mt-[-10px]"
         >
           Create New Class
         </h1>
@@ -91,7 +91,7 @@ definePageMeta({
           </select>
         </div> -->
         <button
-          class="w-[217.55px] h-[73.26px] text-center text-stone-50 text-[40px] font-medium bg-[#AAB840] rounded-[20px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent mt-[55px]"
+          class="w-[217.55px] h-[73.26px] text-center text-stone-50 text-[40px] font-medium bg-primary rounded-[20px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent mt-[55px]"
         >
           Create
         </button>

@@ -86,7 +86,7 @@ async function pushUser() {
             class="w-[168px] h-[68px] bg-secondary rounded-[24px] shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2
-              class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium"
+              class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium absolute bottom-[2px]"
             >
               Logout
             </h2>
