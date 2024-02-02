@@ -2,12 +2,15 @@
 import { userState } from "~/stores/users";
 
 const userStore = userState();
+definePageMeta({
+  layout: false,
+});
 </script>
 
 <template>
   <div class="h-screen flex flex-col items-center justify-center gap-[57px]">
     <h1
-      class="w-[1800px] h-[167px] text-center text-black text-[150px] font-medium drop-shadow-xl"
+      class=" h-[167px] text-center text-black text-[150px] font-medium drop-shadow-xl"
     >
       Regents Prep App
     </h1>
@@ -17,7 +20,7 @@ const userStore = userState();
         class="loginLink w-[294px] h-[50px] text-center text-white text-[37px] font-medium tracking-wide"
         ><button
           id="loginRedirect"
-          class="button bg-[#426B1F] w-[265px] h-24 pt-[19.72px] rounded-[20px] shadow-inner flex-col items-center gap-[447.72px] inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300"
+          class="button bg-[#426B1F] w-[265px] h-24 pt-[19.72px] rounded-[24px] shadow-innertop shadow-black flex-col items-center gap-[447.72px] inline-flex hover:scale-105 hover:drop-shadow-2xl hover:shadow-transparent duration-300"
         >
           Login
         </button></NuxtLink
