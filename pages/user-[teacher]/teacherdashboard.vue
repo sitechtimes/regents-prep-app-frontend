@@ -40,20 +40,6 @@ definePageMeta({
   </div>
 </template>
 
-<!-- <script>
-export default {
-  name: "teacherDashboard",
-  components: {
-    TeacherClass,
-  },
-  data() {
-    return {
-      teacherclasses: [],
-    };
-  },
-};
-</script> -->
-
 <style scoped>
 h1 {
   -webkit-text-stroke: 2px black;
@@ -61,25 +47,7 @@ h1 {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
-  margin-right: 100px;
   display: none;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f2f1cd;
-  border: solid black 2px;
-  border-radius: 5px;
-}
-.scroll::-webkit-scrollbar {
-  position: absolute;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #000;
-  border-radius: 5px;
 }
 
 @media all and (max-width: 100rem) {
