@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { userState } from "~/stores/users";
-import { TeacherClass } from "#components";
+import { teacherClasses } from "~/constants/teacherClasses";
 
 const userStore = userState();
 
 onMounted(() => {
-  console.log(userStore.user.username);
+  console.log(userStore.username);
 });
 
 definePageMeta({
@@ -28,9 +28,9 @@ definePageMeta({
       <div
         class="scroll w-[787px] h-[548px] bg-[#EAE9CA] rounded-[24px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-y-auto"
       >
-        <TeacherClass
+        <teacherClass
           class="z-10"
-          v-for="teacherclass in teacherclasses"
+          v-for="teacherclass in teacherClasses"
           :key="teacherclass.name"
           :name="teacherclass.name"
           :code="teacherclass.code"
@@ -40,37 +40,6 @@ definePageMeta({
   </div>
 </template>
 
-<script>
-export default {
-  name: "teacherDashboard",
-  components: {
-    TeacherClass,
-  },
-  data() {
-    return {
-      teacherclasses: [
-        {
-          name: "Regents Physics - P1",
-          code: "mo31b",
-        },
-        {
-          name: "Regents Chemistry - P2",
-          code: "98bh8",
-        },
-        {
-          name: "Regents Algebra - P3",
-          code: "wn43u",
-        },
-        {
-          name: "Regents Algebra - P4",
-          code: "wn43u",
-        },
-      ],
-    };
-  },
-};
-</script>
-
 <style scoped>
 h1 {
   -webkit-text-stroke: 2px black;
@@ -78,25 +47,7 @@ h1 {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
-  margin-right: 100px;
   display: none;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f2f1cd;
-  border: solid black 2px;
-  border-radius: 5px;
-}
-.scroll::-webkit-scrollbar {
-  position: absolute;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #000;
-  border-radius: 5px;
 }
 
 @media all and (max-width: 100rem) {
