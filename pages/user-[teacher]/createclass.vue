@@ -26,10 +26,10 @@ definePageMeta({
     class="h-[800px] flex items-center justify-center m-auto flex-col"
   >
     <div
-      class="w-[795px] h-[661px] flex flex-col bg-bg-dark rounded-2xl text-center m-auto border-solid border-2 border-primary"
+      class="w-[795px] h-[661px] flex flex-col bg-bg-dark rounded-[24px] text-center m-auto border-solid border-2 border-primary"
     >
       <div
-        class="bg-primary bg-opacity-[60%] w-[795px] h-[115px] rounded-t-2xl items-center justify-center ml-[-2px]"
+        class="bg-primary bg-opacity-[60%] w-[795px] h-[115px] rounded-t-[24px] items-center justify-center ml-[-2px]"
       >
         <h1
           id="header"
