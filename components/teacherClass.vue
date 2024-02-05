@@ -4,25 +4,22 @@
       class="w-[785px] h-[95px] bg-[#AAB840] rounded-[21px] shadow-[inset_0_4px_3px_rgba(0,0,0,0.3)] relative border-[2px] border-l-0 border-r-0 border-black flex flex-row m-auto ml-[-2px] mt-[-2px] mb-0 z-10"
     >
       <h2 class="h-[93px] text-white text-[35px] font-medium pt-[17px] pl-[3%]">
-        {{ name }}
+        {{ props.name }}
       </h2>
       <h3
         class="h-[93px] text-right text-white text-[30px] pt-[22px] font-medium pr-[3%] absolute right-1"
       >
-        Access Code: {{ code }}
+        Access Code: {{ props.code }}
       </h3>
     </button>
   </div>
 </template>
 
-<script>
-export default {
-  name: "TeacherClass",
-  props: {
-    name: String,
-    code: String,
-  },
-};
+<script setup lang="ts">
+const props = defineProps<{
+  name: String;
+  code: String;
+}>();
 </script>
 
 <style scoped></style>
