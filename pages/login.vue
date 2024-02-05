@@ -119,7 +119,7 @@ definePageMeta({
           name="password"
           id="passwordInput"
           v-model="password"
-          class="relative mt-2 shadow-sm border-opacity-4 w-[703px] h-[65px] bg-bg-light border-[2px] text-3xl px-2"
+          class="relative mt-2 shadow-sm border-opacity-4 w-[703px] h-[65px] bg-bg-light text-3xl px-2"
         />
         <label
           class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px] mt-[27px]"
