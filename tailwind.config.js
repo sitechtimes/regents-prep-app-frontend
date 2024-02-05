@@ -23,10 +23,12 @@ module.exports = {
         'bg': {
           'light': '#FAF9E5',
           'reg': '#f1f0d6',
-          'dark': '#F2F0CC'
+          'dark': '#F2F0CC',
+          'navbar': '#EAE9CA',
         },
         'primary': '#AAB840',
         'secondary': '#426B1F',
+        'tertiary': '#4E684A'
       },
     },
 

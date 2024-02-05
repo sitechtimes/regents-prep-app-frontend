@@ -26,7 +26,7 @@ definePageMeta({
         Classes
       </h1>
       <div
-        class="scroll w-[787px] h-[548px] bg-[#EAE9CA] rounded-[24px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-y-auto"
+        class="scroll w-[787px] h-[548px] bg-bg-navbar rounded-[24px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-y-auto"
       >
         <TeacherClass
           class="z-10"
@@ -72,31 +72,8 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  -webkit-text-stroke: 2px black;
-}
-
-/* width */
 ::-webkit-scrollbar {
-  width: 10px;
-  margin-right: 100px;
   display: none;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f2f1cd;
-  border: solid black 2px;
-  border-radius: 5px;
-}
-.scroll::-webkit-scrollbar {
-  position: absolute;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #000;
-  border-radius: 5px;
 }
 
 @media all and (max-width: 100rem) {
