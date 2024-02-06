@@ -31,9 +31,14 @@ const userStore = userState();
           <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
           |
           <!--Number of Attempts-->
-          Attempts Left>
+          Attempts Left
         </h2>
       </div>
+    </div>
+    <div>
+      <h2>
+        {{ route.params.assignment }}
+      </h2>
     </div>
   </div>
 </template>

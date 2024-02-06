@@ -1,6 +1,7 @@
 import {
   ClassPreviewInformation,
   ClassPreviewAssignments,
+  Assignment,
 } from "~/interfaces/interfaces";
 
 // import { colorThemes } from "~/constants/themes";
@@ -13,9 +14,9 @@ export const classInfo = {
       teacher: "Mr. Colangelo",
       classCode: 1,
     } as ClassPreviewInformation,
-    assignment: {
-      today: ["Kinematics (5)"],
-      otherDay: ["Energy (10)", "Circuits (4)"],
+    assignments: {
+      today: [{name: "Kinematics", qLeft: 5} as Assignment],
+      otherDay: [{name: "Energy", qLeft: 10} as Assignment, {name: "Circuits", qLeft: 4} as Assignment],
     } as ClassPreviewAssignments,
   },
   chemistry: {
@@ -25,9 +26,10 @@ export const classInfo = {
       teacher: "Mr. Weitzman",
       classCode: 2,
     } as ClassPreviewInformation,
-    assignment: {
-      today: ["Atomic Weights (5)", " Stochiometry (2)"],
-      otherDay: ["Sig Figs (10)", "Temperature (1)"],
+    assignments: {
+      today: [{name: "Atomic Weights", qLeft: 5} as Assignment, {name: "Stochiometry", qLeft: 2} as Assignment],
+
+      otherDay: [{name: "Sig Figs", qLeft: 10} as Assignment, {name: "Temperature", qLeft: 1} as Assignment],
     } as ClassPreviewAssignments,
   },
   chemistry1: {
@@ -37,9 +39,10 @@ export const classInfo = {
       teacher: "Mr. Weitzman",
       classCode: 2,
     } as ClassPreviewInformation,
-    assignment: {
-      today: ["Atomic Weights (5)", " Stochiometry (2)"],
-      otherDay: ["Sig Figs (10)", "Temperature (1)"],
+    assignments: {
+      today: [{name: "Atomic Weights", qLeft: 5} as Assignment, {name: "Stochiometry", qLeft: 2} as Assignment],
+
+      otherDay: [{name: "Sig Figs", qLeft: 10} as Assignment, {name: "Temperature", qLeft: 1} as Assignment],
     } as ClassPreviewAssignments,
   },
   chemistry2: {
@@ -49,9 +52,9 @@ export const classInfo = {
       teacher: "Mr. Weitzman",
       classCode: 2,
     } as ClassPreviewInformation,
-    assignment: {
-      today: ["Atomic Weights (5)", " Stochiometry (2)"],
-      otherDay: ["Sig Figs (10)", "Temperature (1)"],
+    assignments: {
+      today: [{name: "Atomic Weights", qLeft: 5} as Assignment, {name: "Stochiometry", qLeft: 2} as Assignment],
+      otherDay: [{name: "Sig Figs", qLeft: 10} as Assignment, {name: "Temperature", qLeft: 1} as Assignment],
     } as ClassPreviewAssignments,
   },
   chemistry3: {
@@ -61,9 +64,9 @@ export const classInfo = {
       teacher: "Mr. Weitzman",
       classCode: 2,
     } as ClassPreviewInformation,
-    assignment: {
-      today: ["Atomic Weights (5)", " Stochiometry (2)"],
-      otherDay: ["Sig Figs (10)", "Temperature (1)"],
+    assignments: {
+      today: [{name: "Atomic Weights", qLeft: 5} as Assignment, {name: "Stochiometry", qLeft: 2} as Assignment],
+      otherDay: [{name: "Sig Figs", qLeft: 10} as Assignment, {name: "Temperature", qLeft: 1} as Assignment],
     } as ClassPreviewAssignments,
   },
 };

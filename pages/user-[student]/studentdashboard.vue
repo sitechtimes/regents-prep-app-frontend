@@ -24,7 +24,7 @@ definePageMeta({
       class=""
       v-for="item in classInfo"
       :information="item.information"
-      :assignment="item.assignment"
+      :assignment="item.assignments"
     />
   </div>
 
