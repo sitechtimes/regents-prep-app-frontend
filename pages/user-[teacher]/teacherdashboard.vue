@@ -18,7 +18,7 @@ definePageMeta({
     class="w-[840px] h-[800px] flex flex-col items-center justify-center m-auto"
   >
     <div
-      class="w-[840px] h-[720px] bg-[#426B1F] rounded-[24px] border-2 border-black z-20"
+      class="w-[840px] h-[720px] bg-secondary rounded-[24px] border-2 border-black z-20"
     >
       <h1
         class="w-[291px] h-[90px] text-center text-white text-[85px] font-medium m-auto mb-[40px]"
@@ -26,7 +26,7 @@ definePageMeta({
         Classes
       </h1>
       <div
-        class="scroll w-[787px] h-[548px] bg-[#EAE9CA] rounded-[24px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-y-auto"
+        class="scroll w-[787px] h-[548px] bg-bg-navbar rounded-[24px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-y-auto"
       >
         <teacherClass
           class="z-10"
@@ -41,11 +41,6 @@ definePageMeta({
 </template>
 
 <style scoped>
-h1 {
-  -webkit-text-stroke: 2px black;
-}
-
-/* width */
 ::-webkit-scrollbar {
   display: none;
 }

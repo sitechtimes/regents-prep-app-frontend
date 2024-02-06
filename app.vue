@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-[#f1f0d6] min-h-screen h-full w-screen p-5">
+  <div class="bg-bg-reg h-screen w-screen">
+
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

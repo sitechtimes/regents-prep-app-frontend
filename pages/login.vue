@@ -88,16 +88,16 @@ definePageMeta({
   <form @submit.prevent="getUser">
     <div class="h-screen flex items-center justify-center">
       <div
-        class="login w-[779px] h-[690px] flex flex-col items-center justify-center bg-lime-800 rounded-[40px] border-2 border-black m-auto"
+        class="login w-[779px] h-[690px] flex flex-col items-center justify-center bg-secondary rounded-[24px] border-2 border-black m-auto"
       >
         <h1
-          class="w-[293px] h-[90px] text-center text-[#FDFDF0] text-[90px] font-medium"
+          class="w-[293px] h-[90px] text-center text-bg-light text-[90px] font-medium"
         >
           Login
         </h1>
         <label
           for="usernameInput"
-          class="email w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[50px] drop-shadow-md pr-[700px]"
+          class="email w-[222px] h-[151px] text-bg-dark text-[50px] font-semibold pt-[50px] drop-shadow-md pr-[700px]"
         >
           Email:
         </label>
@@ -105,12 +105,12 @@ definePageMeta({
           type="text"
           name="username"
           id="usernameInput"
-          class="relative shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
+          class="relative shadow-sm border-opacity-4 w-[703px] h-[65px] bg-bg-light text-3xl px-2"
           v-model="email"
         />
         <label
           for="password"
-          class="password w-[222px] h-[151px] text-[#F2F0CC] text-[50px] font-semibold pt-[60px] pr-[700px] drop-shadow-md"
+          class="password w-[222px] h-[151px] text-bg-dark text-[50px] font-semibold pt-[60px] pr-[700px] drop-shadow-md"
         >
           Password:
         </label>
@@ -119,28 +119,17 @@ definePageMeta({
           name="password"
           id="passwordInput"
           v-model="password"
-          class="relative mt-2 shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
+          class="relative mt-2 shadow-sm border-opacity-4 w-[703px] h-[65px] bg-bg-light text-3xl px-2"
         />
         <label
           class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px] mt-[27px]"
           ><button
             id="loginRedirect"
-            class="button bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-innertop shadow-black items-center justify-center inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
+            class="button bg-primary w-[202px] h-[81px] rounded-[24px] shadow-innertop shadow-black items-center justify-center inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
           >
             Login
           </button></label
         >
-
-        <!--       <NuxtLink
-        to="/teacher/teacherdashboard"
-        class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px]"
-        ><button
-          @click.prevent="getUser"
-          class="bg-[#AAB840] w-[202px] h-[81px] rounded-[20px] shadow-inner items-center justify-center inline-flex mt-[27px] hover:scale-105 hover:drop-shadow-2xl duration-300"
-        >
-          Login
-        </button>
-      </NuxtLink> -->
       </div>
     </div>
   </form>
