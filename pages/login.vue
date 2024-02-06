@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
+import { userArr } from "../tempUser";
 
 const email = ref("");
 const password = ref("");
@@ -36,32 +37,28 @@ async function getUser() {
   //refresh token
   //username and password, refetch the information.
 
-  function seperateName() {
+  (function () {
     //function to extract the 'username' from a given email.
     const userStore = userState();
     const fullUser = Array.from(`${email.value}`); //  The email input by the user is turned into an array
     if (fullUser.includes("@")) {
       // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
       userStore.email = email.value;
-      userStore.username = fullUser
-        .slice(0, fullUser.indexOf("@"))
-        .join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+      userStore.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
       console.log(userStore.username);
     } else {
       userStore.username = email.value; //If the email has no '@' symbol, then it is simply registered as the username.
       console.log(userStore.username);
     }
-  }
-
-  seperateName();
+  })();
 
   const userStore = userState(); //Pinia State is declared
 
-  /*
-    userStore.loggedIn = true;
-    userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now.
- */
-  if (userStore.username == "student") {
+  /* userStore.loggedIn = true;
+    userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now. */
+
+  // dev methods
+  if (userStore.username == "studenttest") {
     // If the user is a student, they are redirected to the studentdashboard.
     userStore.student = true;
     router.push({
@@ -78,6 +75,32 @@ async function getUser() {
     });
     //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
   }
+
+  const userData = userArr.filter((u) => u.username === userStore.username);
+  console.log(userArr);
+  console.log(userData);
+
+  /* if (u.email === email.value) {
+    if (password.value === u.password) {
+      if (userStore.usertype === "student") {
+        userStore.usertype = "student";
+        router.push({
+          path: `/user-${userStore.username}/studentdashboard`,
+        });
+      } else if (userStore.usertype === "teacher") {
+        userStore.usertype = "teacher";
+        router.push({
+          path: `/user-${userStore.username}/teacherdashboard`,
+        });
+      }
+    } else {
+      console.log("incorrect username and password");
+    }
+  } else {
+    console.log("incorrect username and password");
+  } */
+
+  // actual app
 }
 definePageMeta({
   layout: false,
@@ -156,7 +179,6 @@ h3 {
 }
 @media all and (max-width: 100rem) {
   .login {
-
     width: 650px;
     height: 550px;
   }
