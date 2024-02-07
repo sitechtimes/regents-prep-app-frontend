@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useQuestions = defineStore("Questions", () => {
+export const useQuestions = defineStore("questions", () => {
     const question = ref("");
     const answers = ref([]);
     async function fill() {

@@ -77,7 +77,7 @@ const otherAssignment = ref(props.assignment.otherDay);
             })
           "
           class="w-fit hover:cursor-pointer hover:underline"
-          v-if="todayAssignment.length >= 1"
+          v-if="todayAssignment.length > 1"
         >
           {{ todayAssignment[1].name }} ({{ todayAssignment[1].qLeft }})
         </h3>
@@ -86,7 +86,7 @@ const otherAssignment = ref(props.assignment.otherDay);
           <h2 class="font-semibold" v-if="otherAssignment.length >= 1">
             Due Wednesday:
           </h2>
-          <template v-if="todayAssignment.length >= 2">
+          <template v-if="todayAssignment.length > 1">
             <h3
               v-on:click="
                 router.push({

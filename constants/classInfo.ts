@@ -15,8 +15,8 @@ export const classInfo = {
       classCode: 1,
     } as ClassPreviewInformation,
     assignments: {
-      today: [{name: "Kinematics", qLeft: 5} as Assignment],
-      otherDay: [{name: "Energy", qLeft: 10} as Assignment, {name: "Circuits", qLeft: 4} as Assignment],
+      today: [{name: "Kinematics", qLeft: 5, timeLeft: 183,} as Assignment],
+      otherDay: [{name: "Energy", qLeft: 10, timeLeft: 56} as Assignment, {name: "Circuits", qLeft: 4, timeLeft: 54} as Assignment],
     } as ClassPreviewAssignments,
   },
   chemistry: {
@@ -27,7 +27,7 @@ export const classInfo = {
       classCode: 2,
     } as ClassPreviewInformation,
     assignments: {
-      today: [{name: "Atomic Weights", qLeft: 5} as Assignment, {name: "Stochiometry", qLeft: 2} as Assignment],
+      today: [{name: "Atomic Weights", qLeft: 5} as Assignment, {name: "Stochiometry", qLeft: 2, timeLeft: 528} as Assignment],
 
       otherDay: [{name: "Sig Figs", qLeft: 10} as Assignment, {name: "Temperature", qLeft: 1} as Assignment],
     } as ClassPreviewAssignments,
