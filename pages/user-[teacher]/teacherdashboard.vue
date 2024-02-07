@@ -4,7 +4,14 @@ import { TeacherClass } from "#components";
 
 const userStore = userState();
 
+function userCheck() {
+  if ((userStore.usertype = teacher)) {
+  } else {
+  }
+}
+
 onMounted(() => {
+  userCheck;
   console.log(userStore.username);
 });
 

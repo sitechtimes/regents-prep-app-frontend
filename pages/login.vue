@@ -58,7 +58,7 @@ async function getUser() {
     userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now. */
 
   // dev methods
-  if (userStore.username == "studenttest") {
+  if (userStore.username == "student") {
     // If the user is a student, they are redirected to the studentdashboard.
     userStore.student = true;
     router.push({
@@ -77,30 +77,24 @@ async function getUser() {
   }
 
   const userData = userArr.filter((u) => u.username === userStore.username);
-  console.log(userArr);
-  console.log(userData);
 
-  /* if (u.email === email.value) {
-    if (password.value === u.password) {
-      if (userStore.usertype === "student") {
-        userStore.usertype = "student";
-        router.push({
-          path: `/user-${userStore.username}/studentdashboard`,
-        });
-      } else if (userStore.usertype === "teacher") {
-        userStore.usertype = "teacher";
-        router.push({
-          path: `/user-${userStore.username}/teacherdashboard`,
-        });
-      }
-    } else {
-      console.log("incorrect username and password");
+  if (password.value === userData[0].password) {
+    if (userData[0].usertype === "student") {
+      userStore.loggedIn = true;
+      userStore.usertype = "student";
+      router.push({
+        path: `/user-${userStore.username}/studentdashboard`,
+      });
+    } else if (userData[0].usertype === "teacher") {
+      userStore.loggedIn = true;
+      userStore.usertype = "teacher";
+      router.push({
+        path: `/user-${userStore.username}/teacherdashboard`,
+      });
     }
   } else {
     console.log("incorrect username and password");
-  } */
-
-  // actual app
+  }
 }
 definePageMeta({
   layout: false,
