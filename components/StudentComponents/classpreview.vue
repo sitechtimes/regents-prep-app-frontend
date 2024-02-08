@@ -4,13 +4,16 @@ import {
   ClassPreviewInformation,
   ClassPreviewAssignments,
 } from "~/interfaces/interfaces";
+import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
+const userQuestions = useQuestions();
 const router = useRouter();
 
 onMounted(() => {
   console.log(userStore.username);
+  console.log(userQuestions.qText);
 });
 
 const props = defineProps<{
@@ -62,18 +65,22 @@ const otherAssignment = ref(props.assignment.otherDay);
         <h3
           v-on:click="
             router.push({
-              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0]}`,
-            })
+              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
+            }),
+              userQuestions.$patch((state) => {
+                state.qLeft = todayAssignment[0].qLeft;
+              })
           "
           class="w-fit hover:cursor-pointer hover:underline"
           v-if="todayAssignment.length >= 1"
         >
+          <!-- PROGRESS WAS ENDED HERE -->
           {{ todayAssignment[0].name }} ({{ todayAssignment[0].qLeft }})
         </h3>
         <h3
           v-on:click="
             router.push({
-              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[1]}`,
+              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[1].name}`,
             })
           "
           class="w-fit hover:cursor-pointer hover:underline"
@@ -90,7 +97,7 @@ const otherAssignment = ref(props.assignment.otherDay);
             <h3
               v-on:click="
                 router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0]}`,
+                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0].name}`,
                 })
               "
               class="w-fit hover:cursor-pointer hover:underline"
@@ -103,7 +110,7 @@ const otherAssignment = ref(props.assignment.otherDay);
             <h3
               v-on:click="
                 router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0]}`,
+                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0].name}`,
                 })
               "
               class="w-fit hover:cursor-pointer hover:underline"
@@ -114,7 +121,7 @@ const otherAssignment = ref(props.assignment.otherDay);
             <h3
               v-on:click="
                 router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[1]}`,
+                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[1].name}`,
                 })
               "
               class="w-fit hover:cursor-pointer hover:underline"

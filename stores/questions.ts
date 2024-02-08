@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia'
 
 export const useQuestions = defineStore("questions", () => {
-    const question = ref("");
+  const qText = ref("");
+  const timeLeft = ref(); 
+  const qLeft = ref();
     const answers = ref([]);
+    return {qText, timeLeft, qLeft, answers}
     async function fill() {
       //const {data} = await api.from('api').select()
       //this.question = data.question

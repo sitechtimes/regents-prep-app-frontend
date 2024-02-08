@@ -2,6 +2,7 @@ import {
   ClassPreviewInformation,
   ClassPreviewAssignments,
   Assignment,
+  questionInterface,
 } from "~/interfaces/interfaces";
 
 // import { colorThemes } from "~/constants/themes";
@@ -15,10 +16,11 @@ export const classInfo = {
       classCode: 1,
     } as ClassPreviewInformation,
     assignments: {
-      today: [{name: "Kinematics", qLeft: 5, timeLeft: 183,} as Assignment],
-      otherDay: [{name: "Energy", qLeft: 10, timeLeft: 56} as Assignment, {name: "Circuits", qLeft: 4, timeLeft: 54} as Assignment],
+      today: [{name: "Kinematics", qLeft: 5, timeLeft: 183, question: {qText: "Kinematics question", answers: ["Answer A", "Answer B"]} as questionInterface} as Assignment],
+      otherDay: [{name: "Energy", qLeft: 10, timeLeft: 56, question: {qText: "Energy question", answers: ["Answer A", "Answer B"]} as questionInterface} as Assignment, {name: "Circuits", qLeft: 4, timeLeft: 54, question: {qText: "Test", answers: []} as questionInterface} as Assignment],
     } as ClassPreviewAssignments,
   },
+  /*
   chemistry: {
     // theme: colorThemes.blue,
     information: {
@@ -27,9 +29,9 @@ export const classInfo = {
       classCode: 2,
     } as ClassPreviewInformation,
     assignments: {
-      today: [{name: "Atomic Weights", qLeft: 5} as Assignment, {name: "Stochiometry", qLeft: 2, timeLeft: 528} as Assignment],
+      today: [{name: "Atomic Weights", qLeft: 5, timeLeft: 214} as Assignment, {name: "Stochiometry", qLeft: 2, timeLeft: 528} as Assignment],
 
-      otherDay: [{name: "Sig Figs", qLeft: 10} as Assignment, {name: "Temperature", qLeft: 1} as Assignment],
+      otherDay: [{name: "Sig Figs", qLeft: 10, timeLeft: 183} as Assignment, {name: "Temperature", qLeft: 1, timeLeft: 24} as Assignment],
     } as ClassPreviewAssignments,
   },
   chemistry1: {
@@ -40,9 +42,8 @@ export const classInfo = {
       classCode: 2,
     } as ClassPreviewInformation,
     assignments: {
-      today: [{name: "Atomic Weights", qLeft: 5} as Assignment, {name: "Stochiometry", qLeft: 2} as Assignment],
-
-      otherDay: [{name: "Sig Figs", qLeft: 10} as Assignment, {name: "Temperature", qLeft: 1} as Assignment],
+      today: [{name: "Atomic Weights", qLeft: 5, timeLeft: 214} as Assignment, {name: "Stochiometry", qLeft: 2, timeLeft: 528} as Assignment],
+      otherDay: [{name: "Sig Figs", qLeft: 10, timeLeft: 183} as Assignment, {name: "Temperature", qLeft: 1, timeLeft: 24} as Assignment],
     } as ClassPreviewAssignments,
   },
   chemistry2: {
@@ -53,8 +54,8 @@ export const classInfo = {
       classCode: 2,
     } as ClassPreviewInformation,
     assignments: {
-      today: [{name: "Atomic Weights", qLeft: 5} as Assignment, {name: "Stochiometry", qLeft: 2} as Assignment],
-      otherDay: [{name: "Sig Figs", qLeft: 10} as Assignment, {name: "Temperature", qLeft: 1} as Assignment],
+      today: [{name: "Atomic Weights", qLeft: 5, timeLeft: 214} as Assignment, {name: "Stochiometry", qLeft: 2, timeLeft: 528} as Assignment],
+      otherDay: [{name: "Sig Figs", qLeft: 10, timeLeft: 183} as Assignment, {name: "Temperature", qLeft: 1, timeLeft: 24} as Assignment],
     } as ClassPreviewAssignments,
   },
   chemistry3: {
@@ -65,10 +66,10 @@ export const classInfo = {
       classCode: 2,
     } as ClassPreviewInformation,
     assignments: {
-      today: [{name: "Atomic Weights", qLeft: 5} as Assignment, {name: "Stochiometry", qLeft: 2} as Assignment],
-      otherDay: [{name: "Sig Figs", qLeft: 10} as Assignment, {name: "Temperature", qLeft: 1} as Assignment],
+      today: [{name: "Atomic Weights", qLeft: 5, timeLeft: 214} as Assignment, {name: "Stochiometry", qLeft: 2, timeLeft: 528} as Assignment],
+      otherDay: [{name: "Sig Figs", qLeft: 10, timeLeft: 183} as Assignment, {name: "Temperature", qLeft: 1, timeLeft: 24} as Assignment],
     } as ClassPreviewAssignments,
-  },
+  }, */
 };
 
 //Above are the format in which props will be passed into the class previews. The theme, followed by the information (the title of the class as well as the teacher), the assignments (for the current and a past day), and the class Code. This is only the format, and is a placeholder until the backend will be connected to the frontend.
