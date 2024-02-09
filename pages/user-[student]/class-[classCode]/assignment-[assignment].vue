@@ -1,20 +1,21 @@
 <script setup lang="ts">
+import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 
 const route = useRoute();
 const userStore = userState();
+const userQuestions = useQuestions();
 </script>
 
 <template>
   <div>
-    <h1>
-      Question text
-      <!--{{ question.text }}-->
-    </h1>
+    <h1>{{ userQuestions.qText }}</h1>
     <div>
       <div>
         <!--v-for="answer in question.answers"-->
-        For every answer in the question, the answer is put here.
+        <h2 v-for="answer in userQuestions.answers">
+          {{ answer }}
+        </h2>
       </div>
       <submitButton>Submit</submitButton>
     </div>
@@ -22,7 +23,7 @@ const userStore = userState();
       <h2>
         <!--Questions left in assignment {{ assignment.questions.length }} takes length of total array of questions-->
       </h2>
-      <h2>Questions left</h2>
+      <h2>{{ userQuestions.qLeft }} Questions Left</h2>
 
       <div>
         <h2>

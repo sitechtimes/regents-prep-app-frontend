@@ -69,6 +69,8 @@ const otherAssignment = ref(props.assignment.otherDay);
             }),
               userQuestions.$patch((state) => {
                 state.qLeft = todayAssignment[0].qLeft;
+                state.timeLeft = todayAssignment[0].timeLeft;
+                state.qText = todayAssignment[0].question.qText;
               })
           "
           class="w-fit hover:cursor-pointer hover:underline"
