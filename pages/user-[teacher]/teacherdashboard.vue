@@ -3,14 +3,19 @@ import { userState } from "~/stores/users";
 import { TeacherClass } from "#components";
 
 const userStore = userState();
+const router = useRouter();
 
 function userCheck() {
   if ((userStore.usertype = teacher)) {
   } else {
+    alert("you are not a teacher. returning to student dashboard");
+    router.push({
+      path: `/user-${userStore.username}/studentdashboard`,
+    });
   }
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   userCheck;
   console.log(userStore.username);
 });

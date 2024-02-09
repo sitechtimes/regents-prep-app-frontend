@@ -4,6 +4,7 @@ import { userArr } from "../tempUser";
 
 const email = ref("");
 const password = ref("");
+let incorrectPassword = ref("false");
 
 const userStore = userState();
 const router = useRouter();
@@ -80,8 +81,13 @@ async function getUser() {
 
   if (password.value === userData[0].password) {
     if (userData[0].usertype === "student") {
+      userStore.student = true;
       userStore.loggedIn = true;
       userStore.usertype = "student";
+      userStore.email = userData[0].email;
+      userStore.username = userData[0].username;
+      userStore.fullname = userData[0].fullname;
+
       router.push({
         path: `/user-${userStore.username}/studentdashboard`,
       });
@@ -94,6 +100,7 @@ async function getUser() {
     }
   } else {
     console.log("incorrect username and password");
+    incorrectPassword = true;
   }
 }
 definePageMeta({
@@ -138,6 +145,7 @@ definePageMeta({
           v-model="password"
           class="relative mt-2 shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
         />
+        <p v-if="incorrectPassword">Incorrect Email and Password</p>
         <label
           class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px] mt-[27px]"
           ><button

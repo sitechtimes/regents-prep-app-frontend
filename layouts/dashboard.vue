@@ -29,16 +29,15 @@ async function pushUser() {
           >
             <h2
               class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
-              v-if="(userStore.fullname = '')"
             >
               {{ userStore.fullname }}
             </h2>
-            <h2
+            <!-- <h2
               class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
               v-else
             >
               Logged in
-            </h2>
+            </h2> -->
           </div>
         </div>
         <div class="m-auto">
