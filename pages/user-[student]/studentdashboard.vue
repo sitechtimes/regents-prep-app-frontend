@@ -19,13 +19,15 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center space-x-30">
-    <StudentComponentsClasspreview
-      class=""
-      v-for="item in classInfo"
-      :information="item.information"
-      :assignment="item.assignment"
-    />
+  <div class="h-fit">
+    <div class="flex flex-wrap items-center space-x-30">
+      <StudentComponentsClasspreview
+        class=""
+        v-for="item in classInfo"
+        :information="item.information"
+        :assignment="item.assignment"
+      />
+    </div>
   </div>
 
   <!-- add new class -->
