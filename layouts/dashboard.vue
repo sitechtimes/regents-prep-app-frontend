@@ -6,7 +6,6 @@ const router = useRouter();
 
 onMounted(() => {
   console.log(userStore.email);
-  console.log(userStore.username);
 });
 
 //this function pushes user to create class page if they are a teacher and if they are a student, then they get a pop-up
@@ -44,7 +43,9 @@ async function pushUser() {
         </div>
         <div class="m-auto">
           <div id="dashboard" class="w-[277px] h-[73px] mt-[17px] mr-[80px]">
-            <div class="w-[300px] h-[73px] bg-secondary rounded-[24px] relative">
+            <div
+              class="w-[300px] h-[73px] bg-secondary rounded-[24px] relative"
+            >
               <h1
                 class="w-[300px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
