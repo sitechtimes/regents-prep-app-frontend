@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { userState } from "~/stores/users";
 import { userArr } from "../tempUser";
 
 const email = ref("");
 const password = ref("");
-let incorrectPassword = ref("false");
 
 const userStore = userState();
 const router = useRouter();
@@ -12,6 +12,8 @@ const router = useRouter();
 const config = useRuntimeConfig();
 
 async function getUser() {
+  const userStore = userState(); //Pinia State is declared
+
   /*  try {
     const response = await fetch(`${config.public.API_URL}/auth/login/`, {
       method: "POST",
@@ -40,7 +42,6 @@ async function getUser() {
 
   (function () {
     //function to extract the 'username' from a given email.
-    const userStore = userState();
     const fullUser = Array.from(`${email.value}`); //  The email input by the user is turned into an array
     if (fullUser.includes("@")) {
       // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
@@ -52,8 +53,6 @@ async function getUser() {
       console.log(userStore.username);
     }
   })();
-
-  const userStore = userState(); //Pinia State is declared
 
   /* userStore.loggedIn = true;
     userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now. */
@@ -100,7 +99,6 @@ async function getUser() {
     }
   } else {
     console.log("incorrect username and password");
-    incorrectPassword = true;
   }
 }
 definePageMeta({
@@ -145,7 +143,6 @@ definePageMeta({
           v-model="password"
           class="relative mt-2 shadow-sm border-opacity-4 w-[703px] h-[65px] bg-[#FAF9E5] border-[#797979] text-3xl px-2"
         />
-        <p v-if="incorrectPassword">Incorrect Email and Password</p>
         <label
           class="loginLink text-[40px] font-medium text-[#F8F8F8] pb-[5px] mt-[27px]"
           ><button

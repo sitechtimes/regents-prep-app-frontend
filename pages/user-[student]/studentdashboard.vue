@@ -13,6 +13,14 @@ import { classInfo } from "~/constants/classInfo";
 }); */
 //This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
 
+(function () {
+  if ((userStore.loggedIn = false)) {
+    router.push({
+      path: `/login`,
+    });
+  }
+})();
+
 definePageMeta({
   layout: "dashboard",
 });
