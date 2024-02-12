@@ -5,6 +5,10 @@ import { userState } from "~/stores/users";
 const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
+
+onUnmounted(() => {
+  console.log(3);
+});
 </script>
 
 <template>

@@ -71,6 +71,9 @@ const otherAssignment = ref(props.assignment.otherDay);
                 state.qLeft = todayAssignment[0].qLeft;
                 state.timeLeft = todayAssignment[0].timeLeft;
                 state.qText = todayAssignment[0].question.qText;
+                todayAssignment[0].question.answers.forEach((answer) =>
+                  userQuestions.answers.push(answer)
+                );
               })
           "
           class="w-fit hover:cursor-pointer hover:underline"

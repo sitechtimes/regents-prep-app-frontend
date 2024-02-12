@@ -5,7 +5,16 @@ export const useQuestions = defineStore("questions", () => {
   const timeLeft = ref(); 
   const qLeft = ref();
     const answers = ref([]);
-    return {qText, timeLeft, qLeft, answers}
+
+
+  function $resetQuestion() {
+    qText.value = ""
+    timeLeft.value = ""
+    qLeft.value = ""
+    answers.value = ([])
+  }
+
+    return {qText, timeLeft, qLeft, answers, $resetQuestion}
     async function fill() {
       //const {data} = await api.from('api').select()
       //this.question = data.question
