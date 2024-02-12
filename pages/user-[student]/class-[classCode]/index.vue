@@ -37,7 +37,8 @@ const pastArr: any[] = [];
 </script>
 
 <template>
-  <div class="max-w-md mx-auto md:max-w-2xl">
+  <div class="h-fit bg-bg-reg">
+    <div class="max-w-md mx-auto md:max-w-2xl">
     <div
       class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium"
     >
@@ -73,6 +74,7 @@ const pastArr: any[] = [];
 
     <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a" />
     <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" />
+  </div>
   </div>
 </template>
 

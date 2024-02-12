@@ -19,7 +19,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="h-fit">
+  <div class="h-fit bg-bg-reg">
     <div class="flex flex-wrap items-center space-x-30">
       <StudentComponentsClasspreview
         class=""
