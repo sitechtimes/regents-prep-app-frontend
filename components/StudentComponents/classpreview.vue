@@ -13,7 +13,6 @@ const router = useRouter();
 
 onMounted(() => {
   console.log(userStore.username);
-  console.log(userQuestions.qText);
 });
 
 const props = defineProps<{
@@ -68,12 +67,13 @@ const otherAssignment = ref(props.assignment.otherDay);
               path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
             }),
               userQuestions.$patch((state) => {
-                state.qLeft = todayAssignment[0].qLeft;
+                state.questionState.push({ qLeft: 2 });
+                /* state.qLeft = todayAssignment[0].qLeft;
                 state.timeLeft = todayAssignment[0].timeLeft;
                 state.qText = todayAssignment[0].question.qText;
                 todayAssignment[0].question.answers.forEach((answer) =>
                   userQuestions.answers.push(answer)
-                );
+                ); */
               })
           "
           class="w-fit hover:cursor-pointer hover:underline"

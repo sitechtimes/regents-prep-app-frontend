@@ -33,3 +33,10 @@ export interface questionInterface{
   qText: String;
   answers: Array<String>;
 }
+
+export interface questionStateInterface{
+  qText: String;
+  timeLeft: Number;
+  qLeft: Number;
+  answers: Array<String>
+}
