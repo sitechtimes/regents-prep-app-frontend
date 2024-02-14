@@ -67,13 +67,18 @@ const otherAssignment = ref(props.assignment.otherDay);
               path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
             }),
               userQuestions.$patch((state) => {
-                state.questionState.push({ qLeft: 2 });
-                /* state.qLeft = todayAssignment[0].qLeft;
+                /*state.questionState.push({
+                  qLeft: 3,
+                  qText: todayAssignment[0].question.qText,
+                  timeLeft: todayAssignment[0].timeLeft,
+                  answers: [],
+                }); */
+                state.qLeft = todayAssignment[0].qLeft;
                 state.timeLeft = todayAssignment[0].timeLeft;
                 state.qText = todayAssignment[0].question.qText;
                 todayAssignment[0].question.answers.forEach((answer) =>
                   userQuestions.answers.push(answer)
-                ); */
+                );
               })
           "
           class="w-fit hover:cursor-pointer hover:underline"
