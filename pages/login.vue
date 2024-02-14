@@ -11,11 +11,15 @@ const config = useRuntimeConfig();
 
 
 async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem('refresh_token');
   const response = await fetch(`${config.public.API_URL}/api/token/refresh/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({
+      refresh: refreshToken,
+    }),
     credentials: 'include',
   });
 
@@ -40,9 +44,10 @@ async function getUser() {
       }),
     });
 
-    if (response.status === 401) {
+    if (response.status === 401) { // if access token EXPIRES, we want to send a requrest to api/token/refresh
       console.log("401 status code! Refreshing token...")
       const newAccessToken = await refreshAccessToken();
+      console.log(newAccessToken)
       // Retry the failed request
       response = await fetch(`${config.public.API_URL}/api/token/`, {
         method: "POST",
@@ -55,11 +60,12 @@ async function getUser() {
           password: password.value,
         }),
       });
+      console.log("successfully refreshed token!")
     }
 
     const tokens = await response.json();
     localStorage.setItem("access_token", tokens.access);
-    console.log(tokens);
+    // console.log(tokens);
     router.push('home')
   } catch (error) {
     console.log(error);
