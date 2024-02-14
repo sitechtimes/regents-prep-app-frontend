@@ -17,6 +17,17 @@ async function pushUser() {
     console.log("hi");
   }
 }
+
+function logOut() {
+  userStore.$patch({
+    email: null,
+    username: null,
+    fullname: null,
+    student: null,
+    loggedIn: false,
+  });
+  router.push("/login");
+}
 </script>
 
 <template>
@@ -85,6 +96,7 @@ async function pushUser() {
         </div>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
+            @click="logOut"
             class="w-[168px] h-[68px] bg-secondary rounded-[24px] shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2
