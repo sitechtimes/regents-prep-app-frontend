@@ -23,6 +23,18 @@ import { classInfo } from "~/constants/classInfo";
 
 definePageMeta({
   layout: "dashboard",
+  middleware: function (to, from) {
+    const userStore = userState();
+    const router = useRouter();
+
+    if (userStore.usertype != "student") {
+      router.push({
+        path: `/user-${userStore.username}/teacherdashboard`,
+      });
+      alert("not a teacher, being redirected");
+    } else {
+    }
+  },
 });
 </script>
 

@@ -2,10 +2,7 @@
 import { userState } from "~/stores/users";
 import { TeacherClass } from "#components";
 
-const userStore = userState();
-const router = useRouter();
-
-function userCheck() {
+/* function userCheck() {
   if ((userStore.usertype = teacher)) {
   } else {
     alert("you are not a teacher. returning to student dashboard");
@@ -13,15 +10,26 @@ function userCheck() {
       path: `/user-${userStore.username}/studentdashboard`,
     });
   }
-}
+} */
 
-onBeforeMount(() => {
-  userCheck;
+/* onBeforeMount(() => {
   console.log(userStore.username);
-});
+}); */
 
 definePageMeta({
   layout: "dashboard",
+  middleware: function (to, from) {
+    const userStore = userState();
+    const router = useRouter();
+
+    if (userStore.usertype != "teacher") {
+      router.push({
+        path: `/user-${userStore.username}/studentdashboard`,
+      });
+      alert("not a teacher, being redirected");
+    } else {
+    }
+  },
 });
 </script>
 
