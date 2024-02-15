@@ -21,10 +21,12 @@ definePageMeta({
   middleware: function (to, from) {
     const userStore = userState();
     const router = useRouter();
+    const usertype = userStore.usertype;
 
     if (userStore.usertype != "teacher") {
       router.push({
         path: `/user-${userStore.username}/studentdashboard`,
+        params: { usertype: "student" },
       });
       alert("not a teacher, being redirected");
     } else {

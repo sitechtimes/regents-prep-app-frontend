@@ -88,7 +88,7 @@ async function getUser() {
       userStore.fullname = userData[0].fullname;
 
       router.push({
-        path: `/user-${userStore.username}/studentdashboard`,
+        path: `/user-${userStore.username}/teacherdashboard`,
       });
     } else if (userData[0].usertype === "teacher") {
       userStore.loggedIn = true;
