@@ -9,6 +9,12 @@ const userQuestions = useQuestions();
 onUnmounted(() => {
   /*   userQuestions.$resetQuestion(); */
 });
+
+onMounted(() => {
+  /*   userQuestions.$patch({
+    qText: "2",
+  }); */
+});
 </script>
 
 <template>

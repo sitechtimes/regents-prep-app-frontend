@@ -65,21 +65,22 @@ const otherAssignment = ref(props.assignment.otherDay);
           v-on:click="
             router.push({
               path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
-            }),
+            })
+            /*
               userQuestions.$patch((state) => {
-                /*state.questionState.push({
+                 state.questionState.push({
                   qLeft: 3,
                   qText: todayAssignment[0].question.qText,
                   timeLeft: todayAssignment[0].timeLeft,
                   answers: [],
-                }); */
+                }); 
                 state.qLeft = todayAssignment[0].qLeft;
                 state.timeLeft = todayAssignment[0].timeLeft;
                 state.qText = todayAssignment[0].question.qText;
                 todayAssignment[0].question.answers.forEach((answer) =>
                   userQuestions.answers.push(answer)
                 );
-              })
+              }) */
           "
           class="w-fit hover:cursor-pointer hover:underline"
           v-if="todayAssignment.length >= 1"

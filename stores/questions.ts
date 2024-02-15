@@ -3,11 +3,13 @@ import { questionStateInterface } from '~/interfaces/interfaces';
 
 export const useQuestions = defineStore("questions", () => {
 
+  
+/*
   const qText = ref("");
   const timeLeft = ref(0); 
   const qLeft = ref(0);
   const answers = ref([]); 
-/*
+
   function $resetQuestion() {
     qText.value = ""
     timeLeft.value = ""
@@ -15,7 +17,7 @@ export const useQuestions = defineStore("questions", () => {
     answers.value = ([])
   } */
 
-    return { qText, timeLeft, qLeft, answers  /* qText: "", timeLeft: 0, qLeft: 0, answers: [],  questionState: [] as questionStateInterface[]*/}
+    return { /* qText, timeLeft, qLeft, answers  qText: "", timeLeft: 0, qLeft: 0, answers: [],*/  questionState: [] as questionStateInterface[]}
     
     async function fill() {
       //const {data} = await api.from('api').select()
