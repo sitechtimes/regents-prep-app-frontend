@@ -5,10 +5,10 @@ import {
 } from "~/interfaces/interfaces";
 
 export const useQuestions = defineStore("questions", () => {
-  /*
-  const qText = ref("");
-  const timeLeft = ref(0); 
-  const qLeft = ref(0);
+
+/*   const qText = ref("");
+  const timeLeft = ref(); 
+  const qLeft = ref();
   const answers = ref([]); 
 
   function $resetQuestion() {
