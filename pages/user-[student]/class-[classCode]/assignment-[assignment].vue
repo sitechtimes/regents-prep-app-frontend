@@ -10,11 +10,7 @@ onUnmounted(() => {
   /*   userQuestions.$resetQuestion(); */
 });
 
-onMounted(() => {
-  /*   userQuestions.$patch({
-    qText: "2",
-  }); */
-});
+onMounted(() => {});
 </script>
 
 <template>

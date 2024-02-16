@@ -37,8 +37,12 @@ const otherAssignment = ref(props.assignment.otherDay);
 </script>
 
 <template>
-  <div class="w-[390px] my-10 ms-[100px] place-items-center">
-    <div class="w-full relative rounded-[24px] shadow-inner">
+  <div
+    class="w-[390px] my-10 ms-[100px] place-items-center"
+  >
+    <div
+      class="w-full relative rounded-[24px] shadow-inner"
+    >
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
         v-on:click="
@@ -52,20 +56,37 @@ const otherAssignment = ref(props.assignment.otherDay);
         >
           {{ titleInformation }}
         </h2>
-        <h2 class="text-lg">with {{ teacherInformation }}</h2>
+        <h2 class="text-lg">
+          with {{ teacherInformation }}
+        </h2>
       </div>
 
       <div
         class="text-[27px] shadow-black shadow-innerleft duration-500 hover:shadow-transparent py-1 relative h-40 overflow-y-scroll scroll-smooth bg-opacity-30 shadow-inner text-center flex flex-col items-center bg-[#CCD396] text-[#6C7439]"
       >
-        <h2 class="font-semibold" v-if="todayAssignment.length >= 1">
+        <h2
+          class="font-semibold"
+          v-if="todayAssignment.length >= 1"
+        >
           Due Today:
         </h2>
         <h3
           v-on:click="
             router.push({
               path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
-            })
+            }),
+              userQuestions.$patch({
+                qText: `2`,
+                timeLeft: 2,
+                qLeft: 2,
+                answers: []
+              })
+           /*    userQuestions.$patch({
+                qText: "2",
+                timeLeft: 2,
+                qLeft: 2,
+                answers: []
+              }) */
             /*
               userQuestions.$patch((state) => {
                  state.questionState.push({
@@ -86,7 +107,9 @@ const otherAssignment = ref(props.assignment.otherDay);
           v-if="todayAssignment.length >= 1"
         >
           <!-- PROGRESS WAS ENDED HERE -->
-          {{ todayAssignment[0].name }} ({{ todayAssignment[0].qLeft }})
+          {{ todayAssignment[0].name }} ({{
+            todayAssignment[0].qLeft
+          }})
         </h3>
         <h3
           v-on:click="
@@ -97,11 +120,16 @@ const otherAssignment = ref(props.assignment.otherDay);
           class="w-fit hover:cursor-pointer hover:underline"
           v-if="todayAssignment.length > 1"
         >
-          {{ todayAssignment[1].name }} ({{ todayAssignment[1].qLeft }})
+          {{ todayAssignment[1].name }} ({{
+            todayAssignment[1].qLeft
+          }})
         </h3>
 
         <div class="flex flex-col items-center">
-          <h2 class="font-semibold" v-if="otherAssignment.length >= 1">
+          <h2
+            class="font-semibold"
+            v-if="otherAssignment.length >= 1"
+          >
             Due Wednesday:
           </h2>
           <template v-if="todayAssignment.length > 1">
@@ -114,7 +142,9 @@ const otherAssignment = ref(props.assignment.otherDay);
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="otherAssignment.length >= 1"
             >
-              {{ otherAssignment[0].name }} ({{ otherAssignment[0].qLeft }})
+              {{ otherAssignment[0].name }} ({{
+                otherAssignment[0].qLeft
+              }})
             </h3>
           </template>
           <template v-else-if="todayAssignment.length <= 1">
@@ -127,7 +157,9 @@ const otherAssignment = ref(props.assignment.otherDay);
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="otherAssignment.length >= 1"
             >
-              {{ otherAssignment[0].name }} ({{ otherAssignment[0].qLeft }})
+              {{ otherAssignment[0].name }} ({{
+                otherAssignment[0].qLeft
+              }})
             </h3>
             <h3
               v-on:click="
@@ -138,11 +170,16 @@ const otherAssignment = ref(props.assignment.otherDay);
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="otherAssignment.length >= 1"
             >
-              {{ otherAssignment[1].name }} ({{ otherAssignment[1].qLeft }})
+              {{ otherAssignment[1].name }} ({{
+                otherAssignment[1].qLeft
+              }})
             </h3>
             <h2
               class="w-fit text-opacity-50 text-[20px] py-16"
-              v-if="todayAssignment.length < 1 && otherAssignment.length < 1"
+              v-if="
+                todayAssignment.length < 1 &&
+                otherAssignment.length < 1
+              "
             >
               You currently have no assignments due
             </h2>
