@@ -7,19 +7,27 @@ const userStore = userState();
 const userQuestions = useQuestions();
 
 onUnmounted(() => {
-  /*   userQuestions.$resetQuestion(); */
+  userQuestions.$patch({
+    qText: "",
+    qLeft: 0,
+    timeLeft: 0,
+    answers: [],
+  });
 });
 
-onMounted(() => {});
+onMounted(() => {
+  console.log(userQuestions.qText);
+});
 </script>
 
 <template>
   <div>
-    <h1>/* userQuestions.qText */</h1>
+    <h1>{{ userQuestions.qText }}</h1>
     <div>
       <div>
-        <!--v-for="answer in question.answers"-->
-        <h2>(answer (double brackets))</h2>
+        <h2 v-for="answer in userQuestions.answers">
+          {{ answer }}
+        </h2>
       </div>
       <submitButton>Submit</submitButton>
     </div>
@@ -27,7 +35,7 @@ onMounted(() => {});
       <h2>
         <!--Questions left in assignment {{ assignment.questions.length }} takes length of total array of questions-->
       </h2>
-      <h2>/* userQuestions.qLeft */ Questions Left</h2>
+      <h2>{{ userQuestions.qLeft }} Questions Left</h2>
 
       <div>
         <h2>
