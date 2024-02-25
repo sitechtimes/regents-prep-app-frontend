@@ -7,25 +7,14 @@ import {
 export const useQuestions = defineStore("questions", {
   state: (): questionStateInterface => {
     return {
-      /* qText, timeLeft, qLeft, answers, */
+      assignmentName: "",
       qText: "",
       timeLeft: 0,
       qLeft: 0,
-      answers: [] /* questionState:
-      [] as questionStateInterface[], */,
+      answers: [],
     };
 
-    /*   const qText = ref("");
-  const timeLeft = ref(); 
-  const qLeft = ref();
-  const answers = ref([]); 
-
-  function $resetQuestion() {
-    qText.value = ""
-    timeLeft.value = ""
-    qLeft.value = ""
-    answers.value = ([])
-  } */
+    //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.
 
     async function fill() {
       //const {data} = await api.from('api').select()

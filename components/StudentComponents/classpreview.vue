@@ -72,6 +72,7 @@ const otherAssignment = ref(props.assignment.otherDay);
               path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
             }),
               userQuestions.$patch({
+                assignmentName: todayAssignment[0].name,
                 qText: todayAssignment[0].question.qText,
                 qLeft: todayAssignment[0].qLeft,
                 timeLeft: todayAssignment[0].timeLeft,
@@ -93,6 +94,7 @@ const otherAssignment = ref(props.assignment.otherDay);
               path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[1].name}`,
             }),
               userQuestions.$patch({
+                assignmentName: todayAssignment[1].name,
                 qText: todayAssignment[1].question.qText,
                 qLeft: todayAssignment[1].qLeft,
                 timeLeft: todayAssignment[1].timeLeft,
@@ -122,6 +124,7 @@ const otherAssignment = ref(props.assignment.otherDay);
                   path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0].name}`,
                 }),
                   userQuestions.$patch({
+                    assignmentName: otherAssignment[0].name,
                     qText:
                       otherAssignment[0].question.qText,
                     qLeft: otherAssignment[0].qLeft,
@@ -145,6 +148,7 @@ const otherAssignment = ref(props.assignment.otherDay);
                   path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0].name}`,
                 }),
                   userQuestions.$patch({
+                    assignmentName: otherAssignment[0].name,
                     qText:
                       otherAssignment[0].question.qText,
                     qLeft: otherAssignment[0].qLeft,
@@ -166,6 +170,7 @@ const otherAssignment = ref(props.assignment.otherDay);
                   path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[1].name}`,
                 }),
                   userQuestions.$patch({
+                    assignmentName: otherAssignment[1].name,
                     qText:
                       otherAssignment[1].question.qText,
                     qLeft: otherAssignment[1].qLeft,

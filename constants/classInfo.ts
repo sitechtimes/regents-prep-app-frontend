@@ -16,8 +16,37 @@ export const classInfo = {
       classCode: 1,
     } as ClassPreviewInformation,
     assignments: {
-      today: [{name: "Kinematics", qLeft: 5, timeLeft: 183, question: {qText: "Kinematics question", answers: ["Answer A", "Answer B"]} as questionInterface} as Assignment],
-      otherDay: [{name: "Energy", qLeft: 10, timeLeft: 56, question: {qText: "Energy question", answers: ["Answer A", "Answer B"]} as questionInterface} as Assignment, {name: "Circuits", qLeft: 4, timeLeft: 54, question: {qText: "Test", answers: []} as questionInterface} as Assignment],
+      today: [
+        {
+          name: "Kinematics",
+          qLeft: 5,
+          timeLeft: 183,
+          question: {
+            qText: "Kinematics question",
+            answers: ["Answer A", "Answer B"],
+          } as questionInterface,
+        } as Assignment,
+      ],
+      otherDay: [
+        {
+          name: "Energy",
+          qLeft: 10,
+          timeLeft: 56,
+          question: {
+            qText: "Energy question",
+            answers: ["Answer A", "Answer B"],
+          } as questionInterface,
+        } as Assignment,
+        {
+          name: "Circuits",
+          qLeft: 4,
+          timeLeft: 54,
+          question: {
+            qText: "Test",
+            answers: [],
+          } as questionInterface,
+        } as Assignment,
+      ],
     } as ClassPreviewAssignments,
   },
   /*

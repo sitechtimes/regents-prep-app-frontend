@@ -8,11 +8,13 @@ const userQuestions = useQuestions();
 
 onUnmounted(() => {
   userQuestions.$patch({
+    assignmentName: "",
     qText: "",
     qLeft: 0,
     timeLeft: 0,
     answers: [],
   });
+  //This unMounted action is used to remove the assignment from the questionState when the user leaves the page. Normally, a function would be created within the questions.ts file such as userQuestions.$reset() in order to avoid re-typing the function every time. However, since all of the properties of the question state are in the return {} due to addressing them with typescript interfaces, no function can be used, even those such as .push for an array. (If there is a way to create a typescript state function and it has simply been missed, please feel free to correct the above.)
 });
 
 onMounted(() => {
@@ -50,7 +52,7 @@ onMounted(() => {
     </div>
     <div>
       <h2>
-        {{ route.params.assignment }}
+        {{ userQuestions.assignmentName }}
       </h2>
     </div>
   </div>
