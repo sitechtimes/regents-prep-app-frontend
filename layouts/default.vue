@@ -3,6 +3,7 @@ import { userState } from "~/stores/users";
 
 const userStore = userState();
 const router = useRouter();
+const config = useRuntimeConfig();
 
 onMounted(() => {
   console.log(userStore.email);
@@ -12,6 +13,35 @@ onMounted(() => {
 async function pushUserBack() {
   const userStore = userState();
   router.push({ path: `/user-${userStore.username}/teacherdashboard` });
+};
+
+async function logOut(){
+  try {
+    const refreshToken = localStorage.getItem('refresh_token');
+    const accessToken = localStorage.getItem('access_token');
+    console.log(accessToken);
+    // send a request to logout endpoint!
+    const response = await fetch(`${config.public.API_URL}/api/token/logout/`, {
+      method: "POST",
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        refresh: refreshToken,
+      }),
+    });
+
+    if (response.ok) {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      router.push({ path: '/login' });
+    } else {
+      throw new Error('Failed to log out');
+    }
+  } catch (error) {
+    console.error('Failed to log out:', error);
+  }
 }
 </script>
 
@@ -74,6 +104,7 @@ async function pushUserBack() {
         </button>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
+            @click="logOut"
             class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] place-items-center hover:scale-105 shadow-black shadow-innertop hover:drop-shadow-xl duration-300"
           >
             <h2

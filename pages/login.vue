@@ -31,11 +31,12 @@ async function refreshAccessToken() {
   return data.access;
 }
 
+
 async function getUser() {
   try {
     let response = await fetch(`${config.public.API_URL}/api/token/`, {
       method: "POST",
-      headers: {
+      headers: {  
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -43,7 +44,7 @@ async function getUser() {
         password: password.value,
       }),
     });
-
+  
     if (response.status === 401) { // if access token EXPIRES, we want to send a requrest to api/token/refresh
       console.log("401 status code! Refreshing token...")
       const newAccessToken = await refreshAccessToken();
@@ -65,7 +66,8 @@ async function getUser() {
 
     const tokens = await response.json();
     localStorage.setItem("access_token", tokens.access);
-    // console.log(tokens);
+    localStorage.setItem("refresh_token", tokens.refresh);
+    console.log(tokens.access);
     router.push('home')
   } catch (error) {
     console.log(error);
@@ -96,6 +98,8 @@ async function getUser() {
     userStore.loggedIn = true;
     userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now.
  */
+
+
   if (userStore.username == "student") {
     // If the user is a student, they are redirected to the studentdashboard.
     userStore.student = true;
