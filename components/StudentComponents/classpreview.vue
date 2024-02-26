@@ -62,7 +62,10 @@ const otherAssignment = ref(props.assignment.otherDay);
             router.push({
               path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
             }),
-              userQuestions.$patch({})
+              userQuestions.$patch({
+                assignmentName: todayAssignment[0].name,
+                qText: `2`,
+              })
           "
           class="w-fit hover:cursor-pointer hover:underline"
           v-if="todayAssignment.length >= 1"
