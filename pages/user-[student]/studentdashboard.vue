@@ -23,7 +23,7 @@ import { classInfo } from "~/constants/classInfo";
 
 definePageMeta({
   layout: "dashboard",
-  middleware: function (to, from) {
+  middleware: function () {
     const userStore = userState();
     const router = useRouter();
 
