@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 
 export const userState = defineStore("settings", () => {
-
+  
   const email = ref<string>("");
   const username = ref<string>("");
   const fullname = ref<string>("");

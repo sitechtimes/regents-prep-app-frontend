@@ -4,14 +4,12 @@ import {
   ClassPreviewInformation,
   ClassPreviewAssignments,
 } from "~/interfaces/interfaces";
+import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
+const userQuestions = useQuestions();
 const router = useRouter();
-
-onMounted(() => {
-  console.log(userStore.username);
-});
 
 const props = defineProps<{
   // theme: Theme;
@@ -71,24 +69,46 @@ const otherAssignment = ref(props.assignment.otherDay);
         <h3
           v-on:click="
             router.push({
-              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0]}`,
-            })
+              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
+            }),
+              userQuestions.$patch({
+                assignmentName: todayAssignment[0].name,
+                qText: todayAssignment[0].question.qText,
+                timeLeft: todayAssignment[0].timeLeft,
+                qLeft: todayAssignment[0].qLeft,
+                answers:
+                  todayAssignment[0].question.answers,
+              })
+            //This patch method is repeated multiple times, but it takes the current assignment information that the user has clicked on, and patches it into the state.
           "
           class="w-fit hover:cursor-pointer hover:underline"
           v-if="todayAssignment.length >= 1"
         >
-          {{ todayAssignment[0] }}
+          <!-- PROGRESS WAS ENDED HERE -->
+          {{ todayAssignment[0].name }} ({{
+            todayAssignment[0].qLeft
+          }})
         </h3>
         <h3
           v-on:click="
             router.push({
-              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[1]}`,
-            })
+              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[1].name}`,
+            }),
+              userQuestions.$patch({
+                assignmentName: todayAssignment[1].name,
+                qText: todayAssignment[1].question.qText,
+                qLeft: todayAssignment[1].qLeft,
+                timeLeft: todayAssignment[1].timeLeft,
+                answers:
+                  todayAssignment[1].question.answers,
+              })
           "
           class="w-fit hover:cursor-pointer hover:underline"
-          v-if="todayAssignment.length >= 1"
+          v-if="todayAssignment.length > 1"
         >
-          {{ todayAssignment[1] }}
+          {{ todayAssignment[1].name }} ({{
+            todayAssignment[1].qLeft
+          }})
         </h3>
 
         <div class="flex flex-col items-center">
@@ -98,41 +118,74 @@ const otherAssignment = ref(props.assignment.otherDay);
           >
             Due Wednesday:
           </h2>
-          <template v-if="todayAssignment.length >= 2">
+          <template v-if="todayAssignment.length > 1">
             <h3
               v-on:click="
                 router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0]}`,
-                })
+                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0].name}`,
+                }),
+                  userQuestions.$patch({
+                    assignmentName: otherAssignment[0].name,
+                    qText:
+                      otherAssignment[0].question.qText,
+                    qLeft: otherAssignment[0].qLeft,
+                    timeLeft: otherAssignment[0].timeLeft,
+                    answers:
+                      otherAssignment[0].question.answers,
+                  })
               "
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="otherAssignment.length >= 1"
             >
-              {{ otherAssignment[0] }}
+              {{ otherAssignment[0].name }} ({{
+                otherAssignment[0].qLeft
+              }})
             </h3>
           </template>
           <template v-else-if="todayAssignment.length <= 1">
             <h3
               v-on:click="
                 router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0]}`,
-                })
+                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0].name}`,
+                }),
+                  userQuestions.$patch({
+                    assignmentName: otherAssignment[0].name,
+                    qText:
+                      otherAssignment[0].question.qText,
+                    qLeft: otherAssignment[0].qLeft,
+                    timeLeft: otherAssignment[0].timeLeft,
+                    answers:
+                      otherAssignment[0].question.answers,
+                  })
               "
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="otherAssignment.length >= 1"
             >
-              {{ otherAssignment[0] }}
+              {{ otherAssignment[0].name }} ({{
+                otherAssignment[0].qLeft
+              }})
             </h3>
             <h3
               v-on:click="
                 router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[1]}`,
-                })
+                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[1].name}`,
+                }),
+                  userQuestions.$patch({
+                    assignmentName: otherAssignment[1].name,
+                    qText:
+                      otherAssignment[1].question.qText,
+                    qLeft: otherAssignment[1].qLeft,
+                    timeLeft: otherAssignment[1].timeLeft,
+                    answers:
+                      otherAssignment[1].question.answers,
+                  })
               "
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="otherAssignment.length >= 1"
             >
-              {{ otherAssignment[1] }}
+              {{ otherAssignment[1].name }} ({{
+                otherAssignment[1].qLeft
+              }})
             </h3>
             <h2
               class="w-fit text-opacity-50 text-[20px] py-16"
