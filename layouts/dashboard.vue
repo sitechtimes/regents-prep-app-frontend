@@ -21,20 +21,20 @@ async function pushUser() {
 
 <template>
   <div>
-    <nav class="h-[109px] bg-[#EAE9CA] shadow">
+    <nav class="h-[109px] bg-bg-navbar shadow">
       <div class="flex flex-row">
         <div id="username" class="w-[500px] h-[70px] mt-[12px] pl-[1%]">
           <div
-            class="w-[500px] h-[83px] bg-[#F2F0CC] rounded-2xl shadow-black shadow-innertop"
+            class="w-[500px] h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
           >
             <h2
-              class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
+              class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
               v-if="(userStore.fullname = '')"
             >
               {{ userStore.fullname }}
             </h2>
             <h2
-              class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
+              class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
               v-else
             >
               Logged in
@@ -43,7 +43,7 @@ async function pushUser() {
         </div>
         <div class="m-auto">
           <div id="dashboard" class="w-[277px] h-[73px] mt-[17px] mr-[80px]">
-            <div class="w-[300px] h-[73px] bg-[#426B1F] rounded-2xl relative">
+            <div class="w-[300px] h-[73px] bg-secondary rounded-[24px] relative">
               <h1
                 class="w-[300px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
@@ -59,7 +59,7 @@ async function pushUser() {
           <div
             @click.prevent="pushUser"
             id="create-btn"
-            class="w-[73px] h-[73px] bg-[#426B1F] rounded-full shadow-inner items-center justify-center mt-[17px]"
+            class="w-[73px] h-[73px] bg-secondary rounded-full shadow-inner items-center justify-center mt-[17px]"
           >
             <div
               class="w-[10px] h-[50px] bg-white rounded-[30px] m-auto mt-[11.5px]"
@@ -74,7 +74,7 @@ async function pushUser() {
           class="w-[74px] h-[74px] flex items-center justify-center mt-[17px]"
         >
           <div
-            class="w-[74px] h-[74px] bg-[#426B1F] rounded-[14px] shadow-inner items-center justify-center"
+            class="w-[74px] h-[74px] bg-secondary rounded-[14px] shadow-inner items-center justify-center"
           >
             <div
               class="w-[42px] h-[42px] bg-white rounded-[5px] m-auto mt-[16px]"
@@ -83,10 +83,10 @@ async function pushUser() {
         </div>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
+            class="w-[168px] h-[68px] bg-secondary rounded-[24px] shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2
-              class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium"
+              class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium absolute bottom-[2px]"
             >
               Logout
             </h2>
