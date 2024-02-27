@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import {
   questionInterface,
-  questionStateInterface,
 } from "~/interfaces/interfaces";
 
 export const useQuestions = defineStore("questions", () => {
@@ -11,12 +10,21 @@ export const useQuestions = defineStore("questions", () => {
   const qLeft: Ref<Number> = ref(0);
   const answers: Ref<Array<String>> = ref([]);
 
+  function $resetQuestion() {
+    assignmentName.value = "",
+    qText.value = "",
+    qLeft.value = 0,
+    timeLeft.value = 0,
+    answers.value = []
+  }
+
   return {
     assignmentName,
     qText,
     timeLeft,
     qLeft,
     answers,
+    $resetQuestion
   };
 
   //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.
