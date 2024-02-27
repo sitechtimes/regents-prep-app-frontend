@@ -60,13 +60,13 @@ const pastArr: any[] = [];
 
       <button
         v-if="CurrentStatus"
-        class="px-5 text-center text-white bg-[#C898C8] rounded-[27px]"
+        class="px-5 text-center text-white bg-secondary rounded-[27px]"
       >
         Start Assignment
       </button>
       <button
         v-if="PastStatus"
-        class="px-5 text-center text-white bg-[#C898C8] rounded-[27px]"
+        class="px-5 text-center text-white bg-secondary rounded-[27px]"
       >
         View Statistics
       </button>
@@ -80,7 +80,7 @@ const pastArr: any[] = [];
 
 <style scoped>
 input:checked + .slider {
-  background-color: #426b1f;
+  background-color: #426b1f; /*cant seem to use the color names from tailwind.config in reg styling */
 }
 input:checked + .slider:before {
   transform: translateX(30px);

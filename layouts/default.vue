@@ -11,7 +11,11 @@ onMounted(() => {
 //this function pushes user back to the teacher dashboard
 async function pushUserBack() {
   const userStore = userState();
-  router.push({ path: `/user-${userStore.username}/teacherdashboard` });
+  if (userStore.username == "teacher") {
+    router.push({ path: `/user-${userStore.username}/teacherdashboard` });
+  } else if (userStore.username == "student") {
+    router.push({path: `/user-${userStore.username}/studentdashboard`})
+  }
 }
 </script>
 
@@ -21,7 +25,7 @@ async function pushUserBack() {
       <div class="flex flex-row">
         <div id="teacherName" class="w-[500px] h-[70px] mt-[12px] pl-[1%]">
           <div
-            class="w-[500px] h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop drop-shadow-md"
+            class="w-[500px] h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
           >
             <h2
               class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
