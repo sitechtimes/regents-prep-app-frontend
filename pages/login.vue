@@ -79,7 +79,7 @@ async function getUser() {
   const userData = userArr.filter((u) => u.username === userStore.username);
 
   if (password.value === userData[0].password) {
-    if (userData[0].usertype === "student") {
+    if (userData[0].usertype == "student") {
       userStore.student = true;
       userStore.loggedIn = true;
       userStore.usertype = "student";
@@ -90,7 +90,7 @@ async function getUser() {
       router.push({
         path: `/user-${userStore.username}/teacherdashboard`,
       });
-    } else if (userData[0].usertype === "teacher") {
+    } else if (userData[0].usertype == "teacher") {
       userStore.student = true;
       userStore.loggedIn = true;
       userStore.usertype = "teacher";

@@ -1,35 +1,11 @@
 <script setup>
 import { userState } from "~/stores/users";
 import { TeacherClass } from "#components";
-
-/* function userCheck() {
-  if ((userStore.usertype = teacher)) {
-  } else {
-    alert("you are not a teacher. returning to student dashboard");
-    router.push({
-      path: `/user-${userStore.username}/studentdashboard`,
-    });
-  }
-} */
-
-/* onBeforeMount(() => {
-  console.log(userStore.username);
-}); */
+import { teacherCheck } from "../../stores/users";
 
 definePageMeta({
   layout: "dashboard",
-  middleware: function () {
-    const userStore = userState();
-    const router = useRouter();
-
-    if (userStore.usertype != "teacher") {
-      router.push({
-        path: `/user-${userStore.username}/studentdashboard`,
-      });
-      alert("not a teacher, being redirected");
-    } else {
-    }
-  },
+  middleware: () => teacherCheck(),
 });
 </script>
 

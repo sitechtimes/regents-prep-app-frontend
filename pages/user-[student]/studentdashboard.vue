@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-
-const userStore = userState();
-const router = useRouter();
-
 import { classInfo } from "~/constants/classInfo";
+import { studentCheck } from "../../stores/users";
 
 /* onMounted(() => {
   console.log(userStore.user.username);
@@ -13,28 +10,9 @@ import { classInfo } from "~/constants/classInfo";
 }); */
 //This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
 
-(function () {
-  if ((userStore.loggedIn = false)) {
-    router.push({
-      path: `/login`,
-    });
-  }
-})();
-
 definePageMeta({
   layout: "dashboard",
-  middleware: function () {
-    const userStore = userState();
-    const router = useRouter();
-
-    if (userStore.usertype != "student") {
-      router.push({
-        path: `/user-${userStore.username}/teacherdashboard`,
-      });
-      alert("not a teacher, being redirected");
-    } else {
-    }
-  },
+  middleware: () => studentCheck(),
 });
 </script>
 
