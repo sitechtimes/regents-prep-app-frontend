@@ -17,6 +17,17 @@ async function pushUser() {
     console.log("hi");
   }
 }
+
+function logOut() {
+  userStore.$patch({
+    email: null,
+    username: null,
+    fullname: null,
+    student: null,
+    loggedIn: false,
+  });
+  router.push("/login");
+}
 </script>
 
 <template>
@@ -37,7 +48,7 @@ async function pushUser() {
               class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
               v-else
             >
-              Logged in
+              {{ userStore.username }}
             </h2>
           </div>
         </div>
