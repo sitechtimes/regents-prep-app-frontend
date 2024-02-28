@@ -4,10 +4,10 @@ import {
 } from "~/interfaces/interfaces";
 
 export const useQuestions = defineStore("questions", () => {
-  const assignmentName = ref<string>("");
-  const qText = ref<string>("");
-  const timeLeft = ref<number>(0);
-  const qLeft = ref<number>(0);
+  const assignmentName = ref<String>("");
+  const qText = ref<String>("");
+  const timeLeft = ref<Number>(0);
+  const qLeft = ref<Number>(0);
   const answers = ref<Array<String>>([]);
 
   function $resetQuestion() {
