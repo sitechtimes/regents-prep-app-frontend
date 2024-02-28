@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
 import { classInfo } from "~/constants/classInfo";
-import { studentCheck } from "../../stores/users";
 
 /* onMounted(() => {
   console.log(userStore.user.username);
@@ -12,7 +11,10 @@ import { studentCheck } from "../../stores/users";
 
 definePageMeta({
   layout: "dashboard",
-  middleware: () => studentCheck(),
+  middleware: () => {
+    const userStore = userState();
+    userStore.studentCheck();
+  },
 });
 </script>
 

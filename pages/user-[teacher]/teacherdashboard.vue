@@ -1,11 +1,13 @@
 <script setup>
 import { userState } from "~/stores/users";
 import { TeacherClass } from "#components";
-import { teacherCheck } from "../../stores/users";
 
 definePageMeta({
   layout: "dashboard",
-  middleware: () => teacherCheck(),
+  middleware: () => {
+    const userStore = userState();
+    userStore.teacherCheck();
+  },
 });
 </script>
 
