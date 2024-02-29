@@ -38,11 +38,10 @@ const pastArr: any[] = [];
 
 <template>
   <div class="h-fit bg-bg-reg">
-    <div class="max-w-md mx-auto md:max-w-2xl">
     <div
       class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium"
     >
-      <div class="pr-5 flex items-center bg-yellow-50 rounded-[27px]">
+      <div class="h-[60px] w-[600px] text-[35px] flex items-center bg-yellow-50 rounded-[27px]">
         <label class="switch relative inline-block h-full aspect-[1.75]">
           <input
             class="opacity-0 w-0 h-0"
@@ -60,17 +59,18 @@ const pastArr: any[] = [];
 
       <button
         v-if="CurrentStatus"
-        class="px-5 text-center text-white bg-secondary rounded-[27px]"
+        class="h-[60px] w-[350px] text-[35px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
       >
         Start Assignment
       </button>
       <button
         v-if="PastStatus"
-        class="px-5 text-center text-white bg-secondary rounded-[27px]"
+        class="h-[60px] w-[350px] text-[35px] text-center text-white bg-secondary rounded-[27px]"
       >
         View Statistics
       </button>
     </div>
+    <div class="max-w-md mx-auto md:max-w-2xl">
 
     <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a" />
     <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" />
