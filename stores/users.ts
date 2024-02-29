@@ -8,7 +8,7 @@ export const userState = defineStore("settings", () => {
   const student = ref<boolean>(false);
   const loggedIn = ref<boolean>(false);
 
-    function logout() {
+    function $logout() {
     email.value = "",
     username.value = "",
     fullname.value = "",
@@ -23,6 +23,6 @@ export const userState = defineStore("settings", () => {
     fullname,
     student,
     loggedIn,
-    logout
+    $logout
   };
 });

@@ -43,9 +43,7 @@ async function getUser() {
     if (fullUser.includes("@")) {
       // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
       userStore.email = email.value;
-      userStore.username = fullUser
-        .slice(0, fullUser.indexOf("@"))
-        .join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+      userStore.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
       console.log(userStore.username);
     } else {
       userStore.username = email.value; //If the email has no '@' symbol, then it is simply registered as the username.
@@ -145,7 +143,6 @@ h3 {
 }
 @media all and (max-width: 100rem) {
   .login {
-
     width: 650px;
     height: 550px;
   }
