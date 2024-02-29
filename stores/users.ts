@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 
-
 export const userState = defineStore("state", () => {
   const email = ref<string>("");
   const username = ref<string>("");
@@ -46,16 +45,15 @@ export const userState = defineStore("state", () => {
     } else {
     }
   }
-  
-  function logout() {
-    email.value = "",
-    username.value = "",
-    fullname.value = "",
-    student.value = false,
-    loggedIn.value = false
-    useRouter().push("/login")
-  }
 
+  function logout() {
+    (email.value = ""),
+      (username.value = ""),
+      (fullname.value = ""),
+      (student.value = false),
+      (loggedIn.value = false);
+    useRouter().push("/login");
+  }
 
   return {
     email,
@@ -66,7 +64,6 @@ export const userState = defineStore("state", () => {
     loggedIn,
     teacherCheck,
     studentCheck,
-    logout
-
+    logout,
   };
 });

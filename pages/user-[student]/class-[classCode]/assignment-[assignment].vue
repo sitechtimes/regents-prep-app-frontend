@@ -1,18 +1,9 @@
 <script setup lang="ts">
-
-import { userState } from "~/stores/users";
-const route = useRoute();
-
-definePageMeta({
-  middleware: () => {
-    const userStore = userState();
-    userStore.studentCheck();
-  },
-
 import { useQuestions } from "~/stores/questions";
-import { userState } from "~/stores/users";
 
+import { userState } from "~/stores/users";
 const route = useRoute();
+
 const userStore = userState();
 const userQuestions = useQuestions();
 
@@ -23,7 +14,13 @@ onUnmounted(() => {
 
 onMounted(() => {
   console.log(userQuestions.qText);
+});
 
+definePageMeta({
+  middleware: () => {
+    const userStore = userState();
+    userStore.studentCheck();
+  },
 });
 </script>
 

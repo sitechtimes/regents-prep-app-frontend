@@ -39,7 +39,6 @@ function logOut() {
             class="w-[500px] h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
           >
             <h2
-
               class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
             >
               {{ userStore.fullname }}
