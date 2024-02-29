@@ -14,15 +14,15 @@ export const userState = defineStore("state", () => {
     const previousRoutePath = ref("");
 
     router.beforeEach((to, from, next) => {
-      previousRoutePath.value = from.fullPath;
-      console.log(previousRoutePath.value);
+      previousRoutePath.value = from.fullPath; // saves the current path before taking user to new route
     });
 
+    // if the user is not a teacher then redirects back to their previous path
     if (userStore.usertype != "teacher") {
       router.push({
         path: previousRoutePath.value,
       });
-      console.log("not a teacher, being redirected");
+      //console.log("not a teacher, being redirected");
     } else {
     }
   }
@@ -33,15 +33,15 @@ export const userState = defineStore("state", () => {
     const previousRoutePath = ref("");
 
     router.beforeEach((to, from, next) => {
-      previousRoutePath.value = from.fullPath;
-      console.log(previousRoutePath.value);
+      previousRoutePath.value = from.fullPath; // saves the current path before taking user to new route
     });
 
+    // if the user is not a teacher then redirects back to their previous path
     if (userStore.usertype != "student") {
       router.push({
         path: previousRoutePath.value,
       });
-      console.log("not a student, being redirected");
+      //console.log("not a student, being redirected");
     } else {
     }
   }
@@ -57,18 +57,3 @@ export const userState = defineStore("state", () => {
     studentCheck,
   };
 });
-
-/* export const userState0 = defineStore("store", {
-  state: () => ({
-    email: "",
-    username: "",
-    fullname: "",
-    student: false,
-    usertype: "",
-    loggedIn: false,
-  }),
-  actions: {
-    teacherCheck() {},
-    studentCheck() {},
-  },
-}); */
