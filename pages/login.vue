@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { userState } from "~/stores/users";
-import { userArr } from "../tempUser";
+import { userArr } from "~/constants/tempUser";
 
 const email = ref("");
 const password = ref("");
