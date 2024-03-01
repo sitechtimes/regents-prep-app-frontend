@@ -41,7 +41,7 @@ const pastArr: any[] = [];
     <div
       class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium"
     >
-      <div class="h-[60px] w-[600px] text-[35px] flex items-center bg-yellow-50 rounded-[27px]">
+      <div class="h-[60px] w-[600px] text-[35px] ml-[150px] mt-[15px] flex items-center bg-yellow-50 rounded-[27px]">
         <label class="switch relative inline-block h-full aspect-[1.75]">
           <input
             class="opacity-0 w-0 h-0"
@@ -59,13 +59,13 @@ const pastArr: any[] = [];
 
       <button
         v-if="CurrentStatus"
-        class="h-[60px] w-[350px] text-[35px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
+        class="h-[60px] w-[350px] text-[35px] mr-[150px] mt-[15px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
       >
         Start Assignment
       </button>
       <button
         v-if="PastStatus"
-        class="h-[60px] w-[350px] text-[35px] text-center text-white bg-secondary rounded-[27px]"
+        class="h-[60px] w-[350px] text-[35px] mr-[150px] mt-[15px] text-center text-white bg-secondary rounded-[27px]"
       >
         View Statistics
       </button>
