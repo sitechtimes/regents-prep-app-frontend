@@ -8,7 +8,6 @@ export const userState = defineStore("state", () => {
   const usertype = ref<string>("");
   const loggedIn = ref<boolean>(false);
 
-
   function teacherCheck() {
     const userStore = userState();
     const router = useRouter();
@@ -26,15 +25,15 @@ export const userState = defineStore("state", () => {
       //console.log("not a teacher, being redirected");
     } else {
     }
+  }
 
-    function $logout() {
-    email.value = "",
-    username.value = "",
-    fullname.value = "",
-    student.value = false,
-    loggedIn.value = false
-    useRouter().push("/login")
-
+  function $logout() {
+    (email.value = ""),
+      (username.value = ""),
+      (fullname.value = ""),
+      (student.value = false),
+      (loggedIn.value = false);
+    useRouter().push("/login");
   }
 
   function studentCheck() {
@@ -74,6 +73,6 @@ export const userState = defineStore("state", () => {
     loggedIn,
     teacherCheck,
     studentCheck,
-    $logout
+    $logout,
   };
 });
