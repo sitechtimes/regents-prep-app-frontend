@@ -8,7 +8,7 @@ export const userState = defineStore("state", () => {
   const usertype = ref<string>("");
   const loggedIn = ref<boolean>(false);
 
-  function teacherCheck() {
+  function $teacherCheck() {
     const userStore = userState();
     const router = useRouter();
     const previousRoutePath = ref("");
@@ -27,16 +27,7 @@ export const userState = defineStore("state", () => {
     }
   }
 
-  function $logout() {
-    (email.value = ""),
-      (username.value = ""),
-      (fullname.value = ""),
-      (student.value = false),
-      (loggedIn.value = false);
-    useRouter().push("/login");
-  }
-
-  function studentCheck() {
+  function $studentCheck() {
     const userStore = userState();
     const router = useRouter();
     const previousRoutePath = ref("");
@@ -55,6 +46,15 @@ export const userState = defineStore("state", () => {
     }
   }
 
+  function $logout() {
+    (email.value = ""),
+      (username.value = ""),
+      (fullname.value = ""),
+      (student.value = false),
+      (loggedIn.value = false);
+    useRouter().push("/login");
+  }
+
   return {
     email,
     username,
@@ -62,8 +62,8 @@ export const userState = defineStore("state", () => {
     student, // dev option
     usertype,
     loggedIn,
-    teacherCheck,
-    studentCheck,
+    $teacherCheck,
+    $studentCheck,
     $logout,
   };
 });
