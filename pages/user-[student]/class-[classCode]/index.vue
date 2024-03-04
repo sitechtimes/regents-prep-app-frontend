@@ -72,8 +72,8 @@ const pastArr: any[] = [];
     </div>
     <div class="max-w-md mx-auto md:max-w-2xl">
 
-    <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a" />
-    <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" />
+    <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a"/>
+    <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" /> 
   </div>
   </div>
 </template>

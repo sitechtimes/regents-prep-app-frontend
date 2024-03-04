@@ -10,7 +10,8 @@ defineExpose({
 </script>
 
 <template>
-  <div class="h-auto mb-[50px] mt-[50px]  relative bg-bg-navbar rounded-[35px] shadow-lg drop-shadow-lg">
+  <div class="pb-[1px]">
+    <div class="h-auto mb-[10px] mt-[50px] relative bg-bg-navbar rounded-[35px] shadow-lg drop-shadow-lg">
     <div
       class="w-full h-[56px] flex flex-col justify-around bg-bg-light rounded-t-[35px] shadow-black shadow-innervar"
     >
@@ -28,5 +29,6 @@ defineExpose({
         :questions="a.questions"
       />
     </div>
+  </div>
   </div>
 </template>
