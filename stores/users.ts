@@ -55,15 +55,6 @@ export const userState = defineStore("state", () => {
     }
   }
 
-  function logout() {
-    (email.value = ""),
-      (username.value = ""),
-      (fullname.value = ""),
-      (student.value = false),
-      (loggedIn.value = false);
-    useRouter().push("/login");
-  }
-
   return {
     email,
     username,
