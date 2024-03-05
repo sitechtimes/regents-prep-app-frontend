@@ -15,6 +15,13 @@ async function pushUserBack() {
     path: `/user-${userStore.username}/teacherdashboard`,
   });
 }
+
+definePageMeta({
+  middleware: () => {
+    const userStore = userState();
+    userStore.$teacherCheck();
+  },
+});
 </script>
 
 <template>
