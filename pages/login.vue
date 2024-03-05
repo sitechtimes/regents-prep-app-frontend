@@ -57,10 +57,20 @@ async function getUser() {
   /* userStore.loggedIn = true;
     userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now. */
 
+  const userData = userArr.filter((u) => u.username === userStore.username);
+
   // dev methods
   if (userStore.username == "student") {
     // If the user is a student, they are redirected to the studentdashboard.
     userStore.student = true;
+
+    // the state values copied over from the function below
+    userStore.loggedIn = true;
+    userStore.usertype = "student";
+    /*     userStore.email = userData[0].email;
+    userStore.username = userData[0].username;
+    userStore.fullname = userData[0].fullname; */
+
     router.push({
       path: `/user-${userStore.username}/studentdashboard`,
     });
@@ -70,14 +80,23 @@ async function getUser() {
   } else if (userStore.username == "teacher") {
     //If the user is a teacher
     userStore.student = false;
+
+    // state values carried over from the function below
+    userStore.loggedIn = true;
+    userStore.usertype = "teacher";
+    /*     userStore.email = userData[0].email;
+    userStore.username = userData[0].username;
+    userStore.fullname = userData[0].fullname; */
+
     router.push({
       path: `/user-${userStore.username}/teacherdashboard`,
     });
     //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
   }
 
-  const userData = userArr.filter((u) => u.username === userStore.username);
+  // function below is made to simulate the user logging in which sets values for user state
 
+  /*
   if (password.value === userData[0].password) {
     if (userData[0].usertype == "student") {
       userStore.student = true;
@@ -91,7 +110,7 @@ async function getUser() {
         path: `/user-${userStore.username}/teacherdashboard`,
       });
     } else if (userData[0].usertype == "teacher") {
-      userStore.student = true;
+      userStore.student = false;
       userStore.loggedIn = true;
       userStore.usertype = "teacher";
       userStore.email = userData[0].email;
@@ -103,7 +122,7 @@ async function getUser() {
     }
   } else {
     console.log("incorrect username and password");
-  }
+  } */
 }
 definePageMeta({
   layout: false,

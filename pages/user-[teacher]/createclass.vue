@@ -19,7 +19,7 @@ definePageMeta({
   layout: "createclass",
   middleware: () => {
     const userStore = userState();
-    userStore.teacherCheck();
+    userStore.$teacherCheck();
   },
 });
 </script>
