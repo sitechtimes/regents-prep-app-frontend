@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-
-const userStore = userState();
-const router = useRouter();
-
 import { classInfo } from "~/constants/classInfo";
 
 /* onMounted(() => {
@@ -15,6 +11,10 @@ import { classInfo } from "~/constants/classInfo";
 
 definePageMeta({
   layout: "dashboard",
+  middleware: () => {
+    const userStore = userState();
+    userStore.$studentCheck();
+  },
 });
 </script>
 
