@@ -14,11 +14,15 @@ filter.forEach((e) => {
     dateValue = true;
   }
 });
+function assignmentAction() { // what each assignment does when clicked
+  console.log("hi")
+}
 </script>
 
 <template>
   <button
     v-if="dateValue"
+    v-on:click="assignmentAction"
     class="w-max h-[75px] mb-[2rem] flex flex-row relative bg-primary bg-opacity-60 rounded-full shadow-black shadow-innervar hover:shadow-none after-bg-secondary"
   >
     <div class="text-[50px] px-[2rem] font-medium">{{ name }}</div>
