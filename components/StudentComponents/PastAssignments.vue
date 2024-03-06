@@ -22,7 +22,11 @@ defineExpose({
     <div
       class="pt-[2.5rem] flex flex-col items-center shadow-black shadow-innervar rounded-b-[35px]"
     >
-      <AssignmentsStat v-for="a in pastA" :name="a.name" :score="a.score" />
+      <AssignmentsStat
+        v-for="assignment in pastA"
+        :name="assignment.name"
+        :score="assignment.score"
+      />
     </div>
   </div>
 </template>

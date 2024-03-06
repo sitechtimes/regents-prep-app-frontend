@@ -23,9 +23,9 @@ defineExpose({
       class="pt-[2.5rem] flex flex-col items-center rounded-b-[35px] shadow-black shadow-innervar"
     >
       <AssignmentsTemp
-        v-for="a in currentA"
-        :name="a.name"
-        :questions="a.questions"
+        v-for="assignment in currentA"
+        :name="assignment.name"
+        :questions="assignment.questions"
       />
     </div>
   </div>

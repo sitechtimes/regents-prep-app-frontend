@@ -9,8 +9,8 @@ const instance = getCurrentInstance();
 const parentDate = instance.parent?.exposed.props.a;
 let dateValue = false;
 const filter = pastA.filter((a) => a.date === parentDate);
-filter.forEach((e) => {
-  if (e.name.includes(props.name)) {
+filter.forEach((assignment) => {
+  if (assignment.name.includes(props.name)) {
     dateValue = true;
   }
 });
