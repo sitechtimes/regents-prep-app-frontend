@@ -2,7 +2,7 @@
 import AssignmentsStat from "./AssignmentsStat.vue";
 import { pastA } from "../../tempArray";
 const props = defineProps({
-  a: String,
+  date: String,
 });
 defineExpose({
   props,
@@ -15,7 +15,7 @@ defineExpose({
       class="w-full h-[56px] flex flex-col justify-around bg-lime-50 rounded-t-[35px] shadow-black shadow-innervar"
     >
       <div class="text-center text-lime-800 text-4xl font-medium">
-        {{ a }}
+        {{ date }}
       </div>
     </div>
 
