@@ -14,8 +14,20 @@ filter.forEach((e) => {
     dateValue = true;
   }
 });
+
 function assignmentAction() { // what each assignment does when clicked
-  console.log("hi")
+  let btn = document.getElementById("btn");
+  if (btn?.classList.contains("inactive")) {
+    btn?.classList.add("active"),
+    btn?.classList.remove("inactive")
+    console.log("now our button is active")
+  } else if (btn?.classList.contains("active")) {
+    btn?.classList.add("inactive"),
+    btn?.classList.remove("active"),
+    console.log("now our button is inactive")
+  } else (
+    console.error()
+  )
 }
 </script>
 
@@ -23,7 +35,8 @@ function assignmentAction() { // what each assignment does when clicked
   <button
     v-if="dateValue"
     v-on:click="assignmentAction"
-    class="w-max h-[75px] mb-[2rem] flex flex-row relative bg-primary bg-opacity-60 rounded-full shadow-black shadow-innervar hover:shadow-none after-bg-secondary"
+    id="btn"
+    class="inactive w-max h-[75px] mb-[2rem] flex flex-row relative bg-primary bg-opacity-60 focus:bg-secondary rounded-full shadow-black shadow-innervar hover:shadow-none after-bg-secondary"
   >
     <div class="text-[50px] px-[2rem] font-medium">{{ name }}</div>
 
