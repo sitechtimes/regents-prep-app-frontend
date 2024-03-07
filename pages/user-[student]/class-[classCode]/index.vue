@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { userState } from "~/stores/users";
 import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
 import PastAssignments from "../../components/StudentComponents/PastAssignments.vue";
 import { currentA, pastA } from "../../../tempArray.js";
@@ -36,13 +35,6 @@ const pastArr: pastAssignments = [];
     }
   });
 })();
-
-definePageMeta({
-  middleware: () => {
-    const userStore = userState();
-    userStore.$studentCheck();
-  },
-});
 </script>
 
 <template>

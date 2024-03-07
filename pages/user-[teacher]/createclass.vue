@@ -17,10 +17,6 @@ function createClass() {
 
 definePageMeta({
   layout: "createclass",
-  middleware: () => {
-    const userStore = userState();
-    userStore.$teacherCheck();
-  },
 });
 </script>
 
@@ -69,7 +65,7 @@ definePageMeta({
             name="type"
             v-model="courseName"
           >
-            <option>Regents Something</option>
+          <option>Regents Something</option>
             <option
               v-for="course in courses"
               class="bg-bg-light pt-[-2px] border border-neutral-500"
