@@ -2,7 +2,7 @@
 import AssignmentsTemp from "./AssignmentsTemp.vue";
 import { currentA } from "../../tempArray.js";
 const props = defineProps({
-  date: String,
+  a: String,
 });
 defineExpose({
   props,
@@ -15,7 +15,7 @@ defineExpose({
       class="w-full h-[56px] flex flex-col justify-around bg-lime-50 rounded-t-[35px] shadow-black shadow-innervar"
     >
       <div class="text-center text-lime-800 text-4xl font-medium">
-        {{ date }}
+        {{ a }}
       </div>
     </div>
 
@@ -23,9 +23,9 @@ defineExpose({
       class="pt-[2.5rem] flex flex-col items-center rounded-b-[35px] shadow-black shadow-innervar"
     >
       <AssignmentsTemp
-        v-for="assignment in currentA"
-        :name="assignment.name"
-        :questions="assignment.questions"
+        v-for="a in currentA"
+        :name="a.name"
+        :questions="a.questions"
       />
     </div>
   </div>
