@@ -9,6 +9,37 @@ import { classInfo } from "~/constants/classInfo";
 }); */
 //This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
 
+function delay(delay: number) {
+  return new Promise((r) => {
+    setTimeout(r, delay);
+  });
+}
+class Timer {
+  constructor(
+    public counter = 10,
+    public min = Math.floor(counter / 60),
+    public sec = counter % 60
+  ) {
+    this.doTimer();
+  }
+  async doTimer() {
+    for (let i = 0; i < this.counter; i++) {
+      await delay(1000);
+      if (this.sec != 0) {
+        this.sec -= 1;
+      } else {
+        this.min -= 1;
+        this.sec += 60;
+      }
+      console.log(this.min);
+      console.log(this.sec);
+    }
+  }
+}
+new Timer();
+
+console.log(new Timer().counter, "idb");
+
 definePageMeta({
   layout: "dashboard",
   middleware: () => {
