@@ -6,11 +6,11 @@ const props = defineProps({
   questions: String,
 });
 const instance = getCurrentInstance();
-const parentDate = instance.parent?.exposed.props.date;
+const parentDate = instance.parent?.exposed.props.a;
 let dateValue = false;
-const filter = currentA.filter((assignment) => assignment.date === parentDate);
-filter.forEach((assignment) => {
-  if (assignment.name.includes(props.name)) {
+const filter = currentA.filter((a) => a.date === parentDate);
+filter.forEach((e) => {
+  if (e.name.includes(props.name)) {
     dateValue = true;
   }
 });
