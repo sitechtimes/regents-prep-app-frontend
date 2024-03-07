@@ -4,12 +4,13 @@ import { userState } from "~/stores/users";
 import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
 import PastAssignments from "../../components/StudentComponents/PastAssignments.vue";
 import { currentA, pastA } from "../../../tempArray.js";
+import { currentAssignments, pastAssignments } from "~/interfaces/interfaces";
 
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
 let PastStatus = ref(false);
 function toggleAssignments() {
-  if (CurrentStatus.value === true) {
+  if (CurrentStatus.value == true) {
     CurrentStatus.value = false;
     PastStatus.value = true;
     toggle.value = "Past";
@@ -19,19 +20,19 @@ function toggleAssignments() {
     toggle.value = "Current";
   }
 }
-const currentArr: any[] = [];
-const pastArr: any[] = [];
+const currentArr: currentAssignments = [];
+const pastArr: pastAssignments = [];
 (function () {
-  currentA.forEach((e: any) => {
-    if (currentArr.includes(e.date)) {
+  currentA.forEach((assignment: any) => {
+    if (currentArr.includes(assignment.date)) {
     } else {
-      currentArr.push(e.date);
+      currentArr.push(assignment.date);
     }
   });
-  pastA.forEach((e: any) => {
-    if (pastArr.includes(e.date)) {
+  pastA.forEach((assignment: any) => {
+    if (pastArr.includes(assignment.date)) {
     } else {
-      pastArr.push(e.date);
+      pastArr.push(assignment.date);
     }
   });
 })();
@@ -79,8 +80,16 @@ definePageMeta({
       </button>
     </div>
 
-    <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a" />
-    <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" />
+    <CurrentAssignments
+      v-if="CurrentStatus"
+      v-for="assignment in currentArr"
+      :date="assignment"
+    />
+    <PastAssignments
+      v-if="PastStatus"
+      v-for="assignment in pastArr"
+      :date="assignment"
+    />
   </div>
 </template>
 
