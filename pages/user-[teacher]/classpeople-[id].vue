@@ -1,14 +1,6 @@
 <script setup lang="ts">
 // request from api is made
 //All of the students for this particular class are recieved.
-import { userState } from "~/stores/users";
-
-definePageMeta({
-  middleware: () => {
-    const userStore = userState();
-    userStore.$teacherCheck();
-  },
-});
 </script>
 
 <template>

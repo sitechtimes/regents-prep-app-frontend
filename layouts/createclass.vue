@@ -15,13 +15,6 @@ async function pushUserBack() {
     path: `/user-${userStore.username}/teacherdashboard`,
   });
 }
-
-definePageMeta({
-  middleware: () => {
-    const userStore = userState();
-    userStore.$teacherCheck();
-  },
-});
 </script>
 
 <template>
@@ -48,9 +41,7 @@ definePageMeta({
         </div>
         <div class="m-auto">
           <div id="dashboard" class="w-[277px] h-[73px] mt-[17px] mr-[80px]">
-            <div
-              class="w-[300px] h-[73px] bg-secondary rounded-[24px] relative"
-            >
+            <div class="w-[300px] h-[73px] bg-secondary rounded-[24px] relative">
               <h1
                 class="w-[300px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
@@ -93,7 +84,6 @@ definePageMeta({
         </button>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            @click="userStore.$logout()"
             class="w-[168px] h-[68px] bg-secondary rounded-[24px] shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2

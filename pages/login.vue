@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { userState } from "~/stores/users";
-import { userArr } from "~/constants/tempUser";
 
 const email = ref("");
 const password = ref("");
@@ -12,8 +10,6 @@ const router = useRouter();
 const config = useRuntimeConfig();
 
 async function getUser() {
-  const userStore = userState(); //Pinia State is declared
-
   /*  try {
     const response = await fetch(`${config.public.API_URL}/auth/login/`, {
       method: "POST",
@@ -40,37 +36,34 @@ async function getUser() {
   //refresh token
   //username and password, refetch the information.
 
-  (function () {
+  function seperateName() {
     //function to extract the 'username' from a given email.
+    const userStore = userState();
     const fullUser = Array.from(`${email.value}`); //  The email input by the user is turned into an array
     if (fullUser.includes("@")) {
       // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
       userStore.email = email.value;
-      userStore.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+      userStore.username = fullUser
+        .slice(0, fullUser.indexOf("@"))
+        .join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
       console.log(userStore.username);
     } else {
       userStore.username = email.value; //If the email has no '@' symbol, then it is simply registered as the username.
       console.log(userStore.username);
     }
-  })();
+  }
 
-  /* userStore.loggedIn = true;
-    userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now. */
+  seperateName();
 
-  const userData = userArr.filter((u) => u.username === userStore.username);
+  const userStore = userState(); //Pinia State is declared
 
-  // dev methods
+  /*
+    userStore.loggedIn = true;
+    userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now.
+ */
   if (userStore.username == "student") {
     // If the user is a student, they are redirected to the studentdashboard.
     userStore.student = true;
-
-    // the state values copied over from the function below
-    userStore.loggedIn = true;
-    userStore.usertype = "student";
-    /*     userStore.email = userData[0].email;
-    userStore.username = userData[0].username;
-    userStore.fullname = userData[0].fullname; */
-
     router.push({
       path: `/user-${userStore.username}/studentdashboard`,
     });
@@ -80,49 +73,11 @@ async function getUser() {
   } else if (userStore.username == "teacher") {
     //If the user is a teacher
     userStore.student = false;
-
-    // state values carried over from the function below
-    userStore.loggedIn = true;
-    userStore.usertype = "teacher";
-    /*     userStore.email = userData[0].email;
-    userStore.username = userData[0].username;
-    userStore.fullname = userData[0].fullname; */
-
     router.push({
       path: `/user-${userStore.username}/teacherdashboard`,
     });
     //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
   }
-
-  // function below is made to simulate the user logging in which sets values for user state
-
-  /*
-  if (password.value === userData[0].password) {
-    if (userData[0].usertype == "student") {
-      userStore.student = true;
-      userStore.loggedIn = true;
-      userStore.usertype = "student";
-      userStore.email = userData[0].email;
-      userStore.username = userData[0].username;
-      userStore.fullname = userData[0].fullname;
-
-      router.push({
-        path: `/user-${userStore.username}/teacherdashboard`,
-      });
-    } else if (userData[0].usertype == "teacher") {
-      userStore.student = false;
-      userStore.loggedIn = true;
-      userStore.usertype = "teacher";
-      userStore.email = userData[0].email;
-      userStore.username = userData[0].username;
-      userStore.fullname = userData[0].fullname;
-      router.push({
-        path: `/user-${userStore.username}/teacherdashboard`,
-      });
-    }
-  } else {
-    console.log("incorrect username and password");
-  } */
 }
 definePageMeta({
   layout: false,
@@ -190,6 +145,7 @@ h3 {
 }
 @media all and (max-width: 100rem) {
   .login {
+
     width: 650px;
     height: 550px;
   }

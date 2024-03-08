@@ -2,12 +2,14 @@
 import { userState } from "~/stores/users";
 import { teacherClasses } from "~/constants/teacherClasses";
 
+const userStore = userState();
+
+onMounted(() => {
+  console.log(userStore.username);
+});
+
 definePageMeta({
   layout: "dashboard",
-  middleware: () => {
-    const userStore = userState();
-    userStore.$teacherCheck();
-  },
 });
 </script>
 
