@@ -6,7 +6,7 @@ import { userState } from "~/stores/users";
 definePageMeta({
   middleware: () => {
     const userStore = userState();
-    userStore.$teacherCheck();
+    /*     userStore.$teacherCheck(); */
   },
 });
 </script>
