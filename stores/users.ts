@@ -8,44 +8,6 @@ export const userState = defineStore("state", () => {
   const usertype = ref<string>("");
   const loggedIn = ref<boolean>(false);
 
-  function $teacherCheck() {
-    const userStore = userState();
-    const router = useRouter();
-    const previousRoutePath = ref("");
-
-    router.beforeEach((to, from, next) => {
-      previousRoutePath.value = from.fullPath; // saves the current path before taking user to new route
-    });
-
-    // if the user is not a teacher then redirects back to their previous path
-    if (userStore.usertype != "teacher") {
-      router.push({
-        path: previousRoutePath.value,
-      });
-      //console.log("not a teacher, being redirected");
-    } else {
-    }
-  }
-
-  function $studentCheck() {
-    const userStore = userState();
-    const router = useRouter();
-    const previousRoutePath = ref("");
-
-    router.beforeEach((to, from, next) => {
-      previousRoutePath.value = from.fullPath; // saves the current path before taking user to new route
-    });
-
-    // if the user is not a teacher then redirects back to their previous path
-    if (userStore.usertype != "student") {
-      router.push({
-        path: previousRoutePath.value,
-      });
-      //console.log("not a student, being redirected");
-    } else {
-    }
-  }
-
   function $logout() {
     (email.value = ""),
       (username.value = ""),
@@ -62,8 +24,6 @@ export const userState = defineStore("state", () => {
     student, // dev option
     usertype,
     loggedIn,
-    $teacherCheck,
-    $studentCheck,
     $logout,
   };
 });
