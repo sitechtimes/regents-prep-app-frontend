@@ -24,16 +24,14 @@ const pastArr: pastAssignments[] = [];
 (function () {
   currentA.forEach((assignment: currentAssignments) => {
     if (!currentArr.some((item) => item.date === assignment.date)) {
-      currentArr.push(assignment.date);
+      currentArr.push({ date: assignment.date });
     }
   });
   pastA.forEach((assignment: pastAssignments) => {
     if (!pastArr.some((item) => item.date === assignment.date)) {
-      pastArr.push(assignment.date);
+      pastArr.push({ date: assignment.date });
     }
   });
-  console.log(pastArr);
-  console.log(currentArr);
 })();
 </script>
 
@@ -75,12 +73,12 @@ const pastArr: pastAssignments[] = [];
     <CurrentAssignments
       v-if="CurrentStatus"
       v-for="assignment in currentArr"
-      :date="assignment"
+      :date="assignment.date"
     />
     <PastAssignments
       v-if="PastStatus"
       v-for="assignment in pastArr"
-      :date="assignment"
+      :date="assignment.date"
     />
   </div>
 </template>
