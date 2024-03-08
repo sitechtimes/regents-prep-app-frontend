@@ -28,22 +28,17 @@ async function pushUser() {
             class="w-[500px] h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
           >
             <h2
-              class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
-              v-if="(userStore.fullname = '')"
+              class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
             >
               {{ userStore.fullname }}
-            </h2>
-            <h2
-              class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
-              v-else
-            >
-              Logged in
             </h2>
           </div>
         </div>
         <div class="m-auto">
           <div id="dashboard" class="w-[277px] h-[73px] mt-[17px] mr-[80px]">
-            <div class="w-[300px] h-[73px] bg-secondary rounded-[24px] relative">
+            <div
+              class="w-[300px] h-[73px] bg-secondary rounded-[24px] relative"
+            >
               <h1
                 class="w-[300px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
@@ -83,6 +78,7 @@ async function pushUser() {
         </div>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
+            @click="userStore.$logout()"
             class="w-[168px] h-[68px] bg-secondary rounded-[24px] shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2

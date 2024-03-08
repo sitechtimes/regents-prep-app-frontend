@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { userState } from "~/stores/users";
 import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
 import PastAssignments from "../../components/StudentComponents/PastAssignments.vue";
 import { currentA, pastA } from "../../../tempArray.js";
@@ -34,6 +35,13 @@ const pastArr: any[] = [];
     }
   });
 })();
+
+definePageMeta({
+  middleware: () => {
+    const userStore = userState();
+    /*     userStore.$studentCheck(); */
+  },
+});
 </script>
 
 <template>
@@ -72,9 +80,16 @@ const pastArr: any[] = [];
     </div>
     <div class="max-w-md mx-auto md:max-w-2xl">
 
-    <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a"/>
-    <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" /> 
-  </div>
+    <CurrentAssignments
+      v-if="CurrentStatus"
+      v-for="a in currentArr"
+      :a="a"
+    />
+    <PastAssignments
+      v-if="PastStatus"
+      v-for="a in pastArr"
+      :a="a"
+    />
   </div>
 </template>
 
