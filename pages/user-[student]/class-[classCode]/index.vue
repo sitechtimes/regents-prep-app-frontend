@@ -19,21 +19,21 @@ function toggleAssignments() {
     toggle.value = "Current";
   }
 }
-const currentArr: currentAssignments = [];
-const pastArr: pastAssignments = [];
+const currentArr: currentAssignments[] = [];
+const pastArr: pastAssignments[] = [];
 (function () {
-  currentA.forEach((assignment: any) => {
-    if (currentArr.includes(assignment.date)) {
-    } else {
+  currentA.forEach((assignment: currentAssignments) => {
+    if (!currentArr.some((item) => item.date === assignment.date)) {
       currentArr.push(assignment.date);
     }
   });
-  pastA.forEach((assignment: any) => {
-    if (pastArr.includes(assignment.date)) {
-    } else {
+  pastA.forEach((assignment: pastAssignments) => {
+    if (!pastArr.some((item) => item.date === assignment.date)) {
       pastArr.push(assignment.date);
     }
   });
+  console.log(pastArr);
+  console.log(currentArr);
 })();
 </script>
 
