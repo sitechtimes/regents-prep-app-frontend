@@ -1,13 +1,11 @@
 <script setup lang="ts">
 // request from api is made
 //All of the students for this particular class are recieved.
+import teacherAuth from "~/middleware/teacherAuth";
 import { userState } from "~/stores/users";
 
 definePageMeta({
-  middleware: () => {
-    const userStore = userState();
-    /*     userStore.$teacherCheck(); */
-  },
+  middleware: teacherAuth,
 });
 </script>
 
