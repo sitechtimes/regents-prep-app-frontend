@@ -24,8 +24,6 @@ function delay(delay: number) {
       min.value -= 1;
       sec.value += 60;
     }
-    console.log(min.value);
-    console.log(sec.value);
   }
 })();
 
