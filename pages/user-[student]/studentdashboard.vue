@@ -13,7 +13,7 @@ definePageMeta({
   layout: "dashboard",
   middleware: () => {
     const userStore = userState();
-    /* userStore.$studentCheck(); */
+    /*     userStore.$studentCheck(); */
   },
 });
 </script>

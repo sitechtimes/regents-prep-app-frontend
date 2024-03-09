@@ -39,7 +39,7 @@ onMounted(() => {
 definePageMeta({
   middleware: () => {
     const userStore = userState();
-    /* userStore.$studentCheck(); */
+    /*     userStore.$studentCheck(); */
   },
 });
 </script>

@@ -19,7 +19,7 @@ async function pushUserBack() {
 definePageMeta({
   middleware: () => {
     const userStore = userState();
-    userStore.$teacherCheck();
+    /*     userStore.$teacherCheck(); */
   },
 });
 </script>
@@ -28,7 +28,10 @@ definePageMeta({
   <div>
     <nav class="h-[109px] bg-bg-navbar shadow">
       <div class="flex flex-row">
-        <div id="username" class="w-[500px] h-[70px] mt-[12px] pl-[1%]">
+        <div
+          id="username"
+          class="w-[500px] h-[70px] mt-[12px] pl-[1%]"
+        >
           <div
             class="w-[500px] h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
           >
@@ -47,7 +50,10 @@ definePageMeta({
           </div>
         </div>
         <div class="m-auto">
-          <div id="dashboard" class="w-[277px] h-[73px] mt-[17px] mr-[80px]">
+          <div
+            id="dashboard"
+            class="w-[277px] h-[73px] mt-[17px] mr-[80px]"
+          >
             <div
               class="w-[300px] h-[73px] bg-secondary rounded-[24px] relative"
             >
@@ -59,7 +65,9 @@ definePageMeta({
             </div>
           </div>
         </div>
-        <div class="w-[168] pr-[2%] flex items-center justify-center">
+        <div
+          class="w-[168] pr-[2%] flex items-center justify-center"
+        >
           <div
             id="create-btn"
             class="w-[73px] h-[73px] bg-secondary rounded-full shadow-inner items-center justify-center mt-[17px]"
@@ -91,7 +99,10 @@ definePageMeta({
             ></div>
           </div>
         </button>
-        <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
+        <div
+          id="logout-btn"
+          class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]"
+        >
           <button
             @click="userStore.$logout()"
             class="w-[168px] h-[68px] bg-secondary rounded-[24px] shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
