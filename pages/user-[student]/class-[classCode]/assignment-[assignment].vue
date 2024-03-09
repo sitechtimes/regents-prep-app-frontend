@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 import { classInfo } from "~/constants/classInfo";
+const route = useRoute();
 
 const route = useRoute();
 const userStore = userState();
@@ -37,10 +39,7 @@ onMounted(() => {
 });
 
 definePageMeta({
-  middleware: () => {
-    const userStore = userState();
-    /*     userStore.$studentCheck(); */
-  },
+  middleware: studentAuth,
 });
 </script>
 

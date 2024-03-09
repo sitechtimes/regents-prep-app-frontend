@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { classInfo } from "~/constants/classInfo";
 
@@ -11,10 +12,7 @@ import { classInfo } from "~/constants/classInfo";
 
 definePageMeta({
   layout: "dashboard",
-  middleware: () => {
-    const userStore = userState();
-    /*     userStore.$studentCheck(); */
-  },
+  middleware: studentAuth,
 });
 </script>
 
