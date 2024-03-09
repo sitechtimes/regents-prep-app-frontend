@@ -18,8 +18,8 @@ function createClass() {
 definePageMeta({
   layout: "createclass",
   middleware: () => {
-    const userStore = userState();
-    userStore.$teacherCheck();
+    /*     const userStore = userState();
+    userStore.$teacherCheck(); */
   },
 });
 </script>
@@ -43,7 +43,9 @@ definePageMeta({
         </h1>
       </div>
       <div>
-        <div class="flex flex-col m-auto items-center justify-center pt-[35px]">
+        <div
+          class="flex flex-col m-auto items-center justify-center pt-[35px]"
+        >
           <label
             for="classInput"
             class="text-black text-[50px] font-semibold drop-shadow-md pr-[260px]"
