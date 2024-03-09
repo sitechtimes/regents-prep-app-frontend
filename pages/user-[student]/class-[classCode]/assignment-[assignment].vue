@@ -1,11 +1,33 @@
 <script setup lang="ts">
 import { useQuestions } from "~/stores/questions";
-
 import { userState } from "~/stores/users";
-const route = useRoute();
+import { classInfo } from "~/constants/classInfo";
 
+const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
+
+const totalTime = classInfo.physics.assignments.today[0].timeLeft;
+const min = ref<number>(Math.trunc(totalTime.valueOf() / 60));
+const sec = ref<number>(totalTime.valueOf() % 60);
+function delay(delay: number) {
+  return new Promise((r) => {
+    setTimeout(r, delay);
+  });
+}
+(async function () {
+  for (let i = 0; i < totalTime.valueOf(); i++) {
+    await delay(1000);
+    if (sec.value != 0) {
+      sec.value -= 1;
+    } else {
+      min.value -= 1;
+      sec.value += 60;
+    }
+    console.log(min.value);
+    console.log(sec.value);
+  }
+})();
 
 onUnmounted(() => {
   userQuestions.$resetQuestion();
@@ -19,7 +41,7 @@ onMounted(() => {
 definePageMeta({
   middleware: () => {
     const userStore = userState();
-    userStore.$studentCheck();
+    /* userStore.$studentCheck(); */
   },
 });
 </script>
@@ -43,7 +65,7 @@ definePageMeta({
 
       <div>
         <h2>
-          Time Left -
+          Time Left - {{ min }} min {{ sec }} sec
           <!--Minutes : Seconds-->
           <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
           |
