@@ -18,7 +18,7 @@ function delay(delay: number) {
 (async function () {
   for (let i = 0; i < totalTime.valueOf(); i++) {
     await delay(1000);
-    if (sec.value != 0) {
+    if (sec.value !== 0) {
       sec.value -= 1;
     } else {
       min.value -= 1;
