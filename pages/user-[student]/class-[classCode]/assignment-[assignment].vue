@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 
@@ -17,10 +18,7 @@ onMounted(() => {
 });
 
 definePageMeta({
-  middleware: () => {
-    const userStore = userState();
-    /* userStore.$studentCheck(); */
-  },
+  middleware: studentAuth,
 });
 </script>
 

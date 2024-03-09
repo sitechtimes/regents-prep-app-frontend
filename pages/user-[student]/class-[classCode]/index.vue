@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import studentAuth from "~/middleware/studentAuth";
 import { ref } from "vue";
 import { userState } from "~/stores/users";
 import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
@@ -37,10 +38,7 @@ const pastArr: any[] = [];
 })();
 
 definePageMeta({
-  middleware: () => {
-    const userStore = userState();
-    /*     userStore.$studentCheck(); */
-  },
+  middleware: studentAuth,
 });
 </script>
 
@@ -49,12 +47,8 @@ definePageMeta({
     <div
       class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium"
     >
-      <div
-        class="pr-5 flex items-center bg-yellow-50 rounded-[27px]"
-      >
-        <label
-          class="switch relative inline-block h-full aspect-[1.75]"
-        >
+      <div class="pr-5 flex items-center bg-yellow-50 rounded-[27px]">
+        <label class="switch relative inline-block h-full aspect-[1.75]">
           <input
             class="opacity-0 w-0 h-0"
             @click="toggleAssignments"
@@ -66,9 +60,7 @@ definePageMeta({
           ></span>
         </label>
 
-        <div class="w-[80%] right-[0%] pl-4">
-          {{ toggle }} Assignments
-        </div>
+        <div class="w-[80%] right-[0%] pl-4">{{ toggle }} Assignments</div>
       </div>
 
       <button
@@ -85,16 +77,8 @@ definePageMeta({
       </button>
     </div>
 
-    <CurrentAssignments
-      v-if="CurrentStatus"
-      v-for="a in currentArr"
-      :a="a"
-    />
-    <PastAssignments
-      v-if="PastStatus"
-      v-for="a in pastArr"
-      :a="a"
-    />
+    <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a" />
+    <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" />
   </div>
 </template>
 
