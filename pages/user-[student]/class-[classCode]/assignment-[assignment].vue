@@ -22,7 +22,7 @@ function delay(delay: number) {
       sec.value -= 1;
     } else {
       min.value -= 1;
-      sec.value += 60;
+      sec.value += 59;
     }
   }
 })();
