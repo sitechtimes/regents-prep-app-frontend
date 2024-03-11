@@ -17,15 +17,13 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="h-fit bg-bg-reg">
-    <div class="flex flex-wrap items-center space-x-30">
-      <StudentComponentsClasspreview
-        class=""
-        v-for="item in classInfo"
-        :information="item.information"
-        :assignment="item.assignment"
-      />
-    </div>
+  <div class="flex flex-wrap items-center space-x-30">
+    <StudentComponentsClasspreview
+      class=""
+      v-for="item in classInfo"
+      :information="item.information"
+      :assignment="item.assignments"
+    />
   </div>
 
   <!-- add new class -->
