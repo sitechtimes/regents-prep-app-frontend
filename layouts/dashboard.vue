@@ -17,17 +17,6 @@ async function pushUser() {
     console.log("hi");
   }
 }
-
-function logOut() {
-  userStore.$patch({
-    email: null,
-    username: null,
-    fullname: null,
-    student: null,
-    loggedIn: false,
-  });
-  router.push("/login");
-}
 </script>
 
 <template>
@@ -39,16 +28,9 @@ function logOut() {
             class="w-[500px] h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
           >
             <h2
-              class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
-              v-if="(userStore.fullname = '')"
+              class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
             >
               {{ userStore.fullname }}
-            </h2>
-            <h2
-              class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
-              v-else
-            >
-              {{ userStore.username }}
             </h2>
           </div>
         </div>
@@ -96,7 +78,7 @@ function logOut() {
         </div>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            @click="userStore.logout()"
+            @click="userStore.$logout()"
             class="w-[168px] h-[68px] bg-secondary rounded-[24px] shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
             <h2
