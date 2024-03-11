@@ -3,13 +3,13 @@ import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 import { classInfo } from "~/constants/classInfo";
-const route = useRoute();
 
 const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
 
-const totalTime = classInfo.physics.assignments.today[0].timeLeft;
+/* const totalTime = classInfo.physics.assignments.today[0].timeLeft; */
+let totalTime = userQuestions.timeLeft;
 const min = ref<number>(Math.trunc(totalTime.valueOf() / 60));
 const sec = ref<number>(totalTime.valueOf() % 60);
 function delay(delay: number) {
@@ -21,6 +21,7 @@ function delay(delay: number) {
   for (let i = 0; i < totalTime.valueOf(); i++) {
     await delay(1000);
     if (sec.value !== 0) {
+      totalTime -= 1;
       sec.value -= 1;
     } else {
       min.value -= 1;
@@ -35,7 +36,7 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
-  console.log(userQuestions.qText);
+  console.log(userQuestions);
 });
 
 definePageMeta({
