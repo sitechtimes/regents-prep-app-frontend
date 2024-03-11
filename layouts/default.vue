@@ -5,7 +5,7 @@ const userStore = userState();
 const router = useRouter();
 
 onMounted(() => {
-  console.log(userStore.email);
+  //console.log(userStore.email);
 });
 
 //this function pushes user back to the teacher dashboard

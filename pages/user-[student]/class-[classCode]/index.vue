@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import studentAuth from "~/middleware/studentAuth";
 import { ref } from "vue";
 import { userState } from "~/stores/users";
 import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
@@ -37,10 +38,7 @@ const pastArr: any[] = [];
 })();
 
 definePageMeta({
-  middleware: () => {
-    const userStore = userState();
-    /*     userStore.$studentCheck(); */
-  },
+  middleware: studentAuth,
 });
 </script>
 
@@ -80,16 +78,8 @@ definePageMeta({
     </div>
     <div class="max-w-md mx-auto md:max-w-2xl">
 
-    <CurrentAssignments
-      v-if="CurrentStatus"
-      v-for="a in currentArr"
-      :a="a"
-    />
-    <PastAssignments
-      v-if="PastStatus"
-      v-for="a in pastArr"
-      :a="a"
-    />
+    <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a" />
+    <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" />
   </div>
 </template>
 

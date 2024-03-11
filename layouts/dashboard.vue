@@ -5,7 +5,7 @@ const userStore = userState();
 const router = useRouter();
 
 onMounted(() => {
-  console.log(userStore.email);
+  //console.log(userStore.email);
 });
 
 //this function pushes user to create class page if they are a teacher and if they are a student, then they get a pop-up
