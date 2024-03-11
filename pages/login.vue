@@ -11,10 +11,10 @@ const router = useRouter();
 const config = useRuntimeConfig();
 
 const getUser = async () => {
-      await userStore.getUser(email.value, password.value);
-      if (userStore.loggedIn) {
-        router.push('home');
-      }
+    await userStore.getUser(email.value, password.value);
+    if (userStore.loggedIn) {
+      router.push('home');
+    }
 };
 
 async function refreshAccessToken() {

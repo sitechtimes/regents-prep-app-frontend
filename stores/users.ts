@@ -15,13 +15,17 @@ export const userState = defineStore('user', () => {
   // actions
   const getUser = async (email: string, password: string) => {
     try {
+      let fullUserName = email;
+      if (email.includes('@')) {
+          fullUserName = email.split('@')[0];
+      }
       const response = await fetch(`${config.public.API_URL}/api/token/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: email,
+          username: fullUserName,
           password: password,
         }),
       })
