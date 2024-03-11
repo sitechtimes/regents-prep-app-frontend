@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
+ 
 
 const email = ref("");
 const password = ref("");
@@ -9,6 +10,12 @@ const router = useRouter();
 
 const config = useRuntimeConfig();
 
+const getUser = async () => {
+      await userStore.getUser(email.value, password.value);
+      if (userStore.loggedIn) {
+        router.push('home');
+      }
+};
 
 async function refreshAccessToken() {
   const refreshToken = localStorage.getItem('refresh_token');
@@ -32,47 +39,6 @@ async function refreshAccessToken() {
 }
 
 
-async function getUser() {
-  try {
-    let response = await fetch(`${config.public.API_URL}/api/token/`, {
-      method: "POST",
-      headers: {  
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: email.value,
-        password: password.value,
-      }),
-    });
-  
-    if (response.status === 401) { // if access token EXPIRES, we want to send a requrest to api/token/refresh
-      console.log("401 status code! Refreshing token...")
-      const newAccessToken = await refreshAccessToken();
-      console.log(newAccessToken)
-      // Retry the failed request
-      response = await fetch(`${config.public.API_URL}/api/token/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${newAccessToken}`,
-        },
-        body: JSON.stringify({
-          username: email.value,
-          password: password.value,
-        }),
-      });
-      console.log("successfully refreshed token!")
-    }
-
-    const tokens = await response.json();
-    localStorage.setItem("access_token", tokens.access);
-    localStorage.setItem("refresh_token", tokens.refresh);
-    console.log(tokens.access);
-    router.push('home')
-  } catch (error) {
-    console.log(error);
-  } 
-
   function seperateName() {
     //function to extract the 'username' from a given email.
     const userStore = userState();
@@ -88,11 +54,9 @@ async function getUser() {
       userStore.username = email.value; //If the email has no '@' symbol, then it is simply registered as the username.
       console.log(userStore.username);
     }
-  }
+  }        
 
   seperateName();
-
-  const userStore = userState(); //Pinia State is declared
 
   /*
     userStore.loggedIn = true;
@@ -100,7 +64,7 @@ async function getUser() {
  */
 
 
-  if (userStore.username == "student") {
+  if (userStore.user_type == "student") {
     // If the user is a student, they are redirected to the studentdashboard.
     userStore.student = true;
     router.push({
@@ -117,7 +81,7 @@ async function getUser() {
     });
     //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
   }
-}
+
 definePageMeta({
   layout: false,
 });
