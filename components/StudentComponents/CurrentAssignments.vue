@@ -10,23 +10,27 @@ defineExpose({
 </script>
 
 <template>
-  <div class="h-auto mb-[2rem] relative bg-lime-100 rounded-[35px] shadow-lg">
+  <div class="pb-[1px]">
     <div
-      class="w-full h-[56px] flex flex-col justify-around bg-lime-50 rounded-t-[35px] shadow-black shadow-innervar"
+      class="h-auto mb-[10px] mt-[50px] relative bg-bg-navbar rounded-[35px] shadow-lg drop-shadow-lg"
     >
-      <div class="text-center text-lime-800 text-4xl font-medium">
-        {{ a }}
+      <div
+        class="w-full h-[56px] flex flex-col justify-around bg-bg-light rounded-t-[35px] shadow-black shadow-innervar"
+      >
+        <div class="text-center text-secondary text-4xl font-medium">
+          {{ a }}
+        </div>
       </div>
-    </div>
 
-    <div
-      class="pt-[2.5rem] flex flex-col items-center rounded-b-[35px] shadow-black shadow-innervar"
-    >
-      <AssignmentsTemp
-        v-for="a in currentA"
-        :name="a.name"
-        :questions="a.questions"
-      />
+      <div
+        class="pt-[2.5rem] flex flex-col items-center rounded-b-[35px] shadow-black shadow-innervar"
+      >
+        <AssignmentsTemp
+          v-for="a in currentA"
+          :name="a.name"
+          :questions="a.questions"
+        />
+      </div>
     </div>
   </div>
 </template>
