@@ -13,6 +13,7 @@ const config = useRuntimeConfig();
 const getUser = async () => {
     await userStore.$userLogin(email.value, password.value);
     await userStore.$getUserCredentials();
+    userStore.$savePersistentSession();
     if (userStore.loggedIn) {
       router.push('home');
     }

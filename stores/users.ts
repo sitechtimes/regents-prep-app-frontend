@@ -74,6 +74,7 @@ export const userState = defineStore('user', () => {
       fullname: fullname.value,
     });
     sessionStorage.setItem('session', persistentData);
+    console.log('Session saved');
   }
   
   return {
