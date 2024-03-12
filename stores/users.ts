@@ -13,7 +13,7 @@ export const userState = defineStore('user', () => {
   const config = useRuntimeConfig();
 
   // actions
-  const $getUser = async (email: string, password: string) => {
+  const $userLogin = async (email: string, password: string) => {
     try {
       let fullUserName = email;
       if (email.includes('@')) {
@@ -43,7 +43,7 @@ export const userState = defineStore('user', () => {
 
   const $getUserCredentials = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_URL}/api/user/`, {
+      const response = await fetch(`${config.public.API_URL}/api/user/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -54,17 +54,28 @@ export const userState = defineStore('user', () => {
         .then(async (data) => {
           email.value = data.email;
           username.value = data.username;
-          fullname.value = data.fullname;
-          user_type.value = data.user_type;
+          fullname.value = data.name;
+          user_type.value = data.is_teacher ? "teacher" : "student";
+          console.log(email.value, username.value, fullname.value, user_type.value);
         })
 
-      // router.push('home'); // You'll need to handle routing differently
+      
     } catch (error) {
       console.log(error);
     }
   };
 
-
+  const $savePersistentSession = () => {
+    const persistentData = JSON.stringify({
+      email: email.value,
+      refresh_token: refresh_token.value,
+      access_token: access_token.value,
+      user_type: user_type.value,
+      fullname: fullname.value,
+    });
+    sessionStorage.setItem('session', persistentData);
+  }
+  
   return {
     email,
     username,
@@ -73,7 +84,8 @@ export const userState = defineStore('user', () => {
     refresh_token,
     user_type,
     loggedIn,
-    $getUser,
+    $userLogin,
     $getUserCredentials,
+    $savePersistentSession
   };
 });
