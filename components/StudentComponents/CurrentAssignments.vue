@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import AssignmentsTemp from "./AssignmentsTemp.vue";
 import { currentA } from "../../tempArray.js";
+import { Assignment } from "~/interfaces/interfaces";
+
 const props = defineProps({
   a: String,
 });

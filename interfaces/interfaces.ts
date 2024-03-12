@@ -25,6 +25,7 @@ export interface ClassPreviewAssignments {
 
 export interface Assignment {
   name: String;
+  date: String;
   qLeft: Number;
   timeLeft: Number;
   question: questionInterface;
