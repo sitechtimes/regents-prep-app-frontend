@@ -2,28 +2,27 @@
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
-import { classInfo } from "~/constants/classInfo";
 
 const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
 
-/* const totalTime = classInfo.physics.assignments.today[0].timeLeft; */
-let totalTime = userQuestions.timeLeft;
-const min = ref<number>(Math.trunc(totalTime.valueOf() / 60));
-const sec = ref<number>(totalTime.valueOf() % 60);
+const totalTime = ref<number>(userQuestions.timeLeft.valueOf());
+const min = ref<number>(Math.trunc(totalTime.value / 60));
+const sec = ref<number>(totalTime.value % 60);
 function delay(delay: number) {
   return new Promise((r) => {
     setTimeout(r, delay);
   });
 }
 (async function () {
-  for (let i = 0; i < totalTime.valueOf(); i++) {
+  for (let i = 0; i < totalTime.value; i++) {
     await delay(1000);
     if (sec.value !== 0) {
-      totalTime -= 1;
+      totalTime.value -= 1;
       sec.value -= 1;
     } else {
+      totalTime.value -= 1;
       min.value -= 1;
       sec.value += 59;
     }
@@ -36,7 +35,7 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
-  console.log(userQuestions);
+  // console.log(userQuestions.timeLeft);
 });
 
 definePageMeta({
