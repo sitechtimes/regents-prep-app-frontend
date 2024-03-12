@@ -3,17 +3,17 @@ import { ref } from 'vue';
 
 export const userState = defineStore('user', () => {
   // state
-  const email = ref('');
-  const username = ref('');
-  const fullname = ref('');
-  const access_token = ref('');
-  const refresh_token = ref('');
-  const user_type = ref(null);
-  const loggedIn = ref(false);
+  const email = ref<String>('');
+  const username = ref<String>('');
+  const fullname = ref<String>('');
+  const access_token = ref<String>('');
+  const refresh_token = ref<String>('');
+  const user_type = ref<String | null>(null);
+  const loggedIn = ref<Boolean>(false);
   const config = useRuntimeConfig();
 
   // actions
-  const getUser = async (email: string, password: string) => {
+  const $getUser = async (email: string, password: string) => {
     try {
       let fullUserName = email;
       if (email.includes('@')) {
@@ -41,7 +41,7 @@ export const userState = defineStore('user', () => {
     }
   };
 
-  const getUserCredentials = async () => {
+  const $getUserCredentials = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_URL}/api/user/`, {
         method: 'GET',
@@ -64,6 +64,7 @@ export const userState = defineStore('user', () => {
     }
   };
 
+
   return {
     email,
     username,
@@ -72,7 +73,7 @@ export const userState = defineStore('user', () => {
     refresh_token,
     user_type,
     loggedIn,
-    getUser,
-    getUserCredentials,
+    $getUser,
+    $getUserCredentials,
   };
 });

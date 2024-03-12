@@ -11,11 +11,12 @@ const router = useRouter();
 const config = useRuntimeConfig();
 
 const getUser = async () => {
-    await userStore.getUser(email.value, password.value);
+    await userStore.$getUser(email.value, password.value);
     if (userStore.loggedIn) {
       router.push('home');
     }
 };
+
 
 async function refreshAccessToken() {
   const refreshToken = localStorage.getItem('refresh_token');
