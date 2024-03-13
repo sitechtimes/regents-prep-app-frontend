@@ -2,8 +2,8 @@
 import { getCurrentInstance } from "vue";
 import { pastA } from "../../tempArray.js";
 const props = defineProps({
-  name: string,
-  score: string,
+  name: String,
+  score: String,
 });
 const instance = getCurrentInstance();
 const parentDate = instance.parent?.exposed.props.a;

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const props = defineProps({
-  name: { type: String },
-  month: { type: Number },
-  day: { type: Number },
+  name: String,
+  month: Number,
+  day: Number,
 });
 </script>
 
