@@ -5,6 +5,7 @@ import { userState } from "~/stores/users";
 import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
 import PastAssignments from "../../components/StudentComponents/PastAssignments.vue";
 import { currentA, pastA } from "../../../tempArray.js";
+import { currentAssignments, pastAssignments } from "~/interfaces/interfaces";
 
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
