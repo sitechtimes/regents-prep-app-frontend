@@ -15,6 +15,11 @@ async function pushUserBack() {
   router.push({ path: `/user-${userStore.username}/teacherdashboard` });
 };
 
+const userLogout = async() => {
+  await userStore.$userLogout();
+  router.push({ path: '/login' });
+};
+
 async function logOut(){
   try {
     const refreshToken = localStorage.getItem('refresh_token');
@@ -104,7 +109,7 @@ async function logOut(){
         </button>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
           <button
-            @click="logOut"
+            @click="userLogout"
             class="w-[168px] h-[68px] bg-[#426B1F] rounded-[20px] place-items-center hover:scale-105 shadow-black shadow-innertop hover:drop-shadow-xl duration-300"
           >
             <h2

@@ -14,9 +14,27 @@ const getUser = async () => {
     await userStore.$userLogin(email.value, password.value);
     await userStore.$getUserCredentials();
     userStore.$savePersistentSession();
-    if (userStore.loggedIn) {
-      router.push('home');
-    }
+
+    
+  if (userStore.user_type == "student") {
+    // If the user is a student, they are redirected to the studentdashboard.
+    userStore.student = true;
+    router.push({
+      path: `/user-${userStore.username}/studentdashboard`,
+    });
+    userStore.loggedIn = true;
+    //The 'student' and 'loggedIn' attributes of the state are set to true, and the user is redirected to the studentdashboard.
+    // router.push({ path: `/user-${userStore.username}/studentdashboard` });
+  } else if (userStore.user_type == "teacher") {
+    //If the user is a teacher
+    userStore.student = false;
+    router.push({
+      path: `/user-${userStore.username}/teacherdashboard`,
+    });
+    userStore.loggedIn = true;
+    //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
+  }
+
 };
 
 
@@ -76,7 +94,7 @@ async function refreshAccessToken() {
     userStore.loggedIn = true;
     //The 'student' and 'loggedIn' attributes of the state are set to true, and the user is redirected to the studentdashboard.
     // router.push({ path: `/user-${userStore.username}/studentdashboard` });
-  } else if (userStore.username == "teacher") {
+  } else if (userStore.user_type == "teacher") {
     //If the user is a teacher
     userStore.student = false;
     router.push({

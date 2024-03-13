@@ -8,6 +8,7 @@ export const userState = defineStore('user', () => {
   const fullname = ref<String>('');
   const access_token = ref<String>('');
   const refresh_token = ref<String>('');
+  const student = ref<Boolean>(false);
   const user_type = ref<String | null>(null);
   const loggedIn = ref<Boolean>(false);
   const config = useRuntimeConfig();
@@ -33,7 +34,6 @@ export const userState = defineStore('user', () => {
         .then(async (data) => {
           access_token.value = data.access;
           refresh_token.value = data.refresh;
-          loggedIn.value = true;
           console.log(access_token.value, refresh_token.value);
         })
     } catch (error) {
@@ -65,6 +65,36 @@ export const userState = defineStore('user', () => {
     }
   };
 
+const $userLogout = async() => {
+  try {
+    const response = await fetch(`${config.public.API_URL}/api/logout/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', 
+        'Authorization': `Bearer ${access_token.value}`,
+      },
+      body: JSON.stringify({
+        refresh: refresh_token.value
+      }),
+    })
+    .then((res) => res.json())
+    .then(async (data) => {
+      console.log(data);
+      loggedIn.value = false;
+      email.value = '';
+      username.value = '';
+      fullname.value = '';
+      access_token.value = '';
+      refresh_token.value = '';
+      user_type.value = '';
+      sessionStorage.removeItem('session');
+    })
+
+  } catch (error) {
+    console.log(error);
+  }
+  
+};
   const $savePersistentSession = () => {
     const persistentData = JSON.stringify({
       email: email.value,
@@ -83,9 +113,11 @@ export const userState = defineStore('user', () => {
     fullname,
     access_token,
     refresh_token,
+    student,
     user_type,
     loggedIn,
     $userLogin,
+    $userLogout,
     $getUserCredentials,
     $savePersistentSession
   };
