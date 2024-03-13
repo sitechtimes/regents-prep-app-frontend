@@ -79,16 +79,18 @@ definePageMeta({
       </button>
     </div>
 
-    <CurrentAssignments
-      v-if="CurrentStatus"
-      v-for="assignment in currentArr"
-      :date="assignment.date"
-    />
-    <PastAssignments
-      v-if="PastStatus"
-      v-for="assignment in pastArr"
-      :date="assignment.date"
-    />
+    <div class="max-w-md mx-auto md:max-w-2xl">
+      <CurrentAssignments
+        v-if="CurrentStatus"
+        v-for="assignment in currentArr"
+        :date="assignment.date"
+      />
+      <PastAssignments
+        v-if="PastStatus"
+        v-for="assignment in pastArr"
+        :date="assignment.date"
+      />
+    </div>
   </div>
 </template>
 
