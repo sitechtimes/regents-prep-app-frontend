@@ -3,6 +3,12 @@ import AssignmentsTemp from "./AssignmentsTemp.vue";
 import { currentA } from "../../tempArray.js";
 import { Assignment } from "~/interfaces/interfaces";
 
+/* const props = defineProps<{
+  assignment: Assignment;
+}>(); */
+
+/* const date = ref([props.assignment.date]); */
+
 const props = defineProps({
   a: String,
 });
