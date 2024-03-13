@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
 import { teacherClasses } from "~/constants/teacherClasses";
+import teacherAuth from "~/middleware/teacherAuth";
 
 definePageMeta({
   layout: "dashboard",
-  middleware: () => {
-    const userStore = userState();
-    userStore.$teacherCheck();
-  },
+  middleware: teacherAuth,
 });
 </script>
 

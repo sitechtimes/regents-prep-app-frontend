@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { classInfo } from "~/constants/classInfo";
 
@@ -11,23 +12,21 @@ import { classInfo } from "~/constants/classInfo";
 
 definePageMeta({
   layout: "dashboard",
-  middleware: () => {
-    const userStore = userState();
-    userStore.$studentCheck();
-  },
+  middleware: studentAuth,
 });
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center space-x-30">
-    <StudentComponentsClasspreview
-      class=""
-      v-for="item in classInfo"
-      :information="item.information"
-      :assignment="item.assignments"
-    />
+  <div class="h-fit bg-bg-reg">
+    <div class="flex flex-wrap items-center space-x-30">
+      <StudentComponentsClasspreview
+        class=""
+        v-for="item in classInfo"
+        :information="item.information"
+        :assignment="item.assignments"
+      />
+    </div>
   </div>
-
   <!-- add new class -->
   <!-- <div class="w-[444px] h-[189px] absolute">
     <div

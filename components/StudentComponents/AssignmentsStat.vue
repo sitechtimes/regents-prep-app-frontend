@@ -6,11 +6,11 @@ const props = defineProps({
   score: String,
 });
 const instance = getCurrentInstance();
-const parentDate = instance.parent?.exposed.props.date;
+const parentDate = instance.parent?.exposed.props.a;
 let dateValue = false;
-const filter = pastA.filter((assignment) => assignment.date === parentDate);
-filter.forEach((assignment) => {
-  if (assignment.name.includes(props.name)) {
+const filter = pastA.filter((a) => a.date === parentDate);
+filter.forEach((e) => {
+  if (e.name.includes(props.name)) {
     dateValue = true;
   }
 });
@@ -19,12 +19,12 @@ filter.forEach((assignment) => {
 <template>
   <div
     v-if="dateValue"
-    class="w-max h-[75px] mb-[2rem] flex flex-row relative bg-purple-400 bg-opacity-50 rounded-full shadow-black shadow-innervar hover:shadow-none"
+    class="w-max h-[75px] mb-[2rem] flex flex-row relative bg-primary bg-opacity-60 rounded-full shadow-black shadow-innervar hover:shadow-none"
   >
     <div class="text-[50px] px-[2rem] font-medium">{{ name }}</div>
 
     <div
-      class="w-[100px] h-full right-[0%] bg-purple-400 rounded-full shadow-black shadow-innervar"
+      class="w-[100px] h-full right-[0%] bg-primary rounded-full shadow-black shadow-innervar"
     >
       <div class="w-full h-full text-center text-white text-[50px] font-medium">
         {{ score }}
