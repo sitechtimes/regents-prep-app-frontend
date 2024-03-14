@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { getCurrentInstance } from "vue";
 import { currentA } from "../../tempArray.js";
+import { Assignment } from "~/interfaces/interfaces";
+
 const props = defineProps({
   name: String,
   questions: String,
