@@ -4,9 +4,30 @@ import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 
 const route = useRoute();
-
 const userStore = userState();
 const userQuestions = useQuestions();
+
+const totalTime = ref<number>(userQuestions.timeLeft.valueOf());
+const min = ref<number>(Math.trunc(totalTime.value / 60));
+const sec = ref<number>(totalTime.value % 60);
+function delay(delay: number) {
+  return new Promise((r) => {
+    setTimeout(r, delay);
+  });
+}
+(async function () {
+  for (let i = 0; i < totalTime.value; i++) {
+    await delay(1000);
+    if (sec.value !== 0) {
+      totalTime.value -= 1;
+      sec.value -= 1;
+    } else {
+      totalTime.value -= 1;
+      min.value -= 1;
+      sec.value += 59;
+    }
+  }
+})();
 
 onUnmounted(() => {
   userQuestions.$resetQuestion();
@@ -14,7 +35,7 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
-  console.log(userQuestions.qText);
+  // console.log(userQuestions.timeLeft);
 });
 
 definePageMeta({
@@ -41,7 +62,7 @@ definePageMeta({
 
       <div>
         <h2>
-          Time Left -
+          Time Left - {{ min }} min {{ sec }} sec
           <!--Minutes : Seconds-->
           <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
           |

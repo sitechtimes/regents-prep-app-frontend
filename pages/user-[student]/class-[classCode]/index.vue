@@ -5,6 +5,7 @@ import { userState } from "~/stores/users";
 import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
 import PastAssignments from "../../components/StudentComponents/PastAssignments.vue";
 import { currentA, pastA } from "../../../tempArray.js";
+import { currentAssignments, pastAssignments } from "~/interfaces/interfaces";
 
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
@@ -20,19 +21,17 @@ function toggleAssignments() {
     toggle.value = "Current";
   }
 }
-const currentArr: any[] = [];
-const pastArr: any[] = [];
+const currentArr: currentAssignments[] = [];
+const pastArr: pastAssignments[] = [];
 (function () {
-  currentA.forEach((e: any) => {
-    if (currentArr.includes(e.date)) {
-    } else {
-      currentArr.push(e.date);
+  currentA.forEach((assignment: currentAssignments) => {
+    if (!currentArr.some((item) => item.date === assignment.date)) {
+      currentArr.push({ date: assignment.date });
     }
   });
-  pastA.forEach((e: any) => {
-    if (pastArr.includes(e.date)) {
-    } else {
-      pastArr.push(e.date);
+  pastA.forEach((assignment: pastAssignments) => {
+    if (!pastArr.some((item) => item.date === assignment.date)) {
+      pastArr.push({ date: assignment.date });
     }
   });
 })();
@@ -80,9 +79,18 @@ definePageMeta({
         View Statistics
       </button>
     </div>
+
     <div class="max-w-md mx-auto md:max-w-2xl">
-      <CurrentAssignments v-if="CurrentStatus" v-for="a in currentArr" :a="a" />
-      <PastAssignments v-if="PastStatus" v-for="a in pastArr" :a="a" />
+      <CurrentAssignments
+        v-if="CurrentStatus"
+        v-for="assignment in currentArr"
+        :date="assignment.date"
+      />
+      <PastAssignments
+        v-if="PastStatus"
+        v-for="assignment in pastArr"
+        :date="assignment.date"
+      />
     </div>
   </div>
 </template>
