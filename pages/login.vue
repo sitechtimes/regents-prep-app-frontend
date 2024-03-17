@@ -46,7 +46,9 @@ async function getUser() {
     if (fullUser.includes("@")) {
       // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
       userStore.email = email.value;
-      userStore.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+      userStore.username = fullUser
+        .slice(0, fullUser.indexOf("@"))
+        .join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
       console.log(userStore.username);
     } else {
       userStore.username = email.value; //If the email has no '@' symbol, then it is simply registered as the username.
@@ -57,7 +59,9 @@ async function getUser() {
   /* userStore.loggedIn = true;
     userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now. */
 
-  const userData = userArr.filter((u) => u.username === userStore.username);
+  const userData = userArr.filter(
+    (u) => u.username === userStore.username
+  );
 
   // dev methods
   if (userStore.username == "student") {
@@ -66,7 +70,7 @@ async function getUser() {
 
     // the state values copied over from the function below
     userStore.loggedIn = true;
-    userStore.usertype = "student";
+    userStore.user_type = "student";
     /*     userStore.email = userData[0].email;
     userStore.username = userData[0].username;
     userStore.fullname = userData[0].fullname; */
@@ -83,7 +87,7 @@ async function getUser() {
 
     // state values carried over from the function below
     userStore.loggedIn = true;
-    userStore.usertype = "teacher";
+    userStore.user_type = "teacher";
     /*     userStore.email = userData[0].email;
     userStore.username = userData[0].username;
     userStore.fullname = userData[0].fullname; */
