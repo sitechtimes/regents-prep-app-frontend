@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import AssignmentsTemp from "./AssignmentsTemp.vue";
 import { currentA } from "../../tempArray.js";
-const props = defineProps({
-  date: String,
-});
+
+const props = defineProps<{
+  a: string;
+}>();
+
 defineExpose({
   props,
 });

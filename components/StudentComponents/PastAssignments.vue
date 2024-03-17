@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import AssignmentsStat from "./AssignmentsStat.vue";
 import { pastA } from "../../tempArray";
-const props = defineProps({
-  date: String,
-});
+
+const props = defineProps<{
+  a: string;
+}>();
+
 defineExpose({
   props,
 });
