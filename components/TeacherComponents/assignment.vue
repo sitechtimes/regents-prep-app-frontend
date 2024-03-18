@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const props = defineProps<{
-  name: string;
-  month: string;
-  day: string;
-}>();
+const props = defineProps({
+  name: { type: String },
+  month: { type: Number },
+  day: { type: Number },
+});
 </script>
 
 <template>

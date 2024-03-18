@@ -17,8 +17,8 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  name: string;
-  code: string;
+  name: String;
+  code: String;
 }>();
 </script>
 

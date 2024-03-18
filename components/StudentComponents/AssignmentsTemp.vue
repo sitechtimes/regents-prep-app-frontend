@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { getCurrentInstance } from "vue";
 import { currentA } from "../../tempArray.js";
-const props = defineProps<{
-  name: string,
-  questions: string,
-}>();
+const props = defineProps({
+  name: String,
+  questions: String,
+});
 const instance = getCurrentInstance();
 const parentDate = instance.parent?.exposed.props.date;
 let dateValue = false;
