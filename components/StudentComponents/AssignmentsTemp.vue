@@ -6,7 +6,7 @@ const props = defineProps<{
   questions: string;
 }>();
 const instance = getCurrentInstance();
-const parentDate = instance.parent?.exposed.props.date;
+const parentDate = instance?.parent?.exposed?.props.date;
 let dateValue = false;
 const filter = currentA.filter((assignment) => assignment.date === parentDate);
 filter.forEach((assignment) => {

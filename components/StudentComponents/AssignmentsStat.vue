@@ -6,7 +6,7 @@ const props = defineProps<{
   score: string;
 }>();
 const instance = getCurrentInstance();
-const parentDate = instance.parent?.exposed.props.date;
+const parentDate = instance?.parent?.exposed?.props.date;
 let dateValue = false;
 const filter = pastA.filter((assignment) => assignment.date === parentDate);
 filter.forEach((assignment) => {
