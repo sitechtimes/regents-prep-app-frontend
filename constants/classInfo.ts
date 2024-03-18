@@ -18,7 +18,7 @@ export const classInfo = {
     assignments: {
       today: [
         {
-          name: "Kinematics",
+          name: "Kinematics Practice",
           date: "04-12-2023",
           qLeft: 5,
           timeLeft: 183,

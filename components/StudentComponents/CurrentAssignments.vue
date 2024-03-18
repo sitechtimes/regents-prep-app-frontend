@@ -18,7 +18,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="h-auto mb-[2rem] relative bg-bg-navbar rounded-[35px] shadow-lg">
+  <div class="h-auto mb-[2rem] relative bg-bg-navbar rounded-[35px] drop-shadow-lg">
     <div
       class="w-full h-[56px] flex flex-col justify-around bg-bg-light rounded-t-[35px] shadow-black shadow-innervar"
     >

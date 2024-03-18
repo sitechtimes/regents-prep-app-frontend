@@ -2,10 +2,22 @@
 import studentAuth from "~/middleware/studentAuth";
 import { ref } from "vue";
 import { userState } from "~/stores/users";
+import { useQuestions } from "~/stores/questions";
 import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
 import PastAssignments from "../../components/StudentComponents/PastAssignments.vue";
 import { currentA, pastA } from "../../../tempArray.js";
-import { currentAssignments, pastAssignments } from "~/interfaces/interfaces";
+import { currentAssignments, pastAssignments, ClassPreviewInformation} from "~/interfaces/interfaces";
+
+
+const router = useRouter();
+/* const userStore = userState();
+const userQuestions = useQuestions();
+
+const props = defineProps<{
+  information: ClassPreviewInformation;
+}>();
+
+const classCode = ref(props.information.classCode); */
 
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
@@ -68,6 +80,9 @@ definePageMeta({
 
       <button
         v-if="CurrentStatus"
+        v-on:click="router.push({
+/*           path:`/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.assignmentName}` */
+        })"
         class="h-[60px] w-[370px] text-[35px] mr-[100px] mt-[15px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
       >
         Start Assignment
