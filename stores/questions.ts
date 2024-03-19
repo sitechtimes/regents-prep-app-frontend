@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { questionInterface } from "~/interfaces/interfaces";
 
 export const useQuestions = defineStore("questions", () => {
+  const classCode = ref<Number>(0);
   const assignmentName = ref<String>("");
   const qText = ref<String>("");
   const timeLeft = ref<Number>(0);
@@ -9,14 +10,16 @@ export const useQuestions = defineStore("questions", () => {
   const answers = ref<Array<String>>([]);
 
   function $resetQuestion() {
-    (assignmentName.value = ""),
-      (qText.value = ""),
-      (qLeft.value = 0),
-      (timeLeft.value = 0),
-      (answers.value = []);
+    (classCode.value = 0),
+      (assignmentName.value = ""),
+        (qText.value = ""),
+        (qLeft.value = 0),
+        (timeLeft.value = 0),
+        (answers.value = []);
   }
 
   return {
+    classCode,
     assignmentName,
     qText,
     timeLeft,

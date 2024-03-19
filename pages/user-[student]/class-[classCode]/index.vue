@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
-import { ref } from "vue";
+import { ref } from "vue"; 
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
 import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
@@ -10,14 +10,14 @@ import { currentAssignments, pastAssignments, ClassPreviewInformation} from "~/i
 
 
 const router = useRouter();
-/* const userStore = userState();
+const userStore = userState();
 const userQuestions = useQuestions();
 
 const props = defineProps<{
   information: ClassPreviewInformation;
 }>();
 
-const classCode = ref(props.information.classCode); */
+/* const classCode = ref(props.information.classCode);  */
 
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
