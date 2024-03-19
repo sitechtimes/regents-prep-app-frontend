@@ -30,3 +30,4 @@ defineExpose({
     </div>
   </div>
 </template>
+../../constants/tempArray.js

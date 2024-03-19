@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { getCurrentInstance } from "vue";
-import { currentA } from "../../tempArray.js";
+import { currentA } from "../../constants/tempArray";
+import { currentFetch } from "~/constants/composables";
+
 const props = defineProps<{
   name: string;
   questions: string;
@@ -40,3 +42,4 @@ function assignmentAction() {
     </div>
   </button>
 </template>
+../../constants/tempArray.js

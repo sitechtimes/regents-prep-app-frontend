@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getCurrentInstance } from "vue";
-import { pastA } from "../../tempArray.js";
+import { pastA } from "../../constants/tempArray";
 const props = defineProps<{
   name: string;
   score: string;
@@ -32,3 +32,4 @@ filter.forEach((assignment) => {
     </div>
   </div>
 </template>
+../../constants/tempArray.js

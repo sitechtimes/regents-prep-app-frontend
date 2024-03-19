@@ -103,3 +103,4 @@ input:checked + .slider:before {
   transform: translateX(30px);
 }
 </style>
+../../../constants/tempArray.js
