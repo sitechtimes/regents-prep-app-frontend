@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import AssignmentsStat from "./AssignmentsStat.vue";
-import { pastA } from "../../tempArray";
-const props = defineProps({
-  date: String,
-});
+import { pastA } from "~/constants/tempArray";
+const props = defineProps<{
+  date: string;
+}>();
 defineExpose({
   props,
 });
@@ -25,7 +25,7 @@ defineExpose({
       <AssignmentsStat
         v-for="assignment in pastA"
         :name="assignment.name"
-        :score="assignment.score"
+        :detail="assignment.score"
       />
     </div>
   </div>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import AssignmentsTemp from "./AssignmentsTemp.vue";
-import { currentA } from "../../tempArray.js";
-const props = defineProps({
-  date: String,
-});
+import { currentA } from "~/constants/tempArray.js";
+const props = defineProps<{
+  date: string;
+}>();
 defineExpose({
   props,
 });
@@ -25,7 +25,7 @@ defineExpose({
       <AssignmentsTemp
         v-for="assignment in currentA"
         :name="assignment.name"
-        :questions="assignment.questions"
+        :detail="assignment.questions"
       />
     </div>
   </div>
