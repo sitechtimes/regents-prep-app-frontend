@@ -10,7 +10,6 @@ export const useQuestions = defineStore("questions", () => {
   const answers = ref<Array<String>>([]);
 
   function $resetQuestion() {
-    (classCode.value = 0),
       (assignmentName.value = ""),
         (qText.value = ""),
         (qLeft.value = 0),
