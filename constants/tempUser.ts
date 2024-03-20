@@ -4,13 +4,13 @@ export const userArr = [
     password: "ooo",
     username: "studenttest",
     fullname: "michael whalen",
-    usertype: "student",
+    user_type: "student",
   },
   {
     email: "teachertest@gmail.com",
     password: "ooo",
     username: "teachertest",
     fullname: "teachertest",
-    usertype: "teacher",
+    user_type: "teacher",
   },
 ];

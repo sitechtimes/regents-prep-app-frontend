@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const userStore = userState();
 
   // if the user is not a teacher then redirects back to their previous path
-  if (userStore.usertype == "teacher") {
+  if (userStore.user_type == "teacher") {
     //console.log("navigated");
     navigateTo(to);
   } else {

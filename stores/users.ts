@@ -5,7 +5,7 @@ export const userState = defineStore("state", () => {
   const username = ref<string>("");
   const fullname = ref<string>("");
   const student = ref<boolean>(false); // temporary dev option
-  const usertype = ref<string>("");
+  const user_type = ref<string>("");
   const loggedIn = ref<boolean>(false);
 
   function $logout() {
@@ -22,7 +22,7 @@ export const userState = defineStore("state", () => {
     username,
     fullname,
     student, // dev option
-    usertype,
+    user_type,
     loggedIn,
     $logout,
   };

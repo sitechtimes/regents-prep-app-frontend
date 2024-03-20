@@ -6,10 +6,10 @@ import { useQuestions } from "~/stores/questions";
 
 const userQuestions = useQuestions();
 
-const props = defineProps({
-  name: String,
-  questions: String,
-});
+const props = defineProps<{
+  name: string;
+  questions: string;
+}>();
 
 const instance = getCurrentInstance();
 const parentDate = instance.parent?.exposed.props.date;
