@@ -45,14 +45,16 @@ definePageMeta({
 
 <template>
   <div>
-    <h1>{{ userQuestions.qText }}</h1>
-    <div>
+    <div class="w-[96%] h-[580px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%]">
+      <h1 class="text-[40px] font-semibold ml-[15px]">{{ userQuestions.qText }}</h1>
       <div>
-        <h2 v-for="answer in userQuestions.answers">
-          {{ answer }}
-        </h2>
+        <div>
+          <button v-for="answer in userQuestions.answers">
+            {{ answer }}
+          </button>
+        </div>
+        <submitButton>Submit</submitButton>
       </div>
-      <submitButton>Submit</submitButton>
     </div>
     <div>
       <h2>
