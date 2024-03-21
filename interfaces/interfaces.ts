@@ -24,9 +24,10 @@ export interface ClassPreviewAssignments {
 //Every property within the 'ClassPreviewAssignments' interface accounts for the assignments shown in the class preview before the student either chooses to go into the class, or to display for assingments for the student to click on. There should only be assignments from two days within the class preview- the current day (today), and the second nearest day in the future (otherDay). For convienence, as the backend has not been connected to the frontend yet, and the proper distinction between the dates has not been made for each assignment, the second nearest day in the future (with the first being the current day) has been named to otherDay.
 
 export interface Assignment {
-  name: string;
-  qLeft: number;
-  timeLeft: number;
+  name: String;
+  date: String;
+  qLeft: Number;
+  timeLeft: Number;
   question: questionInterface;
 }
 
@@ -50,14 +51,13 @@ export interface questionInterface {
 //The "questionStateInterface" is used within the questions.ts state file, which is used to display the individual question to the user. The "assignmentName" displays the assignment name for the user at the bottom of the page (shown in the figma), and will be the name the teacher gave the assignment itself. The "qText" displays the question text, the "timeLeft" displays the time left in seconds, the "qLeft" displays the amount of questions left in the assignment, and the answers the answers available for that question. "assignmentName" corresponds to "name" in the Assignment interface, "qText" corresponds to "qText" in the question interface, "timeLeft" corresponds to "timeLeft" in the Assignment interface, "qLeft" corresponds to "qLeft in the Assignment interface, and "answers" corresponds to "answers" in the questionInterface. It was originally used for the questionState (as an interface), but is no longer needed due to typescript being written to align with vue composition. It will be temporarily left in the code.
 
 export interface currentAssignments {
-  date: string
+  date: string;
 }
 
 //The "currentAssignments" interface is used within index.vue under the class folder. It is used to hold assignment dates and given the alias currentArr within index.vue. It will then be used to display dates in the CurrentAssignments view. These dates are also used as a filter to display assignments that  have due dates that correspond with the dates in the arrays.
 
 export interface pastAssignments {
-  date: string
+  date: string;
 }
 
 //The "pastAssignments" interface is used within index.vue under the class folder. It is used to hold assignment dates and given the alias pastArr within index.vue. It will then be used to display dates in the PastAssignments view.These dates are also used as a filter to display assignments that  have due dates that correspond with the dates in the arrays.
-

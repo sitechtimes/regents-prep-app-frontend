@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { dateFetch } from "~/composables/composables";
 import { currentA } from "../../constants/tempArray";
+import { Assignment } from "~/interfaces/interfaces";
+import { useQuestions } from "~/stores/questions";
+
+const userQuestions = useQuestions();
 
 const props = defineProps<{
   name: string;
@@ -17,7 +21,12 @@ function assignmentAction() {
 <template>
   <button
     v-if="dateFetch(props).show.value"
-    v-on:click="assignmentAction"
+    v-on:click="
+      userQuestions.$patch({
+        assignmentName: props.name,
+        qLeft: props.detail,
+      })
+    "
     id="btn"
     class="inactive w-max h-[75px] mb-[2rem] flex flex-row relative bg-primary bg-opacity-60 focus:bg-[#8C9930] focus:ring-2 focus:ring-black rounded-full shadow-black shadow-innervar hover:shadow-none after-bg-secondary"
   >

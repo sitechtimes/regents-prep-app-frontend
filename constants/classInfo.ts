@@ -18,7 +18,8 @@ export const classInfo = {
     assignments: {
       today: [
         {
-          name: "Kinematics",
+          name: "Kinematics Practice",
+          date: "04-12-2023",
           qLeft: 5,
           timeLeft: 183,
           question: {
@@ -30,6 +31,7 @@ export const classInfo = {
       otherDay: [
         {
           name: "Energy",
+          date: "04-20-2023",
           qLeft: 10,
           timeLeft: 56,
           question: {
@@ -39,6 +41,7 @@ export const classInfo = {
         } as Assignment,
         {
           name: "Circuits",
+          date: "04-20-2023",
           qLeft: 4,
           timeLeft: 54,
           question: {

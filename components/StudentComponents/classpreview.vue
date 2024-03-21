@@ -37,7 +37,9 @@ const otherAssignment = ref(props.assignment.otherDay);
     <div class="w-full relative rounded-[24px] shadow-inner">
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
-        v-on:click="
+        v-on:click="userQuestions.$patch({
+          classCode: classCode,
+        }),
           router.push({
             path: `/user-${userStore.username}/class-${classCode}`,
           })
@@ -63,6 +65,7 @@ const otherAssignment = ref(props.assignment.otherDay);
               path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
             }),
               userQuestions.$patch({
+                classCode: classCode,
                 assignmentName: todayAssignment[0].name,
                 qText: todayAssignment[0].question.qText,
                 timeLeft: todayAssignment[0].timeLeft,
@@ -83,6 +86,7 @@ const otherAssignment = ref(props.assignment.otherDay);
               path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[1].name}`,
             }),
               userQuestions.$patch({
+                classCode: classCode,
                 assignmentName: todayAssignment[1].name,
                 qText: todayAssignment[1].question.qText,
                 qLeft: todayAssignment[1].qLeft,
