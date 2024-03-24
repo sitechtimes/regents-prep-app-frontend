@@ -112,31 +112,6 @@ export const classInfo = {
 
 //Above are the format in which props will be passed into the class previews. The theme, followed by the information (the title of the class as well as the teacher), the assignments (for the current and a past day), and the class Code. This is only the format, and is a placeholder until the backend will be connected to the frontend.
 
-export const classInfo2 = {
-  physics: {
-    // theme: colorThemes.purple,
-    information: {
-      id: 29,
-      name: "Physics - Period 1",
-      teachers: ["Colangelo, Johnathan"],
-    } as course,
-    assignments: {
-      today: [
-        {
-          id: 1,
-          datetime_assigned: "2024-03-21T07:13:59.239779Z",
-          datetime_due: "2024-03-31T18:00:00Z",
-          question_number: 14,
-          timer_style: "UT",
-          time_allotted: 9,
-          attempts_allowed: 6,
-          questions_completed: 0,
-        } as studentAssignments,
-      ],
-    },
-  },
-};
-
 export const getStudentCourses = {
   username: "kmaslov",
   is_student: true,
