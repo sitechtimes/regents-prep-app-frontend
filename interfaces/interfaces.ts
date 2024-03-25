@@ -86,3 +86,7 @@ export interface studentAssignments {
   attempts_allowed: number;
   questions_completed: number;
 }
+
+export interface assignment {
+  id: number;
+}
