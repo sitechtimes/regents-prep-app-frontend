@@ -47,14 +47,16 @@ definePageMeta({
   <div>
     <div class="w-[96%] h-[580px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%]">
       <h1 class="text-[40px] font-semibold ml-[15px]">{{ userQuestions.qText }}</h1>
-      <div>
+      <div class="items-center justify-center text-center">
         <div>
-          <button v-for="answer in userQuestions.answers">
+          <button 
+          v-for="answer in userQuestions.answers"
+          class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px]">
             {{ answer }}
           </button>
         </div>
-        <submitButton>Submit</submitButton>
       </div>
+      <button class="w-[190px] h-[60px] bg-bg-reg shadow-innertop shadow-innerbottom shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none">Submit</button>
     </div>
     <div>
       <h2>
@@ -81,4 +83,5 @@ definePageMeta({
   </div>
 </template>
 
-<style></style>
+<style>
+</style>
