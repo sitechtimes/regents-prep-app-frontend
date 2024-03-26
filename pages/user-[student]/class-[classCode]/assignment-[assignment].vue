@@ -45,25 +45,29 @@ definePageMeta({
 
 <template>
   <div>
-    <div class="w-[96%] h-[580px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%]">
-      <h1 class="text-[40px] font-semibold ml-[15px]">{{ userQuestions.qText }}</h1>
+    <div
+      class="w-[96%] h-fit bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%] scroll-smooth overflow-y-auto"
+    >
+      <h1 class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]">
+        Which graph represents the relationship between the speed of a freely
+        falling object and the time of fall of the object near Earth's surface?
+        {{ userQuestions.qText }}
+      </h1>
       <div class="items-center justify-center text-center">
-        <div>
-          <button 
-          v-for="answer in userQuestions.answers"
-          class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px]">
+        <div class="justify-center items-center text-center">
+          <button
+            v-for="answer in userQuestions.answers"
+            class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px] mb-[10px] focus:bg-primary focus:bg-opacity-50 mb-[50px]"
+          >
             {{ answer }}
           </button>
         </div>
       </div>
-      <button class="w-[190px] h-[60px] bg-bg-reg shadow-innertop shadow-innerbottom shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none">Submit</button>
     </div>
-    <div>
-      <h2>
-        <!--Questions left in assignment {{ assignment.questions.length }} takes length of total array of questions-->
-      </h2>
+    <div class="flex">
+      <!--Questions left in assignment {{ assignment.questions.length }} takes length of total array of questions-->
       <h2>{{ userQuestions.qLeft }} Questions Left</h2>
-
+      <button class="w-[190px] h-[60px] bg-bg-reg shadow-innertop shadow-innerbottom shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none">Submit</button>
       <div>
         <h2>
           Time Left - {{ min }} min {{ sec }} sec
@@ -83,5 +87,4 @@ definePageMeta({
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
