@@ -37,12 +37,13 @@ const otherAssignment = ref(props.assignment.otherDay);
     <div class="w-full relative rounded-[24px] shadow-inner">
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
-        v-on:click="userQuestions.$patch({
-          classCode: classCode,
-        }),
-          router.push({
-            path: `/user-${userStore.username}/class-${classCode}`,
-          })
+        v-on:click="
+          userQuestions.$patch({
+            classCode: classCode,
+          }),
+            router.push({
+              path: `/user-${userStore.username}/class-${classCode}`,
+            })
         "
       >
         <h2
@@ -157,7 +158,7 @@ const otherAssignment = ref(props.assignment.otherDay);
                   })
               "
               class="w-fit hover:cursor-pointer hover:underline"
-              v-if="otherAssignment.length >= 1"
+              v-if="otherAssignment.length > 1"
             >
               {{ otherAssignment[1].name }} ({{ otherAssignment[1].qLeft }})
             </h3>

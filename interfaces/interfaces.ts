@@ -74,6 +74,13 @@ export interface course {
   id: number;
   name: string;
   teachers: Array<string>;
+  assignments: Array<assignmentDetails>;
+}
+
+export interface assignmentDetails {
+  id: number;
+  name: string;
+  due_date: string;
 }
 
 export interface studentAssignments {
