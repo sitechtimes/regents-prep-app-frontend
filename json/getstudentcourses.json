@@ -1,0 +1,223 @@
+{
+    "username": "kmaslov",
+    "is_student": true,
+    "is_teacher": false,
+    "student_courses": [
+        {
+            "id": 29,
+            "name": "Physics - Period 1",
+            "teachers": [
+                "Colangelo, Johnathan"
+            ],
+            "assignments": [
+                {
+                    "id": 1,
+                    "name": "Homework 1",
+                    "due_date": "2015-09-01"
+                },
+                {
+                    "id": 2,
+                    "name": "Homework 2",
+                    "due_date": "2015-09-08"
+                },
+                {
+                    "id": 3,
+                    "name": "Homework 3",
+                    "due_date": "2015-09-15"
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "name": "Physics - Period 2",
+            "teachers": [
+                "Jax, Jared"
+            ],
+            "assignments": [
+                {
+                    "id": 4,
+                    "name": "Homework 1",
+                    "due_date": "2015-09-01"
+                },
+                {
+                    "id": 5,
+                    "name": "Homework 2",
+                    "due_date": "2015-09-08"
+                },
+                {
+                    "id": 6,
+                    "name": "Homework 3",
+                    "due_date": "2015-09-15"
+                }
+            ]
+        },
+        {
+            "id": 31,
+            "name": "Physics - Period 3",
+            "teachers": [
+                "Weitzman, Michael"
+            ],
+            "assignments": [
+                {
+                    "id": 1,
+                    "name": "Homework 1",
+                    "due_date": "2015-09-01"
+                },
+                {
+                    "id": 2,
+                    "name": "Homework 2",
+                    "due_date": "2015-09-08"
+                },
+                {
+                    "id": 3,
+                    "name": "Homework 3",
+                    "due_date": "2015-09-15"
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "name": "Physics - Period 4",
+            "teachers": [
+                "Colangelo, Johnathan"
+            ],
+            "assignments": [
+                {
+                    "id": 1,
+                    "name": "Homework 1",
+                    "due_date": "2015-09-01"
+                },
+                {
+                    "id": 2,
+                    "name": "Homework 2",
+                    "due_date": "2015-09-08"
+                },
+                {
+                    "id": 3,
+                    "name": "Homework 3",
+                    "due_date": "2015-09-15"
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "name": "Physics - Period 5",
+            "teachers": [
+                "Jax, Jared"
+            ],
+            "assignments": [
+                {
+                    "id": 1,
+                    "name": "Homework 1",
+                    "due_date": "2015-09-01"
+                },
+                {
+                    "id": 2,
+                    "name": "Homework 2",
+                    "due_date": "2015-09-08"
+                },
+                {
+                    "id": 3,
+                    "name": "Homework 3",
+                    "due_date": "2015-09-15"
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "name": "Physics - Period 6",
+            "teachers": [
+                "Weitzman, Michael"
+            ],
+            "assignments": [
+                {
+                    "id": 1,
+                    "name": "Homework 1",
+                    "due_date": "2015-09-01"
+                },
+                {
+                    "id": 2,
+                    "name": "Homework 2",
+                    "due_date": "2015-09-08"
+                },
+                {
+                    "id": 3,
+                    "name": "Homework 3",
+                    "due_date": "2015-09-15"
+                }
+            ]
+        },
+        {
+            "id": 35,
+            "name": "Physics - Period 7",
+            "teachers": [
+                "Colangelo, Johnathan"
+            ],
+            "assignments": [
+                {
+                    "id": 1,
+                    "name": "Homework 1",
+                    "due_date": "2015-09-01"
+                },
+                {
+                    "id": 2,
+                    "name": "Homework 2",
+                    "due_date": "2015-09-08"
+                },
+                {
+                    "id": 3,
+                    "name": "Homework 3",
+                    "due_date": "2015-09-15"
+                }
+            ]
+        },
+        {
+            "id": 36,
+            "name": "Physics - Period 8",
+            "teachers": [
+                "Jax, Jared"
+            ],
+            "assignments": [
+                {
+                    "id": 1,
+                    "name": "Homework 1",
+                    "due_date": "2015-09-01"
+                },
+                {
+                    "id": 2,
+                    "name": "Homework 2",
+                    "due_date": "2015-09-08"
+                },
+                {
+                    "id": 3,
+                    "name": "Homework 3",
+                    "due_date": "2015-09-15"
+                }
+            ]
+        },
+        {
+            "id": 37,
+            "name": "Physics - Period 9",
+            "teachers": [
+                "Weitzman, Michael"
+            ],
+            "assignments": [
+                {
+                    "id": 1,
+                    "name": "Homework 1",
+                    "due_date": "2015-09-01"
+                },
+                {
+                    "id": 2,
+                    "name": "Homework 2",
+                    "due_date": "2015-09-08"
+                },
+                {
+                    "id": 3,
+                    "name": "Homework 3",
+                    "due_date": "2015-09-15"
+                }
+            ]
+        }
+    ]
+}

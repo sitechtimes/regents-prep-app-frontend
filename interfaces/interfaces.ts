@@ -61,3 +61,39 @@ export interface pastAssignments {
 }
 
 //The "pastAssignments" interface is used within index.vue under the class folder. It is used to hold assignment dates and given the alias pastArr within index.vue. It will then be used to display dates in the PastAssignments view.These dates are also used as a filter to display assignments that  have due dates that correspond with the dates in the arrays.
+
+// NEW INTERFACES
+export interface studentCourses {
+  username: string;
+  is_student: boolean;
+  is_teacher: boolean;
+  student_courses: Array<course>;
+}
+
+export interface course {
+  id: number;
+  name: string;
+  teachers: Array<string>;
+  assignments: Array<assignmentDetails>;
+}
+
+export interface assignmentDetails {
+  id: number;
+  name: string;
+  due_date: string;
+}
+
+export interface studentAssignments {
+  id: number;
+  datetime_assigned: string;
+  datetime_due: string;
+  question_number: number;
+  timer_style: string;
+  time_allotted: number;
+  attempts_allowed: number;
+  questions_completed: number;
+}
+
+export interface assignment {
+  id: number;
+}
