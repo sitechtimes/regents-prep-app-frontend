@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import AssignmentsTemp from "./AssignmentsTemp.vue";
-import { currentA } from "../../tempArray.js";
 import { Assignment } from "~/interfaces/interfaces";
-
-/* const props = defineProps<{
-  assignment: Assignment;
-}>(); 
-
-const date = ref([props.assignment.date]); */
-
-const props = defineProps({
-  date: String,
-});
+import { currentA } from "~/constants/tempArray.js";
+const props = defineProps<{
+  date: string;
+}>();
 defineExpose({
   props,
 });
 </script>
 
 <template>
-  <div class="h-auto mb-[2rem] relative bg-bg-navbar rounded-[35px] drop-shadow-lg">
+  <div
+    class="h-auto mb-[2rem] relative bg-bg-navbar rounded-[35px] drop-shadow-lg"
+  >
     <div
       class="w-full h-[56px] flex flex-col justify-around bg-bg-light rounded-t-[35px] shadow-black shadow-innervar"
     >
@@ -33,8 +28,9 @@ defineExpose({
       <AssignmentsTemp
         v-for="assignment in currentA"
         :name="assignment.name"
-        :questions="assignment.questions"
+        :detail="assignment.questions"
       />
     </div>
   </div>
 </template>
+../../constants/tempArray.js
