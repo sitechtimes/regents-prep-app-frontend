@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import {
+  ClassPreviewInformation,
+  ClassPreviewAssignments,
+} from "~/interfaces/interfaces";
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 
-const route = useRoute();
+const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
 
@@ -80,3 +84,8 @@ definePageMeta({
 </template>
 
 <style></style>
+<!-- @click="
+          router.push({
+            path: `/user-${userStore.username}/class-${userQuestions.classCode}/assignment-${userQuestions.assignmentName}-completed`,
+          })
+        " -->
