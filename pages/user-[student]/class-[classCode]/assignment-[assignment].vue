@@ -64,26 +64,39 @@ definePageMeta({
         </div>
       </div>
     </div>
-    <button class="w-[350px] h-[60px] bg-bg-reg shadow-innertop shadow-innerbottom shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none mt-[2%] mb-[20px]">Submit Answer</button>
+    <button
+      class="w-[350px] h-[60px] bg-bg-reg shadow-innertop shadow-innerbottom shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none mt-[2%] mb-[20px]"
+    >
+      Submit Answer
+    </button>
     <div class="flex flex-row w-[96%] m-auto">
       <!--Questions left in assignment {{ assignment.questions.length }} takes length of total array of questions-->
-      <h2 class="w-[20%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] text-center flex flex-row pl-[2%]">
-<!--         <div class="mr-[5px] bg-primary w-[50px] h-[50px] rounded-full text-[32px] mt-[1%] shadow-innertop shadow-innerbottom shadow-secondary">{{ userQuestions.qLeft }}</div> -->
-        {{ userQuestions.qLeft }} Questions Left</h2>
-        <h2 class="w-[40%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end">
-          Time Left - {{ min }} min {{ sec }} sec
-          <!--Minutes : Seconds-->
-          <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
-          |
-          <!--Number of Attempts-->
-          Attempts Left
-        </h2>
+<!--       <h2
+        class="w-[20%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] text-center flex flex-row pl-[2%]"
+      >
+                <div class="mr-[5px] bg-primary w-[50px] h-[50px] rounded-full text-[32px] mt-[1%] shadow-innertop shadow-innerbottom shadow-secondary">{{ userQuestions.qLeft }}</div>
+        {{ userQuestions.qLeft }} Questions Left
+      </h2> -->
+      <h2
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+      >
+        {{ userQuestions.qLeft }} Questions Left
+
+        |
+
+        Time Left - {{ min }} min {{ sec }} sec
+        <!--Minutes : Seconds-->
+        <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
+        |
+        <!--Number of Attempts-->
+        X Attempts Left
+      </h2>
     </div>
-    <div>
+    <!--     <div>
       <h2>
         {{ userQuestions.assignmentName }}
       </h2>
-    </div>
+    </div> -->
   </div>
 </template>
 
