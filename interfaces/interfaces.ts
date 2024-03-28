@@ -24,10 +24,10 @@ export interface ClassPreviewAssignments {
 //Every property within the 'ClassPreviewAssignments' interface accounts for the assignments shown in the class preview before the student either chooses to go into the class, or to display for assingments for the student to click on. There should only be assignments from two days within the class preview- the current day (today), and the second nearest day in the future (otherDay). For convienence, as the backend has not been connected to the frontend yet, and the proper distinction between the dates has not been made for each assignment, the second nearest day in the future (with the first being the current day) has been named to otherDay.
 
 export interface Assignment {
-  name: String;
-  date: String;
-  qLeft: Number;
-  timeLeft: Number;
+  name: string;
+  date: string;
+  qLeft: number;
+  timeLeft: number;
   question: questionInterface;
 }
 
