@@ -3,6 +3,16 @@ import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { classInfo } from "~/constants/classInfo";
 
+import assignmentInstance from '../../json/getstudentassignments.json'
+import studentAssignmentList from '../../json/getstudentcourses.json'
+import { course, studentAssignments } from "~/interfaces/interfaces";
+
+const studentAssignmentInstance = ref( assignmentInstance as studentAssignments[] )
+let courseList = ref(studentAssignmentList.student_courses as course[])
+
+console.log(courseList.value)
+console.log(studentAssignmentInstance.value)
+
 /* onMounted(() => {
   console.log(userStore.user.username);
   let date: Date = new Date();
@@ -21,8 +31,9 @@ definePageMeta({
     <div class="flex flex-wrap items-center space-x-30">
       <StudentComponentsClasspreview
         class=""
-        v-for="item in classInfo"
-        :information="item.information"
+        v-for="item in courseList"
+        :key="item.id"
+        :information="{title: item.name, teacher: item.teachers, classCode: item.id}"
         :assignment="item.assignments"
       />
     </div>

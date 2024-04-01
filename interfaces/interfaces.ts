@@ -10,7 +10,7 @@
 
 export interface ClassPreviewInformation {
   title: string;
-  teacher: string;
+  teacher: Array<String>;
   classCode: number;
 }
 
