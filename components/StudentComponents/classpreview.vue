@@ -2,7 +2,8 @@
 import {
   // Theme,
   ClassPreviewInformation,
-  ClassPreviewAssignments,
+  assignmentDetails,
+  course,
 } from "~/interfaces/interfaces";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
@@ -14,7 +15,7 @@ const router = useRouter();
 const props = defineProps<{
   // theme: Theme;
   information: ClassPreviewInformation;
-  assignment: ClassPreviewAssignments;
+  class: course;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
 /* const assignmentTheme = ref(props.theme.assignment);
@@ -22,13 +23,43 @@ const titleTheme = ref(props.theme.title);
 const borderTheme = ref(props.theme.border);
 const backgroundTheme = ref(props.theme.background); */
 
+const date = new Date();
+
+function dateFormat(number: number) {
+  if (number <= 10) {
+    return `0${number}`;
+  } else return number;
+}
+
+let dateFilter = `${date.getFullYear()}-${dateFormat(
+  date.getMonth() + 1
+)}-${dateFormat(date.getDate())}`;
+
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
-const classCode = ref(props.information.classCode);
+const classCode = ref(props.class.id);
 
-const todayAssignment = ref(props.assignment.today);
-const otherAssignment = ref(props.assignment.otherDay);
+const todayAssignment = ref(
+  props.class.assignments.filter(
+    (assignment) => assignment.due_date == dateFilter
+  )
+);
+const otherAssignment = ref(
+  props.class.assignments.filter((assignment) => {
+    Number(assignment.due_date) - Number(dateFilter) >= 1;
+  })
+);
 
+function updateState(item: Array<assignmentDetails>, index: number) {
+  router.push({
+    path: `/user-${userStore.username}/class-${classCode}/assignment-${item[index].name}`,
+  });
+  userQuestions.$patch({
+    classCode: classCode.value,
+    assignmentName: item[index].name,
+    dueDate: item[index].due_date,
+  });
+}
 //The props are registered separately. Every prop name correlates to the dynamic parts of every class preview.
 </script>
 
@@ -62,17 +93,7 @@ const otherAssignment = ref(props.assignment.otherDay);
         </h2>
         <h3
           v-on:click="
-            router.push({
-              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
-            }),
-              userQuestions.$patch({
-                classCode: classCode,
-                assignmentName: todayAssignment[0].name,
-                qText: todayAssignment[0].question.qText,
-                timeLeft: todayAssignment[0].timeLeft,
-                qLeft: todayAssignment[0].qLeft,
-                answers: todayAssignment[0].question.answers,
-              })
+            updateState(todayAssignment, 0)
             //This patch method is repeated multiple times, but it takes the current assignment information that the user has clicked on, and patches it into the state.
           "
           class="w-fit hover:cursor-pointer hover:underline"
@@ -82,19 +103,7 @@ const otherAssignment = ref(props.assignment.otherDay);
           {{ todayAssignment[0].name }} ({{ todayAssignment[0].qLeft }})
         </h3>
         <h3
-          v-on:click="
-            router.push({
-              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[1].name}`,
-            }),
-              userQuestions.$patch({
-                classCode: classCode,
-                assignmentName: todayAssignment[1].name,
-                qText: todayAssignment[1].question.qText,
-                qLeft: todayAssignment[1].qLeft,
-                timeLeft: todayAssignment[1].timeLeft,
-                answers: todayAssignment[1].question.answers,
-              })
-          "
+          v-on:click="updateState(todayAssignment, 1)"
           class="w-fit hover:cursor-pointer hover:underline"
           v-if="todayAssignment.length > 1"
         >
@@ -107,18 +116,7 @@ const otherAssignment = ref(props.assignment.otherDay);
           </h2>
           <template v-if="todayAssignment.length > 1">
             <h3
-              v-on:click="
-                router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0].name}`,
-                }),
-                  userQuestions.$patch({
-                    assignmentName: otherAssignment[0].name,
-                    qText: otherAssignment[0].question.qText,
-                    qLeft: otherAssignment[0].qLeft,
-                    timeLeft: otherAssignment[0].timeLeft,
-                    answers: otherAssignment[0].question.answers,
-                  })
-              "
+              v-on:click="updateState(otherAssignment, 0)"
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="otherAssignment.length >= 1"
             >
@@ -127,36 +125,14 @@ const otherAssignment = ref(props.assignment.otherDay);
           </template>
           <template v-else-if="todayAssignment.length <= 1">
             <h3
-              v-on:click="
-                router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0].name}`,
-                }),
-                  userQuestions.$patch({
-                    assignmentName: otherAssignment[0].name,
-                    qText: otherAssignment[0].question.qText,
-                    qLeft: otherAssignment[0].qLeft,
-                    timeLeft: otherAssignment[0].timeLeft,
-                    answers: otherAssignment[0].question.answers,
-                  })
-              "
+              v-on:click="updateState(otherAssignment, 0)"
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="otherAssignment.length >= 1"
             >
               {{ otherAssignment[0].name }} ({{ otherAssignment[0].qLeft }})
             </h3>
             <h3
-              v-on:click="
-                router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[1].name}`,
-                }),
-                  userQuestions.$patch({
-                    assignmentName: otherAssignment[1].name,
-                    qText: otherAssignment[1].question.qText,
-                    qLeft: otherAssignment[1].qLeft,
-                    timeLeft: otherAssignment[1].timeLeft,
-                    answers: otherAssignment[1].question.answers,
-                  })
-              "
+              v-on:click="updateState(todayAssignment, 1)"
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="otherAssignment.length > 1"
             >

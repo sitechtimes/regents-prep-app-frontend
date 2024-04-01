@@ -8,6 +8,7 @@ export const useQuestions = defineStore("questions", () => {
   const timeLeft = ref<Number>(0);
   const qLeft = ref<Number>(0);
   const answers = ref<Array<String>>([]);
+  const dueDate = ref<String>("")
 
   function $resetQuestion() {
       (assignmentName.value = ""),
@@ -24,6 +25,7 @@ export const useQuestions = defineStore("questions", () => {
     timeLeft,
     qLeft,
     answers,
+    dueDate,
     $resetQuestion,
   };
 
