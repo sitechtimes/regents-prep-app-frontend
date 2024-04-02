@@ -131,7 +131,7 @@ function updateState(item: assignmentDetails) {
           </h3>
         </template>
         <div class="flex flex-col items-center">
-          <h2 class="font-semibold" v-if="dueLater">Due Wednesday:</h2>
+          <h2 class="font-semibold" v-if="dueLater">Due Later:</h2>
           <template
             v-for="assignment in sortedAssignments"
             :key="assignment.id"
