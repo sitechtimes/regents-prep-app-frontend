@@ -25,8 +25,6 @@ const borderTheme = ref(props.theme.border);
 const backgroundTheme = ref(props.theme.background); */
 let date = new Date();
 
-console.log(props.assignments);
-
 function dateFormat(number: number) {
   if (number <= 10) {
     return `0${number}`;
