@@ -55,6 +55,16 @@ const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
 const classCode = ref(props.class.id);
 
+const sortedAssignments = ref(
+  props.assignments.sort((a, b) => {
+    const dateA = new Date(a.due_date);
+    const dateB = new Date(b.due_date);
+    return Number(dateB) - Number(dateA); // For descending order
+  })
+);
+
+console.log(sortedAssignments);
+
 const todayAssignment = ref(
   props.assignments.filter(
     (assignment) => compareDates(assignment.due_date, dateFilter) == 0
@@ -69,14 +79,14 @@ const otherAssignment = ref(
 console.log(otherAssignment);
 console.log(new Date(props.assignments[0].due_date));
 
-function updateState(item: Array<assignmentDetails>, index: number) {
+function updateState(\index: number) {
   router.push({
-    path: `/user-${userStore.username}/class-${classCode}/assignment-${item[index].name}`,
+    path: `/user-${userStore.username}/class-${classCode}/assignment-${sortedAssignments.value[index].name}`,
   });
   userQuestions.$patch({
     classCode: classCode.value,
-    assignmentName: item[index].name,
-    dueDate: item[index].due_date,
+    assignmentName: sortedAssignments.value[index].name,
+    dueDate: sortedAssignments.value[index].due_date,
   });
 }
 //The props are registered separately. Every prop name correlates to the dynamic parts of every class preview.
@@ -107,59 +117,73 @@ function updateState(item: Array<assignmentDetails>, index: number) {
       <div
         class="text-[27px] shadow-black shadow-innerleft duration-500 hover:shadow-transparent py-1 relative h-40 overflow-y-scroll scroll-smooth bg-opacity-30 shadow-inner text-center flex flex-col items-center bg-[#CCD396] text-[#6C7439]"
       >
-        <h2 class="font-semibold" v-if="todayAssignment.length >= 1">
+        <h2
+          class="font-semibold"
+          v-if="compareDates(sortedAssignments[0].due_date, dateFilter) === 0"
+        >
           Due Today:
         </h2>
         <h3
-          v-on:click="
-            updateState(todayAssignment, 0)
-            //This patch method is repeated multiple times, but it takes the current assignment information that the user has clicked on, and patches it into the state.
-          "
+          v-on:click="updateState(0)"
           class="w-fit hover:cursor-pointer hover:underline"
-          v-if="todayAssignment.length >= 1"
+          v-if="compareDates(sortedAssignments[0].due_date, dateFilter) === 0"
         >
           <!-- PROGRESS WAS ENDED HERE -->
-          {{ todayAssignment[0].name }} ({{ todayAssignment[0].qLeft }})
+          {{ sortedAssignments[0].name }} ({{ todayAssignment[0].qLeft }})
         </h3>
         <h3
-          v-on:click="updateState(todayAssignment, 1)"
+          v-on:click="updateState(1)"
           class="w-fit hover:cursor-pointer hover:underline"
-          v-if="todayAssignment.length > 1"
+          v-if="compareDates(sortedAssignments[1].due_date, dateFilter) === 0"
         >
-          {{ todayAssignment[1].name }} ({{ todayAssignment[1].qLeft }})
+          {{ sortedAssignments[1].name }} ({{ todayAssignment[1].qLeft }})
         </h3>
 
         <div class="flex flex-col items-center">
-          <h2 class="font-semibold" v-if="otherAssignment.length >= 1">
+          <h2
+            class="font-semibold"
+            v-if="
+              compareDates(sortedAssignments[1].due_date, dateFilter) === 1 ||
+              compareDates(sortedAssignments[2].due_date, dateFilter) === 1
+            "
+          >
             Due Wednesday:
           </h2>
-          <template v-if="todayAssignment.length > 1">
+          <template
+            v-if="compareDates(sortedAssignments[1].due_date, dateFilter) === 0"
+          >
             <h3
-              v-on:click="updateState(otherAssignment, 0)"
+              v-on:click="updateState(3)"
               class="w-fit hover:cursor-pointer hover:underline"
-              v-if="otherAssignment.length >= 1"
+              v-if="sortedAssignments[4] !== undefined"
             >
-              {{ otherAssignment[0].name }} ({{ otherAssignment[0].qLeft }})
+              {{ sortedAssignments[3].name }} ({{ otherAssignment[0].qLeft }})
             </h3>
           </template>
-          <template v-else-if="todayAssignment.length <= 1">
+          <template
+            v-else-if="
+              compareDates(sortedAssignments[1].due_date, dateFilter) === 1
+            "
+          >
             <h3
-              v-on:click="updateState(otherAssignment, 0)"
+              v-on:click="updateState(3)"
               class="w-fit hover:cursor-pointer hover:underline"
-              v-if="otherAssignment.length >= 1"
+              v-if="
+                compareDates(sortedAssignments[2].due_date, dateFilter) === 1
+              "
             >
-              {{ otherAssignment[0].name }} ({{ otherAssignment[0].qLeft }})
+              {{ sortedAssignments[3].name }} ({{ otherAssignment[0].qLeft }})
             </h3>
             <h3
-              v-on:click="updateState(todayAssignment, 1)"
+              v-on:click="updateState(4)"
               class="w-fit hover:cursor-pointer hover:underline"
-              v-if="otherAssignment.length > 1"
+              v-if="sortedAssignments[4] !== undefined"
             >
-              {{ otherAssignment[1].name }} ({{ otherAssignment[1].qLeft }})
+              {{ sortedAssignments[4].name }} ({{ otherAssignment[1].qLeft }})
             </h3>
             <h2
               class="w-fit text-opacity-50 text-[20px] py-16"
-              v-if="todayAssignment.length < 1 && otherAssignment.length < 1"
+              v-if="!sortedAssignments[0]"
             >
               You currently have no assignments due
             </h2>
