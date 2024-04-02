@@ -57,7 +57,7 @@ definePageMeta({
         <div class="justify-center items-center text-center">
           <button
             v-for="answer in userQuestions.answers"
-            class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px] mb-[10px] focus:bg-primary focus:bg-opacity-50 mb-[50px]"
+            class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px] mb-[10px] font-medium text-[20px] focus:bg-primary focus:bg-opacity-50 mb-[50px]"
           >
             {{ answer }}
           </button>
