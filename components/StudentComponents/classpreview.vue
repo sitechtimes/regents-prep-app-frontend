@@ -37,18 +37,18 @@ let dateFilter = `${date.getFullYear()}-${dateFormat(
 
 function compareDates(date1: assignmentDetails, date2: string): number {
   if (date1 === undefined) {
-    return -1;
+    return -1; //if no assignment gets passed, assumes assignment is before today
   }
   const [year1, month1, day1] = date1.due_date.split("-").map(Number);
   const [year2, month2, day2] = date2.split("-").map(Number);
   if (year1 !== year2) {
-    return year1 < year2 ? -1 : 1;
+    return year1 < year2 ? -1 : 1; //checks year to see if it is greater than or less than today
   }
   if (month1 !== month2) {
-    return month1 < month2 ? -1 : 1;
+    return month1 < month2 ? -1 : 1; //checks month to see if it is greater than or less than today
   }
   if (day1 !== day2) {
-    return day1 < day2 ? -1 : 1;
+    return day1 < day2 ? -1 : 1; //checks day to see if it is greater than or less than today
   }
   return 0; // dates are equal
 }
@@ -68,20 +68,20 @@ const sortedAssignments = ref(
     })
     .filter(
       (assignment: assignmentDetails) =>
-        compareDates(assignment, dateFilter) >= 0
+        compareDates(assignment, dateFilter) >= 0 //only takes assignments due today or due later
     )
-    .slice(0, 3)
+    .slice(0, 3) //takes first 4 assignments in the array
 );
 
 sortedAssignments.value.forEach((assignment) => {
   if (compareDates(assignment, dateFilter) === 0) {
-    dueToday.value = true;
+    dueToday.value = true; // checks if there are assignments due today
   } else if (compareDates(assignment, dateFilter) === 1) {
-    dueLater.value = true;
+    dueLater.value = true; // checks if there are assignments due later
   }
 });
 
-function updateState(item: assignmentDetails) {
+function updateState(item: assignmentDetails) { //takes assignment object, assignmentDetails as input
   router.push({
     path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
   });
@@ -126,7 +126,6 @@ function updateState(item: assignmentDetails) {
             class="w-fit hover:cursor-pointer hover:underline"
             v-if="compareDates(assignment, dateFilter) === 0"
           >
-            <!-- PROGRESS WAS ENDED HERE -->
             {{ assignment.name }}
           </h3>
         </template>
