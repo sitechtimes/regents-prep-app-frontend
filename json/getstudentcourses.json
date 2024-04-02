@@ -13,7 +13,7 @@
                 {
                     "id": 1,
                     "name": "Homework 1",
-                    "due_date": "2024-03-31"
+                    "due_date": "2024-04-01"
                 },
                 {
                     "id": 2,
@@ -23,7 +23,7 @@
                 {
                     "id": 3,
                     "name": "Homework 3",
-                    "due_date": "2015-09-15"
+                    "due_date": "2025-09-15"
                 }
             ]
         },
@@ -37,7 +37,7 @@
                 {
                     "id": 4,
                     "name": "Homework 1",
-                    "due_date": "2024-09-01"
+                    "due_date": "2024-04-01"
                 },
                 {
                     "id": 5,
@@ -47,7 +47,7 @@
                 {
                     "id": 6,
                     "name": "Homework 3",
-                    "due_date": "2015-09-15"
+                    "due_date": "2025-09-15"
                 }
             ]
         },
@@ -61,7 +61,7 @@
                 {
                     "id": 1,
                     "name": "Homework 1",
-                    "due_date": "2024-09-01"
+                    "due_date": "2024-04-02"
                 },
                 {
                     "id": 2,
@@ -71,7 +71,7 @@
                 {
                     "id": 3,
                     "name": "Homework 3",
-                    "due_date": "2015-09-15"
+                    "due_date": "2025-09-15"
                 }
             ]
         },
@@ -85,12 +85,12 @@
                 {
                     "id": 1,
                     "name": "Homework 1",
-                    "due_date": "2024-09-01"
+                    "due_date": "2024-04-09"
                 },
                 {
                     "id": 2,
                     "name": "Homework 2",
-                    "due_date": "2015-09-08"
+                    "due_date": "2015-04-08"
                 },
                 {
                     "id": 3,

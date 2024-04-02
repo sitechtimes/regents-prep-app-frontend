@@ -16,14 +16,14 @@ const props = defineProps<{
   // theme: Theme;
   information: ClassPreviewInformation;
   class: course;
+  assignments: Array<assignmentDetails>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
 /* const assignmentTheme = ref(props.theme.assignment);
 const titleTheme = ref(props.theme.title);
 const borderTheme = ref(props.theme.border);
 const backgroundTheme = ref(props.theme.background); */
-
-const date = new Date();
+let date = new Date();
 
 function dateFormat(number: number) {
   if (number <= 10) {
@@ -35,20 +35,39 @@ let dateFilter = `${date.getFullYear()}-${dateFormat(
   date.getMonth() + 1
 )}-${dateFormat(date.getDate())}`;
 
+function compareDates(date1: string, date2: string): number {
+  const [year1, month1, day1] = date1.split("-").map(Number);
+  const [year2, month2, day2] = date2.split("-").map(Number);
+
+  if (year1 !== year2) {
+    return year1 < year2 ? -1 : 1;
+  }
+  if (month1 !== month2) {
+    return month1 < month2 ? -1 : 1;
+  }
+  if (day1 !== day2) {
+    return day1 < day2 ? -1 : 1;
+  }
+  return 0; // dates are equal
+}
+
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
 const classCode = ref(props.class.id);
 
 const todayAssignment = ref(
-  props.class.assignments.filter(
-    (assignment) => assignment.due_date == dateFilter
+  props.assignments.filter(
+    (assignment) => compareDates(assignment.due_date, dateFilter) == 0
   )
 );
 const otherAssignment = ref(
-  props.class.assignments.filter((assignment) => {
-    Number(assignment.due_date) - Number(dateFilter) >= 1;
-  })
+  props.assignments.filter(
+    (assignment) => compareDates(assignment.due_date, dateFilter) > 0
+  )
 );
+
+console.log(otherAssignment);
+console.log(new Date(props.assignments[0].due_date));
 
 function updateState(item: Array<assignmentDetails>, index: number) {
   router.push({

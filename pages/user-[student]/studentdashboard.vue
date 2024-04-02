@@ -11,10 +11,6 @@ const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
 );
 let courseList = ref(studentAssignmentList.student_courses as course[]);
-
-console.log(courseList.value);
-console.log(studentAssignmentInstance.value);
-
 /* onMounted(() => {
   console.log(userStore.user.username);
   let date: Date = new Date();
@@ -40,6 +36,7 @@ definePageMeta({
           classCode: item.id,
         }"
         :class="item"
+        :assignments="item.assignments"
       />
     </div>
   </div>
