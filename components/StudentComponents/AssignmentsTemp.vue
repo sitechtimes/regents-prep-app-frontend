@@ -8,7 +8,7 @@ const userQuestions = useQuestions();
 
 const props = defineProps<{
   name: string;
-  detail: string;
+  detail: number;
 }>();
 
 function assignmentAction() {

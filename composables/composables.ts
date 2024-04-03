@@ -2,7 +2,7 @@ import { currentA } from "~/constants/tempArray.js";
 import { pastA } from "~/constants/tempArray.js";
 
 export function dateFetch(
-  props: Readonly<{ name: string; detail: string }> & {}
+  props: Readonly<{ name: string; detail: string | number }> & {}
 ) {
   const parentDate = getCurrentInstance()?.parent?.exposed?.props.date;
   const show = ref<boolean>(false);
