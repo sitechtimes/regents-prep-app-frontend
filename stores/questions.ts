@@ -8,6 +8,7 @@ export const useQuestions = defineStore("questions", () => {
   const timeLeft = ref<number>(0);
   const qLeft = ref<number>(0);
   const answers = ref<Array<string>>([]);
+  const dueDate = ref<string>("");
 
   function $resetQuestion() {
     (assignmentName.value = ""),
