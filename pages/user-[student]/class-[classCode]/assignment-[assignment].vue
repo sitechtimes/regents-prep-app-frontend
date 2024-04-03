@@ -2,6 +2,14 @@
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
+import getNextQuestion from "../../../json/GetNextQuestion.json"
+
+const questionText = getNextQuestion.question.text
+
+const DOMselectors ={
+  display: document.getElementById("display"),
+  text: document.getElementById("text"),
+}
 
 const route = useRoute();
 const userStore = userState();
@@ -29,6 +37,13 @@ function delay(delay: number) {
   }
 })();
 
+function makeQuestion() {
+  DOMselectors.display?.insertAdjacentHTML(
+    'beforeend',
+    ''
+  )
+}
+
 onUnmounted(() => {
   userQuestions.$resetQuestion();
   //This unMounted action is used to remove the assignment from the questionState when the user leaves the page. Normally, a function would be created within the questions.ts file such as userQuestions.$reset() in order to avoid re-typing the function every time. However, since all of the properties of the question state are in the return {} due to addressing them with typescript interfaces, no function can be used, even those such as .push for an array. (If there is a way to create a typescript state function and it has simply been missed, please feel free to correct the above.)
@@ -44,14 +59,14 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="m-auto items-center text-center">
+  <div id="display" class="m-auto items-center text-center">
     <div
       class="w-[96%] h-fit bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%] scroll-smooth overflow-y-auto"
     >
-      <h1 class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]">
-        Which graph represents the relationship between the speed of a freely
+      <h1 id="text" class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]">
+<!--         Which graph represents the relationship between the speed of a freely
         falling object and the time of fall of the object near Earth's surface?
-        {{ userQuestions.qText }}
+        {{ userQuestions.qText }} {{ getNextQuestion.question.text }} --> {{ questionText }}
       </h1>
       <div class="items-center justify-center text-center">
         <div class="justify-center items-center text-center">
