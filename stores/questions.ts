@@ -24,6 +24,7 @@ export const useQuestions = defineStore("questions", () => {
     timeLeft,
     qLeft,
     answers,
+    dueDate,
     $resetQuestion,
   };
 

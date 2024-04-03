@@ -8,8 +8,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
   router.beforeEach((to, from) => {
     previousRoutePath.value = from.fullPath; // saves the current path before taking user to new route
   }); */
-
-  // if the user is not a teacher then redirects back to their previous path
   if (userStore.user_type == "student") {
     //console.log("navigated");
     navigateTo(to);

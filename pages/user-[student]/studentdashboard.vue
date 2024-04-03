@@ -3,12 +3,21 @@ import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { classInfo } from "~/constants/classInfo";
 
+import assignmentInstance from "../../json/getstudentassignments.json";
+import studentAssignmentList from "../../json/getstudentcourses.json";
+import { course, studentAssignments } from "~/interfaces/interfaces";
+
+const studentAssignmentInstance = ref(
+  assignmentInstance as studentAssignments[]
+);
+let courseList = ref(studentAssignmentList.student_courses as course[]);
 /* onMounted(() => {
   console.log(userStore.user.username);
   let date: Date = new Date();
   console.log(date.toString().split(" ")[0]);
 }); */
 //This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
+
 
 definePageMeta({
   layout: "dashboard",
@@ -20,10 +29,15 @@ definePageMeta({
   <div class="h-fit bg-bg-reg">
     <div class="flex flex-wrap items-center space-x-30">
       <StudentComponentsClasspreview
-        class=""
-        v-for="item in classInfo"
-        :information="item.information"
-        :assignment="item.assignments"
+        v-for="item in courseList"
+        :key="item.id"
+        :information="{
+          title: item.name,
+          teacher: item.teachers,
+          classCode: item.id,
+        }"
+        :class="item"
+        :assignments="item.assignments"
       />
     </div>
   </div>

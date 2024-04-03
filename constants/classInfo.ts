@@ -4,9 +4,6 @@ import {
   Assignment,
   questionInterface,
   assignmentDetails,
-} from "~/interfaces/interfaces";
-
-import {
   studentCourses,
   course,
   studentAssignments,
@@ -59,56 +56,6 @@ export const classInfo = {
       ],
     } as ClassPreviewAssignments,
   },
-  /*
-  chemistry: {
-    // theme: colorThemes.blue,
-    information: {
-      title: "Regents Chemistry - P4",
-      teacher: "Mr. Weitzman",
-      classCode: 2,
-    } as ClassPreviewInformation,
-    assignments: {
-      today: [{name: "Atomic Weights", qLeft: 5, timeLeft: 214} as Assignment, {name: "Stochiometry", qLeft: 2, timeLeft: 528} as Assignment],
-
-      otherDay: [{name: "Sig Figs", qLeft: 10, timeLeft: 183} as Assignment, {name: "Temperature", qLeft: 1, timeLeft: 24} as Assignment],
-    } as ClassPreviewAssignments,
-  },
-  chemistry1: {
-    // theme: colorThemes.blue,
-    information: {
-      title: "Regents Chemistry - P4",
-      teacher: "Mr. Weitzman",
-      classCode: 2,
-    } as ClassPreviewInformation,
-    assignments: {
-      today: [{name: "Atomic Weights", qLeft: 5, timeLeft: 214} as Assignment, {name: "Stochiometry", qLeft: 2, timeLeft: 528} as Assignment],
-      otherDay: [{name: "Sig Figs", qLeft: 10, timeLeft: 183} as Assignment, {name: "Temperature", qLeft: 1, timeLeft: 24} as Assignment],
-    } as ClassPreviewAssignments,
-  },
-  chemistry2: {
-    // theme: colorThemes.green,
-    information: {
-      title: "Regents Chemistry - P4",
-      teacher: "Mr. Weitzman",
-      classCode: 2,
-    } as ClassPreviewInformation,
-    assignments: {
-      today: [{name: "Atomic Weights", qLeft: 5, timeLeft: 214} as Assignment, {name: "Stochiometry", qLeft: 2, timeLeft: 528} as Assignment],
-      otherDay: [{name: "Sig Figs", qLeft: 10, timeLeft: 183} as Assignment, {name: "Temperature", qLeft: 1, timeLeft: 24} as Assignment],
-    } as ClassPreviewAssignments,
-  },
-  chemistry3: {
-    // theme: colorThemes.red,
-    information: {
-      title: "Regents Chemistry - P4",
-      teacher: "Mr. Weitzman",
-      classCode: 2,
-    } as ClassPreviewInformation,
-    assignments: {
-      today: [{name: "Atomic Weights", qLeft: 5, timeLeft: 214} as Assignment, {name: "Stochiometry", qLeft: 2, timeLeft: 528} as Assignment],
-      otherDay: [{name: "Sig Figs", qLeft: 10, timeLeft: 183} as Assignment, {name: "Temperature", qLeft: 1, timeLeft: 24} as Assignment],
-    } as ClassPreviewAssignments,
-  }, */
 };
 
 //Above are the format in which props will be passed into the class previews. The theme, followed by the information (the title of the class as well as the teacher), the assignments (for the current and a past day), and the class Code. This is only the format, and is a placeholder until the backend will be connected to the frontend.
