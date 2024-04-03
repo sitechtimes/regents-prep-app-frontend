@@ -13,16 +13,11 @@ const userQuestions = useQuestions();
 const router = useRouter();
 
 const props = defineProps<{
-  // theme: Theme;
   information: ClassPreviewInformation;
   class: course;
   assignments: Array<assignmentDetails>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
-/* const assignmentTheme = ref(props.theme.assignment);
-const titleTheme = ref(props.theme.title);
-const borderTheme = ref(props.theme.border);
-const backgroundTheme = ref(props.theme.background); */
 
 const compareDates = (dueDate: string) => {
   let date1 = new Date(dueDate).getTime(); //converts date to milliseconds since midnight at the beginning of January 1, 1970, UTC.

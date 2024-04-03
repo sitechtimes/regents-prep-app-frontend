@@ -5,7 +5,10 @@ import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
 import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
 import PastAssignments from "../../components/StudentComponents/PastAssignments.vue";
-import { currentA, pastA } from "../../../constants/tempArray";
+import {
+  currentA,
+  pastA,
+} from "../../../constants/tempArray";
 import {
   currentAssignments,
   pastAssignments,
@@ -41,12 +44,18 @@ const currentArr: currentAssignments[] = [];
 const pastArr: pastAssignments[] = [];
 (function () {
   currentA.forEach((assignment: currentAssignments) => {
-    if (!currentArr.some((item) => item.date === assignment.date)) {
+    if (
+      !currentArr.some(
+        (item) => item.date === assignment.date
+      )
+    ) {
       currentArr.push({ date: assignment.date });
     }
   });
   pastA.forEach((assignment: pastAssignments) => {
-    if (!pastArr.some((item) => item.date === assignment.date)) {
+    if (
+      !pastArr.some((item) => item.date === assignment.date)
+    ) {
       pastArr.push({ date: assignment.date });
     }
   });
@@ -65,7 +74,9 @@ definePageMeta({
       <div
         class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center bg-bg-light rounded-[27px]"
       >
-        <label class="switch relative inline-block h-full aspect-[1.75]">
+        <label
+          class="switch relative inline-block h-full aspect-[1.75]"
+        >
           <input
             class="opacity-0 w-0 h-0"
             @click="toggleAssignments"
@@ -127,4 +138,3 @@ input:checked + .slider:before {
   transform: translateX(30px);
 }
 </style>
-../../../constants/tempArray.js
