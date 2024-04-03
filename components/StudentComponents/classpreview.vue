@@ -23,35 +23,19 @@ const props = defineProps<{
 const titleTheme = ref(props.theme.title);
 const borderTheme = ref(props.theme.border);
 const backgroundTheme = ref(props.theme.background); */
-let date = new Date();
 
-function dateFormat(number: number) {
-  if (number <= 10) {
-    return `0${number}`;
-  } else return number;
-}
+const compareDates = (dueDate: string) => {
+  let date1 = new Date(dueDate).getTime(); //converts date to milliseconds since midnight at the beginning of January 1, 1970, UTC.
+  let date2 = new Date().getTime(); // gets today's time
 
-let dateFilter = `${date.getFullYear()}-${dateFormat(
-  date.getMonth() + 1
-)}-${dateFormat(date.getDate())}`;
-
-function compareDates(date1: assignmentDetails, date2: string): number {
-  if (date1 === undefined) {
-    return -1; //if no assignment gets passed, assumes assignment is before today
+  if (date1 < date2) { // if the assignment is before today, return -1
+    return - 1;
+  } else if (date1 > date2) { // if the assigmment is after today, return 1
+    return 1;
+  } else {
+    return 0; // if the assignment is due today, return 0
   }
-  const [year1, month1, day1] = date1.due_date.split("-").map(Number);
-  const [year2, month2, day2] = date2.split("-").map(Number);
-  if (year1 !== year2) {
-    return year1 < year2 ? -1 : 1; //checks year to see if it is greater than or less than today
-  }
-  if (month1 !== month2) {
-    return month1 < month2 ? -1 : 1; //checks month to see if it is greater than or less than today
-  }
-  if (day1 !== day2) {
-    return day1 < day2 ? -1 : 1; //checks day to see if it is greater than or less than today
-  }
-  return 0; // dates are equal
-}
+};
 
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
@@ -68,15 +52,15 @@ const sortedAssignments = ref(
     })
     .filter(
       (assignment: assignmentDetails) =>
-        compareDates(assignment, dateFilter) >= 0 //only takes assignments due today or due later
+        compareDates(assignment.due_date) >= 0 //only takes assignments due today or due later
     )
     .slice(0, 3) //takes first 4 assignments in the array
 );
 
 sortedAssignments.value.forEach((assignment) => {
-  if (compareDates(assignment, dateFilter) === 0) {
+  if (compareDates(assignment.due_date) === 0) {
     dueToday.value = true; // checks if there are assignments due today
-  } else if (compareDates(assignment, dateFilter) === 1) {
+  } else if (compareDates(assignment.due_date) === 1) {
     dueLater.value = true; // checks if there are assignments due later
   }
 });
@@ -124,7 +108,7 @@ function updateState(item: assignmentDetails) { //takes assignment object, assig
           <h3
             v-on:click="updateState(assignment)"
             class="w-fit hover:cursor-pointer hover:underline"
-            v-if="compareDates(assignment, dateFilter) === 0"
+            v-if="compareDates(assignment.due_date) === 0"
           >
             {{ assignment.name }}
           </h3>
@@ -138,7 +122,7 @@ function updateState(item: assignmentDetails) { //takes assignment object, assig
             <h3
               v-on:click="updateState(assignment)"
               class="w-fit hover:cursor-pointer hover:underline"
-              v-if="compareDates(assignment, dateFilter) === 1"
+              v-if="compareDates(assignment.due_date) === 1"
             >
               {{ assignment.name }}
             </h3>
