@@ -12,15 +12,10 @@ const userQuestions = useQuestions();
 const router = useRouter();
 
 const props = defineProps<{
-  // theme: Theme;
   information: ClassPreviewInformation;
   assignment: ClassPreviewAssignments;
-}>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
+}>(); //The information and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
-/* const assignmentTheme = ref(props.theme.assignment);
-const titleTheme = ref(props.theme.title);
-const borderTheme = ref(props.theme.border);
-const backgroundTheme = ref(props.theme.background); */
 
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);

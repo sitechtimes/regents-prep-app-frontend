@@ -3,13 +3,6 @@ import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { classInfo } from "~/constants/classInfo";
 
-/* onMounted(() => {
-  console.log(userStore.user.username);
-  let date: Date = new Date();
-  console.log(date.toString().split(" ")[0]);
-}); */
-//This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
-
 definePageMeta({
   layout: "dashboard",
   middleware: studentAuth,
