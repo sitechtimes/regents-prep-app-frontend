@@ -11,11 +11,13 @@ export const useQuestions = defineStore("questions", () => {
   const dueDate = ref<string>("");
 
   function $resetQuestion() {
-    (assignmentName.value = ""),
+    (classCode.value = 0),
+      (assignmentName.value = ""),
       (qText.value = ""),
-      (qLeft.value = 0),
       (timeLeft.value = 0),
-      (answers.value = []);
+      (qLeft.value = 0),
+      (answers.value = []),
+      (dueDate.value = "");
   }
 
   return {
