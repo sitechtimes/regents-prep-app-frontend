@@ -2,14 +2,15 @@
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
-import getNextQuestion from "../../../json/GetNextQuestion.json"
+import getNextQuestion from "../../../json/GetNextQuestion.json";
 
-const questionText = getNextQuestion.question.text
+const questionText = getNextQuestion.question.text;
+const questionAnswers = getNextQuestion.question.answers;
 
-const DOMselectors ={
+const DOMselectors = {
   display: document.getElementById("display"),
   text: document.getElementById("text"),
-}
+};
 
 const route = useRoute();
 const userStore = userState();
@@ -38,10 +39,19 @@ function delay(delay: number) {
 })();
 
 function makeQuestion() {
+  const DOMselectors = {
+    display: document.getElementById("display"),
+  };
+
   DOMselectors.display?.insertAdjacentHTML(
-    'beforeend',
-    ''
-  )
+    "beforeend",
+    `<div
+      class="w-[96%] h-fit bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%] scroll-smooth overflow-y-auto"
+    >
+      <h1 class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"> ${questionText}
+      </h1>
+    </div>`
+  );
 }
 
 onUnmounted(() => {
@@ -50,6 +60,7 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
+  makeQuestion();
   // console.log(userQuestions.timeLeft);
 });
 
@@ -60,13 +71,13 @@ definePageMeta({
 
 <template>
   <div id="display" class="m-auto items-center text-center">
-    <div
+    <!-- <div
       class="w-[96%] h-fit bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%] scroll-smooth overflow-y-auto"
     >
       <h1 id="text" class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]">
-<!--         Which graph represents the relationship between the speed of a freely
+<!-/-         Which graph represents the relationship between the speed of a freely
         falling object and the time of fall of the object near Earth's surface?
-        {{ userQuestions.qText }} {{ getNextQuestion.question.text }} --> {{ questionText }}
+        {{ userQuestions.qText }} {{ getNextQuestion.question.text }} -/-> {{ questionText }}
       </h1>
       <div class="items-center justify-center text-center">
         <div class="justify-center items-center text-center">
@@ -78,7 +89,7 @@ definePageMeta({
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
     <button
       class="w-[350px] h-[60px] bg-bg-reg shadow-innertop shadow-innerbottom shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none mt-[2%] mb-[20px]"
     >
@@ -86,7 +97,7 @@ definePageMeta({
     </button>
     <div class="flex flex-row w-[96%] m-auto">
       <!--Questions left in assignment {{ assignment.questions.length }} takes length of total array of questions-->
-<!--       <h2
+      <!--       <h2
         class="w-[20%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] text-center flex flex-row pl-[2%]"
       >
                 <div class="mr-[5px] bg-primary w-[50px] h-[50px] rounded-full text-[32px] mt-[1%] shadow-innertop shadow-innerbottom shadow-secondary">{{ userQuestions.qLeft }}</div>
@@ -95,11 +106,8 @@ definePageMeta({
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
       >
-        {{ userQuestions.qLeft }} Questions Left
-
-        |
-
-        Time Left - {{ min }} min {{ sec }} sec
+        {{ userQuestions.qLeft }} Questions Left | Time Left - {{ min }} min
+        {{ sec }} sec
         <!--Minutes : Seconds-->
         <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
         |
