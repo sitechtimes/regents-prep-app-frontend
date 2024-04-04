@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { compareDates } from "~/composables/composables";
 import {
   // Theme,
   ClassPreviewInformation,
@@ -18,20 +19,6 @@ const props = defineProps<{
   assignments: Array<assignmentDetails>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
-
-const compareDates = (dueDate: string) => {
-  let date1 = new Date(dueDate).getTime(); //converts date to milliseconds since midnight at the beginning of January 1, 1970, UTC.
-  let date2 = new Date().getTime(); // gets today's time
-
-  if (date1 < date2) { // if the assignment is before today, return -1
-    return - 1;
-  } else if (date1 > date2) { // if the assigmment is after today, return 1
-    return 1;
-  } else {
-    return 0; // if the assignment is due today, return 0
-  }
-};
-
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
 const classCode = ref(props.class.id);
@@ -46,8 +33,7 @@ const sortedAssignments = ref(
       return Number(dateB) - Number(dateA); // For descending order
     })
     .filter(
-      (assignment: assignmentDetails) =>
-        compareDates(assignment.due_date) >= 0 //only takes assignments due today or due later
+      (assignment: assignmentDetails) => compareDates(assignment.due_date) >= 0 //only takes assignments due today or due later
     )
     .slice(0, 3) //takes first 4 assignments in the array
 );
@@ -60,7 +46,8 @@ sortedAssignments.value.forEach((assignment) => {
   }
 });
 
-function updateState(item: assignmentDetails) { //takes assignment object, assignmentDetails as input
+function updateState(item: assignmentDetails) {
+  //takes assignment object, assignmentDetails as input
   router.push({
     path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
   });
