@@ -20,6 +20,15 @@ export const useQuestions = defineStore("questions", () => {
       (dueDate.value = "");
   }
 
+  function $updateState(code: number, name: string, time: number, questionsLeft: number, answer: Array<string>, due: string) {
+    classCode.value = code,
+      assignmentName.value = name,
+      timeLeft.value = time
+    qLeft.value = questionsLeft,
+      answers.value = answer
+    dueDate.value = due
+  }
+
   return {
     classCode,
     assignmentName,
@@ -29,6 +38,7 @@ export const useQuestions = defineStore("questions", () => {
     answers,
     dueDate,
     $resetQuestion,
+    $updateState
   };
 
   //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.
