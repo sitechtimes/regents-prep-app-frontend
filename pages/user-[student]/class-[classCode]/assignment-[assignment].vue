@@ -9,7 +9,6 @@ const questionAnswers = getNextQuestion.question.answers;
 
 const DOMselectors = {
   display: document.getElementById("display"),
-  text: document.getElementById("text"),
 };
 
 const route = useRoute();
@@ -39,18 +38,10 @@ function delay(delay: number) {
 })();
 
 function makeQuestion() {
-  const DOMselectors = {
-    display: document.getElementById("display"),
-  };
-
   DOMselectors.display?.insertAdjacentHTML(
-    "beforeend",
-    `<div
-      class="w-[96%] h-fit bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%] scroll-smooth overflow-y-auto"
-    >
-      <h1 class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"> ${questionText}
-      </h1>
-    </div>`
+    "afterend",
+    `<p class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"> ${questionText}
+      </p>`
   );
 }
 
@@ -70,15 +61,15 @@ definePageMeta({
 </script>
 
 <template>
-  <div id="display" class="m-auto items-center text-center">
-    <!-- <div
+  <div class="m-auto items-center text-center">
+     <div id="display"
       class="w-[96%] h-fit bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%] scroll-smooth overflow-y-auto"
     >
-      <h1 id="text" class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]">
+<!--       <h1 id="text" class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]">
 <!-/-         Which graph represents the relationship between the speed of a freely
         falling object and the time of fall of the object near Earth's surface?
         {{ userQuestions.qText }} {{ getNextQuestion.question.text }} -/-> {{ questionText }}
-      </h1>
+      </h1> 
       <div class="items-center justify-center text-center">
         <div class="justify-center items-center text-center">
           <button
@@ -88,8 +79,8 @@ definePageMeta({
             {{ answer }}
           </button>
         </div>
-      </div>
-    </div> -->
+      </div> -->
+    </div>
     <button
       class="w-[350px] h-[60px] bg-bg-reg shadow-innertop shadow-innerbottom shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none mt-[2%] mb-[20px]"
     >
