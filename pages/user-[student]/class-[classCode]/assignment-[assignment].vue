@@ -38,11 +38,12 @@ function delay(delay: number) {
 })();
 
 function makeQuestion() {
-  DOMselectors.display?.insertAdjacentHTML(
+  return questionText
+/*   DOMselectors.display?.insertAdjacentHTML(
     "afterend",
     `<p class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"> ${questionText}
       </p>`
-  );
+  ); */
 }
 
 onUnmounted(() => {
@@ -51,7 +52,7 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
-  makeQuestion();
+/*    makeQuestion();  */
   // console.log(userQuestions.timeLeft);
 });
 
@@ -65,21 +66,16 @@ definePageMeta({
      <div id="display"
       class="w-[96%] h-fit bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%] scroll-smooth overflow-y-auto"
     >
-<!--       <h1 id="text" class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]">
-<!-/-         Which graph represents the relationship between the speed of a freely
-        falling object and the time of fall of the object near Earth's surface?
-        {{ userQuestions.qText }} {{ getNextQuestion.question.text }} -/-> {{ questionText }}
-      </h1> 
+      <div v-html="questionText" class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"></div> 
       <div class="items-center justify-center text-center">
         <div class="justify-center items-center text-center">
           <button
-            v-for="answer in userQuestions.answers"
-            class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px] mb-[10px] font-medium text-[20px] focus:bg-primary focus:bg-opacity-50 mb-[50px]"
+            v-for="answer in questionAnswers" v-html="answer.text"
+            class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px] mb-[10px] font-medium text-[30px] focus:bg-primary focus:bg-opacity-50 mb-[50px]"
           >
-            {{ answer }}
           </button>
         </div>
-      </div> -->
+      </div>
     </div>
     <button
       class="w-[350px] h-[60px] bg-bg-reg shadow-innertop shadow-innerbottom shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none mt-[2%] mb-[20px]"
