@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
-import { questionInterface } from "~/interfaces/interfaces";
+import { questionInterface, assignmentDetails } from "~/interfaces/interfaces";
+import { userState } from "./users";
+const userStore = userState()
+const router = useRouter();
 
 export const useQuestions = defineStore("questions", () => {
   const classCode = ref<number>(0);
@@ -20,13 +23,13 @@ export const useQuestions = defineStore("questions", () => {
       (dueDate.value = "");
   }
 
-  function $updateState(code: number, name: string, time: number, questionsLeft: number, answer: Array<string>, due: string) {
-    classCode.value = code,
-      assignmentName.value = name,
-      timeLeft.value = time
-    qLeft.value = questionsLeft,
-      answers.value = answer
-    dueDate.value = due
+  function $updateState(item: assignmentDetails, code: number) { //takes assignment object, assignmentDetails as input
+    router.push({
+      path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
+    });
+      classCode.value = code,
+      assignmentName.value = item.name,
+      dueDate.value = item.due_date
   }
 
   return {
