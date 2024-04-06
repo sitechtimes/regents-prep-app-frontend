@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { dateFetch } from "~/composables/composables";
-import { Assignment } from "~/interfaces/interfaces";
 import { useQuestions } from "~/stores/questions";
 
 const userQuestions = useQuestions();

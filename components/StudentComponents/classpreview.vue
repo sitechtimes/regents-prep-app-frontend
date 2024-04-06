@@ -6,11 +6,13 @@ import {
   assignmentDetails,
   course,
 } from "~/interfaces/interfaces";
+import { userClass } from "~/stores/class";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
 const userQuestions = useQuestions();
+const classDetails = userClass();
 const router = useRouter();
 
 const props = defineProps<{
@@ -21,6 +23,7 @@ const props = defineProps<{
 
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
+const assignmentsInformation = ref(props.class.assignments);
 const classCode = ref(props.class.id);
 const dueToday = ref(false);
 const dueLater = ref(false);
@@ -66,8 +69,10 @@ function updateState(item: assignmentDetails) {
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
         v-on:click="
-          userQuestions.$patch({
+          classDetails.$patch({
             classCode: classCode,
+            assignments: props.assignments,
+            currentAssignments: sortedAssignments,
           }),
             router.push({
               path: `/user-${userStore.username}/class-${classCode}`,
