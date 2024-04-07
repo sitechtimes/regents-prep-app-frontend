@@ -28,7 +28,7 @@ export const classInfo = {
           timeLeft: 183,
           question: {
             qText: "Kinematics question",
-            answers: ["Answer A", "Answer B"],
+            answers: ["Answer A", "Answer B", "Answer C", "Answer D"],
           } as questionInterface,
         } as Assignment,
       ],

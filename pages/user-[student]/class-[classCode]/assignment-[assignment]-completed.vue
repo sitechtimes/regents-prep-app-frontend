@@ -1,14 +1,12 @@
-<script setup>
-definePageMeta({
-  layout: "dashboard",
-});
-</script>
+<script setup></script>
 
 <template>
   <div
     class="flex flex-col h-[50rem] max-w-[80%] mx-auto items-center justify-evenly text-center text-4xl font-semibold"
   >
-    <h3 class="rounded-[25px] p-[5rem] bg-[#f9f8e3] font-bold">
+    <h3
+      class="rounded-[25px] p-[5rem] bg-[#f9f8e3] font-bold"
+    >
       Your score for this assignment is shown below
     </h3>
 
