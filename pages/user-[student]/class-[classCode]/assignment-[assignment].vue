@@ -11,10 +11,6 @@ import getNextQuestion from "../../../json/GetNextQuestion.json";
 const questionText = getNextQuestion.question.text;
 const questionAnswers = getNextQuestion.question.answers;
 
-const DOMselectors = {
-  display: document.getElementById("display"),
-};
-
 const router = useRouter();
 const route = useRoute();
 const userStore = userState();
@@ -44,14 +40,6 @@ function delay(delay: number) {
   }
 })();
 
-function makeQuestion() {
-  return questionText;
-  /*   DOMselectors.display?.insertAdjacentHTML(
-    "afterend",
-    `<p class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"> ${questionText}
-      </p>`
-  ); */
-}
 
 onUnmounted(() => {
   userQuestions.$resetQuestion();
