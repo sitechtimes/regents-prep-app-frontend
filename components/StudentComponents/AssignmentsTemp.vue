@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { dateFetch } from "~/composables/composables";
-import { currentA } from "../../constants/tempArray";
-import { Assignment } from "~/interfaces/interfaces";
 import { useQuestions } from "~/stores/questions";
 
 const userQuestions = useQuestions();
@@ -37,9 +35,7 @@ function assignmentAction() {
     <div
       class="w-[75px] h-full right-[0%] bg-primary rounded-full shadow-black shadow-inner"
     >
-      <div
-        class="w-full h-full text-center text-white text-[50px] font-medium"
-      >
+      <div class="w-full h-full text-center text-white text-[50px] font-medium">
         {{ detail }}
       </div>
     </div>

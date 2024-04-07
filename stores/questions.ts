@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { questionInterface } from "~/interfaces/interfaces";
 
 export const useQuestions = defineStore("questions", () => {
   const classCode = ref<number>(0);
