@@ -1,33 +1,53 @@
 <script setup lang="ts">
+import { compareDates } from "~/composables/composables";
 import {
   // Theme,
   ClassPreviewInformation,
-  ClassPreviewAssignments,
+  assignmentDetails,
+  course,
 } from "~/interfaces/interfaces";
+import { userClass } from "~/stores/class";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
 const userQuestions = useQuestions();
+const classDetails = userClass();
 const router = useRouter();
 
 const props = defineProps<{
-  // theme: Theme;
   information: ClassPreviewInformation;
-  assignment: ClassPreviewAssignments;
+  class: course;
+  assignments: Array<assignmentDetails>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
-
-/* const assignmentTheme = ref(props.theme.assignment);
-const titleTheme = ref(props.theme.title);
-const borderTheme = ref(props.theme.border);
-const backgroundTheme = ref(props.theme.background); */
 
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
-const classCode = ref(props.information.classCode);
+const assignmentsInformation = ref(props.class.assignments);
+const classCode = ref(props.class.id);
+const dueToday = ref(false);
+const dueLater = ref(false);
 
-const todayAssignment = ref(props.assignment.today);
-const otherAssignment = ref(props.assignment.otherDay);
+const sortedAssignments = ref(
+  props.assignments
+    .sort((a, b) => {
+      const dateA = new Date(a.due_date);
+      const dateB = new Date(b.due_date);
+      return Number(dateB) - Number(dateA); // For descending order
+    })
+    .filter(
+      (assignment: assignmentDetails) => compareDates(assignment.due_date) >= 0 //only takes assignments due today or due later
+    )
+    .slice(0, 3) //takes first 4 assignments in the array
+);
+
+sortedAssignments.value.forEach((assignment) => {
+  if (compareDates(assignment.due_date) === 0) {
+    dueToday.value = true; // checks if there are assignments due today
+  } else if (compareDates(assignment.due_date) === 1) {
+    dueLater.value = true; // checks if there are assignments due later
+  }
+});
 
 //The props are registered separately. Every prop name correlates to the dynamic parts of every class preview.
 </script>
@@ -38,8 +58,10 @@ const otherAssignment = ref(props.assignment.otherDay);
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
         v-on:click="
-          userQuestions.$patch({
+          classDetails.$patch({
             classCode: classCode,
+            assignments: props.assignments,
+            currentAssignments: sortedAssignments,
           }),
             router.push({
               path: `/user-${userStore.username}/class-${classCode}`,
@@ -57,118 +79,36 @@ const otherAssignment = ref(props.assignment.otherDay);
       <div
         class="text-[27px] shadow-black shadow-innerleft duration-500 hover:shadow-transparent py-1 relative h-40 overflow-y-scroll scroll-smooth bg-opacity-30 shadow-inner text-center flex flex-col items-center bg-[#CCD396] text-[#6C7439]"
       >
-        <h2 class="font-semibold" v-if="todayAssignment.length >= 1">
-          Due Today:
-        </h2>
-        <h3
-          v-on:click="
-            router.push({
-              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[0].name}`,
-            }),
-              userQuestions.$patch({
-                classCode: classCode,
-                assignmentName: todayAssignment[0].name,
-                qText: todayAssignment[0].question.qText,
-                timeLeft: todayAssignment[0].timeLeft,
-                qLeft: todayAssignment[0].qLeft,
-                answers: todayAssignment[0].question.answers,
-              })
-            //This patch method is repeated multiple times, but it takes the current assignment information that the user has clicked on, and patches it into the state.
-          "
-          class="w-fit hover:cursor-pointer hover:underline"
-          v-if="todayAssignment.length >= 1"
-        >
-          <!-- PROGRESS WAS ENDED HERE -->
-          {{ todayAssignment[0].name }} ({{ todayAssignment[0].qLeft }})
-        </h3>
-        <h3
-          v-on:click="
-            router.push({
-              path: `/user-${userStore.username}/class-${classCode}/assignment-${todayAssignment[1].name}`,
-            }),
-              userQuestions.$patch({
-                classCode: classCode,
-                assignmentName: todayAssignment[1].name,
-                qText: todayAssignment[1].question.qText,
-                qLeft: todayAssignment[1].qLeft,
-                timeLeft: todayAssignment[1].timeLeft,
-                answers: todayAssignment[1].question.answers,
-              })
-          "
-          class="w-fit hover:cursor-pointer hover:underline"
-          v-if="todayAssignment.length > 1"
-        >
-          {{ todayAssignment[1].name }} ({{ todayAssignment[1].qLeft }})
-        </h3>
-
+        <h2 class="font-semibold" v-if="dueToday">Due Today:</h2>
+        <template v-for="assignment in sortedAssignments" :key="assignment.id">
+          <h3
+            v-on:click="userQuestions.$updateState(assignment, classCode)"
+            class="w-fit hover:cursor-pointer hover:underline"
+            v-if="compareDates(assignment.due_date) === 0"
+          >
+            {{ assignment.name }}
+          </h3>
+        </template>
         <div class="flex flex-col items-center">
-          <h2 class="font-semibold" v-if="otherAssignment.length >= 1">
-            Due Wednesday:
+          <h2 class="font-semibold" v-if="dueLater">Due Later:</h2>
+          <template
+            v-for="assignment in sortedAssignments"
+            :key="assignment.id"
+          >
+            <h3
+              v-on:click="userQuestions.$updateState(assignment, classCode)"
+              class="w-fit hover:cursor-pointer hover:underline"
+              v-if="compareDates(assignment.due_date) === 1"
+            >
+              {{ assignment.name }}
+            </h3>
+          </template>
+          <h2
+            class="w-fit text-opacity-50 text-[20px] py-16"
+            v-if="sortedAssignments.length === 0"
+          >
+            You currently have no assignments due
           </h2>
-          <template v-if="todayAssignment.length > 1">
-            <h3
-              v-on:click="
-                router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0].name}`,
-                }),
-                  userQuestions.$patch({
-                    assignmentName: otherAssignment[0].name,
-                    qText: otherAssignment[0].question.qText,
-                    qLeft: otherAssignment[0].qLeft,
-                    timeLeft: otherAssignment[0].timeLeft,
-                    answers: otherAssignment[0].question.answers,
-                  })
-              "
-              class="w-fit hover:cursor-pointer hover:underline"
-              v-if="otherAssignment.length >= 1"
-            >
-              {{ otherAssignment[0].name }} ({{ otherAssignment[0].qLeft }})
-            </h3>
-          </template>
-          <template v-else-if="todayAssignment.length <= 1">
-            <h3
-              v-on:click="
-                router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[0].name}`,
-                }),
-                  userQuestions.$patch({
-                    assignmentName: otherAssignment[0].name,
-                    qText: otherAssignment[0].question.qText,
-                    qLeft: otherAssignment[0].qLeft,
-                    timeLeft: otherAssignment[0].timeLeft,
-                    answers: otherAssignment[0].question.answers,
-                  })
-              "
-              class="w-fit hover:cursor-pointer hover:underline"
-              v-if="otherAssignment.length >= 1"
-            >
-              {{ otherAssignment[0].name }} ({{ otherAssignment[0].qLeft }})
-            </h3>
-            <h3
-              v-on:click="
-                router.push({
-                  path: `/user-${userStore.username}/class-${classCode}/assignment-${otherAssignment[1].name}`,
-                }),
-                  userQuestions.$patch({
-                    assignmentName: otherAssignment[1].name,
-                    qText: otherAssignment[1].question.qText,
-                    qLeft: otherAssignment[1].qLeft,
-                    timeLeft: otherAssignment[1].timeLeft,
-                    answers: otherAssignment[1].question.answers,
-                  })
-              "
-              class="w-fit hover:cursor-pointer hover:underline"
-              v-if="otherAssignment.length > 1"
-            >
-              {{ otherAssignment[1].name }} ({{ otherAssignment[1].qLeft }})
-            </h3>
-            <h2
-              class="w-fit text-opacity-50 text-[20px] py-16"
-              v-if="todayAssignment.length < 1 && otherAssignment.length < 1"
-            >
-              You currently have no assignments due
-            </h2>
-          </template>
         </div>
       </div>
       <div

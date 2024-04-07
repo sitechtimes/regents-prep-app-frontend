@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { userState } from "~/stores/users";
-import { userArr } from "~/constants/tempUser";
 
 const email = ref("");
 const password = ref("");
@@ -14,41 +13,13 @@ const config = useRuntimeConfig();
 async function getUser() {
   const userStore = userState(); //Pinia State is declared
 
-  /*  try {
-    const response = await fetch(`${config.public.API_URL}/auth/login/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username.value,
-        password: password.value,
-      }),
-    });
-    const data = await response.json();
-    console.log(data);
-    userStore.user = data.user;
-    userStore.loggedIn = true;
-
-    router.push("home");
-
-    //Note: the 'home' page is a placeholder.
-
-  } catch (error) {
-    console.log(error);
-  } */
-  //refresh token
-  //username and password, refetch the information.
-
   (function () {
     //function to extract the 'username' from a given email.
     const fullUser = Array.from(`${email.value}`); //  The email input by the user is turned into an array
     if (fullUser.includes("@")) {
       // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
       userStore.email = email.value;
-      userStore.username = fullUser
-        .slice(0, fullUser.indexOf("@"))
-        .join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
+      userStore.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
       console.log(userStore.username);
     } else {
       userStore.username = email.value; //If the email has no '@' symbol, then it is simply registered as the username.
@@ -56,14 +27,6 @@ async function getUser() {
     }
   })();
 
-  /* userStore.loggedIn = true;
-    userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now. */
-
-  const userData = userArr.filter(
-    (u) => u.username === userStore.username
-  );
-
-  // dev methods
   if (userStore.username == "student") {
     // If the user is a student, they are redirected to the studentdashboard.
     userStore.student = true;

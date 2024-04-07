@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import AssignmentsTemp from "./AssignmentsTemp.vue";
-import { Assignment } from "~/interfaces/interfaces";
-import { currentA } from "~/constants/tempArray.js";
+import { userClass } from "~/stores/class";
+
+const classDetails = userClass();
+
+const open = ref(true);
+
 const props = defineProps<{
   date: string;
 }>();
@@ -12,12 +15,14 @@ defineExpose({
 
 <template>
   <div
-    class="h-auto mb-[2rem] relative bg-bg-navbar rounded-[35px] drop-shadow-lg"
+    class="h-auto mb-[4rem] relative bg-bg-navbar rounded-[35px] drop-shadow-lg"
   >
     <div
       class="w-full h-[56px] flex flex-col justify-around bg-bg-light rounded-t-[35px] shadow-black shadow-innervar"
     >
-      <div class="text-center text-lime-800 text-4xl font-medium">
+      <div
+        class="h-auto box-border text-center text-lime-800 text-4xl font-medium"
+      >
         {{ date }}
       </div>
     </div>
@@ -25,12 +30,11 @@ defineExpose({
     <div
       class="pt-[2.5rem] flex flex-col items-center rounded-b-[35px] shadow-black shadow-innervar"
     >
-      <AssignmentsTemp
-        v-for="assignment in currentA"
+      <StudentComponentsAssignmentsTemp
+        v-for="assignment in classDetails.currentAssignments"
         :name="assignment.name"
-        :detail="assignment.questions"
+        :detail="assignment.id"
       />
     </div>
   </div>
 </template>
-../../constants/tempArray.js
