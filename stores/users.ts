@@ -12,6 +12,7 @@ export const userState = defineStore("state", () => {
     (email.value = ""),
       (username.value = ""),
       (fullname.value = ""),
+      (user_type.value = ""),
       (student.value = false),
       (loggedIn.value = false);
     useRouter().push("/login");

@@ -1,20 +1,35 @@
 import { defineStore } from "pinia";
-import { questionInterface } from "~/interfaces/interfaces";
+import { questionInterface, assignmentDetails } from "~/interfaces/interfaces";
+import { userState } from "./users";
+const userStore = userState()
+const router = useRouter();
 
 export const useQuestions = defineStore("questions", () => {
-  const classCode = ref<Number>(0);
-  const assignmentName = ref<String>("");
-  const qText = ref<String>("");
-  const timeLeft = ref<Number>(0);
-  const qLeft = ref<Number>(0);
-  const answers = ref<Array<String>>([]);
+  const classCode = ref<number>(0);
+  const assignmentName = ref<string>("");
+  const qText = ref<string>("");
+  const timeLeft = ref<number>(0);
+  const qLeft = ref<number>(0);
+  const answers = ref<Array<string>>([]);
+  const dueDate = ref<string>("");
 
   function $resetQuestion() {
+    (classCode.value = 0),
       (assignmentName.value = ""),
-        (qText.value = ""),
-        (qLeft.value = 0),
-        (timeLeft.value = 0),
-        (answers.value = []);
+      (qText.value = ""),
+      (timeLeft.value = 0),
+      (qLeft.value = 0),
+      (answers.value = []),
+      (dueDate.value = "");
+  }
+
+  function $updateState(item: assignmentDetails, code: number) { //takes assignment object, assignmentDetails as input
+    router.push({
+      path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
+    });
+      classCode.value = code,
+      assignmentName.value = item.name,
+      dueDate.value = item.due_date
   }
 
   return {
@@ -24,7 +39,9 @@ export const useQuestions = defineStore("questions", () => {
     timeLeft,
     qLeft,
     answers,
+    dueDate,
     $resetQuestion,
+    $updateState
   };
 
   //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.

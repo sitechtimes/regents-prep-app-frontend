@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import {
+  ClassPreviewInformation,
+  ClassPreviewAssignments,
+} from "~/interfaces/interfaces";
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
@@ -11,6 +15,7 @@ const DOMselectors = {
   display: document.getElementById("display"),
 };
 
+const router = useRouter();
 const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
@@ -49,12 +54,12 @@ function makeQuestion() {
 onUnmounted(() => {
   userQuestions.$resetQuestion();
   //This unMounted action is used to remove the assignment from the questionState when the user leaves the page. Normally, a function would be created within the questions.ts file such as userQuestions.$reset() in order to avoid re-typing the function every time. However, since all of the properties of the question state are in the return {} due to addressing them with typescript interfaces, no function can be used, even those such as .push for an array. (If there is a way to create a typescript state function and it has simply been missed, please feel free to correct the above.)
+
+  console.log(totalTime.value);
+
 });
 
-onMounted(() => {
-/*    makeQuestion();  */
-  // console.log(userQuestions.timeLeft);
-});
+console.log(totalTime.value);
 
 definePageMeta({
   middleware: studentAuth,
@@ -78,6 +83,11 @@ definePageMeta({
       </div>
     </div>
     <button
+    @click="
+          router.push({
+            path: `/user-${userStore.username}/class-${userQuestions.classCode}/assignment-${userQuestions.assignmentName}-completed`,
+          })
+        "
       class="w-[350px] h-[60px] bg-bg-reg shadow-innertop shadow-innerbottom shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none mt-[2%] mb-[20px]"
     >
       Submit Answer
@@ -109,5 +119,3 @@ definePageMeta({
     </div> -->
   </div>
 </template>
-
-<style></style>

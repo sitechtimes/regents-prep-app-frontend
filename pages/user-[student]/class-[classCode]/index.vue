@@ -1,23 +1,20 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
-import { ref } from "vue";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
-import CurrentAssignments from "../../components/StudentComponents/CurrentAssignments.vue";
-import PastAssignments from "../../components/StudentComponents/PastAssignments.vue";
 import { currentA, pastA } from "../../../constants/tempArray";
-import {
-  currentAssignments,
-  pastAssignments,
-  Assignment,
-} from "~/interfaces/interfaces";
+
+import * as data from "~/json/getstudentcourses.json";
+import { userClass } from "~/stores/class";
+import { Assignment, assignmentDetails } from "~/interfaces/interfaces";
 
 const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
+const classDetails = userClass();
 
 const props = defineProps<{
-  assignment: Assignment;
+  assignments: Assignment;
 }>();
 
 /* const qLeft = ref(props.assignment.qLeft); */
@@ -27,30 +24,33 @@ let toggle = ref("Current");
 let CurrentStatus = ref(true);
 let PastStatus = ref(false);
 function toggleAssignments() {
-  if (CurrentStatus.value === true) {
-    CurrentStatus.value = false;
-    PastStatus.value = true;
+  CurrentStatus.value = !CurrentStatus.value;
+  PastStatus.value = !PastStatus.value;
+  if (CurrentStatus.value === false) {
     toggle.value = "Past";
   } else {
-    CurrentStatus.value = true;
-    PastStatus.value = false;
     toggle.value = "Current";
   }
 }
-const currentArr: currentAssignments[] = [];
-const pastArr: pastAssignments[] = [];
 (function () {
-  currentA.forEach((assignment: currentAssignments) => {
-    if (!currentArr.some((item) => item.date === assignment.date)) {
-      currentArr.push({ date: assignment.date });
-    }
-  });
-  pastA.forEach((assignment: pastAssignments) => {
-    if (!pastArr.some((item) => item.date === assignment.date)) {
-      pastArr.push({ date: assignment.date });
+  classDetails.assignments.forEach((assignment: assignmentDetails) => {
+    if (
+      !classDetails.currentAssignments.some(
+        (item) => item.due_date === assignment.due_date
+      )
+    ) {
+      classDetails.pastAssignments.push({
+        id: assignment.id,
+        name: assignment.name,
+        due_date: assignment.due_date,
+      });
     }
   });
 })();
+
+onUnmounted(() => {
+  classDetails.$reset();
+});
 
 definePageMeta({
   middleware: studentAuth,
@@ -105,15 +105,15 @@ definePageMeta({
     </div>
 
     <div class="max-w-md mx-auto md:max-w-2xl">
-      <CurrentAssignments
+      <StudentComponentsCurrentAssignments
         v-if="CurrentStatus"
-        v-for="assignment in currentArr"
-        :date="assignment.date"
+        v-for="assignment in classDetails.currentAssignments"
+        :date="assignment.due_date"
       />
-      <PastAssignments
+      <StudentComponentsPastAssignments
         v-if="PastStatus"
-        v-for="assignment in pastArr"
-        :date="assignment.date"
+        v-for="assignment in classDetails.pastAssignments"
+        :date="assignment.due_date"
       />
     </div>
   </div>
@@ -127,4 +127,3 @@ input:checked + .slider:before {
   transform: translateX(30px);
 }
 </style>
-../../../constants/tempArray.js
