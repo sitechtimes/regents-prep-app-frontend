@@ -2,7 +2,7 @@
 import { dateFetch } from "~/composables/composables";
 const props = defineProps<{
   name: string;
-  detail: string;
+  detail: number;
 }>();
 </script>
 

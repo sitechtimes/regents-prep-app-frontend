@@ -1,7 +1,4 @@
 <script setup>
-// import the files or json that contains the information regarding the students performance
-
-// the only values we need are the number of questions the student got correct
 definePageMeta({
   layout: "dashboard",
 });

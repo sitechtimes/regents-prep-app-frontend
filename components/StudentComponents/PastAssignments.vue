@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import AssignmentsStat from "./AssignmentsStat.vue";
-import { pastA } from "~/constants/tempArray";
+import { userClass } from "~/stores/class";
+
+const classDetails = userClass();
+
 const props = defineProps<{
   date: string;
 }>();
@@ -10,7 +12,9 @@ defineExpose({
 </script>
 
 <template>
-  <div class="h-auto mb-[2rem] relative bg-bg-navbar rounded-[35px] drop-shadow-lg">
+  <div
+    class="h-auto mb-[2rem] relative bg-bg-navbar rounded-[35px] drop-shadow-lg"
+  >
     <div
       class="w-full h-[56px] flex flex-col justify-around bg-bg-light rounded-t-[35px] shadow-black shadow-innervar"
     >
@@ -22,10 +26,10 @@ defineExpose({
     <div
       class="pt-[2.5rem] flex flex-col items-center shadow-black shadow-innervar rounded-b-[35px]"
     >
-      <AssignmentsStat
-        v-for="assignment in pastA"
+      <StudentComponentsAssignmentsStat
+        v-for="assignment in classDetails.pastAssignments"
         :name="assignment.name"
-        :detail="assignment.score"
+        :detail="assignment.id"
       />
     </div>
   </div>

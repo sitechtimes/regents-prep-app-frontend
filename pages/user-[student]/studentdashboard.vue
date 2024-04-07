@@ -18,7 +18,6 @@ let courseList = ref(studentAssignmentList.student_courses as course[]);
 }); */
 //This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
 
-
 definePageMeta({
   layout: "dashboard",
   middleware: studentAuth,
