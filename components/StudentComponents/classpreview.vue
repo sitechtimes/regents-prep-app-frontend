@@ -49,17 +49,6 @@ sortedAssignments.value.forEach((assignment) => {
   }
 });
 
-function updateState(item: assignmentDetails) {
-  //takes assignment object, assignmentDetails as input
-  router.push({
-    path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
-  });
-  userQuestions.$patch({
-    classCode: classCode.value,
-    assignmentName: item.name,
-    dueDate: item.due_date,
-  });
-}
 //The props are registered separately. Every prop name correlates to the dynamic parts of every class preview.
 </script>
 
@@ -93,7 +82,7 @@ function updateState(item: assignmentDetails) {
         <h2 class="font-semibold" v-if="dueToday">Due Today:</h2>
         <template v-for="assignment in sortedAssignments" :key="assignment.id">
           <h3
-            v-on:click="updateState(assignment)"
+            v-on:click="userQuestions.$updateState(assignment, classCode)"
             class="w-fit hover:cursor-pointer hover:underline"
             v-if="compareDates(assignment.due_date) === 0"
           >
@@ -107,7 +96,7 @@ function updateState(item: assignmentDetails) {
             :key="assignment.id"
           >
             <h3
-              v-on:click="updateState(assignment)"
+              v-on:click="userQuestions.$updateState(assignment, classCode)"
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="compareDates(assignment.due_date) === 1"
             >
