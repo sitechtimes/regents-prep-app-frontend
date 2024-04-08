@@ -41,7 +41,7 @@ export const useQuestions = defineStore("questions", () => {
           method: "POST",
           headers: {
             "id": `${assignmentId}`,
-            Authorization: `Bearer ${access_token.value}`,
+            Authorization: `Bearer ${userStore.access_token}`,
           },
         }
       )

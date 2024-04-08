@@ -1,4 +1,6 @@
 import { defineStore } from "pinia";
+import Assignment from "~/components/TeacherComponents/assignment.vue";
+import { assignmentDetails, course } from "~/interfaces/interfaces";
 
 export const userState = defineStore("state", () => {
   const email = ref<string>("");
@@ -7,18 +9,11 @@ export const userState = defineStore("state", () => {
   const student = ref<boolean>(false); // temporary dev option
   const user_type = ref<string>("");
   const loggedIn = ref<boolean>(false);
+  const studentCourses = ref<course[]>([]);
+  const assignments = ref<assignmentDetails[]>([])
   const access_token = ref<string>("");
   const refresh_token = ref<string>("");
-
-  function $logout() {
-    (email.value = ""),
-      (username.value = ""),
-      (fullname.value = ""),
-      (user_type.value = ""),
-      (student.value = false),
-      (loggedIn.value = false);
-    useRouter().push("/login");
-  }
+  const config = useRuntimeConfig()
 
   const $userLogin = async (
     email: string,
@@ -55,14 +50,152 @@ export const userState = defineStore("state", () => {
       console.log(error);
     }
   };
+  const $getUserCredentials = async () => {
+    try {
+      const response = await fetch(
+        `${config.public.API_URL}/api/user/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token.value}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          email.value = data.email;
+          username.value = data.username;
+          fullname.value = data.name;
+          user_type.value = data.is_teacher
+            ? "teacher"
+            : "student";
+          console.log(
+            email.value,
+            username.value,
+            fullname.value,
+            user_type.value
+          );
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const $getStudentCourses = async () => {
+    try {
+      const response = await fetch(
+        `${config.public.API_URL}/api/courses/student/all/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token.value}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+  
+          studentCourses.value = data.student_courses.map((course: course) => {
+            //define an assignments object for each course
+
+            course.assignments.forEach((assignment: assignmentDetails) => {
+
+              const assignmentData = {
+                id: assignment.id,
+                name: assignment.name,
+                due_date: assignment.due_date,
+              };
+
+              assignments.value.push(assignmentData)
+  
+            });
+  
+            return {
+              information: {
+                title: course.name,
+                teacher: course.teachers,
+                classCode: course.id,
+                id: course.id,
+              },
+              assignments,
+            };
+          });
+  
+          console.log(studentCourses.value);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const $userLogout = async () => {
+    try {
+      const response = await fetch(
+        `${config.public.API_URL}/api/logout/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token.value}`,
+          },
+          body: JSON.stringify({
+            refresh: refresh_token.value,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log(data);
+          loggedIn.value = false;
+          email.value = "";
+          username.value = "";
+          fullname.value = "";
+          access_token.value = "";
+          refresh_token.value = "";
+          user_type.value = "";
+          sessionStorage.removeItem("session");
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const $savePersistentSession = () => {
+    const persistentData = JSON.stringify({
+      email: email.value,
+      refresh_token: refresh_token.value,
+      access_token: access_token.value,
+      user_type: user_type.value,
+      fullname: fullname.value,
+    });
+    sessionStorage.setItem("session", persistentData);
+    console.log("Session saved");
+  };
+
+  function $logout() {
+      (email.value = ""),
+      (username.value = ""),
+      (fullname.value = ""),
+      (loggedIn.value = false);
+    useRouter().push("/login");
+  }
 
   return {
     email,
     username,
     fullname,
-    student, // dev option
+    access_token,
+    refresh_token,
+    studentCourses,
     user_type,
-    loggedIn,
     $logout,
+    loggedIn,
+    $userLogin,
+    $userLogout,
+    $getUserCredentials,
+    $getStudentCourses,
+    $savePersistentSession,
   };
 });
+
