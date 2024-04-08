@@ -15,6 +15,8 @@ const userQuestions = useQuestions();
 const classDetails = userClass();
 const router = useRouter();
 
+userQuestions.$getAssignmentInstance(2)
+
 const props = defineProps<{
   information: ClassPreviewInformation;
   class: course;
@@ -48,6 +50,7 @@ sortedAssignments.value.forEach((assignment) => {
     dueLater.value = true; // checks if there are assignments due later
   }
 });
+
 
 //The props are registered separately. Every prop name correlates to the dynamic parts of every class preview.
 </script>

@@ -3,6 +3,7 @@ import { questionInterface, assignmentDetails } from "~/interfaces/interfaces";
 import { userState } from "./users";
 const userStore = userState()
 const router = useRouter();
+const config = useRuntimeConfig()
 
 export const useQuestions = defineStore("questions", () => {
   const classCode = ref<number>(0);
@@ -27,10 +28,31 @@ export const useQuestions = defineStore("questions", () => {
     router.push({
       path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
     });
-      classCode.value = code,
+    classCode.value = code,
       assignmentName.value = item.name,
       dueDate.value = item.due_date
   }
+
+  const $getAssignmentInstance = async (assignmentId: number) => {
+    try {
+      const response = await fetch(
+        `${config.public.API_URL}/api/courses/student/assignment-instance/`,
+        {
+          method: "POST",
+          headers: {
+            "id": `${assignmentId}`,
+            Authorization: `Bearer ${access_token.value}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log(data)
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return {
     classCode,
@@ -41,7 +63,8 @@ export const useQuestions = defineStore("questions", () => {
     answers,
     dueDate,
     $resetQuestion,
-    $updateState
+    $updateState,
+    $getAssignmentInstance
   };
 
   //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.
