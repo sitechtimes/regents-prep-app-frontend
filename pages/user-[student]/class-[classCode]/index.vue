@@ -49,7 +49,7 @@ function toggleAssignments() {
 })();
 
 onUnmounted(() => {
-//  classDetails.$reset();
+  classDetails.$reset();
 });
 
 definePageMeta({
