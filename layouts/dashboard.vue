@@ -22,31 +22,39 @@ async function pushUser() {
 <template>
   <div>
     <nav class="h-[109px] bg-bg-navbar shadow">
-      <div class="flex flex-row">
-        <div id="username" class="w-[500px] h-[70px] mt-[12px] pl-[1%]">
-          <div
-            class="w-[500px] h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
-          >
-            <h2
-              class="w-[390px] h-[70px] text-center justify-center text-[#4E684A] text-[55px] font-semibold font-['Outfit']"
-            >
-              {{ userStore.fullname }}
-            </h2>
-          </div>
-        </div>
-        <div class="m-auto">
-          <div id="dashboard" class="w-[277px] h-[73px] mt-[17px] mr-[80px]">
+      <div class="absolute w-screen left-[41%]">
+          <div id="dashboard" class="w-[350px] h-[73px] mt-[17px]">
             <div
-              class="w-[300px] h-[73px] bg-secondary rounded-[24px] relative"
+              class="w-[350px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
             >
               <h1
-                class="w-[300px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
+                class="w-[350px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
                 Dashboard
               </h1>
             </div>
           </div>
         </div>
+      <div class="flex flex-row">
+        <div id="username" class="w-fit h-[70px] mt-[12px] pl-[1%]">
+          <div
+            class="w-fit h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
+          >
+          <h2
+              class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
+              v-if="(userStore.fullname === '')"
+            >
+               Placeholder Name
+            </h2>
+            <h2
+              class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
+              v-else
+            >
+               {{ userStore.fullname }}  
+            </h2>
+          </div>
+        </div>
+        <div class="m-auto"></div>
         <button
           id=""
           class="w-[168] pr-[2%] flex items-center justify-center hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"

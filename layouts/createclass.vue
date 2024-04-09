@@ -30,22 +30,22 @@ definePageMeta({
       <div class="flex flex-row">
         <div
           id="username"
-          class="w-[500px] h-[70px] mt-[12px] pl-[1%]"
+          class="w-fit h-[70px] mt-[12px] pl-[1%]"
         >
           <div
-            class="w-[500px] h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
+            class="w-fit h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
           >
-            <h2
-              class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
-              v-if="(userStore.fullname = '')"
+          <h2
+              class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
+              v-if="(userStore.fullname === '')"
             >
-              {{ userStore.fullname }}
+               Placeholder Name
             </h2>
             <h2
-              class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
+              class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
               v-else
             >
-              Logged in
+               {{ userStore.fullname }}  
             </h2>
           </div>
         </div>
