@@ -11,7 +11,9 @@ const router = useRouter();
 const config = useRuntimeConfig();
 
 async function getUser() {
-  const userStore = userState(); //Pinia State is declared
+  await userStore.$userLogin(email.value, password.value);
+  await userStore.$getUserCredentials();
+  userStore.$savePersistentSession();
 
   (function () {
     //function to extract the 'username' from a given email.
@@ -59,6 +61,30 @@ async function getUser() {
       path: `/user-${userStore.username}/teacherdashboard`,
     });
     //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
+  }
+
+  async function refreshAccessToken() {
+    const refreshToken = localStorage.getItem("refresh_token");
+    const response = await fetch(
+      `${config.public.API_URL}/api/token/refresh/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          refresh: refreshToken,
+        }),
+        credentials: "include",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to refresh access token");
+    }
+    const data = await response.json();
+    localStorage.setItem("access_token", data.access);
+    return data.access;
   }
 
   // function below is made to simulate the user logging in which sets values for user state
