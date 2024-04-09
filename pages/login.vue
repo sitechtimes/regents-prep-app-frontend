@@ -10,113 +10,53 @@ const router = useRouter();
 
 const config = useRuntimeConfig();
 
-async function getUser() {
+const getUser = async () => {
   await userStore.$userLogin(email.value, password.value);
   await userStore.$getUserCredentials();
   userStore.$savePersistentSession();
 
-  (function () {
-    //function to extract the 'username' from a given email.
-    const fullUser = Array.from(`${email.value}`); //  The email input by the user is turned into an array
-    if (fullUser.includes("@")) {
-      // The email is checked for whether or not the user put in an '@' symbol, similar to the NYC DOE login permitting users to log without the part of the email proceeding the '@' symbol
-      userStore.email = email.value;
-      userStore.username = fullUser.slice(0, fullUser.indexOf("@")).join(""); //The new array is sliced to only include every letter of the email before the '@' symbol, and then joined together as a string. This 'username' is then set as the username within the Pinia state.
-      console.log(userStore.username);
-    } else {
-      userStore.username = email.value; //If the email has no '@' symbol, then it is simply registered as the username.
-      console.log(userStore.username);
-    }
-  })();
-
-  if (userStore.username == "student") {
+  if (userStore.user_type == "student") {
     // If the user is a student, they are redirected to the studentdashboard.
-    userStore.student = true;
-
-    // the state values copied over from the function below
-    userStore.loggedIn = true;
-    userStore.user_type = "student";
-    /*     userStore.email = userData[0].email;
-    userStore.username = userData[0].username;
-    userStore.fullname = userData[0].fullname; */
-
     router.push({
       path: `/user-${userStore.username}/studentdashboard`,
     });
     userStore.loggedIn = true;
     //The 'student' and 'loggedIn' attributes of the state are set to true, and the user is redirected to the studentdashboard.
     // router.push({ path: `/user-${userStore.username}/studentdashboard` });
-  } else if (userStore.username == "teacher") {
+  } else if (userStore.user_type == "teacher") {
     //If the user is a teacher
-    userStore.student = false;
-
-    // state values carried over from the function below
-    userStore.loggedIn = true;
-    userStore.user_type = "teacher";
-    /*     userStore.email = userData[0].email;
-    userStore.username = userData[0].username;
-    userStore.fullname = userData[0].fullname; */
-
     router.push({
       path: `/user-${userStore.username}/teacherdashboard`,
     });
+    userStore.loggedIn = true;
     //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
   }
+};
 
-  async function refreshAccessToken() {
-    const refreshToken = localStorage.getItem("refresh_token");
-    const response = await fetch(
-      `${config.public.API_URL}/api/token/refresh/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          refresh: refreshToken,
-        }),
-        credentials: "include",
-      }
-    );
+async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem("refresh_token");
+  const response = await fetch(`${config.public.API_URL}/api/token/refresh/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      refresh: refreshToken,
+    }),
+    credentials: "include",
+  });
 
-    if (!response.ok) {
-      throw new Error("Failed to refresh access token");
-    }
-    const data = await response.json();
-    localStorage.setItem("access_token", data.access);
-    return data.access;
+  if (!response.ok) {
+    throw new Error("Failed to refresh access token");
   }
-
-  // function below is made to simulate the user logging in which sets values for user state
-
-  /*
-  if (password.value === userData[0].password) {
-    if (userData[0].user_type == "student") {
-      userStore.student = true;
-      userStore.loggedIn = true;
-      userStore.user_type = "student";
-      userStore.email = userData[0].email;
-      userStore.username = userData[0].username;
-      userStore.fullname = userData[0].fullname;
-
-      router.push({
-        path: `/user-${userStore.username}/teacherdashboard`,
-      });
-    } else if (userData[0].user_type == "teacher") {
-      userStore.student = false;
-      userStore.loggedIn = true;
-      userStore.user_type = "teacher";
-      userStore.email = userData[0].email;
-      userStore.username = userData[0].username;
-      userStore.fullname = userData[0].fullname;
-      router.push({
-        path: `/user-${userStore.username}/teacherdashboard`,
-      });
-    }
-  } else {
-    console.log("incorrect username and password");
-  } */
+  const data = await response.json();
+  localStorage.setItem("access_token", data.access);
+  return data.access;
 }
+
+/* userStore.loggedIn = true;
+    userStore.email = email.value; // This code is only for if the user's email will be used for accessing data from the api- otherwise, only the username is used for now. */
+
 definePageMeta({
   layout: false,
 });

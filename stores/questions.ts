@@ -40,9 +40,11 @@ export const useQuestions = defineStore("questions", () => {
         {
           method: "POST",
           headers: {
-            "id": `${assignmentId}`,
-            Authorization: `Bearer ${userStore.access_token}`,
+            "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            id: assignmentId
+          }),
         }
       )
         .then((res) => res.json())
