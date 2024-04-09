@@ -2,9 +2,6 @@
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
-import { currentA, pastA } from "../../../constants/tempArray";
-
-import * as data from "~/json/getstudentcourses.json";
 import { userClass } from "~/stores/class";
 import { Assignment, assignmentDetails } from "~/interfaces/interfaces";
 
