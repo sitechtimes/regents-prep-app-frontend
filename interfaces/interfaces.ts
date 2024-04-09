@@ -73,7 +73,7 @@ export interface studentCourses {
 export interface course {
   id: number;
   name: string;
-  teachers: Array<string>;
+  teachers: string;
   assignments: Array<assignmentDetails>;
 }
 
