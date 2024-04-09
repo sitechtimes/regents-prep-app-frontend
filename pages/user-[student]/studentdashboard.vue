@@ -10,7 +10,7 @@ import { course, studentAssignments } from "~/interfaces/interfaces";
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
 );
-let courseList = ref(studentAssignmentList.student_courses as course[]);
+let courseList = ref(userState().studentCourses);
 /* onMounted(() => {
   console.log(userStore.user.username);
   let date: Date = new Date();
