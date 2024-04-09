@@ -15,13 +15,15 @@ const userQuestions = useQuestions();
 const classDetails = userClass();
 const router = useRouter();
 
-userQuestions.$getAssignmentInstance(2)
-
 const props = defineProps<{
   information: ClassPreviewInformation;
   class: course;
   assignments: Array<assignmentDetails>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
+
+props.assignments.forEach((assignment: assignmentDetails) => {
+  userQuestions.$getAssignmentInstance(assignment.id);
+});
 
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
@@ -50,7 +52,6 @@ sortedAssignments.value.forEach((assignment) => {
     dueLater.value = true; // checks if there are assignments due later
   }
 });
-
 
 //The props are registered separately. Every prop name correlates to the dynamic parts of every class preview.
 </script>
