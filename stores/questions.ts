@@ -1,9 +1,12 @@
 import { defineStore } from "pinia";
-import { questionInterface, assignmentDetails } from "~/interfaces/interfaces";
+import {
+  questionInterface,
+  assignmentDetails,
+} from "~/interfaces/interfaces";
 import { userState } from "./users";
-const userStore = userState()
+const userStore = userState();
 const router = useRouter();
-const config = useRuntimeConfig()
+const config = useRuntimeConfig();
 
 export const useQuestions = defineStore("questions", () => {
   const classCode = ref<number>(0);
@@ -24,32 +27,38 @@ export const useQuestions = defineStore("questions", () => {
       (dueDate.value = "");
   }
 
-  function $updateState(item: assignmentDetails, code: number) { //takes assignment object, assignmentDetails as input
+  function $updateState(
+    item: assignmentDetails,
+    code: number
+  ) {
+    //takes assignment object, assignmentDetails as input
     router.push({
       path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
     });
-    classCode.value = code,
-      assignmentName.value = item.name,
-      dueDate.value = item.due_date
+    (classCode.value = code),
+      (assignmentName.value = item.name),
+      (dueDate.value = item.due_date);
   }
 
-  const $getAssignmentInstance = async (assignmentId: number) => {
+  const $getAssignmentInstance = async (
+    assignmentId: number
+  ) => {
     try {
       const response = await fetch(
-        `${config.public.API_URL}/api/courses/student/assignment-instance/`,
+        `http://192.168.192.122:8000/api/courses/student/assignment-instance/`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id: assignmentId
+            id: assignmentId,
           }),
         }
       )
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data)
+          console.log(data);
         });
     } catch (error) {
       console.log(error);
@@ -66,7 +75,7 @@ export const useQuestions = defineStore("questions", () => {
     dueDate,
     $resetQuestion,
     $updateState,
-    $getAssignmentInstance
+    $getAssignmentInstance,
   };
 
   //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.

@@ -1,6 +1,9 @@
 import { defineStore } from "pinia";
 import Assignment from "~/components/TeacherComponents/assignment.vue";
-import { assignmentDetails, course } from "~/interfaces/interfaces";
+import {
+  assignmentDetails,
+  course,
+} from "~/interfaces/interfaces";
 
 export const userState = defineStore("state", () => {
   const email = ref<string>("");
@@ -10,10 +13,10 @@ export const userState = defineStore("state", () => {
   const user_type = ref<string>("");
   const loggedIn = ref<boolean>(false);
   const studentCourses = ref<course[]>([]);
-  const assignments = ref<assignmentDetails[]>([])
+  const assignments = ref<assignmentDetails[]>([]);
   const access_token = ref<string>("");
   const refresh_token = ref<string>("");
-  const config = useRuntimeConfig()
+  const config = useRuntimeConfig();
 
   const $userLogin = async (
     email: string,
@@ -25,7 +28,7 @@ export const userState = defineStore("state", () => {
         fullUserName = email.split("@")[0];
       }
       const response = await fetch(
-        `${config.public.API_URL}/api/token/`,
+        `http://192.168.192.122:8000/api/token/`,
         {
           method: "POST",
           headers: {
@@ -53,7 +56,7 @@ export const userState = defineStore("state", () => {
   const $getUserCredentials = async () => {
     try {
       const response = await fetch(
-        `${config.public.API_URL}/api/user/`,
+        `http://192.168.192.122:8000/api/user/`,
         {
           method: "GET",
           headers: {
@@ -85,7 +88,7 @@ export const userState = defineStore("state", () => {
   const $getStudentCourses = async () => {
     try {
       const response = await fetch(
-        `${config.public.API_URL}/api/courses/student/all/`,
+        `http://192.168.192.122:8000/api/courses/student/all/`,
         {
           method: "GET",
           headers: {
@@ -96,33 +99,34 @@ export const userState = defineStore("state", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-  
-          studentCourses.value = data.student_courses.map((course: course) => {
-            //define an assignments object for each course
+          studentCourses.value = data.student_courses.map(
+            (course: course) => {
+              //define an assignments object for each course
 
-            course.assignments.forEach((assignment: assignmentDetails) => {
+              course.assignments.forEach(
+                (assignment: assignmentDetails) => {
+                  const assignmentData = {
+                    id: assignment.id,
+                    name: assignment.name,
+                    due_date: assignment.due_date,
+                  };
 
-              const assignmentData = {
-                id: assignment.id,
-                name: assignment.name,
-                due_date: assignment.due_date,
+                  assignments.value.push(assignmentData);
+                }
+              );
+
+              return {
+                information: {
+                  title: course.name,
+                  teacher: course.teachers,
+                  classCode: course.id,
+                  id: course.id,
+                },
+                assignments,
               };
+            }
+          );
 
-              assignments.value.push(assignmentData)
-  
-            });
-  
-            return {
-              information: {
-                title: course.name,
-                teacher: course.teachers,
-                classCode: course.id,
-                id: course.id,
-              },
-              assignments,
-            };
-          });
-  
           console.log(studentCourses.value);
         });
     } catch (error) {
@@ -133,7 +137,7 @@ export const userState = defineStore("state", () => {
   const $userLogout = async () => {
     try {
       const response = await fetch(
-        `${config.public.API_URL}/api/logout/`,
+        `http://192.168.192.122:8000/api/logout/`,
         {
           method: "POST",
           headers: {
@@ -174,7 +178,7 @@ export const userState = defineStore("state", () => {
   };
 
   function $logout() {
-      (email.value = ""),
+    (email.value = ""),
       (username.value = ""),
       (fullname.value = ""),
       (loggedIn.value = false);
@@ -198,4 +202,3 @@ export const userState = defineStore("state", () => {
     $savePersistentSession,
   };
 });
-
