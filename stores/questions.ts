@@ -4,7 +4,6 @@ import {
   assignmentDetails,
 } from "~/interfaces/interfaces";
 import { userState } from "./users";
-const userStore = userState();
 const router = useRouter();
 const config = useRuntimeConfig();
 
@@ -32,6 +31,7 @@ export const useQuestions = defineStore("questions", () => {
     item: assignmentDetails,
     code: number
   ) {
+    const userStore = userState();
     //takes assignment object, assignmentDetails as input
     router.push({
       path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
