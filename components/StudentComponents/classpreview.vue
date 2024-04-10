@@ -21,10 +21,6 @@ const props = defineProps<{
   assignments: Array<assignmentDetails>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
-props.assignments.forEach((assignment: assignmentDetails) => {
-  userQuestions.$getAssignmentInstance(assignment.id);
-});
-
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
 const assignmentsInformation = ref(props.class.assignments);

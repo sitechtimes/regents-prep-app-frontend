@@ -9,6 +9,7 @@ const router = useRouter();
 const config = useRuntimeConfig();
 
 export const useQuestions = defineStore("questions", () => {
+  const assignmentInstance = ref<number>()
   const classCode = ref<number>(0);
   const assignmentName = ref<string>("");
   const qText = ref<string>("");
@@ -38,6 +39,7 @@ export const useQuestions = defineStore("questions", () => {
     (classCode.value = code),
       (assignmentName.value = item.name),
       (dueDate.value = item.due_date);
+      $getAssignmentInstance(item.id)
   }
 
   const $getAssignmentInstance = async (
@@ -59,7 +61,8 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data);
+          assignmentInstance.value = data.id
+          console.log(assignmentInstance.value);
         });
     } catch (error) {
       console.log(error);
