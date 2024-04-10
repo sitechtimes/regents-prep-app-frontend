@@ -70,6 +70,32 @@ export const useQuestions = defineStore("questions", () => {
     }
   };
 
+  const $getQuestion = async (
+  ) => {
+    const userStore = userState();
+    try {
+      const response = await fetch(
+        `http://192.168.192.122:8000/api/courses/student/get-next-question/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userStore.access_token}`
+          },
+          body: JSON.stringify({
+            id: assignmentInstance.value,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     classCode,
     assignmentName,
