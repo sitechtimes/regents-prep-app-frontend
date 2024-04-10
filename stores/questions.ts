@@ -45,6 +45,7 @@ export const useQuestions = defineStore("questions", () => {
   const $getAssignmentInstance = async (
     assignmentId: number
   ) => {
+    const userStore = userState();
     try {
       const response = await fetch(
         `http://192.168.192.122:8000/api/courses/student/assignment-instance/`,
