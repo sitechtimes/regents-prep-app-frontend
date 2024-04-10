@@ -10,7 +10,7 @@
 
 export interface ClassPreviewInformation {
   title: string;
-  teacher: Array<String>;
+  teacher: string;
   classCode: number;
 }
 
@@ -73,7 +73,7 @@ export interface studentCourses {
 export interface course {
   id: number;
   name: string;
-  teachers: string;
+  teacher: string;
   assignments: Array<assignmentDetails>;
 }
 
