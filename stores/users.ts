@@ -103,7 +103,7 @@ export const userState = defineStore("state", () => {
             (course: course) => {
               //define an assignments object for each course
 
-              course.assignments.forEach(
+              /*                        course.assignments.forEach(
                 (assignment: assignmentDetails) => {
                   const assignmentData = {
                     id: assignment.id,
@@ -113,7 +113,7 @@ export const userState = defineStore("state", () => {
 
                   assignments.value.push(assignmentData);
                 }
-              );
+              );  */
 
               return {
                 information: {
@@ -122,7 +122,8 @@ export const userState = defineStore("state", () => {
                   classCode: course.id,
                   id: course.id,
                 },
-                assignments,
+
+                assignments: course.assignments,
               };
             }
           );
