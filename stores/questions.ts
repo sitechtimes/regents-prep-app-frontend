@@ -29,7 +29,7 @@ export const useQuestions = defineStore("questions", () => {
       (dueDate.value = "");
   }
 
-  function $updateState(
+  async function $updateState(
     item: assignmentDetails,
     code: number
   ) {
@@ -41,7 +41,8 @@ export const useQuestions = defineStore("questions", () => {
     (classCode.value = code),
       (assignmentName.value = item.name),
       (dueDate.value = item.datetime_due);
-    $getAssignmentInstance(item.id);
+    await $getAssignmentInstance(item.id)
+    await $getQuestion()
   }
 
   const $getAssignmentInstance = async (
@@ -73,7 +74,6 @@ export const useQuestions = defineStore("questions", () => {
   };
 
   const $getQuestion = async (
-    assignmentInstance: number
   ) => {
     const userStore = userState();
     try {
@@ -86,13 +86,15 @@ export const useQuestions = defineStore("questions", () => {
             Authorization: `Bearer ${userStore.access_token}`,
           },
           body: JSON.stringify({
-            id: question_instance_id.value,
+            id: assignmentInstance.value,
           }),
         }
       )
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data);
+          qText.value = data.question.text
+          question_instance_id.value = data.question.question_instance_id
+          answers.value = data.question.answers
         });
     } catch (error) {
       console.log(error);
