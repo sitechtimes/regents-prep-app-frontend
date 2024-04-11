@@ -36,7 +36,8 @@ const sortedAssignments = ref(
       return Number(dateB) - Number(dateA); // For descending order
     })
     .filter(
-      (assignment: assignmentDetails) => compareDates(assignment.datetime_due) >= 0 //only takes assignments due today or due later
+      (assignment: assignmentDetails) =>
+        compareDates(assignment.datetime_due) >= 0 //only takes assignments due today or due later
     )
     .slice(0, 3) //takes first 4 assignments in the array
 );

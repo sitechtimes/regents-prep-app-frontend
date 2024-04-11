@@ -12,6 +12,7 @@ export interface ClassPreviewInformation {
   title: string;
   teacher: string;
   classCode: number;
+  id: number;
 }
 
 //Every property within the 'ClassPreviewInformation' interface is a part of the props which are passed to identify each class individually with information that does not change, such as the class title (named title), the teacher of that class (named teacher), and the class code of the class (named classCode)
