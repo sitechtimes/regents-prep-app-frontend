@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
+import { userClass } from "~/stores/class";
 
 const userStore = userState();
+const userClasses = userClass();
 const router = useRouter();
 
 onMounted(() => {
@@ -22,7 +24,7 @@ async function pushUserBack() {
 <template>
   <div>
     <nav class="h-[109px] w-screen bg-bg-navbar shadow relative">
-      <div class="absolute w-screen left-[41%]">
+      <div class="absolute w-[350px] left-[41%]">
           <div id="dashboard" class="w-[350px] h-[73px] mt-[17px]">
             <div
               class="w-[350px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
@@ -30,7 +32,7 @@ async function pushUserBack() {
               <h1
                 class="w-[350px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
-                Default
+                {{userClasses.className}}
               </h1>
             </div>
           </div>

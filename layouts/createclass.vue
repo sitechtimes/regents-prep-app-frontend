@@ -27,6 +27,19 @@ definePageMeta({
 <template>
   <div>
     <nav class="h-[109px] bg-bg-navbar shadow">
+      <div class="absolute w-[350px] left-[41%]">
+          <div id="dashboard" class="w-[350px] h-[73px] mt-[17px]">
+            <div
+              class="w-[350px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
+            >
+              <h1
+                class="w-[350px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
+              >
+                Create Class
+              </h1>
+            </div>
+          </div>
+        </div>
       <div class="flex flex-row">
         <div
           id="username"
@@ -50,20 +63,6 @@ definePageMeta({
           </div>
         </div>
         <div class="m-auto">
-          <div
-            id="dashboard"
-            class="w-[277px] h-[73px] mt-[17px] mr-[80px]"
-          >
-            <div
-              class="w-[300px] h-[73px] bg-secondary rounded-[24px] relative"
-            >
-              <h1
-                class="w-[300px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
-              >
-                Create Class
-              </h1>
-            </div>
-          </div>
         </div>
         <div
           class="w-[168] pr-[2%] flex items-center justify-center"

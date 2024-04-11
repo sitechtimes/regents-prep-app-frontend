@@ -22,7 +22,7 @@ async function pushUser() {
 <template>
   <div>
     <nav class="h-[109px] bg-bg-navbar shadow">
-      <div class="absolute w-screen left-[41%]">
+      <div class="absolute w-[350px] left-[41%]">
           <div id="dashboard" class="w-[350px] h-[73px] mt-[17px]">
             <div
               class="w-[350px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
