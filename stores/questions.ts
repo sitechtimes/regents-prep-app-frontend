@@ -10,8 +10,6 @@ const config = useRuntimeConfig();
 export const useQuestions = defineStore("questions", () => {
   const assignmentInstance = ref<number>();
   const question_instance_id = ref<number>();
-  const answer_id = ref<number>();
-  const answer_correct = ref<number>();
 
   const classCode = ref<number>(0);
   const assignmentName = ref<string>("");
@@ -101,41 +99,9 @@ export const useQuestions = defineStore("questions", () => {
     }
   };
 
-  const $submitAnswer = async (
-    questionInstance: number,
-    answer_id: number
-  ) => {
-    const userStore = userState();
-    try {
-      const response = await fetch(
-        `http://192.168.192.122:8000/api/courses/student/get-next-question/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userStore.access_token}`,
-          },
-          body: JSON.stringify({
-            question_instance_id: questionInstance,
-            answer_id: answer_id,
-          }),
-        }
-      )
-        .then((res) => res.json())
-        .then(async (data) => {
-          answer_correct.value = data.answer_correct;
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return {
     assignmentInstance,
     question_instance_id,
-    answer_id,
-    answer_correct,
-
     classCode,
     assignmentName,
     qText,
