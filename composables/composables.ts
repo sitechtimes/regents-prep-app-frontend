@@ -1,4 +1,4 @@
-import { userClass } from "~/stores/class";
+/* import { userClass } from "~/stores/class";
 
 export const dateFetch = (
   props: Readonly<{ name: string; detail: number }>
@@ -27,7 +27,7 @@ export const dateFetch = (
   return { show };
 };
 
-export const compareDates = (dueDate: string) => {
+export function compareDates(dueDate: string) {
   let date1 = new Date(dueDate).getTime(); //converts date to milliseconds since midnight at the beginning of January 1, 1970, UTC.
   let date2 = new Date().getTime(); // gets today's time
 
@@ -40,4 +40,5 @@ export const compareDates = (dueDate: string) => {
   } else {
     return 0; // if the assignment is due today, return 0
   }
-};
+}
+ */

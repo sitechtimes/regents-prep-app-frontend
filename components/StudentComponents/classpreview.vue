@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { compareDates } from "~/composables/composables";
+//import { compareDates } from "~/composables/composables";
 import {
   // Theme,
   ClassPreviewInformation,
@@ -28,6 +28,21 @@ const classCode = ref(props.class.id);
 const dueToday = ref(false);
 const dueLater = ref(false);
 
+const compareDates = (dueDate: string) => {
+  let date1 = new Date(dueDate).getTime(); //converts date to milliseconds since midnight at the beginning of January 1, 1970, UTC.
+  let date2 = new Date().getTime(); // gets today's time
+
+  if (date1 < date2) {
+    // if the assignment is before today, return -1
+    return -1;
+  } else if (date1 > date2) {
+    // if the assigmment is after today, return 1
+    return 1;
+  } else {
+    return 0; // if the assignment is due today, return 0
+  }
+};
+
 const sortedAssignments = ref(
   props.assignments
     .sort((a, b) => {
@@ -40,7 +55,6 @@ const sortedAssignments = ref(
     )
     .slice(0, 3) //takes first 4 assignments in the array
 );
-
 sortedAssignments.value.forEach((assignment) => {
   if (compareDates(assignment.due_date) === 0) {
     dueToday.value = true; // checks if there are assignments due today
