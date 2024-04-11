@@ -32,7 +32,7 @@ definePageMeta({
         :key="item.id"
         :information="{
           title: item.name,
-          teacher: item.teachers,
+          teacher: item.teacher,
           classCode: item.id,
         }"
         :class="item"

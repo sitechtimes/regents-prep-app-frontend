@@ -21,10 +21,6 @@ const props = defineProps<{
   assignments: Array<assignmentDetails>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
-props.assignments.forEach((assignment: assignmentDetails) => {
-  userQuestions.$getAssignmentInstance(assignment.id);
-});
-
 const titleInformation = ref(props.information.title);
 const teacherInformation = ref(props.information.teacher);
 const assignmentsInformation = ref(props.class.assignments);
@@ -35,20 +31,20 @@ const dueLater = ref(false);
 const sortedAssignments = ref(
   props.assignments
     .sort((a, b) => {
-      const dateA = new Date(a.due_date);
-      const dateB = new Date(b.due_date);
+      const dateA = new Date(a.datetime_due);
+      const dateB = new Date(b.datetime_due);
       return Number(dateB) - Number(dateA); // For descending order
     })
     .filter(
-      (assignment: assignmentDetails) => compareDates(assignment.due_date) >= 0 //only takes assignments due today or due later
+      (assignment: assignmentDetails) => compareDates(assignment.datetime_due) >= 0 //only takes assignments due today or due later
     )
     .slice(0, 3) //takes first 4 assignments in the array
 );
 
 sortedAssignments.value.forEach((assignment) => {
-  if (compareDates(assignment.due_date) === 0) {
+  if (compareDates(assignment.datetime_due) === 0) {
     dueToday.value = true; // checks if there are assignments due today
-  } else if (compareDates(assignment.due_date) === 1) {
+  } else if (compareDates(assignment.datetime_due) === 1) {
     dueLater.value = true; // checks if there are assignments due later
   }
 });
@@ -88,7 +84,7 @@ sortedAssignments.value.forEach((assignment) => {
           <h3
             v-on:click="userQuestions.$updateState(assignment, classCode)"
             class="w-fit hover:cursor-pointer hover:underline"
-            v-if="compareDates(assignment.due_date) === 0"
+            v-if="compareDates(assignment.datetime_due) === 0"
           >
             {{ assignment.name }}
           </h3>
@@ -102,7 +98,7 @@ sortedAssignments.value.forEach((assignment) => {
             <h3
               v-on:click="userQuestions.$updateState(assignment, classCode)"
               class="w-fit hover:cursor-pointer hover:underline"
-              v-if="compareDates(assignment.due_date) === 1"
+              v-if="compareDates(assignment.datetime_due) === 1"
             >
               {{ assignment.name }}
             </h3>

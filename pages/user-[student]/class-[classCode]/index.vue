@@ -2,11 +2,17 @@
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
-import { currentA, pastA } from "../../../constants/tempArray";
+import {
+  currentA,
+  pastA,
+} from "../../../constants/tempArray";
 
 import * as data from "~/json/getstudentcourses.json";
 import { userClass } from "~/stores/class";
-import { Assignment, assignmentDetails } from "~/interfaces/interfaces";
+import {
+  Assignment,
+  assignmentDetails,
+} from "~/interfaces/interfaces";
 
 const router = useRouter();
 const userStore = userState();
@@ -37,23 +43,25 @@ function toggleAssignments() {
   }
 }
 (function () {
-  classDetails.assignments.forEach((assignment: assignmentDetails) => {
-    if (
-      !classDetails.currentAssignments.some(
-        (item) => item.due_date === assignment.due_date
-      )
-    ) {
-      classDetails.pastAssignments.push({
-        id: assignment.id,
-        name: assignment.name,
-        due_date: assignment.due_date,
-      });
+  classDetails.assignments.forEach(
+    (assignment: assignmentDetails) => {
+      if (
+        !classDetails.currentAssignments.some(
+          (item) => item.datetime_due === assignment.datetime_due
+        )
+      ) {
+        classDetails.pastAssignments.push({
+          id: assignment.id,
+          name: assignment.name,
+          datetime_due: assignment.datetime_due,
+        });
+      }
     }
-  });
+  );
 })();
 
 onUnmounted(() => {
-//  classDetails.$reset();
+  //  classDetails.$reset();
 });
 
 definePageMeta({
@@ -69,7 +77,9 @@ definePageMeta({
       <div
         class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center bg-bg-light rounded-[27px]"
       >
-        <label class="switch relative inline-block h-full aspect-[1.75]">
+        <label
+          class="switch relative inline-block h-full aspect-[1.75]"
+        >
           <input
             class="opacity-0 w-0 h-0"
             @click="toggleAssignments"
@@ -92,9 +102,9 @@ definePageMeta({
           router.push({
             path: `/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.assignmentName}`,
           }),
-            userQuestions.$patch({
-              /*           qLeft: qLeft, */
-            })
+            userQuestions.$getQuestion(
+              userQuestions.assignmentInstance
+            )
         "
         class="h-[60px] w-[370px] text-[35px] mr-[100px] mt-[15px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
       >
@@ -112,12 +122,12 @@ definePageMeta({
       <StudentComponentsCurrentAssignments
         v-if="CurrentStatus"
         v-for="assignment in classDetails.currentAssignments"
-        :date="assignment.due_date"
+        :date="assignment.datetime_due"
       />
       <StudentComponentsPastAssignments
         v-if="PastStatus"
         v-for="assignment in classDetails.pastAssignments"
-        :date="assignment.due_date"
+        :date="assignment.datetime_due"
       />
     </div>
   </div>

@@ -118,7 +118,7 @@ export const userState = defineStore("state", () => {
               return {
                 information: {
                   title: course.name,
-                  teacher: course.teachers,
+                  teacher: course.teacher,
                   classCode: course.id,
                   id: course.id,
                 },

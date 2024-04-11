@@ -23,7 +23,7 @@ defineExpose({
       <div
         class="h-auto box-border text-center text-lime-800 text-4xl font-medium"
       >
-        {{ date }}
+        {{ date.slice(0, 10) }}
       </div>
     </div>
 

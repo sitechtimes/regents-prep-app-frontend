@@ -4,11 +4,13 @@ import {
   assignmentDetails,
 } from "~/interfaces/interfaces";
 import { userState } from "./users";
-const userStore = userState();
 const router = useRouter();
 const config = useRuntimeConfig();
 
 export const useQuestions = defineStore("questions", () => {
+  const assignmentInstance = ref<number>();
+  const question_instance_id = ref<number>();
+
   const classCode = ref<number>(0);
   const assignmentName = ref<string>("");
   const qText = ref<string>("");
@@ -27,22 +29,26 @@ export const useQuestions = defineStore("questions", () => {
       (dueDate.value = "");
   }
 
-  function $updateState(
+  async function $updateState(
     item: assignmentDetails,
     code: number
   ) {
+    const userStore = userState();
     //takes assignment object, assignmentDetails as input
     router.push({
       path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
     });
     (classCode.value = code),
       (assignmentName.value = item.name),
-      (dueDate.value = item.due_date);
+      (dueDate.value = item.datetime_due);
+    await $getAssignmentInstance(item.id)
+    await $getQuestion()
   }
 
   const $getAssignmentInstance = async (
     assignmentId: number
   ) => {
+    const userStore = userState();
     try {
       const response = await fetch(
         `http://192.168.192.122:8000/api/courses/student/assignment-instance/`,
@@ -50,7 +56,7 @@ export const useQuestions = defineStore("questions", () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${userStore.access_token}`
+            Authorization: `Bearer ${userStore.access_token}`,
           },
           body: JSON.stringify({
             id: assignmentId,
@@ -59,7 +65,36 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data);
+          assignmentInstance.value = data.id;
+          console.log(assignmentInstance.value);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const $getQuestion = async (
+  ) => {
+    const userStore = userState();
+    try {
+      const response = await fetch(
+        `http://192.168.192.122:8000/api/courses/student/get-next-question/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userStore.access_token}`,
+          },
+          body: JSON.stringify({
+            id: assignmentInstance.value,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          qText.value = data.question.text
+          question_instance_id.value = data.question.question_instance_id
+          answers.value = data.question.answers
         });
     } catch (error) {
       console.log(error);
@@ -67,6 +102,8 @@ export const useQuestions = defineStore("questions", () => {
   };
 
   return {
+    assignmentInstance,
+    question_instance_id,
     classCode,
     assignmentName,
     qText,
@@ -76,6 +113,7 @@ export const useQuestions = defineStore("questions", () => {
     dueDate,
     $resetQuestion,
     $updateState,
+    $getQuestion,
     $getAssignmentInstance,
   };
 
