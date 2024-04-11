@@ -19,7 +19,7 @@ defineExpose({
       class="w-full h-[56px] flex flex-col justify-around bg-bg-light rounded-t-[35px] shadow-black shadow-innervar"
     >
       <div class="text-center text-lime-800 text-4xl font-medium">
-        {{ date }}
+        {{ date.slice(0, 10) }}
       </div>
     </div>
 
