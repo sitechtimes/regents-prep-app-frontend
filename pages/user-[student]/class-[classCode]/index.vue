@@ -13,6 +13,10 @@ const userStore = userState();
 const userQuestions = useQuestions();
 const classDetails = userClass();
 
+onMounted(async () => {
+  await classDetails.$getCourseAssignments();
+})
+
 const props = defineProps<{
   assignments: Assignment;
 }>();

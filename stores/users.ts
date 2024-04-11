@@ -28,7 +28,7 @@ export const userState = defineStore("state", () => {
         fullUserName = email.split("@")[0];
       }
       const response = await fetch(
-        `http://192.168.192.122:8000/api/token/`,
+        `${config.public.API_URL}/api/token/`,
         {
           method: "POST",
           headers: {
@@ -56,7 +56,7 @@ export const userState = defineStore("state", () => {
   const $getUserCredentials = async () => {
     try {
       const response = await fetch(
-        `http://192.168.192.122:8000/api/user/`,
+        `${config.public.API_URL}/api/user/`,
         {
           method: "GET",
           headers: {
@@ -88,7 +88,7 @@ export const userState = defineStore("state", () => {
   const $getStudentCourses = async () => {
     try {
       const response = await fetch(
-        `http://192.168.192.122:8000/api/courses/student/all/`,
+        `${config.public.API_URL}/api/courses/student/all/`,
         {
           method: "GET",
           headers: {
