@@ -34,21 +34,17 @@ export interface Assignment {
 //The "Assignment" interface is that used for every assignment in the classInfo.ts file. Every assignment has a name (the assignment name), the amount of questions left in the assignment for this specific student (qLeft), the timeLeft for the student to complete the assignment (stored as seconds, but will later be implemented as a calculation to display minutes and seconds separately), and a separate interface entirely for the question that the student is currently on (question, which uses the interface questionInterface, and is explained below). This will later be changed in order to account for how the api is structured (whether we will have to fetch the question by id, or simply select the one the student is on).
 
 export interface questionInterface {
-  qText: string;
-  answers: Array<string>;
+  text: string;
+  answer_type: number;
+  answers: Array<answer>
 }
-
 //The "questionInterface" interface is used for the question itself. The qText displays the question text, or the actual question that the student has to answer. The "answers" are stored in a string array, and are displayed on the page when the user is on this specific question.
 
-/* export interface questionStateInterface {
-  assignmentName: string;
-  qText: string;
-  timeLeft: number; 
-  qLeft: number;
-  answers: Array<string>;
-} */
+export interface answer { 
+  id: number;
+  text: string;
+}
 
-//The "questionStateInterface" is used within the questions.ts state file, which is used to display the individual question to the user. The "assignmentName" displays the assignment name for the user at the bottom of the page (shown in the figma), and will be the name the teacher gave the assignment itself. The "qText" displays the question text, the "timeLeft" displays the time left in seconds, the "qLeft" displays the amount of questions left in the assignment, and the answers the answers available for that question. "assignmentName" corresponds to "name" in the Assignment interface, "qText" corresponds to "qText" in the question interface, "timeLeft" corresponds to "timeLeft" in the Assignment interface, "qLeft" corresponds to "qLeft in the Assignment interface, and "answers" corresponds to "answers" in the questionInterface. It was originally used for the questionState (as an interface), but is no longer needed due to typescript being written to align with vue composition. It will be temporarily left in the code.
 
 export interface currentAssignments {
   due_date: string;
@@ -80,7 +76,7 @@ export interface course {
 export interface assignmentDetails {
   id: number;
   name: string;
-  due_date: string;
+  datetime_due: string;
 }
 
 export interface studentAssignments {

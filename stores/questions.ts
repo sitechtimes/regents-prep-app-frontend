@@ -8,7 +8,9 @@ const router = useRouter();
 const config = useRuntimeConfig();
 
 export const useQuestions = defineStore("questions", () => {
-  const assignmentInstance = ref<number>()
+  const assignmentInstance = ref<number>();
+  const question_instance_id = ref<number>();
+
   const classCode = ref<number>(0);
   const assignmentName = ref<string>("");
   const qText = ref<string>("");
@@ -38,8 +40,8 @@ export const useQuestions = defineStore("questions", () => {
     });
     (classCode.value = code),
       (assignmentName.value = item.name),
-      (dueDate.value = item.due_date);
-      $getAssignmentInstance(item.id)
+      (dueDate.value = item.datetime_due);
+    $getAssignmentInstance(item.id);
   }
 
   const $getAssignmentInstance = async (
@@ -53,7 +55,7 @@ export const useQuestions = defineStore("questions", () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${userStore.access_token}`
+            Authorization: `Bearer ${userStore.access_token}`,
           },
           body: JSON.stringify({
             id: assignmentId,
@@ -62,7 +64,7 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-          assignmentInstance.value = data.id
+          assignmentInstance.value = data.id;
           console.log(assignmentInstance.value);
         });
     } catch (error) {
@@ -71,6 +73,7 @@ export const useQuestions = defineStore("questions", () => {
   };
 
   const $getQuestion = async (
+    assignmentInstance: number
   ) => {
     const userStore = userState();
     try {
@@ -80,10 +83,10 @@ export const useQuestions = defineStore("questions", () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${userStore.access_token}`
+            Authorization: `Bearer ${userStore.access_token}`,
           },
           body: JSON.stringify({
-            id: assignmentInstance.value,
+            id: question_instance_id.value,
           }),
         }
       )
@@ -97,6 +100,8 @@ export const useQuestions = defineStore("questions", () => {
   };
 
   return {
+    assignmentInstance,
+    question_instance_id,
     classCode,
     assignmentName,
     qText,
@@ -106,6 +111,7 @@ export const useQuestions = defineStore("questions", () => {
     dueDate,
     $resetQuestion,
     $updateState,
+    $getQuestion,
     $getAssignmentInstance,
   };
 
