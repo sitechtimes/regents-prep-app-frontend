@@ -8,10 +8,10 @@ export const dateFetch = (
   const show = ref<boolean>(false);
 
   const currentFilter = classDetails.assignments.filter(
-    (assignment) => assignment.due_date === parentDate
+    (assignment) => assignment.datetime_due === parentDate
   );
   const pastFilter = classDetails.assignments.filter(
-    (assignment) => assignment.due_date === parentDate
+    (assignment) => assignment.datetime_due === parentDate
   );
   currentFilter.forEach((assignment) => {
     if (assignment.name.includes(props.name)) {
