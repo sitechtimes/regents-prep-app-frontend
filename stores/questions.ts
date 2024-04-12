@@ -5,12 +5,10 @@ import {
 } from "~/interfaces/interfaces";
 import { userState } from "./users";
 const router = useRouter();
-const config = useRuntimeConfig();
 
 export const useQuestions = defineStore("questions", () => {
   const assignmentInstance = ref<number>();
   const question_instance_id = ref<number>();
-
   const classCode = ref<number>(0);
   const assignmentName = ref<string>("");
   const qText = ref<string>("");
