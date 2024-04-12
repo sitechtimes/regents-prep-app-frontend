@@ -4,7 +4,6 @@ import {
   assignmentDetails,
 } from "~/interfaces/interfaces";
 import { userState } from "./users";
-const router = useRouter();
 
 export const useQuestions = defineStore("questions", () => {
   const assignmentInstance = ref<number>();
@@ -16,6 +15,7 @@ export const useQuestions = defineStore("questions", () => {
   const qLeft = ref<number>(0);
   const answers = ref<Array<string>>([]);
   const dueDate = ref<string>("");
+  const router = useRouter();
 
   function $resetQuestion() {
     (classCode.value = 0),
