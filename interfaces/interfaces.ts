@@ -9,6 +9,7 @@
 //Theme is currently not used because a redesign has excluded all colors except for green.
 
 export interface ClassPreviewInformation {
+  id: number;
   title: string;
   teacher: string;
   classCode: number;

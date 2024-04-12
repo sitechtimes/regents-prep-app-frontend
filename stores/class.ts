@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { studentAssignments } from "~/interfaces/interfaces";
+import { studentAssignments, ClassPreviewInformation } from "~/interfaces/interfaces";
 import { userState } from "./users";
 
 export const userClass = defineStore("class", () => {
@@ -7,13 +7,14 @@ export const userClass = defineStore("class", () => {
   const assignments = ref<Array<studentAssignments>>([]);
   const currentAssignments = ref<Array<studentAssignments>>([]);
   const pastAssignments = ref<Array<studentAssignments>>([]);
+  const courseId = ref<number>(0);
   const dateNow = ref<Date>(new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate())));
   const config = useRuntimeConfig();
 
-  const $getCourseAssignments = async (courseId: string) => {
+  const $getCourseAssignments = async (courseId: number) => {
     try {
       const response = await fetch(
-        `${config.public.API_URL}api/courses/student/assignments/`,
+        `http://192.168.192.122:8000/api/courses/student/assignments/`,
         {
           method: "GET",
           headers: {
@@ -64,6 +65,7 @@ export const userClass = defineStore("class", () => {
     assignments,
     currentAssignments,
     pastAssignments,
+    courseId,
     dateNow,
     $reset,
     $getCourseAssignments,

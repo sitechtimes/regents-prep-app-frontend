@@ -4,6 +4,7 @@ import {
   assignmentDetails,
   course,
 } from "~/interfaces/interfaces";
+import { userClass } from "./class";
 
 export const userState = defineStore("state", () => {
   const email = ref<string>("");
@@ -28,7 +29,7 @@ export const userState = defineStore("state", () => {
         fullUserName = email.split("@")[0];
       }
       const response = await fetch(
-        `${config.public.API_URL}/api/token/`,
+        `http://192.168.192.122:8000/api/token/`,
         {
           method: "POST",
           headers: {
@@ -56,7 +57,7 @@ export const userState = defineStore("state", () => {
   const $getUserCredentials = async () => {
     try {
       const response = await fetch(
-        `${config.public.API_URL}/api/user/`,
+        `http://192.168.192.122:8000/api/user/`,
         {
           method: "GET",
           headers: {
@@ -88,7 +89,7 @@ export const userState = defineStore("state", () => {
   const $getStudentCourses = async () => {
     try {
       const response = await fetch(
-        `${config.public.API_URL}/api/courses/student/all/`,
+        `http://192.168.192.122:8000/api/courses/student/all/`,
         {
           method: "GET",
           headers: {
@@ -125,7 +126,11 @@ export const userState = defineStore("state", () => {
 
                 assignments: course.assignments,
               };
+
+           
+
             }
+            
           );
 
           console.log(studentCourses.value);
