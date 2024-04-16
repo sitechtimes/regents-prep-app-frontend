@@ -98,18 +98,15 @@ export const userState = defineStore("state", () => {
               );  */
 
             return {
-              information: {
-                title: course.name,
-                teacher: course.teacher,
-                classCode: course.id,
-                id: course.id,
-              },
-
+              id: course.id,
+              name: course.name,
+              teacher: course.teacher,
+              classCode: course.id,
               assignments: course.assignments,
             };
           });
 
-          console.log(studentCourses.value);
+          console.log(JSON.parse(JSON.stringify(studentCourses.value)));
         });
     } catch (error) {
       console.log(error);

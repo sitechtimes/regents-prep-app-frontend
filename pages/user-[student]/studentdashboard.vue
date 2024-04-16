@@ -31,7 +31,7 @@ definePageMeta({
         v-for="item in courseList"
         :key="item.id"
         :information="{
-          title: item.name,
+          name: item.name,
           teacher: item.teacher,
           classCode: item.id,
         }"

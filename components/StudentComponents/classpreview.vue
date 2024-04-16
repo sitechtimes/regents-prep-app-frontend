@@ -21,7 +21,7 @@ const props = defineProps<{
   assignments: Array<assignmentDetails>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
-const titleInformation = ref(props.information.title);
+const titleInformation = ref(props.information.name);
 const teacherInformation = ref(props.information.teacher);
 const assignmentsInformation = ref(props.class.assignments);
 const classCode = ref(props.class.id);
@@ -41,7 +41,6 @@ const sortedAssignments = ref(
     )
     .slice(0, 3) //takes first 4 assignments in the array
 );
-
 sortedAssignments.value.forEach((assignment) => {
   if (compareDates(assignment.datetime_due) === 0) {
     dueToday.value = true; // checks if there are assignments due today
