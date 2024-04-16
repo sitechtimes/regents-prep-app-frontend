@@ -21,7 +21,7 @@ const props = defineProps<{
   assignments: Array<assignmentDetails>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
-const titleInformation = ref(props.information.title);
+const titleInformation = ref(props.information.name);
 const teacherInformation = ref(props.information.teacher);
 const assignmentsInformation = ref(props.class.assignments);
 const classCode = ref(props.class.id);
