@@ -16,7 +16,6 @@ export const userState = defineStore("state", () => {
   const assignments = ref<assignmentDetails[]>([]);
   const access_token = ref<string>("");
   const refresh_token = ref<string>("");
-  const config = useRuntimeConfig();
 
   const $userLogin = async (
     email: string,

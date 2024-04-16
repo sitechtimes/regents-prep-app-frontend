@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
-import { userState } from "~/stores/users";
-import { classInfo } from "~/constants/classInfo";
-
 import assignmentInstance from "../../json/getstudentassignments.json";
 import studentAssignmentList from "../../json/getstudentcourses.json";
 import { course, studentAssignments } from "~/interfaces/interfaces";
+import {userState} from "../../stores/users"
 
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]

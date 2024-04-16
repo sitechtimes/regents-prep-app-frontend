@@ -1,5 +1,33 @@
 <script setup lang="ts">
-import { dateFetch } from "~/composables/composables";
+//import { dateFetch } from "~/composables/composables";
+
+import { userClass } from "~/stores/class";
+
+const dateFetch = (props: Readonly<{ name: string; detail: number }>) => {
+  const classDetails = userClass();
+  const parentDate = getCurrentInstance()?.parent?.exposed?.props.date;
+  const show = ref<boolean>(false);
+
+  const currentFilter = classDetails.assignments.filter(
+    (assignment) => assignment.due_date === parentDate
+  );
+  const pastFilter = classDetails.assignments.filter(
+    (assignment) => assignment.due_date === parentDate
+  );
+  currentFilter.forEach((assignment) => {
+    if (assignment.name.includes(props.name)) {
+      show.value = true;
+    }
+  });
+  pastFilter.forEach((assignment) => {
+    if (assignment.name.includes(props.name)) {
+      show.value = true;
+    }
+  });
+
+  return { show };
+};
+
 const props = defineProps<{
   name: string;
   detail: number;
