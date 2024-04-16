@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { assignmentDetails } from "~/interfaces/interfaces";
+import type { assignmentDetails } from "~/interfaces/interfaces";
 
 export const userClass = defineStore("class", () => {
   const classCode = ref<number>(0);

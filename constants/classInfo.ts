@@ -1,4 +1,4 @@
-import {
+import type {
   ClassPreviewInformation,
   ClassPreviewAssignments,
   Assignment,
@@ -18,7 +18,7 @@ export const classInfo = {
       title: "Regents Physics - P1",
       teacher: "Mr. Colangelo",
       classCode: 1,
-    } as ClassPreviewInformation,
+    } as unknown as ClassPreviewInformation,
     assignments: {
       today: [
         {
@@ -29,7 +29,7 @@ export const classInfo = {
           question: {
             qText: "Kinematics question",
             answers: ["Answer A", "Answer B", "Answer C", "Answer D"],
-          } as questionInterface,
+          } as unknown as questionInterface,
         } as Assignment,
       ],
       otherDay: [
@@ -41,7 +41,7 @@ export const classInfo = {
           question: {
             qText: "Energy question",
             answers: ["Answer A", "Answer B"],
-          } as questionInterface,
+          } as unknown as questionInterface,
         } as Assignment,
         {
           name: "Circuits",
@@ -51,7 +51,7 @@ export const classInfo = {
           question: {
             qText: "Test",
             answers: [],
-          } as questionInterface,
+          } as unknown as questionInterface,
         } as Assignment,
       ],
     } as ClassPreviewAssignments,
@@ -74,19 +74,19 @@ export const getStudentCourses = {
           id: 1,
           name: "Homework 1",
           due_date: "2015-09-01",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 2,
           name: "Homework 2",
           due_date: "2015-09-08",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 3,
           name: "Homework 3",
           due_date: "2015-09-15",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
       ],
-    } as course,
+    } as unknown as course,
     {
       id: 30,
       name: "Physics - Period 2",
@@ -96,19 +96,19 @@ export const getStudentCourses = {
           id: 4,
           name: "Homework 1",
           due_date: "2015-09-01",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 5,
           name: "Homework 2",
           due_date: "2015-09-08",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 6,
           name: "Homework 3",
           due_date: "2015-09-15",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
       ],
-    } as course,
+    } as unknown as course,
     {
       id: 31,
       name: "Physics - Period 3",
@@ -118,19 +118,19 @@ export const getStudentCourses = {
           id: 1,
           name: "Homework 1",
           due_date: "2015-09-01",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 2,
           name: "Homework 2",
           due_date: "2015-09-08",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 3,
           name: "Homework 3",
           due_date: "2015-09-15",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
       ],
-    } as course,
+    } as unknown as course,
     {
       id: 32,
       name: "Physics - Period 4",
@@ -140,19 +140,19 @@ export const getStudentCourses = {
           id: 1,
           name: "Homework 1",
           due_date: "2015-09-01",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 2,
           name: "Homework 2",
           due_date: "2015-09-08",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 3,
           name: "Homework 3",
           due_date: "2015-09-15",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
       ],
-    } as course,
+    } as unknown as course,
     {
       id: 33,
       name: "Physics - Period 5",
@@ -162,19 +162,19 @@ export const getStudentCourses = {
           id: 1,
           name: "Homework 1",
           due_date: "2015-09-01",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 2,
           name: "Homework 2",
           due_date: "2015-09-08",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 3,
           name: "Homework 3",
           due_date: "2015-09-15",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
       ],
-    } as course,
+    } as unknown as course,
     {
       id: 34,
       name: "Physics - Period 6",
@@ -184,19 +184,19 @@ export const getStudentCourses = {
           id: 1,
           name: "Homework 1",
           due_date: "2015-09-01",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 2,
           name: "Homework 2",
           due_date: "2015-09-08",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 3,
           name: "Homework 3",
           due_date: "2015-09-15",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
       ],
-    } as course,
+    } as unknown as course,
     {
       id: 35,
       name: "Physics - Period 7",
@@ -206,19 +206,19 @@ export const getStudentCourses = {
           id: 1,
           name: "Homework 1",
           due_date: "2015-09-01",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 2,
           name: "Homework 2",
           due_date: "2015-09-08",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 3,
           name: "Homework 3",
           due_date: "2015-09-15",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
       ],
-    } as course,
+    } as unknown as course,
     {
       id: 36,
       name: "Physics - Period 8",
@@ -228,19 +228,19 @@ export const getStudentCourses = {
           id: 1,
           name: "Homework 1",
           due_date: "2015-09-01",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 2,
           name: "Homework 2",
           due_date: "2015-09-08",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 3,
           name: "Homework 3",
           due_date: "2015-09-15",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
       ],
-    } as course,
+    } as unknown as course,
     {
       id: 37,
       name: "Physics - Period 9",
@@ -250,19 +250,19 @@ export const getStudentCourses = {
           id: 1,
           name: "Homework 1",
           due_date: "2015-09-01",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 2,
           name: "Homework 2",
           due_date: "2015-09-08",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
         {
           id: 3,
           name: "Homework 3",
           due_date: "2015-09-15",
-        } as assignmentDetails,
+        } as unknown as assignmentDetails,
       ],
-    } as course,
+    } as unknown as course,
   ],
 } as studentCourses;
 

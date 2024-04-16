@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {
+import type {
   ClassPreviewInformation,
   ClassPreviewAssignments,
 } from "~/interfaces/interfaces";
@@ -16,9 +16,7 @@ const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
 
-const totalTime = ref<number>(
-  userQuestions.timeLeft.valueOf()
-);
+const totalTime = ref<number>(userQuestions.timeLeft.valueOf());
 const min = ref<number>(Math.trunc(totalTime.value / 60));
 const sec = ref<number>(totalTime.value % 60);
 function delay(delay: number) {
@@ -39,7 +37,6 @@ function delay(delay: number) {
     }
   }
 })();
-
 
 onUnmounted(() => {
   userQuestions.$resetQuestion();
@@ -66,9 +63,7 @@ definePageMeta({
         class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"
       ></div>
       <div class="items-center justify-center text-center">
-        <div
-          class="justify-center items-center text-center"
-        >
+        <div class="justify-center items-center text-center">
           <button
             v-for="answer in questionAnswers"
             v-html="answer.text"
@@ -98,8 +93,8 @@ definePageMeta({
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
       >
-        {{ userQuestions.qLeft }} Questions Left | Time Left
-        - {{ min }} min {{ sec }} sec
+        {{ userQuestions.qLeft }} Questions Left | Time Left - {{ min }} min
+        {{ sec }} sec
         <!--Minutes : Seconds-->
         <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
         |
