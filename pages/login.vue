@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { createPinia } from "pinia";
+import piniaPluginPersistedState from "pinia-plugin-persistedstate";
 import { userState } from "~/stores/users";
 
 const email = ref("");
 const password = ref("");
+
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedState);
 
 const userStore = userState();
 const router = useRouter();
