@@ -2,6 +2,7 @@ import { userState } from "~/stores/users";
 
 export default defineNuxtRouteMiddleware((to, from) => {
   const userStore = userState();
+
   /* const router = useRouter();
   const previousRoutePath = ref("");
 

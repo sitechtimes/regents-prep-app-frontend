@@ -6,7 +6,7 @@
     {
       "id": 29,
       "name": "Physics - Period 1",
-      "teachers": ["Colangelo, Johnathan"],
+      "teachers": "Colangelo, Johnathan",
       "assignments": [
         {
           "id": 1,
@@ -28,7 +28,7 @@
     {
       "id": 30,
       "name": "Physics - Period 2",
-      "teachers": ["Jax, Jared"],
+      "teachers": "Jax, Jared",
       "assignments": [
         {
           "id": 4,
@@ -50,7 +50,7 @@
     {
       "id": 31,
       "name": "Physics - Period 3",
-      "teachers": ["Weitzman, Michael"],
+      "teachers": "Weitzman, Michael",
       "assignments": [
         {
           "id": 1,
@@ -72,7 +72,7 @@
     {
       "id": 32,
       "name": "Physics - Period 4",
-      "teachers": ["Colangelo, Johnathan"],
+      "teachers": "Colangelo, Johnathan",
       "assignments": [
         {
           "id": 1,
@@ -94,7 +94,7 @@
     {
       "id": 33,
       "name": "Physics - Period 5",
-      "teachers": ["Jax, Jared"],
+      "teachers": "Jax, Jared",
       "assignments": [
         {
           "id": 1,
@@ -116,7 +116,7 @@
     {
       "id": 34,
       "name": "Physics - Period 6",
-      "teachers": ["Weitzman, Michael"],
+      "teachers": "Weitzman, Michael",
       "assignments": [
         {
           "id": 1,
@@ -138,7 +138,7 @@
     {
       "id": 35,
       "name": "Physics - Period 7",
-      "teachers": ["Colangelo, Johnathan"],
+      "teachers": "Colangelo, Johnathan",
       "assignments": [
         {
           "id": 1,
@@ -160,7 +160,7 @@
     {
       "id": 36,
       "name": "Physics - Period 8",
-      "teachers": ["Jax, Jared"],
+      "teachers": "Jax, Jared",
       "assignments": [
         {
           "id": 1,
@@ -182,7 +182,7 @@
     {
       "id": 37,
       "name": "Physics - Period 9",
-      "teachers": ["Weitzman, Michael"],
+      "teachers": "Weitzman, Michael",
       "assignments": [
         {
           "id": 1,
