@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
+import { userClass } from "~/stores/class";
 import { classInfo } from "~/constants/classInfo";
 
 import assignmentInstance from "../../json/getstudentassignments.json";
@@ -10,6 +11,7 @@ import { course, studentAssignments } from "~/interfaces/interfaces";
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
 );
+const classStore = userClass();
 let courseList = ref(userState().studentCourses);
 /* onMounted(() => {
   console.log(userStore.user.username);
@@ -17,6 +19,9 @@ let courseList = ref(userState().studentCourses);
   console.log(date.toString().split(" ")[0]);
 }); */
 //This is a placeholder incase the day (Monday or Tuesday, for example) needs to be obtained for fetching the past assignments (since one another day other than the current assignment will be displayed)
+const selectCourse = (id: number) => {
+  classStore.$getCourseId(id);
+};
 
 definePageMeta({
   layout: "dashboard",
@@ -30,6 +35,7 @@ definePageMeta({
       <StudentComponentsClasspreview
         v-for="item in courseList"
         :key="item.id"
+        @click="selectCourse(item.id)"
         :information="{
           title: item.name,
           teacher: item.teacher,

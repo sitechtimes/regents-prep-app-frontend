@@ -14,14 +14,13 @@ export const userClass = defineStore("class", () => {
   const $getCourseAssignments = async (courseId: number) => {
     try {
       const response = await fetch(
-        `http://192.168.192.122:8000/api/courses/student/assignments/`,
+        `http://192.168.192.122:8000/api/courses/student/assignments/?course_id=${courseId}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${userState().access_token}`,
           },
-          body: JSON.stringify({ course_id: courseId })
         }
       )
       .then((res) => res.json())
@@ -53,6 +52,10 @@ export const userClass = defineStore("class", () => {
     }
   }
 
+  const $getCourseId = (id: number) => {
+    courseId.value = id;
+  }
+
   function $reset() {
     classCode.value = 0;
     assignments.value = [];
@@ -69,5 +72,6 @@ export const userClass = defineStore("class", () => {
     dateNow,
     $reset,
     $getCourseAssignments,
+    $getCourseId,
   };
 });
