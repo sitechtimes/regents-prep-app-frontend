@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
-import { userState } from "~/stores/users";
-import { classInfo } from "~/constants/classInfo";
-
 import assignmentInstance from "../../json/getstudentassignments.json";
 import studentAssignmentList from "../../json/getstudentcourses.json";
 import { course, studentAssignments } from "~/interfaces/interfaces";
+import {userState} from "../../stores/users"
 
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
 );
-let courseList = ref(studentAssignmentList.student_courses as course[]);
+let courseList = ref(userState().studentCourses);
 /* onMounted(() => {
   console.log(userStore.user.username);
   let date: Date = new Date();
@@ -32,8 +30,8 @@ definePageMeta({
         v-for="item in courseList"
         :key="item.id"
         :information="{
-          title: item.name,
-          teacher: item.teachers,
+          name: item.name,
+          teacher: item.teacher,
           classCode: item.id,
         }"
         :class="item"

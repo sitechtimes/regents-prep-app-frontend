@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { compareDates } from "~/composables/composables";
+//import { compareDates } from "~/composables/composables";
 import {
   // Theme,
   ClassPreviewInformation,
@@ -21,30 +21,45 @@ const props = defineProps<{
   assignments: Array<assignmentDetails>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
-const titleInformation = ref(props.information.title);
+const titleInformation = ref(props.information.name);
 const teacherInformation = ref(props.information.teacher);
 const assignmentsInformation = ref(props.class.assignments);
 const classCode = ref(props.class.id);
 const dueToday = ref(false);
 const dueLater = ref(false);
 
+const compareDates = (dueDate: string) => {
+  let date1 = new Date(dueDate).getTime(); //converts date to milliseconds since midnight at the beginning of January 1, 1970, UTC.
+  let date2 = new Date().getTime(); // gets today's time
+
+  if (date1 < date2) {
+    // if the assignment is before today, return -1
+    return -1;
+  } else if (date1 > date2) {
+    // if the assigmment is after today, return 1
+    return 1;
+  } else {
+    return 0; // if the assignment is due today, return 0
+  }
+};
+
 const sortedAssignments = ref(
   props.assignments
     .sort((a, b) => {
-      const dateA = new Date(a.due_date);
-      const dateB = new Date(b.due_date);
+      const dateA = new Date(a.datetime_due);
+      const dateB = new Date(b.datetime_due);
       return Number(dateB) - Number(dateA); // For descending order
     })
     .filter(
-      (assignment: assignmentDetails) => compareDates(assignment.due_date) >= 0 //only takes assignments due today or due later
+      (assignment: assignmentDetails) =>
+        compareDates(assignment.datetime_due) >= 0 //only takes assignments due today or due later
     )
     .slice(0, 3) //takes first 4 assignments in the array
 );
-
 sortedAssignments.value.forEach((assignment) => {
-  if (compareDates(assignment.due_date) === 0) {
+  if (compareDates(assignment.datetime_due) === 0) {
     dueToday.value = true; // checks if there are assignments due today
-  } else if (compareDates(assignment.due_date) === 1) {
+  } else if (compareDates(assignment.datetime_due) === 1) {
     dueLater.value = true; // checks if there are assignments due later
   }
 });
@@ -88,7 +103,7 @@ sortedAssignments.value.forEach((assignment) => {
               classDetails.$patch({ className: titleInformation})
             "
             class="w-fit hover:cursor-pointer hover:underline"
-            v-if="compareDates(assignment.due_date) === 0"
+            v-if="compareDates(assignment.datetime_due) === 0"
           >
             {{ assignment.name }}
           </h3>
@@ -103,7 +118,7 @@ sortedAssignments.value.forEach((assignment) => {
               v-on:click="userQuestions.$updateState(assignment, classCode),
               classDetails.$patch({ className: titleInformation})"
               class="w-fit hover:cursor-pointer hover:underline"
-              v-if="compareDates(assignment.due_date) === 1"
+              v-if="compareDates(assignment.datetime_due) === 1"
             >
               {{ assignment.name }}
             </h3>
