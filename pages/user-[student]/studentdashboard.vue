@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
 import assignmentInstance from "../../json/getstudentassignments.json";
-import studentAssignmentList from "../../json/getstudentcourses.json";
-import type { course, studentAssignments } from "~/interfaces/interfaces";
+import type { studentAssignments } from "~/interfaces/interfaces";
 import { userState } from "../../stores/users";
 
 const studentAssignmentInstance = ref(
@@ -58,5 +57,3 @@ definePageMeta({
     </div>
   </div> -->
 </template>
-
-<style scoped></style>

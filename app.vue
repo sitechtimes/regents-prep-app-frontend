@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { createPinia } from "pinia";
-import piniaPluginPersistedState from "pinia-plugin-persistedstate";
+import { createPersistedState } from "pinia-plugin-persistedstate";
 
 const pinia = createPinia();
-pinia.use(piniaPluginPersistedState);
+pinia.use(
+  createPersistedState({
+    storage: persistedState.sessionStorage,
+  })
+);
 
 const userStore = userState();
 const classDetails = userClass();

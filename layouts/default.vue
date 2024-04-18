@@ -4,18 +4,14 @@ import { userState } from "~/stores/users";
 const userStore = userState();
 const router = useRouter();
 
-onMounted(() => {
-  //console.log(userStore.email);
-});
-
 //this function pushes user back to the teacher dashboard
 async function pushUserBack() {
-  const userStore = userState();
+  /* const userStore = userState();
   if (userStore.username == "teacher") {
     router.push({ path: `/user-${userStore.username}/teacherdashboard` });
   } else if (userStore.username == "student") {
-    router.push({path: `/user-${userStore.username}/studentdashboard`})
-  };
+    router.push({ path: `/user-${userStore.username}/studentdashboard` });
+  } */
 }
 </script>
 
