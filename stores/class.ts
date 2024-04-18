@@ -9,11 +9,11 @@ export const userClass = defineStore("class", () => {
   const pastAssignments = ref<Array<assignmentDetails>>([]);
 
   function $reset() {
-    (className.value = "");
-    (classCode.value = 0);
-    (assignments.value = []);
-    (currentAssignments.value = []);
-    (pastAssignments.value = []);
+    className.value = "";
+    classCode.value = 0;
+    assignments.value = [];
+    currentAssignments.value = [];
+    pastAssignments.value = [];
   }
 
   return {

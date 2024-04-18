@@ -83,10 +83,7 @@ sortedAssignments.value.forEach((assignment) => {
         <h2 class="font-semibold" v-if="dueToday">Due Today:</h2>
         <template v-for="assignment in sortedAssignments" :key="assignment.id">
           <h3
-            v-on:click="
-              userQuestions.$updateState(assignment, classCode),
-              classDetails.$patch({ className: titleInformation}),
-            "
+            v-on:click="userQuestions.$updateState(assignment, classCode)"
             class="w-fit hover:cursor-pointer hover:underline"
             v-if="compareDates(assignment.due_date) === 0"
           >
@@ -100,8 +97,7 @@ sortedAssignments.value.forEach((assignment) => {
             :key="assignment.id"
           >
             <h3
-              v-on:click="userQuestions.$updateState(assignment, classCode),
-              classDetails.$patch({ className: titleInformation}),"
+              v-on:click="userQuestions.$updateState(assignment, classCode)"
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="compareDates(assignment.due_date) === 1"
             >
