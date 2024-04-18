@@ -8,6 +8,7 @@ import assignmentInstance from "../../json/getstudentassignments.json";
 import studentAssignmentList from "../../json/getstudentcourses.json";
 import { course, studentAssignments } from "~/interfaces/interfaces";
 
+
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
 );
@@ -37,7 +38,7 @@ definePageMeta({
         :key="item.id"
         @click="selectCourse(item.id)"
         :information="{
-          title: item.name,
+          name: item.name,
           teacher: item.teacher,
           classCode: item.id,
         }"

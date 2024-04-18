@@ -1,10 +1,6 @@
 import { defineStore } from "pinia";
 import Assignment from "~/components/TeacherComponents/assignment.vue";
-import {
-  assignmentDetails,
-  course,
-} from "~/interfaces/interfaces";
-import { userClass } from "./class";
+import { assignmentDetails, course } from "~/interfaces/interfaces";
 
 export const userState = defineStore("state", () => {
   const email = ref<string>("");
@@ -17,38 +13,28 @@ export const userState = defineStore("state", () => {
   const assignments = ref<assignmentDetails[]>([]);
   const access_token = ref<string>("");
   const refresh_token = ref<string>("");
-  const config = useRuntimeConfig();
 
-  const $userLogin = async (
-    email: string,
-    password: string
-  ) => {
+  const $userLogin = async (email: string, password: string) => {
     try {
       let fullUserName = email;
       if (email.includes("@")) {
         fullUserName = email.split("@")[0];
       }
-      const response = await fetch(
-        `http://192.168.192.122:8000/api/token/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: fullUserName,
-            password: password,
-          }),
-        }
-      )
+      const response = await fetch(`http://192.168.192.122:8000/api/token/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: fullUserName,
+          password: password,
+        }),
+      })
         .then((res) => res.json())
         .then(async (data) => {
           access_token.value = data.access;
           refresh_token.value = data.refresh;
-          console.log(
-            access_token.value,
-            refresh_token.value
-          );
+          console.log(access_token.value, refresh_token.value);
         });
     } catch (error) {
       console.log(error);
@@ -56,24 +42,19 @@ export const userState = defineStore("state", () => {
   };
   const $getUserCredentials = async () => {
     try {
-      const response = await fetch(
-        `http://192.168.192.122:8000/api/user/`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${access_token.value}`,
-          },
-        }
-      )
+      const response = await fetch(`http://192.168.192.122:8000/api/user/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token.value}`,
+        },
+      })
         .then((res) => res.json())
         .then(async (data) => {
           email.value = data.email;
           username.value = data.username;
           fullname.value = data.name;
-          user_type.value = data.is_teacher
-            ? "teacher"
-            : "student";
+          user_type.value = data.is_teacher ? "teacher" : "student";
           console.log(
             email.value,
             username.value,
@@ -100,11 +81,10 @@ export const userState = defineStore("state", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-          studentCourses.value = data.student_courses.map(
-            (course: course) => {
-              //define an assignments object for each course
+          studentCourses.value = data.student_courses.map((course: course) => {
+            //define an assignments object for each course
 
-              /*                        course.assignments.forEach(
+            /*                        course.assignments.forEach(
                 (assignment: assignmentDetails) => {
                   const assignmentData = {
                     id: assignment.id,
@@ -116,24 +96,16 @@ export const userState = defineStore("state", () => {
                 }
               );  */
 
-              return {
-                information: {
-                  title: course.name,
-                  teacher: course.teacher,
-                  classCode: course.id,
-                  id: course.id,
-                },
+            return {
+              id: course.id,
+              name: course.name,
+              teacher: course.teacher,
+              classCode: course.id,
+              assignments: course.assignments,
+            };
+          });
 
-                assignments: course.assignments,
-              };
-
-           
-
-            }
-            
-          );
-
-          console.log(studentCourses.value);
+          console.log(JSON.parse(JSON.stringify(studentCourses.value)));
         });
     } catch (error) {
       console.log(error);
@@ -142,19 +114,16 @@ export const userState = defineStore("state", () => {
 
   const $userLogout = async () => {
     try {
-      const response = await fetch(
-        `http://192.168.192.122:8000/api/logout/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${access_token.value}`,
-          },
-          body: JSON.stringify({
-            refresh: refresh_token.value,
-          }),
-        }
-      )
+      const response = await fetch(`http://192.168.192.122:8000/api/logout/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token.value}`,
+        },
+        body: JSON.stringify({
+          refresh: refresh_token.value,
+        }),
+      })
         .then((res) => res.json())
         .then(async (data) => {
           console.log(data);

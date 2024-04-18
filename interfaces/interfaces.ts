@@ -9,10 +9,10 @@
 //Theme is currently not used because a redesign has excluded all colors except for green.
 
 export interface ClassPreviewInformation {
-  id: number;
-  title: string;
+  name: string;
   teacher: string;
   classCode: number;
+  id: number;
 }
 
 //Every property within the 'ClassPreviewInformation' interface is a part of the props which are passed to identify each class individually with information that does not change, such as the class title (named title), the teacher of that class (named teacher), and the class code of the class (named classCode)
@@ -37,15 +37,14 @@ export interface Assignment {
 export interface questionInterface {
   text: string;
   answer_type: number;
-  answers: Array<answer>
+  answers: Array<answer>;
 }
 //The "questionInterface" interface is used for the question itself. The qText displays the question text, or the actual question that the student has to answer. The "answers" are stored in a string array, and are displayed on the page when the user is on this specific question.
 
-export interface answer { 
+export interface answer {
   id: number;
   text: string;
 }
-
 
 export interface currentAssignments {
   due_date: string;
