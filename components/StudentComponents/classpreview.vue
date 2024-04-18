@@ -85,7 +85,7 @@ sortedAssignments.value.forEach((assignment) => {
           <h3
             v-on:click="
               userQuestions.$updateState(assignment, classCode),
-              classDetails.$patch({ className: titleInformation}),
+              classDetails.$patch({ className: titleInformation})
             "
             class="w-fit hover:cursor-pointer hover:underline"
             v-if="compareDates(assignment.due_date) === 0"
@@ -101,7 +101,7 @@ sortedAssignments.value.forEach((assignment) => {
           >
             <h3
               v-on:click="userQuestions.$updateState(assignment, classCode),
-              classDetails.$patch({ className: titleInformation}),"
+              classDetails.$patch({ className: titleInformation})"
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="compareDates(assignment.due_date) === 1"
             >
