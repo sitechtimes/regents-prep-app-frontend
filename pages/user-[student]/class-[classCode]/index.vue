@@ -2,16 +2,17 @@
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
+import { userClass } from "~/stores/class";
 import { currentA, pastA } from "../../../constants/tempArray";
 
 import * as data from "~/json/getstudentcourses.json";
-import { userClass } from "~/stores/class";
 import { Assignment, assignmentDetails } from "~/interfaces/interfaces";
 
 const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
 const classDetails = userClass();
+const userClasses = userClass();
 
 const props = defineProps<{
   assignments: Assignment;
@@ -50,6 +51,7 @@ function toggleAssignments() {
 
 onUnmounted(() => {
 //  classDetails.$reset();
+userClasses.$reset();
 });
 
 definePageMeta({

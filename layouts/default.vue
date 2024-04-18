@@ -24,13 +24,13 @@ async function pushUserBack() {
 <template>
   <div>
     <nav class="h-[109px] w-screen bg-bg-navbar shadow relative">
-      <div class="absolute w-[350px] left-[41%]">
-          <div id="dashboard" class="w-[350px] h-[73px] mt-[17px]">
+      <div class="absolute w-[450px] left-[38.5%]">
+          <div id="dashboard" class="w-[450px] h-[73px] mt-[17px]">
             <div
-              class="w-[350px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
+              class="w-[450px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
             >
               <h1
-                class="w-[350px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
+                class="w-[450px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
                 {{userClasses.className}}
               </h1>
