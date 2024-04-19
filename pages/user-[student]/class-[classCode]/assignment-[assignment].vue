@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import {
-  ClassPreviewInformation,
-  ClassPreviewAssignments,
-} from "~/interfaces/interfaces";
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
