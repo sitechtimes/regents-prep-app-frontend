@@ -74,6 +74,7 @@ sortedAssignments.value.forEach((assignment) => {
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
         v-on:click="
           classDetails.$patch({
+            className: titleInformation,
             classCode: classCode,
             assignments: props.assignments,
             currentAssignments: sortedAssignments,
@@ -97,7 +98,10 @@ sortedAssignments.value.forEach((assignment) => {
         <h2 class="font-semibold" v-if="dueToday">Due Today:</h2>
         <template v-for="assignment in sortedAssignments" :key="assignment.id">
           <h3
-            v-on:click="userQuestions.$updateState(assignment, classCode)"
+            v-on:click="
+              userQuestions.$updateState(assignment, classCode),
+              classDetails.$patch({ className: titleInformation})
+            "
             class="w-fit hover:cursor-pointer hover:underline"
             v-if="compareDates(assignment.datetime_due) === 0"
           >
@@ -111,7 +115,8 @@ sortedAssignments.value.forEach((assignment) => {
             :key="assignment.id"
           >
             <h3
-              v-on:click="userQuestions.$updateState(assignment, classCode)"
+              v-on:click="userQuestions.$updateState(assignment, classCode),
+              classDetails.$patch({ className: titleInformation})"
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="compareDates(assignment.datetime_due) === 1"
             >
