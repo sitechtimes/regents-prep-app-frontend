@@ -59,7 +59,6 @@ function toggleAssignments() {
 })();
 
 onUnmounted(() => {
- 124-adjusting-navigation-bars-for-all-pages
 //  classDetails.$reset();
 userClasses.$reset();
 });
@@ -103,7 +102,6 @@ definePageMeta({
             path: `/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.assignmentName}`,
           }),
             userQuestions.$getQuestion(
-              userQuestions.assignmentInstance
             )
         "
         class="h-[60px] w-[370px] text-[35px] mr-[100px] mt-[15px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
