@@ -10,10 +10,10 @@ onMounted(() => {
 
 //this function pushes user to create class page if they are a teacher and if they are a student, then they get a pop-up
 async function pushUser() {
-  if (userStore.username == "teacher") {
+  if (userStore.user_type == "teacher") {
     const userStore = userState();
     router.push({ path: `/user-${userStore.username}/createclass` });
-  } else if (userStore.username == "student") {
+  } else if (userStore.user_type == "student") {
     console.log("hi");
   }
 }
