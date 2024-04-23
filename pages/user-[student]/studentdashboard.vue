@@ -19,7 +19,6 @@ definePageMeta({
   layout: "dashboard",
   middleware: studentAuth,
 });
-
 </script>
 
 <template>
