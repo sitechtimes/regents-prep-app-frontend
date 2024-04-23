@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { userState } from "~/stores/users";
+const userStore = userState();
+const router = useRouter();
 
 const email = ref("");
 const password = ref("");
-
-const userStore = userState();
-const router = useRouter();
 
 const config = useRuntimeConfig();
 

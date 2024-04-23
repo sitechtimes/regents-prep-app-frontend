@@ -1,27 +1,30 @@
 import { defineStore } from "pinia";
-import { assignmentDetails } from "~/interfaces/interfaces";
+import type { assignmentDetails } from "~/interfaces/interfaces";
 
-export const userClass = defineStore("class", () => {
-  const className = ref<string>("");
-  const classCode = ref<number>(0);
-  const assignments = ref<Array<assignmentDetails>>([]);
-  const currentAssignments = ref<Array<assignmentDetails>>([]);
-  const pastAssignments = ref<Array<assignmentDetails>>([]);
+export const userClass = defineStore(
+  "class",
+  () => {
+    const classCode = ref<number>(0);
+    const assignments = ref<Array<assignmentDetails>>([]);
+    const currentAssignments = ref<Array<assignmentDetails>>([]);
+    const pastAssignments = ref<Array<assignmentDetails>>([]);
 
-  function $reset() {
-    (className.value = "");
-    (classCode.value = 0);
-    (assignments.value = []);
-    (currentAssignments.value = []);
-    (pastAssignments.value = []);
+    function $reset() {
+      classCode.value = 0;
+      assignments.value = [];
+      currentAssignments.value = [];
+      pastAssignments.value = [];
+    }
+
+    return {
+      classCode,
+      assignments,
+      currentAssignments,
+      pastAssignments,
+      $reset,
+    };
+  },
+  {
+    persist: true,
   }
-
-  return {
-    className,
-    classCode,
-    assignments,
-    currentAssignments,
-    pastAssignments,
-    $reset,
-  };
-});
+);

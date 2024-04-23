@@ -11,7 +11,6 @@
 export interface ClassPreviewInformation {
   name: string;
   teacher: string;
-  classCode: number;
   id: number;
 }
 

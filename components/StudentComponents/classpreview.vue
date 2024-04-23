@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //import { compareDates } from "~/composables/composables";
-import {
+import type {
   // Theme,
   ClassPreviewInformation,
   assignmentDetails,

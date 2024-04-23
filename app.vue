@@ -1,4 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { createPinia } from "pinia";
+import { createPersistedState } from "pinia-plugin-persistedstate";
+
+const pinia = createPinia();
+pinia.use(
+  createPersistedState({
+    storage: persistedState.sessionStorage,
+  })
+);
+
+const userStore = userState();
+const classDetails = userClass();
+const userQuestions = useQuestions();
+</script>
 
 <template>
   <div class="bg-bg-reg h-screen w-screen">

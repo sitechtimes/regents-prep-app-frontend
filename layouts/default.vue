@@ -1,62 +1,55 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-import { userClass } from "~/stores/class";
 
 const userStore = userState();
-const userClasses = userClass();
 const router = useRouter();
-
-onMounted(() => {
-  //console.log(userStore.email);
-});
 
 //this function pushes user back to the teacher dashboard
 async function pushUserBack() {
-  const userStore = userState();
-  if (userStore.user_type == "teacher") {
+  /* const userStore = userState();
+  if (userStore.username == "teacher") {
     router.push({ path: `/user-${userStore.username}/teacherdashboard` });
-  } else if (userStore.user_type == "student") {
-    router.push({path: `/user-${userStore.username}/studentdashboard`})
-  };
+  } else if (userStore.username == "student") {
+    router.push({ path: `/user-${userStore.username}/studentdashboard` });
+  } */
 }
 </script>
 
 <template>
   <div>
-    <nav class="h-[109px] w-screen bg-bg-navbar shadow relative">
-      <div class="absolute w-[450px] left-[38.5%]">
-          <div id="dashboard" class="w-[450px] h-[73px] mt-[17px]">
+    <nav class="h-[109px] 2w-screen bg-bg-navbar shadow">
+      <div class="flex flex-row">
+        <div id="teacherName" class="w-[500px] h-[70px] mt-[12px] pl-[1%]">
+          <div
+            class="w-[500px] h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
+          >
+            <h2
+              class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
+              v-if="(userStore.fullname = '')"
+            >
+              {{ userStore.fullname }}
+            </h2>
+            <h2
+              class="w-[390px] h-[70px] text-center justify-center text-tertiary text-[55px] font-semibold font-['Outfit']"
+              v-else
+            >
+              Logged in
+            </h2>
+          </div>
+        </div>
+        <div class="m-auto">
+          <div id="dashboard" class="w-[350px] h-[73px] mt-[17px] mr-[190px]">
             <div
-              class="w-[450px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
+              class="w-[350px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
             >
               <h1
-                class="w-[450px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
+                class="w-[350px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
               >
-                {{userClasses.className}}
+                Default
               </h1>
             </div>
           </div>
         </div>
-      <div class="flex flex-row">
-        <div id="teacherName" class="w-fit h-[70px] mt-[12px] pl-[1%]">
-          <div
-            class="w-fit h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
-          >
-            <h2
-              class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
-              v-if="(userStore.fullname === '')"
-            >
-               Placeholder Name
-            </h2>
-            <h2
-              class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
-              v-else
-            >
-               {{ userStore.fullname }}  
-            </h2>
-          </div>
-        </div>
-        <div class="m-auto"></div>
         <button
           @click="pushUserBack"
           id="dashboard-btn"
@@ -96,5 +89,3 @@ async function pushUserBack() {
     <slot />
   </div>
 </template>
-
-<!-- v-if="(userStore.fullname = '')" -->
