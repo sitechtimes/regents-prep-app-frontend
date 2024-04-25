@@ -68,6 +68,7 @@ export interface studentCourses {
 
 export interface course {
   id: number;
+  class_code: number;
   name: string;
   teacher: string;
   assignments: Array<assignmentDetails>;

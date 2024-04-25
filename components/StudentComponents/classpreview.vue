@@ -24,7 +24,7 @@ const props = defineProps<{
 const titleInformation = ref(props.information.name);
 const teacherInformation = ref(props.information.teacher);
 const assignmentsInformation = ref(props.class.assignments);
-const classCode = ref(props.class.id);
+const classCode = ref(props.class.class_code);
 const dueToday = ref(false);
 const dueLater = ref(false);
 
@@ -100,7 +100,7 @@ sortedAssignments.value.forEach((assignment) => {
           <h3
             v-on:click="
               userQuestions.$updateState(assignment, classCode),
-              classDetails.$patch({ className: titleInformation})
+                classDetails.$patch({ className: titleInformation })
             "
             class="w-fit hover:cursor-pointer hover:underline"
             v-if="compareDates(assignment.datetime_due) === 0"
@@ -115,8 +115,10 @@ sortedAssignments.value.forEach((assignment) => {
             :key="assignment.id"
           >
             <h3
-              v-on:click="userQuestions.$updateState(assignment, classCode),
-              classDetails.$patch({ className: titleInformation})"
+              v-on:click="
+                userQuestions.$updateState(assignment, classCode),
+                  classDetails.$patch({ className: titleInformation })
+              "
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="compareDates(assignment.datetime_due) === 1"
             >
