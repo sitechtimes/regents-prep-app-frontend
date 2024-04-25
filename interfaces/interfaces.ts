@@ -68,6 +68,7 @@ export interface studentCourses {
 
 export interface course { //PROBLEM
   id: number;
+  class_code: number;
   name: string;
   teacher: string;
   class_code: string;

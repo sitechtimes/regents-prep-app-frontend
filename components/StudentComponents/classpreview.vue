@@ -106,7 +106,7 @@ onMounted(() => {
           <h3
             v-on:click="
               userQuestions.$updateState(assignment, classCode),
-              classDetails.$patch({ className: titleInformation})
+                classDetails.$patch({ className: titleInformation })
             "
             class="w-fit hover:cursor-pointer hover:underline"
             v-if="compareDates(assignment.datetime_due) === 0"
@@ -121,8 +121,10 @@ onMounted(() => {
             :key="assignment.id"
           >
             <h3
-              v-on:click="userQuestions.$updateState(assignment, classCode),
-              classDetails.$patch({ className: titleInformation})"
+              v-on:click="
+                userQuestions.$updateState(assignment, classCode),
+                  classDetails.$patch({ className: titleInformation })
+              "
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="compareDates(assignment.datetime_due) === 1"
             >
