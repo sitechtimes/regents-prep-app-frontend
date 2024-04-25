@@ -3,14 +3,14 @@ import { assignmentDetails } from "~/interfaces/interfaces";
 
 export const userClass = defineStore("class", () => {
   const className = ref<string>("");
-  const classCode = ref<number>(0);
+  const classCode = ref<string>("");
   const assignments = ref<Array<assignmentDetails>>([]);
   const currentAssignments = ref<Array<assignmentDetails>>([]);
   const pastAssignments = ref<Array<assignmentDetails>>([]);
 
   function $reset() {
     (className.value = "");
-    (classCode.value = 0);
+    (classCode.value = "");
     (assignments.value = []);
     (currentAssignments.value = []);
     (pastAssignments.value = []);

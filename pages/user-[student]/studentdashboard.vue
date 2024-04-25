@@ -4,6 +4,7 @@ import assignmentInstance from "../../json/getstudentassignments.json";
 import studentAssignmentList from "../../json/getstudentcourses.json";
 import { course, studentAssignments } from "~/interfaces/interfaces";
 import {userState} from "../../stores/users"
+import { classInfo } from "~/constants/classInfo";
 
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
@@ -21,6 +22,10 @@ definePageMeta({
   middleware: studentAuth,
 });
 
+onMounted(() => {
+  
+})
+
 </script>
 
 <template>
@@ -32,7 +37,7 @@ definePageMeta({
         :information="{
           name: item.name,
           teacher: item.teacher,
-          classCode: item.id,
+          classCode: item.class_code,
         }"
         :class="item"
         :assignments="item.assignments"

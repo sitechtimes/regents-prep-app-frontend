@@ -11,7 +11,7 @@
 export interface ClassPreviewInformation {
   name: string;
   teacher: string;
-  classCode: number;
+  class_code: string;
   id: number;
 }
 
@@ -66,10 +66,11 @@ export interface studentCourses {
   student_courses: Array<course>;
 }
 
-export interface course {
+export interface course { //PROBLEM
   id: number;
   name: string;
   teacher: string;
+  class_code: string;
   assignments: Array<assignmentDetails>;
 }
 

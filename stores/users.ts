@@ -9,6 +9,7 @@ export const userState = defineStore("state", () => {
   const student = ref<boolean>(false); // temporary dev option
   const user_type = ref<string>("");
   const loggedIn = ref<boolean>(false);
+  const classCode = ref<string>("");
   const studentCourses = ref<course[]>([]);
   const assignments = ref<assignmentDetails[]>([]);
   const access_token = ref<string>("");
@@ -100,7 +101,7 @@ export const userState = defineStore("state", () => {
               id: course.id,
               name: course.name,
               teacher: course.teacher,
-              classCode: course.id,
+              class_code: course.class_code,
               assignments: course.assignments,
             };
           });
