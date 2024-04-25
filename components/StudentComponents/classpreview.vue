@@ -25,7 +25,12 @@ const props = defineProps<{
 const titleInformation = ref(props.information.name);
 const teacherInformation = ref(props.information.teacher);
 const assignmentsInformation = ref(props.class.assignments);
-const classCode = ref(props.class.class_code);
+const classCode = ref(props.information.class_code); 
+/* const classCode = ref(userStore.studentCourses.forEach((course) => {
+  course.class_code
+}))
+ */
+
 const dueToday = ref(false);
 const dueLater = ref(false);
 
@@ -95,7 +100,7 @@ onMounted(() => {
         >
           {{ titleInformation }}
         </h2>
-        <h2 class="text-lg">with {{ teacherInformation }} {{ classCode }}</h2>
+        <h2 class="text-lg">with {{ teacherInformation }}</h2>
       </div>
 
       <div
