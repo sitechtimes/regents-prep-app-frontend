@@ -10,10 +10,6 @@ const userStore = userState();
 const userQuestions = useQuestions();
 const classDetails = userClass();
 
-const props = defineProps<{
-  assignments: Assignment;
-}>();
-
 /* const qLeft = ref(props.assignment.qLeft); */
 const classCode = ref(userQuestions.classCode);
 
@@ -46,7 +42,7 @@ function toggleAssignments() {
 })();
 
 onUnmounted(() => {
-  //  classDetails.$reset();
+  classDetails.$reset();
 });
 
 definePageMeta({
@@ -85,7 +81,7 @@ definePageMeta({
           router.push({
             path: `/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.assignmentName}`,
           }),
-            userQuestions.$getQuestion(/* userQuestions.assignmentInstance */)
+            userQuestions.$getQuestion()
         "
         class="h-[60px] w-[370px] text-[35px] mr-[100px] mt-[15px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
       >
