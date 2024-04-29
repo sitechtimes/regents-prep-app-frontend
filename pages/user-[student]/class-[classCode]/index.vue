@@ -21,9 +21,6 @@ const userQuestions = useQuestions();
 const classDetails = userClass();
 const userClasses = userClass();
 
-const props = defineProps<{
-  assignments: Assignment;
-}>();
 
 /* const qLeft = ref(props.assignment.qLeft); */
 const classCode = ref(userQuestions.classCode);
@@ -59,7 +56,6 @@ function toggleAssignments() {
 })();
 
 onUnmounted(() => {
-//  classDetails.$reset();
 userClasses.$reset();
 });
 
