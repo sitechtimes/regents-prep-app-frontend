@@ -5,28 +5,70 @@ import type {
 } from "~/interfaces/interfaces";
 import { userState } from "./users";
 
-export const useQuestions = defineStore(
-  "questions",
-  () => {
-    const assignmentInstance = ref<number>();
-    const question_instance_id = ref<number>();
-    const classCode = ref<number>(0);
-    const assignmentName = ref<string>("");
-    const qText = ref<string>("");
-    const timeLeft = ref<number>(0);
-    const qLeft = ref<number>(0);
-    const answers = ref<Array<string>>([]);
-    const dueDate = ref<string>("");
-    const router = useRouter();
 
-    function $resetQuestion() {
-      (classCode.value = 0),
-        (assignmentName.value = ""),
-        (qText.value = ""),
-        (timeLeft.value = 0),
-        (qLeft.value = 0),
-        (answers.value = []),
-        (dueDate.value = "");
+export const useQuestions = defineStore("questions", () => {
+  const assignmentInstance = ref<number>();
+  const question_instance_id = ref<number>();
+  const classCode = ref<string>("");
+  const assignmentName = ref<string>("");
+  const qText = ref<string>("");
+  const timeLeft = ref<number>(0);
+  const qLeft = ref<number>(0);
+  const answers = ref<Array<string>>([]);
+  const dueDate = ref<string>("");
+  const router = useRouter();
+
+  function $resetQuestion() {
+    (classCode.value = ""),
+      (assignmentName.value = ""),
+      (qText.value = ""),
+      (timeLeft.value = 0),
+      (qLeft.value = 0),
+      (answers.value = []),
+      (dueDate.value = "");
+  }
+
+  async function $updateState(
+    item: assignmentDetails,
+    code: string
+  ) {
+    const userStore = userState();
+    //takes assignment object, assignmentDetails as input
+    router.push({
+      path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
+    });
+    (classCode.value = code),
+      (assignmentName.value = item.name),
+      (dueDate.value = item.datetime_due);
+    await $getAssignmentInstance(item.id)
+    await $getQuestion()
+  }
+
+  const $getAssignmentInstance = async (
+    assignmentId: number
+  ) => {
+    const userStore = userState();
+    try {
+      const response = await fetch(
+        `http://192.168.192.122:8000/api/courses/student/assignment-instance/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userStore.access_token}`,
+          },
+          body: JSON.stringify({
+            id: assignmentId,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          assignmentInstance.value = data.id;
+          console.log(assignmentInstance.value);
+        });
+    } catch (error) {
+      console.log(error);
     }
 
     async function $updateState(item: assignmentDetails, code: number) {

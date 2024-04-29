@@ -97,19 +97,16 @@ export const userState = defineStore(
                   assignments.value.push(assignmentData);
                 }
               );  */
-
-                return {
-                  id: course.id,
-                  name: course.name,
-                  teacher: course.teacher,
-                  classCode: course.id,
-                  assignments: course.assignments,
-                };
-              }
-            );
-
-            console.log(JSON.parse(JSON.stringify(studentCourses.value)));
+            return {
+              id: course.id,
+              name: course.name,
+              teacher: course.teacher,
+              class_code: course.class_code,
+              assignments: course.assignments,
+            };
           });
+        
+            console.log(JSON.parse(JSON.stringify(studentCourses.value)));
       } catch (error) {
         console.log(error);
       }

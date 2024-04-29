@@ -11,6 +11,7 @@
 export interface ClassPreviewInformation {
   name: string;
   teacher: string;
+  class_code: string;
   id: number;
 }
 
@@ -69,6 +70,7 @@ export interface course {
   id: number;
   name: string;
   teacher: string;
+  class_code: string;
   assignments: Array<assignmentDetails>;
 }
 

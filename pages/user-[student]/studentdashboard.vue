@@ -30,7 +30,8 @@ definePageMeta({
         :information="{
           name: item.name,
           teacher: item.teacher,
-          id: item.id,
+          class_code: item.class_code,
+          id: item.id
         }"
         :class="item"
         :assignments="item.assignments"
