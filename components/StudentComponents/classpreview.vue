@@ -15,6 +15,7 @@ const userQuestions = useQuestions();
 const classDetails = userClass();
 const router = useRouter();
 
+
 const props = defineProps<{
   information: ClassPreviewInformation;
   class: course;
@@ -24,7 +25,12 @@ const props = defineProps<{
 const titleInformation = ref(props.information.name);
 const teacherInformation = ref(props.information.teacher);
 const assignmentsInformation = ref(props.class.assignments);
-const classCode = ref(props.class.id);
+const classCode = ref(props.information.class_code); 
+/* const classCode = ref(userStore.studentCourses.forEach((course) => {
+  course.class_code
+}))
+ */
+
 const dueToday = ref(false);
 const dueLater = ref(false);
 
@@ -64,6 +70,8 @@ sortedAssignments.value.forEach((assignment) => {
   }
 });
 
+
+
 //The props are registered separately. Every prop name correlates to the dynamic parts of every class preview.
 </script>
 
@@ -73,6 +81,7 @@ sortedAssignments.value.forEach((assignment) => {
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
         v-on:click="
+        console.log(classCode),
           classDetails.$patch({
             className: titleInformation,
             classCode: classCode,
@@ -100,7 +109,7 @@ sortedAssignments.value.forEach((assignment) => {
           <h3
             v-on:click="
               userQuestions.$updateState(assignment, classCode),
-              classDetails.$patch({ className: titleInformation})
+                classDetails.$patch({ className: titleInformation })
             "
             class="w-fit hover:cursor-pointer hover:underline"
             v-if="compareDates(assignment.datetime_due) === 0"
@@ -115,8 +124,10 @@ sortedAssignments.value.forEach((assignment) => {
             :key="assignment.id"
           >
             <h3
-              v-on:click="userQuestions.$updateState(assignment, classCode),
-              classDetails.$patch({ className: titleInformation})"
+              v-on:click="
+                userQuestions.$updateState(assignment, classCode),
+                  classDetails.$patch({ className: titleInformation })
+              "
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="compareDates(assignment.datetime_due) === 1"
             >
