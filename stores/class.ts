@@ -24,12 +24,12 @@ export const userClass = defineStore("class", () => {
         }
       )
       .then((res) => res.json())
-      .then((data) => {
+      .then((data) => { 
         assignments.value = data.map((assignment: studentAssignments) => {
           return {
             id: assignment.id,
             name: assignment.name,
-            due_date: assignment.datetime_due,
+            datetime_due: assignment.datetime_due,
             question_number: assignment.question_number,
             timer_style: assignment.timer_style,
             time_allotted: assignment.time_allotted,
@@ -39,11 +39,13 @@ export const userClass = defineStore("class", () => {
         });
 
         currentAssignments.value = assignments.value.filter((assignment: studentAssignments) => {
-          return new Date(assignment.datetime_due) >= dateNow.value;
+          console.log(dateNow.value, new Date(assignment.datetime_due));
+          return new Date(assignment.datetime_due).getTime() >= dateNow.value.getTime();
         });
 
         pastAssignments.value = assignments.value.filter((assignment: studentAssignments) => {
-          return new Date(assignment.datetime_due) < dateNow.value;
+          console.log(dateNow.value, new Date(assignment.datetime_due)); 
+          return new Date(assignment.datetime_due).getTime() < dateNow.value.getTime();
         });
 
     });

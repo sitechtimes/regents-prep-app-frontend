@@ -21,7 +21,9 @@ const classDetails = userClass();
 
 onMounted(async () => {
  await classDetails.$getCourseAssignments(classDetails.courseId);
- console.log(classDetails.assignments);
+ console.log(classDetails.assignments)
+ console.log(classDetails.pastAssignments);
+ console.log(classDetails.currentAssignments);
 });
 
 const props = defineProps<{
