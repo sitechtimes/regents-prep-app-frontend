@@ -20,8 +20,9 @@ const userQuestions = useQuestions();
 const classDetails = userClass();
 
 onMounted(async () => {
-  await classDetails.$getCourseAssignments(classDetails.courseId);
-})
+ await classDetails.$getCourseAssignments(classDetails.courseId);
+ console.log(classDetails.assignments);
+});
 
 const props = defineProps<{
   assignments: Assignment;
