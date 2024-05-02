@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
+import { userState } from "~/stores/users";
+import { userClass } from "~/stores/class";
+import { classInfo } from "~/constants/classInfo";
 import assignmentInstance from "../../json/getstudentassignments.json";
 import studentAssignmentList from "../../json/getstudentcourses.json";
 import { course, studentAssignments } from "~/interfaces/interfaces";
-import {userState} from "../../stores/users"
 
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
 );
 let courseList = ref(userState().studentCourses);
+const classStore = userClass();
 /* onMounted(() => {
   console.log(userStore.user.username);
   let date: Date = new Date();
@@ -21,6 +24,10 @@ definePageMeta({
   middleware: studentAuth,
 });
 
+const selectCourse = (id: number) => {
+  classStore.$getCourseId(id);
+};
+
 </script>
 
 <template>
@@ -29,6 +36,7 @@ definePageMeta({
       <StudentComponentsClasspreview
         v-for="item in courseList"
         :key="item.id"
+        @click="selectCourse(item.id)"
         :information="{
           name: item.name,
           teacher: item.teacher,
