@@ -2,6 +2,7 @@
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
+
 import {
   currentA,
   pastA,
@@ -18,17 +19,9 @@ const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
 const classDetails = userClass();
+const userClasses = userClass();
 
-onMounted(async () => {
- await classDetails.$getCourseAssignments(classDetails.courseId);
- console.log(classDetails.assignments)
- console.log(classDetails.pastAssignments);
- console.log(classDetails.currentAssignments);
-});
 
-const props = defineProps<{
-  assignments: Assignment;
-}>();
 
 /* const qLeft = ref(props.assignment.qLeft); */
 const classCode = ref(userQuestions.classCode);
@@ -64,7 +57,7 @@ function toggleAssignments() {
 })();
 
 onUnmounted(() => {
-  //  classDetails.$reset();
+userClasses.$reset();
 });
 
 definePageMeta({
@@ -106,7 +99,6 @@ definePageMeta({
             path: `/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.assignmentName}`,
           }),
             userQuestions.$getQuestion(
-              userQuestions.assignmentInstance
             )
         "
         class="h-[60px] w-[370px] text-[35px] mr-[100px] mt-[15px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"

@@ -58,14 +58,19 @@ export const userClass = defineStore("class", () => {
     courseId.value = id;
   }
 
+  const className = ref<string>("");
+
+
   function $reset() {
-    classCode.value = 0;
-    assignments.value = [];
-    currentAssignments.value = [];
-    pastAssignments.value = [];
+    (className.value = "");
+    (classCode.value = "");
+    (assignments.value = []);
+    (currentAssignments.value = []);
+    (pastAssignments.value = []);
   }
 
   return {
+    className,
     classCode,
     assignments,
     currentAssignments,

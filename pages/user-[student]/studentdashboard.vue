@@ -28,6 +28,7 @@ definePageMeta({
   layout: "dashboard",
   middleware: studentAuth,
 });
+
 </script>
 
 <template>
@@ -40,7 +41,8 @@ definePageMeta({
         :information="{
           name: item.name,
           teacher: item.teacher,
-          classCode: item.id,
+          class_code: item.class_code,
+          id: item.id
         }"
         :class="item"
         :assignments="item.assignments"
