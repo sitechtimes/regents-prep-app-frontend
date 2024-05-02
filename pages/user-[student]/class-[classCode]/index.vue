@@ -13,6 +13,7 @@ import { userClass } from "~/stores/class";
 import {
   Assignment,
   assignmentDetails,
+  studentAssignments,
 } from "~/interfaces/interfaces";
 
 const router = useRouter();
@@ -42,16 +43,22 @@ function toggleAssignments() {
 }
 (function () {
   classDetails.assignments.forEach(
-    (assignment: assignmentDetails) => {
+    (assignment: studentAssignments) => {
       if (
         !classDetails.currentAssignments.some(
           (item) => item.datetime_due === assignment.datetime_due
         )
       ) {
         classDetails.pastAssignments.push({
-          id: assignment.id,
+      id: assignment.id,
           name: assignment.name,
           datetime_due: assignment.datetime_due,
+          datetime_assigned: assignment.datetime_assigned,
+          question_number: assignment.question_number,
+          timer_style: assignment.timer_style,
+          time_allotted: assignment.time_allotted,
+          attempts_allowed: assignment.attempts_allowed,
+          questions_completed: assignment.questions_completed
         });
       }
     }
