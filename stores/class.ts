@@ -4,7 +4,7 @@ import { userState } from "./users";
 
 export const userClass = defineStore("class", () => {
     const className = ref<string>("");
-  const classCode = ref<number>(0);
+  const classCode = ref<string>("");
   const assignments = ref<Array<studentAssignments>>([]);
   const currentAssignments = ref<Array<studentAssignments>>([]);
   const pastAssignments = ref<Array<studentAssignments>>([]);
@@ -61,7 +61,7 @@ export const userClass = defineStore("class", () => {
 
   function $reset() {
      className.value = "";
-    classCode.value = 0;
+    classCode.value = "";
     assignments.value = [];
     currentAssignments.value = [];
     pastAssignments.value = [];
