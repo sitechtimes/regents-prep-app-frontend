@@ -1,6 +1,5 @@
 <script setup lang="ts">
 //import { dateFetch } from "~/composables/composables";
-
 import { userClass } from "~/stores/class";
 
 const dateFetch = (props: Readonly<{ name: string; detail: number }>) => {

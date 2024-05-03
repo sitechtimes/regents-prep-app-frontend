@@ -2,19 +2,8 @@
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
-
-import {
-  currentA,
-  pastA,
-} from "../../../constants/tempArray";
-
-import * as data from "~/json/getstudentcourses.json";
 import { userClass } from "~/stores/class";
-import {
-  Assignment,
-  assignmentDetails,
-  studentAssignments,
-} from "~/interfaces/interfaces";
+import { studentAssignments } from "~/interfaces/interfaces";
 
 const router = useRouter();
 const userStore = userState();
@@ -22,11 +11,10 @@ const userQuestions = useQuestions();
 const classDetails = userClass();
 const userClasses = userClass();
 
-
-onMounted (async () => {
-//  await classDetails.$getCourseAssignments(classDetails.courseId);
+onMounted(async () => {
+  //  await classDetails.$getCourseAssignments(classDetails.courseId);
 });
-  
+
 /* const qLeft = ref(props.assignment.qLeft); */
 const classCode = ref(userQuestions.classCode);
 
@@ -43,31 +31,29 @@ function toggleAssignments() {
   }
 }
 (function () {
-  classDetails.assignments.forEach(
-    (assignment: studentAssignments) => {
-      if (
-        !classDetails.currentAssignments.some(
-          (item) => item.datetime_due === assignment.datetime_due
-        )
-      ) {
-        classDetails.pastAssignments.push({
-      id: assignment.id,
-          name: assignment.name,
-          datetime_due: assignment.datetime_due,
-          datetime_assigned: assignment.datetime_assigned,
-          question_number: assignment.question_number,
-          timer_style: assignment.timer_style,
-          time_allotted: assignment.time_allotted,
-          attempts_allowed: assignment.attempts_allowed,
-          questions_completed: assignment.questions_completed
-        });
-      }
+  classDetails.assignments.forEach((assignment: studentAssignments) => {
+    if (
+      !classDetails.currentAssignments.some(
+        (item) => item.datetime_due === assignment.datetime_due
+      )
+    ) {
+      classDetails.pastAssignments.push({
+        id: assignment.id,
+        name: assignment.name,
+        datetime_due: assignment.datetime_due,
+        datetime_assigned: assignment.datetime_assigned,
+        question_number: assignment.question_number,
+        timer_style: assignment.timer_style,
+        time_allotted: assignment.time_allotted,
+        attempts_allowed: assignment.attempts_allowed,
+        questions_completed: assignment.questions_completed,
+      });
     }
-  );
+  });
 })();
 
 onUnmounted(() => {
-userClasses.$reset();
+  userClasses.$reset();
 });
 
 definePageMeta({
@@ -83,9 +69,7 @@ definePageMeta({
       <div
         class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center bg-bg-light rounded-[27px]"
       >
-        <label
-          class="switch relative inline-block h-full aspect-[1.75]"
-        >
+        <label class="switch relative inline-block h-full aspect-[1.75]">
           <input
             class="opacity-0 w-0 h-0"
             @click="toggleAssignments"
@@ -108,8 +92,7 @@ definePageMeta({
           router.push({
             path: `/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.assignmentName}`,
           }),
-            userQuestions.$getQuestion(
-            )
+            userQuestions.$getQuestion()
         "
         class="h-[60px] w-[370px] text-[35px] mr-[100px] mt-[15px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
       >

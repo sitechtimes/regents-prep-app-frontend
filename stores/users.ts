@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import Assignment from "~/components/TeacherComponents/assignment.vue";
 import { assignmentDetails, course } from "~/interfaces/interfaces";
 
 export const userState = defineStore("state", () => {

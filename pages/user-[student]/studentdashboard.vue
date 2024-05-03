@@ -2,13 +2,8 @@
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { userClass } from "~/stores/class";
-import { classInfo } from "~/constants/classInfo";
 import assignmentInstance from "../../json/getstudentassignments.json";
-import studentAssignmentList from "../../json/getstudentcourses.json";
-import {
-  course,
-  studentAssignments,
-} from "~/interfaces/interfaces";
+import { studentAssignments } from "~/interfaces/interfaces";
 
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
