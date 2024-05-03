@@ -27,7 +27,7 @@ const props = defineProps<{
 }>();
 
 onMounted (async () => {
-  await classDetails.$getCourseAssignments(classDetails.courseId);
+//  await classDetails.$getCourseAssignments(classDetails.courseId);
 });
   
 /* const qLeft = ref(props.assignment.qLeft); */

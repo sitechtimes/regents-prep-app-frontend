@@ -5,7 +5,10 @@ import { userClass } from "~/stores/class";
 import { classInfo } from "~/constants/classInfo";
 import assignmentInstance from "../../json/getstudentassignments.json";
 import studentAssignmentList from "../../json/getstudentcourses.json";
-import { course, studentAssignments } from "~/interfaces/interfaces";
+import {
+  course,
+  studentAssignments,
+} from "~/interfaces/interfaces";
 
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
@@ -28,6 +31,7 @@ const selectCourse = (id: number) => {
   classStore.$getCourseId(id);
 };
 
+//@click="classStore.$getCourseAssignments(item.id)"
 </script>
 
 <template>
@@ -36,12 +40,11 @@ const selectCourse = (id: number) => {
       <StudentComponentsClasspreview
         v-for="item in courseList"
         :key="item.id"
-        @click="selectCourse(item.id)"
         :information="{
           name: item.name,
           teacher: item.teacher,
           class_code: item.class_code,
-          id: item.id
+          id: item.id,
         }"
         :class="item"
         :assignments="item.assignments"
