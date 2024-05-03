@@ -81,6 +81,7 @@ export interface assignmentDetails {
 }
 
 export interface studentAssignments {
+  name: string;
   id: number;
   datetime_assigned: string;
   datetime_due: string;
