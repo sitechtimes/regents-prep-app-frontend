@@ -99,6 +99,47 @@ export const useQuestions = defineStore("questions", () => {
     }
   };
 
+  const $submitAnswer = async (answerId: number
+  ) => {
+    const userStore = userState();
+    try {
+      const response = await fetch(
+        `http://192.168.192.122:8000/api/courses/student/submit-answer/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userStore.access_token}`,
+          },
+          body: JSON.stringify({
+            question_instance_id: question_instance_id.value,
+            answer_id: answerId
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log(data)
+          if (data.answer_correct === true) {
+            await $getQuestion()
+            return 0
+          }
+          else if (data.attempts_remaining === 0) {
+            console.log("you got it wrong!")
+            await $getQuestion()
+            return 0
+          }
+          else {
+            return data.attempts_remaining
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
   return {
     assignmentInstance,
     question_instance_id,
@@ -113,6 +154,7 @@ export const useQuestions = defineStore("questions", () => {
     $updateState,
     $getQuestion,
     $getAssignmentInstance,
+    $submitAnswer,
   };
 
   //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.

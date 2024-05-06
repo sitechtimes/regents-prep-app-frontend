@@ -6,15 +6,15 @@ import {
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
-import getNextQuestion from "../../../json/GetNextQuestion.json";
-
-const questionText = getNextQuestion.question.text;
-const questionAnswers = getNextQuestion.question.answers;
 
 const router = useRouter();
 const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
+
+const questionText = userQuestions.qText;
+const questionAnswers = userQuestions.answers;
+const tempAnswer = ref<number>()
 
 const totalTime = ref<number>(
   userQuestions.timeLeft.valueOf()
@@ -39,7 +39,6 @@ function delay(delay: number) {
     }
   }
 })();
-
 
 onUnmounted(() => {
   userQuestions.$resetQuestion();
@@ -73,15 +72,17 @@ definePageMeta({
             v-for="answer in questionAnswers"
             v-html="answer.text"
             class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px] font-medium text-[30px] focus:bg-primary focus:bg-opacity-50 mb-[50px]"
+            @click="tempAnswer.value = answer.id"
           ></button>
         </div>
       </div>
     </div>
     <button
       @click="
-        router.push({
+      userQuestions.$submitAnswer(tempAnswer)
+        /* router.push({
           path: `/user-${userStore.username}/class-${userQuestions.classCode}/assignment-${userQuestions.assignmentName}-completed`,
-        })
+        }) */
       "
       class="w-[350px] h-[60px] bg-bg-reg shadow-innertop shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none mt-[2%] mb-[20px]"
     >

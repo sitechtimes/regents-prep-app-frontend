@@ -68,19 +68,20 @@ export const userState = defineStore("state", () => {
   };
 
   const $getStudentCourses = async () => {
+    console.log(access_token.value)
     try {
       const response = await fetch(
         `http://192.168.192.122:8000/api/courses/student/all/`,
         {
           method: "GET",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${access_token.value}`,
           },
         }
       )
         .then((res) => res.json())
         .then(async (data) => {
+          console.log(data)
           studentCourses.value = data.student_courses.map((course: course) => {
             //define an assignments object for each course
 
