@@ -3,17 +3,12 @@ import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
 import { userClass } from "~/stores/class";
-import { studentAssignments } from "~/interfaces/interfaces";
 
 const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
-const classDetails = userClass();
+const classStore = userClass();
 const userClasses = userClass();
-
-onMounted(async () => {
-  //  await classDetails.$getCourseAssignments(classDetails.courseId);
-});
 
 /* const qLeft = ref(props.assignment.qLeft); */
 const classCode = ref(userQuestions.classCode);
@@ -30,14 +25,14 @@ function toggleAssignments() {
     toggle.value = "Current";
   }
 }
-(function () {
-  classDetails.assignments.forEach((assignment: studentAssignments) => {
+/* (function () {
+  classStore.assignments.forEach((assignment: studentAssignments) => {
     if (
-      !classDetails.currentAssignments.some(
+      !classStore.currentAssignments.some(
         (item) => item.datetime_due === assignment.datetime_due
       )
     ) {
-      classDetails.pastAssignments.push({
+      classStore.pastAssignments.push({
         id: assignment.id,
         name: assignment.name,
         datetime_due: assignment.datetime_due,
@@ -50,12 +45,14 @@ function toggleAssignments() {
       });
     }
   });
-})();
+})(); */
 
+onMounted(async () => {
+  //  await classStore.$getCourseAssignments(classStore.courseId);
+});
 onUnmounted(() => {
   userClasses.$reset();
 });
-
 definePageMeta({
   middleware: studentAuth,
 });
@@ -109,12 +106,12 @@ definePageMeta({
     <div class="max-w-md mx-auto md:max-w-2xl">
       <StudentComponentsCurrentAssignments
         v-if="CurrentStatus"
-        v-for="assignment in classDetails.currentAssignments"
+        v-for="assignment in classStore.currentAssignments"
         :date="assignment.datetime_due"
       />
       <StudentComponentsPastAssignments
         v-if="PastStatus"
-        v-for="assignment in classDetails.pastAssignments"
+        v-for="assignment in classStore.pastAssignments"
         :date="assignment.datetime_due"
       />
     </div>

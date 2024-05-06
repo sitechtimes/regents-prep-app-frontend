@@ -49,7 +49,6 @@ export const userClass = defineStore("class", () => {
 
           currentAssignments.value = assignments.value.filter(
             (assignment: studentAssignments) => {
-              console.log(dateNow.value, new Date(assignment.datetime_due));
               return (
                 new Date(assignment.datetime_due).getTime() >=
                 dateNow.value.getTime()
@@ -59,7 +58,6 @@ export const userClass = defineStore("class", () => {
 
           pastAssignments.value = assignments.value.filter(
             (assignment: studentAssignments) => {
-              console.log(dateNow.value, new Date(assignment.datetime_due));
               return (
                 new Date(assignment.datetime_due).getTime() <
                 dateNow.value.getTime()

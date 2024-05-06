@@ -25,8 +25,6 @@ definePageMeta({
 const selectCourse = (id: number) => {
   classStore.$getCourseId(id);
 };
-
-//@click="classStore.$getCourseAssignments(item.id)"
 </script>
 
 <template>
@@ -34,6 +32,7 @@ const selectCourse = (id: number) => {
     <div class="flex flex-wrap items-center space-x-30">
       <StudentComponentsClasspreview
         v-for="item in courseList"
+        @click="classStore.$getCourseAssignments(item.id)"
         :key="item.id"
         :information="{
           name: item.name,
@@ -66,5 +65,3 @@ const selectCourse = (id: number) => {
     </div>
   </div> -->
 </template>
-
-<style scoped></style>
