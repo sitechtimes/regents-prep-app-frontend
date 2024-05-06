@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
+import { userState } from "~/stores/users";
+import { userClass } from "~/stores/class";
+import { classInfo } from "~/constants/classInfo";
 import assignmentInstance from "../../json/getstudentassignments.json";
 import studentAssignmentList from "../../json/getstudentcourses.json";
-import { course, studentAssignments } from "~/interfaces/interfaces";
-import {userState} from "../../stores/users"
+import {
+  course,
+  studentAssignments,
+} from "~/interfaces/interfaces";
 
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
 );
 let courseList = ref(userState().studentCourses);
+const classStore = userClass();
 /* onMounted(() => {
   console.log(userStore.user.username);
   let date: Date = new Date();
@@ -20,6 +26,12 @@ definePageMeta({
   layout: "dashboard",
   middleware: studentAuth,
 });
+
+const selectCourse = (id: number) => {
+  classStore.$getCourseId(id);
+};
+
+//@click="classStore.$getCourseAssignments(item.id)"
 </script>
 
 <template>
@@ -31,7 +43,8 @@ definePageMeta({
         :information="{
           name: item.name,
           teacher: item.teacher,
-          classCode: item.id,
+          class_code: item.class_code,
+          id: item.id,
         }"
         :class="item"
         :assignments="item.assignments"

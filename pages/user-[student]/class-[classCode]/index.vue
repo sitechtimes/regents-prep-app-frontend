@@ -2,6 +2,7 @@
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
+
 import {
   currentA,
   pastA,
@@ -12,17 +13,20 @@ import { userClass } from "~/stores/class";
 import {
   Assignment,
   assignmentDetails,
+  studentAssignments,
 } from "~/interfaces/interfaces";
 
 const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
 const classDetails = userClass();
+const userClasses = userClass();
 
-const props = defineProps<{
-  assignments: Assignment;
-}>();
 
+onMounted (async () => {
+//  await classDetails.$getCourseAssignments(classDetails.courseId);
+});
+  
 /* const qLeft = ref(props.assignment.qLeft); */
 const classCode = ref(userQuestions.classCode);
 
@@ -40,16 +44,22 @@ function toggleAssignments() {
 }
 (function () {
   classDetails.assignments.forEach(
-    (assignment: assignmentDetails) => {
+    (assignment: studentAssignments) => {
       if (
         !classDetails.currentAssignments.some(
           (item) => item.datetime_due === assignment.datetime_due
         )
       ) {
         classDetails.pastAssignments.push({
-          id: assignment.id,
+      id: assignment.id,
           name: assignment.name,
           datetime_due: assignment.datetime_due,
+          datetime_assigned: assignment.datetime_assigned,
+          question_number: assignment.question_number,
+          timer_style: assignment.timer_style,
+          time_allotted: assignment.time_allotted,
+          attempts_allowed: assignment.attempts_allowed,
+          questions_completed: assignment.questions_completed
         });
       }
     }
@@ -57,7 +67,7 @@ function toggleAssignments() {
 })();
 
 onUnmounted(() => {
-  //  classDetails.$reset();
+userClasses.$reset();
 });
 
 definePageMeta({
@@ -99,7 +109,6 @@ definePageMeta({
             path: `/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.assignmentName}`,
           }),
             userQuestions.$getQuestion(
-              userQuestions.assignmentInstance
             )
         "
         class="h-[60px] w-[370px] text-[35px] mr-[100px] mt-[15px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"

@@ -8,7 +8,7 @@ import { userState } from "./users";
 export const useQuestions = defineStore("questions", () => {
   const assignmentInstance = ref<number>();
   const question_instance_id = ref<number>();
-  const classCode = ref<number>(0);
+  const classCode = ref<string>("");
   const assignmentName = ref<string>("");
   const qText = ref<string>("");
   const timeLeft = ref<number>(0);
@@ -18,7 +18,7 @@ export const useQuestions = defineStore("questions", () => {
   const router = useRouter();
 
   function $resetQuestion() {
-    (classCode.value = 0),
+    (classCode.value = ""),
       (assignmentName.value = ""),
       (qText.value = ""),
       (timeLeft.value = 0),
@@ -29,7 +29,7 @@ export const useQuestions = defineStore("questions", () => {
 
   async function $updateState(
     item: assignmentDetails,
-    code: number
+    code: string
   ) {
     const userStore = userState();
     //takes assignment object, assignmentDetails as input

@@ -101,7 +101,7 @@ export const userState = defineStore("state", () => {
               id: course.id,
               name: course.name,
               teacher: course.teacher,
-              classCode: course.id,
+              class_code: course.class_code,
               assignments: course.assignments,
             };
           });
