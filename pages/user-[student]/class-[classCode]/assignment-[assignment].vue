@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {
-  ClassPreviewInformation,
-  ClassPreviewAssignments,
+  answer,
 } from "~/interfaces/interfaces";
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
@@ -14,9 +13,18 @@ const userStore = userState();
 const userQuestions = useQuestions();
 const userClasses = userClass();
 
-const questionText = userQuestions.qText;
-const questionAnswers = userQuestions.answers;
-const tempAnswer = ref<number>()
+const questionText = ref<string>()
+const questionAnswers = ref<answer[]>()
+const tempAnswer = ref<number>(0)
+
+onMounted(() => {
+  questionText.value = userQuestions.qText
+  questionAnswers.value = userQuestions.answers
+})
+
+function updateAnswer(id:number){
+  tempAnswer.value = id
+}
 
 const totalTime = ref<number>(
   userQuestions.timeLeft.valueOf()
@@ -76,7 +84,8 @@ definePageMeta({
             v-for="answer in questionAnswers"
             v-html="answer.text"
             class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px] font-medium text-[30px] focus:bg-primary focus:bg-opacity-50 mb-[50px]"
-            @click="tempAnswer.value = answer.id"
+            @click="updateAnswer(answer.id)"
+            :key="answer.id"
           ></button>
         </div>
       </div>
