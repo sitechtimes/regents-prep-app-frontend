@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {
-  answer,
+  answers,
 } from "~/interfaces/interfaces";
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
@@ -14,12 +14,15 @@ const userQuestions = useQuestions();
 const userClasses = userClass();
 
 const questionText = ref<string>()
-const questionAnswers = ref<answer[]>()
+const questionAnswers = ref<answers[]>()
 const tempAnswer = ref<number>(0)
 
 onMounted(() => {
   questionText.value = userQuestions.qText
   questionAnswers.value = userQuestions.answers
+  console.log(userQuestions.qText, userQuestions.answers)
+  console.log(questionText.value)
+  console.log(questionAnswers.value)
 })
 
 function updateAnswer(id:number){

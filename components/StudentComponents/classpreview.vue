@@ -34,6 +34,11 @@ const classCode = ref(props.information.class_code);
 const dueToday = ref(false);
 const dueLater = ref(false);
 
+async function updateStore(assignment: assignmentDetails, classcode: string, titleInformation: string) {
+  await userQuestions.$updateState(assignment, classcode)
+  classDetails.$patch({ className: titleInformation })
+}
+
 const compareDates = (dueDate: string) => {
   let date1 = new Date(dueDate).getTime(); //converts date to milliseconds since midnight at the beginning of January 1, 1970, UTC.
   let date2 = new Date().getTime(); // gets today's time
@@ -108,8 +113,7 @@ sortedAssignments.value.forEach((assignment) => {
         <template v-for="assignment in sortedAssignments" :key="assignment.id">
           <h3
             v-on:click="
-              userQuestions.$updateState(assignment, classCode),
-                classDetails.$patch({ className: titleInformation })
+            updateStore(assignment, classCode, titleInformation)
             "
             class="w-fit hover:cursor-pointer hover:underline"
             v-if="compareDates(assignment.datetime_due) === 0"
@@ -125,8 +129,7 @@ sortedAssignments.value.forEach((assignment) => {
           >
             <h3
               v-on:click="
-                userQuestions.$updateState(assignment, classCode),
-                  classDetails.$patch({ className: titleInformation })
+              updateStore(assignment, classCode, titleInformation)
               "
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="compareDates(assignment.datetime_due) === 1"

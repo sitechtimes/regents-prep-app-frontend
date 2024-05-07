@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import {
   questionInterface,
   assignmentDetails,
-  answer,
+  answers,
 } from "~/interfaces/interfaces";
 import { userState } from "./users";
 
@@ -14,7 +14,7 @@ export const useQuestions = defineStore("questions", () => {
   const qText = ref<string>("");
   const timeLeft = ref<number>(0);
   const qLeft = ref<number>(0);
-  const answers = ref<Array<answer>>([]);
+  const answers = ref<Array<answers>>([]);
   const dueDate = ref<string>("");
   const router = useRouter();
 
