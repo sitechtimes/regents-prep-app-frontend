@@ -63,13 +63,12 @@ sortedAssignments.value.forEach((assignment) => {
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
         v-on:click="
-          console.log(classCode),
-            classStore.$patch({
-              className: titleInformation,
-              classCode: classCode,
-              assignments: props.assignments,
-              currentAssignments: sortedAssignments,
-            }),
+          classStore.$patch({
+            className: titleInformation,
+            classCode: classCode,
+            assignments: props.assignments,
+            currentAssignments: sortedAssignments,
+          }),
             router.push({
               path: `/user-${userStore.username}/class-${classCode}`,
             })

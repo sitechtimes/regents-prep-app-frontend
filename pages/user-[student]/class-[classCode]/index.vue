@@ -8,9 +8,7 @@ const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
 const classStore = userClass();
-const userClasses = userClass();
 
-/* const qLeft = ref(props.assignment.qLeft); */
 const classCode = ref(userQuestions.classCode);
 
 let toggle = ref("Current");
@@ -47,11 +45,28 @@ function toggleAssignments() {
   });
 })(); */
 
+const currentDates = ref<Array<string>>([]);
+const pastDates = ref<Array<string>>([]);
+(async function () {
+  classStore.currentAssignments.forEach((assignment1: any) => {
+    const date = assignment1.datetime_due;
+    if (!currentDates.value.some((item) => item === date)) {
+      currentDates.value.push(date);
+    }
+  });
+  classStore.pastAssignments.forEach((assignment2: any) => {
+    const date = assignment2.datetime_due;
+    if (!pastDates.value.some((item) => item === date)) {
+      pastDates.value.push(date);
+    }
+  });
+})();
+
 onMounted(async () => {
   //  await classStore.$getCourseAssignments(classStore.courseId);
 });
 onUnmounted(() => {
-  userClasses.$reset();
+  classStore.$reset();
 });
 definePageMeta({
   middleware: studentAuth,
@@ -106,13 +121,13 @@ definePageMeta({
     <div class="max-w-md mx-auto md:max-w-2xl">
       <StudentComponentsCurrentAssignments
         v-if="CurrentStatus"
-        v-for="assignment in classStore.currentAssignments"
-        :date="assignment.datetime_due"
+        v-for="assignment in currentDates"
+        :date="assignment"
       />
       <StudentComponentsPastAssignments
         v-if="PastStatus"
-        v-for="assignment in classStore.pastAssignments"
-        :date="assignment.datetime_due"
+        v-for="assignment in pastDates"
+        :date="assignment"
       />
     </div>
   </div>

@@ -29,7 +29,7 @@ defineExpose({
       <StudentComponentsAssignmentsStat
         v-for="assignment in classStore.pastAssignments"
         :name="assignment.name"
-        :detail="assignment.id"
+        :detail="assignment.question_number"
       />
     </div>
   </div>
