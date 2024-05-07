@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import {
-  answers,
-} from "~/interfaces/interfaces";
+
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
@@ -12,18 +10,8 @@ const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
 const userClasses = userClass();
+const tempAnswer = ref()
 
-const questionText = ref<string>()
-const questionAnswers = ref<answers[]>()
-const tempAnswer = ref<number>(0)
-
-onMounted(() => {
-  questionText.value = userQuestions.qText
-  questionAnswers.value = userQuestions.answers
-  console.log(userQuestions.qText, userQuestions.answers)
-  console.log(questionText.value)
-  console.log(questionAnswers.value)
-})
 
 function updateAnswer(id:number){
   tempAnswer.value = id
@@ -76,7 +64,7 @@ definePageMeta({
       class="w-[96%] h-fit bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%] scroll-smooth overflow-y-auto"
     >
       <div
-        v-html="questionText"
+        v-html="userQuestions.qText"
         class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"
       ></div>
       <div class="items-center justify-center text-center">
@@ -84,7 +72,7 @@ definePageMeta({
           class="justify-center items-center text-center"
         >
           <button
-            v-for="answer in questionAnswers"
+            v-for="answer in userQuestions.answers"
             v-html="answer.text"
             class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px] font-medium text-[30px] focus:bg-primary focus:bg-opacity-50 mb-[50px]"
             @click="updateAnswer(answer.id)"

@@ -17,6 +17,7 @@ export const useQuestions = defineStore("questions", () => {
   const answers = ref<Array<answers>>([]);
   const dueDate = ref<string>("");
   const router = useRouter();
+  const attempts_remaining = ref<number>(2)
 
   function $resetQuestion() {
     (classCode.value = ""),
@@ -65,7 +66,6 @@ export const useQuestions = defineStore("questions", () => {
         .then((res) => res.json())
         .then(async (data) => {
           assignmentInstance.value = data.id;
-          console.log(assignmentInstance.value);
         });
     } catch (error) {
       console.log(error);
@@ -91,9 +91,15 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
+          if (data.detail == 'Reached maximum number of questions allowed by the assignment') {
+            router.push({
+              path: `/user-${userStore.username}/class-${classCode.value}/assignment-${assignmentName.value}-completed`,
+            })
+            return
+          }
           console.log(data)
           qText.value = data.question.text
-          question_instance_id.value = data.question.question_instance_id
+          question_instance_id.value = data.question_instance_id
           answers.value = data.question.answers
         });
     } catch (error) {
@@ -103,6 +109,7 @@ export const useQuestions = defineStore("questions", () => {
 
   const $submitAnswer = async (answerId: number
   ) => {
+    console.log(question_instance_id.value)
     const userStore = userState();
     try {
       const response = await fetch(
@@ -121,18 +128,18 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data)
           if (data.answer_correct === true) {
             await $getQuestion()
-            return 0
+            return
           }
-          else if (data.attempts_remaining === 0) {
+          else if (data.remaining_attempts === 0) {
             console.log("you got it wrong!")
             await $getQuestion()
-            return 0
+            return
           }
           else {
-            return data.attempts_remaining
+            attempts_remaining.value = data.attempts_remaining
+            return
           }
         });
     } catch (error) {
