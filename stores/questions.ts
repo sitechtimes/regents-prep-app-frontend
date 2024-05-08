@@ -1,8 +1,5 @@
 import { defineStore } from "pinia";
-import {
-  questionInterface,
-  assignmentDetails,
-} from "~/interfaces/interfaces";
+import { assignmentDetails } from "~/interfaces/interfaces";
 import { userState } from "./users";
 
 export const useQuestions = defineStore("questions", () => {
@@ -27,10 +24,7 @@ export const useQuestions = defineStore("questions", () => {
       (dueDate.value = "");
   }
 
-  async function $updateState(
-    item: assignmentDetails,
-    code: string
-  ) {
+  async function $updateState(item: assignmentDetails, code: string) {
     const userStore = userState();
     //takes assignment object, assignmentDetails as input
     router.push({
@@ -39,13 +33,11 @@ export const useQuestions = defineStore("questions", () => {
     (classCode.value = code),
       (assignmentName.value = item.name),
       (dueDate.value = item.datetime_due);
-    await $getAssignmentInstance(item.id)
-    await $getQuestion()
+    await $getAssignmentInstance(item.id);
+    await $getQuestion();
   }
 
-  const $getAssignmentInstance = async (
-    assignmentId: number
-  ) => {
+  const $getAssignmentInstance = async (assignmentId: number) => {
     const userStore = userState();
     try {
       const response = await fetch(
@@ -71,8 +63,7 @@ export const useQuestions = defineStore("questions", () => {
     }
   };
 
-  const $getQuestion = async (
-  ) => {
+  const $getQuestion = async () => {
     const userStore = userState();
     try {
       const response = await fetch(
@@ -90,9 +81,9 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-          qText.value = data.question.text
-          question_instance_id.value = data.question.question_instance_id
-          answers.value = data.question.answers
+          qText.value = data.question.text;
+          question_instance_id.value = data.question.question_instance_id;
+          answers.value = data.question.answers;
         });
     } catch (error) {
       console.log(error);
