@@ -8,7 +8,7 @@ import { studentAssignments } from "~/interfaces/interfaces";
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
 );
-let courseList = ref(userState().studentCourses);
+const courseList = ref(userState().studentCourses);
 const classStore = userClass();
 /* onMounted(() => {
   console.log(userStore.user.username);
