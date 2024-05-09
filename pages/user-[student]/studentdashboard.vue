@@ -22,6 +22,10 @@ definePageMeta({
   middleware: studentAuth,
 });
 
+onMounted(() => {
+  classStore.$reset();
+});
+
 const selectCourse = (id: number) => {
   classStore.$getCourseId(id);
 };

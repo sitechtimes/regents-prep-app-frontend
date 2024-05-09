@@ -66,7 +66,6 @@ sortedAssignments.value.forEach((assignment) => {
           classStore.$patch({
             className: titleInformation,
             classCode: classCode,
-            assignments: props.assignments,
             currentAssignments: sortedAssignments,
           }),
             router.push({

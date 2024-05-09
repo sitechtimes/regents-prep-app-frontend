@@ -85,7 +85,6 @@ export const userClass = defineStore("class", () => {
   return {
     className,
     classCode,
-    assignments,
     currentAssignments,
     pastAssignments,
     courseId,

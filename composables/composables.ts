@@ -7,10 +7,10 @@ export const dateFetch = (
   const parentDate = getCurrentInstance()?.parent?.exposed?.props.date;
   const show = ref<boolean>(false);
 
-  const currentFilter = classStore.assignments.filter(
+  const currentFilter = classStore.currentAssignments.filter(
     (assignment) => assignment.datetime_due === parentDate
   );
-  const pastFilter = classStore.assignments.filter(
+  const pastFilter = classStore.pastAssignments.filter(
     (assignment) => assignment.datetime_due === parentDate
   );
   currentFilter.forEach((assignment) => {
