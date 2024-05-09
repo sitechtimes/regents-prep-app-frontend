@@ -20,7 +20,7 @@ function assignmentAction() {
     v-if="dateFetch(props).show.value"
     v-on:click="
       userQuestions.$patch({
-        assignmentName: props.name,
+        name: props.name,
         qLeft: props.detail,
       })
     "

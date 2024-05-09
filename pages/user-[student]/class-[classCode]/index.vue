@@ -102,7 +102,7 @@ definePageMeta({
         v-if="CurrentStatus"
         v-on:click="
           router.push({
-            path: `/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.assignmentName}`,
+            path: `/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.name}`,
           }),
             userQuestions.$getQuestion()
         "

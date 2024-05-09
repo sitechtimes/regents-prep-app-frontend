@@ -81,15 +81,15 @@ export interface assignmentDetails {
 }
 
 export interface studentAssignments {
-  name: string;
   id: number;
+  name: string;
   datetime_assigned: string;
   datetime_due: string;
   question_number: number;
+  questions_completed: number;
   timer_style: string;
   time_allotted: number;
   attempts_allowed: number;
-  questions_completed: number;
 }
 
 export interface assignment {
