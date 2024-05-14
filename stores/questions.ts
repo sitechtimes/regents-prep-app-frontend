@@ -71,7 +71,7 @@ export const useQuestions = defineStore("questions", () => {
         .then((res) => res.json())
         .then(async (data) => {
           assignmentInstance.value = data.id;
-          console.log(assignmentInstance.value);
+          //console.log(assignmentInstance.value);
         });
     } catch (error) {
       console.log(error);

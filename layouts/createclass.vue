@@ -4,9 +4,7 @@ import { userState } from "~/stores/users";
 const userStore = userState();
 const router = useRouter();
 
-onMounted(() => {
-  console.log(userStore.email);
-});
+onMounted(() => {});
 
 //this function pushes user back to the teacher dashboard
 async function pushUserBack() {

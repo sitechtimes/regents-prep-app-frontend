@@ -55,8 +55,6 @@ sortedAssignments.value.forEach((assignment) => {
   }
 });
 
-console.log(JSON.parse(JSON.stringify(props.assignments)));
-
 //The props are registered separately. Every prop name correlates to the dynamic parts of every class preview.
 </script>
 

@@ -87,6 +87,7 @@ export interface studentAssignments {
   datetime_due: string;
   question_number: number;
   questions_completed: number;
+  questions_remaining: number;
   timer_style: string;
   time_allotted: number;
   attempts_allowed: number;
