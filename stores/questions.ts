@@ -136,7 +136,7 @@ export const useQuestions = defineStore("questions", () => {
             await $getQuestion()
             return
           }
-          else if (data.error === 'Answer attempt limit already reached') {
+          else if (data.remaining_attempts == 0) {
             console.log("you got it wrong!")
             await $getQuestion()
             return
