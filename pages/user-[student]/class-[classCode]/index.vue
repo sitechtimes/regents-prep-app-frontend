@@ -9,7 +9,7 @@ const userStore = userState();
 const userQuestions = useQuestions();
 const classStore = userClass();
 
-const classCode = ref(userQuestions.classCode);
+const classCode = ref(classStore.classCode);
 
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
@@ -66,7 +66,7 @@ onMounted(async () => {
   //  await classStore.$getCourseAssignments(classStore.courseId);
 });
 onUnmounted(() => {
-  classStore.$reset();
+  // classStore.$reset();
 });
 definePageMeta({
   middleware: studentAuth,
