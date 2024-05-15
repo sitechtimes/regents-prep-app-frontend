@@ -142,7 +142,7 @@ export const useQuestions = defineStore("questions", () => {
             return
           }
           else {
-            attempts_remaining.value = data.attempts_remaining
+            attempts_remaining.value = data.remaining_attempts
             console.log(`you have ${attempts_remaining.value} attempts remaining`)
             return
           }
