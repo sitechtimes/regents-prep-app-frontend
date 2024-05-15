@@ -10,7 +10,7 @@ const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
 const userClasses = userClass();
-const tempAnswer = ref()
+const tempAnswer = ref(-1)
 
 
 function updateAnswer(id:number){
@@ -83,7 +83,7 @@ definePageMeta({
     </div>
     <button
       @click="
-      userQuestions.$submitAnswer(tempAnswer)
+      userQuestions.$submitAnswer(tempAnswer), tempAnswer = -1
         /* router.push({
           path: `/user-${userStore.username}/class-${userQuestions.classCode}/assignment-${userQuestions.assignmentName}-completed`,
         }) */

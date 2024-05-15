@@ -110,6 +110,9 @@ export const useQuestions = defineStore("questions", () => {
   const $submitAnswer = async (answerId: number
   ) => {
     console.log(question_instance_id.value)
+    if (answerId === -1) {
+      throw new Error("Please select an answer!");
+    }
     const userStore = userState();
     try {
       const response = await fetch(
@@ -128,17 +131,19 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
+          console.log(data)
           if (data.answer_correct === true) {
             await $getQuestion()
             return
           }
-          else if (data.remaining_attempts === 0) {
+          else if (data.error === 'Answer attempt limit already reached') {
             console.log("you got it wrong!")
             await $getQuestion()
             return
           }
           else {
             attempts_remaining.value = data.attempts_remaining
+            console.log(`you have ${attempts_remaining.value} attempts remaining`)
             return
           }
         });

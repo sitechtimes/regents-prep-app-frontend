@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+import { useQuestions } from '~/stores/questions';
+const userQuestions = useQuestions()
+console.log(userQuestions.correct_answers, "/", userQuestions.total_answers)
+</script>
 
 <template>
   <div
@@ -13,7 +17,7 @@
     <div
       class="rounded-[50px] p-[2rem] bg-[#aab941] text-white text-[50px] font-bold"
     >
-      5 / 5
+      5/5
     </div>
 
     <button
