@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import {
-  ClassPreviewInformation,
-  ClassPreviewAssignments,
-} from "~/interfaces/interfaces";
 import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
@@ -18,9 +14,7 @@ const userStore = userState();
 const userQuestions = useQuestions();
 const userClasses = userClass();
 
-const totalTime = ref<number>(
-  userQuestions.timeLeft.valueOf()
-);
+const totalTime = ref<number>(userQuestions.time_allotted.valueOf());
 const min = ref<number>(Math.trunc(totalTime.value / 60));
 const sec = ref<number>(totalTime.value % 60);
 function delay(delay: number) {
@@ -42,9 +36,8 @@ function delay(delay: number) {
   }
 })();
 
-
 onUnmounted(() => {
-  userQuestions.$resetQuestion();
+  userQuestions.$reset();
   userClasses.$reset();
 
   //This unMounted action is used to remove the assignment from the questionState when the user leaves the page. Normally, a function would be created within the questions.ts file such as userQuestions.$reset() in order to avoid re-typing the function every time. However, since all of the properties of the question state are in the return {} due to addressing them with typescript interfaces, no function can be used, even those such as .push for an array. (If there is a way to create a typescript state function and it has simply been missed, please feel free to correct the above.)
@@ -70,9 +63,7 @@ definePageMeta({
         class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"
       ></div>
       <div class="items-center justify-center text-center">
-        <div
-          class="justify-center items-center text-center"
-        >
+        <div class="justify-center items-center text-center">
           <button
             v-for="answer in questionAnswers"
             v-html="answer.text"
@@ -84,7 +75,7 @@ definePageMeta({
     <button
       @click="
         router.push({
-          path: `/user-${userStore.username}/class-${userQuestions.classCode}/assignment-${userQuestions.assignmentName}-completed`,
+          path: `/user-${userStore.username}/class-${userQuestions.classCode}/assignment-${userQuestions.name}-completed`,
         })
       "
       class="w-[350px] h-[60px] bg-bg-reg shadow-innertop shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none mt-[2%] mb-[20px]"
@@ -102,8 +93,8 @@ definePageMeta({
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
       >
-        {{ userQuestions.qLeft }} Questions Left | Time Left
-        - {{ min }} min {{ sec }} sec
+        {{ userQuestions.qLeft }} Questions Left | Time Left - {{ min }} min
+        {{ sec }} sec
         <!--Minutes : Seconds-->
         <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
         |

@@ -6,9 +6,7 @@ const userStore = userState();
 const userClasses = userClass();
 const router = useRouter();
 
-onMounted(() => {
-  //console.log(userStore.email);
-});
+onMounted(() => {});
 
 //this function pushes user back to the teacher dashboard
 async function pushUserBack() {
@@ -16,8 +14,8 @@ async function pushUserBack() {
   if (userStore.user_type == "teacher") {
     router.push({ path: `/user-${userStore.username}/teacherdashboard` });
   } else if (userStore.user_type == "student") {
-    router.push({path: `/user-${userStore.username}/studentdashboard`})
-  };
+    router.push({ path: `/user-${userStore.username}/studentdashboard` });
+  }
 }
 </script>
 
@@ -25,18 +23,18 @@ async function pushUserBack() {
   <div>
     <nav class="h-[109px] w-screen bg-bg-navbar shadow relative">
       <div class="absolute w-[450px] left-[38.5%]">
-          <div id="dashboard" class="w-[450px] h-[73px] mt-[17px]">
-            <div
-              class="w-[450px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
+        <div id="dashboard" class="w-[450px] h-[73px] mt-[17px]">
+          <div
+            class="w-[450px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
+          >
+            <h1
+              class="w-[450px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
             >
-              <h1
-                class="w-[450px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
-              >
-                {{userClasses.className}}
-              </h1>
-            </div>
+              {{ userClasses.className }}
+            </h1>
           </div>
         </div>
+      </div>
       <div class="flex flex-row">
         <div id="teacherName" class="w-fit h-[70px] mt-[12px] pl-[1%]">
           <div
@@ -44,15 +42,15 @@ async function pushUserBack() {
           >
             <h2
               class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
-              v-if="(userStore.fullname === '')"
+              v-if="userStore.fullname === ''"
             >
-               Placeholder Name
+              Placeholder Name
             </h2>
             <h2
               class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
               v-else
             >
-               {{ userStore.fullname }}  
+              {{ userStore.fullname }}
             </h2>
           </div>
         </div>

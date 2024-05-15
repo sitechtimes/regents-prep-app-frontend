@@ -71,7 +71,7 @@ export interface course {
   name: string;
   teacher: string;
   class_code: string;
-  assignments: Array<assignmentDetails>;
+  assignments: Array<studentAssignments>;
 }
 
 export interface assignmentDetails {
@@ -81,15 +81,16 @@ export interface assignmentDetails {
 }
 
 export interface studentAssignments {
-  name: string;
   id: number;
+  name: string;
   datetime_assigned: string;
   datetime_due: string;
   question_number: number;
+  questions_completed: number;
+  questions_remaining: number;
   timer_style: string;
   time_allotted: number;
   attempts_allowed: number;
-  questions_completed: number;
 }
 
 export interface assignment {

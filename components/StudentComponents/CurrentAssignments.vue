@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { userClass } from "~/stores/class";
 
-const classDetails = userClass();
+const classStore = userClass();
 
 const open = ref(true);
 
@@ -31,9 +31,9 @@ defineExpose({
       class="pt-[2.5rem] flex flex-col items-center rounded-b-[35px] shadow-black shadow-innervar"
     >
       <StudentComponentsAssignmentsTemp
-        v-for="assignment in classDetails.currentAssignments"
+        v-for="assignment in classStore.currentAssignments"
         :name="assignment.name"
-        :detail="assignment.id"
+        :detail="assignment.question_number"
       />
     </div>
   </div>

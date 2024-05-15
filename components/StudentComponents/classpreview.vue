@@ -1,10 +1,11 @@
 <script setup lang="ts">
-//import { compareDates } from "~/composables/composables";
+import { compareDates } from "~/composables/composables";
 import {
   // Theme,
   ClassPreviewInformation,
   assignmentDetails,
   course,
+  studentAssignments,
 } from "~/interfaces/interfaces";
 import { userClass } from "~/stores/class";
 import { useQuestions } from "~/stores/questions";
@@ -12,20 +13,19 @@ import { userState } from "~/stores/users";
 
 const userStore = userState();
 const userQuestions = useQuestions();
-const classDetails = userClass();
+const classStore = userClass();
 const router = useRouter();
-
 
 const props = defineProps<{
   information: ClassPreviewInformation;
   class: course;
-  assignments: Array<assignmentDetails>;
+  assignments: Array<studentAssignments>;
 }>(); //The themes, information, and assignment are declared as props. They are separate interfaces declared in a typescript filed within the Interface folder.
 
 const titleInformation = ref(props.information.name);
 const teacherInformation = ref(props.information.teacher);
 const assignmentsInformation = ref(props.class.assignments);
-const classCode = ref(props.information.class_code); 
+const classCode = ref(props.information.class_code);
 /* const classCode = ref(userStore.studentCourses.forEach((course) => {
   course.class_code
 }))
@@ -33,21 +33,6 @@ const classCode = ref(props.information.class_code);
 
 const dueToday = ref(false);
 const dueLater = ref(false);
-
-const compareDates = (dueDate: string) => {
-  let date1 = new Date(dueDate).getTime(); //converts date to milliseconds since midnight at the beginning of January 1, 1970, UTC.
-  let date2 = new Date().getTime(); // gets today's time
-
-  if (date1 < date2) {
-    // if the assignment is before today, return -1
-    return -1;
-  } else if (date1 > date2) {
-    // if the assigmment is after today, return 1
-    return 1;
-  } else {
-    return 0; // if the assignment is due today, return 0
-  }
-};
 
 const sortedAssignments = ref(
   props.assignments
@@ -70,8 +55,6 @@ sortedAssignments.value.forEach((assignment) => {
   }
 });
 
-
-
 //The props are registered separately. Every prop name correlates to the dynamic parts of every class preview.
 </script>
 
@@ -81,8 +64,7 @@ sortedAssignments.value.forEach((assignment) => {
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
         v-on:click="
-        console.log(classCode),
-          classDetails.$patch({
+          classStore.$patch({
             className: titleInformation,
             classCode: classCode,
             assignments: props.assignments,
@@ -109,7 +91,7 @@ sortedAssignments.value.forEach((assignment) => {
           <h3
             v-on:click="
               userQuestions.$updateState(assignment, classCode),
-                classDetails.$patch({ className: titleInformation })
+                classStore.$patch({ className: titleInformation })
             "
             class="w-fit hover:cursor-pointer hover:underline"
             v-if="compareDates(assignment.datetime_due) === 0"
@@ -126,7 +108,7 @@ sortedAssignments.value.forEach((assignment) => {
             <h3
               v-on:click="
                 userQuestions.$updateState(assignment, classCode),
-                  classDetails.$patch({ className: titleInformation })
+                  classStore.$patch({ className: titleInformation })
               "
               class="w-fit hover:cursor-pointer hover:underline"
               v-if="compareDates(assignment.datetime_due) === 1"

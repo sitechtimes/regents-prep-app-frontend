@@ -23,34 +23,34 @@ async function pushUser() {
   <div>
     <nav class="h-[109px] bg-bg-navbar shadow">
       <div class="absolute w-[350px] left-[41%]">
-          <div id="dashboard" class="w-[350px] h-[73px] mt-[17px]">
-            <div
-              class="w-[350px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
+        <div id="dashboard" class="w-[350px] h-[73px] mt-[17px]">
+          <div
+            class="w-[350px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
+          >
+            <h1
+              class="w-[350px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
             >
-              <h1
-                class="w-[350px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
-              >
-                Dashboard
-              </h1>
-            </div>
+              Dashboard
+            </h1>
           </div>
         </div>
+      </div>
       <div class="flex flex-row">
         <div id="username" class="w-fit h-[70px] mt-[12px] pl-[1%]">
           <div
             class="w-fit h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
           >
-          <h2
+            <h2
               class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
-              v-if="(userStore.fullname === '')"
+              v-if="userStore.fullname === ''"
             >
-               Placeholder Name
+              Placeholder Name
             </h2>
             <h2
               class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
               v-else
             >
-               {{ userStore.fullname }}  
+              {{ userStore.fullname }}
             </h2>
           </div>
         </div>

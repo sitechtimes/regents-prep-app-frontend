@@ -10,9 +10,7 @@ const props = defineProps<{
     <button
       class="w-[785px] h-[95px] bg-primary rounded-[21px] shadow-[inset_0_4px_3px_rgba(0,0,0,0.3)] relative border-[2px] border-l-0 border-r-0 border-black flex flex-row m-auto ml-[-2px] mt-[-2px] mb-0 z-10"
     >
-      <h2
-        class="h-[93px] text-white text-[35px] font-medium pt-[17px] pl-[3%]"
-      >
+      <h2 class="h-[93px] text-white text-[35px] font-medium pt-[17px] pl-[3%]">
         {{ props.name }}
       </h2>
       <h3
