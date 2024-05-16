@@ -1,16 +1,16 @@
-/* import { userClass } from "~/stores/class";
+import { userClass } from "~/stores/class";
 
 export const dateFetch = (
   props: Readonly<{ name: string; detail: number }>
 ) => {
-  const classDetails = userClass();
+  const classStore = userClass();
   const parentDate = getCurrentInstance()?.parent?.exposed?.props.date;
   const show = ref<boolean>(false);
 
-  const currentFilter = classDetails.assignments.filter(
+  const currentFilter = classStore.currentAssignments.filter(
     (assignment) => assignment.datetime_due === parentDate
   );
-  const pastFilter = classDetails.assignments.filter(
+  const pastFilter = classStore.pastAssignments.filter(
     (assignment) => assignment.datetime_due === parentDate
   );
   currentFilter.forEach((assignment) => {
@@ -41,4 +41,3 @@ export function compareDates(dueDate: string) {
     return 0; // if the assignment is due today, return 0
   }
 }
- */

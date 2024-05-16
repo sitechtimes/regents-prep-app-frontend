@@ -1,53 +1,59 @@
 import { defineStore } from "pinia";
-import {
-  questionInterface,
-  assignmentDetails,
-  answers,
-} from "~/interfaces/interfaces";
+import { studentAssignments } from "~/interfaces/interfaces";
 import { userState } from "./users";
 
 export const useQuestions = defineStore("questions", () => {
+  const classCode = ref<string>("");
+  const id = ref<number>(0);
+  const name = ref<string>("");
+  const datetime_assigned = ref<string>("");
+  const datetime_due = ref<string>("");
+  const question_number = ref<number>(0);
+  const questions_completed = ref<number>(0);
+  const qLeft = ref<number>(question_number.value - questions_completed.value);
+  const timer_style = ref<string>("");
+  const time_allotted = ref<number>(0);
+  const attempts_allowed = ref<number>(0);
   const assignmentInstance = ref<number>();
   const question_instance_id = ref<number>();
-  const classCode = ref<string>("");
-  const assignmentName = ref<string>("");
   const qText = ref<string>("");
-  const timeLeft = ref<number>(0);
-  const qLeft = ref<number>(0);
-  const answers = ref<Array<answers>>([]);
-  const dueDate = ref<string>("");
+  const answers = ref<Array<string>>([]);
+
   const router = useRouter();
   const attempts_remaining = ref<number>(2)
 
-  function $resetQuestion() {
-    (classCode.value = ""),
-      (assignmentName.value = ""),
-      (qText.value = ""),
-      (timeLeft.value = 0),
-      (qLeft.value = 0),
-      (answers.value = []),
-      (dueDate.value = "");
+  function $reset() {
+    classCode.value = "";
+    id.value = 0;
+    name.value = "";
+    datetime_assigned.value = "";
+    datetime_due.value = "";
+    question_number.value = 0;
+    questions_completed.value = 0;
+    qLeft.value = 0;
+    timer_style.value = "";
+    time_allotted.value = 0;
+    attempts_allowed.value = 0;
+    assignmentInstance.value = 0;
+    question_instance_id.value = 0;
+    qText.value = "";
+    answers.value = [];
   }
 
-  async function $updateState(
-    item: assignmentDetails,
-    code: string
-  ) {
+  async function $updateState(item: studentAssignments, code: string) {
     const userStore = userState();
     //takes assignment object, assignmentDetails as input
     router.push({
       path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
     });
     (classCode.value = code),
-      (assignmentName.value = item.name),
-      (dueDate.value = item.datetime_due);
-    await $getAssignmentInstance(item.id)
-    await $getQuestion()
+      (name.value = item.name),
+      (datetime_due.value = item.datetime_due);
+    await $getAssignmentInstance(item.id);
+    await $getQuestion();
   }
 
-  const $getAssignmentInstance = async (
-    assignmentId: number
-  ) => {
+  const $getAssignmentInstance = async (assignmentId: number) => {
     const userStore = userState();
     try {
       const response = await fetch(
@@ -66,14 +72,14 @@ export const useQuestions = defineStore("questions", () => {
         .then((res) => res.json())
         .then(async (data) => {
           assignmentInstance.value = data.id;
+          //console.log(assignmentInstance.value);
         });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const $getQuestion = async (
-  ) => {
+  const $getQuestion = async () => {
     const userStore = userState();
     try {
       const response = await fetch(
@@ -155,16 +161,22 @@ export const useQuestions = defineStore("questions", () => {
 
 
   return {
+    classCode,
+    id,
+    name,
+    datetime_assigned,
+    datetime_due,
+    question_number,
+    questions_completed,
+    qLeft,
+    timer_style,
+    time_allotted,
+    attempts_allowed,
     assignmentInstance,
     question_instance_id,
-    classCode,
-    assignmentName,
     qText,
-    timeLeft,
-    qLeft,
     answers,
-    dueDate,
-    $resetQuestion,
+    $reset,
     $updateState,
     $getQuestion,
     $getAssignmentInstance,

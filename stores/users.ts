@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-import Assignment from "~/components/TeacherComponents/assignment.vue";
-import { assignmentDetails, course } from "~/interfaces/interfaces";
+import { course, studentAssignments } from "~/interfaces/interfaces";
 
 export const userState = defineStore("state", () => {
   const email = ref<string>("");
@@ -10,7 +9,7 @@ export const userState = defineStore("state", () => {
   const user_type = ref<string>("");
   const loggedIn = ref<boolean>(false);
   const studentCourses = ref<course[]>([]);
-  const assignments = ref<assignmentDetails[]>([]);
+  const assignments = ref<studentAssignments[]>([]);
   const access_token = ref<string>("");
   const refresh_token = ref<string>("");
 
@@ -34,7 +33,7 @@ export const userState = defineStore("state", () => {
         .then(async (data) => {
           access_token.value = data.access;
           refresh_token.value = data.refresh;
-          console.log(access_token.value, refresh_token.value);
+          //console.log(access_token.value, refresh_token.value);
         });
     } catch (error) {
       console.log(error);
@@ -55,12 +54,12 @@ export const userState = defineStore("state", () => {
           username.value = data.username;
           fullname.value = data.name;
           user_type.value = data.is_teacher ? "teacher" : "student";
-          console.log(
+          /* console.log(
             email.value,
             username.value,
             fullname.value,
             user_type.value
-          );
+          ); */
         });
     } catch (error) {
       console.log(error);
@@ -106,7 +105,7 @@ export const userState = defineStore("state", () => {
             };
           });
 
-          console.log(JSON.parse(JSON.stringify(studentCourses.value)));
+          //console.log(JSON.parse(JSON.stringify(studentCourses.value)));
         });
     } catch (error) {
       console.log(error);
@@ -127,7 +126,7 @@ export const userState = defineStore("state", () => {
       })
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data);
+          //console.log(data);
           loggedIn.value = false;
           email.value = "";
           username.value = "";
@@ -150,7 +149,7 @@ export const userState = defineStore("state", () => {
       fullname: fullname.value,
     });
     sessionStorage.setItem("session", persistentData);
-    console.log("Session saved");
+    //console.log("Session saved");
   };
 
   function $logout() {

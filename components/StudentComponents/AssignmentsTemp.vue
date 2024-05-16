@@ -1,38 +1,12 @@
 <script setup lang="ts">
-//import { dateFetch } from "~/composables/composables";
+import { dateFetch } from "~/composables/composables";
 import { useQuestions } from "~/stores/questions";
-import { userClass } from "~/stores/class";
 
 const userQuestions = useQuestions();
 const props = defineProps<{
   name: string;
   detail: number;
 }>();
-
-const dateFetch = (props: Readonly<{ name: string; detail: number }>) => {
-  const classDetails = userClass();
-  const parentDate = getCurrentInstance()?.parent?.exposed?.props.date;
-  const show = ref<boolean>(false);
-
-  const currentFilter = classDetails.assignments.filter(
-    (assignment) => assignment.due_date === parentDate
-  );
-  const pastFilter = classDetails.assignments.filter(
-    (assignment) => assignment.due_date === parentDate
-  );
-  currentFilter.forEach((assignment) => {
-    if (assignment.name.includes(props.name)) {
-      show.value = true;
-    }
-  });
-  pastFilter.forEach((assignment) => {
-    if (assignment.name.includes(props.name)) {
-      show.value = true;
-    }
-  });
-
-  return { show };
-};
 
 function assignmentAction() {
   // what each assignment does when clicked
@@ -46,7 +20,7 @@ function assignmentAction() {
     v-if="dateFetch(props).show.value"
     v-on:click="
       userQuestions.$patch({
-        assignmentName: props.name,
+        name: props.name,
         qLeft: props.detail,
       })
     "
