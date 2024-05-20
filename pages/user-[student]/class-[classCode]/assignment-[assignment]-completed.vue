@@ -1,7 +1,6 @@
 <script setup>
 import { useQuestions } from '~/stores/questions';
 const userQuestions = useQuestions()
-console.log(userQuestions.correct_answers, "/", userQuestions.total_answers)
 </script>
 
 <template>

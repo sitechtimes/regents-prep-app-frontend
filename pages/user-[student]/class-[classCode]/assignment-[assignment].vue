@@ -104,7 +104,7 @@ definePageMeta({
         <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
         |
         <!--Number of Attempts-->
-        X Attempts Left
+        {{ userQuestions.attempts_remaining }} Attempts Left
       </h2>
     </div>
     <!--     <div>

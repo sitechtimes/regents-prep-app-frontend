@@ -72,6 +72,16 @@ export const useQuestions = defineStore("questions", () => {
         .then((res) => res.json())
         .then(async (data) => {
           assignmentInstance.value = data.id;
+          attempts_allowed.value = data.max_attempts
+          questions_completed.value = data.questions_completed
+          question_number.value = data.total_questions
+          if (data.timer_styler == "Unlimited time") {
+            timer_style.value = "unlimited"
+          }
+          else if (data.timer_styler == "Time per question") {
+            timer_style.value = "per question"
+            time_allotted.value = data.time_alloted
+          }
           //console.log(assignmentInstance.value);
         });
     } catch (error) {
@@ -99,7 +109,7 @@ export const useQuestions = defineStore("questions", () => {
         .then(async (data) => {
           if (data.detail == 'Reached maximum number of questions allowed by the assignment') {
             router.push({
-              path: `/user-${userStore.username}/class-${classCode.value}/assignment-${assignmentName.value}-completed`,
+              path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
             })
             return
           }
@@ -176,6 +186,7 @@ export const useQuestions = defineStore("questions", () => {
     question_instance_id,
     qText,
     answers,
+    attempts_remaining,
     $reset,
     $updateState,
     $getQuestion,
