@@ -25,13 +25,13 @@ function delay(delay: number) {
   });
 }
 (async function () {
-  for (let i = 0; i < totalTime.value; i++) {
+  for (let i = 0; i < userQuestions.time_allotted; i++) {
     await delay(1000);
     if (sec.value !== 0) {
-      totalTime.value -= 1;
+      userQuestions.time_allotted -= 1;
       sec.value -= 1;
     } else {
-      totalTime.value -= 1;
+      userQuestions.time_allotted -= 1;
       min.value -= 1;
       sec.value += 59;
     }
@@ -98,14 +98,22 @@ definePageMeta({
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
       >
-        {{ userQuestions.qLeft }} Questions Left | Time Left - {{ min }} min
-        {{ sec }} sec
+        {{ userQuestions.qLeft }} Questions Left
         <!--Minutes : Seconds-->
         <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
-        |
-        <!--Number of Attempts-->
-        {{ userQuestions.attempts_remaining }} Attempts Left
       </h2>
+      <h2
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+        
+      > Time Left - {{ min }} min
+        {{ sec }} sec
+        <!--Minutes : Seconds-->
+        <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. --> </h2>
+      <h2
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+        
+      > <!--Number of Attempts-->
+      {{ userQuestions.attempts_remaining }} Attempts Left </h2>
     </div>
     <!--     <div>
       <h2>

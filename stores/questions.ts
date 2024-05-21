@@ -71,6 +71,7 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
+          console.log(data)
           assignmentInstance.value = data.id;
           attempts_allowed.value = data.max_attempts
           questions_completed.value = data.questions_completed
@@ -91,6 +92,7 @@ export const useQuestions = defineStore("questions", () => {
 
   const $getQuestion = async () => {
     const userStore = userState();
+    attempts_remaining.value = attempts_allowed.value
     try {
       const response = await fetch(
         `http://192.168.192.122:8000/api/courses/student/get-next-question/`,
