@@ -37,7 +37,7 @@ export interface Assignment {
 export interface questionInterface {
   text: string;
   answer_type: number;
-  answers: Array<answer>;
+  answers: Array<answers>;
 }
 //The "questionInterface" interface is used for the question itself. The qText displays the question text, or the actual question that the student has to answer. The "answers" are stored in a string array, and are displayed on the page when the user is on this specific question.
 
