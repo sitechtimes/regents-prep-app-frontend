@@ -98,17 +98,22 @@ definePageMeta({
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
       >
-        {{ userQuestions.qLeft }} Questions Left
+        {{ userQuestions.question_number - userQuestions.questions_completed }} Questions Left
         <!--Minutes : Seconds-->
         <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
       </h2>
       <h2
-        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end" v-if="userQuestions.timer_style !== 'unlimited' "
         
       > Time Left - {{ min }} min
         {{ sec }} sec
         <!--Minutes : Seconds-->
         <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. --> </h2>
+        <h2
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end" v-if="userQuestions.timer_style == 'unlimited'"
+        
+      > <!--Number of Attempts-->
+      Unlimited Time </h2>
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
         

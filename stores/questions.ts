@@ -10,7 +10,7 @@ export const useQuestions = defineStore("questions", () => {
   const datetime_due = ref<string>("");
   const question_number = ref<number>(0);
   const questions_completed = ref<number>(0);
-  const qLeft = ref<number>(question_number.value - questions_completed.value);
+  const qLeft = ref<number>(question_number.value - questions_completed.value)
   const timer_style = ref<string>("");
   const time_allotted = ref<number>(0);
   const attempts_allowed = ref<number>(0);
@@ -76,13 +76,14 @@ export const useQuestions = defineStore("questions", () => {
           attempts_allowed.value = data.max_attempts
           questions_completed.value = data.questions_completed
           question_number.value = data.total_questions
-          if (data.timer_styler == "Unlimited time") {
+          if (data.timer_style == "Unlimited time") {
             timer_style.value = "unlimited"
           }
-          else if (data.timer_styler == "Time per question") {
+          else if (data.timer_style == "Time per question") {
             timer_style.value = "per question"
             time_allotted.value = data.time_alloted
           }
+          console.log(timer_style.value)
           //console.log(assignmentInstance.value);
         });
     } catch (error) {
