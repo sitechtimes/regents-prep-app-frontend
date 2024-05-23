@@ -101,6 +101,7 @@ definePageMeta({
       <button
         v-if="CurrentStatus"
         v-on:click="
+          userQuestions.$updateState(assignment, classCode) //need to define assignment earlier
           router.push({
             path: `/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.name}`,
           }),
