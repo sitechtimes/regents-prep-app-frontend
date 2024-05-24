@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { userClass } from "~/stores/class";
+import { useQuestions } from "~/stores/questions";
+import { ClassPreviewInformation } from "~/interfaces/interfaces";
 
 const classStore = userClass();
+const userQuestions = useQuestions();
 
 const open = ref(true);
 
@@ -11,6 +14,8 @@ const props = defineProps<{
 defineExpose({
   props,
 });
+
+const classCode = ref(userQuestions.classCode);
 </script>
 
 <template>
