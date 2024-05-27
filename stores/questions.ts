@@ -76,7 +76,7 @@ export const useQuestions = defineStore("questions", () => {
           attempts_allowed.value = data.max_attempts
           questions_completed.value = data.questions_completed
           question_number.value = data.total_questions
-          if (data.timer_style == "Unlimited time") {
+          if (data.timer_style == "Unlimited time") {       //sorts by timer style
             timer_style.value = "unlimited"
           }
           else if (data.timer_style == "Time per question") {
@@ -93,7 +93,7 @@ export const useQuestions = defineStore("questions", () => {
 
   const $getQuestion = async () => {
     const userStore = userState();
-    attempts_remaining.value = attempts_allowed.value
+    attempts_remaining.value = attempts_allowed.value // resets attempts when next question is called
     try {
       const response = await fetch(
         `http://192.168.192.122:8000/api/courses/student/get-next-question/`,
@@ -110,7 +110,7 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-          if (data.detail == 'Reached maximum number of questions allowed by the assignment') {
+          if (data.detail == 'Reached maximum number of questions allowed by the assignment') { //if assignment done, bring to completed page
             router.push({
               path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
             })
@@ -130,7 +130,7 @@ export const useQuestions = defineStore("questions", () => {
   ) => {
     console.log(question_instance_id.value)
     if (answerId === -1) {
-      throw new Error("Please select an answer!");
+      throw new Error("Please select an answer!"); //checks if an answer is chosen
     }
     const userStore = userState();
     try {
@@ -151,7 +151,7 @@ export const useQuestions = defineStore("questions", () => {
         .then((res) => res.json())
         .then(async (data) => {
           console.log(data)
-          if (data.answer_correct === true) {
+          if (data.answer_correct === true) { //checks if correct, and if not, checks attempts remaining to cycle questions
             await $getQuestion()
             return
           }
