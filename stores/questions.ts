@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { studentAssignments } from "~/interfaces/interfaces";
+import { answers, studentAssignments } from "~/interfaces/interfaces";
 import { userState } from "./users";
 
 export const useQuestions = defineStore("questions", () => {
@@ -17,7 +17,7 @@ export const useQuestions = defineStore("questions", () => {
   const assignmentInstance = ref<number>();
   const question_instance_id = ref<number>();
   const qText = ref<string>("");
-  const answers = ref<Array<string>>([]);
+  const answers = ref<Array<answers>>([]);
 
   const router = useRouter();
   const attempts_remaining = ref<number>(2)

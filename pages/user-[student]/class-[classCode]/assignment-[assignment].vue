@@ -9,11 +9,10 @@ const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
 const userClasses = userClass();
-const tempAnswer = ref(-1)
+const tempAnswer = ref(-1);
 
-
-function updateAnswer(id:number){
-  tempAnswer.value = id
+function updateAnswer(id: number) {
+  tempAnswer.value = id;
 }
 
 const totalTime = ref<number>(userQuestions.time_allotted.valueOf());
@@ -78,7 +77,7 @@ definePageMeta({
     </div>
     <button
       @click="
-      userQuestions.$submitAnswer(tempAnswer), tempAnswer = -1
+        userQuestions.$submitAnswer(tempAnswer), (tempAnswer = -1)
         /* router.push({
           path: `/user-${userStore.username}/class-${userQuestions.classCode}/assignment-${userQuestions.assignmentName}-completed`,
         }) */
@@ -98,26 +97,32 @@ definePageMeta({
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
       >
-        {{ userQuestions.question_number - userQuestions.questions_completed }} Questions Left
+        {{
+          userQuestions.question_number - userQuestions.questions_completed
+        }}
+        Questions Left
         <!--Questions left-->
       </h2>
       <h2
-        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end" v-if="userQuestions.timer_style !== 'unlimited' "
-        
-      > Time Left - {{ min }} min
-        {{ sec }} sec
-        <!--Minutes : Seconds-->
-        <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. --> </h2>
-        <h2
-        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end" v-if="userQuestions.timer_style == 'unlimited'"
-        
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+        v-if="userQuestions.timer_style !== 'unlimited'"
       >
-      Unlimited Time </h2>
+        Time Left - {{ min }} min {{ sec }} sec
+        <!--Minutes : Seconds-->
+        <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
+      </h2>
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
-        
-      > <!--Number of Attempts-->
-      {{ userQuestions.attempts_remaining }} Attempts Left </h2>
+        v-if="userQuestions.timer_style == 'unlimited'"
+      >
+        Unlimited Time
+      </h2>
+      <h2
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+      >
+        <!--Number of Attempts-->
+        {{ userQuestions.attempts_remaining }} Attempts Left
+      </h2>
     </div>
     <!--     <div>
       <h2>
