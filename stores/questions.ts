@@ -93,7 +93,6 @@ export const useQuestions = defineStore("questions", () => {
 
   const $getQuestion = async () => {
     const userStore = userState();
-    attempts_remaining.value = attempts_allowed.value // resets attempts when next question is called
     try {
       const response = await fetch(
         `http://192.168.192.122:8000/api/courses/student/get-next-question/`,
@@ -114,12 +113,14 @@ export const useQuestions = defineStore("questions", () => {
             router.push({
               path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
             })
+            await $getResults()
             return
           }
           console.log(data)
           qText.value = data.question.text
           question_instance_id.value = data.question_instance_id
           answers.value = data.question.answers
+          attempts_remaining.value = data.remaining_attempts
         });
     } catch (error) {
       console.log(error);
@@ -171,6 +172,30 @@ export const useQuestions = defineStore("questions", () => {
     }
   };
 
+  const $getResults = async () => {
+    console.log("hi")
+    const userStore = userState()
+    try {
+      const response = await fetch(
+        `http://192.168.192.122:8000/api/courses/student/assignment-results/${assignmentInstance.value}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userStore.access_token}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log(data)
+          question_number.value = data.total_questions
+          questions_completed.value = data.questions_completed
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
   return {
@@ -195,6 +220,7 @@ export const useQuestions = defineStore("questions", () => {
     $getQuestion,
     $getAssignmentInstance,
     $submitAnswer,
+    $getResults
   };
 
   //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.
