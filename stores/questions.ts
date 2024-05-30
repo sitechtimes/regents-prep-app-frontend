@@ -189,8 +189,8 @@ export const useQuestions = defineStore("questions", () => {
         .then((res) => res.json())
         .then(async (data) => {
           console.log(data)
-          question_number.value = data.total_questions
-          questions_completed.value = data.questions_completed
+          question_number.value = data.questions_completed
+          questions_completed.value = data.question_correct
         });
     } catch (error) {
       console.log(error);
