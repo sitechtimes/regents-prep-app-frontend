@@ -98,7 +98,7 @@ definePageMeta({
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
       >
         {{
-          userQuestions.question_number - userQuestions.questions_completed
+          userQuestions.qLeft
         }}
         Questions Left
         <!--Questions left-->

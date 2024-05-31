@@ -74,8 +74,9 @@ export const useQuestions = defineStore("questions", () => {
           console.log(data)
           assignmentInstance.value = data.id;
           attempts_allowed.value = data.max_attempts
-          questions_completed.value = data.questions_completed
+          questions_completed.value = data.questions_correct
           question_number.value = data.total_questions
+          qLeft.value = data.total_questions - data.questions_completed
           if (data.timer_style == "Unlimited time") {       //sorts by timer style
             timer_style.value = "unlimited"
           }
@@ -153,11 +154,13 @@ export const useQuestions = defineStore("questions", () => {
         .then(async (data) => {
           console.log(data)
           if (data.answer_correct === true) { //checks if correct, and if not, checks attempts remaining to cycle questions
+            qLeft.value = qLeft.value - 1
             await $getQuestion()
             return
           }
           else if (data.remaining_attempts == 0) {
             console.log("you got it wrong!")
+            qLeft.value = qLeft.value - 1
             await $getQuestion()
             return
           }
