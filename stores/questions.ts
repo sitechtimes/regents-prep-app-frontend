@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { studentAssignments } from "~/interfaces/interfaces";
+import { answers, studentAssignments } from "~/interfaces/interfaces";
 import { userState } from "./users";
 
 export const useQuestions = defineStore("questions", () => {
@@ -17,7 +17,7 @@ export const useQuestions = defineStore("questions", () => {
   const assignmentInstance = ref<number>();
   const question_instance_id = ref<number>();
   const qText = ref<string>("");
-  const answers = ref<Array<string>>([]);
+  const answers = ref<Array<answers>>([]);
 
   const router = useRouter();
   const attempts_remaining = ref<number>(2)
@@ -74,8 +74,9 @@ export const useQuestions = defineStore("questions", () => {
           console.log(data)
           assignmentInstance.value = data.id;
           attempts_allowed.value = data.max_attempts
-          questions_completed.value = data.questions_completed
+          questions_completed.value = data.questions_correct
           question_number.value = data.total_questions
+          qLeft.value = data.total_questions - data.questions_completed
           if (data.timer_style == "Unlimited time") {       //sorts by timer style
             timer_style.value = "unlimited"
           }
@@ -93,7 +94,6 @@ export const useQuestions = defineStore("questions", () => {
 
   const $getQuestion = async () => {
     const userStore = userState();
-    attempts_remaining.value = attempts_allowed.value // resets attempts when next question is called
     try {
       const response = await fetch(
         `http://192.168.192.122:8000/api/courses/student/get-next-question/`,
@@ -114,12 +114,14 @@ export const useQuestions = defineStore("questions", () => {
             router.push({
               path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
             })
+            await $getResults()
             return
           }
           console.log(data)
           qText.value = data.question.text
           question_instance_id.value = data.question_instance_id
           answers.value = data.question.answers
+          attempts_remaining.value = data.remaining_attempts
         });
     } catch (error) {
       console.log(error);
@@ -152,11 +154,13 @@ export const useQuestions = defineStore("questions", () => {
         .then(async (data) => {
           console.log(data)
           if (data.answer_correct === true) { //checks if correct, and if not, checks attempts remaining to cycle questions
+            qLeft.value = qLeft.value - 1
             await $getQuestion()
             return
           }
           else if (data.remaining_attempts == 0) {
             console.log("you got it wrong!")
+            qLeft.value = qLeft.value - 1
             await $getQuestion()
             return
           }
@@ -171,6 +175,30 @@ export const useQuestions = defineStore("questions", () => {
     }
   };
 
+  const $getResults = async () => {
+    console.log("hi")
+    const userStore = userState()
+    try {
+      const response = await fetch(
+        `http://192.168.192.122:8000/api/courses/student/assignment-results/${assignmentInstance.value}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userStore.access_token}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log(data)
+          question_number.value = data.questions_completed
+          questions_completed.value = data.question_correct
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
   return {
@@ -195,6 +223,7 @@ export const useQuestions = defineStore("questions", () => {
     $getQuestion,
     $getAssignmentInstance,
     $submitAnswer,
+    $getResults
   };
 
   //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.
