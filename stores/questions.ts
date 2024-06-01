@@ -10,7 +10,7 @@ export const useQuestions = defineStore("questions", () => {
   const datetime_due = ref<string>("");
   const question_number = ref<number>(0);
   const questions_completed = ref<number>(0);
-  const qLeft = ref<number>(question_number.value - questions_completed.value)
+  const qLeft = ref<number>(0)
   const timer_style = ref<string>("");
   const time_allotted = ref<number>(0);
   const attempts_allowed = ref<number>(0);
@@ -76,7 +76,6 @@ export const useQuestions = defineStore("questions", () => {
           attempts_allowed.value = data.max_attempts
           questions_completed.value = data.questions_correct
           question_number.value = data.total_questions
-          qLeft.value = data.total_questions - data.questions_completed
           if (data.timer_style == "Unlimited time") {       //sorts by timer style
             timer_style.value = "unlimited"
           }
@@ -122,6 +121,7 @@ export const useQuestions = defineStore("questions", () => {
           question_instance_id.value = data.question_instance_id
           answers.value = data.question.answers
           attempts_remaining.value = data.remaining_attempts
+          qLeft.value = data.questions_remaining
         });
     } catch (error) {
       console.log(error);
@@ -154,13 +154,11 @@ export const useQuestions = defineStore("questions", () => {
         .then(async (data) => {
           console.log(data)
           if (data.answer_correct === true) { //checks if correct, and if not, checks attempts remaining to cycle questions
-            qLeft.value = qLeft.value - 1
             await $getQuestion()
             return
           }
           else if (data.remaining_attempts == 0) {
             console.log("you got it wrong!")
-            qLeft.value = qLeft.value - 1
             await $getQuestion()
             return
           }
