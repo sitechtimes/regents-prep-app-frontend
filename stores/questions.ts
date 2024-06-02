@@ -72,6 +72,7 @@ export const useQuestions = defineStore("questions", () => {
         .then((res) => res.json())
         .then(async (data) => {
           console.log(data);
+          qLeft.value = data.total_questions - data.questions_completed
           assignmentInstance.value = data.id;
           attempts_allowed.value = data.max_attempts;
           questions_completed.value =
@@ -130,7 +131,8 @@ export const useQuestions = defineStore("questions", () => {
           answers.value = data.question.answers;
           attempts_remaining.value =
             data.remaining_attempts;
-          qLeft.value = data.questions_remaining;
+            if(data.questions_remaining) {
+          qLeft.value = data.questions_remaining; }
         });
     } catch (error) {
       console.log(error);
