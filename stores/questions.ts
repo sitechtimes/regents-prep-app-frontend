@@ -121,7 +121,7 @@ export const useQuestions = defineStore("questions", () => {
             router.push({
               path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
             });
-            await $getResults();
+            await $submitAssignment();
             return;
           }
           console.log(data);
@@ -188,7 +188,6 @@ export const useQuestions = defineStore("questions", () => {
   };
 
   const $getResults = async () => {
-    console.log("hi")
     const userStore = userState()
     try {
       const response = await fetch(
@@ -212,6 +211,32 @@ export const useQuestions = defineStore("questions", () => {
     }
   };
 
+  const $submitAssignment = async () => {
+    const userStore = userState()
+    try {
+      const response = await fetch(
+        `http://192.168.192.106:8000/api/courses/student/submit-assignment/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userStore.access_token}`,
+          },
+          body: JSON.stringify({
+            assignment_instance_id: assignmentInstance.value
+          })
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log(data);
+          question_number.value = data.question_number;
+          questions_completed.value = data.question_correct;
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return {
     classCode,
@@ -235,7 +260,8 @@ export const useQuestions = defineStore("questions", () => {
     $getQuestion,
     $getAssignmentInstance,
     $submitAnswer,
-    $getResults
+    $getResults,
+    $submitAssignment
   };
 
   //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.
