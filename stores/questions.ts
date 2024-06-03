@@ -10,7 +10,7 @@ export const useQuestions = defineStore("questions", () => {
   const datetime_due = ref<string>("");
   const question_number = ref<number>(0);
   const questions_completed = ref<number>(0);
-  const qLeft = ref<number>(question_number.value - questions_completed.value)
+  const qLeft = ref<number>(0)
   const timer_style = ref<string>("");
   const time_allotted = ref<number>(0);
   const attempts_allowed = ref<number>(0);
@@ -57,7 +57,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.122:8000/api/courses/student/assignment-instance/`,
+        `http://192.168.192.106:8000/api/courses/student/assignment-instance/`,
         {
           method: "POST",
           headers: {
@@ -71,20 +71,23 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data)
-          assignmentInstance.value = data.id;
-          attempts_allowed.value = data.max_attempts
-          questions_completed.value = data.questions_correct
-          question_number.value = data.total_questions
+          console.log(data);
           qLeft.value = data.total_questions - data.questions_completed
-          if (data.timer_style == "Unlimited time") {       //sorts by timer style
-            timer_style.value = "unlimited"
+          assignmentInstance.value = data.id;
+          attempts_allowed.value = data.max_attempts;
+          questions_completed.value =
+            data.questions_correct;
+          question_number.value = data.total_questions;
+          if (data.timer_style == "Unlimited time") {
+            //sorts by timer style
+            timer_style.value = "unlimited";
+          } else if (
+            data.timer_style == "Time per question"
+          ) {
+            timer_style.value = "per question";
+            time_allotted.value = data.time_alloted;
           }
-          else if (data.timer_style == "Time per question") {
-            timer_style.value = "per question"
-            time_allotted.value = data.time_alloted
-          }
-          console.log(timer_style.value)
+          console.log(timer_style.value);
           //console.log(assignmentInstance.value);
         });
     } catch (error) {
@@ -96,7 +99,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.122:8000/api/courses/student/get-next-question/`,
+        `http://192.168.192.106:8000/api/courses/student/get-next-question/`,
         {
           method: "POST",
           headers: {
@@ -110,18 +113,26 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-          if (data.detail == 'Reached maximum number of questions allowed by the assignment') { //if assignment done, bring to completed page
+          if (
+            data.detail ==
+            "Reached maximum number of questions allowed by the assignment"
+          ) {
+            //if assignment done, bring to completed page
             router.push({
               path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
-            })
-            await $getResults()
-            return
+            });
+            await $submitAssignment();
+            return;
           }
-          console.log(data)
-          qText.value = data.question.text
-          question_instance_id.value = data.question_instance_id
-          answers.value = data.question.answers
-          attempts_remaining.value = data.remaining_attempts
+          console.log(data);
+          qText.value = data.question.text;
+          question_instance_id.value =
+            data.question_instance_id;
+          answers.value = data.question.answers;
+          attempts_remaining.value =
+            data.remaining_attempts;
+            if(data.questions_remaining) {
+          qLeft.value = data.questions_remaining; }
         });
     } catch (error) {
       console.log(error);
@@ -137,7 +148,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.122:8000/api/courses/student/submit-answer/`,
+        `http://192.168.192.106:8000/api/courses/student/submit-answer/`,
         {
           method: "POST",
           headers: {
@@ -145,29 +156,30 @@ export const useQuestions = defineStore("questions", () => {
             Authorization: `Bearer ${userStore.access_token}`,
           },
           body: JSON.stringify({
-            question_instance_id: question_instance_id.value,
-            answer_id: answerId
+            question_instance_id:
+              question_instance_id.value,
+            answer_id: answerId,
           }),
         }
       )
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data)
-          if (data.answer_correct === true) { //checks if correct, and if not, checks attempts remaining to cycle questions
-            qLeft.value = qLeft.value - 1
-            await $getQuestion()
-            return
-          }
-          else if (data.remaining_attempts == 0) {
-            console.log("you got it wrong!")
-            qLeft.value = qLeft.value - 1
-            await $getQuestion()
-            return
-          }
-          else {
-            attempts_remaining.value = data.remaining_attempts
-            console.log(`you have ${attempts_remaining.value} attempts remaining`)
-            return
+          console.log(data);
+          if (data.answer_correct === true) {
+            //checks if correct, and if not, checks attempts remaining to cycle questions
+            await $getQuestion();
+            return;
+          } else if (data.remaining_attempts == 0) {
+            console.log("you got it wrong!");
+            await $getQuestion();
+            return;
+          } else {
+            attempts_remaining.value =
+              data.remaining_attempts;
+            console.log(
+              `you have ${attempts_remaining.value} attempts remaining`
+            );
+            return;
           }
         });
     } catch (error) {
@@ -176,11 +188,10 @@ export const useQuestions = defineStore("questions", () => {
   };
 
   const $getResults = async () => {
-    console.log("hi")
     const userStore = userState()
     try {
       const response = await fetch(
-        `http://192.168.192.122:8000/api/courses/student/assignment-results/${assignmentInstance.value}`,
+        `http://192.168.192.106:8000/api/courses/student/assignment-results/${assignmentInstance.value}`,
         {
           method: "GET",
           headers: {
@@ -191,15 +202,41 @@ export const useQuestions = defineStore("questions", () => {
       )
         .then((res) => res.json())
         .then(async (data) => {
-          console.log(data)
-          question_number.value = data.questions_completed
-          questions_completed.value = data.question_correct
+          console.log(data);
+          question_number.value = data.questions_completed;
+          questions_completed.value = data.question_correct;
         });
     } catch (error) {
       console.log(error);
     }
   };
 
+  const $submitAssignment = async () => {
+    const userStore = userState()
+    try {
+      const response = await fetch(
+        `http://192.168.192.106:8000/api/courses/student/submit-assignment/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userStore.access_token}`,
+          },
+          body: JSON.stringify({
+            assignment_instance_id: assignmentInstance.value
+          })
+        }
+      )
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log(data);
+          question_number.value = data.question_number;
+          questions_completed.value = data.question_correct;
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return {
     classCode,
@@ -223,7 +260,8 @@ export const useQuestions = defineStore("questions", () => {
     $getQuestion,
     $getAssignmentInstance,
     $submitAnswer,
-    $getResults
+    $getResults,
+    $submitAssignment
   };
 
   //The necessary properties are returned, and the state is in the questionStateInterface, as typescript Pinia is utilized.
