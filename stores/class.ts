@@ -23,7 +23,7 @@ export const userClass = defineStore("class", () => {
   const $getCourseAssignments = async (courseId: number) => {
     try {
       const response = await fetch(
-        `http://192.168.192.122:8000/api/courses/${courseId}/student/assignments/`,
+        `http://192.168.192.106:8000/api/courses/${courseId}/student/assignments/`,
         {
           method: "GET",
           headers: {
