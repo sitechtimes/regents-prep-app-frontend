@@ -130,11 +130,15 @@ export const useQuestions = defineStore("questions", () => {
             data.detail ==
             "Reached maximum number of questions allowed by the assignment"
           ) {
+            if (questions_completed.value == question_number.value) {
+              await $getResults()
+              return
+            }
             //if assignment done, bring to completed page
+            await $submitAssignment();
             router.push({
               path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
             });
-            await $submitAssignment();
             return;
           }
           console.log(data);
