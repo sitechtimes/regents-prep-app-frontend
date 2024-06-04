@@ -2,6 +2,7 @@
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { userClass } from "~/stores/class";
+import { useQuestions } from "~/stores/questions";
 import assignmentInstance from "../../json/getstudentassignments.json";
 import { studentAssignments } from "~/interfaces/interfaces";
 
@@ -10,6 +11,7 @@ const studentAssignmentInstance = ref(
 );
 const courseList = ref(userState().studentCourses);
 const classStore = userClass();
+const questionsStore = useQuestions();
 /* onMounted(() => {
   console.log(userStore.user.username);
   let date: Date = new Date();
@@ -24,6 +26,7 @@ definePageMeta({
 
 onMounted(() => {
   classStore.$reset();
+  questionsStore.$reset();
 });
 
 const selectCourse = (id: number) => {

@@ -59,8 +59,12 @@ sortedAssignments.value.forEach((assignment) => {
 </script>
 
 <template>
-  <div class="w-[390px] my-10 ms-[100px] place-items-center">
-    <div class="w-full relative rounded-[24px] shadow-inner">
+  <div
+    class="w-[390px] my-10 ms-[100px] place-items-center"
+  >
+    <div
+      class="w-full relative rounded-[24px] shadow-inner"
+    >
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
         v-on:click="
@@ -79,38 +83,62 @@ sortedAssignments.value.forEach((assignment) => {
         >
           {{ titleInformation }}
         </h2>
-        <h2 class="text-lg">with {{ teacherInformation }}</h2>
+        <h2 class="text-lg">
+          with {{ teacherInformation }}
+        </h2>
       </div>
 
       <div
         class="text-[27px] shadow-black shadow-innerleft duration-500 hover:shadow-transparent py-1 relative h-40 overflow-y-scroll scroll-smooth bg-opacity-30 shadow-inner text-center flex flex-col items-center bg-[#CCD396] text-[#6C7439]"
       >
-        <h2 class="font-semibold" v-if="dueToday">Due Today:</h2>
-        <template v-for="assignment in sortedAssignments" :key="assignment.id">
+        <h2 class="font-semibold" v-if="dueToday">
+          Due Today:
+        </h2>
+        <template
+          v-for="assignment in sortedAssignments"
+          :key="assignment.id"
+        >
           <h3
             v-on:click="
-              userQuestions.$updateState(assignment, classCode),
-                classStore.$patch({ className: titleInformation })
+              userQuestions.$updateState(
+                assignment,
+                classCode
+              ),
+                classStore.$patch({
+                  className: titleInformation,
+                  classCode: classCode,
+                })
             "
             class="w-fit hover:cursor-pointer hover:underline"
-            v-if="compareDates(assignment.datetime_due) === 0"
+            v-if="
+              compareDates(assignment.datetime_due) === 0
+            "
           >
             {{ assignment.name }}
           </h3>
         </template>
         <div class="flex flex-col items-center">
-          <h2 class="font-semibold" v-if="dueLater">Due Later:</h2>
+          <h2 class="font-semibold" v-if="dueLater">
+            Due Later:
+          </h2>
           <template
             v-for="assignment in sortedAssignments"
             :key="assignment.id"
           >
             <h3
               v-on:click="
-                userQuestions.$updateState(assignment, classCode),
-                  classStore.$patch({ className: titleInformation })
+                userQuestions.$updateState(
+                  assignment,
+                  classCode
+                ),
+                  classStore.$patch({
+                    className: titleInformation, classCode: classCode
+                  })
               "
               class="w-fit hover:cursor-pointer hover:underline"
-              v-if="compareDates(assignment.datetime_due) === 1"
+              v-if="
+                compareDates(assignment.datetime_due) === 1
+              "
             >
               {{ assignment.name }}
             </h3>
