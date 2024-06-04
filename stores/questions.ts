@@ -224,7 +224,7 @@ export const useQuestions = defineStore("questions", () => {
         .then(async (data) => {
           console.log(data);
           question_number.value = data.questions_completed;
-          questions_correct.value = data.question_correct;
+          questions_correct.value = data.questions_correct;
         });
       router.push({
         path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
@@ -255,7 +255,7 @@ export const useQuestions = defineStore("questions", () => {
         .then(async (data) => {
           console.log(data);
           question_number.value = data.question_number;
-          questions_correct.value = data.question_correct;
+          questions_correct.value = data.questions_correct;
         });
     } catch (error) {
       console.log(error);
