@@ -13,6 +13,10 @@ function assignmentAction() {
   let btn = document.getElementById("btn");
   console.log(props.name, props.detail);
 }
+
+onMounted(() => {
+console.log(props.name, props.detail)
+});
 </script>
 
 <template>
@@ -22,7 +26,8 @@ function assignmentAction() {
       userQuestions.$patch({
         name: props.name,
         qLeft: props.detail,
-      })
+      }),
+      console.log(props.name, props.detail)
     "
     id="btn"
     class="inactive w-max h-[75px] mb-[2rem] flex flex-row relative bg-primary bg-opacity-60 focus:bg-[#8C9930] focus:ring-2 focus:ring-black rounded-full shadow-black shadow-innervar hover:shadow-none after-bg-secondary"
