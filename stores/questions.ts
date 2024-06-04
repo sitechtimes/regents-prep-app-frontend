@@ -89,7 +89,7 @@ export const useQuestions = defineStore("questions", () => {
           assignmentInstance.value = data.id;
           attempts_allowed.value = data.max_attempts;
           questions_completed.value =
-            data.questions_correct;
+            data.questions_completed;
           question_number.value = data.total_questions;
           if (data.timer_style == "Unlimited time") {
             //sorts by timer style
@@ -130,9 +130,12 @@ export const useQuestions = defineStore("questions", () => {
             data.detail ==
             "Reached maximum number of questions allowed by the assignment"
           ) {
-            if (questions_completed.value == question_number.value) {
-              await $getResults()
-              return
+            if (
+              questions_completed.value ==
+              question_number.value
+            ) {
+              await $getResults();
+              return;
             }
             //if assignment done, bring to completed page
             await $submitAssignment();
@@ -223,6 +226,9 @@ export const useQuestions = defineStore("questions", () => {
           question_number.value = data.questions_completed;
           questions_correct.value = data.question_correct;
         });
+      router.push({
+        path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
+      });
     } catch (error) {
       console.log(error);
     }
