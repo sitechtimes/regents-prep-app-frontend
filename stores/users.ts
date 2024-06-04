@@ -19,16 +19,19 @@ export const userState = defineStore("state", () => {
       if (email.includes("@")) {
         fullUserName = email.split("@")[0];
       }
-      const response = await fetch(`http://192.168.192.122:8000/api/token/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: fullUserName,
-          password: password,
-        }),
-      })
+      const response = await fetch(
+        `http://192.168.192.106:8000/api/token/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: fullUserName,
+            password: password,
+          }),
+        }
+      )
         .then((res) => res.json())
         .then(async (data) => {
           access_token.value = data.access;
@@ -41,19 +44,24 @@ export const userState = defineStore("state", () => {
   };
   const $getUserCredentials = async () => {
     try {
-      const response = await fetch(`http://192.168.192.122:8000/api/user/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${access_token.value}`,
-        },
-      })
+      const response = await fetch(
+        `http://192.168.192.106:8000/api/user/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token.value}`,
+          },
+        }
+      )
         .then((res) => res.json())
         .then(async (data) => {
           email.value = data.email;
           username.value = data.username;
           fullname.value = data.name;
-          user_type.value = data.is_teacher ? "teacher" : "student";
+          user_type.value = data.is_teacher
+            ? "teacher"
+            : "student";
           /* console.log(
             email.value,
             username.value,
@@ -67,23 +75,25 @@ export const userState = defineStore("state", () => {
   };
 
   const $getStudentCourses = async () => {
+    console.log(access_token.value)
     try {
       const response = await fetch(
-        `http://192.168.192.122:8000/api/courses/student/all/`,
+        `http://192.168.192.106:8000/api/courses/student/all/`,
         {
           method: "GET",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${access_token.value}`,
           },
         }
       )
         .then((res) => res.json())
         .then(async (data) => {
-          studentCourses.value = data.student_courses.map((course: course) => {
-            //define an assignments object for each course
+          console.log(data);
+          studentCourses.value = data.student_courses.map(
+            (course: course) => {
+              //define an assignments object for each course
 
-            /*                        course.assignments.forEach(
+              /*                        course.assignments.forEach(
                 (assignment: assignmentDetails) => {
                   const assignmentData = {
                     id: assignment.id,
@@ -95,14 +105,15 @@ export const userState = defineStore("state", () => {
                 }
               );  */
 
-            return {
-              id: course.id,
-              name: course.name,
-              teacher: course.teacher,
-              class_code: course.class_code,
-              assignments: course.assignments,
-            };
-          });
+              return {
+                id: course.id,
+                name: course.name,
+                teacher: course.teacher,
+                class_code: course.class_code,
+                assignments: course.assignments,
+              };
+            }
+          );
 
           //console.log(JSON.parse(JSON.stringify(studentCourses.value)));
         });
@@ -113,7 +124,7 @@ export const userState = defineStore("state", () => {
 
   const $userLogout = async () => {
     try {
-      const response = await fetch(`http://192.168.192.122:8000/api/logout/`, {
+      const response = await fetch(`http://192.168.192.106:8000/api/logout/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

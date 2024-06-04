@@ -3,16 +3,17 @@ import studentAuth from "~/middleware/studentAuth";
 import { useQuestions } from "~/stores/questions";
 import { userState } from "~/stores/users";
 import { userClass } from "~/stores/class";
-import getNextQuestion from "../../../json/GetNextQuestion.json";
-
-const questionText = getNextQuestion.question.text;
-const questionAnswers = getNextQuestion.question.answers;
 
 const router = useRouter();
 const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
 const userClasses = userClass();
+const tempAnswer = ref(-1);
+
+function updateAnswer(id: number) {
+  tempAnswer.value = id;
+}
 
 const totalTime = ref<number>(userQuestions.time_allotted.valueOf());
 const min = ref<number>(Math.trunc(totalTime.value / 60));
@@ -23,13 +24,13 @@ function delay(delay: number) {
   });
 }
 (async function () {
-  for (let i = 0; i < totalTime.value; i++) {
+  for (let i = 0; i < userQuestions.time_allotted; i++) {
     await delay(1000);
     if (sec.value !== 0) {
-      totalTime.value -= 1;
+      userQuestions.time_allotted -= 1;
       sec.value -= 1;
     } else {
-      totalTime.value -= 1;
+      userQuestions.time_allotted -= 1;
       min.value -= 1;
       sec.value += 59;
     }
@@ -37,12 +38,11 @@ function delay(delay: number) {
 })();
 
 onUnmounted(() => {
-  userQuestions.$reset();
-  userClasses.$reset();
+/*   userQuestions.$reset();
+  userClasses.$reset(); */
 
   //This unMounted action is used to remove the assignment from the questionState when the user leaves the page. Normally, a function would be created within the questions.ts file such as userQuestions.$reset() in order to avoid re-typing the function every time. However, since all of the properties of the question state are in the return {} due to addressing them with typescript interfaces, no function can be used, even those such as .push for an array. (If there is a way to create a typescript state function and it has simply been missed, please feel free to correct the above.)
 
-  console.log(totalTime.value);
 });
 
 console.log(totalTime.value);
@@ -59,24 +59,27 @@ definePageMeta({
       class="w-[96%] h-fit bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%] scroll-smooth overflow-y-auto"
     >
       <div
-        v-html="questionText"
+        v-html="userQuestions.qText"
         class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"
       ></div>
       <div class="items-center justify-center text-center">
         <div class="justify-center items-center text-center">
           <button
-            v-for="answer in questionAnswers"
+            v-for="answer in userQuestions.answers"
             v-html="answer.text"
             class="border-black border-[5px] m-[10px] w-[23%] h-[320px] flex-wrap rounded-[24px] font-medium text-[30px] focus:bg-primary focus:bg-opacity-50 mb-[50px]"
+            @click="updateAnswer(answer.id)"
+            :key="answer.id"
           ></button>
         </div>
       </div>
     </div>
     <button
       @click="
-        router.push({
-          path: `/user-${userStore.username}/class-${userQuestions.classCode}/assignment-${userQuestions.name}-completed`,
-        })
+        userQuestions.$submitAnswer(tempAnswer), (tempAnswer = -1)
+        /* router.push({
+          path: `/user-${userStore.username}/class-${userQuestions.classCode}/assignment-${userQuestions.assignmentName}-completed`,
+        }) */
       "
       class="w-[350px] h-[60px] bg-bg-reg shadow-innertop shadow-[#525148] rounded-[24px] border-[1px] border-black font-semibold text-[40px] m-auto hover:shadow-none mt-[2%] mb-[20px]"
     >
@@ -93,13 +96,31 @@ definePageMeta({
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
       >
-        {{ userQuestions.qLeft }} Questions Left | Time Left - {{ min }} min
-        {{ sec }} sec
+        {{
+          userQuestions.qLeft
+        }}
+        Questions Left
+        <!--Questions left-->
+      </h2>
+      <h2
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+        v-if="userQuestions.timer_style !== 'unlimited'"
+      >
+        Time Left - {{ min }} min {{ sec }} sec
         <!--Minutes : Seconds-->
         <!--Time is taken by taking the time left for the assignment from the array, then continuing it once the student is on the assignment. -->
-        |
+      </h2>
+      <h2
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+        v-if="userQuestions.timer_style == 'unlimited'"
+      >
+        Unlimited Time
+      </h2>
+      <h2
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+      >
         <!--Number of Attempts-->
-        X Attempts Left
+        {{ userQuestions.attempts_remaining }} Attempts Left
       </h2>
     </div>
     <!--     <div>

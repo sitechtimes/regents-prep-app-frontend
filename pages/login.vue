@@ -26,7 +26,7 @@ const getUser = async () => {
     // router.push({ path: `/user-${userStore.username}/studentdashboard` });
   } else if (userStore.user_type == "teacher") {
     //If the user is a teacher
-    router.push({
+    router.push({ 
       path: `/user-${userStore.username}/teacherdashboard`,
     });
     userStore.loggedIn = true;

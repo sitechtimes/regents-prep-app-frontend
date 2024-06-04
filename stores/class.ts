@@ -23,44 +23,53 @@ export const userClass = defineStore("class", () => {
   const $getCourseAssignments = async (courseId: number) => {
     try {
       const response = await fetch(
-        `http://192.168.192.122:8000/api/courses/${courseId}/student/assignments/`,
+        `http://192.168.192.106:8000/api/courses/${courseId}/student/assignments/`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${userState().access_token}`,
+            Authorization: `Bearer ${
+              userState().access_token
+            }`,
           },
         }
       )
         .then((res) => res.json())
         .then((data) => {
-          assignments.value = data.map((assignment: studentAssignments) => {
-            return {
-              id: assignment.id,
-              name: assignment.name,
-              datetime_due: assignment.datetime_due,
-              question_number: assignment.question_number,
-              timer_style: assignment.timer_style,
-              time_allotted: assignment.time_allotted,
-              attempts_allowed: assignment.attempts_allowed,
-              questions_completed: assignment.questions_completed,
-            };
-          });
-
-          currentAssignments.value = assignments.value.filter(
+          assignments.value = data.map(
             (assignment: studentAssignments) => {
-              return (
-                new Date(assignment.datetime_due).getTime() >=
-                dateNow.value.getTime()
-              );
+              return {
+                id: assignment.id,
+                name: assignment.name,
+                datetime_due: assignment.datetime_due,
+                question_number: assignment.question_number,
+                timer_style: assignment.timer_style,
+                time_allotted: assignment.time_allotted,
+                attempts_allowed:
+                  assignment.attempts_allowed,
+                questions_completed:
+                  assignment.questions_completed,
+              };
             }
           );
+
+          currentAssignments.value =
+            assignments.value.filter(
+              (assignment: studentAssignments) => {
+                return (
+                  new Date(
+                    assignment.datetime_due
+                  ).getTime() >= dateNow.value.getTime()
+                );
+              }
+            );
 
           pastAssignments.value = assignments.value.filter(
             (assignment: studentAssignments) => {
               return (
-                new Date(assignment.datetime_due).getTime() <
-                dateNow.value.getTime()
+                new Date(
+                  assignment.datetime_due
+                ).getTime() < dateNow.value.getTime()
               );
             }
           );
