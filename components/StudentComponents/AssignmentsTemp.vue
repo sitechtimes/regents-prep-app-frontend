@@ -6,15 +6,16 @@ const userQuestions = useQuestions();
 const props = defineProps<{
   name: string;
   detail: number;
-  id: number;
 }>();
 
 function assignmentAction() {
-  props.id;
+  // what each assignment does when clicked
+  let btn = document.getElementById("btn");
+  console.log(props.name, props.detail);
 }
 
 onMounted(() => {
-  console.log(props.name, props.detail);
+console.log(props.name, props.detail)
 });
 </script>
 
@@ -22,13 +23,11 @@ onMounted(() => {
   <button
     v-if="dateFetch(props).show.value"
     v-on:click="
-      $emit('myIdentification', props.id),
-        userQuestions.$patch({
-          name: props.name,
-          qLeft: props.detail,
-          id: props.id,
-        }),
-        console.log(props.name, props.detail)
+      userQuestions.$patch({
+        name: props.name,
+        qLeft: props.detail,
+      }),
+      console.log(props.name, props.detail)
     "
     id="btn"
     class="inactive w-max h-[75px] mb-[2rem] flex flex-row relative bg-primary bg-opacity-60 focus:bg-[#8C9930] focus:ring-2 focus:ring-black rounded-full shadow-black shadow-innervar hover:shadow-none after-bg-secondary"
@@ -40,9 +39,7 @@ onMounted(() => {
     <div
       class="w-[75px] h-full right-[0%] bg-primary rounded-full shadow-black shadow-inner"
     >
-      <div
-        class="w-full h-full text-center text-white text-[50px] font-medium"
-      >
+      <div class="w-full h-full text-center text-white text-[50px] font-medium">
         {{ detail }}
       </div>
     </div>
