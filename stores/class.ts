@@ -8,6 +8,7 @@ export const userClass = defineStore("class", () => {
   const assignments = ref<Array<studentAssignments>>([]);
   const currentAssignments = ref<Array<studentAssignments>>([]);
   const pastAssignments = ref<Array<studentAssignments>>([]);
+  const tempSelectedAssignment = ref<studentAssignments>()
   const courseId = ref<number>(0);
   const dateNow = ref<Date>(
     new Date(
@@ -98,6 +99,7 @@ export const userClass = defineStore("class", () => {
     pastAssignments,
     courseId,
     dateNow,
+    tempSelectedAssignment,
     $reset,
     $getCourseAssignments,
     $getCourseId,
