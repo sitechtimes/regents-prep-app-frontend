@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { studentAssignments } from "~/interfaces/interfaces";
 import { userClass } from "~/stores/class";
 
 const classStore = userClass();
@@ -11,6 +12,10 @@ const props = defineProps<{
 defineExpose({
   props,
 });
+
+function selectAssignment(item: studentAssignments) {
+  classStore.tempSelectedAssignment = item;
+}
 </script>
 
 <template>
@@ -34,6 +39,8 @@ defineExpose({
         v-for="assignment in classStore.currentAssignments"
         :name="assignment.name"
         :detail="assignment.question_number"
+        @click="selectAssignment(assignment)"
+        :key="assignment.id"
       />
     </div>
   </div>
