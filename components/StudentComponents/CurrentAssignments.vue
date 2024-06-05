@@ -34,6 +34,7 @@ defineExpose({
         v-for="assignment in classStore.currentAssignments"
         :name="assignment.name"
         :detail="assignment.question_number"
+        :id="assignment.id"
       />
     </div>
   </div>

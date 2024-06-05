@@ -3,6 +3,7 @@ import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/questions";
 import { userClass } from "~/stores/class";
+import { studentAssignments } from "~/interfaces/interfaces";
 
 const router = useRouter();
 const userStore = userState();
@@ -48,12 +49,16 @@ function toggleAssignments() {
 const currentDates = ref<Array<string>>([]);
 const pastDates = ref<Array<string>>([]);
 (async function () {
-  classStore.currentAssignments.forEach((assignment1: any) => {
-    const date = assignment1.datetime_due;
-    if (!currentDates.value.some((item) => item === date)) {
-      currentDates.value.push(date);
+  classStore.currentAssignments.forEach(
+    (assignment1: any) => {
+      const date = assignment1.datetime_due;
+      if (
+        !currentDates.value.some((item) => item === date)
+      ) {
+        currentDates.value.push(date);
+      }
     }
-  });
+  );
   classStore.pastAssignments.forEach((assignment2: any) => {
     const date = assignment2.datetime_due;
     if (!pastDates.value.some((item) => item === date)) {
@@ -65,6 +70,21 @@ const pastDates = ref<Array<string>>([]);
 onMounted(async () => {
   //  await classStore.$getCourseAssignments(classStore.courseId);
 });
+
+function testFunction(id: number) {
+  let fullAssignment: studentAssignments =
+    classStore.currentAssignments.filter(
+      (assignment) => (assignment.id = id)
+    );
+  userQuestions.$updateState(
+    fullAssignment,
+    classCode.value
+  );
+  console.log(fullAssignment);
+}
+
+/*(id:number) => userQuestions.$updateState(classStore.currentAssignments.filter((assignment) => assignment.id = id), userQuestions.classCode)  */
+
 onUnmounted(() => {
   // classStore.$reset();
 });
@@ -81,7 +101,9 @@ definePageMeta({
       <div
         class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center bg-bg-light rounded-[27px]"
       >
-        <label class="switch relative inline-block h-full aspect-[1.75]">
+        <label
+          class="switch relative inline-block h-full aspect-[1.75]"
+        >
           <input
             class="opacity-0 w-0 h-0"
             @click="toggleAssignments"
@@ -100,10 +122,14 @@ definePageMeta({
 
       <button
         v-if="CurrentStatus"
+        @my-identification="testFunction"
         v-on:click="
           router.push({
             path: `/user-${userStore.username}/class-${classCode}/assignment-${userQuestions.name}`,
           }),
+            /*           userQuestions.$updateState(classStore.currentAssignments.filter((assignment) => assignment.id = ) ) */
+            /* userQuestions.$updateState(userStore.studentCourses.assignments.filter((assignment)=> assignment.id = 2).forEach((n) => console.log(n))), */
+
             userQuestions.$getQuestion()
         "
         class="h-[60px] w-[370px] text-[35px] mr-[100px] mt-[15px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
