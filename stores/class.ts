@@ -3,6 +3,7 @@ import { studentAssignments } from "~/interfaces/interfaces";
 import { userState } from "./users";
 
 export const userClass = defineStore("class", () => {
+  const link = ref<string>("http://127.0.0.1:8000/")
   const className = ref<string>("");
   const classCode = ref<string>("");
   const assignments = ref<Array<studentAssignments>>([]);
@@ -24,7 +25,7 @@ export const userClass = defineStore("class", () => {
   const $getCourseAssignments = async (courseId: number) => {
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/${courseId}/student/assignments/`,
+        `${link.value}/api/courses/${courseId}/student/assignments/`,
         {
           method: "GET",
           headers: {

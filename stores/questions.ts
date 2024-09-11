@@ -7,6 +7,7 @@ import { userState } from "./users";
 import { userClass } from "./class";
 
 export const useQuestions = defineStore("questions", () => {
+  const link = ref<string>("http://127.0.0.1:8000/")
   const classCode = ref<string>("");
   const id = ref<number>(0);
   const name = ref<string>("");
@@ -69,7 +70,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/assignment-instance/`,
+        `${link}/api/courses/student/assignment-instance/`,
         {
           method: "POST",
           headers: {
@@ -112,7 +113,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/get-next-question/`,
+        `${link.value}/api/courses/student/get-next-question/`,
         {
           method: "POST",
           headers: {
@@ -168,7 +169,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/submit-answer/`,
+        `${link.value}/api/courses/student/submit-answer/`,
         {
           method: "POST",
           headers: {
@@ -211,7 +212,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/assignment-results/${assignmentInstance.value}`,
+        `${link.value}/api/courses/student/assignment-results/${assignmentInstance.value}`,
         {
           method: "GET",
           headers: {
@@ -238,7 +239,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/submit-assignment/`,
+        `${link.value}/api/courses/student/submit-assignment/`,
         {
           method: "POST",
           headers: {
