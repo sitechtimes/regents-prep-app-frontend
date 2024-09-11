@@ -7,10 +7,15 @@ export const userClass = defineStore("class", () => {
   const className = ref<string>("");
   const classCode = ref<string>("");
   const assignments = ref<Array<studentAssignments>>([]);
-  const currentAssignments = ref<Array<studentAssignments>>([]);
-  const pastAssignments = ref<Array<studentAssignments>>([]);
-  const tempSelectedAssignment = ref<studentAssignments>()
+  const currentAssignments = ref<Array<studentAssignments>>(
+    []
+  );
+  const pastAssignments = ref<Array<studentAssignments>>(
+    []
+  );
+  const tempSelectedAssignment = ref<studentAssignments>();
   const courseId = ref<number>(0);
+  const link = ref<string>(`http://127.0.0.1:8000`);
   const dateNow = ref<Date>(
     new Date(
       Date.UTC(
@@ -22,7 +27,9 @@ export const userClass = defineStore("class", () => {
   );
   const config = useRuntimeConfig();
 
-  const $getCourseAssignments = async (courseId: number) => {
+  const $getCourseAssignments = async (
+    courseId: number
+  ) => {
     try {
       const response = await fetch(
         `${link.value}/api/courses/${courseId}/student/assignments/`,
