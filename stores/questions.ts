@@ -23,6 +23,7 @@ export const useQuestions = defineStore("questions", () => {
   const question_instance_id = ref<number>();
   const qText = ref<string>("");
   const answers = ref<Array<answers>>([]);
+  const backendlink = ref<string>(`http://127.0.0.1:8000`);
 
   const router = useRouter();
   const attempts_remaining = ref<number>(2);
@@ -69,7 +70,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/assignment-instance/`,
+        `http://127.0.0.1:8000/api/courses/student/assignment-instance/`,
         {
           method: "POST",
           headers: {
@@ -112,7 +113,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/get-next-question/`,
+        `http://127.0.0.1:8000/api/courses/student/get-next-question/`,
         {
           method: "POST",
           headers: {
@@ -168,7 +169,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/submit-answer/`,
+        `http://127.0.0.1:8000/api/courses/student/submit-answer/`,
         {
           method: "POST",
           headers: {
@@ -211,7 +212,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/assignment-results/${assignmentInstance.value}`,
+        `http://127.0.0.1:8000/api/courses/student/assignment-results/${assignmentInstance.value}`,
         {
           method: "GET",
           headers: {
@@ -238,7 +239,7 @@ export const useQuestions = defineStore("questions", () => {
     const userStore = userState();
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/submit-assignment/`,
+        `http://127.0.0.1:8000/api/courses/student/submit-assignment/`,
         {
           method: "POST",
           headers: {
