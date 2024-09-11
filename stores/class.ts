@@ -14,7 +14,7 @@ export const userClass = defineStore("class", () => {
   );
   const tempSelectedAssignment = ref<studentAssignments>();
   const courseId = ref<number>(0);
-  const backendlink = ref<string>(`http://127.0.0.1:8000`);
+  const link = ref<string>(`http://127.0.0.1:8000`);
   const dateNow = ref<Date>(
     new Date(
       Date.UTC(
@@ -31,7 +31,7 @@ export const userClass = defineStore("class", () => {
   ) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/courses/${courseId}/student/assignments/`,
+        `${link.value}/api/courses/${courseId}/student/assignments/`,
         {
           method: "GET",
           headers: {

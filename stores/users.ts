@@ -15,7 +15,7 @@ export const userState = defineStore("state", () => {
   const assignments = ref<studentAssignments[]>([]);
   const access_token = ref<string>("");
   const refresh_token = ref<string>("");
-  const backendlink = ref<string>(`http://127.0.0.1:8000`);
+  const link = ref<string>(`http://127.0.0.1:8000`);
 
   const $userLogin = async (
     email: string,
@@ -27,7 +27,7 @@ export const userState = defineStore("state", () => {
         fullUserName = email.split("@")[0];
       }
       const response = await fetch(
-        `http://127.0.0.1:8000/api/token/`,
+        `${link.value}/api/token/`,
         {
           method: "POST",
           headers: {
@@ -52,7 +52,7 @@ export const userState = defineStore("state", () => {
   const $getUserCredentials = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/user/`,
+        `${link.value}/api/user/`,
         {
           method: "GET",
           headers: {
@@ -85,7 +85,7 @@ export const userState = defineStore("state", () => {
     console.log(access_token.value);
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/courses/student/all/`,
+        `${link.value}/api/courses/student/all/`,
         {
           method: "GET",
           headers: {
@@ -132,7 +132,7 @@ export const userState = defineStore("state", () => {
   const $userLogout = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/logout/`,
+        `${link.value}/api/logout/`,
         {
           method: "POST",
           headers: {
