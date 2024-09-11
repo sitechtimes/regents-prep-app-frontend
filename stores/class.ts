@@ -3,7 +3,6 @@ import { studentAssignments } from "~/interfaces/interfaces";
 import { userState } from "./users";
 
 export const userClass = defineStore("class", () => {
-  const link = ref<string>("http://127.0.0.1:8000/")
   const className = ref<string>("");
   const classCode = ref<string>("");
   const assignments = ref<Array<studentAssignments>>([]);
