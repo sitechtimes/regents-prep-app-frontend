@@ -8,12 +8,6 @@ const props = defineProps<{
   detail: number;
 }>();
 
-function assignmentAction() {
-  // what each assignment does when clicked
-  let btn = document.getElementById("btn");
-  console.log(props.name, props.detail);
-}
-
 onMounted(() => {
 console.log(props.name, props.detail)
 });
