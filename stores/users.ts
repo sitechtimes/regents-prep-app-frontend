@@ -9,6 +9,7 @@ export const userState = defineStore("state", () => {
   const user_type = ref<string>("");
   const loggedIn = ref<boolean>(false);
   const studentCourses = ref<course[]>([]);
+  const teacherCourses = ref<course[]>([]);
   const assignments = ref<studentAssignments[]>([]);
   const access_token = ref<string>("");
   const refresh_token = ref<string>("");
@@ -123,6 +124,36 @@ export const userState = defineStore("state", () => {
     }
   };
 
+  const $getTeacherCourses = async () => {
+      console.log(access_token.value)
+      try {
+        const response = await fetch(
+          `${link.value}/api/courses/teacher/all/`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${access_token.value}`,
+            },
+          }
+        )
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log(data);
+          teacherCourses.value = data.teacher_courses.map(
+            (course: course) => {
+            return {
+                id: course.id,
+                name: course.name,
+                class_code: course.class_code,
+              };
+            }
+          );
+        });
+    } catch (error) {
+      console.log(error);
+    } 
+  };
+
   const $userLogout = async () => {
     try {
       const response = await fetch(`${link}/api/logout/`, {
@@ -178,6 +209,7 @@ export const userState = defineStore("state", () => {
     access_token,
     refresh_token,
     studentCourses,
+    teacherCourses,
     user_type,
     $logout,
     loggedIn,
@@ -185,6 +217,7 @@ export const userState = defineStore("state", () => {
     $userLogout,
     $getUserCredentials,
     $getStudentCourses,
+    $getTeacherCourses,
     $savePersistentSession,
   };
 });
