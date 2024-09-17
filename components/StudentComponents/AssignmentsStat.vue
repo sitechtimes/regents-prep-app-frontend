@@ -5,6 +5,10 @@ const props = defineProps<{
   name: string;
   detail: number;
 }>();
+
+onMounted(() => {
+console.log(props.name, props.detail)
+});
 </script>
 
 <template>

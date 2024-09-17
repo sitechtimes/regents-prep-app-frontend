@@ -20,8 +20,10 @@ function toggleAssignments() {
   PastStatus.value = !PastStatus.value;
   if (CurrentStatus.value === false) {
     toggle.value = "Past";
+    console.log("past")
   } else {
     toggle.value = "Current";
+    console.log("current")
   }
 }
 /* (function () {
