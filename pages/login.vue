@@ -13,6 +13,7 @@ const config = useRuntimeConfig();
 const getUser = async () => {
   await userStore.$userLogin(email.value, password.value);
   await userStore.$getUserCredentials();
+  //await userStore.$getTeacherCourses();
   await userStore.$getStudentCourses();
   userStore.$savePersistentSession();
 
