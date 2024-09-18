@@ -61,13 +61,12 @@ export const userState = defineStore("state", () => {
           email.value = data.email;
           username.value = data.username;
           fullname.value = data.name;
-          user_type.value = data.user_type;
-           /* user_type.value = data.is_teacher
+           user_type.value = data.is_teacher
             ? "teacher"
-            : "student";  */
-          /* if (user_type.value !== "student"){
+            : "student"; 
+          /* if (user_type.value !== "Student"){
             user_type.value = "teacher"
-          } */
+          }  */
           console.log(
             email.value,
             username.value,
