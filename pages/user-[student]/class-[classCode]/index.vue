@@ -132,13 +132,13 @@ definePageMeta({
     <div class="max-w-md mx-auto md:max-w-2xl">
       <StudentComponentsCurrentAssignments
         v-if="CurrentStatus"
-        v-for="assignment in currentDates"
-        :date="assignment"
+        v-for="assignment in classStore.currentAssignments"
+        :date="assignment.datetime_due"
       />
       <StudentComponentsPastAssignments
         v-if="PastStatus"
-        v-for="assignment in pastDates"
-        :date="assignment"
+        v-for="assignment in classStore.pastAssignments"
+        :date="assignment.datetime_due"
       />
     </div>
   </div>
