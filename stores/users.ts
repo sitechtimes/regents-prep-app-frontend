@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
-import { course, studentAssignments } from "~/interfaces/interfaces";
+import {
+  course,
+  studentAssignments,
+} from "~/interfaces/interfaces";
 
 export const userState = defineStore("state", () => {
   const email = ref<string>("");
@@ -12,15 +15,19 @@ export const userState = defineStore("state", () => {
   const assignments = ref<studentAssignments[]>([]);
   const access_token = ref<string>("");
   const refresh_token = ref<string>("");
+  const link = ref<string>(`http://127.0.0.1:8000`);
 
-  const $userLogin = async (email: string, password: string) => {
+  const $userLogin = async (
+    email: string,
+    password: string
+  ) => {
     try {
       let fullUserName = email;
       if (email.includes("@")) {
         fullUserName = email.split("@")[0];
       }
       const response = await fetch(
-        `http://192.168.192.106:8000/api/token/`,
+        `${link.value}/api/token/`,
         {
           method: "POST",
           headers: {
@@ -45,7 +52,7 @@ export const userState = defineStore("state", () => {
   const $getUserCredentials = async () => {
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/user/`,
+        `${link.value}/api/user/`,
         {
           method: "GET",
           headers: {
@@ -75,10 +82,10 @@ export const userState = defineStore("state", () => {
   };
 
   const $getStudentCourses = async () => {
-    console.log(access_token.value)
+    console.log(access_token.value);
     try {
       const response = await fetch(
-        `http://192.168.192.106:8000/api/courses/student/all/`,
+        `${link.value}/api/courses/student/all/`,
         {
           method: "GET",
           headers: {
@@ -124,16 +131,19 @@ export const userState = defineStore("state", () => {
 
   const $userLogout = async () => {
     try {
-      const response = await fetch(`http://192.168.192.106:8000/api/logout/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${access_token.value}`,
-        },
-        body: JSON.stringify({
-          refresh: refresh_token.value,
-        }),
-      })
+      const response = await fetch(
+        `${link.value}/api/logout/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token.value}`,
+          },
+          body: JSON.stringify({
+            refresh: refresh_token.value,
+          }),
+        }
+      )
         .then((res) => res.json())
         .then(async (data) => {
           //console.log(data);

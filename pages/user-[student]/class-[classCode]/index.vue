@@ -20,52 +20,12 @@ function toggleAssignments() {
   PastStatus.value = !PastStatus.value;
   if (CurrentStatus.value === false) {
     toggle.value = "Past";
+    console.log("past")
   } else {
     toggle.value = "Current";
+    console.log("current")
   }
 }
-/* (function () {
-  classStore.assignments.forEach((assignment: studentAssignments) => {
-    if (
-      !classStore.currentAssignments.some(
-        (item) => item.datetime_due === assignment.datetime_due
-      )
-    ) {
-      classStore.pastAssignments.push({
-        id: assignment.id,
-        name: assignment.name,
-        datetime_due: assignment.datetime_due,
-        datetime_assigned: assignment.datetime_assigned,
-        question_number: assignment.question_number,
-        timer_style: assignment.timer_style,
-        time_allotted: assignment.time_allotted,
-        attempts_allowed: assignment.attempts_allowed,
-        questions_completed: assignment.questions_completed,
-      });
-    }
-  });
-})(); */
-
-const currentDates = ref<Array<string>>([]);
-const pastDates = ref<Array<string>>([]);
-(async function () {
-  classStore.currentAssignments.forEach(
-    (assignment1: any) => {
-      const date = assignment1.datetime_due;
-      if (
-        !currentDates.value.some((item) => item === date)
-      ) {
-        currentDates.value.push(date);
-      }
-    }
-  );
-  classStore.pastAssignments.forEach((assignment2: any) => {
-    const date = assignment2.datetime_due;
-    if (!pastDates.value.some((item) => item === date)) {
-      pastDates.value.push(date);
-    }
-  });
-})();
 
 onMounted(async () => {
   //  await classStore.$getCourseAssignments(classStore.courseId);
@@ -130,13 +90,13 @@ definePageMeta({
     <div class="max-w-md mx-auto md:max-w-2xl">
       <StudentComponentsCurrentAssignments
         v-if="CurrentStatus"
-        v-for="assignment in currentDates"
-        :date="assignment"
+        v-for="assignment in classStore.currentAssignments"
+        :date="assignment.datetime_due"
       />
       <StudentComponentsPastAssignments
         v-if="PastStatus"
-        v-for="assignment in pastDates"
-        :date="assignment"
+        v-for="assignment in classStore.pastAssignments"
+        :date="assignment.datetime_due"
       />
     </div>
   </div>
