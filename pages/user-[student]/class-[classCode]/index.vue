@@ -15,7 +15,7 @@ const classCode = ref(classStore.classCode);
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
 let PastStatus = ref(false);
-function toggleAssignments() {
+function changeAssignments() {
   CurrentStatus.value = !CurrentStatus.value;
   PastStatus.value = !PastStatus.value;
   if (CurrentStatus.value === false) {
@@ -26,6 +26,8 @@ function toggleAssignments() {
     console.log("current")
   }
 }
+
+
 
 onMounted(async () => {
   //  await classStore.$getCourseAssignments(classStore.courseId);
@@ -51,7 +53,7 @@ definePageMeta({
         >
           <input
             class="opacity-0 w-0 h-0"
-            @click="toggleAssignments"
+            @click="changeAssignments"
             type="checkbox"
             checked
           />
@@ -64,6 +66,11 @@ definePageMeta({
           {{ toggle }} Assignments
         </div>
       </div>
+
+      <select name="assignments" id="assignment-select">
+        <option value="Current Assignments">Current Assignments</option>
+        <option value="Past Assignments">Past Assignments</option>
+      </select>
 
       <button
         v-if="CurrentStatus"
