@@ -12,6 +12,12 @@ const classStore = userClass();
 
 const classCode = ref(classStore.classCode);
 
+var assignmentStatus = ref(document.getElementById("assignment-select")).value;
+function toggleAssignments() {
+  console.log(assignmentStatus)
+  if (assignmentStatus === "Current") {}
+};
+
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
 let PastStatus = ref(false);
@@ -26,7 +32,6 @@ function changeAssignments() {
     console.log("current")
   }
 }
-
 
 
 onMounted(async () => {
@@ -67,9 +72,10 @@ definePageMeta({
         </div>
       </div>
 
-      <select name="assignments" id="assignment-select">
-        <option value="Current Assignments">Current Assignments</option>
-        <option value="Past Assignments">Past Assignments</option>
+      <select name="assignments" id="assignmentSelect" v-model="assignmentStatus" @change="toggleAssignments">
+        <option disabled selected>Select Assignment</option>
+        <option value="Current">Current Assignments</option>
+        <option value="Past">Past Assignments</option>
       </select>
 
       <button
