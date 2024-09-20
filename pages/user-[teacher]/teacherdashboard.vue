@@ -27,10 +27,10 @@ definePageMeta({
       >
         <teacherClass
           class="z-10"
-          v-for="teacherclass in teacherCourses"
+          v-for="teacherclass in courseList"
           :key="teacherclass.name"
           :name="teacherclass.name"
-          :code="teacherclass.code"
+          :code="teacherclass.class_code"
         />
       </div>
     </div>
