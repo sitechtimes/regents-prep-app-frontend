@@ -101,7 +101,7 @@ export const userClass = defineStore("class", () => {
           if (doneAssignments.length > 0){
             console.log("The following assignments are completed:");
             doneAssignments.forEach((assignment) => {
-              console.log
+              console.log(` - ${assignment.name}`)
             })
           }
         });
