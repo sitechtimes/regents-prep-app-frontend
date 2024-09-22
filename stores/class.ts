@@ -81,6 +81,29 @@ export const userClass = defineStore("class", () => {
               );
             }
           );
+          const currentDate = new Date();
+          const pastDueAssignments = assignments.value.filter((assignment: studentAssignments) => {
+            const dueDate = new Date(assignment.datetime_due);
+            return assignment.questions_completed < assignment.question_number && dueDate < currentDate;
+          });
+          const doneAssignments = assignments.value.filter((assignment: studentAssignments) => {
+            const dueDate = new Date(assignment.datetime_due);
+            return assignment.questions_completed === assignment.question_number && dueDate > currentDate;
+          });
+          if (pastDueAssignments.length > 0) {
+            console.log("The following assignments are missing:");
+            pastDueAssignments.forEach((assignment) => {
+            console.log(`- ${assignment.name}`);
+          });
+          } else {
+            console.log("No missing assignments.");
+          }
+          if (doneAssignments.length > 0){
+            console.log("The following assignments are completed:");
+            doneAssignments.forEach((assignment) => {
+              console.log(` - ${assignment.name}`)
+            })
+          }
         });
     } catch (error) {
       console.log(error);
