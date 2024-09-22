@@ -84,7 +84,7 @@ export const userClass = defineStore("class", () => {
           const currentDate = new Date();
           const pastDueAssignments = assignments.value.filter((assignment: studentAssignments) => {
             const dueDate = new Date(assignment.datetime_due);
-            return assignment.questions_completed === 0 && dueDate < currentDate;
+            return assignment.questions_completed < assignment.question_number && dueDate < currentDate;
           });
           const doneAssignments = assignments.value.filter((assignment: studentAssignments) => {
             const dueDate = new Date(assignment.datetime_due);
