@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
-import { course, studentAssignments } from "~/interfaces/interfaces";
+import {
+  course,
+  studentAssignments,
+} from "~/interfaces/interfaces";
 
 export const userState = defineStore("state", () => {
   const email = ref<string>("");
@@ -13,9 +16,12 @@ export const userState = defineStore("state", () => {
   const assignments = ref<studentAssignments[]>([]);
   const access_token = ref<string>("");
   const refresh_token = ref<string>("");
-  const link = ref<string>("http://127.0.0.1:8000")
+  const link = ref<string>(`http://127.0.0.1:8000`);
 
-  const $userLogin = async (email: string, password: string) => {
+  const $userLogin = async (
+    email: string,
+    password: string
+  ) => {
     try {
       let fullUserName = email;
       if (email.includes("@")) {
@@ -81,7 +87,7 @@ export const userState = defineStore("state", () => {
   };
 
   const $getStudentCourses = async () => {
-    console.log(access_token.value)
+    console.log(access_token.value);
     try {
       const response = await fetch(
         `${link.value}/api/courses/student/all/`,
@@ -170,6 +176,7 @@ export const userState = defineStore("state", () => {
           refresh: refresh_token.value,
         }),
       })
+
         .then((res) => res.json())
         .then(async (data) => {
           //console.log(data);
