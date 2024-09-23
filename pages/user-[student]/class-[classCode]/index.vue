@@ -11,12 +11,19 @@ const userQuestions = useQuestions();
 const classStore = userClass();
 
 const classCode = ref(classStore.classCode);
+const assignmentStatus = [
+  { id: 1, name: "Current Assignments" },
+  { id: 2, name: "Past Assignments" },
+];
 
-var assignmentStatus = ref(document.getElementById("assignment-select")).value;
+/* var assignmentStatus = ref(document.getElementById("assignment-select")).value; */
 function toggleAssignments() {
-  console.log(assignmentStatus)
-  if (assignmentStatus === "Current") {}
-};
+  assignmentStatus.forEach((status) => {
+    console.log(status.name)
+  })
+  console.log(assignmentStatus);
+  /*   if (assignmentStatus = "Current") {} */
+}
 
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
@@ -26,13 +33,12 @@ function changeAssignments() {
   PastStatus.value = !PastStatus.value;
   if (CurrentStatus.value === false) {
     toggle.value = "Past";
-    console.log("past")
+    console.log("past");
   } else {
     toggle.value = "Current";
-    console.log("current")
+    console.log("current");
   }
 }
-
 
 onMounted(async () => {
   //  await classStore.$getCourseAssignments(classStore.courseId);
@@ -53,9 +59,7 @@ definePageMeta({
       <div
         class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center bg-bg-light rounded-[27px]"
       >
-        <label
-          class="switch relative inline-block h-full aspect-[1.75]"
-        >
+        <label class="switch relative inline-block h-full aspect-[1.75]">
           <input
             class="opacity-0 w-0 h-0"
             @click="changeAssignments"
@@ -72,10 +76,14 @@ definePageMeta({
         </div>
       </div>
 
-      <select name="assignments" id="assignmentSelect" v-model="assignmentStatus" @change="toggleAssignments">
-        <option disabled selected>Select Assignment</option>
-        <option value="Current">Current Assignments</option>
-        <option value="Past">Past Assignments</option>
+      <select
+        name="assignments"
+        id="assignmentSelect"
+        v-model="assignmentStatus"
+        @change="toggleAssignments"
+      >
+        <!--      <option disabled selected>Select Assignment</option> -->
+        <option v-for="status in assignmentStatus">{{ status.name }}</option>
       </select>
 
       <button
