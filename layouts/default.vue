@@ -11,9 +11,9 @@ onMounted(() => {});
 //this function pushes user back to the teacher dashboard
 async function pushUserBack() {
   const userStore = userState();
-  if (userStore.user_type == "teacher") {
+  if (userStore.user_type == "Teacher") {
     router.push({ path: `/user-${userStore.username}/teacherdashboard` });
-  } else if (userStore.user_type == "student") {
+  } else if (userStore.user_type == "Student") {
     router.push({ path: `/user-${userStore.username}/studentdashboard` });
   }
 }

@@ -13,25 +13,27 @@ const config = useRuntimeConfig();
 const getUser = async () => {
   await userStore.$userLogin(email.value, password.value);
   await userStore.$getUserCredentials();
-  await userStore.$getStudentCourses();
   userStore.$savePersistentSession();
 
-  if (userStore.user_type == "student") {
+  if (userStore.user_type == "Student") {
     // If the user is a student, they are redirected to the studentdashboard.
+    await userStore.$getStudentCourses();
     router.push({
       path: `/user-${userStore.username}/studentdashboard`,
     });
     userStore.loggedIn = true;
     //The 'student' and 'loggedIn' attributes of the state are set to true, and the user is redirected to the studentdashboard.
     // router.push({ path: `/user-${userStore.username}/studentdashboard` });
-  } else if (userStore.user_type == "teacher") {
+  } else if (userStore.user_type == "Teacher") {
     //If the user is a teacher
+    await userStore.$getTeacherCourses();
     router.push({ 
       path: `/user-${userStore.username}/teacherdashboard`,
     });
     userStore.loggedIn = true;
     //The 'student' attribute of the state is set to false, the 'loggedIn' attribute of the state is set to true, and the user is redirected to the teacher dashboard.
   }
+  console.log(userStore.loggedIn)
 };
 
 async function refreshAccessToken() {

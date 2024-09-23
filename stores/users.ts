@@ -12,6 +12,7 @@ export const userState = defineStore("state", () => {
   const user_type = ref<string>("");
   const loggedIn = ref<boolean>(false);
   const studentCourses = ref<course[]>([]);
+  const teacherCourses = ref<course[]>([]);
   const assignments = ref<studentAssignments[]>([]);
   const access_token = ref<string>("");
   const refresh_token = ref<string>("");
@@ -66,15 +67,19 @@ export const userState = defineStore("state", () => {
           email.value = data.email;
           username.value = data.username;
           fullname.value = data.name;
-          user_type.value = data.is_teacher
+          user_type.value = data.user_type;
+          /* user_type.value = data.is_teacher
             ? "teacher"
-            : "student";
-          /* console.log(
+            : "student"; */ 
+          /* if (user_type.value !== "Student"){
+            user_type.value = "teacher"
+          }  */
+          console.log(
             email.value,
             username.value,
             fullname.value,
             user_type.value
-          ); */
+          );
         });
     } catch (error) {
       console.log(error);
@@ -129,21 +134,49 @@ export const userState = defineStore("state", () => {
     }
   };
 
+  const $getTeacherCourses = async () => {
+      console.log(access_token.value)
+      try {
+        const response = await fetch(
+          `${link.value}/api/courses/teacher/all/`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${access_token.value}`,
+            },
+          }
+        )
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log(data);
+          teacherCourses.value = data.teacher_courses.map(
+            (course: course) => {
+            return {
+                id: course.id,
+                name: course.name,
+                class_code: course.class_code,
+              };
+            }
+          );
+        });
+    } catch (error) {
+      console.log(error);
+    } 
+  };
+
   const $userLogout = async () => {
     try {
-      const response = await fetch(
-        `${link.value}/api/logout/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${access_token.value}`,
-          },
-          body: JSON.stringify({
-            refresh: refresh_token.value,
-          }),
-        }
-      )
+      const response = await fetch(`${link}/api/logout/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token.value}`,
+        },
+        body: JSON.stringify({
+          refresh: refresh_token.value,
+        }),
+      })
+
         .then((res) => res.json())
         .then(async (data) => {
           //console.log(data);
@@ -187,6 +220,7 @@ export const userState = defineStore("state", () => {
     access_token,
     refresh_token,
     studentCourses,
+    teacherCourses,
     user_type,
     $logout,
     loggedIn,
@@ -194,6 +228,7 @@ export const userState = defineStore("state", () => {
     $userLogout,
     $getUserCredentials,
     $getStudentCourses,
+    $getTeacherCourses,
     $savePersistentSession,
   };
 });

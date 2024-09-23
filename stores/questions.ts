@@ -25,6 +25,7 @@ export const useQuestions = defineStore("questions", () => {
   const answers = ref<Array<answers>>([]);
   const link = ref<string>(`http://127.0.0.1:8000`);
 
+
   const router = useRouter();
   const attempts_remaining = ref<number>(2);
 

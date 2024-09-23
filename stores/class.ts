@@ -25,6 +25,7 @@ export const userClass = defineStore("class", () => {
     )
   );
   const config = useRuntimeConfig();
+  const link = ref<string>("http://127.0.0.1:8000")
 
   const $getCourseAssignments = async (
     courseId: number

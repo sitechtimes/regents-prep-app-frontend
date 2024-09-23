@@ -2,6 +2,8 @@
 import { userState } from "~/stores/users";
 import teacherAuth from "~/middleware/teacherAuth";
 
+const courseList = ref(userState().teacherCourses);
+
 definePageMeta({
   layout: "dashboard",
   middleware: teacherAuth,
@@ -23,13 +25,13 @@ definePageMeta({
       <div
         class="scroll w-[787px] h-[548px] bg-bg-navbar rounded-[24px] border-2 border-black m-auto flex flex-col scroll-smooth overflow-y-auto"
       >
-        <!-- <teacherClass
+        <teacherClass
           class="z-10"
-          v-for="teacherclass in teacherClasses"
+          v-for="teacherclass in courseList"
           :key="teacherclass.name"
           :name="teacherclass.name"
-          :code="teacherclass.code"
-        /> -->
+          :code="teacherclass.class_code"
+        />
       </div>
     </div>
   </div>
