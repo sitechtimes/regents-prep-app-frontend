@@ -29,7 +29,7 @@ export const useQuestions = defineStore("questions", () => {
   const router = useRouter();
   const attempts_remaining = ref<number>(2);
 
-  function $reset() {
+  function $reset() {//This is for when you click home and all of the stuff resets
     classCode.value = "";
     id.value = 0;
     name.value = "";

@@ -14,7 +14,6 @@ export const userClass = defineStore("class", () => {
   );
   const tempSelectedAssignment = ref<studentAssignments>();
   const courseId = ref<number>(0);
-  const link = ref<string>(`http://127.0.0.1:8000`);
   const dateNow = ref<Date>(
     new Date(
       Date.UTC(
