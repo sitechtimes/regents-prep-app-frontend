@@ -11,18 +11,17 @@ const userQuestions = useQuestions();
 const classStore = userClass();
 
 const classCode = ref(classStore.classCode);
-const assignmentStatus = [
+/* const assignmentStatus = [
   { id: 1, name: "Current Assignments" },
   { id: 2, name: "Past Assignments" },
-];
+]; */
 
-/* var assignmentStatus = ref(document.getElementById("assignment-select")).value; */
+var assignmentStatus: null;
 function toggleAssignments() {
-  assignmentStatus.forEach((status) => {
-    console.log(status.name)
-  })
-  console.log(assignmentStatus);
-  /*   if (assignmentStatus = "Current") {} */
+  console.log(assignmentStatus)
+  if (assignmentStatus === "Current") {
+    console.log("hi")
+  }
 }
 
 let toggle = ref("Current");
@@ -82,8 +81,9 @@ definePageMeta({
         v-model="assignmentStatus"
         @change="toggleAssignments"
       >
-        <!--      <option disabled selected>Select Assignment</option> -->
-        <option v-for="status in assignmentStatus">{{ status.name }}</option>
+        <option disabled selected>Select Assignment</option> 
+        <option value="Current">Current Assignments</option>
+        <option value="Past">Past Assignments</option>
       </select>
 
       <button
