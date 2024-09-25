@@ -13,8 +13,8 @@ const classStore = userClass();
 const classCode = ref(classStore.classCode);
 
 let assignmentStatus = classStore.assignmentStatus;
-let CurrentStatus = ref(true);
-let PastStatus = ref(false);
+let CurrentStatus = ref<boolean>(true);
+let PastStatus = ref<boolean>(false);
 function toggleAssignments() {
   CurrentStatus.value = !CurrentStatus.value;
   PastStatus.value = !PastStatus.value;
