@@ -16,17 +16,26 @@ const classCode = ref(classStore.classCode);
   { id: 2, name: "Past Assignments" },
 ]; */
 
-var assignmentStatus: null;
-function toggleAssignments() {
-  console.log(assignmentStatus)
-  if (assignmentStatus === "Current") {
-    console.log("hi")
-  }
-}
-
+let assignmentStatus = classStore.assignmentStatus;
 let toggle = ref("Current");
 let CurrentStatus = ref(true);
 let PastStatus = ref(false);
+function toggleAssignments() {
+  CurrentStatus.value = !CurrentStatus.value;
+  PastStatus.value = !PastStatus.value;
+  if (assignmentStatus === "Current") {
+    CurrentStatus.value = true;
+    PastStatus.value = false;
+    console.log("current");
+  } else if (assignmentStatus === "Past") {
+    CurrentStatus.value = false;
+    PastStatus.value = true;
+    console.log("past");
+  } else {
+    console.error();
+  }
+}
+
 function changeAssignments() {
   CurrentStatus.value = !CurrentStatus.value;
   PastStatus.value = !PastStatus.value;

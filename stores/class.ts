@@ -5,6 +5,7 @@ import { userState } from "./users";
 export const userClass = defineStore("class", () => {
   const className = ref<string>("");
   const classCode = ref<string>("");
+  const assignmentStatus = ref<string>("");
   const assignments = ref<Array<studentAssignments>>([]);
   const currentAssignments = ref<Array<studentAssignments>>(
     []
@@ -102,6 +103,7 @@ export const userClass = defineStore("class", () => {
   return {
     className,
     classCode,
+    assignmentStatus,
     currentAssignments,
     pastAssignments,
     courseId,
