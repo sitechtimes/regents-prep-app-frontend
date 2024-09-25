@@ -11,13 +11,8 @@ const userQuestions = useQuestions();
 const classStore = userClass();
 
 const classCode = ref(classStore.classCode);
-/* const assignmentStatus = [
-  { id: 1, name: "Current Assignments" },
-  { id: 2, name: "Past Assignments" },
-]; */
 
 let assignmentStatus = classStore.assignmentStatus;
-let toggle = ref("Current");
 let CurrentStatus = ref(true);
 let PastStatus = ref(false);
 function toggleAssignments() {
@@ -33,18 +28,6 @@ function toggleAssignments() {
     console.log("past");
   } else {
     console.error();
-  }
-}
-
-function changeAssignments() {
-  CurrentStatus.value = !CurrentStatus.value;
-  PastStatus.value = !PastStatus.value;
-  if (CurrentStatus.value === false) {
-    toggle.value = "Past";
-    console.log("past");
-  } else {
-    toggle.value = "Current";
-    console.log("current");
   }
 }
 
@@ -64,26 +47,6 @@ definePageMeta({
     <div
       class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium"
     >
-      <div
-        class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center bg-bg-light rounded-[27px]"
-      >
-        <label class="switch relative inline-block h-full aspect-[1.75]">
-          <input
-            class="opacity-0 w-0 h-0"
-            @click="changeAssignments"
-            type="checkbox"
-            checked
-          />
-          <span
-            class="slider round border-black border-[1px] absolute right-4 before:absolute cursor-pointer inset-0 rounded-[34px] before:rounded-[50%] duration-[0.4s] before:duration-[0.4s] bg-[#ccc] before:bg-bg-dark before:border-[1px] before:border-black before:content[''] before:h-full before:aspect-square"
-          ></span>
-        </label>
-
-        <div class="w-[80%] right-[0%] text-center m-auto">
-          {{ toggle }} Assignments
-        </div>
-      </div>
-
       <select
         name="assignments"
         id="assignmentSelect"
@@ -131,12 +94,3 @@ definePageMeta({
     </div>
   </div>
 </template>
-
-<style scoped>
-input:checked + .slider {
-  background-color: #426b1f;
-}
-input:checked + .slider:before {
-  transform: translateX(30px);
-}
-</style>
