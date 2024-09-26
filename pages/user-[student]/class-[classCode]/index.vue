@@ -12,18 +12,22 @@ const classStore = userClass();
 
 const classCode = ref(classStore.classCode);
 
-let toggle = ref("Current");
-let CurrentStatus = ref(true);
-let PastStatus = ref(false);
-function toggleAssignments() {
-  CurrentStatus.value = !CurrentStatus.value;
-  PastStatus.value = !PastStatus.value;
-  if (CurrentStatus.value === false) {
-    toggle.value = "Past";
-    console.log("past")
+const assignmentStatus = classStore.assignmentStatus;
+const currentStatus = ref<boolean>(true);
+const pastStatus = ref<boolean>(false);
+function toggleAssignments() { //changes whether the status of the page is current or past based on what assignment option is selected
+  currentStatus.value = !currentStatus.value;
+  pastStatus.value = !pastStatus.value;
+  if (assignmentStatus === "Current") { //checks if status is current --> if it is, then current status is set to true, which loads current assignments
+    currentStatus.value = true;
+    pastStatus.value = false;
+    console.log("current");
+  } else if (assignmentStatus === "Past") { //checks if status is past --> if it is, then past status is set to true, which loads past assignments
+    currentStatus.value = false;
+    pastStatus.value = true;
+    console.log("past");
   } else {
-    toggle.value = "Current";
-    console.log("current")
+    console.error();
   }
 }
 
@@ -44,29 +48,22 @@ definePageMeta({
       class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium"
     >
       <div
-        class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center bg-bg-light rounded-[27px]"
+        class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center"
       >
-        <label
-          class="switch relative inline-block h-full aspect-[1.75]"
+        <select
+          name="assignments"
+          id="assignmentSelect"
+          class="h-[60px] w-[400px] rounded-[24px] text-center text-[35px] bg-bg-light border-bg shadow-black shadow-innervar drop-shadow"
+          @change="toggleAssignments"
         >
-          <input
-            class="opacity-0 w-0 h-0"
-            @click="toggleAssignments"
-            type="checkbox"
-            checked
-          />
-          <span
-            class="slider round border-black border-[1px] absolute right-4 before:absolute cursor-pointer inset-0 rounded-[34px] before:rounded-[50%] duration-[0.4s] before:duration-[0.4s] bg-[#ccc] before:bg-bg-dark before:border-[1px] before:border-black before:content[''] before:h-full before:aspect-square"
-          ></span>
-        </label>
-
-        <div class="w-[80%] right-[0%] text-center m-auto">
-          {{ toggle }} Assignments
-        </div>
+          <option disabled>Select Assignment Type</option>
+          <option value="Current">Current Assignments</option>
+          <option value="Past">Past Assignments</option>
+        </select>
       </div>
 
       <button
-        v-if="CurrentStatus"
+        v-if="currentStatus"
         v-on:click="
           async function update() {
             await userQuestions.$updateState(
@@ -80,33 +77,24 @@ definePageMeta({
         Start Assignment
       </button>
       <button
-        v-if="PastStatus"
+        v-if="pastStatus"
         class="h-[60px] w-[370px] text-[35px] mr-[100px] mt-[15px] text-center text-white bg-secondary rounded-[27px] shadow-innervar shadow-black justify-center items-center hover:scale-105 hover:drop-shadow-2xl duration-300 hover:shadow-transparent"
       >
         View Statistics
       </button>
     </div>
 
-    <div class="max-w-md mx-auto md:max-w-2xl">
-      <StudentComponentsCurrentAssignments
-        v-if="CurrentStatus"
+    <div class="max-w-md mx-auto md:max-w-2xl"> <!--if the status is set to current, then current assignments are loaded - if status is set to past, then past assignments are loaded-->
+      <StudentComponentsCurrentAssignments 
+        v-if="currentStatus"
         v-for="assignment in classStore.currentAssignments"
         :date="assignment.datetime_due"
       />
       <StudentComponentsPastAssignments
-        v-if="PastStatus"
+        v-if="pastStatus"
         v-for="assignment in classStore.pastAssignments"
         :date="assignment.datetime_due"
       />
     </div>
   </div>
 </template>
-
-<style scoped>
-input:checked + .slider {
-  background-color: #426b1f;
-}
-input:checked + .slider:before {
-  transform: translateX(30px);
-}
-</style>
