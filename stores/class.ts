@@ -15,7 +15,6 @@ export const userClass = defineStore("class", () => {
   );
   const tempSelectedAssignment = ref<studentAssignments>();
   const courseId = ref<number>(0);
-  const link = ref<string>(`http://127.0.0.1:8000`);
   const dateNow = ref<Date>(
     new Date(
       Date.UTC(
@@ -123,7 +122,10 @@ export const userClass = defineStore("class", () => {
     currentAssignments.value = [];
     pastAssignments.value = [];
   }
-
+  const $resetAssignment = () => {
+    tempSelectedAssignment.value = undefined;
+  }; 
+  
   return {
     className,
     classCode,
@@ -136,5 +138,6 @@ export const userClass = defineStore("class", () => {
     $reset,
     $getCourseAssignments,
     $getCourseId,
+    $resetAssignment
   };
 });

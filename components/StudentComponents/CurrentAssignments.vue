@@ -3,7 +3,6 @@ import { studentAssignments } from "~/interfaces/interfaces";
 import { userClass } from "~/stores/class";
 
 const classStore = userClass();
-
 const open = ref(true);
 
 const props = defineProps<{
@@ -16,6 +15,14 @@ defineExpose({
 function selectAssignment(item: studentAssignments) {
   classStore.tempSelectedAssignment = item;
 }
+
+onMounted(() => {
+  document.addEventListener('click', classStore.$resetAssignment);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', classStore.$resetAssignment);
+});
 </script>
 
 <template>
@@ -39,7 +46,7 @@ function selectAssignment(item: studentAssignments) {
         v-for="assignment in classStore.currentAssignments"
         :name="assignment.name"
         :detail="assignment.question_number"
-        @click="selectAssignment(assignment)"
+        @click.stop="selectAssignment(assignment)"
         :key="assignment.id"
       />
     </div>
