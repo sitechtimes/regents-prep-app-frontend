@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { studentAssignments } from "~/interfaces/interfaces";
 import { userClass } from "~/stores/class";
-
+import { ref, onMounted, onUnmounted } from "vue";
 const classStore = userClass();
 
 const open = ref(true);
@@ -16,6 +16,15 @@ defineExpose({
 function selectAssignment(item: studentAssignments) {
   classStore.tempSelectedAssignment = item;
 }
+function resetAssignment() {
+  classStore.tempSelectedAssignment = undefined;
+}
+onMounted(() => {
+  document.addEventListener('click', resetAssignment);
+});
+onUnmounted(() => {
+  document.removeEventListener('click', resetAssignment);
+});
 </script>
 
 <template>
@@ -39,7 +48,7 @@ function selectAssignment(item: studentAssignments) {
         v-for="assignment in classStore.currentAssignments"
         :name="assignment.name"
         :detail="assignment.question_number"
-        @click="selectAssignment(assignment)"
+        @click.stop="selectAssignment(assignment)"
         :key="assignment.id"
       />
     </div>
