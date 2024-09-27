@@ -17,11 +17,11 @@ function selectAssignment(item: studentAssignments) {
 }
 
 onMounted(() => {
-  document.addEventListener('click', classStore.resetAssignment);
+  document.addEventListener('click', classStore.$resetAssignment);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', classStore.resetAssignment);
+  document.removeEventListener('click', classStore.$resetAssignment);
 });
 </script>
 

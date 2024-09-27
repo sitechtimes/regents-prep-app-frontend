@@ -121,7 +121,7 @@ export const userClass = defineStore("class", () => {
     currentAssignments.value = [];
     pastAssignments.value = [];
   }
-  const resetAssignment = () => {
+  const $resetAssignment = () => {
     tempSelectedAssignment.value = undefined;
   }; 
   
@@ -136,6 +136,6 @@ export const userClass = defineStore("class", () => {
     $reset,
     $getCourseAssignments,
     $getCourseId,
-    resetAssignment
+    $resetAssignment
   };
 });
