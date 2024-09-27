@@ -8,6 +8,7 @@ import { userClass } from "~/stores/class";
 const classStore = userClass();
 
 const className = ref(classStore.className)
+const classCode = ref(classStore.classCode)
 
 definePageMeta({
   middleware: teacherAuth,

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import ClassClassName from "~/pages/user-[teacher]/class-[className].vue";
 import { userClass } from "~/stores/class";
 import { userState } from "~/stores/users";
 
 const classStore = userClass();
 const userStore = userState();
 const router = useRouter();
+
+const classCode = ref(classStore.classCode);
 
 const props = defineProps<{
   name: string;
@@ -18,7 +19,12 @@ const props = defineProps<{
     <button
       v-on:click="
         classStore.$patch({ className: props.name, classCode: props.code }),
-        router.push({path:`/user-${userStore.username}/class-${props.name}`})
+          console.log(
+            `/user-${userStore.username}/class-${classStore.classCode}`
+          ),
+          router.push({
+            path: `/user-${userStore.username}/class-${classStore.classCode}`,
+          })
       "
       class="w-[785px] h-[95px] bg-primary rounded-[21px] shadow-[inset_0_4px_3px_rgba(0,0,0,0.3)] relative border-[2px] border-l-0 border-r-0 border-black flex flex-row m-auto ml-[-2px] mt-[-2px] mb-0 z-10"
     >
