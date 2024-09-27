@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { studentAssignments } from "~/interfaces/interfaces";
 import { userClass } from "~/stores/class";
-import { ref, onMounted, onUnmounted } from "vue";
-const classStore = userClass();
 
+const classStore = userClass();
 const open = ref(true);
 
 const props = defineProps<{
@@ -16,14 +15,13 @@ defineExpose({
 function selectAssignment(item: studentAssignments) {
   classStore.tempSelectedAssignment = item;
 }
-function resetAssignment() {
-  classStore.tempSelectedAssignment = undefined;
-}
+
 onMounted(() => {
-  document.addEventListener('click', resetAssignment);
+  document.addEventListener('click', classStore.resetAssignment);
 });
+
 onUnmounted(() => {
-  document.removeEventListener('click', resetAssignment);
+  document.removeEventListener('click', classStore.resetAssignment);
 });
 </script>
 
