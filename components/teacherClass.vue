@@ -8,6 +8,7 @@ const router = useRouter();
 
 const classCode = ref(classStore.classCode);
 
+//useRouter().push("/login")
 const props = defineProps<{
   name: string;
   code: string;
