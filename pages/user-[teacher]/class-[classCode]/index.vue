@@ -20,7 +20,7 @@ definePageMeta({
   <div id="mainPage">
     <div id="students" class="m-1">
       <div>
-        <h2> {{ className }}</h2>
+        <h2> {{ className }} - {{ classCode }}</h2>
         <input />
         <h2>Search for student</h2>
       </div>
