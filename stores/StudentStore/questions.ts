@@ -3,7 +3,7 @@ import {
   answers,
   studentAssignments,
 } from "~/interfaces/interfaces";
-import { userState } from "./users";
+import { userState } from "../users";
 import { userClass } from "./class";
 
 export const useQuestions = defineStore("questions", () => {

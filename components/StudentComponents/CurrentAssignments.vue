@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { studentAssignments } from "~/interfaces/interfaces";
-import { userClass } from "~/stores/class";
+import { userClass } from "~/stores/StudentStore/class";
 
 const classStore = userClass();
 const open = ref(true);

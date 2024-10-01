@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
-import { useQuestions } from "~/stores/questions";
+import { useQuestions } from "~/stores/StudentStore/questions";
 import { userState } from "~/stores/users";
-import { userClass } from "~/stores/class";
+import { userClass } from "~/stores/StudentStore/class";
 
 const router = useRouter();
 const route = useRoute();
