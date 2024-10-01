@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
 import teacherAuth from "~/middleware/teacherAuth";
+import { userClass } from "~/stores/class";
 
 const courseList = ref(userState().teacherCourses);
-
+const classStore = userClass();
 definePageMeta({
   layout: "dashboard",
   middleware: teacherAuth,
 });
+
+onMounted(() => {
+  classStore.$reset();
+})
 </script>
 
 <template>
