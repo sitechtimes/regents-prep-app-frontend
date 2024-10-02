@@ -10,9 +10,11 @@ definePageMeta({
   middleware: teacherAuth,
 });
 
+const router = useRouter();
+
 onMounted(() => {
   classStore.$reset();
-})
+});
 </script>
 
 <template>
@@ -32,6 +34,11 @@ onMounted(() => {
       >
         <teacherClass
           class="z-10"
+          @click="
+            router.push({
+              path: `/user-${classStore.className}/class-${classStore.classCode}`,
+            })
+          "
           v-for="teacherclass in courseList"
           :key="teacherclass.name"
           :name="teacherclass.name"
