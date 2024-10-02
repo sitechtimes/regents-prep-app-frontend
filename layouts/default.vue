@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-import { userClass } from "~/stores/class";
+import { StudentuserClass } from "~/stores/StudentStore/class";
 
 const userStore = userState();
-const userClasses = userClass();
+const StudentuserClasses = StudentuserClass();
 const router = useRouter();
 
 onMounted(() => {});
@@ -30,7 +30,7 @@ async function pushUserBack() {
             <h1
               class="w-[450px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
             >
-              {{ userClasses.className }}
+              {{ StudentuserClasses.className }}
             </h1>
           </div>
         </div>

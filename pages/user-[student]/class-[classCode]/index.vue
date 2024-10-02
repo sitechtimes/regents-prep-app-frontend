@@ -2,13 +2,13 @@
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/StudentStore/questions";
-import { userClass } from "~/stores/StudentStore/class";
+import { StudentuserClass } from "~/stores/StudentStore/class";
 import { studentAssignments } from "~/interfaces/interfaces";
 
 const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
-const classStore = userClass();
+const classStore = StudentuserClass();
 
 const classCode = ref(classStore.classCode);
 

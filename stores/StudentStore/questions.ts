@@ -4,7 +4,7 @@ import {
   studentAssignments,
 } from "~/interfaces/interfaces";
 import { userState } from "../users";
-import { userClass } from "./class";
+import { StudentuserClass } from "./class";
 
 export const useQuestions = defineStore("questions", () => {
   const classCode = ref<string>("");
