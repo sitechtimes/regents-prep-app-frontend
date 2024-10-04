@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
-import { userClass } from "~/stores/class";
-import { useQuestions } from "~/stores/questions";
+import { StudentuserClass } from "~/stores/StudentStore/class";
+import { useQuestions } from "~/stores/StudentStore/questions";
 import assignmentInstance from "../../json/getstudentassignments.json";
 import { studentAssignments } from "~/interfaces/interfaces";
 
@@ -10,7 +10,7 @@ const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]
 );
 const courseList = ref(userState().studentCourses);
-const classStore = userClass();
+const classStore = StudentuserClass();
 const questionsStore = useQuestions();
 /* onMounted(() => {
   console.log(userStore.user.username);
