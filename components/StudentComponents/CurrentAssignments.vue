@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { studentAssignments } from "~/interfaces/interfaces";
-import { userClass } from "~/stores/StudentStore/class";
+import { StudentuserClass } from "~/stores/StudentStore/class";
 
-const classStore = userClass();
+const classStore = StudentuserClass();
 const open = ref(true);
 
 const props = defineProps<{

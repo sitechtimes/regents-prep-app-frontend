@@ -1,6 +1,6 @@
 <script setup>
 import { useQuestions } from '~/stores/questions';
-import { userClass } from '~/stores/class';
+import { StudentuserClass } from '~/stores/StudentStore/class';
 import { userState } from "~/stores/users";
 
 const router = useRouter();

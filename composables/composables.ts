@@ -1,9 +1,9 @@
-import { userClass } from "~/stores/class";
+import { StudentuserClass } from "~/stores/StudentStore/class";
 
 export const dateFetch = (
   props: Readonly<{ name: string; detail: number }>
 ) => {
-  const classStore = userClass();
+  const classStore = StudentuserClass();
   const parentDate = getCurrentInstance()?.parent?.exposed?.props.date;
   const show = ref<boolean>(false);
 

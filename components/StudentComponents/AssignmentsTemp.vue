@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { dateFetch } from "~/composables/composables";
-import { useQuestions } from "~/stores/questions";
+import { useQuestions } from "~/stores/StudentStore/questions";
 
 const userQuestions = useQuestions();
 const props = defineProps<{

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { userClass } from "~/stores/class";
+import { StudentuserClass } from "~/stores/StudentStore/class";
 
-const classStore = userClass();
+const classStore = StudentuserClass();
 
 const props = defineProps<{
   date: string;

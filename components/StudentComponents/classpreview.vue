@@ -7,13 +7,13 @@ import {
   course,
   studentAssignments,
 } from "~/interfaces/interfaces";
-import { userClass } from "~/stores/class";
-import { useQuestions } from "~/stores/questions";
+import { StudentuserClass } from "~/stores/StudentStore/class";
+import { useQuestions } from "~/stores/StudentStore/questions";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
 const userQuestions = useQuestions();
-const classStore = userClass();
+const classStore = StudentuserClass();
 const router = useRouter();
 
 const props = defineProps<{
