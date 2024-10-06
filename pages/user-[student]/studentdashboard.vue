@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
-import { userClass } from "~/stores/class";
-import { useQuestions } from "~/stores/questions";
+import { studentUserClass } from "~/stores/studentStore/class";
+import { useQuestions } from "~/stores/studentStore/questions";
 import assignmentInstance from "../../json/getstudentassignments.json";
 import { studentAssignments } from "~/interfaces/interfaces";
 
-const studentAssignmentInstance = ref(
-  assignmentInstance as studentAssignments[]
-);
+const studentAssignmentInstance = ref(assignmentInstance as studentAssignments[]);
 const courseList = ref(userState().studentCourses);
-const classStore = userClass();
+const userClass = studentUserClass();
 const questionsStore = useQuestions();
 /* onMounted(() => {
   console.log(userStore.user.username);
@@ -25,12 +23,12 @@ definePageMeta({
 });
 
 onMounted(() => {
-  classStore.$reset();
+  userClass.$reset();
   questionsStore.$reset();
 });
 
 const selectCourse = (id: number) => {
-  classStore.$getCourseId(id);
+  userClass.$getCourseId(id);
 };
 </script>
 
@@ -39,7 +37,7 @@ const selectCourse = (id: number) => {
     <div class="flex flex-wrap items-center space-x-30">
       <StudentComponentsClasspreview
         v-for="item in courseList"
-        @click="classStore.$getCourseAssignments(item.id)"
+        @click="userClass.$getCourseAssignments(item.id)"
         :key="item.id"
         :information="{
           name: item.name,

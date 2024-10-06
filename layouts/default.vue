@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
-import { userClass } from "~/stores/class";
+import { studentUserClass } from "~/stores/studentStore/class";
 
 const userStore = userState();
-const userClasses = userClass();
+const StudentuserClasses = studentUserClass();
 const router = useRouter();
 
 onMounted(() => {});
@@ -24,22 +24,16 @@ async function pushUserBack() {
     <nav class="h-[109px] w-screen bg-bg-navbar shadow relative">
       <div class="absolute w-[450px] left-[38.5%]">
         <div id="dashboard" class="w-[450px] h-[73px] mt-[17px]">
-          <div
-            class="w-[450px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg"
-          >
-            <h1
-              class="w-[450px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]"
-            >
-              {{ userClasses.className }}
+          <div class="w-[450px] h-[73px] bg-secondary rounded-[24px] drop-shadow-lg">
+            <h1 class="w-[450px] h-[73px] text-center text-white text-[50px] font-medium absolute bottom-[2px]">
+              {{ StudentuserClasses.className }}
             </h1>
           </div>
         </div>
       </div>
       <div class="flex flex-row">
         <div id="teacherName" class="w-fit h-[70px] mt-[12px] pl-[1%]">
-          <div
-            class="w-fit h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop"
-          >
+          <div class="w-fit h-[83px] bg-bg-dark rounded-[24px] shadow-black shadow-innertop">
             <h2
               class="w-fit h-[83px] pl-[40px] pr-[40px] text-center justify-center place-content-center text-tertiary text-[45px] font-semibold"
               v-if="userStore.fullname === ''"
@@ -60,21 +54,11 @@ async function pushUserBack() {
           id="dashboard-btn"
           class="w-[74px] h-[74px] flex items-center justify-center mt-[17px] hover:scale-105 hover:drop-shadow-xl duration-300"
         >
-          <div
-            class="w-[74px] h-[74px] bg-secondary rounded-[14px] shadow-inner items-center justify-center"
-          >
-            <div
-              class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[15.73px] mt-[15.73px]"
-            ></div>
-            <div
-              class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[38.85px] mt-[-19.83px]"
-            ></div>
-            <div
-              class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[15.73px] mt-[4px]"
-            ></div>
-            <div
-              class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[38.85px] mt-[-19.83px]"
-            ></div>
+          <div class="w-[74px] h-[74px] bg-secondary rounded-[14px] shadow-inner items-center justify-center">
+            <div class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[15.73px] mt-[15.73px]"></div>
+            <div class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[38.85px] mt-[-19.83px]"></div>
+            <div class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[15.73px] mt-[4px]"></div>
+            <div class="w-[20px] h-[20px] bg-white rounded-[4px] ml-[38.85px] mt-[-19.83px]"></div>
           </div>
         </button>
         <div id="logout-btn" class="w-[168] h-[69px] mt-[20px] pr-[1%] pl-[2%]">
@@ -82,9 +66,7 @@ async function pushUserBack() {
             @click="userStore.$logout()"
             class="w-[168px] h-[68px] bg-secondary rounded-[24px] shadow-black shadow-innertop relative hover:scale-105 hover:drop-shadow-xl duration-300 hover:shadow-transparent"
           >
-            <h2
-              class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium absolute bottom-[2px]"
-            >
+            <h2 class="w-[168px] h-[68px] text-center text-white text-[45px] font-medium absolute bottom-[2px]">
               Logout
             </h2>
           </button>

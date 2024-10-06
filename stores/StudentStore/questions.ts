@@ -3,8 +3,8 @@ import {
   answers,
   studentAssignments,
 } from "~/interfaces/interfaces";
-import { userState } from "./users";
-import { userClass } from "./class";
+import { userState } from "../users";
+import { studentUserClass } from "./class";
 
 export const useQuestions = defineStore("questions", () => {
   const classCode = ref<string>("");
@@ -27,7 +27,7 @@ export const useQuestions = defineStore("questions", () => {
 
 
   const router = useRouter();
-  const attempts_remaining = ref<number>(2);
+  const attempts_remaining = ref<number>(0);
 
   function $reset() {//This function resets every property within the question store if a student decides to navigate to the student dashboard while completing the assignment.
     classCode.value = "";
@@ -50,15 +50,15 @@ export const useQuestions = defineStore("questions", () => {
 
   async function $updateState(
     item: studentAssignments,
-    code: string
+    id: number
   ) {
     const userStore = userState();
 
     //takes assignment object, assignmentDetails as input
     router.push({
-      path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
+      path: `/user-${userStore.username}/class-${id}/assignment-${item.name}`,
     });
-    (classCode.value = code),
+      (id = id),
       (name.value = item.name),
       (datetime_due.value = item.datetime_due);
     await $getAssignmentInstance(item.id);
@@ -142,7 +142,7 @@ export const useQuestions = defineStore("questions", () => {
             //if assignment done, bring to completed page
             await $submitAssignment();
             router.push({
-              path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
+              path: `/user-${userStore.username}/class-ah/assignment-${name.value}-completed`,
             });
             return;
           }
@@ -229,7 +229,7 @@ export const useQuestions = defineStore("questions", () => {
           questions_correct.value = data.questions_correct;
         });
       router.push({
-        path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
+        path: `/user-${userStore.username}/class-${id.value}/assignment-${name.value}-completed`,
       });
     } catch (error) {
       console.log(error);
