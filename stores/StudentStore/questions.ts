@@ -27,7 +27,7 @@ export const useQuestions = defineStore("questions", () => {
 
 
   const router = useRouter();
-  const attempts_remaining = ref<number>(2);
+  const attempts_remaining = ref<number>(0);
 
   function $reset() {//This function resets every property within the question store if a student decides to navigate to the student dashboard while completing the assignment.
     classCode.value = "";
