@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
-import { useQuestions } from "~/stores/StudentStore/questions";
+import { useQuestions } from "~/stores/studentStore/questions";
 import { userState } from "~/stores/users";
-import { StudentuserClass } from "~/stores/StudentStore/class";
+import { studentUserClass } from "~/stores/studentStore/class";
 
 const router = useRouter();
 const route = useRoute();
 const userStore = userState();
 const userQuestions = useQuestions();
-const StudentuserClasses = StudentuserClass();
+const studentuserClasses = studentUserClass();
 const tempAnswer = ref(-1);
 
 function updateAnswer(id: number) {
@@ -38,11 +38,9 @@ function delay(delay: number) {
 })();
 
 onUnmounted(() => {
-/*   userQuestions.$reset();
+  /*   userQuestions.$reset();
   StudentuserClasses.$reset(); */
-
   //This unMounted action is used to remove the assignment from the questionState when the user leaves the page. Normally, a function would be created within the questions.ts file such as userQuestions.$reset() in order to avoid re-typing the function every time. However, since all of the properties of the question state are in the return {} due to addressing them with typescript interfaces, no function can be used, even those such as .push for an array. (If there is a way to create a typescript state function and it has simply been missed, please feel free to correct the above.)
-
 });
 
 console.log(totalTime.value);
@@ -58,10 +56,7 @@ definePageMeta({
       id="display"
       class="w-[96%] h-fit bg-bg-light rounded-[24px] border-[2px] border-bg-navbar m-auto flex flex-col mt-[2%] scroll-smooth overflow-y-auto"
     >
-      <div
-        v-html="userQuestions.qText"
-        class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"
-      ></div>
+      <div v-html="userQuestions.qText" class="text-[40px] font-semibold ml-[15px] mr-[15px] my-[10px]"></div>
       <div class="items-center justify-center text-center">
         <div class="justify-center items-center text-center">
           <button
@@ -96,9 +91,7 @@ definePageMeta({
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
       >
-        {{
-          userQuestions.qLeft
-        }}
+        {{ userQuestions.qLeft }}
         Questions Left
         <!--Questions left-->
       </h2>

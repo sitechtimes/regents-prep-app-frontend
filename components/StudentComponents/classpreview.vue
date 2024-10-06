@@ -7,8 +7,8 @@ import {
   course,
   studentAssignments,
 } from "~/interfaces/interfaces";
-import { StudentuserClass } from "~/stores/StudentStore/class";
-import { useQuestions } from "~/stores/StudentStore/questions";
+import { StudentuserClass } from "~/stores/studentStore/class";
+import { useQuestions } from "~/stores/studentStore/questions";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
@@ -42,8 +42,7 @@ const sortedAssignments = ref(
       return Number(dateB) - Number(dateA); // For descending order
     })
     .filter(
-      (assignment: assignmentDetails) =>
-        compareDates(assignment.datetime_due) >= 0 //only takes assignments due today or due later
+      (assignment: assignmentDetails) => compareDates(assignment.datetime_due) >= 0 //only takes assignments due today or due later
     )
     .slice(0, 3) //takes first 4 assignments in the array
 );
@@ -59,12 +58,8 @@ sortedAssignments.value.forEach((assignment) => {
 </script>
 
 <template>
-  <div
-    class="w-[390px] my-10 ms-[100px] place-items-center"
-  >
-    <div
-      class="w-full relative rounded-[24px] shadow-inner"
-    >
+  <div class="w-[390px] my-10 ms-[100px] place-items-center">
+    <div class="w-full relative rounded-[24px] shadow-inner">
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
         v-on:click="
@@ -78,75 +73,49 @@ sortedAssignments.value.forEach((assignment) => {
             })
         "
       >
-        <h2
-          class="text-[37.5px] truncate static px-4 pb-4 hover:cursor-pointer"
-        >
+        <h2 class="text-[37.5px] truncate static px-4 pb-4 hover:cursor-pointer">
           {{ titleInformation }}
         </h2>
-        <h2 class="text-lg">
-          with {{ teacherInformation }}
-        </h2>
+        <h2 class="text-lg">with {{ teacherInformation }}</h2>
       </div>
 
       <div
         class="text-[27px] shadow-black shadow-innerleft duration-500 hover:shadow-transparent py-1 relative h-40 overflow-y-scroll scroll-smooth bg-opacity-30 shadow-inner text-center flex flex-col items-center bg-[#CCD396] text-[#6C7439]"
       >
-        <h2 class="font-semibold" v-if="dueToday">
-          Due Today:
-        </h2>
-        <template
-          v-for="assignment in sortedAssignments"
-          :key="assignment.id"
-        >
+        <h2 class="font-semibold" v-if="dueToday">Due Today:</h2>
+        <template v-for="assignment in sortedAssignments" :key="assignment.id">
           <h3
             v-on:click="
-              userQuestions.$updateState(
-                assignment,
-                classCode
-              ),
+              userQuestions.$updateState(assignment, classCode),
                 classStore.$patch({
                   className: titleInformation,
                   classCode: classCode,
                 })
             "
             class="w-fit hover:cursor-pointer hover:underline"
-            v-if="
-              compareDates(assignment.datetime_due) === 0
-            "
+            v-if="compareDates(assignment.datetime_due) === 0"
           >
             {{ assignment.name }}
           </h3>
         </template>
         <div class="flex flex-col items-center">
-          <h2 class="font-semibold" v-if="dueLater">
-            Due Later:
-          </h2>
-          <template
-            v-for="assignment in sortedAssignments"
-            :key="assignment.id"
-          >
+          <h2 class="font-semibold" v-if="dueLater">Due Later:</h2>
+          <template v-for="assignment in sortedAssignments" :key="assignment.id">
             <h3
               v-on:click="
-                userQuestions.$updateState(
-                  assignment,
-                  classCode
-                ),
+                userQuestions.$updateState(assignment, classCode),
                   classStore.$patch({
-                    className: titleInformation, classCode: classCode
+                    className: titleInformation,
+                    classCode: classCode,
                   })
               "
               class="w-fit hover:cursor-pointer hover:underline"
-              v-if="
-                compareDates(assignment.datetime_due) === 1
-              "
+              v-if="compareDates(assignment.datetime_due) === 1"
             >
               {{ assignment.name }}
             </h3>
           </template>
-          <h2
-            class="w-fit text-opacity-50 text-[20px] py-16"
-            v-if="sortedAssignments.length === 0"
-          >
+          <h2 class="w-fit text-opacity-50 text-[20px] py-16" v-if="sortedAssignments.length === 0">
             You currently have no assignments due
           </h2>
         </div>

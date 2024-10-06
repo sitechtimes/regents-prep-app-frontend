@@ -4,7 +4,7 @@ import {
   studentAssignments,
 } from "~/interfaces/interfaces";
 import { userState } from "../users";
-import { StudentuserClass } from "./class";
+import { studentUserClass } from "./class";
 
 export const useQuestions = defineStore("questions", () => {
   const classCode = ref<string>("");
@@ -142,7 +142,7 @@ export const useQuestions = defineStore("questions", () => {
             //if assignment done, bring to completed page
             await $submitAssignment();
             router.push({
-              path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
+              path: `/user-${userStore.username}/class-ah/assignment-${name.value}-completed`,
             });
             return;
           }

@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { studentAssignments } from "~/interfaces/interfaces";
 import { userState } from "../users";
 
-export const StudentuserClass = defineStore("class", () => {
+export const studentUserClass = defineStore("class", () => {
   const className = ref<string>("");
   const classCode = ref<string>("");
   const assignmentStatus = ref<string>("");
@@ -32,7 +32,7 @@ export const StudentuserClass = defineStore("class", () => {
   ) => {
     try {
       const response = await fetch(
-        `${link.value}/api/courses/${courseId}/student/assignments/`,
+        `${link.value}/api/courses/${courseId}/assignments/`,
         {
           method: "GET",
           headers: {

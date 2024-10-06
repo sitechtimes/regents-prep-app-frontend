@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { studentAssignments, TeacherDashboard, TeacherCourse, Assignment, Student } from "~/interfaces/interfaces";
 import { userState } from "../users";
 
-export const TeacheruserClass = defineStore("class", () => {
+export const teacherUserClass = defineStore("class", () => {
   const className = ref<string>("");
   const classCode = ref<string>("");
   const assignmentStatus = ref<string>("");

@@ -1,28 +1,31 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
-import { useQuestions } from "~/stores/StudentStore/questions";
-import { StudentuserClass } from "~/stores/StudentStore/class";
+import { useQuestions } from "~/stores/studentStore/questions";
+import { studentUserClass } from "~/stores/studentStore/class";
 import { studentAssignments } from "~/interfaces/interfaces";
 
 const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
-const classStore = StudentuserClass();
+const classStore = studentUserClass();
 
 const classCode = ref(classStore.classCode);
 
 const assignmentStatus = classStore.assignmentStatus;
 const currentStatus = ref<boolean>(true);
 const pastStatus = ref<boolean>(false);
-function toggleAssignments() { //changes whether the status of the page is current or past based on what assignment option is selected
+function toggleAssignments() {
+  //changes whether the status of the page is current or past based on what assignment option is selected
   currentStatus.value = !currentStatus.value;
   pastStatus.value = !pastStatus.value;
-  if (assignmentStatus === "Current") { //checks if status is current --> if it is, then current status is set to true, which loads current assignments
+  if (assignmentStatus === "Current") {
+    //checks if status is current --> if it is, then current status is set to true, which loads current assignments
     currentStatus.value = true;
     pastStatus.value = false;
     console.log("current");
-  } else if (assignmentStatus === "Past") { //checks if status is past --> if it is, then past status is set to true, which loads past assignments
+  } else if (assignmentStatus === "Past") {
+    //checks if status is past --> if it is, then past status is set to true, which loads past assignments
     currentStatus.value = false;
     pastStatus.value = true;
     console.log("past");
@@ -44,12 +47,8 @@ definePageMeta({
 
 <template>
   <div class="h-fit bg-bg-reg">
-    <div
-      class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium"
-    >
-      <div
-        class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center"
-      >
+    <div class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium">
+      <div class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center">
         <select
           name="assignments"
           id="assignmentSelect"
@@ -84,8 +83,9 @@ definePageMeta({
       </button>
     </div>
 
-    <div class="max-w-md mx-auto md:max-w-2xl"> <!--if the status is set to current, then current assignments are loaded - if status is set to past, then past assignments are loaded-->
-      <StudentComponentsCurrentAssignments 
+    <div class="max-w-md mx-auto md:max-w-2xl">
+      <!--if the status is set to current, then current assignments are loaded - if status is set to past, then past assignments are loaded-->
+      <StudentComponentsCurrentAssignments
         v-if="currentStatus"
         v-for="assignment in classStore.currentAssignments"
         :date="assignment.datetime_due"
