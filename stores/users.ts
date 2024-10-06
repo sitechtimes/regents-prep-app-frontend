@@ -1,8 +1,5 @@
 import { defineStore } from "pinia";
-import {
-  course,
-  studentAssignments,
-} from "~/interfaces/interfaces";
+import { course, studentAssignments, TeacherCourse } from "~/interfaces/interfaces";
 
 export const userState = defineStore("state", () => {
   const email = ref<string>("");
@@ -150,11 +147,11 @@ export const userState = defineStore("state", () => {
         .then(async (data) => {
           console.log(data);
           teacherCourses.value = data.teacher_courses.map(
-            (course: course) => {
+            (course: TeacherCourse) => {
             return {
                 id: course.id,
                 name: course.name,
-                class_code: course.class_code,
+                course_code: course.course_code,
               };
             }
           );

@@ -10,7 +10,7 @@ const userStore = userState();
 const userQuestions = useQuestions();
 const classStore = studentUserClass();
 
-const classCode = ref(classStore.classCode);
+
 
 const assignmentStatus = classStore.assignmentStatus;
 const currentStatus = ref<boolean>(true);
@@ -67,7 +67,8 @@ definePageMeta({
           async function update() {
             await userQuestions.$updateState(
               classStore.tempSelectedAssignment as studentAssignments,
-              classStore.classCode
+              userQuestions.id
+              //Why does userQuestions.id work but classStore.id does not?
             );
           }
         "

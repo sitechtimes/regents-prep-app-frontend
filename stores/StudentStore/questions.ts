@@ -50,15 +50,15 @@ export const useQuestions = defineStore("questions", () => {
 
   async function $updateState(
     item: studentAssignments,
-    code: string
+    id: number
   ) {
     const userStore = userState();
 
     //takes assignment object, assignmentDetails as input
     router.push({
-      path: `/user-${userStore.username}/class-${classCode}/assignment-${item.name}`,
+      path: `/user-${userStore.username}/class-${id}/assignment-${item.name}`,
     });
-    (classCode.value = code),
+      (id = id),
       (name.value = item.name),
       (datetime_due.value = item.datetime_due);
     await $getAssignmentInstance(item.id);
@@ -229,7 +229,7 @@ export const useQuestions = defineStore("questions", () => {
           questions_correct.value = data.questions_correct;
         });
       router.push({
-        path: `/user-${userStore.username}/class-${classCode.value}/assignment-${name.value}-completed`,
+        path: `/user-${userStore.username}/class-${id.value}/assignment-${name.value}-completed`,
       });
     } catch (error) {
       console.log(error);

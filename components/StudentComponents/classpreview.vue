@@ -7,13 +7,13 @@ import {
   course,
   studentAssignments,
 } from "~/interfaces/interfaces";
-import { StudentuserClass } from "~/stores/studentStore/class";
+import { studentUserClass } from "~/stores/studentStore/class";
 import { useQuestions } from "~/stores/studentStore/questions";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
 const userQuestions = useQuestions();
-const classStore = StudentuserClass();
+const userClass = studentUserClass();
 const router = useRouter();
 
 const props = defineProps<{
@@ -25,7 +25,7 @@ const props = defineProps<{
 const titleInformation = ref(props.information.name);
 const teacherInformation = ref(props.information.teacher);
 const assignmentsInformation = ref(props.class.assignments);
-const classCode = ref(props.information.class_code);
+const id = ref(props.information.id);
 /* const classCode = ref(userStore.studentCourses.forEach((course) => {
   course.class_code
 }))
@@ -63,13 +63,13 @@ sortedAssignments.value.forEach((assignment) => {
       <div
         class="w-full text-center text-xl static font-medium drop-shadow-md shadow-md pt-12 pb-6 px-1 rounded-[24px_24px_0px_0px] max-md:px-5 shadow-innertop shadow-black duration-500 hover:shadow-transparent hover:cursor-pointer text-[#F8F8F8] bg-[#AAB941]"
         v-on:click="
-          classStore.$patch({
+          userClass.$patch({
             className: titleInformation,
-            classCode: classCode,
+            id: id,
             currentAssignments: sortedAssignments,
           }),
             router.push({
-              path: `/user-${userStore.username}/class-${classCode}`,
+              path: `/user-${userStore.username}/class-${id}`,
             })
         "
       >
@@ -86,10 +86,10 @@ sortedAssignments.value.forEach((assignment) => {
         <template v-for="assignment in sortedAssignments" :key="assignment.id">
           <h3
             v-on:click="
-              userQuestions.$updateState(assignment, classCode),
-                classStore.$patch({
+              userQuestions.$updateState(assignment, id),
+                userClass.$patch({
                   className: titleInformation,
-                  classCode: classCode,
+                  id: id,
                 })
             "
             class="w-fit hover:cursor-pointer hover:underline"
@@ -103,10 +103,10 @@ sortedAssignments.value.forEach((assignment) => {
           <template v-for="assignment in sortedAssignments" :key="assignment.id">
             <h3
               v-on:click="
-                userQuestions.$updateState(assignment, classCode),
-                  classStore.$patch({
+                userQuestions.$updateState(assignment, id),
+                  userClass.$patch({
                     className: titleInformation,
-                    classCode: classCode,
+                    id: id,
                   })
               "
               class="w-fit hover:cursor-pointer hover:underline"
@@ -126,7 +126,7 @@ sortedAssignments.value.forEach((assignment) => {
         <h2
           v-on:click="
             router.push({
-              path: `/user-${userStore.username}/class-${classCode}`,
+              path: `/user-${userStore.username}/class-${id}`,
             })
           "
           class="w-full h-full relative text-center text-[32px] font-medium"
