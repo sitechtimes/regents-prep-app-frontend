@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { studentAssignments } from "~/interfaces/interfaces";
+import { studentAssignments, TeacherDashboard, TeacherCourse, Assignment, Student } from "~/interfaces/interfaces";
 import { userState } from "../users";
 
 export const TeacheruserClass = defineStore("class", () => {
@@ -30,18 +30,16 @@ export const TeacheruserClass = defineStore("class", () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          const teacherDashboard = {
+          const teacherDashboard: TeacherDashboard = {
             username: data.username,
             user_type: data.user_type,
-            teacher_courses: data.teacher_courses.map(
-              (course: { id: boolean; name: string; course_code: string }) => {
-                return {
-                  id: course.id,
-                  name: course.name,
-                  course_code: course.course_code,
-                };
-              }
-            ),
+            teacher_courses: data.teacher_courses.map((course: TeacherCourse) => {
+              return {
+                id: course.id,
+                name: course.name,
+                course_code: course.course_code,
+              };
+            }),
           };
           console.log("Teacher Dashboard:", teacherDashboard);
           teacherDashboard.teacher_courses.forEach((course) => {
@@ -70,7 +68,7 @@ export const TeacheruserClass = defineStore("class", () => {
       )
         .then((res) => res.json())
         .then((data) => {
-          const teacherAssignments = data.map((assignment) => {
+          const teacherAssignments = data.map((assignment: Assignment) => {
             return {
               id: assignment.id,
               name: assignment.name,
@@ -98,14 +96,14 @@ export const TeacheruserClass = defineStore("class", () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          const studentList = data.map((student) => {
+          const studentList = data.map((student: Student) => {
             return {
               id: student.id,
               name: student.name,
               email: student.email,
             };
           });
-            console.log("Course Student List:", studentList);
+          console.log("Course Student List:", studentList);
   
           return studentList;
         });
