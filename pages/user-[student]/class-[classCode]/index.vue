@@ -8,11 +8,11 @@ import { studentAssignments } from "~/interfaces/interfaces";
 const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
-const classStore = studentUserClass();
+const userClass = studentUserClass();
 
 
 
-const assignmentStatus = classStore.assignmentStatus;
+const assignmentStatus = userClass.assignmentStatus;
 const currentStatus = ref<boolean>(true);
 const pastStatus = ref<boolean>(false);
 function toggleAssignments() {
@@ -35,10 +35,10 @@ function toggleAssignments() {
 }
 
 onMounted(async () => {
-  //  await classStore.$getCourseAssignments(classStore.courseId);
+  //  await userClass.$getCourseAssignments(userClass.courseId);
 });
 onUnmounted(() => {
-  // classStore.$reset();
+  // userClass.$reset();
 });
 definePageMeta({
   middleware: studentAuth,
@@ -66,9 +66,9 @@ definePageMeta({
         v-on:click="
           async function update() {
             await userQuestions.$updateState(
-              classStore.tempSelectedAssignment as studentAssignments,
+              userClass.tempSelectedAssignment as studentAssignments,
               userQuestions.id
-              //Why does userQuestions.id work but classStore.id does not?
+              //Why does userQuestions.id work but userClass.id does not?
             );
           }
         "
@@ -88,12 +88,12 @@ definePageMeta({
       <!--if the status is set to current, then current assignments are loaded - if status is set to past, then past assignments are loaded-->
       <StudentComponentsCurrentAssignments
         v-if="currentStatus"
-        v-for="assignment in classStore.currentAssignments"
+        v-for="assignment in userClass.currentAssignments"
         :date="assignment.datetime_due"
       />
       <StudentComponentsPastAssignments
         v-if="pastStatus"
-        v-for="assignment in classStore.pastAssignments"
+        v-for="assignment in userClass.pastAssignments"
         :date="assignment.datetime_due"
       />
     </div>

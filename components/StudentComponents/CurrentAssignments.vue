@@ -2,7 +2,7 @@
 import { studentAssignments } from "~/interfaces/interfaces";
 import { studentUserClass } from "~/stores/studentStore/class";
 
-const classStore = studentUserClass();
+const userClass = studentUserClass();
 const open = ref(true);
 
 const props = defineProps<{
@@ -13,15 +13,15 @@ defineExpose({
 });
 
 function selectAssignment(item: studentAssignments) {
-  classStore.tempSelectedAssignment = item;
+  userClass.tempSelectedAssignment = item;
 }
 
 onMounted(() => {
-  document.addEventListener("click", classStore.$resetAssignment);
+  document.addEventListener("click", userClass.$resetAssignment);
 });
 
 onUnmounted(() => {
-  document.removeEventListener("click", classStore.$resetAssignment);
+  document.removeEventListener("click", userClass.$resetAssignment);
 });
 </script>
 
@@ -35,7 +35,7 @@ onUnmounted(() => {
 
     <div class="pt-[2.5rem] flex flex-col items-center rounded-b-[35px] shadow-black shadow-innervar">
       <StudentComponentsAssignmentsTemp
-        v-for="assignment in classStore.currentAssignments"
+        v-for="assignment in userClass.currentAssignments"
         :name="assignment.name"
         :detail="assignment.question_number"
         @click.stop="selectAssignment(assignment)"

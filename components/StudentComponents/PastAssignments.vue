@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { studentUserClass } from "~/stores/studentStore/class";
 
-const classStore = studentUserClass();
+const userClass = studentUserClass();
 
 const props = defineProps<{
   date: string;
@@ -21,7 +21,7 @@ defineExpose({
 
     <div class="pt-[2.5rem] flex flex-col items-center shadow-black shadow-innervar rounded-b-[35px]">
       <StudentComponentsAssignmentsStat
-        v-for="assignment in classStore.pastAssignments"
+        v-for="assignment in userClass.pastAssignments"
         :name="assignment.name"
         :detail="assignment.question_number"
       />

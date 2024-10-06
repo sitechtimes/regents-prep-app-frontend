@@ -8,7 +8,7 @@ import { studentAssignments } from "~/interfaces/interfaces";
 
 const studentAssignmentInstance = ref(assignmentInstance as studentAssignments[]);
 const courseList = ref(userState().studentCourses);
-const classStore = studentUserClass();
+const userClass = studentUserClass();
 const questionsStore = useQuestions();
 /* onMounted(() => {
   console.log(userStore.user.username);
@@ -23,12 +23,12 @@ definePageMeta({
 });
 
 onMounted(() => {
-  classStore.$reset();
+  userClass.$reset();
   questionsStore.$reset();
 });
 
 const selectCourse = (id: number) => {
-  classStore.$getCourseId(id);
+  userClass.$getCourseId(id);
 };
 </script>
 
@@ -37,7 +37,7 @@ const selectCourse = (id: number) => {
     <div class="flex flex-wrap items-center space-x-30">
       <StudentComponentsClasspreview
         v-for="item in courseList"
-        @click="classStore.$getCourseAssignments(item.id)"
+        @click="userClass.$getCourseAssignments(item.id)"
         :key="item.id"
         :information="{
           name: item.name,
