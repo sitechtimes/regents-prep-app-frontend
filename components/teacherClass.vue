@@ -12,7 +12,7 @@ const props = defineProps<{
   code: string;
 }>();
 
-//const classCode = ref<string>(classStore.classCode);
+const classCode = ref<string>(classStore.classCode);
 </script>
 
 <template>
@@ -20,12 +20,12 @@ const props = defineProps<{
     <button
       v-on:click="
         classStore.$patch({ className: props.name, classCode: props.code }),
-/*           console.log(
+          console.log(
             `/user-${userStore.username}/class-${classStore.classCode}`
           ),
           router.push({
             path: `/user-${userStore.username}/class-${classCode}`,
-          }) */
+          })
       "
       class="w-[785px] h-[95px] bg-primary rounded-[21px] shadow-[inset_0_4px_3px_rgba(0,0,0,0.3)] relative border-[2px] border-l-0 border-r-0 border-black flex flex-row m-auto ml-[-2px] mt-[-2px] mb-0 z-10"
     >
