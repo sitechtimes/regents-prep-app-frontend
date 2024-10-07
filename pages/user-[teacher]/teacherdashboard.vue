@@ -5,6 +5,8 @@ import { userClass } from "~/stores/class";
 
 const courseList = ref(userState().teacherCourses);
 const classStore = userClass();
+const userStore = userState();
+
 definePageMeta({
   layout: "dashboard",
   middleware: teacherAuth,
@@ -34,11 +36,7 @@ onMounted(() => {
       >
         <teacherClass
           class="z-10"
-          @click="
-            router.push({
-              path: `/user-${classStore.className}/class-${classStore.classCode}`,
-            })
-          "
+          @click=""
           v-for="teacherclass in courseList"
           :key="teacherclass.name"
           :name="teacherclass.name"
