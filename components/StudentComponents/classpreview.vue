@@ -73,6 +73,7 @@ sortedAssignments.value.forEach((assignment) => {
             classCode: classCode,
             currentAssignments: sortedAssignments,
           }),
+          console.log(`/user-${userStore.username}/class-${classCode}`),
             router.push({
               path: `/user-${userStore.username}/class-${classCode}`,
             })
