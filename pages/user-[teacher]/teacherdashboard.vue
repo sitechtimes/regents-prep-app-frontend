@@ -5,6 +5,8 @@ import { userClass } from "~/stores/class";
 
 const courseList = ref(userState().teacherCourses);
 const classStore = userClass();
+const userStore = userState();
+
 definePageMeta({
   layout: "dashboard",
   middleware: teacherAuth,
@@ -35,6 +37,9 @@ onMounted(() => {
         <teacherClass
           class="z-10"
           @click="
+          console.log(
+            `/user-${userStore.username}/class-${classStore.classCode}`
+          ),
             router.push({
               path: `/user-${classStore.className}/class-${classStore.classCode}`,
             })
