@@ -121,7 +121,7 @@ export const userState = defineStore("state", () => {
                 id: course.id,
                 name: course.name,
                 teacher: course.teacher,
-                class_code: course.class_code,
+                course_code: course.course_code,
                 assignments: course.assignments,
               };
             }
@@ -154,7 +154,7 @@ export const userState = defineStore("state", () => {
             return {
                 id: course.id,
                 name: course.name,
-                class_code: course.class_code,
+                course_code: course.course_code,
               };
             }
           );

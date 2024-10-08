@@ -40,7 +40,7 @@ onMounted(() => {
           v-for="teacherclass in courseList"
           :key="teacherclass.name"
           :name="teacherclass.name"
-          :code="teacherclass.class_code"
+          :code="teacherclass.course_code"
         />
       </div>
     </div>

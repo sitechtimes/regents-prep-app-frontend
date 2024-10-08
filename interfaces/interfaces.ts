@@ -70,7 +70,7 @@ export interface course {
   id: number;
   name: string;
   teacher: string;
-  class_code: string;
+  course_code: string;
   assignments: Array<studentAssignments>;
 }
 

@@ -44,7 +44,7 @@ const selectCourse = (id: number) => {
         :information="{
           name: item.name,
           teacher: item.teacher,
-          class_code: item.class_code,
+          class_code: item.course_code,
           id: item.id,
         }"
         :class="item"
