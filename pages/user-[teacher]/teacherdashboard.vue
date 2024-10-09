@@ -15,7 +15,7 @@ definePageMeta({
 const router = useRouter();
 
 onMounted(() => {
-  classStore.$reset();
+  // classStore.$reset();
 });
 </script>
 
