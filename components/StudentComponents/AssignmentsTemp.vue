@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { dateFetch } from "~/composables/composables";
-import { useQuestions } from "~/stores/questions";
+import { useQuestions } from "~/stores/StudentStore/questions";
 
 const userQuestions = useQuestions();
 const props = defineProps<{
@@ -9,7 +9,7 @@ const props = defineProps<{
 }>();
 
 onMounted(() => {
-console.log(props.name, props.detail)
+  console.log(props.name, props.detail);
 });
 </script>
 
@@ -21,7 +21,7 @@ console.log(props.name, props.detail)
         name: props.name,
         qLeft: props.detail,
       }),
-      console.log(props.name, props.detail)
+        console.log(props.name, props.detail)
     "
     id="btn"
     class="inactive w-max h-[75px] mb-[2rem] flex flex-row relative bg-primary bg-opacity-60 focus:bg-[#8C9930] focus:ring-2 focus:ring-black rounded-full shadow-black shadow-innervar hover:shadow-none after-bg-secondary"

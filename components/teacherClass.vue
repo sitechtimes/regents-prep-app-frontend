@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { userClass } from "~/stores/class";
+import { teacherUserClass } from "~/stores/TeacherStore/class";
 import { userState } from "~/stores/users";
 
-const classStore = userClass();
+const classStore = teacherUserClass();
 const userStore = userState();
 const router = useRouter();
 
@@ -19,10 +19,8 @@ const classCode = ref<string>(props.code);
   <div class="w-[783px] h-[93px] flex">
     <button
       v-on:click="
-        classStore.$patch({ className: className, classCode: classCode}),
-          console.log(
-            `/user-${userStore.username}/class-${classCode}`
-          ),
+        classStore.$patch({ className: className, classCode: classCode }),
+          console.log(`/user-${userStore.username}/class-${classCode}`),
           router.push({
             path: `/user-${userStore.username}/class-${classCode}`,
           })

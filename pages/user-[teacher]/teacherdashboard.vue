@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
 import teacherAuth from "~/middleware/teacherAuth";
-import { userClass } from "~/stores/class";
+import { teacherUserClass } from "~/stores/TeacherStore/class";
 
 const courseList = ref(userState().teacherCourses);
-const classStore = userClass();
+const classStore = teacherUserClass();
 const userStore = userState();
 
 definePageMeta({

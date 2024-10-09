@@ -1,18 +1,12 @@
-import { userClass } from "~/stores/class";
+import { studentUserClass } from "~/stores/studentStore/class";
 
-export const dateFetch = (
-  props: Readonly<{ name: string; detail: number }>
-) => {
-  const classStore = userClass();
+export const dateFetch = (props: Readonly<{ name: string; detail: number }>) => {
+  const userClass = studentUserClass();
   const parentDate = getCurrentInstance()?.parent?.exposed?.props.date;
   const show = ref<boolean>(false);
 
-  const currentFilter = classStore.currentAssignments.filter(
-    (assignment) => assignment.datetime_due === parentDate
-  );
-  const pastFilter = classStore.pastAssignments.filter(
-    (assignment) => assignment.datetime_due === parentDate
-  );
+  const currentFilter = userClass.currentAssignments.filter((assignment) => assignment.datetime_due === parentDate);
+  const pastFilter = userClass.pastAssignments.filter((assignment) => assignment.datetime_due === parentDate);
   currentFilter.forEach((assignment) => {
     if (assignment.name.includes(props.name)) {
       show.value = true;

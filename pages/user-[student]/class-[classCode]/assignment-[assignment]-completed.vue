@@ -1,12 +1,8 @@
 <script setup>
-import { useQuestions } from '~/stores/questions';
-import { userClass } from '~/stores/class';
-import { userState } from "~/stores/users";
+import { useQuestions } from "~/stores/StudentStore/questions";
 
 const router = useRouter();
-const route = useRoute();
-const userQuestions = useQuestions()
-
+const userQuestions = useQuestions();
 </script>
 
 <template>
@@ -20,7 +16,8 @@ const userQuestions = useQuestions()
     <div
       class="rounded-[50px] p-[2rem] bg-[#aab941] text-white text-[50px] font-bold"
     >
-      {{ userQuestions.questions_correct }} / {{ userQuestions.question_number }}
+      {{ userQuestions.questions_correct }} /
+      {{ userQuestions.question_number }}
     </div>
 
     <button

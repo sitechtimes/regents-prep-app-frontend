@@ -25,11 +25,16 @@ export interface ClassPreviewAssignments {
 //Every property within the 'ClassPreviewAssignments' interface accounts for the assignments shown in the class preview before the student either chooses to go into the class, or to display for assingments for the student to click on. There should only be assignments from two days within the class preview- the current day (today), and the second nearest day in the future (otherDay). For convienence, as the backend has not been connected to the frontend yet, and the proper distinction between the dates has not been made for each assignment, the second nearest day in the future (with the first being the current day) has been named to otherDay.
 
 export interface Assignment {
+  id: number;               
   name: string;
   date: string;
   qLeft: number;
   timeLeft: number;
   question: questionInterface;
+  datetime_assigned: string;    
+  datetime_due: string;
+  question_number: number;     
+  time_allotted: number;        
 }
 
 //The "Assignment" interface is that used for every assignment in the classInfo.ts file. Every assignment has a name (the assignment name), the amount of questions left in the assignment for this specific student (qLeft), the timeLeft for the student to complete the assignment (stored as seconds, but will later be implemented as a calculation to display minutes and seconds separately), and a separate interface entirely for the question that the student is currently on (question, which uses the interface questionInterface, and is explained below). This will later be changed in order to account for how the api is structured (whether we will have to fetch the question by id, or simply select the one the student is on).
@@ -95,4 +100,22 @@ export interface studentAssignments {
 
 export interface assignment {
   id: number;
+}
+
+export interface TeacherDashboard {
+  username: string;
+  user_type: string;
+  teacher_courses: TeacherCourse[];
+}
+
+export interface TeacherCourse {
+  id: number | boolean;
+  name: string;
+  course_code: string;
+}
+
+export interface Student {
+  id: number;
+  name: string;
+  email: string;
 }
