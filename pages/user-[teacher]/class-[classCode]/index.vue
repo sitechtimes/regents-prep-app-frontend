@@ -11,6 +11,7 @@ const className = ref(classStore.className);
 const classCode = ref(classStore.classCode);
 
 onMounted(() => {
+  console.log("this is the class page for teachers!");
 });
 
 definePageMeta({
