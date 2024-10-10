@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import { userState } from "~/stores/users";
 import teacherAuth from "~/middleware/teacherAuth";
+import { teacherUserClass } from "~/stores/TeacherStore/class";
 
 const courseList = ref(userState().teacherCourses);
+const classStore = teacherUserClass();
+const userStore = userState();
 
 definePageMeta({
   layout: "dashboard",
   middleware: teacherAuth,
+});
+
+const router = useRouter();
+
+onMounted(() => {
+  // classStore.$reset();
 });
 </script>
 
@@ -27,10 +36,11 @@ definePageMeta({
       >
         <teacherClass
           class="z-10"
+          @click=""
           v-for="teacherclass in courseList"
           :key="teacherclass.name"
           :name="teacherclass.name"
-          :code="teacherclass.class_code"
+          :code="teacherclass.course_code"
         />
       </div>
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { useQuestions } from "~/stores/studentStore/questions";
+import { useQuestions } from "~/stores/StudentStore/questions";
 
 const router = useRouter();
 const userQuestions = useQuestions();
@@ -9,10 +9,15 @@ const userQuestions = useQuestions();
   <div
     class="flex flex-col h-[50rem] max-w-[80%] mx-auto items-center justify-evenly text-center text-4xl font-semibold"
   >
-    <h3 class="rounded-[25px] p-[5rem] bg-[#f9f8e3] font-bold">Your score for this assignment is shown below</h3>
+    <h3 class="rounded-[25px] p-[5rem] bg-[#f9f8e3] font-bold">
+      Your score for this assignment is shown below
+    </h3>
 
-    <div class="rounded-[50px] p-[2rem] bg-[#aab941] text-white text-[50px] font-bold">
-      {{ userQuestions.questions_correct }} / {{ userQuestions.question_number }}
+    <div
+      class="rounded-[50px] p-[2rem] bg-[#aab941] text-white text-[50px] font-bold"
+    >
+      {{ userQuestions.questions_correct }} /
+      {{ userQuestions.question_number }}
     </div>
 
     <button

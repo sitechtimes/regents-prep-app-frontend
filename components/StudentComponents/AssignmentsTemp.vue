@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { dateFetch } from "~/composables/composables";
-import { useQuestions } from "~/stores/studentStore/questions";
+import { useQuestions } from "~/stores/StudentStore/questions";
 
 const userQuestions = useQuestions();
 const props = defineProps<{
@@ -30,7 +30,9 @@ onMounted(() => {
       {{ name }}
     </div>
 
-    <div class="w-[75px] h-full right-[0%] bg-primary rounded-full shadow-black shadow-inner">
+    <div
+      class="w-[75px] h-full right-[0%] bg-primary rounded-full shadow-black shadow-inner"
+    >
       <div class="w-full h-full text-center text-white text-[50px] font-medium">
         {{ detail }}
       </div>
