@@ -20,9 +20,9 @@ const classCode = ref<string>(props.code);
     <button
       v-on:click="
         classStore.$patch({ className: className, classCode: classCode }),
-          console.log(`/user-${userStore.username}/class-${classCode}`),
+          console.log(`/user-${userStore.username}/tclass-${classCode}`),
           router.push({
-            path: `/user-${userStore.username}/class-${classCode}`,
+            path: `/user-${userStore.username}/tclass-${classCode}`,
           })
       "
       class="w-[785px] h-[95px] bg-primary rounded-[21px] shadow-[inset_0_4px_3px_rgba(0,0,0,0.3)] relative border-[2px] border-l-0 border-r-0 border-black flex flex-row m-auto ml-[-2px] mt-[-2px] mb-0 z-10"
