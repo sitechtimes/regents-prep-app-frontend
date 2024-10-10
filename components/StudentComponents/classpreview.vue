@@ -68,9 +68,9 @@ sortedAssignments.value.forEach((assignment) => {
             id: id,
             currentAssignments: sortedAssignments,
           }),
-          console.log(`/user-${userStore.username}/class-${id}`),
+          console.log(`/user-${userStore.username}/sclass-${id}`),
             router.push({
-              path: `/user-${userStore.username}/class-${id}`,
+              path: `/user-${userStore.username}/sclass-${id}`,
             })
         "
       >
