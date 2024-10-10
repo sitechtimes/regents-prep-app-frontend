@@ -8,7 +8,7 @@ import {
   studentAssignments,
 } from "~/interfaces/interfaces";
 import { studentUserClass } from "~/stores/studentStore/class";
-import { useQuestions } from "~/stores/StudentStore/questions";
+import { useQuestions } from "~/stores/studentStore/questions";
 import { userState } from "~/stores/users";
 
 const userStore = userState();
@@ -127,7 +127,7 @@ sortedAssignments.value.forEach((assignment) => {
         <h2
           v-on:click="
             router.push({
-              path: `/user-${userStore.username}/class-${id}`,
+              path: `/user-${userStore.username}/sclass-${id}`,
             })
           "
           class="w-full h-full relative text-center text-[32px] font-medium"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { teacherUserClass } from "~/stores/TeacherStore/class";
+import { teacherUserClass } from "~/stores/teacherStore/class";
 import { userState } from "~/stores/users";
 
 const classStore = teacherUserClass();

@@ -55,7 +55,7 @@ export const useQuestions = defineStore("questions", () => {
 
     //takes assignment object, assignmentDetails as input
     router.push({
-      path: `/user-${userStore.username}/class-${id}/assignment-${item.name}`,
+      path: `/user-${userStore.username}/sclass-${id}/assignment-${item.name}`,
     });
       (id = id),
       (name.value = item.name),
@@ -141,7 +141,7 @@ export const useQuestions = defineStore("questions", () => {
             //if assignment done, bring to completed page
             await $submitAssignment();
             router.push({
-              path: `/user-${userStore.username}/class-ah/assignment-${name.value}-completed`,
+              path: `/user-${userStore.username}/sclass-${id.value}/assignment-${name.value}-completed`,
             });
             return;
           }
@@ -228,7 +228,7 @@ export const useQuestions = defineStore("questions", () => {
           questions_correct.value = data.questions_correct;
         });
       router.push({
-        path: `/user-${userStore.username}/class-${id.value}/assignment-${name.value}-completed`,
+        path: `/user-${userStore.username}/sclass-${id.value}/assignment-${name.value}-completed`,
       });
     } catch (error) {
       console.log(error);

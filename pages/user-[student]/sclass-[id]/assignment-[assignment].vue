@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
-import { useQuestions } from "~/stores/StudentStore/questions";
+import { useQuestions } from "~/stores/studentStore/questions";
 import { userState } from "~/stores/users";
 import { studentUserClass } from "~/stores/studentStore/class";
 
