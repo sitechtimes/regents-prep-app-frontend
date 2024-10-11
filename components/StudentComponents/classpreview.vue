@@ -8,7 +8,7 @@ import {
   studentAssignments,
 } from "~/interfaces/interfaces";
 import { studentUserClass } from "~/stores/studentStore/class";
-import { useQuestions } from "~/stores/studentStore/questions";
+import { useQuestions } from "~/stores/StudentStore/questions";
 import { userState } from "~/stores/users";
 
 const userStore = userState();

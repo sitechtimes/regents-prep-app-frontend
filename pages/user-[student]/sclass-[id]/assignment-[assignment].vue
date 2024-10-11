@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
-import { useQuestions } from "~/stores/studentStore/questions";
+import { useQuestions } from "~/stores/StudentStore/questions";
 import { userState } from "~/stores/users";
 import { studentUserClass } from "~/stores/studentStore/class";
 
@@ -111,9 +111,17 @@ definePageMeta({
       </h2>
       <h2
         class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+        v-if="userQuestions.attempts_allowed !== 0"
       >
         <!--Number of Attempts-->
         {{ userQuestions.attempts_remaining }} Attempts Left
+      </h2>
+      <h2
+        class="w-[60%] h-[60px] bg-bg-light rounded-[24px] border-[2px] border-bg-navbar font-semibold text-[37px] m-auto text-center items-end"
+        v-if="userQuestions.attempts_allowed == 0"
+      >
+        <!--Number of Attempts-->
+        Unlimted Attempts
       </h2>
     </div>
     <!--     <div>
