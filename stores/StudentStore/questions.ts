@@ -93,14 +93,16 @@ export const useQuestions = defineStore("questions", () => {
           questions_completed.value =
             data.questions_completed;
           question_number.value = data.total_questions;
-          if (data.timer_style == "Unlimited time") {
+          if (data.timer_style == "UT") {
             //sorts by timer style
             timer_style.value = "unlimited";
-          } else if (
-            data.timer_style == "Time per question"
-          ) {
+          } else if (data.timer_style == "TPQ") 
+          {
             timer_style.value = "per question";
             time_allotted.value = data.time_alloted;
+          } else if (data.timer_style == "TT")
+          {
+            timer_style.value = 
           }
           console.log(timer_style.value);
           //console.log(assignmentInstance.value);
