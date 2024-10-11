@@ -1,10 +1,14 @@
-<script setup lang="ts"></script>
-
 <template>
-  <div class="bg-bg-reg h-screen w-screen">
-    <NuxtLayout>
-      <NuxtPage id="app" />
-    </NuxtLayout>
+  <div>
+    <NuxtPage />
   </div>
 </template>
-<!-- The 'app.vue' file is VERY necessary, as THIS IS THE ENTRY POINT FOR ALL the pages are housed within the 'pages' folder -->
+
+<script setup lang="ts">
+onMounted(() => {
+  // get theme and shit
+  document.body.style.display = "flex";
+});
+</script>
+
+<style scoped></style>
