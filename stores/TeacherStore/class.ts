@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { studentAssignments, TeacherDashboard, TeacherCourse, Assignment, Student } from "~/interfaces/interfaces";
+import { studentAssignments, TeacherDashboard, TeacherCourse, Assignment, Student } from "~/utils/interfaces";
 import { userState } from "../users";
 
 export const teacherUserClass = defineStore("class", () => {

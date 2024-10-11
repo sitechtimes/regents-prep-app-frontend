@@ -3,7 +3,7 @@ import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { useQuestions } from "~/stores/StudentStore/questions";
 import { studentUserClass } from "~/stores/studentStore/class";
-import { studentAssignments } from "~/interfaces/interfaces";
+import { studentAssignments } from "~/utils/interfaces";
 
 const router = useRouter();
 const userStore = userState();

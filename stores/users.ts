@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { course, studentAssignments, TeacherCourse } from "~/interfaces/interfaces";
+import { course, studentAssignments, TeacherCourse } from "~/utils/interfaces";
 
 export const userState = defineStore("state", () => {
   const email = ref<string>("");

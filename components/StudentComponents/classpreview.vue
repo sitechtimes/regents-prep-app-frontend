@@ -6,7 +6,7 @@ import {
   assignmentDetails,
   course,
   studentAssignments,
-} from "~/interfaces/interfaces";
+} from "~/utils/interfaces";
 import { studentUserClass } from "~/stores/studentStore/class";
 import { useQuestions } from "~/stores/studentStore/questions";
 import { userState } from "~/stores/users";

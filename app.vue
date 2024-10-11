@@ -7,4 +7,4 @@
     </NuxtLayout>
   </div>
 </template>
-<!-- The 'app.vue' file is not necessary, as all the pages are housed within the 'pages' folder -->
+<!-- The 'app.vue' file is VERY necessary, as THIS IS THE ENTRY POINT FOR ALL the pages are housed within the 'pages' folder -->

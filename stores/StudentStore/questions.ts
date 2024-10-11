@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { answers, studentAssignments } from "~/interfaces/interfaces";
+import { answers, studentAssignments } from "~/utils/interfaces";
 import { userState } from "../users";
 import { studentUserClass } from "./class";
 

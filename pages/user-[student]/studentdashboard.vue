@@ -4,7 +4,7 @@ import { userState } from "~/stores/users";
 import { studentUserClass } from "~/stores/studentStore/class";
 import { useQuestions } from "~/stores/StudentStore/questions";
 import assignmentInstance from "../../json/getstudentassignments.json";
-import { studentAssignments } from "~/interfaces/interfaces";
+import { studentAssignments } from "~/utils/interfaces";
 
 const studentAssignmentInstance = ref(
   assignmentInstance as studentAssignments[]

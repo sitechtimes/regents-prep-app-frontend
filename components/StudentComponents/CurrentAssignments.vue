@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { studentAssignments } from "~/interfaces/interfaces";
+import { studentAssignments } from "~/utils/interfaces";
 import { studentUserClass } from "~/stores/studentStore/class";
 
 const userClass = studentUserClass();
