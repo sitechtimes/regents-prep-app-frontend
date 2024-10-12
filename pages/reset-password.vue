@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-5xl">home</h1>
+    <h1>how did u forget ur password lmao loser</h1>
   </div>
 </template>
 

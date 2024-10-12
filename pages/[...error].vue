@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-5xl">home</h1>
+    <h1>oopsie poopsie this page doesnt exist</h1>
   </div>
 </template>
 
