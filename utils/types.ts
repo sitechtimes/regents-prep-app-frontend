@@ -26,6 +26,8 @@ export type Question = {
 
 /** Used for the dashboard view of assignments, before the assignment is loaded. */
 export type StudentAssignmentOverview = {
+  /** @readonly */
+  type: "student";
   /** @readonly ID of the assignment. */
   id: number;
   /** @readonly Name of the assignment. */
@@ -38,7 +40,7 @@ export type StudentAssignmentOverview = {
   questionsLength: number;
   /** @readonly Whether or not the assignment can be turned in late. */
   allowLate: boolean;
-  /** @readonly Number of questions completed in the assignment. */
+  /** Number of questions completed in the assignment. */
   questionsCompleted: number;
   /** Date object of when the assignment was submitted. */
   submitted: Date | null;
@@ -46,6 +48,8 @@ export type StudentAssignmentOverview = {
 
 /** Used for the dashboard view of assignments, before the assignment is loaded. */
 export type TeacherAssignmentOverview = {
+  /** @readonly */
+  type: "teacher";
   /** @readonly ID of the assignment. */
   id: number;
   /** @readonly Name of the assignment. */
@@ -70,6 +74,8 @@ export type TeacherStudentList = {
 };
 
 export type StudentCourseInfo = {
+  /** @readonly */
+  type: "student";
   /** @readonly ID of the course. */
   id: number;
   /** @readonly Name of the course. */
@@ -80,15 +86,17 @@ export type StudentCourseInfo = {
   teacher: string;
   /** @readonly Period of the course. */
   period: number;
-  /** @readonly Alphanumeric code of the course found on Google Classroom.
-   * @example "PPS72_13"
-   */
-  classCode: string;
+  /** Subject of the course. */
+  subject: "Math" | "English" | "Science" | "History" | "Russian";
+  /** 6-digit join code for the course. */
+  joinCode: string;
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
   assignments: StudentAssignmentOverview[];
 };
 
 export type TeacherCourseInfo = {
+  /** @readonly */
+  type: "teacher";
   /** @readonly ID of the course. */
   id: number;
   /** @readonly Name of the course. */
@@ -99,8 +107,10 @@ export type TeacherCourseInfo = {
   teacher: string;
   /** Period of the course. */
   period: number;
-  /** Alphanumeric code of the course found on Google Classroom.
-   * @example "PPS72_13"
-   */
-  classCode: string;
+  /** Subject of the course. */
+  subject: "Math" | "English" | "Science" | "History" | "Russian";
+  /** 6-digit join code for the course. */
+  joinCode: string;
+  /** @readonly Array of the 3 soonest assignments that are due for the course. */
+  assignments: TeacherAssignmentOverview[];
 };
