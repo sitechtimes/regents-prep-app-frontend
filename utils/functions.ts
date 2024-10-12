@@ -9,8 +9,8 @@ export function delay(ms: number): Promise<void> {
 
 /** Returns a random integer between `min` and `max`, inclusive. */
 export function getRandomInt(min: number, max: number) {
-  const minCeiled: number = Math.ceil(min);
-  const maxFloored: number = Math.floor(max);
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
   return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
 }
 
