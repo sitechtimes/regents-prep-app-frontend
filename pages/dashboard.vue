@@ -3,19 +3,21 @@
     <h1>ur classes</h1>
     <div class="flex flex-wrap items-center justify-center align-top gap-4">
       <div @click="router.push(`/course/${course.id}`)" v-for="course in courses" class="cursor-pointer border rounded-lg overflow-hidden w-80 flex flex-col items-center justify-center">
-        <div class="w-full h-24 flex flex-col items-start justify-end p-2" :style="{ backgroundColor: getSubjectColor(course.subject) }">
+        <div class="w-full h-24 flex flex-col items-start justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
           <h3 class="text-2xl font-semibold">{{ course.name }}</h3>
           <p class="text-sm">Period {{ course.period }}</p>
           <p>{{ course.teacher }}</p>
         </div>
         <div class="flex flex-col items-start justify-start w-full min-h-64 p-2 gap-2">
           <h2 class="font-bold">assignments</h2>
-          <div class="flex flex-col items-start justify-center" v-if="course.assignments.length > 0" v-for="assignment in course.assignments">
-            <p class="font-medium" :title="assignment.due.toLocaleString()">due {{ formatDate(assignment.due) }}</p>
-            <RouterLink class="assignment" :to="`/course/${course.id}/${assignment.id}`" @click="$event.stopPropagation()">
-              <span>{{ assignment.name }}</span>
-              <span v-if="assignment.type === 'student'"> ({{ assignment.questionsCompleted }}/{{ assignment.questionsLength }})</span>
-            </RouterLink>
+          <div class="flex flex-col items-start justify-center" v-if="course.assignments.length > 0">
+            <div v-for="assignment in course.assignments">
+              <p class="font-medium" :title="assignment.due.toLocaleString()">due {{ formatDate(assignment.due) }}</p>
+              <RouterLink class="assignment" :to="`/course/${course.id}/${assignment.id}`" @click="$event.stopPropagation()">
+                <span>{{ assignment.name }}</span>
+                <span v-if="assignment.type === 'student'"> ({{ assignment.questionsCompleted }}/{{ assignment.questionsLength }})</span>
+              </RouterLink>
+            </div>
           </div>
           <p v-else>no assignments W</p>
         </div>
@@ -30,6 +32,14 @@ const router = useRouter();
 
 const { courses } = storeToRefs(store);
 const currentTime = ref(new Date());
+
+const subjectColors = {
+  Math: "limegreen",
+  Science: "cyan",
+  English: "cyan",
+  History: "cyan",
+  Russian: "cyan"
+};
 
 // sample course info
 onMounted(() => {
@@ -102,15 +112,6 @@ onMounted(() => {
     }
   ];
 });
-
-function getSubjectColor(subject: "Math" | "Science" | "English" | "History" | "Russian") {
-  if (subject == "Math") return "limegreen";
-  else if (subject == "Science") return "cyan";
-  else if (subject == "English") return "cyan";
-  else if (subject == "History") return "cyan";
-  else if (subject == "Russian") return "cyan";
-  else return "gray";
-}
 
 function formatDate(date: Date) {
   const current = currentTime.value.getTime();
