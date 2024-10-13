@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { answers, studentAssignments } from "~/interfaces/interfaces";
 import { userState } from "../users";
-import { studentUserClass } from "./class";
+import { studentUserClass } from "../studentStore/class";
 
 export const useQuestions = defineStore("questions", () => {
   const classCode = ref<string>("");
