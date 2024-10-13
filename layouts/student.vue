@@ -42,15 +42,12 @@ const { courses } = storeToRefs(store);
 const loaded = ref(false);
 const openJoinMenu = ref(false);
 const joinCode = ref("");
-watch(
-  () => joinCode.value,
-  (input) => {
-    if (input.length > 6) return (joinCode.value = String(input).slice(0, 6));
+watch(joinCode, (input) => {
+  if (input.length > 6) return (joinCode.value = String(input).slice(0, 6));
 
-    joinCode.value = [...String(input)].filter((char) => !isNaN(Number(char))).join("");
-    if (input.length == 6) joinCourse();
-  }
-);
+  joinCode.value = [...String(input)].filter((char) => !isNaN(Number(char))).join("");
+  if (input.length == 6) joinCourse();
+});
 
 onMounted(() => {
   loaded.value = true;
