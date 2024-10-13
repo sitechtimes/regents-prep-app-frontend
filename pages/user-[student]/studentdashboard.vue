@@ -2,11 +2,13 @@
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
 import { studentUserClass } from "~/stores/studentStore/class";
-import { useQuestions } from "~/stores/studentStore/questions";
+import { useQuestions } from "~/stores/StudentStore/questions";
 import assignmentInstance from "../../json/getstudentassignments.json";
 import { studentAssignments } from "~/interfaces/interfaces";
 
-const studentAssignmentInstance = ref(assignmentInstance as studentAssignments[]);
+const studentAssignmentInstance = ref(
+  assignmentInstance as studentAssignments[]
+);
 const courseList = ref(userState().studentCourses);
 const userClass = studentUserClass();
 const questionsStore = useQuestions();
@@ -42,7 +44,7 @@ const selectCourse = (id: number) => {
         :information="{
           name: item.name,
           teacher: item.teacher,
-          class_code: item.class_code,
+          class_code: item.course_code,
           id: item.id,
         }"
         :class="item"

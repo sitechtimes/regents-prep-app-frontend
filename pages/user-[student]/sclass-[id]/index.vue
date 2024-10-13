@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import studentAuth from "~/middleware/studentAuth";
 import { userState } from "~/stores/users";
-import { useQuestions } from "~/stores/studentStore/questions";
+import { useQuestions } from "~/stores/StudentStore/questions";
 import { studentUserClass } from "~/stores/studentStore/class";
 import { studentAssignments } from "~/interfaces/interfaces";
 
@@ -9,8 +9,6 @@ const router = useRouter();
 const userStore = userState();
 const userQuestions = useQuestions();
 const userClass = studentUserClass();
-
-
 
 const assignmentStatus = userClass.assignmentStatus;
 const currentStatus = ref<boolean>(true);
@@ -47,8 +45,12 @@ definePageMeta({
 
 <template>
   <div class="h-fit bg-bg-reg">
-    <div class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium">
-      <div class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center">
+    <div
+      class="h-[38px] flex flex-row justify-between mb-[1rem] text-[26px] font-medium"
+    >
+      <div
+        class="h-[60px] w-[470px] text-[35px] ml-[80px] mt-[15px] flex items-center"
+      >
         <select
           name="assignments"
           id="assignmentSelect"

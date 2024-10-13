@@ -68,8 +68,9 @@ sortedAssignments.value.forEach((assignment) => {
             id: id,
             currentAssignments: sortedAssignments,
           }),
+          console.log(`/user-${userStore.username}/sclass-${id}`),
             router.push({
-              path: `/user-${userStore.username}/class-${id}`,
+              path: `/user-${userStore.username}/sclass-${id}`,
             })
         "
       >
@@ -126,7 +127,7 @@ sortedAssignments.value.forEach((assignment) => {
         <h2
           v-on:click="
             router.push({
-              path: `/user-${userStore.username}/class-${id}`,
+              path: `/user-${userStore.username}/sclass-${id}`,
             })
           "
           class="w-full h-full relative text-center text-[32px] font-medium"

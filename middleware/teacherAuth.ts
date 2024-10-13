@@ -5,6 +5,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   if (userStore.user_type == "Teacher") {
     navigateTo(to);
   } else {
+    console.log("Teacher Middleware triggered")
     return abortNavigation();
   }
 });

@@ -1,8 +1,5 @@
 import { defineStore } from "pinia";
-import {
-  answers,
-  studentAssignments,
-} from "~/interfaces/interfaces";
+import { answers, studentAssignments } from "~/interfaces/interfaces";
 import { userState } from "../users";
 import { studentUserClass } from "./class";
 
@@ -25,11 +22,11 @@ export const useQuestions = defineStore("questions", () => {
   const answers = ref<Array<answers>>([]);
   const link = ref<string>(`http://127.0.0.1:8000`);
 
-
   const router = useRouter();
   const attempts_remaining = ref<number>(0);
 
-  function $reset() {//This function resets every property within the question store if a student decides to navigate to the student dashboard while completing the assignment.
+  function $reset() {
+    //This function resets every property within the question store if a student decides to navigate to the student dashboard while completing the assignment.
     classCode.value = "";
     id.value = 0;
     name.value = "";
@@ -48,60 +45,46 @@ export const useQuestions = defineStore("questions", () => {
     answers.value = [];
   }
 
-  async function $updateState(
-    item: studentAssignments,
-    id: number
-  ) {
+  async function $updateState(item: studentAssignments, id: number) {
     const userStore = userState();
 
     //takes assignment object, assignmentDetails as input
     router.push({
-      path: `/user-${userStore.username}/class-${id}/assignment-${item.name}`,
+      path: `/user-${userStore.username}/sclass-${id}/assignment-${item.name}`,
     });
-      (id = id),
-      (name.value = item.name),
-      (datetime_due.value = item.datetime_due);
+    (id = id), (name.value = item.name), (datetime_due.value = item.datetime_due);
     await $getAssignmentInstance(item.id);
     await $getQuestion();
   }
 
-  const $getAssignmentInstance = async (
-    assignmentId: number
-  ) => {
+  const $getAssignmentInstance = async (assignmentId: number) => {
     const userStore = userState();
     try {
-      const response = await fetch(
-        `${link.value}/api/courses/student/assignment-instance/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userStore.access_token}`,
-          },
-          body: JSON.stringify({
-            id: assignmentId,
-          }),
-        }
-      )
+      const response = await fetch(`${link.value}/api/courses/student/assignment-instance/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userStore.access_token}`,
+        },
+        body: JSON.stringify({
+          id: assignmentId,
+        }),
+      })
         .then((res) => res.json())
         .then(async (data) => {
           console.log(data);
-          qLeft.value =
-            data.total_questions - data.questions_completed;
+          qLeft.value = data.total_questions - data.questions_completed;
           assignmentInstance.value = data.id;
           attempts_allowed.value = data.max_attempts;
-          questions_completed.value =
-            data.questions_completed;
+          questions_completed.value = data.questions_completed;
           question_number.value = data.total_questions;
           if (data.timer_style == "UT") {
             //sorts by timer style
             timer_style.value = "unlimited";
-          } else if (data.timer_style == "TPQ") 
-          {
+          } else if (data.timer_style == "TPQ") {
             timer_style.value = "per question";
             time_allotted.value = data.time_alloted;
-          } else if (data.timer_style == "TT")
-          {
+          } else if (data.timer_style == "TT") {
             timer_style.value = "per assignment";
             time_allotted.value = data.time_alloted;
           }
@@ -115,47 +98,37 @@ export const useQuestions = defineStore("questions", () => {
 
   const $getQuestion = async () => {
     const userStore = userState();
+    const userClass = studentUserClass();
     try {
-      const response = await fetch(
-        `${link.value}/api/courses/student/get-next-question/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userStore.access_token}`,
-          },
-          body: JSON.stringify({
-            id: assignmentInstance.value,
-          }),
-        }
-      )
+      const response = await fetch(`${link.value}/api/courses/student/get-next-question/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userStore.access_token}`,
+        },
+        body: JSON.stringify({
+          id: assignmentInstance.value,
+        }),
+      })
         .then((res) => res.json())
         .then(async (data) => {
-          if (
-            data.detail ==
-            "Reached maximum number of questions allowed by the assignment"
-          ) {
-            if (
-              questions_completed.value ==
-              question_number.value
-            ) {
+          if (data.detail == "Reached maximum number of questions allowed by the assignment") {
+            if (questions_completed.value == question_number.value) {
               await $getResults();
               return;
             }
             //if assignment done, bring to completed page
             await $submitAssignment();
             router.push({
-              path: `/user-${userStore.username}/class-ah/assignment-${name.value}-completed`,
+              path: `/user-${userStore.username}/sclass-${userClass.id}/assignment-${name.value}-completed`,
             });
             return;
           }
           console.log(data);
           qText.value = data.question.text;
-          question_instance_id.value =
-            data.question_instance_id;
+          question_instance_id.value = data.question_instance_id;
           answers.value = data.question.answers;
-          attempts_remaining.value =
-            data.remaining_attempts;
+          attempts_remaining.value = data.remaining_attempts;
           if (data.questions_remaining) {
             qLeft.value = data.questions_remaining;
           }
@@ -172,21 +145,17 @@ export const useQuestions = defineStore("questions", () => {
     }
     const userStore = userState();
     try {
-      const response = await fetch(
-        `${link.value}/api/courses/student/submit-answer/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userStore.access_token}`,
-          },
-          body: JSON.stringify({
-            question_instance_id:
-              question_instance_id.value,
-            answer_id: answerId,
-          }),
-        }
-      )
+      const response = await fetch(`${link.value}/api/courses/student/submit-answer/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userStore.access_token}`,
+        },
+        body: JSON.stringify({
+          question_instance_id: question_instance_id.value,
+          answer_id: answerId,
+        }),
+      })
         .then((res) => res.json())
         .then(async (data) => {
           console.log(data);
@@ -199,11 +168,8 @@ export const useQuestions = defineStore("questions", () => {
             await $getQuestion();
             return;
           } else {
-            attempts_remaining.value =
-              data.remaining_attempts;
-            console.log(
-              `you have ${attempts_remaining.value} attempts remaining`
-            );
+            attempts_remaining.value = data.remaining_attempts;
+            console.log(`you have ${attempts_remaining.value} attempts remaining`);
             return;
           }
         });
@@ -213,18 +179,16 @@ export const useQuestions = defineStore("questions", () => {
   };
 
   const $getResults = async () => {
+    const userClass = studentUserClass();
     const userStore = userState();
     try {
-      const response = await fetch(
-        `${link.value}/api/courses/student/assignment-results/${assignmentInstance.value}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userStore.access_token}`,
-          },
-        }
-      )
+      const response = await fetch(`${link.value}/api/courses/student/assignment-results/${assignmentInstance.value}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userStore.access_token}`,
+        },
+      })
         .then((res) => res.json())
         .then(async (data) => {
           console.log(data);
@@ -232,7 +196,7 @@ export const useQuestions = defineStore("questions", () => {
           questions_correct.value = data.questions_correct;
         });
       router.push({
-        path: `/user-${userStore.username}/class-${id.value}/assignment-${name.value}-completed`,
+        path: `/user-${userStore.username}/sclass-${userClass.id}/assignment-${name.value}-completed`,
       });
     } catch (error) {
       console.log(error);
@@ -242,20 +206,16 @@ export const useQuestions = defineStore("questions", () => {
   const $submitAssignment = async () => {
     const userStore = userState();
     try {
-      const response = await fetch(
-        `${link.value}/api/courses/student/submit-assignment/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userStore.access_token}`,
-          },
-          body: JSON.stringify({
-            assignment_instance_id:
-              assignmentInstance.value,
-          }),
-        }
-      )
+      const response = await fetch(`${link.value}/api/courses/student/submit-assignment/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userStore.access_token}`,
+        },
+        body: JSON.stringify({
+          assignment_instance_id: assignmentInstance.value,
+        }),
+      })
         .then((res) => res.json())
         .then(async (data) => {
           console.log(data);

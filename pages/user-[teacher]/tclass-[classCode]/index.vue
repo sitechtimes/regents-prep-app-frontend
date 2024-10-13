@@ -3,6 +3,15 @@
 //All of the students for this particular class are recieved.
 import teacherAuth from "~/middleware/teacherAuth";
 import { userState } from "~/stores/users";
+import { teacherUserClass } from "~/stores/TeacherStore/class";
+
+const classStore = teacherUserClass();
+
+const className = ref(classStore.className);
+const classCode = ref(classStore.classCode);
+
+onMounted(() => {
+});
 
 definePageMeta({
   middleware: teacherAuth,
@@ -14,6 +23,7 @@ definePageMeta({
   <div id="mainPage">
     <div id="students" class="m-1">
       <div>
+        <h2>{{ className }}</h2>
         <input />
         <h2>Search for student</h2>
       </div>
