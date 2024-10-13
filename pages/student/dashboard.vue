@@ -4,9 +4,9 @@
       <p>loading very hard............</p>
     </div>
 
-    <div v-else class="w-full flex flex-col items-start justify-center mt-4">
+    <div v-else class="w-full flex flex-col items-start justify-center">
       <h1 class="font-semibold text-3xl text-center w-full">[Name]'s Classes</h1>
-      <div class="flex flex-wrap items-start justify-start align-top gap-8 m-6" v-if="courses.length > 0">
+      <div class="flex flex-wrap items-start justify-start align-top gap-8 my-6" v-if="courses.length > 0">
         <StudentDashboardCard @click="router.push(`/student/course/${course.id}`)" v-for="course in courses.filter((course) => course.type === 'student')" :course="course" :key="course.id" />
       </div>
       <div v-else>

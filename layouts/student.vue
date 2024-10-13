@@ -16,20 +16,61 @@
 
     <div class="w-screen h-screen flex flex-col items-center justify-start">
       <header class="px-5 sticky w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
-        <h1 class="text-3xl">unregents prep app</h1>
-        <!-- change this to a plus symbol icon -->
-        <button @click="openJoinMenu = true" class="text-5xl">+</button>
+        <div class="flex items-center justify-center gap-3">
+          <button @click="showSideMenu = !showSideMenu"><img class="w-12 h-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
+          <NuxtLink class="text-3xl cursor-pointer" to="/student/dashboard">unregents prep app</NuxtLink>
+        </div>
+        <div class="flex items-center justify-end gap-3">
+          <button v-show="route.path === '/student/dashboard'" @click="openJoinMenu = true" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
+          <!-- make this look better and add account settings -->
+          <button class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-black"><img class="w-6 h-6 dark:invert" src="/ui/user.svg" alt="Open account settings" /></button>
+        </div>
       </header>
 
       <div class="w-full h-full flex items-center justify-between">
-        <div class="w-80 h-full flex flex-col items-center justify-start border-r border-r-[var(--faded-bg-color)] pt-4">
-          <NuxtLink to="/student/dashboard">Dashboard</NuxtLink>
-          <div class="w-full flex flex-col items-center justify-start overflow-y-scroll" v-if="loaded">
-            <NuxtLink v-for="course in courses" :key="course.id" :to="`/student/course/${course.id}`">{{ course.name }}</NuxtLink>
-          </div>
-        </div>
+        <Transition name="slide-right">
+          <div v-show="showSideMenu" class="w-96 h-full flex flex-col items-center justify-start border-r border-r-[var(--faded-bg-color)] pt-4">
+            <div class="w-full flex flex-col items-center justify-center pr-4">
+              <NuxtLink
+                to="/student/dashboard"
+                class="side-button duration-200 w-full pl-4 h-12 rounded-r-full text-xl flex items-center justify-start gap-3"
+                :class="{ 'bg-green-accent': route.path === '/student/dashboard' }"
+              >
+                <img class="w-8 h-8 p-1 dark:invert" src="/ui/home.svg" aria-hidden="true" />
+                <p>Dashboard</p>
+              </NuxtLink>
+              <NuxtLink
+                to="/student/todo"
+                class="side-button duration-200 w-full pl-4 h-12 rounded-r-full text-xl flex items-center justify-start gap-3"
+                :class="{ 'bg-green-accent': route.path === '/student/todo' }"
+              >
+                <img class="w-8 h-8 p-1 dark:invert" src="/ui/todo.svg" aria-hidden="true" />
+                <p>To-do</p>
+              </NuxtLink>
+            </div>
 
-        <slot />
+            <div class="w-full h-px my-4 dark:invert bg-gray-accent rounded-full"></div>
+
+            <div class="w-full h-full flex flex-col items-center justify-start pr-4" v-if="loaded">
+              <NuxtLink
+                class="side-button duration-200 w-full pl-4 h-12 rounded-r-full text-lg flex items-center justify-start gap-3"
+                :class="{ 'bg-green-accent': route.path.includes(`/student/course/${course.id}`) }"
+                v-for="course in courses"
+                :key="course.id"
+                :to="`/student/course/${course.id}`"
+              >
+                <div class="w-8 h-8 rounded-full dark:invert flex items-center justify-center text-xl font-medium" :style="{ backgroundColor: subjectColors[course.subject] }">
+                  {{ course.name[0].toUpperCase() }}
+                </div>
+                <p>{{ course.name }}</p>
+              </NuxtLink>
+            </div>
+          </div>
+        </Transition>
+
+        <div class="w-full h-full p-4">
+          <slot />
+        </div>
       </div>
     </div>
   </div>
@@ -37,9 +78,12 @@
 
 <script setup lang="ts">
 const store = useUserStore();
+const route = useRoute();
+
 const { courses } = storeToRefs(store);
 
 const loaded = ref(false);
+const showSideMenu = ref(true);
 const openJoinMenu = ref(false);
 const joinCode = ref("");
 watch(joinCode, (input) => {
@@ -73,5 +117,21 @@ function joinCourse() {
 .join-menu-scale-enter-from .join-menu,
 .join-menu-scale-leave-to .join-menu {
   transform: scale(0.75);
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all 0.45s ease-in-out;
+}
+
+.slide-right-enter-from,
+.slide-right-leave-to {
+  transform: translateX(-24rem);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .side-button:hover {
+    @apply bg-gray-accent;
+  }
 }
 </style>

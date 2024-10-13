@@ -1,7 +1,6 @@
 <template>
   <div class="w-full h-full">
-    <h1>assignment info</h1>
-    <p>{{ route.params.assignmentId }}</p>
+    <h1>make a todo page that totally isnt inspired by google classroom</h1>
   </div>
 </template>
 
@@ -11,8 +10,6 @@ definePageMeta({
   middleware: "auth",
   requiresAuth: true
 });
-
-const route = useRoute();
 </script>
 
 <style scoped></style>
