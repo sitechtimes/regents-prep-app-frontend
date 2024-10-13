@@ -1,7 +1,7 @@
 <template>
-  <div class="card cursor-pointer border-2 border-gray rounded-lg overflow-hidden w-80 flex flex-col items-center justify-center transition-all duration-300 ease-in-out">
+  <div class="card hover:shadow-lg cursor-pointer border-2 border-gray-300 rounded-lg overflow-hidden w-80 flex flex-col items-center justify-center transition-all duration-300 ease-in-out">
     <div class="w-full h-24 flex flex-col items-start justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
-      <h3 class="text-2xl font-semibold">{{ course.name }}</h3>
+      <h2 class="text-2xl font-semibold">{{ course.name }}</h2>
       <p class="text-sm">Period {{ course.period }}</p>
       <p>{{ course.teacher }}</p>
     </div>
@@ -35,9 +35,6 @@ const currentTime = ref(new Date());
 <style scoped>
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
-    --tw-shadow: 0 35px 25px -15px rgba(0, 0, 0, 0.2);
-    --tw-shadow-colored: 0 35px 25px -15px var(--tw-shadow-color);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     --tw-border-opacity: 1;
     border-color: rgb(229 231 235 / var(--tw-border-opacity)) /* #e5e7eb */;
   }

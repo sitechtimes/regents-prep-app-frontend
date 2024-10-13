@@ -64,7 +64,7 @@
           <p class="absolute error font-medium text-red-500" v-show="confirmPasswordErr.length > 0">{{ confirmPasswordErr }}</p>
         </div>
 
-        <button class="w-96 h-12 rounded-full border-0 bg-green mt-4 transition duration-500 hover:bg-transparent hover:border-2 hover:border-green" type="submit">
+        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="submit">
           <p class="" v-if="!showLoginAnimation">
             {{ showLogin ? "Log in" : "Sign up" }}
           </p>
@@ -73,7 +73,6 @@
         <NuxtLink to="/reset-password" class="no-underline font-medium transition duration-500 hover:underline" v-if="showLogin"> Forgot password?</NuxtLink>
       </form>
     </div>
-    <span class="mb-4" v-show="!showLogin">By signing up, you accept our <a href="/">terms of use</a> and <a href="/">privacy policy</a>.</span>
 
     <h3 v-show="showLogin">New to Vent Defeater?</h3>
     <h3 v-show="!showLogin">Already have an account?</h3>
@@ -85,7 +84,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: "Vent into your account - not Vent Defeater"
+  title: "Unregents Prep Login"
 });
 
 const userStore = useUserStore();
@@ -162,7 +161,8 @@ async function loginWithEmail() {
     showLoginAnimation.value = false;
   }
 
-  if (userStore.isAuth) router.push("/app/dashboard");
+  // teachers be damned (for now)
+  if (userStore.isAuth) router.push("/student/dashboard");
   else passwordErr.value = "Something went wrong. Please try again.";
 }
 
@@ -182,7 +182,8 @@ async function signupWithEmail() {
     showLoginAnimation.value = false;
   }
 
-  if (userStore.isAuth) router.push("/app/dashboard");
+  // teachers be damned (for now)
+  if (userStore.isAuth) router.push("/student/dashboard");
   else passwordErr.value = "Something went wrong. Please try again.";
 }
 

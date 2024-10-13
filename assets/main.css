@@ -77,3 +77,8 @@ input:-webkit-autofill:focus {
   background-color: var(--primary);
   border-radius: 1em;
 }
+
+/* daisy ui stuff below... */
+.du-btn {
+  @apply rounded-full;
+}

@@ -86,7 +86,7 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  document.body.style.display = "flex";
+  document.body.style.display = "block";
 });
 </script>
 

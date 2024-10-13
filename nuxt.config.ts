@@ -19,10 +19,13 @@ export default defineNuxtConfig({
         {
           hid: "description",
           name: "description",
-          content: "We will unregent your prep"
+          content: "We will unregents your prep"
         }
       ],
-      link: [{ rel: "icon", type: "image/vnd.microsoft.icon", href: "/favicon.ico" }]
+      link: [{ rel: "icon", type: "image/vnd.microsoft.icon", href: "/favicon.ico" }],
+      htmlAttrs: {
+        lang: "en"
+      }
     }
   }
 });
