@@ -102,7 +102,8 @@ export const useQuestions = defineStore("questions", () => {
             time_allotted.value = data.time_alloted;
           } else if (data.timer_style == "TT")
           {
-            timer_style.value = 
+            timer_style.value = "per assignment";
+            time_allotted.value = data.time_alloted;
           }
           console.log(timer_style.value);
           //console.log(assignmentInstance.value);
