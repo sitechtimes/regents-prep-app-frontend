@@ -16,12 +16,13 @@ export default {
           dark: "#F2F0CC",
           navbar: "#EAE9CA"
         },
-        primary: "#AAB840",
+        green: "#A6B880",
         secondary: "#426B1F",
-        tertiary: "#4E684A"
+        tertiary: "#4E684A",
+        gray: "#DADCE0"
       }
     }
   },
-  plugins: [],
+  plugins: [require('daisyui'),],
   darkMode: "selector"
 };

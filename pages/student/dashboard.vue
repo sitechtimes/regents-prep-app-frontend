@@ -1,8 +1,10 @@
 <template>
   <div class="flex flex-col items-start justify-start">
     <Transition name="join-menu-scale">
-      <div @click="openJoinMenu = false" v-show="openJoinMenu" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen h-screen flex items-center justify-center z-10">
-        <div @click="$event.stopPropagation()" class="join-menu bg-white p-10 rounded-lg flex flex-col items-center justify-center">
+      <div @click="openJoinMenu = false" v-show="openJoinMenu"
+        class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen h-screen flex items-center justify-center z-10">
+        <div @click="$event.stopPropagation()"
+          class="join-menu bg-white p-10 rounded-lg flex flex-col items-center justify-center">
           <p>join a class</p>
           <form id="joinCodeForm" @submit="joinCourse" @submit.prevent>
             <label for="joinCode">join code</label>
@@ -15,40 +17,18 @@
     </Transition>
 
     <div v-if="!loaded">
-      <p>loading............</p>
+      <p>loading very hard............</p>
     </div>
 
     <div v-else class="flex flex-col items-start justify-start">
-      <header class="w-screen h-16 bg-green-200 flex items-center justify-around">
+      <header class="w-screen h-16 flex items-center justify-around">
         <h1 class="text-3xl">unregents prep app</h1>
         <!-- change this to a plus symbol icon -->
         <button @click="openJoinMenu = true" class="text-5xl">+</button>
       </header>
 
-      <h1>ur classes</h1>
-      <div class="flex flex-wrap items-start justify-start align-top gap-4" v-if="courses.length > 0">
-        <div @click="router.push(`/student/course/${course.id}`)" v-for="course in courses" class="cursor-pointer border rounded-lg overflow-hidden w-80 flex flex-col items-center justify-center">
-          <div class="w-full h-24 flex flex-col items-start justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
-            <h3 class="text-2xl font-semibold">{{ course.name }}</h3>
-            <p class="text-sm">Period {{ course.period }}</p>
-            <p>{{ course.teacher }}</p>
-          </div>
-          <div class="flex flex-col items-start justify-start w-full min-h-64 p-2 gap-2">
-            <h2 class="font-bold">assignments</h2>
-            <div class="flex flex-col items-start justify-center" v-if="course.assignments.length > 0">
-              <div v-for="assignment in course.assignments">
-                <p class="font-medium" :title="assignment.due.toLocaleString()">due {{ formatDate(assignment.due, currentTime) }}</p>
-                <RouterLink class="assignment" :to="`/student/course/${course.id}/${assignment.id}`" @click="$event.stopPropagation()">
-                  <span>{{ assignment.name }}</span>
-                  <span v-if="assignment.type === 'student'"> ({{ assignment.questionsCompleted }}/{{ assignment.questionsLength }})</span>
-                </RouterLink>
-              </div>
-            </div>
-            <p v-else>no assignments W</p>
-          </div>
-        </div>
-      </div>
-
+      <h1 class="font-semibold text-3xl text-center w-full">[Name]'s Classes</h1>
+      <StudentDashboardCard v-if="courses.length > 0" class="m-6" />
       <div v-else>
         <p>u have no classes try adding some</p>
         <button @click="openJoinMenu = true">add a class</button>
