@@ -1,7 +1,7 @@
 <template>
   <div class="card hover:shadow-lg cursor-pointer border-2 border-gray-300 rounded-lg overflow-hidden w-80 flex flex-col items-center justify-center transition-all duration-300 ease-in-out">
     <div class="w-full h-24 flex flex-col items-start justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
-      <h2 class="text-2xl font-semibold">{{ course.name }}</h2>
+      <h2 :title="course.name" class="text-2xl font-semibold text-nowrap overflow-ellipsis w-full overflow-hidden">{{ course.name }}</h2>
       <p class="text-sm">Period {{ course.period }}</p>
       <p>{{ course.teacher }}</p>
     </div>

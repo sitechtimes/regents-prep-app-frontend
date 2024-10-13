@@ -17,7 +17,7 @@
     </Transition>
 
     <div class="w-screen min-h-screen flex flex-col items-center justify-start">
-      <header class="px-5 sticky w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
+      <header class="px-5 sticky top-0 bg-[var(--bg-color)] w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
         <div class="flex items-center justify-center gap-3">
           <button @click="showSideMenu = !showSideMenu"><img class="w-12 h-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
           <NuxtLink class="text-3xl cursor-pointer" to="/student/dashboard">unregents prep app</NuxtLink>
@@ -29,9 +29,9 @@
         </div>
       </header>
 
-      <div class="w-full h-full flex items-center justify-between">
+      <div class="w-full h-full flex items-start justify-between">
         <Transition name="slide-right">
-          <div v-show="showSideMenu" class="w-96 h-full flex flex-col items-center justify-start border-r border-r-[var(--faded-bg-color)] pt-4">
+          <div v-show="showSideMenu" class="w-96 h-full flex flex-col items-center justify-start pt-4">
             <div class="w-full flex flex-col items-center justify-center pr-4">
               <NuxtLink
                 to="/student/dashboard"
@@ -64,13 +64,13 @@
                 <div class="w-8 h-8 rounded-full dark:invert flex items-center justify-center text-xl font-medium" :style="{ backgroundColor: subjectColors[course.subject] }">
                   {{ course.name[0].toUpperCase() }}
                 </div>
-                <p>{{ course.name }}</p>
+                <p class="text-nowrap overflow-ellipsis w-52 overflow-hidden">{{ course.name }}</p>
               </NuxtLink>
             </div>
           </div>
         </Transition>
 
-        <div class="w-full h-full p-4">
+        <div class="w-full h-full p-4 border-l border-l-[var(--faded-bg-color)]">
           <slot />
         </div>
       </div>

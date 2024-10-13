@@ -20,15 +20,31 @@ export function getRandomItem<T>(arr: T[]) {
 }
 
 export function formatDate(date: Date, currentTime: Date) {
-  const current = currentTime.getTime();
-  const diffSeconds = Math.round((date.getTime() - current) / 1000);
-
   const dateHour = date.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" });
+  const week = date.toLocaleDateString("default", { weekday: "long" });
 
-  if (diffSeconds < 0) return `yesterday at ${dateHour}`;
-  else if (diffSeconds < 86400) return `today at ${dateHour}`;
-  else if (diffSeconds < 86400 * 2) return `tomorrow at ${dateHour}`;
-  else if (diffSeconds < 86400 * 7) return date.toLocaleDateString("default", { weekday: "long" });
-  else if (diffSeconds < 86400 * 14) return `next ${date.toLocaleDateString("default", { weekday: "long" })}`;
-  else return date.toLocaleString();
+  const endOfToday = new Date(currentTime).setHours(23, 59, 59, 999);
+
+  const endOfTomorrow = new Date(currentTime);
+  endOfTomorrow.setDate(currentTime.getDate() + 1);
+  endOfTomorrow.setHours(23, 59, 59, 999);
+
+  const endOfThisWeek = new Date(currentTime);
+  endOfThisWeek.setDate(currentTime.getDate() + (7 - endOfThisWeek.getDay()));
+  endOfThisWeek.setHours(23, 59, 59, 999);
+
+  const endOfNextWeek = new Date(endOfThisWeek);
+  endOfNextWeek.setDate(endOfThisWeek.getDate() + 7);
+  endOfNextWeek.setHours(23, 59, 59, 999);
+
+  if (date.getTime() <= endOfToday) return `today at ${dateHour}`;
+  else if (date.getTime() <= endOfTomorrow.getTime()) return `tomorrow at ${dateHour}`;
+  else if (date.getTime() <= endOfThisWeek.getTime()) return week;
+  else if (date.getTime() <= endOfNextWeek.getTime()) return `Next ${week}`;
+  else
+    return (
+      date.toLocaleString("default", { year: date.getFullYear() === currentTime.getFullYear() ? undefined : "numeric", month: "short", day: "numeric" }) +
+      " at " +
+      date.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" })
+    );
 }
