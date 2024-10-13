@@ -30,14 +30,6 @@ const props = defineProps<{
 
 const { courses } = storeToRefs(store);
 const currentTime = ref(new Date());
-
-const subjectColors = {
-  Math: "#B4CBDB", //blue
-  English: "#D1ACA4", //pink
-  Science: "#C2D2B5", //green
-  History: "#ECDDBF", //yellow
-  Russian: "#BDAFD1" //purple
-};
 </script>
 
 <style scoped>
