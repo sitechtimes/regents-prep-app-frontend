@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h1>course info</h1>
+  <div class="flex flex-col items-center justify-center">
     <p>{{ route.params.courseCode }}</p>
   </div>
 </template>

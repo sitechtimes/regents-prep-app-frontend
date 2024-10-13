@@ -1,7 +1,27 @@
 <template>
-  <div>
+  <div class="flex flex-col items-start justify-start">
+    <Transition name="join-menu-scale">
+      <div @click="openJoinMenu = false" v-show="openJoinMenu" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen h-screen flex items-center justify-center z-10">
+        <div @click="$event.stopPropagation()" class="join-menu bg-white p-10 rounded-lg flex flex-col items-center justify-center">
+          <p>join a class</p>
+          <form id="joinCodeForm" @submit="joinCourse" @submit.prevent>
+            <label for="joinCode">join code</label>
+            <input id="joinCode" type="text" v-model="joinCode" placeholder="enter the 6 digit join code" />
+          </form>
+          <button @click="openJoinMenu = false">cancel</button>
+          <button form="joinCodeForm" type="submit">join</button>
+        </div>
+      </div>
+    </Transition>
+
+    <header class="w-screen h-16 bg-green-200 flex items-center justify-around">
+      <h1 class="text-3xl">unregents prep app</h1>
+      <!-- change this to a plus symbol icon -->
+      <button @click="openJoinMenu = true" class="text-5xl">+</button>
+    </header>
+
     <h1>ur classes</h1>
-    <div class="flex flex-wrap items-center justify-center align-top gap-4">
+    <div class="flex flex-wrap items-start justify-start align-top gap-4">
       <div @click="router.push(`/course/${course.id}`)" v-for="course in courses" class="cursor-pointer border rounded-lg overflow-hidden w-80 flex flex-col items-center justify-center">
         <div class="w-full h-24 flex flex-col items-start justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
           <h3 class="text-2xl font-semibold">{{ course.name }}</h3>
@@ -33,6 +53,18 @@ const router = useRouter();
 const { courses } = storeToRefs(store);
 const currentTime = ref(new Date());
 
+const openJoinMenu = ref(false);
+const joinCode = ref("");
+watch(
+  () => joinCode.value,
+  (input) => {
+    if (input.length > 6) return (joinCode.value = String(input).slice(0, 6));
+
+    joinCode.value = [...String(input)].filter((char) => !isNaN(Number(char))).join("");
+    if (input.length == 6) joinCourse();
+  }
+);
+
 const subjectColors = {
   Math: "limegreen",
   Science: "cyan",
@@ -50,7 +82,6 @@ onMounted(() => {
       name: "AP Calculus CD",
       teacher: "Wichael Mhalen",
       period: 7,
-      joinCode: "800085",
       subject: "Math",
       assignments: [
         {
@@ -83,7 +114,6 @@ onMounted(() => {
       name: "AP Literature",
       teacher: "Michaen Whalel",
       period: 9,
-      joinCode: "800813",
       subject: "English",
       assignments: [
         {
@@ -113,6 +143,11 @@ onMounted(() => {
   ];
 });
 
+function joinCourse() {
+  if (!joinCode.value) return;
+  // make it join a class 👍
+}
+
 function formatDate(date: Date) {
   const current = currentTime.value.getTime();
   const diffSeconds = Math.round((date.getTime() - current) / 1000);
@@ -129,6 +164,21 @@ function formatDate(date: Date) {
 </script>
 
 <style scoped>
+.join-menu-scale-enter-active,
+.join-menu-scale-leave-active {
+  transition: all 0.2s ease-in-out;
+}
+
+.join-menu-scale-enter-from,
+.join-menu-scale-leave-to {
+  opacity: 0;
+}
+
+.join-menu-scale-enter-from .join-menu,
+.join-menu-scale-leave-to .join-menu {
+  transform: scale(0.75);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .assignment:hover {
     text-decoration: underline;

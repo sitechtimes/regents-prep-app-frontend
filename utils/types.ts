@@ -88,8 +88,6 @@ export type StudentCourseInfo = {
   period: number;
   /** Subject of the course. */
   subject: "Math" | "English" | "Science" | "History" | "Russian";
-  /** 6-digit join code for the course. */
-  joinCode: string;
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
   assignments: StudentAssignmentOverview[];
 };
