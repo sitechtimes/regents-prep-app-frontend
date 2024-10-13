@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>yo mama</h1>
+    <slot />
   </div>
 </template>
 

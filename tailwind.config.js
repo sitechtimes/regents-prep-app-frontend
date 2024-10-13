@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./app.vue", "./pages/**/*.{vue,js,ts,jsx,tsx}", "./components/**/*.{vue,js,ts,jsx,tsx}"],
+  content: ["./app.vue", "./pages/**/*.{vue,js,ts,jsx,tsx}", "./components/**/*.{vue,js,ts,jsx,tsx}", "./layouts/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     boxShadow: {
       innertop: "inset 2px 1px 10px -4px  rgba(0, 0, 0, 0.06)",
@@ -16,13 +16,13 @@ export default {
           dark: "#F2F0CC",
           navbar: "#EAE9CA"
         },
-        green: "#A6B880",
+        "green-accent": "#A6B880",
         secondary: "#426B1F",
         tertiary: "#4E684A",
-        gray: "#DADCE0"
+        "gray-accent": "#DADCE0"
       }
     }
   },
-  plugins: [require('daisyui'),],
+  plugins: [require("daisyui")],
   darkMode: "selector"
 };

@@ -9,11 +9,11 @@
   --secondary: #2df199;
   --gray: #9a98b5;
 
-  --bg-color: #f4f1f1;
+  --bg-color: #f0f0f0;
   --bg-color-contrast: rgb(40, 40, 40);
   --bg-color-contrast-translucent: rgba(0, 0, 0, 0.2);
   --faded-bg-color-dark: rgb(220, 220, 220);
-  --faded-bg-color: #dadce0;
+  --faded-bg-color: #d1d1d1;
   --faded-bg-color-light: rgb(241, 245, 245);
   --text-color: black;
   --faded-text-color: rgb(70, 70, 70);

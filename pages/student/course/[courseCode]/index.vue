@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-start w-screen min-h-screen">
+  <div class="flex flex-col items-center justify-start w-full h-full">
     <div v-if="!loaded">
       <p>loading...............................</p>
       <!-- maybe put an animation here -->
@@ -19,13 +19,13 @@
         </div>
 
         <div class="flex flex-col items-center justify-center gap-4">
-          <div v-for="assignment in currentCourse.assignments">
+          <div @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)" class="cursor-pointer" v-for="assignment in currentCourse.assignments">
             <p>due {{ formatDate(assignment.due, currentTime) }}</p>
             <p>{{ assignment.questionsCompleted }}/{{ assignment.questionsLength }}</p>
             <div class="w-full h-3 bg-gray-600 rounded-full">
               <div class="min-w-[5%] h-full bg-green-500 rounded-full" :style="{ width: (assignment.questionsCompleted / assignment.questionsLength) * 100 + '%' }"></div>
             </div>
-            <NuxtLink :to="`/student/course/${currentCourse.id}/${assignment.id}`">{{ assignment.name }}</NuxtLink>
+            <h3>{{ assignment.name }}</h3>
           </div>
         </div>
       </div>
@@ -34,7 +34,14 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: "student",
+  middleware: "auth",
+  requiresAuth: true
+});
+
 const route = useRoute();
+const router = useRouter();
 const store = useUserStore();
 
 const { courses } = storeToRefs(store);

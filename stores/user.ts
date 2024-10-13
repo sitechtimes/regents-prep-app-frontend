@@ -1,5 +1,5 @@
 export const useUserStore = defineStore("userStore", () => {
-  const isAuth = ref(false);
+  const isAuth = ref(true);
   const theme = ref<"light" | "dark">("light");
   const courses = ref<(StudentCourseInfo | TeacherCourseInfo)[]>([]);
 
