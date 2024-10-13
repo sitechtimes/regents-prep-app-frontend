@@ -13,7 +13,7 @@ export type Question = {
     /** @readonly What the question says. */
     text: string;
     /** Array of answers. */
-    anwswers: {
+    answers: {
       /** @readonly ID of the answer. */
       id: number;
       /** @readonly What the answer choice says. */

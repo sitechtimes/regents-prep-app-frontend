@@ -18,15 +18,13 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "auth",
+  middleware: ["auth", "remove-course"],
   requiresAuth: true
 });
 
-const store = useUserStore();
 const router = useRouter();
-
+const store = useUserStore();
 const { courses } = storeToRefs(store);
-const currentTime = ref(new Date());
 
 const loaded = ref(false);
 

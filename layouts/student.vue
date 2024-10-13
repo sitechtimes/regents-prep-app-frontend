@@ -20,7 +20,12 @@
       <header class="px-5 sticky top-0 bg-[var(--bg-color)] w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
         <div class="flex items-center justify-center gap-3">
           <button @click="showSideMenu = !showSideMenu"><img class="w-12 h-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
-          <NuxtLink class="text-3xl cursor-pointer" to="/student/dashboard">unregents prep app</NuxtLink>
+          <NuxtLink class="course-link text-2xl cursor-pointer" to="/student/dashboard">SITHS Regents Prep</NuxtLink>
+          <img v-show="currentCourse" class="w-8 h-8 dark:invert" src="/ui/rightChevron.svg" aria-hidden="true" />
+          <NuxtLink v-if="currentCourse" :to="`/student/course/${currentCourse.id}`" class="course-link flex flex-col items-start justify-center">
+            <h4 class="text-xl font-medium">{{ currentCourse.name }}</h4>
+            <p class="text-sm">Period {{ currentCourse.period }}</p>
+          </NuxtLink>
         </div>
         <div class="flex items-center justify-end gap-3">
           <button v-show="route.path === '/student/dashboard'" @click="openJoinMenu = true" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
@@ -55,7 +60,7 @@
 
             <div class="w-full h-full flex flex-col items-center justify-start pr-4" v-if="loaded">
               <NuxtLink
-                class="side-button duration-200 w-full pl-4 h-12 rounded-r-full text-lg flex items-center justify-start gap-3"
+                class="side-button duration-200 w-full pl-4 h-14 rounded-r-full text-lg flex items-center justify-start gap-3"
                 :class="{ 'bg-green-accent': route.path.includes(`/student/course/${course.id}`) }"
                 v-for="course in courses"
                 :key="course.id"
@@ -64,7 +69,10 @@
                 <div class="w-8 h-8 rounded-full dark:invert flex items-center justify-center text-xl font-medium" :style="{ backgroundColor: subjectColors[course.subject] }">
                   {{ course.name[0].toUpperCase() }}
                 </div>
-                <p class="text-nowrap overflow-ellipsis w-52 overflow-hidden">{{ course.name }}</p>
+                <div class="flex flex-col items-start justify-start">
+                  <p class="text-nowrap overflow-ellipsis w-52 overflow-hidden">{{ course.name }}</p>
+                  <p class="text-xs">Period {{ course.period }}</p>
+                </div>
               </NuxtLink>
             </div>
           </div>
@@ -82,7 +90,7 @@
 const store = useUserStore();
 const route = useRoute();
 
-const { courses } = storeToRefs(store);
+const { courses, currentCourse } = storeToRefs(store);
 
 const loaded = ref(false);
 const showSideMenu = ref(true);
@@ -136,6 +144,10 @@ function joinCourse() {
 @media (hover: hover) and (pointer: fine) {
   .side-button:hover {
     @apply bg-gray-accent;
+  }
+
+  .course-link:hover {
+    @apply underline underline-offset-1;
   }
 }
 </style>

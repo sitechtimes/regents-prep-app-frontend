@@ -2,6 +2,7 @@ export const useUserStore = defineStore("userStore", () => {
   const isAuth = ref(true);
   const theme = ref<"light" | "dark">("light");
   const courses = ref<(StudentCourseInfo | TeacherCourseInfo)[]>([]);
+  const currentCourse = ref<StudentCourseInfo | TeacherCourseInfo>();
 
-  return { isAuth, theme, courses };
+  return { isAuth, theme, courses, currentCourse };
 });

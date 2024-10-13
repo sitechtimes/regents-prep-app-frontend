@@ -8,7 +8,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "auth",
+  middleware: ["auth", "add-course"],
   requiresAuth: true
 });
 

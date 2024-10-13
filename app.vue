@@ -94,9 +94,9 @@ onBeforeMount(() => {
             name: "october revolution",
             assigned: new Date(),
             due: new Date(new Date().getTime() + 864000000),
-            questionsLength: 7,
+            questionsLength: 4,
             allowLate: false,
-            questionsCompleted: 2,
+            questionsCompleted: 0,
             submitted: null
           },
           {
@@ -105,9 +105,9 @@ onBeforeMount(() => {
             name: "blyat",
             assigned: new Date(),
             due: new Date(new Date().getTime() + 87400000),
-            questionsLength: 3,
+            questionsLength: 30,
             allowLate: false,
-            questionsCompleted: 3,
+            questionsCompleted: 29,
             submitted: null
           }
         ]
@@ -126,9 +126,9 @@ onBeforeMount(() => {
             name: "super idol de xiao rong",
             assigned: new Date(),
             due: new Date(new Date().getTime() + 127400000),
-            questionsLength: 7,
+            questionsLength: 50,
             allowLate: false,
-            questionsCompleted: 2,
+            questionsCompleted: 50,
             submitted: null
           },
           {
@@ -158,7 +158,7 @@ onBeforeMount(() => {
             name: "outline 47",
             assigned: new Date(),
             due: new Date(new Date().getTime() + 8027400000),
-            questionsLength: 7,
+            questionsLength: 9,
             allowLate: false,
             questionsCompleted: 2,
             submitted: null
@@ -169,9 +169,9 @@ onBeforeMount(() => {
             name: "outline 594759",
             assigned: new Date(),
             due: new Date(8640000000000000),
-            questionsLength: 3,
+            questionsLength: 3609826,
             allowLate: false,
-            questionsCompleted: 3,
+            questionsCompleted: 0,
             submitted: null
           }
         ]
