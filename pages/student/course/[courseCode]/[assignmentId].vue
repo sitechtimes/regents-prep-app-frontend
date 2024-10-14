@@ -12,7 +12,7 @@
       </div>
 
       <div class="w-2/3 flex flex-col items-center justify-center" v-else>
-        <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" :clickable="false" />
+        <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
         <p>description of assignment</p>
         <p>late submissions?</p>

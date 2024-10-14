@@ -1,0 +1,151 @@
+<template>
+  <div class="w-full flex items-center justify-start gap-3">
+    <div class="relative">
+      <button
+        @click="
+          $event.stopPropagation();
+          showFilters = false;
+          showSorts = !showSorts;
+        "
+        :class="{ 'bg-gray-accent': currentSort !== Object.keys(sorts)[0] }"
+        class="sort-button py-1 px-5 rounded-full flex items-center justify-center gap-1 border-2 border-gray-accent"
+      >
+        <img class="w-5 h-5 dark:invert" src="/ui/sort.svg" aria-hidden="true" />
+        <p class="text-lg font-medium">Sort</p>
+      </button>
+
+      <div v-show="showSorts" class="absolute w-52 z-10 top-12 left-0 p-3 bg-[var(--bg-color)] rounded-xl border-2 border-gray-accent flex flex-col items-start justify-center">
+        <button
+          v-for="sort in Object.keys(sorts)"
+          @click="
+            $event.stopPropagation();
+            currentSort = sort;
+          "
+          class="w-full text-xl py-1 rounded-lg"
+          :class="{ 'bg-green-accent': currentSort === sort, 'sort-option': currentSort !== sort }"
+        >
+          {{ sort[0].toUpperCase() + sort.slice(1) }}
+        </button>
+      </div>
+    </div>
+
+    <div class="relative">
+      <button
+        @click="
+          $event.stopPropagation();
+          showSorts = false;
+          showFilters = !showFilters;
+        "
+        :class="{ 'bg-gray-accent': currentFilter !== Object.keys(filters)[0] }"
+        class="sort-button py-1 px-5 rounded-full flex items-center justify-center gap-1 border-2 border-gray-accent"
+      >
+        <img class="w-5 h-5 dark:invert" src="/ui/filter.svg" aria-hidden="true" />
+        <p class="text-lg font-medium">Filter</p>
+      </button>
+
+      <div v-show="showFilters" class="absolute w-52 z-10 top-12 left-0 p-3 bg-[var(--bg-color)] rounded-xl border-2 border-gray-accent flex flex-col items-start justify-center">
+        <button
+          v-for="filter in Object.keys(filters)"
+          @click="
+            $event.stopPropagation();
+            currentFilter = filter;
+          "
+          class="w-full text-xl py-1 rounded-lg"
+          :class="{ 'bg-green-accent': currentFilter === filter, 'sort-option': currentFilter !== filter }"
+        >
+          {{ filter[0].toUpperCase() + filter.slice(1) }}
+        </button>
+      </div>
+    </div>
+
+    <button
+      @click="
+        $event.stopPropagation();
+        showSorts = false;
+        showFilters = false;
+      "
+      class="p-2 rounded-full flex items-center justify-center gap-1 border-2 border-gray-accent transition-all"
+      :class="{ 'bg-gray-accent': search.length > 0 }"
+    >
+      <img class="w-5 h-5 dark:invert" src="/ui/search.svg" aria-hidden="true" />
+      <input class="h-5 bg-transparent transition-all focus-within:outline-0" type="text" placeholder="Search for an assignment" v-model="search" />
+    </button>
+
+    <button @click="emit('refresh')" class="sort-button refresh p-2 rounded-full flex items-center justify-center border-2 border-gray-accent">
+      <img class="w-5 h-5 dark:invert" src="/ui/refresh.svg" aria-hidden="true" />
+    </button>
+  </div>
+</template>
+
+<script setup lang="ts">
+const props = defineProps<{
+  assignments: StudentAssignmentOverview[];
+  deselect: boolean;
+}>();
+watch(
+  () => props.deselect,
+  (bool) => {
+    if (!bool) return;
+    showSorts.value = false;
+    showFilters.value = false;
+  }
+);
+
+const emit = defineEmits<{
+  filteredAssignments: [StudentAssignmentOverview[]];
+  refresh: [void];
+}>();
+
+const showSorts = ref(false);
+const sorts: Record<string, (a: StudentAssignmentOverview, b: StudentAssignmentOverview) => number> = {
+  latest: (a, b) => b.assigned.getTime() - a.assigned.getTime(),
+  oldest: (a, b) => a.assigned.getTime() - b.assigned.getTime(),
+  "closest due": (a, b) => a.due.getTime() - b.due.getTime(),
+  "most complete": (a, b) => b.questionsCompleted / b.questionsLength - a.questionsCompleted / a.questionsLength,
+  "least complete": (a, b) => a.questionsCompleted / a.questionsLength - b.questionsCompleted / b.questionsLength
+};
+const currentSort = ref<keyof typeof sorts>("latest");
+watch(currentSort, () => updateFilter());
+
+const showFilters = ref(false);
+const filters: Record<string, (assignment: StudentAssignmentOverview) => boolean> = {
+  all: (assignment) => true,
+  "not turned in": (assignment) => !assignment.submitted,
+  "turned in": (assignment) => assignment.submitted !== null,
+  ungraded: (assignment) => assignment.questionsCorrect === null,
+  graded: (assignment) => assignment.questionsCorrect !== null
+};
+const currentFilter = ref<keyof typeof filters>("all");
+watch(currentFilter, () => updateFilter());
+
+const search = ref("");
+watch(search, () => updateFilter());
+
+function updateFilter() {
+  emit(
+    "filteredAssignments",
+    props.assignments
+      .filter((a) => a.name.toLowerCase().includes(search.value.toLowerCase()))
+      .filter(filters[currentFilter.value])
+      .sort(sorts[currentSort.value])
+  );
+}
+
+onMounted(() => {
+  updateFilter();
+});
+</script>
+
+<style scoped>
+@media (hover: hover) and (pointer: fine) {
+  .sort-button:hover,
+  .sort-option:hover {
+    @apply bg-gray-accent;
+  }
+
+  .refresh:hover img {
+    @apply duration-700;
+    transform: rotate(360deg);
+  }
+}
+</style>

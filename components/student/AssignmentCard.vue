@@ -1,6 +1,6 @@
 <template>
   <div class="w-full p-6 rounded-2xl flex items-center justify-center gap-2 border-2 border-gray-accent" :class="{ assignment: clickable }">
-    <div class="flex flex-col items-start justify-start w-2/5">
+    <div class="flex flex-col items-start justify-start w-2/5 pl-4">
       <h3 class="text-2xl font-semibold overflow-hidden overflow-ellipsis w-full text-nowrap">{{ assignment.name }}</h3>
       <p :title="assignment.assigned.toLocaleString()">Assigned {{ formatDate(assignment.assigned, currentTime) }}</p>
       <p :title="assignment.due.toLocaleString()">Due {{ formatDate(assignment.due, currentTime) }}</p>
@@ -51,7 +51,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   assignment: StudentAssignmentOverview;
-  clickable: boolean;
+  clickable?: boolean;
 }>();
 const currentTime = ref(new Date());
 
