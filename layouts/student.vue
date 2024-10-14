@@ -17,7 +17,7 @@
     </Transition>
 
     <div class="w-screen min-h-screen flex flex-col items-center justify-start">
-      <header class="px-5 sticky top-0 bg-[var(--bg-color)] w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
+      <header class="px-5 sticky top-0 z-50 bg-[var(--bg-color)] w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
         <div class="flex items-center justify-center gap-3">
           <button @click="showSideMenu = !showSideMenu"><img class="w-12 h-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
           <NuxtLink class="course-link text-2xl cursor-pointer" to="/student/dashboard">Googoo Glassroom</NuxtLink>
@@ -144,12 +144,13 @@ function toggleTheme() {
 
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all 0.45s ease-in-out;
+  transition: all 0.35s ease-in-out;
 }
 
 .slide-right-enter-from,
 .slide-right-leave-to {
   transform: translateX(-24rem);
+  width: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {

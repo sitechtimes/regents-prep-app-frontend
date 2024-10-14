@@ -7,9 +7,16 @@
     </div>
 
     <div class="flex flex-col items-center justify-center gap-2 w-2/5" v-if="assignment.type === 'student'">
-      <p class="text-xl font-medium">Your progress: {{ assignment.questionsCompleted }}/{{ assignment.questionsLength }}</p>
+      <p class="text-xl font-medium" v-if="!assignment.questionsCorrect">
+        Your progress: {{ assignment.questionsCompleted }}/{{ assignment.questionsLength }}
+        <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.questionsLength) * 100) }}%)</span>
+      </p>
+      <p class="text-xl font-medium" v-else>
+        Your grade: {{ assignment.questionsCorrect }}/{{ assignment.questionsLength }}
+        <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.questionsLength) * 100) }}%)</span>
+      </p>
       <div class="w-full h-4 bg-gray-800 rounded-full">
-        <div class="min-w-[5%] h-full bg-green-500 rounded-full" :style="{ width: (assignment.questionsCompleted / assignment.questionsLength) * 100 + '%' }"></div>
+        <div class="min-w-[5%] h-full bg-green-500 rounded-full" :style="{ width: ((assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.questionsLength) * 100 + '%' }"></div>
       </div>
       <button
         v-if="!clickable"
@@ -34,7 +41,7 @@
       </div>
 
       <div class="flex items-center justify-center gap-2">
-        <p>{{ assignment.questionsCorrect ? `Graded: ${Math.round(assignment.questionsCorrect / assignment.questionsLength)}%` : "Ungraded" }}</p>
+        <p>{{ assignment.questionsCorrect ? `Graded: ${Math.round((assignment.questionsCorrect / assignment.questionsLength) * 100)}%` : "Ungraded" }}</p>
         <div class="w-2 h-2 rounded-full" :class="{ 'bg-red-600': !assignment.questionsCorrect, 'bg-green-600': assignment.questionsCorrect }"></div>
       </div>
     </div>

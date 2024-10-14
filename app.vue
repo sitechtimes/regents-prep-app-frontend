@@ -148,9 +148,9 @@ onBeforeMount(() => {
             due: new Date(new Date().getTime() + 864000000),
             questionsLength: 4,
             allowLate: false,
-            questionsCompleted: 0,
-            questionsCorrect: null,
-            submitted: null
+            questionsCompleted: 4,
+            questionsCorrect: 4,
+            submitted: new Date()
           },
           {
             type: "student",
@@ -160,7 +160,19 @@ onBeforeMount(() => {
             due: new Date(new Date().getTime() + 87400000),
             questionsLength: 30,
             allowLate: false,
-            questionsCompleted: 29,
+            questionsCompleted: 30,
+            questionsCorrect: 7,
+            submitted: new Date()
+          },
+          {
+            type: "student",
+            id: 426,
+            name: "95 Reasons Why Trotsky is a Traitor to the People",
+            assigned: new Date(),
+            due: new Date(new Date().getTime() + 87400000),
+            questionsLength: 60,
+            allowLate: false,
+            questionsCompleted: 9,
             questionsCorrect: null,
             submitted: null
           }
@@ -237,6 +249,10 @@ onBeforeMount(() => {
     ];
 
   // get theme and shit
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+    store.theme = "dark";
+  }
 });
 
 onMounted(() => {
