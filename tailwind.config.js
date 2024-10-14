@@ -10,10 +10,10 @@ export default {
           dark: "#F2F0CC",
           navbar: "#EAE9CA"
         },
-        "green-accent": "#A6B880",
+        "green-accent": "var(--primary)",
         secondary: "#426B1F",
         tertiary: "#4E684A",
-        "gray-accent": "#DADCE0"
+        "gray-accent": "var(--gray)"
       }
     }
   },

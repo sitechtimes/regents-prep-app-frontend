@@ -1,7 +1,20 @@
 <template>
-  <div class="w-full h-full">
-    <h1>assignment info</h1>
-    <p>{{ route.params.assignmentId }}</p>
+  <div class="flex flex-col items-center justify-start w-full h-full">
+    <div v-if="!loaded">
+      <p>loading...............................</p>
+      <!-- maybe put an animation here -->
+    </div>
+
+    <div class="w-full flex items-center justify-center" v-else>
+      <div v-if="!currentCourse">
+        <h1>this assignment doesnt exist L</h1>
+        <NuxtLink to="/student/dashboard">go back</NuxtLink>
+      </div>
+
+      <div class="w-2/3 flex flex-col items-center justify-center" v-else>
+        <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" :clickable="false" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -13,6 +26,22 @@ definePageMeta({
 });
 
 const route = useRoute();
+const store = useUserStore();
+const currentAssignment = ref<StudentAssignmentOverview>();
+const { currentCourse } = storeToRefs(store);
+
+const loaded = ref(false);
+
+onBeforeMount(() => {
+  const routeCode = route.params.assignmentId as string;
+  currentAssignment.value = currentCourse.value?.assignments.filter((assignment) => assignment.type === "student").find((assignment) => assignment.id === Number(routeCode));
+
+  // get assignment instance
+});
+
+onMounted(() => {
+  loaded.value = true;
+});
 </script>
 
 <style scoped></style>

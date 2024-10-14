@@ -62,6 +62,7 @@ export async function getStudentAssignments(courseId: number): Promise<StudentAs
       questionsLength: assignment.num_of_questions,
       allowLate: assignment.late_submissions,
       questionsCompleted: assignment.instance_info.questions_completed,
+      questionsCorrect: assignment.instance_info.questions_correct,
       submitted: assignment.instance_info.datetime_submitted ?? null
     };
   });

@@ -2,6 +2,7 @@
   <div class="flex flex-col items-start justify-start w-full h-full">
     <div v-if="!loaded">
       <p>loading very hard............</p>
+      <!-- maybe put an animation here -->
     </div>
 
     <div v-else class="w-full flex flex-col items-start justify-center">

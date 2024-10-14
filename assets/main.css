@@ -10,14 +10,30 @@
   --gray: #9a98b5;
 
   --bg-color: #fafafa;
-  --bg-color-contrast: rgb(40, 40, 40);
-  --bg-color-contrast-translucent: rgba(0, 0, 0, 0.2);
-  --faded-bg-color-dark: rgb(220, 220, 220);
   --faded-bg-color: #d1d1d1;
-  --faded-bg-color-light: rgb(241, 245, 245);
   --text-color: black;
-  --faded-text-color: rgb(70, 70, 70);
-  --text-color-contrast: white;
+
+  --math: #4db6ff;
+  --english: #ff7354;
+  --science: #a8ff61;
+  --history: #ffc95e;
+  --russian: #a463ff;
+}
+
+.dark {
+  --primary: #364613;
+  --secondary: #2df199;
+  --gray: #4b4a58;
+
+  --bg-color: #191919;
+  --faded-bg-color: #4d4d4d;
+  --text-color: rgb(245, 245, 245);
+
+  --math: #294356;
+  --english: #55322b;
+  --science: #3e4f30;
+  --history: #624b1d;
+  --russian: #3d2f51;
 }
 
 body {
@@ -36,10 +52,8 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  color: var(--text-color);
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 500ms;
+  color: var(--text-color) !important;
+  @apply transition-all duration-500;
 }
 
 button {
@@ -54,6 +68,7 @@ input::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 

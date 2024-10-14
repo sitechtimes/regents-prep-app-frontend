@@ -19,23 +19,12 @@
         </div>
 
         <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-          <div
-            class="assignment w-full p-6 rounded-2xl cursor-pointer flex items-center justify-center gap-2 border-2 border-gray-accent"
+          <StudentAssignmentCard
+            v-for="assignment in currentCourse.assignments.filter((assignment) => assignment.type === 'student').sort((a, b) => a.assigned.getTime() - b.assigned.getTime())"
             @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
-            v-for="assignment in currentCourse.assignments"
-          >
-            <div class="flex flex-col items-start justify-start w-1/2">
-              <h3 class="text-2xl font-semibold overflow-hidden overflow-ellipsis w-full text-nowrap">{{ assignment.name }}</h3>
-              <p>Assigned {{ formatDate(assignment.assigned, currentTime) }}</p>
-              <p>Due {{ formatDate(assignment.due, currentTime) }}</p>
-            </div>
-            <div class="flex flex-col items-center justify-center gap-2 w-1/2" v-if="assignment.type === 'student'">
-              <p class="text-xl font-medium">{{ assignment.questionsCompleted }}/{{ assignment.questionsLength }}</p>
-              <div class="w-full h-4 bg-gray-800 rounded-full">
-                <div class="min-w-[5%] h-full bg-green-500 rounded-full" :style="{ width: (assignment.questionsCompleted / assignment.questionsLength) * 100 + '%' }"></div>
-              </div>
-            </div>
-          </div>
+            :assignment="assignment"
+            clickable
+          />
         </div>
       </div>
     </div>
@@ -53,7 +42,6 @@ const router = useRouter();
 const store = useUserStore();
 
 const { courses, currentCourse } = storeToRefs(store);
-const currentTime = ref(new Date());
 
 const loaded = ref(false);
 
@@ -68,10 +56,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-@media (hover: hover) and (pointer: fine) {
-  .assignment:hover {
-    @apply bg-gray-accent duration-200;
-  }
-}
-</style>
+<style scoped></style>

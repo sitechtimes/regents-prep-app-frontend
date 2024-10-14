@@ -1,7 +1,7 @@
 export const subjectColors = {
-  Math: "#B4CBDB", //blue
-  English: "#D1ACA4", //pink
-  Science: "#C2D2B5", //green
-  History: "#ECDDBF", //yellow
-  Russian: "#BDAFD1" //purple
+  Math: "var(--math)", //blue
+  English: "var(--english)", //pink
+  Science: "var(--science)", //green
+  History: "var(--history)", //yellow
+  Russian: "var(--russian)" //purple
 };

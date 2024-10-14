@@ -19,32 +19,23 @@ export function getRandomItem<T>(arr: T[]) {
   return arr[getRandomInt(0, arr.length - 1)];
 }
 
-export function formatDate(date: Date, currentTime: Date) {
-  const dateHour = date.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" });
-  const week = date.toLocaleDateString("default", { weekday: "long" });
+export function formatDate(target: Date, current: Date) {
+  const dateHour = target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" });
+  const week = target.toLocaleDateString("default", { weekday: "long" });
+  const long =
+    target.toLocaleString("default", { year: target.getFullYear() === current.getFullYear() ? undefined : "numeric", month: "short", day: "numeric" }) +
+    " at " +
+    target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" });
 
-  const endOfToday = new Date(currentTime).setHours(23, 59, 59, 999);
+  const inputDate = new Date(target).setHours(0, 0, 0, 0);
+  const now = new Date(current).setHours(0, 0, 0, 0);
+  const diffDays = Math.round((inputDate - now) / (24 * 60 * 60 * 1000));
 
-  const endOfTomorrow = new Date(currentTime);
-  endOfTomorrow.setDate(currentTime.getDate() + 1);
-  endOfTomorrow.setHours(23, 59, 59, 999);
+  const labels: Record<string, string> = {
+    "0": `today at ${dateHour}`,
+    "1": `tomorrow at ${dateHour}`,
+    "-1": `yesterday at ${dateHour}`
+  };
 
-  const endOfThisWeek = new Date(currentTime);
-  endOfThisWeek.setDate(currentTime.getDate() + (7 - endOfThisWeek.getDay()));
-  endOfThisWeek.setHours(23, 59, 59, 999);
-
-  const endOfNextWeek = new Date(endOfThisWeek);
-  endOfNextWeek.setDate(endOfThisWeek.getDate() + 7);
-  endOfNextWeek.setHours(23, 59, 59, 999);
-
-  if (date.getTime() <= endOfToday) return `today at ${dateHour}`;
-  else if (date.getTime() <= endOfTomorrow.getTime()) return `tomorrow at ${dateHour}`;
-  else if (date.getTime() <= endOfThisWeek.getTime()) return week;
-  else if (date.getTime() <= endOfNextWeek.getTime()) return `Next ${week}`;
-  else
-    return (
-      date.toLocaleString("default", { year: date.getFullYear() === currentTime.getFullYear() ? undefined : "numeric", month: "short", day: "numeric" }) +
-      " at " +
-      date.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" })
-    );
+  return labels[String(diffDays)] || (diffDays > 1 && diffDays <= 7 ? week : diffDays < -1 && diffDays >= -7 ? `last ${week}` : long);
 }

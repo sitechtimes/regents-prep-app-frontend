@@ -24,6 +24,19 @@ export type Question = {
   };
 };
 
+export type StudentAssignmentInstance = {
+  /** @readonly ID of the assignment instance. */
+  id: number;
+  /** @readonly Number of questions in the assignment. */
+  questionsLength: number;
+  /** Number of questions completed. */
+  questionsCompleted: number;
+  /** Number of questions correct. */
+  questionsCorrect: number;
+  /** Date object of when the assignment was submitted. */
+  submitted: Date | null;
+};
+
 /** Used for the dashboard view of assignments, before the assignment is loaded. */
 export type StudentAssignmentOverview = {
   /** @readonly */
@@ -42,6 +55,8 @@ export type StudentAssignmentOverview = {
   allowLate: boolean;
   /** Number of questions completed in the assignment. */
   questionsCompleted: number;
+  /** Number of questions correct in the assignment. */
+  questionsCorrect: number | null;
   /** Date object of when the assignment was submitted. */
   submitted: Date | null;
 };
