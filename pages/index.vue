@@ -20,7 +20,16 @@
     <!-- right side -->
     <div class="w-1/4">
       <img class="cat cursor-default" v-show="isYoda" src="/landingYoda.png" alt="A very short-haired black cat, edited to be green" title="The almighty Yoda." />
-      <img ref="landingCatRef" @click="toggle" class="cat z-50 cursor-help" src="/landingCat.png" alt="Cat on a computer" title="This cat has some sort of hidden switch..?" />
+      <img
+        ref="landingCatRef"
+        @click="toggle"
+        id="landing"
+        class="cat z-50 cursor-help"
+        :draggable="false"
+        src="/landingCat.png"
+        alt="Cat on a computer"
+        title="This cat has some sort of hidden switch..?"
+      />
     </div>
   </div>
 </template>
@@ -28,18 +37,14 @@
 <script setup lang="ts">
 const isYoda = ref(false);
 const landingCatRef = ref<HTMLImageElement | undefined>();
-let timeout: NodeJS.Timeout;
-let count = 5; // min of 5 clicks to unleash yoda
+let startingCount = 10; // min clicks to unleash yoda
+let count = startingCount;
+let clicks = 0;
 
 function toggle() {
-  if (!landingCatRef.value) return;
-  if (isYoda.value) return;
-  clearTimeout(timeout);
-  landingCatRef.value.classList.add("clicked");
-  timeout = setTimeout(() => {
-    landingCatRef.value?.classList.remove("clicked");
-  }, 50);
-  if (Math.random() > 0.5) count--;
+  if (isYoda.value || !landingCatRef.value) return;
+  clicks++;
+  if (Math.random() > 0.7) count--;
   if (count > 0) return;
   isYoda.value = !isYoda.value;
   bye();
@@ -52,7 +57,9 @@ function bye() {
   landingCatRef.value.style.top = rect.top + "px";
   landingCatRef.value.style.width = "24%";
   landingCatRef.value.style.position = "fixed";
-  let vx = (Math.random() - 0.5) * 8;
+  landingCatRef.value.style.filter = "brightness(1)";
+  // strength scales with how many clicks it took. have fun
+  let vx = (clicks / startingCount) ** 2 * (clicks % 2 === 0 ? -1 : 1);
   let vy = -10;
   let iteration = 0;
   function physics(el: HTMLImageElement) {
@@ -72,16 +79,13 @@ function bye() {
 </script>
 
 <style scoped>
-body {
-  overflow-y: hidden !important;
-}
-
 .cat {
   @apply w-full object-cover;
   transform-origin: center;
+  transition: none;
 }
 
-.clicked {
-  filter: brightness(1.5);
+.cat#landing:active {
+  filter: brightness(1.2);
 }
 </style>
