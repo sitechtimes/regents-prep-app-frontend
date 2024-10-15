@@ -16,7 +16,7 @@
 
     <div class="w-2/3 flex flex-col items-center justify-center" v-else>
       <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-        <div class="w-full h-full flex items-center justify-center gap-2" v-for="assignment in assignments">
+        <div class="w-full h-full flex items-center justify-center gap-2" v-for="assignment in assignments" :key="assignment.id">
           <NuxtLink
             :to="`/student/course/${courses.find((c) => c.assignments.map((a) => a.id).includes(assignment.id))?.id}`"
             class="w-2 h-20 rounded-full"
