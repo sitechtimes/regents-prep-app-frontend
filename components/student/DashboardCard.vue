@@ -7,7 +7,10 @@
       <p class="text-sm">Period {{ course.period }}</p>
       <p>{{ course.teacher }}</p>
     </div>
-    <div class="flex flex-col items-center justify-start w-full min-h-36 h-full p-2">
+    <div
+      class="flex flex-col items-center justify-start w-full min-h-36 h-full p-2"
+      :style="{ background: `linear-gradient(to bottom, var(--${course.subject.toLowerCase()}-faded), var(--bg-color) 5%)` }"
+    >
       <h3 class="font-bold text-xl pt-1 pb-2">Assignments</h3>
       <div class="flex flex-wrap items-start justify-around w-full h-full gap-7" v-if="course.assignments.length > 0">
         <div
@@ -24,7 +27,13 @@
               @click="$event.stopPropagation()"
               >{{ assignment.name }}</NuxtLink
             >
-            <div class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden">
+            <div
+              @click="
+                $event.stopPropagation();
+                router.push(`/student/course/${course.id}/${assignment.id}`);
+              "
+              class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden"
+            >
               <span
                 class="absolute size-full"
                 :style="{ transform: `translateX(-${(1 - assignment.questionsCompleted / assignment.questionsLength) * 100 + '%'})`, backgroundColor: subjectColors[course.subject] }"

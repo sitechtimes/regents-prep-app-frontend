@@ -39,8 +39,8 @@
 
       <div class="w-full h-full flex items-start justify-between">
         <Transition name="slide-right">
-          <div v-show="showSideMenu" class="w-[27rem] h-[calc(100vh-4rem)] flex flex-col items-start justify-start">
-            <div class="fixed pt-4 w-72 h-[calc(100vh-4rem)] border-r border-r-[var(--faded-bg-color)]">
+          <div v-show="showSideMenu" class="w-[23rem] h-[calc(100vh-4rem)] bg-[var(--bg-color)] flex flex-col items-start justify-start">
+            <div class="fixed pt-4 w-72 h-[calc(100vh-4rem)] bg-[var(--bg-color)] border-r border-r-[var(--faded-bg-color)]">
               <div class="w-full flex flex-col items-center justify-center px-2">
                 <NuxtLink
                   to="/student/dashboard"

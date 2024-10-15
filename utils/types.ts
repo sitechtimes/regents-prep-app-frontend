@@ -105,6 +105,8 @@ export type StudentCourseInfo = {
   subject: "Math" | "English" | "Science" | "History" | "Russian";
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
   assignments: StudentAssignmentOverview[];
+  /** Total number of unsubmitted, future assignments. */
+  assignmentsLength: number;
 };
 
 export type TeacherCourseInfo = {
@@ -126,4 +128,6 @@ export type TeacherCourseInfo = {
   joinCode: string;
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
   assignments: TeacherAssignmentOverview[];
+  /** Total number of unsubmitted, future assignments. */
+  assignmentsLength: number;
 };

@@ -96,7 +96,8 @@ onBeforeMount(() => {
             questionsCorrect: null,
             submitted: null
           }
-        ]
+        ],
+        assignmentsLength: 6
       },
       {
         type: "student",
@@ -130,7 +131,8 @@ onBeforeMount(() => {
             questionsCorrect: null,
             submitted: null
           }
-        ]
+        ],
+        assignmentsLength: 2
       },
       {
         type: "student",
@@ -170,13 +172,14 @@ onBeforeMount(() => {
             name: "95 Reasons Why Trotsky is a Traitor to the People",
             assigned: new Date(),
             due: new Date(new Date().getTime() + 87400000),
-            questionsLength: 60,
+            questionsLength: 95,
             allowLate: false,
             questionsCompleted: 9,
             questionsCorrect: null,
             submitted: null
           }
-        ]
+        ],
+        assignmentsLength: 3
       },
       {
         type: "student",
@@ -210,7 +213,8 @@ onBeforeMount(() => {
             questionsCorrect: null,
             submitted: null
           }
-        ]
+        ],
+        assignmentsLength: 2
       },
       {
         type: "student",
@@ -244,16 +248,8 @@ onBeforeMount(() => {
             questionsCorrect: null,
             submitted: null
           }
-        ]
-      },
-      {
-        type: "student",
-        id: 262626,
-        name: "AP Waking Up and Not Rotting In Your Bed For Two Hours Straight",
-        teacher: "Wayland Mikhail",
-        period: 0,
-        subject: "History",
-        assignments: []
+        ],
+        assignmentsLength: 2
       }
     ];
 
