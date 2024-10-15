@@ -18,8 +18,8 @@
           :key="assignment.id"
         >
           <p class="font-medium" :title="assignment.due.toLocaleString()">Due {{ formatDate(assignment.due, currentTime) }}</p>
-          <NuxtLink class="assignment" :to="`/student/course/${course.id}/${assignment.id}`" @click="$event.stopPropagation()">
-            <div class="relative flex items-center rounded-full max-w-2 min-h-4 h-full bg-[var(--gray)] overflow-hidden hover:max-w-16">
+          <NuxtLink class="assignment flex gap-1.5" :to="`/student/course/${course.id}/${assignment.id}`" @click="$event.stopPropagation()">
+            <div class="relative flex items-center rounded-full max-w-2 min-h-4 h-full bg-[var(--gray)] overflow-hidden">
               <span
                 class="absolute size-full"
                 :style="`transform: translateY(${(1 - assignment.questionsCompleted / assignment.questionsLength) * 100}%); background-color: ${subjectColors[course.subject]}`"
@@ -47,13 +47,6 @@ const currentTime = ref(new Date());
 </script>
 
 <style scoped>
-.assignment {
-  display: grid;
-  gap: 0.8ch;
-  grid-template-columns: min-content auto;
-  padding: 2px 0;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
     --tw-border-opacity: 1;
@@ -63,6 +56,10 @@ const currentTime = ref(new Date());
   .assignment:hover {
     text-decoration: underline;
     text-underline-offset: 1px;
+  }
+
+  .assignment:hover > div {
+    @apply max-w-16;
   }
 }
 </style>
