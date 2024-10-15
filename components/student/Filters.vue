@@ -17,6 +17,7 @@
       <div v-show="showSorts" class="absolute w-52 z-10 top-12 left-0 p-3 bg-[var(--bg-color)] rounded-xl border-2 border-gray-accent flex flex-col items-start justify-center">
         <button
           v-for="sort in Object.keys(sorts)"
+          :key="sort"
           @click="
             $event.stopPropagation();
             currentSort = sort;
@@ -46,6 +47,7 @@
       <div v-show="showFilters" class="absolute w-52 z-10 top-12 left-0 p-3 bg-[var(--bg-color)] rounded-xl border-2 border-gray-accent flex flex-col items-start justify-center">
         <button
           v-for="filter in Object.keys(filters)"
+          :key="filter"
           @click="
             $event.stopPropagation();
             currentFilter = filter;

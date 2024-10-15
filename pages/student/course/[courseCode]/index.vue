@@ -26,7 +26,13 @@
             @refresh="getAssignments"
           />
 
-          <StudentAssignmentCard v-for="assignment in assignments" @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)" :assignment="assignment" clickable />
+          <StudentAssignmentCard
+            v-for="assignment in assignments"
+            :key="assignment.id"
+            @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
+            :assignment="assignment"
+            clickable
+          />
         </div>
       </div>
     </div>
