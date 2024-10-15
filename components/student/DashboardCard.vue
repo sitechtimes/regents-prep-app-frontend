@@ -11,12 +11,10 @@
       <h3 class="font-bold text-xl pt-1 pb-2">Assignments</h3>
       <div class="flex flex-wrap items-start justify-around w-full h-full gap-7" v-if="course.assignments.length > 0">
         <div
-          v-for="assignment in course.assignments
-            .filter((a) => !a.submitted)
-            .sort((a, b) => a.due.getTime() - b.due.getTime())
-            .slice(0, 2)"
+          v-for="assignment in sortedAssignments"
           :key="assignment.id"
-          class="flex flex-col items-center justify-center h-full w-[45%] px-5"
+          class="flex flex-col items-center justify-center h-full min-w-[45%] px-5"
+          :class="sortedAssignments.length === 1 ? 'w-full' : ''"
         >
           <p class="font-medium text-center" :title="assignment.due.toLocaleString()">Due {{ formatDate(assignment.due, currentTime) }}</p>
           <div class="flex flex-col items-center justify-start w-full h-full">
@@ -50,6 +48,17 @@ const props = defineProps<{
 
 const { courses } = storeToRefs(store);
 const currentTime = ref(new Date());
+
+const sortedAssignments = props.course.assignments
+  .filter((a) => !a.submitted)
+  .sort((a, b) => a.due.getTime() - b.due.getTime())
+  .slice(0, 2);
+
+/* 
+const filter = computed((arr: StudentAssignmentOverview[]) => {
+
+}); 
+*/
 </script>
 
 <style scoped>
