@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot />
+    <h1>oopsie poopsie this page doesnt exist</h1>
   </div>
 </template>
 

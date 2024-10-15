@@ -1,3 +1,8 @@
 {
-    "liveServer.settings.port": 5501
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "css.customData": [".vscode/tailwind.json"]
 }

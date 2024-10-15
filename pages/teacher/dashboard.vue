@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot />
+    <h1>teacher dashboard</h1>
   </div>
 </template>
 

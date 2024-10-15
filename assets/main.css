@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #a6b880;
+  --secondary: #2df199;
+  --gray: #dadce0;
+
+  --bg-color: #fafafa;
+  --faded-bg-color: #d9d9d9;
+  --text-color: black;
+
+  --math: #4db6ff;
+  --math-faded: #bbd1e2;
+  --english: #ff7354;
+  --english-faded: #dbc0ba;
+  --science: #97e656;
+  --science-faded: #c2d3b4;
+  --history: #ffc95e;
+  --history-faded: #d3c8b3;
+  --russian: #a463ff;
+  --russian-faded: #c5b7d8;
+}
+
+.dark {
+  --primary: #364613;
+  --secondary: #2df199;
+  --gray: #302f35;
+
+  --bg-color: #191919;
+  --faded-bg-color: #4d4d4d;
+  --text-color: rgb(245, 245, 245);
+
+  --math: #294356;
+  --math-faded: #434b50;
+  --english: #55322b;
+  --english-faded: #584a47;
+  --science: #3e4f30;
+  --science-faded: #484e43;
+  --history: #624b1d;
+  --history-faded: #5f5746;
+  --russian: #3d2f51;
+  --russian-faded: #4b4553;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--bg-color);
+  display: none;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Mukta", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--text-color) !important;
+  @apply transition-all duration-500;
+}
+
+button {
+  touch-action: manipulation;
+  text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #d1d4d8 inset;
+  -webkit-text-fill-color: #000;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #d1d4d8 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+::-webkit-scrollbar {
+  width: 0.75em;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--faded-bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 1em;
+}
+
+/* daisy ui stuff below... */
+.du-btn {
+  @apply rounded-full;
+}
