@@ -24,7 +24,7 @@
             :style="{ backgroundColor: subjectColors[courses.find((c) => c.assignments.map((a) => a.id).includes(assignment.id))?.subject ?? 'Math'] }"
           ></NuxtLink>
           <StudentAssignmentCard
-            @click="router.push(`/student/course/${courses.find((c) => c.assignments.map((a) => a.id).includes(assignment.id))}/${assignment.id}`)"
+            @click="router.push(`/student/course/${courses.find((c) => c.assignments.map((a) => a.id).includes(assignment.id))?.id}/${assignment.id}`)"
             :assignment="assignment"
             clickable
           />
