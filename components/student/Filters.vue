@@ -8,7 +8,7 @@
           showSorts = !showSorts;
         "
         :class="{ 'bg-gray-accent': currentSort !== Object.keys(sorts)[0] }"
-        class="sort-button py-1 px-5 rounded-full flex items-center justify-center gap-1 border-2 border-gray-accent"
+        class="hover:bg-gray-accent py-1 px-5 rounded-full flex items-center justify-center gap-1 border-2 border-gray-accent"
       >
         <img class="w-5 h-5 dark:invert" src="/ui/sort.svg" aria-hidden="true" />
         <p class="text-lg font-medium">Sort</p>
@@ -22,7 +22,7 @@
             currentSort = sort;
           "
           class="w-full text-xl py-1 rounded-lg"
-          :class="{ 'bg-green-accent': currentSort === sort, 'sort-option': currentSort !== sort }"
+          :class="{ 'bg-green-accent': currentSort === sort, 'hover:bg-gray-accent': currentSort !== sort }"
         >
           {{ sort[0].toUpperCase() + sort.slice(1) }}
         </button>
@@ -37,7 +37,7 @@
           showFilters = !showFilters;
         "
         :class="{ 'bg-gray-accent': currentFilter !== Object.keys(filters)[0] }"
-        class="sort-button py-1 px-5 rounded-full flex items-center justify-center gap-1 border-2 border-gray-accent"
+        class="hover:bg-gray-accent py-1 px-5 rounded-full flex items-center justify-center gap-1 border-2 border-gray-accent"
       >
         <img class="w-5 h-5 dark:invert" src="/ui/filter.svg" aria-hidden="true" />
         <p class="text-lg font-medium">Filter</p>
@@ -51,7 +51,7 @@
             currentFilter = filter;
           "
           class="w-full text-xl py-1 rounded-lg"
-          :class="{ 'bg-green-accent': currentFilter === filter, 'sort-option': currentFilter !== filter }"
+          :class="{ 'bg-green-accent': currentFilter === filter, 'hover:bg-gray-accent': currentFilter !== filter }"
         >
           {{ filter[0].toUpperCase() + filter.slice(1) }}
         </button>
@@ -71,7 +71,7 @@
       <input class="h-5 bg-transparent transition-all focus-within:outline-0" type="text" placeholder="Search for an assignment" v-model="search" />
     </button>
 
-    <button @click="emit('refresh')" class="sort-button refresh p-2 rounded-full flex items-center justify-center border-2 border-gray-accent">
+    <button @click="emit('refresh')" class="hover:bg-gray-accent refresh p-2 rounded-full flex items-center justify-center border-2 border-gray-accent">
       <img class="w-5 h-5 dark:invert" src="/ui/refresh.svg" aria-hidden="true" />
     </button>
   </div>
@@ -138,11 +138,6 @@ onMounted(() => {
 
 <style scoped>
 @media (hover: hover) and (pointer: fine) {
-  .sort-button:hover,
-  .sort-option:hover {
-    @apply bg-gray-accent;
-  }
-
   .refresh:hover img {
     @apply duration-700;
     transform: rotate(360deg);

@@ -14,10 +14,15 @@
   --text-color: black;
 
   --math: #4db6ff;
+  --math-faded: #bbd1e2;
   --english: #ff7354;
-  --science: #a8ff61;
+  --english-faded: #dbc0ba;
+  --science: #97e656;
+  --science-faded: #c2d3b4;
   --history: #ffc95e;
+  --history-faded: #d3c8b3;
   --russian: #a463ff;
+  --russian-faded: #c5b7d8;
 }
 
 .dark {
@@ -30,10 +35,15 @@
   --text-color: rgb(245, 245, 245);
 
   --math: #294356;
+  --math-faded: #434b50;
   --english: #55322b;
+  --english-faded: #584a47;
   --science: #3e4f30;
+  --science-faded: #484e43;
   --history: #624b1d;
+  --history-faded: #5f5746;
   --russian: #3d2f51;
+  --russian-faded: #4b4553;
 }
 
 body {

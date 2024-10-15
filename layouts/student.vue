@@ -20,8 +20,7 @@
       <header class="px-5 sticky top-0 z-50 bg-[var(--bg-color)] w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
         <div class="flex items-center justify-start gap-3 w-1/3">
           <button @click="showSideMenu = !showSideMenu"><img class="w-12 h-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
-          <img v-show="currentCourse" class="w-8 h-8 dark:invert" src="/ui/rightChevron.svg" aria-hidden="true" />
-          <NuxtLink v-if="currentCourse" :to="`/student/course/${currentCourse.id}`" class="course-link flex flex-col items-start justify-center">
+          <NuxtLink v-if="currentCourse" :to="`/student/course/${currentCourse.id}`" class="hover:underline hover:underline-offset-1 flex flex-col items-start justify-center">
             <h4 class="text-xl font-medium">{{ currentCourse.name }}</h4>
             <p class="text-sm">Period {{ currentCourse.period }}</p>
           </NuxtLink>
@@ -42,10 +41,10 @@
         <Transition name="slide-right">
           <div v-show="showSideMenu" class="w-[27rem] h-[calc(100vh-4rem)] flex flex-col items-start justify-start">
             <div class="fixed pt-4 w-72 h-[calc(100vh-4rem)] border-r border-r-[var(--faded-bg-color)]">
-              <div class="w-full flex flex-col items-center justify-center pr-4">
+              <div class="w-full flex flex-col items-center justify-center px-2">
                 <NuxtLink
                   to="/student/dashboard"
-                  class="side-button duration-200 w-full pl-4 h-12 rounded-xl text-xl flex items-center justify-start gap-3"
+                  class="hover:bg-gray-accent duration-200 w-full pl-4 h-12 rounded-xl text-xl flex items-center justify-start gap-3"
                   :class="{ 'bg-green-accent': route.path === '/student/dashboard' }"
                 >
                   <img class="w-8 h-8 p-1 dark:invert" src="/ui/home.svg" aria-hidden="true" />
@@ -53,7 +52,7 @@
                 </NuxtLink>
                 <NuxtLink
                   to="/student/todo"
-                  class="side-button duration-200 w-full pl-4 h-12 rounded-xl text-xl flex items-center justify-start gap-3"
+                  class="hover:bg-gray-accent duration-200 w-full pl-4 h-12 rounded-xl text-xl flex items-center justify-start gap-3"
                   :class="{ 'bg-green-accent': route.path === '/student/todo' }"
                 >
                   <img class="w-8 h-8 p-1 dark:invert" src="/ui/todo.svg" aria-hidden="true" />
@@ -63,15 +62,15 @@
 
               <div class="w-full h-px my-4 dark:invert bg-[var(--faded-bg-color)] rounded-full"></div>
 
-              <div class="w-full h-full flex flex-col items-center justify-start pr-4" v-if="loaded">
+              <div class="w-full h-full flex flex-col items-center justify-start px-2" v-if="loaded">
                 <NuxtLink
-                  class="side-button duration-200 w-full pl-4 h-14 rounded-xl text-lg flex items-center justify-start gap-3"
-                  :class="{ 'bg-green-accent': route.path.includes(`/student/course/${course.id}`) }"
+                  class="hover:bg-gray-accent duration-200 w-full pl-4 h-14 rounded-xl text-lg flex items-center justify-start gap-3"
+                  :style="{ backgroundColor: route.path.includes(`/student/course/${course.id}`) ? `var(--${course.subject.toLowerCase()}-faded)` : '' }"
                   v-for="course in courses"
                   :key="course.id"
                   :to="`/student/course/${course.id}`"
                 >
-                  <div class="w-2 h-8 rounded-full flex items-center justify-center text-xl font-medium" :style="{ backgroundColor: subjectColors[course.subject] }"></div>
+                  <div class="w-2 h-8 rounded-full flex items-center justify-center text-xl font-medium hover:bg-black" :style="{ backgroundColor: subjectColors[course.subject] }"></div>
                   <div class="w-full flex flex-col items-start justify-start">
                     <p class="text-nowrap overflow-ellipsis w-56 overflow-hidden">{{ course.name }}</p>
                     <p class="text-xs">Period {{ course.period }}</p>
@@ -151,15 +150,5 @@ function toggleTheme() {
 .slide-right-leave-to {
   transform: translateX(-24rem);
   width: 0;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .side-button:hover {
-    @apply bg-gray-accent;
-  }
-
-  .course-link:hover {
-    @apply underline underline-offset-1;
-  }
 }
 </style>
