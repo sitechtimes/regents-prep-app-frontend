@@ -245,6 +245,15 @@ onBeforeMount(() => {
             submitted: null
           }
         ]
+      },
+      {
+        type: "student",
+        id: 262626,
+        name: "AP Waking Up and Not Rotting In Your Bed For Two Hours Straight",
+        teacher: "Wayland Mikhail",
+        period: 0,
+        subject: "History",
+        assignments: []
       }
     ];
 
