@@ -1,7 +1,7 @@
 <template>
   <div class="w-screen min-h-screen">
     <Transition name="join-menu-scale">
-      <div @click="openJoinMenu = false" v-show="openJoinMenu" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen min-h-screen flex items-center justify-center z-10">
+      <div @click="openJoinMenu = false" v-show="openJoinMenu" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen min-h-screen flex items-center justify-center z-[51]">
         <div @click="$event.stopPropagation()" class="join-menu bg-white p-6 rounded-lg flex flex-col items-center justify-center">
           <h2 class="text-xl">join a class</h2>
           <form id="joinCodeForm" class="flex flex-col mb-4" @submit="joinCourse" @submit.prevent>
@@ -18,16 +18,18 @@
 
     <div class="w-screen min-h-screen flex flex-col items-center justify-start">
       <header class="px-5 sticky top-0 z-50 bg-[var(--bg-color)] w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
-        <div class="flex items-center justify-center gap-3">
+        <div class="flex items-center justify-start gap-3 w-1/3">
           <button @click="showSideMenu = !showSideMenu"><img class="w-12 h-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
-          <NuxtLink class="course-link text-2xl cursor-pointer" to="/student/dashboard">Googoo Glassroom</NuxtLink>
           <img v-show="currentCourse" class="w-8 h-8 dark:invert" src="/ui/rightChevron.svg" aria-hidden="true" />
           <NuxtLink v-if="currentCourse" :to="`/student/course/${currentCourse.id}`" class="course-link flex flex-col items-start justify-center">
             <h4 class="text-xl font-medium">{{ currentCourse.name }}</h4>
             <p class="text-sm">Period {{ currentCourse.period }}</p>
           </NuxtLink>
         </div>
-        <div class="flex items-center justify-end gap-3">
+        <div class="flex items-center justify-center w-1/3">
+          <NuxtLink to="/student/dashboard" class="text-3xl">SITHS Regents Prep</NuxtLink>
+        </div>
+        <div class="flex items-center justify-end gap-3 w-1/3">
           <!-- make this look better -->
           <button @click="toggleTheme">toggle theme</button>
           <button v-show="route.path === '/student/dashboard'" @click="openJoinMenu = true" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
@@ -39,11 +41,11 @@
       <div class="w-full h-full flex items-start justify-between">
         <Transition name="slide-right">
           <div v-show="showSideMenu" class="w-[27rem] h-[calc(100vh-4rem)] flex flex-col items-start justify-start">
-            <div class="fixed pt-4 w-80 h-[calc(100vh-4rem)] border-r border-r-[var(--faded-bg-color)]">
+            <div class="fixed pt-4 w-72 h-[calc(100vh-4rem)] border-r border-r-[var(--faded-bg-color)]">
               <div class="w-full flex flex-col items-center justify-center pr-4">
                 <NuxtLink
                   to="/student/dashboard"
-                  class="side-button duration-200 w-full pl-4 h-12 rounded-r-full text-xl flex items-center justify-start gap-3"
+                  class="side-button duration-200 w-full pl-4 h-12 rounded-xl text-xl flex items-center justify-start gap-3"
                   :class="{ 'bg-green-accent': route.path === '/student/dashboard' }"
                 >
                   <img class="w-8 h-8 p-1 dark:invert" src="/ui/home.svg" aria-hidden="true" />
@@ -51,11 +53,11 @@
                 </NuxtLink>
                 <NuxtLink
                   to="/student/todo"
-                  class="side-button duration-200 w-full pl-4 h-12 rounded-r-full text-xl flex items-center justify-start gap-3"
+                  class="side-button duration-200 w-full pl-4 h-12 rounded-xl text-xl flex items-center justify-start gap-3"
                   :class="{ 'bg-green-accent': route.path === '/student/todo' }"
                 >
                   <img class="w-8 h-8 p-1 dark:invert" src="/ui/todo.svg" aria-hidden="true" />
-                  <p>To-do</p>
+                  <p>Assignments</p>
                 </NuxtLink>
               </div>
 
@@ -63,16 +65,14 @@
 
               <div class="w-full h-full flex flex-col items-center justify-start pr-4" v-if="loaded">
                 <NuxtLink
-                  class="side-button duration-200 w-full pl-4 h-14 rounded-r-full text-lg flex items-center justify-start gap-3"
+                  class="side-button duration-200 w-full pl-4 h-14 rounded-xl text-lg flex items-center justify-start gap-3"
                   :class="{ 'bg-green-accent': route.path.includes(`/student/course/${course.id}`) }"
                   v-for="course in courses"
                   :key="course.id"
                   :to="`/student/course/${course.id}`"
                 >
-                  <div class="w-8 h-8 rounded-full flex items-center justify-center text-xl font-medium" :style="{ backgroundColor: subjectColors[course.subject] }">
-                    {{ course.name[0].toUpperCase() }}
-                  </div>
-                  <div class="flex flex-col items-start justify-start">
+                  <div class="w-2 h-8 rounded-full flex items-center justify-center text-xl font-medium" :style="{ backgroundColor: subjectColors[course.subject] }"></div>
+                  <div class="w-full flex flex-col items-start justify-start">
                     <p class="text-nowrap overflow-ellipsis w-56 overflow-hidden">{{ course.name }}</p>
                     <p class="text-xs">Period {{ course.period }}</p>
                   </div>
