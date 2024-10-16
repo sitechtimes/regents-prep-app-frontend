@@ -87,7 +87,7 @@ useSeoMeta({
   title: "Unregents Prep Login"
 });
 
-const userStore = useUserStore();
+const userStore = useStore();
 
 const route = useRoute();
 const router = useRouter();
@@ -104,6 +104,7 @@ const emailErr = ref("");
 const nameErr = ref("");
 const passwordErr = ref("");
 const confirmPasswordErr = ref("");
+const loading = ref(false);
 
 watch(
   () => route.query.signup,
@@ -143,6 +144,30 @@ onMounted(() => {
   else showLogin.value = true;
 });
 
+async function loginWithEmail() {
+  if (emailErr.value || passwordErr.value || nameErr.value) return;
+  loading.value = true;
+  if (showLogin.value) {
+    const data = await userStore.logIn(email.value, password.value);
+    if (data == "Success") {
+      router.push("/app/dashboard");
+    } else {
+      if ("non_field_errors" in data) emailErr.value = data.non_field_errors.join(" ");
+      if ("password" in data) passwordErr.value = data.password.join(" ");
+      if ("email" in data) emailErr.value = data.email.join(" ");
+    }
+  } else if (confirmPasswordErr.value) {
+  } else {
+    let data = await userStore.signUp(email.value, password.value, name.value);
+    if (data == "Success") {
+    } else {
+      if ("password" in data) passwordErr.value = data.password.join(" ");
+      if ("email" in data) emailErr.value = data.email.join(" ");
+      if ("name" in data) nameErr.value = data.name.join(" ");
+    }
+  }
+  loading.value = false;
+}
 async function loginWithEmail() {
   if (emailErr.value || passwordErr.value || nameErr.value) return;
 

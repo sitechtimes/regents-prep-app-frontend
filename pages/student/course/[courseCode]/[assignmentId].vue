@@ -30,7 +30,7 @@ definePageMeta({
 });
 
 const route = useRoute();
-const store = useUserStore();
+const store = useStore();
 const currentAssignment = ref<StudentAssignmentOverview>();
 const { currentCourse } = storeToRefs(store);
 

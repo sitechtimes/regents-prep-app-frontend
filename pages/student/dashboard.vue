@@ -24,7 +24,7 @@ definePageMeta({
 });
 
 const router = useRouter();
-const store = useUserStore();
+const store = useStore();
 const { courses } = storeToRefs(store);
 
 const loaded = ref(false);

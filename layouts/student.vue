@@ -90,7 +90,7 @@
 </template>
 
 <script setup lang="ts">
-const store = useUserStore();
+const store = useStore();
 const route = useRoute();
 
 const { courses, currentCourse } = storeToRefs(store);

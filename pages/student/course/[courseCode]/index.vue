@@ -47,7 +47,7 @@ definePageMeta({
 });
 
 const router = useRouter();
-const store = useUserStore();
+const store = useStore();
 
 const deselectFilters = ref(false);
 watch(deselectFilters, async () => {

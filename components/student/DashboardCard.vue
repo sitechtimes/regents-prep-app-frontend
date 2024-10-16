@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-const store = useUserStore();
+const store = useStore();
 const router = useRouter();
 const props = defineProps<{
   course: StudentCourseInfo;
