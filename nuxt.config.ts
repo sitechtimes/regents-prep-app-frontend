@@ -10,6 +10,11 @@ export default defineNuxtConfig({
       autoprefixer: {}
     }
   },
+  runtimeConfig: {
+    public: {
+      backend: process.env.VITE_ENV_BACKENDS
+    }
+  },
   app: {
     head: {
       title: "Unregents Prep",
