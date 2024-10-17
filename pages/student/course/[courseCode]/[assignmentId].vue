@@ -7,8 +7,7 @@
 
     <div class="w-full flex items-center justify-center" v-else>
       <div v-if="!currentCourse">
-        <h1>this assignment doesnt exist L</h1>
-        <NuxtLink to="/student/dashboard">go back</NuxtLink>
+        <notFound />
       </div>
 
       <div class="w-2/3 flex flex-col items-center justify-center" v-else>
