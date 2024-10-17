@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  * {
+    color: var(--text-color);
+  }
+}
+
 :root {
   --primary: #a6b880;
   --secondary: #2df199;
@@ -62,7 +68,7 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  color: var(--text-color) !important;
+  color: var(--text-color);
   @apply transition-all duration-500;
 }
 
