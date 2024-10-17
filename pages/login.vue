@@ -6,7 +6,7 @@
         src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F88d26018-fa1a-4b92-a8b9-d8ed3f9e178e_3840x2160.png"
         aria-hidden="true"
     /></a>
-    <h1 class="text-5xl font-bold mb-8">Welcome{{ showLogin ? " back" : "" }}!</h1>
+    <h1 class="text-5xl font-bold mb-8">Welcome{{ (loginType = "login" ? "back" : "") }}!</h1>
 
     <div class="flex items-center justify-center flex-col bg-[color:var(--bg-color)] p-4 rounded-3xl mb-4">
       <h3 class="mb-4" v-show="showLogin">Log in to your not Vent Defeater account</h3>
@@ -104,7 +104,7 @@ const route = useRoute();
 const router = useRouter();
 
 const showLoginAnimation = ref(false);
-const showLogin = ref(true);
+const loginType = ref("login" | "reset" | "signUp");
 
 const email = ref("");
 const name = ref("");
@@ -119,8 +119,8 @@ const confirmPasswordErr = ref("");
 watch(
   () => route.query.signup,
   (value) => {
-    if (value) showLogin.value = false;
-    else showLogin.value = true;
+    if (value) loginType.value = "login";
+    else loginType.value = "signUp";
   }
 );
 
@@ -150,14 +150,15 @@ watch(confirmPassword, (value) => {
 });
 
 onMounted(() => {
-  if (route.query.signup) showLogin.value = false;
-  else showLogin.value = true;
+  if (route.query.signup) loginType.value = "signUp";
+  else if (route.query.reset) loginType.value = "reset";
+  else loginType.value = "login";
 });
 
 async function loginWithEmail() {
   if (emailErr.value || passwordErr.value || nameErr.value) return;
 
-  if (!showLogin.value) return signupWithEmail();
+  if (loginType.value !== "login" || "reset") return signupWithEmail();
 
   try {
     showLoginAnimation.value = true;
