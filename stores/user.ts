@@ -249,7 +249,7 @@ export const useStore = defineStore("userStore", () => {
   }
   async function login(username: string, password: string) {
     console.log(config.public.backend);
-    const res = await fetch(config.public.backend + "api/auth/login/", {
+    const res = await fetch(config.public.backend + "auth/login/", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
