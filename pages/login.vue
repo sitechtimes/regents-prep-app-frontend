@@ -65,11 +65,10 @@
         </div>
 
         <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="submit">
-          <p class="" v-if="!showLoginAnimation"> 
-            <span class="loading loading-spinner loading-lg"></span>
+          <span v-if="loading" class="loading du-loading du-loading-sm"></span>
+          <p v-else>
             {{ showLogin ? "Log in" : "Sign up" }}
           </p>
-          <p class="flex items-center justify-center gap-2" v-else>Loading...</p>
         </button>
         <NuxtLink to="/reset-password" class="no-underline font-medium transition duration-500 hover:underline" v-if="showLogin"> Forgot password?</NuxtLink>
       </form>
@@ -93,7 +92,6 @@ const userStore = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const showLoginAnimation = ref(false);
 const showLogin = ref(true);
 
 const email = ref("");

@@ -242,14 +242,10 @@ export const useStore = defineStore("userStore", () => {
   const currentCourse = ref<StudentCourseInfo | TeacherCourseInfo>();
 
   async function init() {
-    const res = await fetch(config.public.backend + "api/", {
-      method: "GET",
+    const res = await fetch(config.public.backend + "init/", {
       credentials: "include",
       headers: { "Content-Type": "application/json" }
     });
-    // if (!res.ok) return await res.json();
-    // const data = await res.json();
-    // console.log(data);
   }
   async function login(username: string, password: string) {
     console.log(config.public.backend);
