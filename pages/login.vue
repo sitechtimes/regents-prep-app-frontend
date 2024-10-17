@@ -87,6 +87,17 @@ useSeoMeta({
   title: "Unregents Prep Login"
 });
 
+/*
+(Note for work done on Branch)
+User: Enters email
+Application: Sends request to check if user email is used in the application. If email is used, show reset password fields. Else, return popup to indicate that no such email is associated with an account.
+
+User: Enters new password and a confirmation for a new password.
+Application: Password reset. 
+
+
+*/
+
 const userStore = useUserStore();
 
 const route = useRoute();
