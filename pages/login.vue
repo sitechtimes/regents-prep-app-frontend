@@ -65,7 +65,8 @@
         </div>
 
         <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="submit">
-          <p class="" v-if="!showLoginAnimation">
+          <p class="" v-if="!showLoginAnimation"> 
+            <span class="loading loading-spinner loading-lg"></span>
             {{ showLogin ? "Log in" : "Sign up" }}
           </p>
           <p class="flex items-center justify-center gap-2" v-else>Loading...</p>
