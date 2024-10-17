@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      backend: process.env.VITE_ENV_BACKENDS
+      backend: process.env.NUXT_PUBLIC_BACKEND
     }
   },
   app: {

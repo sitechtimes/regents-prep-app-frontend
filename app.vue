@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-const user = useStore();
+const userStore = useStore();
 
 onBeforeMount(() => {
   // get theme and shit
@@ -18,6 +18,7 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
+  userStore.init();
   document.body.style.display = "block";
 });
 </script>

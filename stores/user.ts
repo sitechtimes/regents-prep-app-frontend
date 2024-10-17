@@ -241,14 +241,26 @@ export const useStore = defineStore("userStore", () => {
   ]);
   const currentCourse = ref<StudentCourseInfo | TeacherCourseInfo>();
 
+  async function init() {
+    const res = await fetch(config.public.backend + "api/", {
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" }
+    });
+    // if (!res.ok) return await res.json();
+    // const data = await res.json();
+    // console.log(data);
+  }
   async function login(username: string, password: string) {
-    const res = await fetch(config.backend + "/auth/login", {
+    console.log(config.public.backend);
+    const res = await fetch(config.public.backend + "api/auth/login/", {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username: username, password: password })
     });
     if (!res.ok) return await res.json();
     const data = await res.json();
   }
-  return { isAuth, login, theme, courses, currentCourse };
+  return { isAuth, init, login, theme, courses, currentCourse };
 });
