@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  * {
+    color: var(--text-color);
+  }
+}
+
 :root {
   --primary: #a6b880;
   --secondary: #2df199;
