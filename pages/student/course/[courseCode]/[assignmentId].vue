@@ -7,7 +7,7 @@
 
     <div class="w-full flex items-center justify-center" v-else>
       <div v-if="!currentCourse">
-        <notFound />
+        <NotFound />
       </div>
 
       <div class="w-2/3 flex flex-col items-center justify-center" v-else>
