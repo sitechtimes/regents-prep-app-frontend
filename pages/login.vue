@@ -18,7 +18,7 @@
           <input
             class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:[color:var(--bg-color)]"
             id="email"
-            type="name"
+            type="email"
             required
             v-model="email"
           />
@@ -114,9 +114,9 @@ watch(
 );
 
 watch(email, (value) => {
-  // const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  // if (value.length != 0 && !emailRegex.test(value)) emailErr.value = "Invalid email.";
-  // else emailErr.value = "";
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  if (value.length != 0 && !emailRegex.test(value)) emailErr.value = "Invalid email.";
+  else emailErr.value = "";
 });
 
 watch(password, (value) => {

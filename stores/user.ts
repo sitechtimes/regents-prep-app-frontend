@@ -247,13 +247,13 @@ export const useStore = defineStore("userStore", () => {
       headers: { "Content-Type": "application/json" }
     });
   }
-  async function login(username: string, password: string) {
+  async function login(email: string, password: string) {
     console.log(config.public.backend);
     const res = await fetch(config.public.backend + "auth/login/", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: username, password: password })
+      body: JSON.stringify({ email: email, password: password })
     });
     if (!res.ok) return await res.json();
     const data = await res.json();
