@@ -6,10 +6,10 @@
         src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F88d26018-fa1a-4b92-a8b9-d8ed3f9e178e_3840x2160.png"
         aria-hidden="true"
     /></a>
-    <h1 class="text-5xl font-bold mb-8">Welcome{{ (loginType = "login" ? "back" : "") }}!</h1>
+    <h1 class="text-5xl font-bold mb-8">Welcome{{ (loginType = "login") ? "back" : "" }}!</h1>
 
     <div class="flex items-center justify-center flex-col bg-[color:var(--bg-color)] p-4 rounded-3xl mb-4">
-      <h3 class="mb-4" v-show="showLogin">Log in to your not Vent Defeater account</h3>
+      <h3 class="mb-4" v-show="loginType">Log in to your not Vent Defeater account</h3>
       <h3 class="mb-4" v-show="!showLogin">Create a free account</h3>
 
       <form class="login flex items-center justify-center flex-col gap-7 w-full" @submit="loginWithEmail" @submit.prevent>
@@ -104,7 +104,7 @@ const route = useRoute();
 const router = useRouter();
 
 const showLoginAnimation = ref(false);
-const loginType = ref("");
+const loginType = ref<"login" | "reset" | "signUp">("login");
 
 const email = ref("");
 const name = ref("");
