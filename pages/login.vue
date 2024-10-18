@@ -104,7 +104,7 @@ const route = useRoute();
 const router = useRouter();
 
 const showLoginAnimation = ref(false);
-const loginType = ref("login" | "reset" | "signUp");
+const loginType = ref("");
 
 const email = ref("");
 const name = ref("");
