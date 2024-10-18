@@ -16,7 +16,7 @@
         <div class="relative flex items-start justify-center flex-col gap-1">
           <label class="font-medium" for="email">Your email address <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
-            class="w-96 h-12 rounded-lg border-0 bg-gray px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:[color:var(--bg-fadded-color)]"
+            class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[var(--bg-fadded-color)]"
             id="email"
             type="email"
             required
@@ -28,7 +28,7 @@
         <div class="relative flex items-start justify-center flex-col gap-1" v-if="!showLogin">
           <label class="font-medium" for="name">Your name <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
-            class="w-96 h-12 rounded-lg border-0 bg-gray px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
+            class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
             id="name"
             type="text"
             required
@@ -41,7 +41,7 @@
         <div class="relative flex items-start justify-center flex-col gap-1">
           <label class="font-medium" for="password">{{ showLogin ? "Your" : "Choose a" }} password <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
-            class="w-96 h-12 rounded-lg border-0 bg-gray px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
+            class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
             id="password"
             type="password"
             required
@@ -54,7 +54,7 @@
         <div class="relative flex items-start justify-center flex-col gap-1" v-if="!showLogin">
           <label class="font-medium" for="password">Confirm password <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
-            class="w-96 h-12 rounded-lg border-0 bg-gray px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
+            class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
             id="password"
             type="password"
             required
