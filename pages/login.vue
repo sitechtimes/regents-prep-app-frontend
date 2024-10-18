@@ -120,8 +120,8 @@ const confirmPasswordErr = ref("");
 watch(
   () => route.query.signup,
   (value) => {
-    if (value) loginType.value = "login";
-    else loginType.value = "signUp";
+    if (value) loginType.value == "signUp";
+    else loginType.value == "login";
   }
 );
 
