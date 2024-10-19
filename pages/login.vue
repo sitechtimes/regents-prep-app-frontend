@@ -42,7 +42,7 @@
 This will be shown if the page is the login or signUp page.
 This will NOT be shown if the page is the login or reset page but ONLY if realEmail is false.        
 -->
-        <div class="relative flex items-start justify-center flex-col gap-1" v-show="loginType == `login` || loginType == `signUp`">
+        <div class="relative flex items-start justify-center flex-col gap-1" v-show="loginType == `login` || loginType == `signUp` || emailExists == true">
           <label class="font-medium" for="password">{{ loginType == "login" ? "Your" : "Choose a" }} password <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
             class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
@@ -68,10 +68,14 @@ This will NOT be shown if the page is the login or reset page but ONLY if realEm
           <p class="absolute error font-medium text-red-500" v-show="confirmPasswordErr.length > 0">{{ confirmPasswordErr }}</p>
         </div>
 
-        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="submit" @click="">
+        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="submit" @click="" v-show="loginType !== `reset` || emailExists == true">
           <p class="" v-if="!showLoginAnimation">
-            {{ loginType == "login" ? "Log in" : loginType == "signUp" ? "Sign up" : "Verify email" }}
+            {{ loginType == "login" ? "Log in" : loginType == "signUp" ? "Sign up" : "Reset your Password" }}
           </p>
+          <p class="flex items-center justify-center gap-2" v-else>Loading...</p>
+        </button>
+        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="button" @click.prevent="verifyEmail()" v-show="loginType == `reset` && emailExists == false">
+          <p class="" v-if="!showLoginAnimation">Verify your email</p>
           <p class="flex items-center justify-center gap-2" v-else>Loading...</p>
         </button>
       </form>
@@ -99,7 +103,7 @@ User: Enters email
 Application: Sends request to check if user email is used in the application. If email is used, show reset password fields. Else, return popup to indicate that no such email is associated with an account.
 
 User: Enters new password and a confirmation for a new password.
-Application: Password reset. 
+Application: Password reset.
 
 
 */
@@ -128,7 +132,6 @@ watch(
   () => route.query,
   (value) => {
     value.signup ? (loginType.value = "signUp") : value.reset ? (loginType.value = "reset") : (loginType.value = "login");
-    console.log(value);
   }
 );
 
@@ -208,7 +211,7 @@ async function signupWithEmail() {
 }
 
 async function verifyEmail() {
-  //(This will be an api request to check whether or not the User's email exists to then redirect them to a "reset password page" where they will input a new password.)
+  //(This will be an api request to check whether or not the User's email exists to then redirect them to a "reset password page" where they will input a new password.) There will also be an alert() here to notify the user if the email they entered does not exist.
   emailExists.value = true;
 }
 
