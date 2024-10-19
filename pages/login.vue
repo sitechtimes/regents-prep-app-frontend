@@ -6,7 +6,7 @@
         src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F88d26018-fa1a-4b92-a8b9-d8ed3f9e178e_3840x2160.png"
         aria-hidden="true"
     /></a>
-    <h1 class="text-5xl font-bold mb-8">Welcome {{ loginType == "login" ? "back" : "" }}!</h1>
+    <h1 class="text-5xl font-bold mb-8">Welcome{{ loginType == "login" ? " back" : "" }}!</h1>
 
     <div class="flex items-center justify-center flex-col bg-[color:var(--bg-color)] p-4 rounded-3xl mb-4">
       <h3 class="mb-4" v-show="loginType == `login`">Log in to your not Vent Defeater account</h3>
@@ -26,7 +26,7 @@
           <p class="absolute error font-medium text-red-500" v-show="emailErr.length > 0">{{ emailErr }}</p>
         </div>
 
-        <div class="relative flex items-start justify-center flex-col gap-1" v-if="loginType !== `login`">
+        <div class="relative flex items-start justify-center flex-col gap-1" v-if="loginType == `signUp`">
           <label class="font-medium" for="name">Your name <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
             class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
@@ -38,8 +38,11 @@
           />
           <p class="absolute error font-medium text-red-500" v-show="nameErr.length > 0">{{ nameErr }}</p>
         </div>
-
-        <div class="relative flex items-start justify-center flex-col gap-1">
+        <!-- 
+This will be shown if the page is the login or signUp page.
+This will NOT be shown if the page is the login or reset page but ONLY if realEmail is false.        
+-->
+        <div class="relative flex items-start justify-center flex-col gap-1" v-show="loginType == `login` || loginType == `signUp`">
           <label class="font-medium" for="password">{{ loginType == "login" ? "Your" : "Choose a" }} password <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
             class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
@@ -67,19 +70,20 @@
 
         <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="submit" @click="">
           <p class="" v-if="!showLoginAnimation">
-            {{ loginType == "login" ? "Log in" : "Sign up" }}
+            {{ loginType == "login" ? "Log in" : loginType == "signUp" ? "Sign up" : "Verify email" }}
           </p>
           <p class="flex items-center justify-center gap-2" v-else>Loading...</p>
         </button>
-        <NuxtLink to="/reset-password" class="no-underline font-medium transition duration-500 hover:underline" v-if="loginType == `login`"> Forgot password?</NuxtLink>
       </form>
     </div>
-
-    <h3 v-show="loginType == `login`">New to the Regents Prep App?</h3>
+    <h3 v-show="loginType !== `reset`">Forgot your password?</h3>
+    <button class="bg-transparent border-0" @click="loginType !== `reset` ? router.push('?reset=1') : router.push('')">
+      <h3 class="m-0 font-medium cursor-pointer transition duration-500 hover:underline">{{ loginType !== `reset` ? "Reset Password" : "Log in" }}</h3>
+    </button>
+    <h3 v-show="loginType !== `signUp`">New to the Regents Prep App?</h3>
     <h3 v-show="loginType == `signUp`">Already have an account?</h3>
-    <h3 v-show="loginType == `reset`">Forgot your password?</h3>
-    <button class="bg-transparent border-0" @click="loginType == `login` ? router.push('?signup=1') : router.push('')">
-      <h3 class="m-0 font-medium cursor-pointer transition duration-500 hover:underline">{{ loginType == `login` ? "Sign up now" : "Log in" }}</h3>
+    <button class="bg-transparent border-0" @click="loginType !== `signUp` ? router.push('?signup=1') : router.push('')">
+      <h3 class="m-0 font-medium cursor-pointer transition duration-500 hover:underline">{{ loginType !== `signUp` ? "Sign up now" : "Log in" }}</h3>
     </button>
   </div>
 </template>
@@ -118,11 +122,13 @@ const nameErr = ref("");
 const passwordErr = ref("");
 const confirmPasswordErr = ref("");
 
+const emailExists = ref(false);
+
 watch(
-  () => route.query.signup,
+  () => route.query,
   (value) => {
-    if (value) loginType.value = "signUp";
-    else loginType.value = "login";
+    value.signup ? (loginType.value = "signUp") : value.reset ? (loginType.value = "reset") : (loginType.value = "login");
+    console.log(value);
   }
 );
 
@@ -160,7 +166,7 @@ onMounted(() => {
 async function loginWithEmail() {
   if (emailErr.value || passwordErr.value || nameErr.value) return;
 
-  if (loginType.value !== "login" || "reset") return signupWithEmail();
+  if (loginType.value == "signUp") return signupWithEmail();
 
   try {
     showLoginAnimation.value = true;
@@ -182,7 +188,7 @@ async function loginWithEmail() {
 
 async function signupWithEmail() {
   if (password.value != confirmPassword.value) {
-    passwordErr.value = "Passwords do not match.";
+    passwordErr.value = "Login passwords do not match.";
     return;
   }
 
@@ -199,6 +205,15 @@ async function signupWithEmail() {
   // teachers be damned (for now)
   if (userStore.isAuth) router.push("/student/dashboard");
   else passwordErr.value = "Something went wrong. Please try again.";
+}
+
+async function verifyEmail() {
+  //(This will be an api request to check whether or not the User's email exists to then redirect them to a "reset password page" where they will input a new password.)
+  emailExists.value = true;
+}
+
+async function newPassword() {
+  //Request to set newPassword to be the user's password.
 }
 
 async function loginWithGoogle() {
