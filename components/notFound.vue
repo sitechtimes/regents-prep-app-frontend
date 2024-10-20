@@ -8,12 +8,9 @@
 
 <script setup lang="ts">
 const loaded = ref(false);
-const props = defineProps({
-  message: {
-    type: String,
-    required: true
-  }
-});
+const props = defineProps<{
+  message: string;
+}>();
 
 onMounted(() => {
   loaded.value = true;
