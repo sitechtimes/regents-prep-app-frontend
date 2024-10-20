@@ -42,7 +42,7 @@
 This will be shown if the page is the login or signUp page.
 This will NOT be shown if the page is the login or reset page but ONLY if realEmail is false.        
 -->
-        <div class="relative flex items-start justify-center flex-col gap-1" v-show="loginType == `login` || loginType == `signUp` || emailExists == true">
+        <div class="relative flex items-start justify-center flex-col gap-1" v-show="loginType !== `reset` || emailExists == true">
           <label class="font-medium" for="password">{{ loginType == "login" ? "Your" : "Choose a" }} password <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
             class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
@@ -55,7 +55,7 @@ This will NOT be shown if the page is the login or reset page but ONLY if realEm
           <p class="absolute error font-medium text-red-500" v-show="passwordErr.length > 0">{{ passwordErr }}</p>
         </div>
 
-        <div class="relative flex items-start justify-center flex-col gap-1" v-if="loginType == `signUp`">
+        <div class="relative flex items-start justify-center flex-col gap-1" v-if="loginType == `signUp` || (loginType == `reset` && emailExists == true)">
           <label class="font-medium" for="password">Confirm password <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
             class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
@@ -171,6 +171,8 @@ async function loginWithEmail() {
 
   if (loginType.value == "signUp") return signupWithEmail();
 
+  if (loginType.value == "reset") return newPassword();
+
   try {
     showLoginAnimation.value = true;
     // do login stuff
@@ -217,6 +219,11 @@ async function verifyEmail() {
 
 async function newPassword() {
   //Request to set newPassword to be the user's password.
+  router.push("/login");
+  email.value = "";
+  password.value = "";
+  confirmPassword.value = "";
+  emailExists.value = false;
 }
 
 async function loginWithGoogle() {
