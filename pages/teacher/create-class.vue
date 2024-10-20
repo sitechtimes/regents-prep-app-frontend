@@ -25,14 +25,15 @@
             <option v-for="regents in regentsTypes" :key="regents.id" :value="regents.name">{{ regents.name }}</option>
           </select>
         </div>
-        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" onclick="my_modal_3.showModal()">Create</button>
-        <dialog id="my_modal_3" class="modal rounded-2xl w-2/6 h-30 p-6">
+        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" v-if="selectedOption && className" onclick="my_modal_3.showModal()">Create</button>
+        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" v-else>Create</button>
+        <dialog id="my_modal_3" class="modal rounded-2xl w-fit h-30 p-6 outline outline-2 outline-[color:var(--primary)]">
           <div class="modal-box">
             <form method="dialog">
-              <button class="btn btn-sm btn-circle btn-ghost absolute rounded-full right-2 top-2 h-8 w-8 text-sm duration-300 hover:bg-[var(--gray)]">✕</button>
+              <button class="btn btn-sm btn-circle btn-ghost absolute rounded-full right-2 top-2 h-8 w-8 text-sm duration-300 hover:bg-[var(--gray)]" @click="pushUserBack">✕</button>
             </form>
             <h3 class="text-xl font-bold">Congrats!</h3>
-            <p class="py-4 text-md">You've made a new {{ selectedOption }} class - "{{ className }}"</p>
+            <p class="py-2 text-lg">You've made a new {{ selectedOption }} class - "{{ className }}"</p>
           </div>
         </dialog>
       </form>
@@ -54,6 +55,7 @@ interface regents {
   name: string;
 }
 
+//placeholder array
 const regentsTypes: regents[] = [
   { id: 1, name: "Physics" },
   { id: 2, name: "Algebra" },
@@ -62,6 +64,9 @@ const regentsTypes: regents[] = [
 
 function createNewClass() {
   console.log("you created a new class!");
+}
+
+function pushUserBack() {
   router.push("/teacher/dashboard");
 }
 </script>
