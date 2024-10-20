@@ -7,14 +7,9 @@
 </template>
 
 <script setup lang="ts">
-const loaded = ref(false);
 const props = defineProps<{
   message: string;
 }>();
-
-onMounted(() => {
-  loaded.value = true;
-});
 
 function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
