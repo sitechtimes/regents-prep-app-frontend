@@ -6,7 +6,7 @@
 
 @layer base {
   * {
-    color: var(--text-color);
+    @apply text-[var(--text-color)];
   }
 }
 
