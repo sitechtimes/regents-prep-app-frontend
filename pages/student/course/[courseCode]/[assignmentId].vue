@@ -6,8 +6,8 @@
     </div>
 
     <div class="w-full flex items-center justify-center" v-else>
-      <div v-if="!currentCourse">
-        <NotFound />
+      <div v-if="!currentCourse" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+        <NotFound message="assignment" />
       </div>
 
       <div class="w-2/3 flex flex-col items-center justify-center" v-else>
