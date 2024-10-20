@@ -6,12 +6,7 @@
     </div>
 
     <div class="w-full flex items-center justify-center" v-else>
-      <div v-if="!currentCourse">
-        <h1>this class doesnt exist L</h1>
-        <NuxtLink to="/student/dashboard">go back</NuxtLink>
-      </div>
-
-      <div class="w-2/3 flex flex-col items-center justify-center" v-else>
+      <div class="w-2/3 flex flex-col items-center justify-center" v-if="currentCourse">
         <div class="flex flex-col items-start justify-end w-full h-52 p-6 rounded-2xl" :style="{ backgroundColor: subjectColors[currentCourse.subject] }">
           <h1 class="text-4xl font-semibold">{{ currentCourse.name }}</h1>
           <h3 class="text-lg">Period {{ currentCourse.period }}</h3>
@@ -46,6 +41,7 @@ definePageMeta({
   requiresAuth: true
 });
 
+const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
 
@@ -61,6 +57,7 @@ const assignments = ref<StudentAssignmentOverview[]>(currentCourse.value?.assign
 const loaded = ref(false);
 
 onMounted(async () => {
+  if (!currentCourse.value) return router.push(`/student/dashboard?course=${route.params.courseCode}`);
   await getAssignments();
 });
 
