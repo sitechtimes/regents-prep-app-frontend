@@ -7,16 +7,11 @@
 </template>
 
 <script setup lang="ts">
-const loaded = ref(false);
 const props = defineProps({
   message: {
     type: String,
     required: true
   }
-});
-
-onMounted(() => {
-  loaded.value = true;
 });
 
 function capitalize(str: string) {
