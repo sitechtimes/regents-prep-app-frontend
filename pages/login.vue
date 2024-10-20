@@ -11,7 +11,6 @@
     <div class="flex items-center justify-center flex-col bg-[color:var(--bg-color)] p-4 rounded-3xl mb-4">
       <h3 class="mb-4" v-show="loginType == `login`">Log in to your not Vent Defeater account</h3>
       <h3 class="mb-4" v-show="loginType == `signUp`">Create a free account</h3>
-      <h3 class="mb-4" v-show="loginType == `reset`">Reset your password</h3>
 
       <form class="login flex items-center justify-center flex-col gap-7 w-full" @submit="loginWithEmail" @submit.prevent>
         <div class="relative flex items-start justify-center flex-col gap-1">
@@ -42,7 +41,7 @@
 This will be shown if the page is the login or signUp page.
 This will NOT be shown if the page is the login or reset page but ONLY if realEmail is false.        
 -->
-        <div class="relative flex items-start justify-center flex-col gap-1" v-show="loginType !== `reset` || emailExists == true">
+        <div class="relative flex items-start justify-center flex-col gap-1">
           <label class="font-medium" for="password">{{ loginType == "login" ? "Your" : "Choose a" }} password <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
             class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
@@ -55,7 +54,7 @@ This will NOT be shown if the page is the login or reset page but ONLY if realEm
           <p class="absolute error font-medium text-red-500" v-show="passwordErr.length > 0">{{ passwordErr }}</p>
         </div>
 
-        <div class="relative flex items-start justify-center flex-col gap-1" v-if="loginType == `signUp` || (loginType == `reset` && emailExists == true)">
+        <div class="relative flex items-start justify-center flex-col gap-1" v-if="loginType == `signUp`">
           <label class="font-medium" for="password">Confirm password <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
             class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
@@ -68,26 +67,21 @@ This will NOT be shown if the page is the login or reset page but ONLY if realEm
           <p class="absolute error font-medium text-red-500" v-show="confirmPasswordErr.length > 0">{{ confirmPasswordErr }}</p>
         </div>
 
-        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="submit" @click="" v-show="loginType !== `reset` || emailExists == true">
+        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="submit" @click="">
           <p class="" v-if="!showLoginAnimation">
-            {{ loginType == "login" ? "Log in" : loginType == "signUp" ? "Sign up" : "Reset your Password" }}
+            {{ loginType == "login" ? "Log in" : "signUp" }}
           </p>
-          <p class="flex items-center justify-center gap-2" v-else>Loading...</p>
-        </button>
-        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="button" @click.prevent="verifyEmail()" v-show="loginType == `reset` && emailExists == false">
-          <p class="" v-if="!showLoginAnimation">Verify your email</p>
           <p class="flex items-center justify-center gap-2" v-else>Loading...</p>
         </button>
       </form>
     </div>
-    <h3 v-show="loginType !== `reset`">Forgot your password?</h3>
-    <button class="bg-transparent border-0" @click="loginType !== `reset` ? router.push('?reset=1') : router.push('')">
-      <h3 class="m-0 font-medium cursor-pointer transition duration-500 hover:underline">{{ loginType !== `reset` ? "Reset Password" : "Log in" }}</h3>
+    <h3>Forgot your password?</h3>
+    <button class="bg-transparent border-0">
+      <NuxtLink to="/reset-password" class="m-0 font-medium cursor-pointer transition duration-500 hover:underline">Reset your Password</NuxtLink>
     </button>
-    <h3 v-show="loginType !== `signUp`">New to the Regents Prep App?</h3>
-    <h3 v-show="loginType == `signUp`">Already have an account?</h3>
+    <h3>{{ loginType == "login" ? "New to the Regents Prep App?" : "Already have an account?" }}</h3>
     <button class="bg-transparent border-0" @click="loginType !== `signUp` ? router.push('?signup=1') : router.push('')">
-      <h3 class="m-0 font-medium cursor-pointer transition duration-500 hover:underline">{{ loginType !== `signUp` ? "Sign up now" : "Log in" }}</h3>
+      <h3 class="m-0 font-medium cursor-pointer transition duration-500 hover:underline">{{ loginType == `login` ? "Sign up now" : "Log in" }}</h3>
     </button>
   </div>
 </template>
@@ -114,7 +108,7 @@ const route = useRoute();
 const router = useRouter();
 
 const showLoginAnimation = ref(false);
-const loginType = ref<"login" | "reset" | "signUp">("login");
+const loginType = ref<"login" | "signUp">("login");
 
 const email = ref("");
 const name = ref("");
@@ -126,12 +120,10 @@ const nameErr = ref("");
 const passwordErr = ref("");
 const confirmPasswordErr = ref("");
 
-const emailExists = ref(false);
-
 watch(
   () => route.query,
   (value) => {
-    value.signup ? (loginType.value = "signUp") : value.reset ? (loginType.value = "reset") : (loginType.value = "login");
+    loginType.value = value.signup ? "signUp" : "login";
   }
 );
 
@@ -162,16 +154,11 @@ watch(confirmPassword, (value) => {
 
 onMounted(() => {
   if (route.query.signup) loginType.value = "signUp";
-  else if (route.query.reset) loginType.value = "reset";
   else loginType.value = "login";
 });
 
 async function loginWithEmail() {
   if (emailErr.value || passwordErr.value || nameErr.value) return;
-
-  if (loginType.value == "signUp") return signupWithEmail();
-
-  if (loginType.value == "reset") return newPassword();
 
   try {
     showLoginAnimation.value = true;
@@ -210,20 +197,6 @@ async function signupWithEmail() {
   // teachers be damned (for now)
   if (userStore.isAuth) router.push("/student/dashboard");
   else passwordErr.value = "Something went wrong. Please try again.";
-}
-
-async function verifyEmail() {
-  //(This will be an api request to check whether or not the User's email exists to then redirect them to a "reset password page" where they will input a new password.) There will also be an alert() here to notify the user if the email they entered does not exist.
-  emailExists.value = true;
-}
-
-async function newPassword() {
-  //Request to set newPassword to be the user's password.
-  router.push("/login");
-  email.value = "";
-  password.value = "";
-  confirmPassword.value = "";
-  emailExists.value = false;
 }
 
 async function loginWithGoogle() {
