@@ -4,7 +4,7 @@
       <header class="px-5 sticky top-0 z-50 bg-[var(--bg-color)] w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
         <div class="flex items-center justify-start gap-3 w-1/3">
           <button @click="showSideMenu = !showSideMenu"><img class="w-12 h-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
-          <NuxtLink v-if="currentCourse" :to="`/teacher/course/${currentCourse.id}/currentpastAssignments`" class="hover:underline hover:underline-offset-1 flex flex-col items-start justify-center">
+          <NuxtLink v-if="currentCourse" :to="`/teacher/course/${currentCourse.id}`" class="hover:underline hover:underline-offset-1 flex flex-col items-start justify-center">
             <h4 class="text-xl font-medium">{{ currentCourse.name }}</h4>
             <p class="text-sm">Period {{ currentCourse.period }}</p>
           </NuxtLink>
@@ -27,7 +27,7 @@
                 <NuxtLink
                   to="/teacher/dashboard"
                   class="hover:bg-gray-accent duration-200 w-full pl-4 h-12 rounded-xl text-xl flex items-center justify-start gap-3"
-                  :class="{ 'bg-green-accent': route.path === '/student/dashboard' }"
+                  :class="{ 'bg-green-accent': route.path === '/teacher/dashboard' }"
                 >
                   <img class="w-8 h-8 p-1 dark:invert" src="/ui/home.svg" aria-hidden="true" />
                   <p>Dashboard</p>
@@ -35,7 +35,7 @@
                 <NuxtLink
                   to="/teacher/todo"
                   class="hover:bg-gray-accent duration-200 w-full pl-4 h-12 rounded-xl text-xl flex items-center justify-start gap-3"
-                  :class="{ 'bg-green-accent': route.path === '/student/todo' }"
+                  :class="{ 'bg-green-accent': route.path === '/teacher/todo' }"
                 >
                   <img class="w-8 h-8 p-1 dark:invert" src="/ui/todo.svg" aria-hidden="true" />
                   <p>Assignments</p>
@@ -47,10 +47,10 @@
               <div class="w-full h-full flex flex-col items-center justify-start px-2" v-if="loaded">
                 <NuxtLink
                   class="hover:bg-gray-accent duration-200 w-full pl-4 h-14 rounded-xl text-lg flex items-center justify-start gap-3"
-                  :style="{ backgroundColor: route.path.includes(`/teacher/course/${course.id}/currentpastAssignments`) ? `var(--${course.subject.toLowerCase()}-faded)` : '' }"
+                  :style="{ backgroundColor: route.path.includes(`/teacher/course/${course.id}`) ? `var(--${course.subject.toLowerCase()}-faded)` : '' }"
                   v-for="course in courses"
                   :key="course.id"
-                  :to="`/teacher/course/${course.id}/currentpastAssignments`"
+                  :to="`/teacher/course/${course.id}`"
                 >
                   <div class="w-2 h-8 rounded-full flex items-center justify-center text-xl font-medium hover:bg-black" :style="{ backgroundColor: subjectColors[course.subject] }"></div>
                   <div class="w-full flex flex-col items-start justify-start">
