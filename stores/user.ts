@@ -248,7 +248,6 @@ export const useStore = defineStore("userStore", () => {
     });
   }
   async function login(email: string, password: string) {
-    console.log(config.public.backend);
     const res = await fetch(config.public.backend + "auth/login/", {
       method: "POST",
       credentials: "include",
@@ -258,5 +257,14 @@ export const useStore = defineStore("userStore", () => {
     if (!res.ok) return await res.json();
     const data = await res.json();
   }
+  async function getAssignments(id: number) {
+    const res = await fetch(config.public.backend + `courses/${id}/assignments/`, {
+      credentials: "include",
+      headers: { "Content-Type": "application/json" }
+    });
+    if (!res.ok) return await res.json();
+    const data = await res.json();
+  }
+
   return { isAuth, init, login, theme, courses, currentCourse };
 });
