@@ -17,7 +17,7 @@ onBeforeMount(() => {
   if (store.isAuth)
     courses.value = [
       {
-        type: "student",
+        type: "teacher",
         id: 1,
         name: "AP Calculus CD",
         teacher: "Wichael Mhalen",
@@ -25,7 +25,7 @@ onBeforeMount(() => {
         subject: "Math",
         assignments: [
           {
-            type: "student",
+            type: "teacher",
             id: 420,
             name: "Power Rule practice",
             assigned: new Date(new Date().getTime() - 86400000),
@@ -37,7 +37,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "student",
+            type: "teacher",
             id: 421,
             name: "Chain Rule practice",
             assigned: new Date(),
@@ -49,7 +49,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "student",
+            type: "teacher",
             id: 422,
             name: "Chaid Rule practice",
             assigned: new Date(new Date().getTime() + 500000),
@@ -61,7 +61,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "student",
+            type: "teacher",
             id: 423,
             name: "Chaim Rule practice",
             assigned: new Date(),
@@ -73,7 +73,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "student",
+            type: "teacher",
             id: 424,
             name: "Chail Rule practice",
             assigned: new Date(),
@@ -85,7 +85,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "student",
+            type: "teacher",
             id: 425,
             name: "Chaik Rule practice",
             assigned: new Date(),
@@ -100,7 +100,7 @@ onBeforeMount(() => {
         assignmentsLength: 6
       },
       {
-        type: "student",
+        type: "teacher",
         id: 2,
         name: "AP Literally Not Fun",
         teacher: "Michaen Whalel",
@@ -108,7 +108,7 @@ onBeforeMount(() => {
         subject: "English",
         assignments: [
           {
-            type: "student",
+            type: "teacher",
             id: 426,
             name: "Poetry Analysis",
             assigned: new Date(),
@@ -120,7 +120,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "student",
+            type: "teacher",
             id: 427,
             name: "Edgar Allen Poetry",
             assigned: new Date(),
@@ -135,7 +135,7 @@ onBeforeMount(() => {
         assignmentsLength: 2
       },
       {
-        type: "student",
+        type: "teacher",
         id: 3,
         name: "AP USSR Government & Politics",
         teacher: "Whalem Nichael",
@@ -143,7 +143,7 @@ onBeforeMount(() => {
         subject: "History",
         assignments: [
           {
-            type: "student",
+            type: "teacher",
             id: 428,
             name: "October Revolution",
             assigned: new Date(),
@@ -155,7 +155,7 @@ onBeforeMount(() => {
             submitted: new Date()
           },
           {
-            type: "student",
+            type: "teacher",
             id: 429,
             name: "Joseph Stalin Biography",
             assigned: new Date(),
@@ -167,7 +167,7 @@ onBeforeMount(() => {
             submitted: new Date()
           },
           {
-            type: "student",
+            type: "teacher",
             id: 430,
             name: "95 Reasons Why Trotsky is a Traitor to the People",
             assigned: new Date(),
@@ -182,7 +182,7 @@ onBeforeMount(() => {
         assignmentsLength: 3
       },
       {
-        type: "student",
+        type: "teacher",
         id: 4,
         name: "Not Russian",
         teacher: "Nichael Whalem",
@@ -190,7 +190,7 @@ onBeforeMount(() => {
         subject: "Russian",
         assignments: [
           {
-            type: "student",
+            type: "teacher",
             id: 431,
             name: "Super idol de xiao rong",
             assigned: new Date(),
@@ -202,7 +202,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "student",
+            type: "teacher",
             id: 432,
             name: "Xue hua piao piao",
             assigned: new Date(),
@@ -217,7 +217,7 @@ onBeforeMount(() => {
         assignmentsLength: 2
       },
       {
-        type: "student",
+        type: "teacher",
         id: 5,
         name: "AP Psychological Warfare",
         teacher: "Mhalen Wichael",
@@ -225,7 +225,7 @@ onBeforeMount(() => {
         subject: "Science",
         assignments: [
           {
-            type: "student",
+            type: "teacher",
             id: 433,
             name: "Outline 47",
             assigned: new Date(new Date().getTime() - 864000000),
@@ -237,7 +237,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "student",
+            type: "teacher",
             id: 434,
             name: "Outline 594759",
             assigned: new Date(),
