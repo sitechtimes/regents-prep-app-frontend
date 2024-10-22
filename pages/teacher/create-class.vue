@@ -25,8 +25,7 @@
             <option v-for="regent in regentTypes" :key="regent.id" :value="regent.name">{{ regent.name }}</option>
           </select>
         </div>
-        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" v-if="selectedOption && className" @click="myModal3?.showModal()">Create</button>
-        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" v-else>Create</button>
+        <button class="du-btn du-btn-wide du-btn-md bg-green-accent" :disabled="!selectedOption || !className" @click="myModal3?.showModal()">Create</button>
         <dialog ref="myModal3" class="modal rounded-2xl w-fit h-30 p-6 outline outline-2 outline-[color:var(--primary)]">
           <div class="modal-box">
             <form method="dialog">
