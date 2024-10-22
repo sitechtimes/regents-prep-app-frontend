@@ -56,9 +56,10 @@ function spawnYoda(e: MouseEvent) {
 }
 
 let cooldown = 5;
+let interval: NodeJS.Timeout;
 
 watch(counter, () => {
-  if (counter.value > -1) return;
+  if (counter.value > -1 || interval) return;
   alert("The horde is coming...");
 
   function update() {
@@ -78,7 +79,7 @@ watch(counter, () => {
     for (var j = explode.length - 1; j >= 0; j--) yodas.splice(explode[j], 1);
   }
 
-  setInterval(update, 10);
+  interval = setInterval(update, 10);
 
   document.addEventListener("mousemove", (event) => {
     cooldown--;
