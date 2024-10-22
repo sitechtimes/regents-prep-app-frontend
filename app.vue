@@ -23,6 +23,8 @@ onBeforeMount(() => {
         teacher: "Wichael Mhalen",
         period: 2,
         subject: "Math",
+        joinCode: "669069",
+        studentCount: 6,
         assignments: [
           {
             type: "teacher",
@@ -32,9 +34,7 @@ onBeforeMount(() => {
             due: new Date(new Date().getTime() + 3600000),
             questionsLength: 5,
             allowLate: false,
-            questionsCompleted: 3,
-            questionsCorrect: null,
-            submitted: null
+            submissionsCount: 0
           },
           {
             type: "teacher",
@@ -44,9 +44,7 @@ onBeforeMount(() => {
             due: new Date(new Date().getTime() + 86400000),
             questionsLength: 50,
             allowLate: false,
-            questionsCompleted: 2,
-            questionsCorrect: null,
-            submitted: null
+            submissionsCount: 0
           },
           {
             type: "teacher",
@@ -56,9 +54,7 @@ onBeforeMount(() => {
             due: new Date(new Date().getTime() + 86400001),
             questionsLength: 50,
             allowLate: false,
-            questionsCompleted: 2,
-            questionsCorrect: null,
-            submitted: null
+            submissionsCount: 0
           },
           {
             type: "teacher",
@@ -68,9 +64,7 @@ onBeforeMount(() => {
             due: new Date(new Date().getTime() + 86400001),
             questionsLength: 50,
             allowLate: false,
-            questionsCompleted: 2,
-            questionsCorrect: null,
-            submitted: null
+            submissionsCount: 0
           },
           {
             type: "teacher",
@@ -80,9 +74,7 @@ onBeforeMount(() => {
             due: new Date(new Date().getTime() + 86400000),
             questionsLength: 50,
             allowLate: false,
-            questionsCompleted: 2,
-            questionsCorrect: null,
-            submitted: null
+            submissionsCount: 0
           },
           {
             type: "teacher",
@@ -92,9 +84,7 @@ onBeforeMount(() => {
             due: new Date(new Date().getTime() + 86400001),
             questionsLength: 50,
             allowLate: false,
-            questionsCompleted: 2,
-            questionsCorrect: null,
-            submitted: null
+            submissionsCount: 0
           }
         ],
         assignmentsLength: 6

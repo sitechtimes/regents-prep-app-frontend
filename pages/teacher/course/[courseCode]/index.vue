@@ -20,7 +20,7 @@
             <p class="text-center">Due: {{ assignment.due }}</p>
             <div class="text-center mt-2">
               <span class="font-semibold mr-1">Class Submissions:</span>
-              <div class="border border-gray-400 rounded-full px-2 py-1 inline-block mt-1">{{ assignment.submissionsCount }}/{{ assignment.totalStudents }} Students</div>
+              <div class="border border-gray-400 rounded-full px-2 py-1 inline-block mt-1">{{ assignment.submissionsCount }}/{{ (currentCourse as TeacherCourseInfo).studentCount ?? 0 }} Students</div>
             </div>
           </NuxtLink>
         </div>
@@ -59,7 +59,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "teacher",
-  middleware: ["auth", "remove-course"],
+  middleware: ["auth", "add-course"],
   requiresAuth: true
 });
 
@@ -72,8 +72,10 @@ const showNotFound = ref(false);
 const loaded = ref(false);
 
 const assignments = ref<TeacherAssignmentOverview[]>(currentCourse.value?.assignments.filter((a) => a.type === "teacher") ?? []);
-
-
+onMounted(() => {
+  console.log(currentCourse.value);
+  console.log(currentCourse.value?.assignments);
+});
 
 onMounted(() => {
   loaded.value = true;
