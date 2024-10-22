@@ -59,7 +59,7 @@ let cooldown = 5;
 let interval: NodeJS.Timeout;
 
 watch(counter, () => {
-  if (counter.value > -1 || interval) return;
+  if (counter.value > -1 || interval || matchMedia("(pointer:coarse)").matches) return;
   alert("The horde is coming...");
 
   function update() {
