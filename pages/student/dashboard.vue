@@ -17,7 +17,7 @@
           <StudentDashboardCard @click="router.push(`/student/course/${course.id}`)" v-for="course in courses.filter((course) => course.type === 'student')" :course="course" :key="course.id" />
         </div>
         <div v-else>
-          <p>u have no classes try adding some</p>
+          <h2 class="text-4xl md:text-[2rem] mb leading-none font-extrabold text-[var(--text-color)] text-center">u have no classes try adding some</h2>
         </div>
       </div>
     </div>

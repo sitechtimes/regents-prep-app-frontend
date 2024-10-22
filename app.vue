@@ -14,7 +14,7 @@ onBeforeMount(() => {
   store.isAuth = true;
 
   // sample course info
-  if (store.isAuth)
+  /* if (store.isAuth)
     courses.value = [
       {
         type: "student",
@@ -251,7 +251,7 @@ onBeforeMount(() => {
         ],
         assignmentsLength: 2
       }
-    ];
+    ]; */
 
   // get theme and shit
   if (localStorage.getItem("theme") === "dark") {

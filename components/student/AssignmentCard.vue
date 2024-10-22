@@ -46,7 +46,7 @@
 
       </div>
       <p>Late Submissions Accepted:</p>
-      <!--<NuxtLink :to="`/student/course/${currentCourse.id}/${assignment.id}/assignmentStats`"/>-->
+      <NuxtLink :to="`/student/course/${currentCourse.id}/${assignment.id}/assignmentStats`"/>
       <button>Start Assignment</button> -->
     </div>
 
