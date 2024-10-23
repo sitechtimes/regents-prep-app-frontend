@@ -1,5 +1,3 @@
-import type { AssignmentInstance } from "./types";
-
 const config = useRuntimeConfig();
 
 export async function getAssignments(assignmentId: number): Promise<(StudentAssignment | TeacherAssignment)[]> {
@@ -40,12 +38,24 @@ export async function getNextQuestion(assignmentId: number): Promise<Question> {
   return await res.json();
 }
 
-export async function submitAnswer(assignmentId: number, questionId: number, answerId: number): Promise<void> {
+export async function submitQuestionAnswer(questionId: number, answerId: number): Promise<SubmitAnswer | string> {
   const res = await fetch(config.public.backend + `courses/student/submit-answer/`, {
     credentials: "include",
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ assignmentId, questionId, answerId })
+    body: JSON.stringify({ questionInstanceID: questionId, answerID: answerId })
   });
   if (!res.ok) throw new Error("Failed to submit answer");
+  return await res.json();
+}
+
+export async function submitAssignment(assignmentId: number): Promise<SubmitAssignment> {
+  const res = await fetch(config.public.backend + `courses/student/submit-assignment/`, {
+    credentials: "include",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: assignmentId })
+  });
+  if (!res.ok) throw new Error("Failed to submit answer");
+  return await res.json();
 }

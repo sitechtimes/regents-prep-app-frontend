@@ -119,3 +119,19 @@ export interface AssignmentInstance {
   /** @readonly ID of the student. */
   student: number;
 }
+
+export interface SubmitAnswer {
+  /** @readonly Tells you if the answer was correct. */
+  isCorrect: boolean;
+  /** @readonly Number of remaining attempts. */
+  remainingAttempts: number;
+}
+
+export interface SubmitAssignment {
+  /** @readonly Number of questions in the assignment. */
+  numOfQuestions: number;
+  /** @readonly Number of questions completed. */
+  questionsCompleted: number;
+  /** @readonly Number of questions correct. */
+  questionsCorrect: number;
+}
