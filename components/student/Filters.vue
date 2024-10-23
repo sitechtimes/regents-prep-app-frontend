@@ -81,7 +81,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  assignments: StudentAssignmentOverview[];
+  assignments: StudentAssignment[];
   deselect: boolean;
 }>();
 watch(
@@ -94,28 +94,28 @@ watch(
 );
 
 const emit = defineEmits<{
-  filteredAssignments: [StudentAssignmentOverview[]];
+  filteredAssignments: [StudentAssignment[]];
   refresh: [void];
 }>();
 
 const showSorts = ref(false);
-const sorts: Record<string, (a: StudentAssignmentOverview, b: StudentAssignmentOverview) => number> = {
-  latest: (a, b) => b.assigned.getTime() - a.assigned.getTime(),
-  oldest: (a, b) => a.assigned.getTime() - b.assigned.getTime(),
-  "closest due": (a, b) => a.due.getTime() - b.due.getTime(),
-  "most complete": (a, b) => b.questionsCompleted / b.questionsLength - a.questionsCompleted / a.questionsLength,
-  "least complete": (a, b) => a.questionsCompleted / a.questionsLength - b.questionsCompleted / b.questionsLength
+const sorts: Record<string, (a: StudentAssignment, b: StudentAssignment) => number> = {
+  latest: (a, b) => b.dateAssigned.getTime() - a.dateAssigned.getTime(),
+  oldest: (a, b) => a.dateAssigned.getTime() - b.dateAssigned.getTime(),
+  "closest due": (a, b) => a.dueDate.getTime() - b.dueDate.getTime(),
+  "most complete": (a, b) => b.instanceInfo.questionsCompleted / b.numOfQuestions - a.instanceInfo.questionsCompleted / a.numOfQuestions,
+  "least complete": (a, b) => a.instanceInfo.questionsCompleted / a.numOfQuestions - b.instanceInfo.questionsCompleted / b.numOfQuestions
 };
 const currentSort = ref<keyof typeof sorts>("latest");
 watch(currentSort, () => updateFilter());
 
 const showFilters = ref(false);
-const filters: Record<string, (assignment: StudentAssignmentOverview) => boolean> = {
+const filters: Record<string, (assignment: StudentAssignment) => boolean> = {
   all: (assignment) => true,
-  "not turned in": (assignment) => !assignment.submitted,
-  "turned in": (assignment) => assignment.submitted !== null,
-  ungraded: (assignment) => assignment.questionsCorrect === null,
-  graded: (assignment) => assignment.questionsCorrect !== null
+  "not turned in": (assignment) => !assignment.instanceInfo.dateSubmitted,
+  "turned in": (assignment) => assignment.instanceInfo.dateSubmitted !== null,
+  ungraded: (assignment) => assignment.instanceInfo.questionsCorrect === null,
+  graded: (assignment) => assignment.instanceInfo.questionsCorrect !== null
 };
 const currentFilter = ref<keyof typeof filters>("all");
 watch(currentFilter, () => updateFilter());

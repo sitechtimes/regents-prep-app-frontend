@@ -1,118 +1,51 @@
-export async function getAssignments(id: number): Assignments {
-  const res = await fetch(config.public.backend + `courses/${id}/assignments/`, {
+import type { AssignmentInstance } from "./types";
+
+const config = useRuntimeConfig();
+
+export async function getAssignments(assignmentId: number): Promise<(StudentAssignment | TeacherAssignment)[]> {
+  const res = await fetch(config.public.backend + `courses/${assignmentId}/assignments/`, {
+    credentials: "include"
+  });
+  if (!res.ok) throw new Error("Failed to fetch assignments");
+  return await res.json();
+}
+
+export async function getCourseStudents(courseId: number): Promise<TeacherStudentList[]> {
+  const res = await fetch(config.public.backend + `courses/${courseId}/teacher/student-list/`, {
+    credentials: "include"
+  });
+  if (!res.ok) throw new Error("Failed to fetch students");
+  return await res.json();
+}
+
+export async function getStudentAssignment(assignmentId: number): Promise<AssignmentInstance> {
+  const res = await fetch(config.public.backend + `courses/student/assignment-instance/`, {
     credentials: "include",
-    headers: { "Content-Type": "application/json" }
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: assignmentId })
   });
-  if (!res.ok) return await res.json();
-  const data = await res.json();
+  if (!res.ok) throw new Error("Failed to fetch student assignment");
+  return await res.json();
 }
 
-export async function getStudentDashboard(): Promise<StudentCourseInfo[] | undefined> {
-  const res = await fetch("wtv/api/courses/student/all", {
-    headers: {
-      Authorization: `Bearer wtv`
-    }
+export async function getNextQuestion(assignmentId: number): Promise<Question> {
+  const res = await fetch(config.public.backend + `courses/student/assignment/get-next-question/`, {
+    credentials: "include",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: assignmentId })
   });
-  if (!res.ok) return;
-  const data = (await res.json()) as any[];
-
-  return data.map((course) => {
-    return {
-      type: "student",
-      id: course.id,
-      name: course.name,
-      teacher: course.teacher,
-      period: course.period,
-      subject: course.subject,
-      assignments: course.assignments
-    };
-  });
+  if (!res.ok) throw new Error("Failed to fetch next question");
+  return await res.json();
 }
 
-export async function getTeacherDashboard(): Promise<TeacherCourseInfo[] | undefined> {
-  const res = await fetch("wtv/api/courses/teacher/all", {
-    headers: {
-      Authorization: `Bearer wtv`
-    }
+export async function submitAnswer(assignmentId: number, questionId: number, answerId: number): Promise<void> {
+  const res = await fetch(config.public.backend + `courses/student/submit-answer/`, {
+    credentials: "include",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ assignmentId, questionId, answerId })
   });
-  if (!res.ok) return;
-  const data = (await res.json()) as any[];
-
-  return data.map((course) => {
-    return {
-      type: "teacher",
-      id: course.id,
-      name: course.name,
-      teacher: course.teacher,
-      period: course.period,
-      subject: course.subject,
-      joinCode: course.join_code,
-      assignments: course.assignments
-    };
-  });
-}
-
-export async function getStudentAssignments(courseId: number): Promise<StudentAssignmentOverview[] | undefined> {
-  const res = await fetch(`wtv/api/courses/${courseId}/assignments`, {
-    headers: {
-      Authorization: `Bearer wtv`
-    }
-  });
-  if (!res.ok) return;
-  const data = (await res.json()) as any[];
-
-  return data.map((assignment) => {
-    return {
-      type: "student",
-      id: assignment.id,
-      name: assignment.name,
-      assigned: new Date(assignment.datetime_assigned),
-      due: new Date(assignment.datetime_due),
-      questionsLength: assignment.num_of_questions,
-      allowLate: assignment.late_submissions,
-      questionsCompleted: assignment.instance_info.questions_completed,
-      questionsCorrect: assignment.instance_info.questions_correct,
-      submitted: assignment.instance_info.datetime_submitted ?? null
-    };
-  });
-}
-
-export async function getTeacherAssignments(courseId: number): Promise<TeacherAssignmentOverview[] | undefined> {
-  const res = await fetch(`wtv/api/courses/${courseId}/assignments`, {
-    headers: {
-      Authorization: `Bearer wtv`
-    }
-  });
-  if (!res.ok) return;
-  const data = (await res.json()) as any[];
-
-  return data.map((assignment) => {
-    return {
-      type: "teacher",
-      id: assignment.id,
-      name: assignment.name,
-      assigned: new Date(assignment.datetime_assigned),
-      due: new Date(assignment.datetime_due),
-      questionsLength: assignment.num_of_questions,
-      allowLate: assignment.late_submissions
-    };
-  });
-}
-
-export async function getStudentList(courseId: number): Promise<TeacherStudentList[] | undefined> {
-  const res = await fetch(`wtv/api/courses/${courseId}/teacher/student-list`, {
-    headers: {
-      Authorization: `Bearer wtv`
-    }
-  });
-  if (!res.ok) return;
-  const data = (await res.json()) as any[];
-
-  return data.map((student) => {
-    return {
-      uid: student.id,
-      name: student.name,
-      email: student.email
-    };
-  });
+  if (!res.ok) throw new Error("Failed to submit answer");
 }

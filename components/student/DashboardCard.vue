@@ -62,12 +62,6 @@ const sortedAssignments = props.course.assignments
   .filter((a) => !a.submitted)
   .sort((a, b) => a.due.getTime() - b.due.getTime())
   .slice(0, 2);
-
-/* 
-const filter = computed((arr: StudentAssignmentOverview[]) => {
-
-}); 
-*/
 </script>
 
 <style scoped>

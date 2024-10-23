@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]" @click="deselectFilters = true">
     <div class="w-2/3 flex flex-col items-center justify-center">
       <StudentFilters
-        :assignments="courses.map((c) => c.assignments.filter((a) => a.type === 'student')).flat()"
+        :assignments="courses.map((c) => c.assignments.filter((a) => a.instanceInfo)).flat()"
         :deselect="deselectFilters"
         @filteredAssignments="(a) => (assignments = a)"
         @refresh="getAssignments"
@@ -51,7 +51,7 @@ watch(deselectFilters, async () => {
 });
 
 const { courses } = storeToRefs(store);
-const assignments = ref<StudentAssignmentOverview[]>(courses.value.map((c) => c.assignments.filter((a) => a.type === "student")).flat());
+const assignments = ref<StudentAssignment[]>(courses.value.map((c) => c.assignments.filter((a) => a.instanceInfo)).flat());
 
 const loaded = ref(false);
 
