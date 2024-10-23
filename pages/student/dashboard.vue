@@ -16,8 +16,9 @@
         <div class="flex flex-wrap items-start justify-start align-top gap-8" v-if="courses.length > 0">
           <StudentDashboardCard @click="router.push(`/student/course/${course.id}`)" v-for="course in courses.filter((course) => course.type === 'student')" :course="course" :key="course.id" />
         </div>
-        <div v-else>
-          <h2 class="text-4xl md:text-[2rem] mb leading-none font-extrabold text-[var(--text-color)] text-center">u have no classes try adding some</h2>
+        <div class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center gap-x-4" v-else>
+          <h2 class="text-4xl md:text-[2rem] mb leading-none font-extrabold text-[var(--text-color)] text-center">No classes found!</h2>
+          <p>Add your first class!</p>
         </div>
       </div>
     </div>

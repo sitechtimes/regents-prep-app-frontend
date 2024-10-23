@@ -16,7 +16,7 @@
           <!-- make this look better -->
           <p>Toggle Theme</p>
           <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" value="" class="sr-only peer" @click="toggleTheme" />
+            <input type="checkbox" class="sr-only peer" @click="toggleTheme" />
             <div
               class="w-11 h-6 peer bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-600"
             ></div>
