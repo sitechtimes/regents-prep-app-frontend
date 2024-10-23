@@ -147,10 +147,9 @@ async function loginWithEmail() {
   if (emailErr.value || passwordErr.value || nameErr.value) return;
   loading.value = true;
   if (showLogin.value) {
-    console.log("Logging in...");
     const data = await userStore.login(email.value, password.value);
-    if (data == "Success") {
-      // do something
+    if (!data) {
+      router.push(`${userStore.userType}/dashboard/`);
     } else {
       if ("non_field_errors" in data) emailErr.value = data.non_field_errors.join(" ");
       if ("password" in data) passwordErr.value = data.password.join(" ");

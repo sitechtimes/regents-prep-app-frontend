@@ -1,3 +1,12 @@
+export async function getAssignments(id: number): Assignments {
+  const res = await fetch(config.public.backend + `courses/${id}/assignments/`, {
+    credentials: "include",
+    headers: { "Content-Type": "application/json" }
+  });
+  if (!res.ok) return await res.json();
+  const data = await res.json();
+}
+
 export async function getStudentDashboard(): Promise<StudentCourseInfo[] | undefined> {
   const res = await fetch("wtv/api/courses/student/all", {
     headers: {

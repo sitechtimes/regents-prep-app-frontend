@@ -39,32 +39,28 @@ export type StudentAssignmentInstance = {
 
 /** Used for the dashboard view of assignments, before the assignment is loaded. */
 export type StudentAssignmentOverview = {
-  /** @readonly */
-  type: "student";
   /** @readonly ID of the assignment. */
   id: number;
   /** @readonly Name of the assignment. */
   name: string;
   /** @readonly Date object of when the assignment was assigned. */
-  assigned: Date;
+  datetimeAssigned: Date;
   /** @readonly Date object of when the assignment is due. */
-  due: Date;
+  datetimeDue: Date;
   /** @readonly Number of questions in the assignment. */
-  questionsLength: number;
+  numOfQuestions: number;
   /** @readonly Whether or not the assignment can be turned in late. */
-  allowLate: boolean;
-  /** Number of questions completed in the assignment. */
-  questionsCompleted: number;
-  /** Number of questions correct in the assignment. */
-  questionsCorrect: number | null;
-  /** Date object of when the assignment was submitted. */
-  submitted: Date | null;
+  lateSubmissions: boolean;
+  instanceInfo: {
+    /** Number of questions completed in the assignment. */
+    questionsCompleted: number;
+    /** Date object of when the assignment was submitted. */
+    submitted: Date | null;
+  };
 };
 
 /** Used for the dashboard view of assignments, before the assignment is loaded. */
 export type TeacherAssignmentOverview = {
-  /** @readonly */
-  type: "teacher";
   /** @readonly ID of the assignment. */
   id: number;
   /** @readonly Name of the assignment. */
@@ -89,8 +85,6 @@ export type TeacherStudentList = {
 };
 
 export type StudentCourseInfo = {
-  /** @readonly */
-  type: "student";
   /** @readonly ID of the course. */
   id: number;
   /** @readonly Name of the course. */
@@ -99,19 +93,15 @@ export type StudentCourseInfo = {
    * @example "Michael Whalen"
    */
   teacher: string;
+  /** @readonly Array of the 3 soonest assignments that are due for the course. */
+  assignments: StudentAssignmentOverview[];
   /** @readonly Period of the course. */
   period: number;
   /** Subject of the course. */
   subject: "Math" | "English" | "Science" | "History" | "Russian";
-  /** @readonly Array of the 3 soonest assignments that are due for the course. */
-  assignments: StudentAssignmentOverview[];
-  /** Total number of unsubmitted, future assignments. */
-  assignmentsLength: number;
 };
 
 export type TeacherCourseInfo = {
-  /** @readonly */
-  type: "teacher";
   /** @readonly ID of the course. */
   id: number;
   /** @readonly Name of the course. */
