@@ -1,4 +1,4 @@
-export const useStore = defineStore("userStore", () => {
+export const useUserStore = defineStore("userStore", () => {
   const config = useRuntimeConfig();
   const isAuth = ref(false);
   const theme = ref<"light" | "dark">("light");

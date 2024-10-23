@@ -54,6 +54,7 @@ export interface TeacherAssignment {
   lateSubmissions: boolean;
 }
 export interface StudentAssignment extends TeacherAssignment {
+  /** @readonly Number of questions completed in the assignment. */
   instanceInfo: {
     /** Number of questions completed in the assignment. */
     questionsCompleted: number;
@@ -75,7 +76,7 @@ export interface TeacherStudentList {
   email: string;
 }
 
-export interface StudentCourseInfo {
+export interface Course {
   /** @readonly ID of the course. */
   id: number;
   /** @readonly Name of the course. */
@@ -84,27 +85,18 @@ export interface StudentCourseInfo {
    * @example "Michael Whalen"
    */
   teacher: string;
-  /** @readonly Array of the 3 soonest assignments that are due for the course. */
-  assignments: StudentAssignment[];
-  /** @readonly Period of the course. */
-  period: number;
-  /** Subject of the course. */
-  subject: "Math" | "English" | "Science" | "History" | "Russian";
-}
-
-export interface TeacherCourseInfo {
-  /** @readonly ID of the course. */
-  id: number;
-  /** @readonly Name of the course. */
-  name: string;
-  /** Name of the teacher in First Name Last Name format.
-   * @example "Michael Whalen"
-   */
-  teacher: string;
   /** @readonly Period of the course. */
   period: number;
   /** @readonly Subject of the course. */
   subject: "Math" | "English" | "Science" | "History" | "Russian";
+}
+
+export interface StudentCourseInfo extends Course {
+  /** @readonly Array of the 3 soonest assignments that are due for the course. */
+  assignments: StudentAssignment[];
+}
+
+export interface TeacherCourseInfo extends Course {
   /** @readonly 6-digit join code for the course. */
   joinCode: string;
   /** @readonly Array of the 3 soonest assignments that are due for the course. */

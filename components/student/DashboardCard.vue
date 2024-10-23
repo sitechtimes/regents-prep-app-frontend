@@ -6,7 +6,7 @@
       <h2 :title="course.name" class="text-2xl text-center font-semibold text-nowrap overflow-ellipsis w-full overflow-hidden">{{ course.name }}</h2>
       <p class="text-sm">Period {{ course.period }}</p>
       <p>{{ course.teacher }}</p>
-    </div> 
+    </div>
     <!-- Above is the code for the top of the course card -->
     <div class="flex flex-col items-center justify-start w-full min-h-36 h-full p-2 bg-[var(--bg-color)]">
       <h3 class="font-bold text-xl pt-1 pb-2">Assignments</h3>
@@ -17,7 +17,7 @@
           class="flex flex-col items-center justify-center h-full min-w-[45%] px-5"
           :class="sortedAssignments.length === 1 ? 'w-full' : ''"
         >
-          <p class="font-medium text-center" :title="assignment.due.toLocaleString()">Due {{ formatDate(assignment.due, currentTime) }}</p>
+          <p class="font-medium text-center" :title="assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.dueDate, currentTime) }}</p>
           <div class="flex flex-col items-center justify-start w-full h-full">
             <NuxtLink
               class="text-xl hover:underline hover:underline-offset-1 w-[70%] text-center text-nowrap overflow-hidden overflow-ellipsis"
@@ -34,9 +34,9 @@
             >
               <span
                 class="absolute size-full"
-                :style="{ transform: `translateX(-${(1 - assignment.questionsCompleted / assignment.questionsLength) * 100 + '%'})`, backgroundColor: subjectColors[course.subject] }"
+                :style="{ transform: `translateX(-${(1 - assignment.instanceInfo.questionsCompleted / assignment.numOfQuestions) * 100 + '%'})`, backgroundColor: subjectColors[course.subject] }"
               ></span>
-              <span class="w-full z-10 text-center font-mono px-2"> {{ assignment.questionsCompleted }}/{{ assignment.questionsLength }} </span>
+              <span class="w-full z-10 text-center font-mono px-2"> {{ assignment.instanceInfo.questionsCompleted }}/{{ assignment.numOfQuestions }} </span>
             </div>
           </div>
         </div>
@@ -48,18 +48,18 @@
 </template>
 
 <script setup lang="ts">
-const store = useStore();
+const userStore = useUserStore();
 const router = useRouter();
 const props = defineProps<{
   course: StudentCourseInfo;
 }>();
 
-const { courses } = storeToRefs(store);
+const { courses } = storeToRefs(userStore);
 const currentTime = ref(new Date());
 
 const sortedAssignments = props.course.assignments
-  .filter((a) => !a.submitted)
-  .sort((a, b) => a.due.getTime() - b.due.getTime())
+  .filter((a) => !a.instanceInfo.dateSubmitted)
+  .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())
   .slice(0, 2);
 </script>
 
