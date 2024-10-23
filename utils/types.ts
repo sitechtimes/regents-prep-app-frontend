@@ -101,11 +101,11 @@ export interface TeacherCourseInfo {
    * @example "Michael Whalen"
    */
   teacher: string;
-  /** Period of the course. */
+  /** @readonly Period of the course. */
   period: number;
-  /** Subject of the course. */
+  /** @readonly Subject of the course. */
   subject: "Math" | "English" | "Science" | "History" | "Russian";
-  /** 6-digit join code for the course. */
+  /** @readonly 6-digit join code for the course. */
   joinCode: string;
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
   assignments: TeacherAssignment[];
