@@ -1,4 +1,4 @@
-export interface Question {
+export interface QuestionInterface {
   /** @readonly ID of the question. */
   id: number;
   /** @readonly Number of attempts allowed.
@@ -9,19 +9,21 @@ export interface Question {
   /** Number of remaining attempts. */
   remainingAttempts: number | null;
   /** @readonly Question data */
-  question: {
-    /** @readonly What the question says. */
+  question: Question[];
+}
+
+export interface Question {
+  /** @readonly What the question says. */
+  text: string;
+  /** @readonly The type of answer for the question. */
+  answerType: "Multiple Choice" | "Written Response" | "True or False";
+  /** @readonly Array of answers. */
+  answers: {
+    /** @readonly ID of the answer. */
+    id: number;
+    /** @readonly What the answer choice says. */
     text: string;
-    /** @readonly The type of answer for the question. */
-    answerType: "Multiple Choice" | "Written Response" | "True or False";
-    /** Array of answers. */
-    answers: {
-      /** @readonly ID of the answer. */
-      id: number;
-      /** @readonly What the answer choice says. */
-      text: string;
-    }[];
-  };
+  }[];
 }
 
 export interface StudentAssignmentInstance {
@@ -61,8 +63,6 @@ export interface StudentAssignment extends TeacherAssignment {
     dateSubmitted: Date | null;
   };
 }
-
-/** Used for the dashboard view of assignments, before the assignment is loaded. */
 
 export interface TeacherStudentList {
   /** @readonly UID of the student. */
@@ -134,4 +134,18 @@ export interface SubmitAssignment {
   questionsCompleted: number;
   /** @readonly Number of questions correct. */
   questionsCorrect: number;
+}
+
+export interface AssignmentResults extends SubmitAssignment {
+  /** @readonly An array of the question results. */
+  questionInstances: {
+    /** @readonly ID of the question. */
+    id: number;
+    /** @readonly Array of the user answers to the question. */
+    userAnswers: string[];
+    /** @readonly Tells if you if the question is complete. */
+    isComplete: boolean;
+    /** @readonly The data for the question referenced by the instance. */
+    question: Question;
+  }[];
 }

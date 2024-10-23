@@ -27,7 +27,7 @@ export async function getStudentAssignment(assignmentId: number): Promise<Assign
   return await res.json();
 }
 
-export async function getNextQuestion(assignmentId: number): Promise<Question> {
+export async function getNextQuestion(assignmentId: number): Promise<QuestionInterface> {
   const res = await fetch(config.public.backend + `courses/student/assignment/get-next-question/`, {
     credentials: "include",
     method: "POST",
@@ -50,7 +50,7 @@ export async function submitQuestionAnswer(questionId: number, answerId: number)
 }
 
 export async function submitAssignment(assignmentId: number): Promise<SubmitAssignment> {
-  const res = await fetch(config.public.backend + `courses/student/submit-assignment/`, {
+  const res = await fetch(config.public.backend + "courses/student/submit-assignment/", {
     credentials: "include",
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -58,4 +58,19 @@ export async function submitAssignment(assignmentId: number): Promise<SubmitAssi
   });
   if (!res.ok) throw new Error("Failed to submit answer");
   return await res.json();
+}
+
+export async function getAssignmentResults(assignmentId: number): Promise<AssignmentResults> {
+  const res = await fetch(config.public.backend + `courses/student/assignment-results/${assignmentId}`, {
+    credentials: "include"
+  });
+  if (!res.ok) throw new Error("Failed to fetch assignment results");
+  return await res.json();
+}
+
+export async function studentJoinCourse(courseCode: string) {
+  const res = await fetch(config.public.backend + `courses/student/join/${courseCode}`, {
+    credentials: "include"
+  });
+  if (!res.ok) throw new Error("Failed to join course");
 }
