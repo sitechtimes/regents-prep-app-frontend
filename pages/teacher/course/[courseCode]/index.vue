@@ -12,12 +12,12 @@
           <p class="text-center mb-4" v-if="!assignments">No Current Assignments</p>
           <NuxtLink
             :to="`/teacher/course/${currentCourse?.id}/${assignment.id}`"
-            v-for="assignment in assignments"
+            v-for="assignment in assignments.filter((a) => a.due >= currentDate)"
             :key="assignment.id"
             class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2"
           >
             <p class="font-medium text-center">{{ assignment.name }}</p>
-            <p class="text-center">Due: {{ assignment.due }}</p>
+            <p class="text-center">Due: {{ formatDate(new Date(assignment.due), new Date()) }}</p>
             <div class="text-center mt-2">
               <span class="font-semibold mr-1">Class Submissions:</span>
               <div class="border border-gray-400 rounded-full px-2 py-1 inline-block mt-1">{{ assignment.submissionsCount }}/{{ (currentCourse as TeacherCourseInfo).studentCount ?? 0 }} Students</div>
@@ -30,7 +30,7 @@
           <p class="text-center mb-4" v-if="!assignments">No Past Assignments</p>
           <NuxtLink
             :to="`/teacher/course/${currentCourse?.id}/${assignment.id}`"
-            v-for="assignment in assignments"
+            v-for="assignment in assignments.filter((a) => a.due =< currentDate)"
             :key="assignment.id"
             class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2"
           >
@@ -67,6 +67,7 @@ const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
 const { courses, currentCourse } = storeToRefs(store);
+const currentDate = ref(new Date());
 
 const showNotFound = ref(false);
 const loaded = ref(false);
