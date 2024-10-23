@@ -17,7 +17,7 @@
             class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2"
           >
             <p class="font-medium text-center">{{ assignment.name }}</p>
-            <p class="text-center">Due: {{ formatDate(new Date(assignment.due), new Date()) }}</p>
+            <p class="text-center">Due: {{ formatDate(assignment.due, currentDate) }}</p>
             <div class="text-center mt-2">
               <span class="font-semibold mr-1">Class Submissions:</span>
               <div class="border border-gray-400 rounded-full px-2 py-1 inline-block mt-1">{{ assignment.submissionsCount }}/{{ (currentCourse as TeacherCourseInfo).studentCount ?? 0 }} Students</div>
