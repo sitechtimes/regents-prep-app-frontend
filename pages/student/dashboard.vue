@@ -16,7 +16,7 @@
         <div class="flex flex-wrap items-start justify-start align-top gap-8" v-if="courses.length > 0">
           <StudentDashboardCard
             @click="router.push(`/student/course/${course.id}`)"
-            v-for="course in courses.filter((course: StudentCourseInfo) => !course?.joinCode)"
+            v-for="course in courses.filter((course: StudentCourseInfo | TeacherCourseInfo) => !('joinCode' in course)) as StudentCourseInfo[]"
             :course="course"
             :key="course.id"
           />

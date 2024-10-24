@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  const userStore = useStore();
+  const userStore = useUserStore();
   const { courses, currentCourse } = storeToRefs(userStore);
 
   const routeCode = to.params.courseCode as string;

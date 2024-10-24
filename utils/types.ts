@@ -39,7 +39,7 @@ export interface StudentAssignmentInstance {
   submitted: Date | null;
 }
 
-export interface TeacherAssignment {
+interface Assignment {
   /** @readonly ID of the assignment. */
   id: number;
   /** @readonly Name of the assignment. */
@@ -53,7 +53,12 @@ export interface TeacherAssignment {
   /** @readonly Whether or not the assignment can be turned in late. */
   lateSubmissions: boolean;
 }
-export interface StudentAssignment extends TeacherAssignment {
+
+export interface TeacherAssignment extends Assignment {
+  /** @readonly How many students submitted the assignment. */
+  submissions: number;
+}
+export interface StudentAssignment extends Assignment {
   /** @readonly Number of questions completed in the assignment. */
   instanceInfo: {
     /** Number of questions completed in the assignment. */
@@ -99,6 +104,8 @@ export interface StudentCourseInfo extends Course {
 export interface TeacherCourseInfo extends Course {
   /** @readonly 6-digit join code for the course. */
   joinCode: string;
+  /** @readonly The number of students in the course. */
+  students: number;
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
   assignments: TeacherAssignment[];
   /** Total number of unsubmitted, future assignments. */
