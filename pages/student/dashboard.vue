@@ -14,7 +14,12 @@
 
       <div class="w-full flex flex-col items-start justify-center">
         <div class="flex flex-wrap items-start justify-start align-top gap-8" v-if="courses.length > 0">
-          <StudentDashboardCard @click="router.push(`/student/course/${course.id}`)" v-for="course in courses.filter((course) => course.type === 'student')" :course="course" :key="course.id" />
+          <StudentDashboardCard
+            @click="router.push(`/student/course/${course.id}`)"
+            v-for="course in courses.filter((course: StudentCourseInfo | TeacherCourseInfo) => !('joinCode' in course)) as StudentCourseInfo[]"
+            :course="course"
+            :key="course.id"
+          />
         </div>
         <div v-else>
           <p>u have no classes try adding some</p>
