@@ -5,7 +5,7 @@
       <!-- maybe put an animation here -->
     </div>
 
-    <div v-else>
+    <div class="w-full" v-else>
       <Transition name="opacity">
         <div v-if="showNotFound" @click="router.push('/student/dashboard')" class="z-50 w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center">
           <NotFound type="student" :message="route.query.course ? 'class' : 'assignment'" @close="router.push('/student/dashboard')" @click="$event.stopPropagation()" />
@@ -16,15 +16,13 @@
         <div class="flex flex-wrap items-start justify-start align-top gap-8" v-if="courses.length > 0">
           <StudentDashboardCard @click="router.push(`/student/course/${course.id}`)" v-for="course in courses.filter((course) => course.type === 'student')" :course="course" :key="course.id" />
         </div>
-        <div class="flex items-center justify-center w-full flex-1" v-else>
-          <div class="text-center">
-            <h2 class="text-4xl md:text-5xl font-extrabold text-[var(--text-color)]">No Classes Found!</h2>
-            <p class="text-lg text-gray-600">It looks like you haven't added any classes yet.</p>
-            <p class="text-md text-gray-500">Click the button below to add your first class!</p>
-            <button @click="openTheJoin" class="mt-4 px-4 py-2 bg-green-accent text-white rounded-lg hover:bg-gray-600 transition duration-200">Add Class</button>
-          </div>
+        <div class="flex flex-col items-center w-full flex-1" v-else>
+          <h2 class="text-4xl md:text-5xl font-extrabold text-[var(--text-color)]">No Classes Found!</h2>
+          <p class="text-lg text-gray-600">It looks like you haven't added any classes yet.</p>
+          <p class="text-md text-gray-500">Click the button below to add your first class!</p>
+          <button @click="openTheJoin" class="mt-4 px-4 py-2 bg-green-accent text-white rounded-lg hover:bg-gray-600 transition duration-200">Add Class</button>
         </div>
-        <JoinClass v-if="showJoinClass" @close="showJoinClass = false" />
+        <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
       </div>
     </div>
   </div>
