@@ -7,9 +7,9 @@
         <thead>
           <tr>
             <th></th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Remove Student</th>
           </tr>
         </thead>
         <tbody v-for="student in students" :key="student.id">
@@ -18,12 +18,12 @@
             <th></th>
             <td>{{ student.firstName }}</td>
             <td>{{ student.lastName }}</td>
-            <td><button>remove student</button></td>
+            <td><button>✕</button></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <button @click="pushUserBack">Return To Class Page</button>
+    <button @click="pushUserBack" class="du-btn du-btn-wide du-btn-md bg-green-accent">Return To Class Page</button>
   </div>
 </template>
 
