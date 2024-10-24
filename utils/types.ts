@@ -77,6 +77,8 @@ export type TeacherAssignmentOverview = {
   questionsLength: number;
   /** @readonly Whether or not the assignment can be turned in late. */
   allowLate: boolean;
+  /** @readonly Number of students that have submitted the assignment. */
+  submissionsCount: number;
 };
 
 export type TeacherStudentList = {
@@ -120,14 +122,16 @@ export type TeacherCourseInfo = {
    * @example "Michael Whalen"
    */
   teacher: string;
-  /** Period of the course. */
+  /** @readonly Period of the course. */
   period: number;
-  /** Subject of the course. */
+  /** @readonly Subject of the course. */
   subject: "Math" | "English" | "Science" | "History" | "Russian";
-  /** 6-digit join code for the course. */
+  /** @readonly 6-digit join code for the course. */
   joinCode: string;
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
   assignments: TeacherAssignmentOverview[];
   /** Total number of unsubmitted, future assignments. */
   assignmentsLength: number;
+  /** @readonly Number of students in the course. */
+  studentCount: number;
 };
