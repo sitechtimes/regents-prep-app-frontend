@@ -15,3 +15,20 @@
     </div>
   </Transition>
 </template>
+
+<script setup lang="ts">
+const openJoinMenu = ref(true);
+const joinCode = ref("");
+watch(joinCode, (input) => {
+  if (input.length > 6) return (joinCode.value = String(input).slice(0, 6));
+
+  joinCode.value = [...String(input)].filter((char) => !isNaN(Number(char))).join("");
+});
+
+function joinCourse() {
+  if (!joinCode.value) return;
+  alert("you are now enrolled in jail!");
+  // make it join a class 👍
+  // no way really? i think it should join a course instead
+}
+</script>

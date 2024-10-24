@@ -16,10 +16,15 @@
         <div class="flex flex-wrap items-start justify-start align-top gap-8" v-if="courses.length > 0">
           <StudentDashboardCard @click="router.push(`/student/course/${course.id}`)" v-for="course in courses.filter((course) => course.type === 'student')" :course="course" :key="course.id" />
         </div>
-        <div class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center gap-x-4" v-else>
-          <h2 class="text-4xl md:text-[2rem] mb leading-none font-extrabold text-[var(--text-color)] text-center">No classes found!</h2>
-          <p>Add your first class!</p>
+        <div class="flex items-center justify-center w-full flex-1" v-else>
+          <div class="text-center">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[var(--text-color)]">No Classes Found!</h2>
+            <p class="text-lg text-gray-600">It looks like you haven't added any classes yet.</p>
+            <p class="text-md text-gray-500">Click the button below to add your first class!</p>
+            <button @click="openTheJoin" class="mt-4 px-4 py-2 bg-green-accent text-white rounded-lg hover:bg-gray-600 transition duration-200">Add Class</button>
+          </div>
         </div>
+        <JoinClass v-if="showJoinClass" @close="showJoinClass = false" />
       </div>
     </div>
   </div>
@@ -39,6 +44,13 @@ const { courses } = storeToRefs(store);
 
 const showNotFound = ref(false);
 const loaded = ref(false);
+
+const showJoinClass = ref(false);
+
+function openTheJoin() {
+  console.log("HELP");
+  showJoinClass.value = true;
+}
 
 watch(
   () => route.query,
