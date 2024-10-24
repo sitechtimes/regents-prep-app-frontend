@@ -87,7 +87,7 @@ useSeoMeta({
   title: "Unregents Prep Login"
 });
 
-const userStore = useStore();
+const userStore = useUserStore();
 
 const route = useRoute();
 const router = useRouter();
