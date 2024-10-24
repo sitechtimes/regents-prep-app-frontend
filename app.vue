@@ -17,80 +17,90 @@ onBeforeMount(() => {
   if (store.isAuth)
     courses.value = [
       {
-        type: "teacher",
+        type: "student",
         id: 1,
         name: "AP Calculus CD",
         teacher: "Wichael Mhalen",
         period: 2,
         subject: "Math",
-        joinCode: "669069",
-        studentCount: 6,
         assignments: [
           {
-            type: "teacher",
+            type: "student",
             id: 420,
             name: "Power Rule practice",
             assigned: new Date(new Date().getTime() - 86400000),
             due: new Date(new Date().getTime() + 3600000),
             questionsLength: 5,
             allowLate: false,
-            submissionsCount: 0
+            questionsCompleted: 3,
+            questionsCorrect: null,
+            submitted: null
           },
           {
-            type: "teacher",
+            type: "student",
             id: 421,
             name: "Chain Rule practice",
             assigned: new Date(),
             due: new Date(new Date().getTime() + 86400000),
             questionsLength: 50,
             allowLate: false,
-            submissionsCount: 0
+            questionsCompleted: 2,
+            questionsCorrect: null,
+            submitted: null
           },
           {
-            type: "teacher",
+            type: "student",
             id: 422,
             name: "Chaid Rule practice",
             assigned: new Date(new Date().getTime() + 500000),
             due: new Date(new Date().getTime() + 86400001),
             questionsLength: 50,
             allowLate: false,
-            submissionsCount: 0
+            questionsCompleted: 2,
+            questionsCorrect: null,
+            submitted: null
           },
           {
-            type: "teacher",
+            type: "student",
             id: 423,
             name: "Chaim Rule practice",
             assigned: new Date(),
             due: new Date(new Date().getTime() + 86400001),
             questionsLength: 50,
             allowLate: false,
-            submissionsCount: 0
+            questionsCompleted: 2,
+            questionsCorrect: null,
+            submitted: null
           },
           {
-            type: "teacher",
+            type: "student",
             id: 424,
             name: "Chail Rule practice",
             assigned: new Date(),
             due: new Date(new Date().getTime() + 86400000),
             questionsLength: 50,
             allowLate: false,
-            submissionsCount: 0
+            questionsCompleted: 2,
+            questionsCorrect: null,
+            submitted: null
           },
           {
-            type: "teacher",
+            type: "student",
             id: 425,
             name: "Chaik Rule practice",
             assigned: new Date(),
             due: new Date(new Date().getTime() + 86400001),
             questionsLength: 50,
             allowLate: false,
-            submissionsCount: 0
+            questionsCompleted: 2,
+            questionsCorrect: null,
+            submitted: null
           }
         ],
         assignmentsLength: 6
       },
       {
-        type: "teacher",
+        type: "student",
         id: 2,
         name: "AP Literally Not Fun",
         teacher: "Michaen Whalel",
@@ -98,7 +108,7 @@ onBeforeMount(() => {
         subject: "English",
         assignments: [
           {
-            type: "teacher",
+            type: "student",
             id: 426,
             name: "Poetry Analysis",
             assigned: new Date(),
@@ -110,7 +120,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "teacher",
+            type: "student",
             id: 427,
             name: "Edgar Allen Poetry",
             assigned: new Date(),
@@ -125,7 +135,7 @@ onBeforeMount(() => {
         assignmentsLength: 2
       },
       {
-        type: "teacher",
+        type: "student",
         id: 3,
         name: "AP USSR Government & Politics",
         teacher: "Whalem Nichael",
@@ -133,7 +143,7 @@ onBeforeMount(() => {
         subject: "History",
         assignments: [
           {
-            type: "teacher",
+            type: "student",
             id: 428,
             name: "October Revolution",
             assigned: new Date(),
@@ -145,7 +155,7 @@ onBeforeMount(() => {
             submitted: new Date()
           },
           {
-            type: "teacher",
+            type: "student",
             id: 429,
             name: "Joseph Stalin Biography",
             assigned: new Date(),
@@ -157,7 +167,7 @@ onBeforeMount(() => {
             submitted: new Date()
           },
           {
-            type: "teacher",
+            type: "student",
             id: 430,
             name: "95 Reasons Why Trotsky is a Traitor to the People",
             assigned: new Date(),
@@ -172,7 +182,7 @@ onBeforeMount(() => {
         assignmentsLength: 3
       },
       {
-        type: "teacher",
+        type: "student",
         id: 4,
         name: "Not Russian",
         teacher: "Nichael Whalem",
@@ -180,7 +190,7 @@ onBeforeMount(() => {
         subject: "Russian",
         assignments: [
           {
-            type: "teacher",
+            type: "student",
             id: 431,
             name: "Super idol de xiao rong",
             assigned: new Date(),
@@ -192,7 +202,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "teacher",
+            type: "student",
             id: 432,
             name: "Xue hua piao piao",
             assigned: new Date(),
@@ -207,7 +217,7 @@ onBeforeMount(() => {
         assignmentsLength: 2
       },
       {
-        type: "teacher",
+        type: "student",
         id: 5,
         name: "AP Psychological Warfare",
         teacher: "Mhalen Wichael",
@@ -215,7 +225,7 @@ onBeforeMount(() => {
         subject: "Science",
         assignments: [
           {
-            type: "teacher",
+            type: "student",
             id: 433,
             name: "Outline 47",
             assigned: new Date(new Date().getTime() - 864000000),
@@ -227,7 +237,7 @@ onBeforeMount(() => {
             submitted: null
           },
           {
-            type: "teacher",
+            type: "student",
             id: 434,
             name: "Outline 594759",
             assigned: new Date(),

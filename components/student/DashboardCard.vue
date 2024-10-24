@@ -6,8 +6,7 @@
       <h2 :title="course.name" class="text-2xl text-center font-semibold text-nowrap overflow-ellipsis w-full overflow-hidden">{{ course.name }}</h2>
       <p class="text-sm">Period {{ course.period }}</p>
       <p>{{ course.teacher }}</p>
-    </div> 
-    <!-- Above is the code for the top of the course card -->
+    </div>
     <div class="flex flex-col items-center justify-start w-full min-h-36 h-full p-2 bg-[var(--bg-color)]">
       <h3 class="font-bold text-xl pt-1 pb-2">Assignments</h3>
       <div class="flex flex-wrap items-start justify-around w-full h-full gap-7" v-if="course.assignments.length > 0">
@@ -43,7 +42,6 @@
       </div>
       <p v-else>No assignments</p>
     </div>
-    <!-- Above is the code for the bottom of the cours card-->
   </div>
 </template>
 
