@@ -12,7 +12,7 @@
             <th>Favorite Color</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-for="student in students">
           <!-- row 1 -->
           <tr>
             <th>1</th>
