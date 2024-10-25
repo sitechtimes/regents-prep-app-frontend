@@ -12,7 +12,7 @@ export const useUserStore = defineStore("userStore", () => {
     const res = await fetch(config.public.backend + "init/", {
       credentials: "include"
     });
-    if (res.status === 204 || !res.ok) return;
+    if (!res.ok) return;
     const data = await res.json();
     isAuth.value = true;
     name.value = data.name;
