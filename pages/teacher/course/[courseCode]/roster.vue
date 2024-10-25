@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>roster view for class {{ route.params.courseCode }}</h1>
+    <h1>Class {{ route.params.courseCode }}</h1>
     <div class="overflow-x-auto">
       <table class="table">
         <!-- head -->
