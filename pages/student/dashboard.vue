@@ -12,16 +12,20 @@
         </div>
       </Transition>
 
-      <div class="w-full flex flex-col items-start justify-center">
+      <div class="h-screen flex flex-col">
         <div class="flex flex-wrap items-start justify-start align-top gap-8" v-if="courses.length > 0">
           <StudentDashboardCard @click="router.push(`/student/course/${course.id}`)" v-for="course in courses.filter((course) => course.type === 'student')" :course="course" :key="course.id" />
         </div>
-        <div class="flex flex-col items-center w-full flex-1" v-else>
-          <h2 class="text-4xl md:text-5xl font-extrabold text-[var(--text-color)]">No Classes Found!</h2>
-          <p class="text-lg text-gray-600">It looks like you haven't added any classes yet.</p>
-          <p class="text-md text-gray-500">Click the button below to add your first class!</p>
-          <button @click="openTheJoin" class="mt-4 px-4 py-2 bg-green-accent text-white rounded-lg hover:bg-gray-600 transition duration-200">Add Class</button>
+
+        <div class="flex items-center justify-center flex-1 w-full overflow-hidden" v-else>
+          <div class="flex flex-col items-center gap-4">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[var(--text-color)]">No Classes Found!</h2>
+            <p class="text-lg text-gray-600">It looks like you haven't added any classes yet.</p>
+            <p class="text-md text-gray-500">Click the button below to add your first class!</p>
+            <button @click="openTheJoin" class="mt-4 px-4 py-2 bg-green-accent text-white rounded-lg hover:bg-gray-600 transition duration-200">Add Class</button>
+          </div>
         </div>
+
         <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
       </div>
     </div>

@@ -21,7 +21,8 @@
               class="w-11 h-6 peer bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-600"
             ></div>
           </label>
-          <button v-show="route.path === '/student/dashboard'" @click="openJoinMenu = true" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
+          <button v-show="route.path === '/student/dashboard'" @click="openTheJoin" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
+          <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
           <!-- make this look better and add account settings -->
           <button class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-black"><img class="w-6 h-6 dark:invert" src="/ui/user.svg" alt="Open account settings" /></button>
         </div>
@@ -87,6 +88,13 @@ const { courses, currentCourse } = storeToRefs(store);
 
 const loaded = ref(false);
 const showSideMenu = ref(true);
+
+const showJoinClass = ref(false);
+
+function openTheJoin() {
+  console.log("HELP");
+  showJoinClass.value = true;
+}
 
 onMounted(() => {
   loaded.value = true;
