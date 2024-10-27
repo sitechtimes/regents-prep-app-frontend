@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot />
+    <h1>how did u forget ur password lmao loser</h1>
   </div>
 </template>
 
