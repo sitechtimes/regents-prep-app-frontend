@@ -1,26 +1,6 @@
 <template>
-  <div>
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+  <div class="bg-[#f1f0d6] h-screen w-screen">
+    <NuxtPage />
   </div>
 </template>
-
-<script setup lang="ts">
-const userStore = useUserStore();
-const router = useRouter();
-
-onBeforeMount(() => {
-  if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark");
-    userStore.theme = "dark";
-  }
-});
-
-onMounted(() => {
-  userStore.init();
-  document.body.style.display = "block";
-});
-</script>
-
-<style scoped></style>
+<!-- The 'app.vue' file is not necessary, as all the pages are housed within the 'pages' folder -->

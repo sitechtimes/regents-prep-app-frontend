@@ -1,91 +1,29 @@
-<template>
-  <div class="flex flex-row justify-center items-center min-h-screen w-screen px-8 space-x-10">
-    <!-- left side -->
-    <div class="w-1/3">
-      <div class="flex items-center mb-6">
-        <div class="border-r-4 border-black h-32 mr-6"></div>
-        <h1 class="font-bold text-5xl leading-relaxed flex flex-col">
-          <span class="text-3xl">Welcome to the</span>
-          SITHS Regents Prep App
-        </h1>
-      </div>
-      <p class="text-2xl mt-4 mb-8">Don't fail your Regents.</p>
-      <!-- buttons -->
-      <div class="flex space-x-4">
-        <NuxtLink to="/login?signup=1" class="flex items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full"> Sign up </NuxtLink>
-        <NuxtLink to="/login" class="flex items-center bg-transparent border-2 border-black text-black text-2xl font-semibold px-6 py-2 rounded-full"> Login </NuxtLink>
-      </div>
-    </div>
+<script setup>
+import { userState } from "~/stores/users";
 
-    <!-- right side -->
-    <div class="w-1/4">
-      <img class="cat cursor-default" v-show="isYoda" src="/landingYoda.png" alt="A very short-haired black cat, edited to be green" title="The almighty Yoda." />
-      <img
-        ref="landingCatRef"
-        @click="toggle"
-        id="landing"
-        class="cat z-50 cursor-help"
-        :draggable="false"
-        src="/landingCat.png"
-        alt="Cat on a computer"
-        title="This cat has some sort of hidden switch..?"
-      />
-    </div>
+const userStore = userState();
+</script>
+
+<template>
+  <div class="h-screen flex flex-col items-center justify-center gap-[57px]">
+    <h1
+      class="w-[1800px] h-[167px] text-center text-black text-[150px] font-medium drop-shadow-xl"
+    >
+      Regents Prep App
+    </h1>
+    <label>
+      <NuxtLink
+        to="/login"
+        class="loginLink w-[294px] h-[50px] text-center text-white text-[37px] font-medium tracking-wide"
+        ><button
+          id="loginRedirect"
+          class="button bg-[#426B1F] w-[265px] h-24 pt-[19.72px] rounded-[20px] shadow-inner flex-col items-center gap-[447.72px] inline-flex hover:scale-105 hover:drop-shadow-2xl duration-300"
+        >
+          Login
+        </button></NuxtLink
+      >
+    </label>
   </div>
 </template>
 
-<script setup lang="ts">
-const isYoda = ref(false);
-const landingCatRef = ref<HTMLImageElement | undefined>();
-let startingCount = 10; // min clicks to unleash yoda
-let count = startingCount;
-let clicks = 0;
-
-function toggle() {
-  if (isYoda.value || !landingCatRef.value) return;
-  clicks++;
-  if (Math.random() > 0.7) count--;
-  if (count > 0) return;
-  isYoda.value = !isYoda.value;
-  bye();
-}
-
-function bye() {
-  if (!landingCatRef.value) return;
-  const rect = landingCatRef.value.getBoundingClientRect();
-  landingCatRef.value.style.left = rect.left + "px";
-  landingCatRef.value.style.top = rect.top + "px";
-  landingCatRef.value.style.width = "24%";
-  landingCatRef.value.style.position = "fixed";
-  landingCatRef.value.style.filter = "brightness(1)";
-  // strength scales with how many clicks it took. have fun
-  let vx = (clicks / startingCount) ** 2 * (clicks % 2 === 0 ? -1 : 1);
-  let vy = -10;
-  let iteration = 0;
-  function physics(el: HTMLImageElement) {
-    iteration++;
-    el.style.left = Number(el.style.left.slice(0, -2)) + vx + "px";
-    el.style.top = Number(el.style.top.slice(0, -2)) + vy + "px";
-    el.style.rotate = Number(el.style.rotate.slice(0, -3)) + vx + "deg";
-    vy += 0.5;
-    if (Number(el.style.top.slice(0, -2)) < window.innerHeight)
-      setTimeout(() => {
-        physics(el);
-      }, 10);
-    else el.remove();
-  }
-  physics(landingCatRef.value);
-}
-</script>
-
-<style scoped>
-.cat {
-  @apply w-full object-cover;
-  transform-origin: center;
-  transition: none;
-}
-
-.cat#landing:active {
-  filter: brightness(1.2);
-}
-</style>
+<style lang="css" scoped></style>
