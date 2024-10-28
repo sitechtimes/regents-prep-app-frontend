@@ -12,11 +12,39 @@
         <div class="flex items-center justify-center w-1/3">
           <NuxtLink to="/student/dashboard" class="text-3xl">SITHS Regents Prep</NuxtLink>
         </div>
-        <div class="flex items-center justify-end gap-3 w-1/3 form-control">
+        <div class="flex items-center justify-end gap-3 w-1/3">
           <!-- make this look better -->
-          <label class="relative inline-flex items-center label cursor-pointer">
-            <span class="label-text">Toggle Theme</span>
-            <input type="checkbox" class="toggle" @click="toggleTheme" :checked="isDarkMode" defaultChecked />
+          <label class="relative inline-flex items-center du-flex cursor-pointer gap-2">
+            <svg
+              class="stroke-base-100 fill-base-100 col-start-1 row-start-1 dark:invert"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+            </svg>
+            <input type="checkbox" class="du-toggle theme-controller dark:invert" @click="toggleTheme" :checked="isDarkMode" />
+            <svg
+              class="stroke-base-100 fill-base-100 col-start-2 row-start-1 dark:invert"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
           </label>
           <button v-show="route.path === '/student/dashboard'" @click="openTheJoin" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
           <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />

@@ -144,29 +144,9 @@ onMounted(() => {
 });
 
 async function loginWithEmail() {
-  if (emailErr.value || passwordErr.value || nameErr.value) return;
-  loading.value = true;
-  if (showLogin.value) {
-    const data = await userStore.login(email.value, password.value);
-    if (!data) {
-      router.push(`${userStore.userType}/dashboard/`);
-    } else {
-      if ("non_field_errors" in data) emailErr.value = data.non_field_errors.join(" ");
-      if ("password" in data) passwordErr.value = data.password.join(" ");
-      if ("email" in data) emailErr.value = data.email.join(" ");
-    }
-  } // Sign up logic
-  // else if (confirmPasswordErr.value) {
-  // } else {
-  //   let data = await userStore.signUp(email.value, password.value, name.value);
-  //   if (data == "Success") {
-  //   } else {
-  //     if ("password" in data) passwordErr.value = data.password.join(" ");
-  //     if ("email" in data) emailErr.value = data.email.join(" ");
-  //     if ("name" in data) nameErr.value = data.name.join(" ");
-  //   }
-  // }
-  loading.value = false;
+  userStore.isAuth = true;
+  router.push("/student/dashboard");
+  return; // Sign up logic
 }
 </script>
 
