@@ -7,7 +7,8 @@
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore();
+const store = useUserStore();
+const { courses } = storeToRefs(store);
 
 onBeforeMount(() => {
   store.isAuth = true;
@@ -255,12 +256,11 @@ onBeforeMount(() => {
   // get theme and shit
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
-    userStore.theme = "dark";
+    store.theme = "dark";
   }
 });
 
 onMounted(() => {
-  userStore.init();
   document.body.style.display = "block";
 });
 </script>
