@@ -5,17 +5,17 @@
       <div class="bg-white h-full shadow-lg overflow-y-auto">
         <div class="p-4">
           <h2 class="text-xl font-semibold mb-4">Questions</h2>
-          <div v-if="currentAssignment?.question.length > 0">
-            <div v-for="(question, index) in currentAssignment.question" :key="question.id" class="mb-2">
-              <button @click="navigateToQuestion(question.id)" class="w-full bg-blue-500 text-white py-2 rounded">
-                Question {{ index + 1 }}
+          <div>
+            <div class="mb-2">
+              <button class="w-full bg-blue-500 text-white py-2 rounded">
+                Question (insert number)
               </button>
             </div>
           </div>
-          <div v-else>
+          <!-- <div v-else>
             <p>No questions available.</p>
-          </div>
-          <button @click="toggleMenu" class="mt-4 text-gray-600">Close Menu</button>
+          </div> -->
+          <button  class="mt-4 text-gray-600">Close Menu</button>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@
           <div class="h-1/5 flex space-x-4 items-center">
             <!-- Previous Question Button -->
             <div class="flex-1 bg-white rounded shadow-md flex justify-center items-center">
-              <button @click="navigateToQuestion(currentQuestionIndex - 1)" :disabled="currentQuestionIndex <= 0"
+              <button
                 class="text-2xl font-bold text-gray-700">
                 &lt;
               </button>
@@ -47,14 +47,13 @@
             <!-- Current Question Display -->
             <div class="flex-1 bg-white rounded shadow-md flex justify-center items-center">
               <p class="text-lg font-semibold">
-                {{ currentQuestionIndex + 1 }} / {{ currentAssignment?.question.length }}
+                Current Question Number / Total Number of Questions
               </p>
             </div>
 
             <!-- Next Question Button -->
             <div class="flex-1 bg-white rounded shadow-md flex justify-center items-center">
-              <button @click="navigateToQuestion(currentQuestionIndex + 1)"
-                :disabled="currentQuestionIndex >= (currentAssignment?.question.length - 1)"
+              <button
                 class="text-2xl font-bold text-gray-700">
                 &gt;
               </button>
@@ -66,8 +65,7 @@
         <div class="h-1/5 bg-gray-300 p-4 flex justify-between items-center">
           <!-- Left -->
           <div>
-            <p>Attempts Left: {{ currentAssignment?.instanceInfo?.questionsCompleted }} / {{
-              currentAssignment?.questionsLength }}</p>
+            <p>Attempts Left: </p>
             <p>Due Date: {{ currentAssignment?.dueDate.toLocaleDateString() }}</p>
           </div>
           <!-- Center -->
@@ -86,7 +84,6 @@
 </template>
 
 <script setup lang="ts">
-
 definePageMeta({
   layout: "student",
   middleware: ["auth", "add-course"],
@@ -123,13 +120,13 @@ const startAssignment = () => {
 
 const currentQuestionIndex = ref(0);
 
-const navigateToQuestion = (questionIndex: number) => {
+/* const navigateToQuestion = (questionIndex: number) => {
   if (questionIndex >= 0 && questionIndex < (currentAssignment.value?.question.length || 0)) {
     currentQuestionIndex.value = questionIndex;
     const questionId = currentAssignment.value?.question[questionIndex].id;
     router.push(`/student/course/${currentCourse.value.id}/assignment/${currentAssignment.value.id}/question/${questionId}`);
   }
-};
+}; */
 
 const returnToDashboard = () => {
   router.push('/student/dashboard');

@@ -1,21 +1,5 @@
 <template>
   <div class="w-screen min-h-screen">
-    <Transition name="join-menu-scale">
-      <div @click="openJoinMenu = false" v-show="openJoinMenu" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen min-h-screen flex items-center justify-center z-[51]">
-        <div @click="$event.stopPropagation()" class="join-menu bg-white p-6 rounded-lg flex flex-col items-center justify-center">
-          <h2 class="text-xl">join a class</h2>
-          <form id="joinCodeForm" class="flex flex-col mb-4" @submit="joinCourse" @submit.prevent>
-            <label class="du-label" for="joinCode">join code</label>
-            <input class="du-input bg-gray-200" id="joinCode" type="text" v-model="joinCode" placeholder="enter the 6 digit join code" />
-          </form>
-          <div class="flex w-full justify-end gap-2">
-            <button class="du-btn du-btn-sm" @click="openJoinMenu = false">cancel</button>
-            <button class="du-btn du-btn-sm bg-green-accent" form="joinCodeForm" type="submit">join</button>
-          </div>
-        </div>
-      </div>
-    </Transition>
-
     <div class="w-screen min-h-screen flex flex-col items-center justify-start">
       <header class="px-5 sticky top-0 z-50 bg-[var(--bg-color)] w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
         <div class="flex items-center justify-start gap-3 w-1/3">
@@ -29,9 +13,18 @@
           <NuxtLink to="/student/dashboard" class="text-3xl">SITHS Regents Prep</NuxtLink>
         </div>
         <div class="flex items-center justify-end gap-3 w-1/3">
-          <!-- make this look better -->
-          <button @click="toggleTheme">toggle theme</button>
-          <button v-show="route.path === '/student/dashboard'" @click="openJoinMenu = true" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
+          <label class="relative inline-flex items-center du-flex cursor-pointer gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5" />
+              <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+            </svg>
+            <input type="checkbox" class="du-toggle theme-controller dark:invert" @click="toggleTheme" :checked="isDarkMode" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </label>
+          <button v-show="route.path === '/student/dashboard'" @click="openTheJoin" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
+          <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
           <!-- make this look better and add account settings -->
           <button class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-black"><img class="w-6 h-6 dark:invert" src="/ui/user.svg" alt="Open account settings" /></button>
         </div>
@@ -100,50 +93,34 @@ const { courses, currentCourse } = storeToRefs(userStore);
 
 const loaded = ref(false);
 const showSideMenu = ref(true);
-const openJoinMenu = ref(false);
-const joinCode = ref("");
-watch(joinCode, (input) => {
-  if (input.length > 6) return (joinCode.value = String(input).slice(0, 6));
+const showJoinClass = ref(false);
 
-  joinCode.value = [...String(input)].filter((char) => !isNaN(Number(char))).join("");
-  // if (input.length == 6) joinCourse(); // i don't like this
-});
+const isDarkMode = ref(false);
+
+function openTheJoin() {
+  console.log("HELP");
+  showJoinClass.value = true;
+}
 
 onMounted(() => {
+  const savedTheme = localStorage.getItem("theme") || "light";
+  if (savedTheme === "dark" || savedTheme === "light") {
+    userStore.theme = savedTheme;
+    isDarkMode.value = savedTheme === "dark";
+    document.body.classList.toggle("dark", isDarkMode.value);
+  }
   loaded.value = true;
 });
 
-function joinCourse() {
-  if (!joinCode.value) return;
-  alert("you are now enrolled in jail!");
-  // make it join a class 👍
-  // no way really? i think it should join a course instead
-}
-
 function toggleTheme() {
-  const wasLight = userStore.theme === "light";
-  userStore.theme = wasLight ? "dark" : "light";
-  document.body.classList[wasLight ? "add" : "remove"]("dark");
+  isDarkMode.value = !isDarkMode.value;
+  userStore.theme = isDarkMode.value ? "dark" : "light";
+  document.body.classList.toggle("dark", isDarkMode.value);
   localStorage.setItem("theme", userStore.theme);
 }
 </script>
 
 <style scoped>
-.join-menu-scale-enter-active,
-.join-menu-scale-leave-active {
-  transition: all 0.2s ease-in-out;
-}
-
-.join-menu-scale-enter-from,
-.join-menu-scale-leave-to {
-  opacity: 0;
-}
-
-.join-menu-scale-enter-from .join-menu,
-.join-menu-scale-leave-to .join-menu {
-  transform: scale(0.75);
-}
-
 .slide-right-enter-active,
 .slide-right-leave-active {
   transition: all 0.35s ease-in-out;
