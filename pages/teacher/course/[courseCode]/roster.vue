@@ -42,25 +42,14 @@ const route = useRoute();
 const router = useRouter();
 const searchTerm = ref("");
 
-type Student = {
-  id: number;
-  firstName: string;
-  lastName: string;
-};
+const students: Ref<TeacherStudentList[]> = ref([]);
 
-//placeholder array
-const students: Student[] = [
-  { id: 1, firstName: "Abigail", lastName: "Labanok" },
-  { id: 2, firstName: "Andrea", lastName: "Guo" },
-  { id: 3, firstName: "Bridget", lastName: "Feng" }
-];
-
-const filteredStudents = computed(() => {
-  return students.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()));
-});
+const filteredStudents = computed(() =>
+  students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()))
+);
 
 function removeStudent(index: number): void {
-  students.splice(index, 1);
+  students.value.splice(index, 1);
 }
 
 function pushUserBack() {
