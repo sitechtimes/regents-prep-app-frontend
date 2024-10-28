@@ -21,23 +21,17 @@
           <div class="flex flex-col items-center justify-start w-full h-full">
             <NuxtLink
               class="text-xl hover:underline hover:underline-offset-1 w-[70%] text-center text-nowrap overflow-hidden overflow-ellipsis"
-              :to="`/student/course/${course.id}/${assignment.id}`"
+              :to="`/teacher/course/${course.id}/${assignment.id}`"
               @click="$event.stopPropagation()"
               >{{ assignment.name }}</NuxtLink
             >
             <div
               @click="
                 $event.stopPropagation();
-                router.push(`/student/course/${course.id}/${assignment.id}`);
+                router.push(`/teacher/course/${course.id}/${assignment.id}`);
               "
               class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden"
-            >
-              <span
-                class="absolute size-full"
-                :style="{ transform: `translateX(-${(1 - assignment.instanceInfo.questionsCompleted / assignment.numOfQuestions) * 100 + '%'})`, backgroundColor: subjectColors[course.subject] }"
-              ></span>
-              <span class="w-full z-10 text-center font-mono px-2"> {{ assignment.instanceInfo.questionsCompleted }}/{{ assignment.numOfQuestions }} </span>
-            </div>
+            ></div>
           </div>
         </div>
       </div>
@@ -48,19 +42,22 @@
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore();
+const store = useUserStore();
 const router = useRouter();
 const props = defineProps<{
-  course: StudentCourseInfo;
+  course: TeacherCourseInfo;
 }>();
 
-const { courses } = storeToRefs(userStore);
+const { courses } = storeToRefs(store);
 const currentTime = ref(new Date());
 
-const sortedAssignments = props.course.assignments
-  .filter((a) => !a.instanceInfo.dateSubmitted)
-  .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())
-  .slice(0, 2);
+const sortedAssignments = props.course.assignments.sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime()).slice(0, 2);
+
+/* 
+  const filter = computed((arr: teacherAssignmentOverview[]) => {
+  
+  }); 
+  */
 </script>
 
 <style scoped>

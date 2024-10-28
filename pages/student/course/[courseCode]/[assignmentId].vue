@@ -18,6 +18,8 @@
 </template>
 
 <script setup lang="ts">
+import Student from "~/layouts/student.vue";
+
 definePageMeta({
   layout: "student",
   middleware: ["auth", "add-course"],
@@ -27,16 +29,16 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
-const currentAssignment = ref<StudentAssignmentOverview>();
+const currentAssignment = ref<StudentAssignment>();
 const { currentCourse } = storeToRefs(store);
 
 const loaded = ref(false);
 
 onBeforeMount(() => {
   const routeCode = route.params.assignmentId as string;
-  currentAssignment.value = currentCourse.value?.assignments.filter((assignment) => assignment.type === "student").find((assignment) => assignment.id === Number(routeCode));
-
-  // get assignment instance
+  currentAssignment.value = currentCourse.value?.assignments.find(
+    (assignment: StudentAssignment | TeacherAssignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment
+  ) as StudentAssignment;
 });
 
 onMounted(() => {

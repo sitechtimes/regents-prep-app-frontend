@@ -2,33 +2,36 @@
   <div class="w-full p-6 rounded-2xl flex items-center justify-center gap-2 border-2 border-gray-accent" :class="{ assignment: clickable }">
     <div class="flex flex-col items-start justify-start w-2/5 pl-4">
       <h3 class="text-2xl font-semibold overflow-hidden overflow-ellipsis w-full text-nowrap">{{ assignment.name }}</h3>
-      <p :title="assignment.assigned.toLocaleString()">Assigned {{ formatDate(assignment.assigned, currentTime) }}</p>
-      <p :title="assignment.due.toLocaleString()">Due {{ formatDate(assignment.due, currentTime) }}</p>
+      <p :title="assignment.dateAssigned.toLocaleString()">Assigned {{ formatDate(assignment.dateAssigned, currentTime) }}</p>
+      <p :title="assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.dueDate, currentTime) }}</p>
     </div>
 
-    <div class="flex flex-col items-center justify-center gap-2 w-2/5" v-if="assignment.type === 'student'">
-      <p class="text-xl font-medium" v-if="!assignment.questionsCorrect">
-        Your progress: {{ assignment.questionsCompleted }}/{{ assignment.questionsLength }}
-        <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.questionsLength) * 100) }}%)</span>
+    <div class="flex flex-col items-center justify-center gap-2 w-2/5" v-if="assignment.instanceInfo">
+      <p class="text-xl font-medium" v-if="!assignment.instanceInfo.questionsCorrect">
+        Your progress: {{ assignment.instanceInfo.questionsCompleted }}/{{ assignment.numOfQuestions }}
+        <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCompleted / assignment.numOfQuestions) * 100) }}%)</span>
       </p>
       <p class="text-xl font-medium" v-else>
-        Your grade: {{ assignment.questionsCorrect }}/{{ assignment.questionsLength }}
-        <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.questionsLength) * 100) }}%)</span>
+        Your grade: {{ assignment.instanceInfo.questionsCorrect }}/{{ assignment.numOfQuestions }}
+        <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCorrect / assignment.numOfQuestions) * 100) }}%)</span>
       </p>
       <div class="w-full h-4 bg-gray-800 rounded-full">
-        <div class="min-w-[5%] h-full bg-green-500 rounded-full" :style="{ width: ((assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.questionsLength) * 100 + '%' }"></div>
+        <div
+          class="min-w-[5%] h-full bg-green-500 rounded-full"
+          :style="{ width: ((assignment.instanceInfo.questionsCorrect ?? assignment.instanceInfo.questionsCompleted) / assignment.numOfQuestions) * 100 + '%' }"
+        ></div>
       </div>
       <button
         v-if="!clickable"
         @click="submitAssignment"
         class="px-8 py-2 text-xl font-medium rounded-full bg-green-300"
         :class="{
-          'brightness-50': assignment.questionsCompleted !== assignment.questionsLength,
-          grayscale: assignment.questionsCompleted !== assignment.questionsLength,
-          'cursor-not-allowed': assignment.questionsCompleted !== assignment.questionsLength,
-          'cursor-pointer': assignment.questionsCompleted === assignment.questionsLength
+          'brightness-50': assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
+          grayscale: assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
+          'cursor-not-allowed': assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
+          'cursor-pointer': assignment.instanceInfo.questionsCompleted === assignment.numOfQuestions
         }"
-        :disabled="assignment.questionsCompleted !== assignment.questionsLength"
+        :disabled="assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions"
       >
         Submit
       </button>
@@ -52,13 +55,13 @@
 
     <div class="flex flex-col items-end justify-start gap-2 w-1/5">
       <div class="flex items-center justify-center gap-2">
-        <p>{{ assignment.submitted ? "Submitted" : "Assigned" }}</p>
-        <div class="w-2 h-2 rounded-full" :class="{ 'bg-red-600': !assignment.submitted, 'bg-green-600': assignment.submitted }"></div>
+        <p>{{ assignment.instanceInfo.dateSubmitted ? "Submitted" : "Assigned" }}</p>
+        <div class="w-2 h-2 rounded-full" :class="{ 'bg-red-600': !assignment.instanceInfo.dateSubmitted, 'bg-green-600': assignment.instanceInfo.dateSubmitted }"></div>
       </div>
 
       <div class="flex items-center justify-center gap-2">
-        <p>{{ assignment.questionsCorrect ? `Graded: ${Math.round((assignment.questionsCorrect / assignment.questionsLength) * 100)}%` : "Ungraded" }}</p>
-        <div class="w-2 h-2 rounded-full" :class="{ 'bg-red-600': !assignment.questionsCorrect, 'bg-green-600': assignment.questionsCorrect }"></div>
+        <p>{{ assignment.instanceInfo.questionsCorrect ? `Graded: ${Math.round((assignment.instanceInfo.questionsCorrect / assignment.numOfQuestions) * 100)}%` : "Ungraded" }}</p>
+        <div class="w-2 h-2 rounded-full" :class="{ 'bg-red-600': !assignment.instanceInfo.questionsCorrect, 'bg-green-600': assignment.instanceInfo.questionsCorrect }"></div>
       </div>
     </div>
   </div>
@@ -66,7 +69,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  assignment: StudentAssignmentOverview;
+  assignment: StudentAssignment;
   clickable?: boolean;
 }>();
 const currentTime = ref(new Date());

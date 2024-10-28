@@ -61,7 +61,10 @@
                   :key="course.id"
                   :to="`/student/course/${course.id}`"
                 >
-                  <div class="w-2 h-8 rounded-full flex items-center justify-center text-xl font-medium hover:bg-black" :style="{ backgroundColor: subjectColors[course.subject] }"></div>
+                  <div
+                    class="w-2 h-8 rounded-full flex items-center justify-center text-xl font-medium hover:bg-black"
+                    :style="{ backgroundColor: subjectColors[course.subject as keyof typeof subjectColors] }"
+                  ></div>
                   <div class="w-full flex flex-col items-start justify-start">
                     <p class="text-nowrap overflow-ellipsis w-56 overflow-hidden">{{ course.name }}</p>
                     <p class="text-xs">Period {{ course.period }}</p>
@@ -81,10 +84,10 @@
 </template>
 
 <script setup lang="ts">
-const store = useUserStore();
+const userStore = useUserStore();
 const route = useRoute();
 
-const { courses, currentCourse } = storeToRefs(store);
+const { courses, currentCourse } = storeToRefs(userStore);
 
 const loaded = ref(false);
 const showSideMenu = ref(true);
@@ -100,7 +103,7 @@ function openTheJoin() {
 onMounted(() => {
   const savedTheme = localStorage.getItem("theme") || "light";
   if (savedTheme === "dark" || savedTheme === "light") {
-    store.theme = savedTheme;
+    userStore.theme = savedTheme;
     isDarkMode.value = savedTheme === "dark";
     document.body.classList.toggle("dark", isDarkMode.value);
   }
@@ -109,9 +112,9 @@ onMounted(() => {
 
 function toggleTheme() {
   isDarkMode.value = !isDarkMode.value;
-  store.theme = isDarkMode.value ? "dark" : "light";
+  userStore.theme = isDarkMode.value ? "dark" : "light";
   document.body.classList.toggle("dark", isDarkMode.value);
-  localStorage.setItem("theme", store.theme);
+  localStorage.setItem("theme", userStore.theme);
 }
 </script>
 
