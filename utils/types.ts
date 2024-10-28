@@ -35,8 +35,8 @@ export interface StudentAssignmentInstance {
   questionsCompleted: number;
   /** Number of questions correct. */
   questionsCorrect: number;
-  /** Date object of when the assignment was submitted. */
-  submitted: Date | null;
+  /** Date object of when the assignment was submitted in ISO format. */
+  submitted: string | null;
 }
 
 interface Assignment {
@@ -44,10 +44,10 @@ interface Assignment {
   id: number;
   /** @readonly Name of the assignment. */
   name: string;
-  /** @readonly Date object of when the assignment was assigned. */
-  dateAssigned: Date;
-  /** @readonly Date object of when the assignment is due. */
-  dueDate: Date;
+  /** @readonly Date object of when the assignment was assigned in ISO format. */
+  dateAssigned: string;
+  /** @readonly Date object of when the assignment is due in ISO format. */
+  dueDate: string;
   /** @readonly Number of questions in the assignment. */
   numOfQuestions: number;
   /** @readonly Whether or not the assignment can be turned in late. */
@@ -65,8 +65,8 @@ export interface StudentAssignment extends Assignment {
     questionsCompleted: number;
     /** Number of questions correct in the assignment. */
     questionsCorrect: number;
-    /** Date object of when the assignment was submitted. */
-    dateSubmitted: Date | null;
+    /** Date object of when the assignment was submitted in ISO format. */
+    dateSubmitted: string | null;
   };
 }
 
