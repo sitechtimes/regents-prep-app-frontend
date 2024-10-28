@@ -16,7 +16,7 @@
           <!-- make this look better -->
           <p>Toggle Theme</p>
           <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" class="sr-only peer" @click="toggleTheme" />
+            <input type="checkbox" class="sr-only peer" @click="toggleTheme" :checked="isDarkMode" />
             <div
               class="w-11 h-6 peer bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-600"
             ></div>
@@ -88,8 +88,9 @@ const { courses, currentCourse } = storeToRefs(store);
 
 const loaded = ref(false);
 const showSideMenu = ref(true);
-
 const showJoinClass = ref(false);
+
+const isDarkMode = ref(false);
 
 function openTheJoin() {
   console.log("HELP");
@@ -97,13 +98,19 @@ function openTheJoin() {
 }
 
 onMounted(() => {
+  const savedTheme = localStorage.getItem("theme") || "light";
+  if (savedTheme === "dark" || savedTheme === "light") {
+    store.theme = savedTheme;
+    isDarkMode.value = savedTheme === "dark";
+    document.body.classList.toggle("dark", isDarkMode.value);
+  }
   loaded.value = true;
 });
 
 function toggleTheme() {
-  const wasLight = store.theme === "light";
-  store.theme = wasLight ? "dark" : "light";
-  document.body.classList[wasLight ? "add" : "remove"]("dark");
+  isDarkMode.value = !isDarkMode.value;
+  store.theme = isDarkMode.value ? "dark" : "light";
+  document.body.classList.toggle("dark", isDarkMode.value);
   localStorage.setItem("theme", store.theme);
 }
 </script>
