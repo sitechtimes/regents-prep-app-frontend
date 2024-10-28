@@ -7,16 +7,17 @@
 </template>
 
 <script setup lang="ts">
-const store = useUserStore();
+const userStore = useUserStore();
 
 onBeforeMount(() => {
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
-    store.theme = "dark";
+    userStore.theme = "dark";
   }
 });
 
 onMounted(() => {
+  userStore.init();
   document.body.style.display = "block";
 });
 </script>
