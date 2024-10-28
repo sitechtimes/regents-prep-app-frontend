@@ -34,9 +34,7 @@ const loaded = ref(false);
 
 onBeforeMount(() => {
   const routeCode = route.params.assignmentId as string;
-  currentAssignment.value = currentCourse.value?.assignments.find(
-    (assignment: StudentAssignment | TeacherAssignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment
-  ) as StudentAssignment;
+  currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as StudentAssignment;
 });
 
 onMounted(() => {
