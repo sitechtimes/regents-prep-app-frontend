@@ -12,14 +12,11 @@
         <div class="flex items-center justify-center w-1/3">
           <NuxtLink to="/student/dashboard" class="text-3xl">SITHS Regents Prep</NuxtLink>
         </div>
-        <div class="flex items-center justify-end gap-3 w-1/3">
+        <div className="form-control" class="flex items-center justify-end gap-3 w-1/3">
           <!-- make this look better -->
-          <p>Toggle Theme</p>
-          <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" class="sr-only peer" @click="toggleTheme" :checked="isDarkMode" />
-            <div
-              class="w-11 h-6 peer bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-600"
-            ></div>
+          <label className="label cursor-pointer " class="relative inline-flex items-center cursor-pointer">
+            <span className="label-text">Toggle Theme</span>
+            <input type="checkbox" className="toggle" @click="toggleTheme" :checked="isDarkMode" defaultChecked />
           </label>
           <button v-show="route.path === '/student/dashboard'" @click="openTheJoin" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
           <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
