@@ -29,6 +29,45 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({
+  layout: "teacher",
+  middleware: ["auth", "remove-course"],
+  requiresAuth: true
+});
 
-<style scoped></style>
+const route = useRoute();
+const router = useRouter();
+const store = useUserStore();
+const { courses } = storeToRefs(store);
+
+const showNotFound = ref(false);
+const loaded = ref(false);
+
+watch(
+  () => route.query,
+  (query) => {
+    if (!query.course && !query.assignment) showNotFound.value = false;
+  }
+);
+
+onBeforeMount(() => {
+  if (route.query.course || route.query.assignment) showNotFound.value = true;
+});
+
+onMounted(() => {
+  loaded.value = true;
+});
+</script>
+
+<style scoped>
+.opacity-enter-active,
+.opacity-leave-active {
+  transition: 0.25s ease;
+}
+
+.opacity-enter-from,
+.opacity-leave-to {
+  opacity: 0;
+}
+</style>

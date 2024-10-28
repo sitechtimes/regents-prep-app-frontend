@@ -82,4 +82,13 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.opacity-enter-active,
+.opacity-leave-active {
+  transition: 0.25s ease;
+}
+.opacity-enter-from,
+.opacity-leave-to {
+  opacity: 0;
+}
+</style>
