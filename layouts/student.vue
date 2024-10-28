@@ -13,7 +13,6 @@
           <NuxtLink to="/student/dashboard" class="text-3xl">SITHS Regents Prep</NuxtLink>
         </div>
         <div class="flex items-center justify-end gap-3 w-1/3">
-          <!-- make this look better -->
           <label class="relative inline-flex items-center du-flex cursor-pointer gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="5" />

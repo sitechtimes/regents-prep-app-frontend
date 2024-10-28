@@ -18,8 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import Student from "~/layouts/student.vue";
-
 definePageMeta({
   layout: "student",
   middleware: ["auth", "add-course"],
