@@ -9,17 +9,15 @@
       <div class="w-2/3 flex flex-col items-center justify-center" v-if="currentCourse">
         <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
-        <p>description of assignment</p>
-        <p>late submissions?</p>
-        <button>start</button>
+        <p>Subject Review / Assignment</p>
+        <!-- placeholder text for now -->
+        <button class="mt-4 px-4 py-2 bg-green-accent text-white rounded-lg hover:bg-gray-600 transition duration-200">Start</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Student from "~/layouts/student.vue";
-
 definePageMeta({
   layout: "student",
   middleware: ["auth", "add-course"],
