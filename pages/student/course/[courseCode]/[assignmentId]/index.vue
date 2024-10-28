@@ -9,9 +9,9 @@
       <div class="w-2/3 flex flex-col items-center justify-center" v-if="currentCourse">
         <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
-        <p>description of assignment</p>
-        <p>late submissions?</p>
-        <button>start</button>
+        <p>Subject Review / Assignment</p>
+        <!-- placeholder text for now -->
+        <button class="mt-4 px-4 py-2 bg-green-accent text-white rounded-lg hover:bg-gray-600 transition duration-200">Start</button>
       </div>
     </div>
   </div>
@@ -27,16 +27,16 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
-const currentAssignment = ref<StudentAssignmentOverview>();
+const currentAssignment = ref<StudentAssignment>();
 const { currentCourse } = storeToRefs(store);
 
 const loaded = ref(false);
 
 onBeforeMount(() => {
   const routeCode = route.params.assignmentId as string;
-  currentAssignment.value = currentCourse.value?.assignments.filter((assignment) => assignment.type === "student").find((assignment) => assignment.id === Number(routeCode));
-
-  // get assignment instance
+  currentAssignment.value = currentCourse.value?.assignments.find(
+    (assignment: StudentAssignment | TeacherAssignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment
+  ) as StudentAssignment;
 });
 
 onMounted(() => {

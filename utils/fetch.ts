@@ -1,109 +1,76 @@
-export async function getStudentDashboard(): Promise<StudentCourseInfo[] | undefined> {
-  const res = await fetch("wtv/api/courses/student/all", {
-    headers: {
-      Authorization: `Bearer wtv`
-    }
-  });
-  if (!res.ok) return;
-  const data = (await res.json()) as any[];
+const config = useRuntimeConfig();
 
-  return data.map((course) => {
-    return {
-      type: "student",
-      id: course.id,
-      name: course.name,
-      teacher: course.teacher,
-      period: course.period,
-      subject: course.subject,
-      assignments: course.assignments
-    };
+export async function getAssignments(assignmentId: number): Promise<(StudentAssignment | TeacherAssignment)[]> {
+  const res = await fetch(config.public.backend + `courses/${assignmentId}/assignments/`, {
+    credentials: "include"
   });
+  if (!res.ok) throw new Error("Failed to fetch assignments");
+  return await res.json();
 }
 
-export async function getTeacherDashboard(): Promise<TeacherCourseInfo[] | undefined> {
-  const res = await fetch("wtv/api/courses/teacher/all", {
-    headers: {
-      Authorization: `Bearer wtv`
-    }
+export async function getCourseStudents(courseId: number): Promise<TeacherStudentList[]> {
+  const res = await fetch(config.public.backend + `courses/${courseId}/teacher/student-list/`, {
+    credentials: "include"
   });
-  if (!res.ok) return;
-  const data = (await res.json()) as any[];
-
-  return data.map((course) => {
-    return {
-      type: "teacher",
-      id: course.id,
-      name: course.name,
-      teacher: course.teacher,
-      period: course.period,
-      subject: course.subject,
-      joinCode: course.join_code,
-      assignments: course.assignments
-    };
-  });
+  if (!res.ok) throw new Error("Failed to fetch students");
+  return await res.json();
 }
 
-export async function getStudentAssignments(courseId: number): Promise<StudentAssignmentOverview[] | undefined> {
-  const res = await fetch(`wtv/api/courses/${courseId}/assignments`, {
-    headers: {
-      Authorization: `Bearer wtv`
-    }
+export async function getStudentAssignment(assignmentId: number): Promise<AssignmentInstance> {
+  const res = await fetch(config.public.backend + `courses/student/assignment-instance/`, {
+    credentials: "include",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: assignmentId })
   });
-  if (!res.ok) return;
-  const data = (await res.json()) as any[];
-
-  return data.map((assignment) => {
-    return {
-      type: "student",
-      id: assignment.id,
-      name: assignment.name,
-      assigned: new Date(assignment.datetime_assigned),
-      due: new Date(assignment.datetime_due),
-      questionsLength: assignment.num_of_questions,
-      allowLate: assignment.late_submissions,
-      questionsCompleted: assignment.instance_info.questions_completed,
-      questionsCorrect: assignment.instance_info.questions_correct,
-      submitted: assignment.instance_info.datetime_submitted ?? null
-    };
-  });
+  if (!res.ok) throw new Error("Failed to fetch student assignment");
+  return await res.json();
 }
 
-export async function getTeacherAssignments(courseId: number): Promise<TeacherAssignmentOverview[] | undefined> {
-  const res = await fetch(`wtv/api/courses/${courseId}/assignments`, {
-    headers: {
-      Authorization: `Bearer wtv`
-    }
+export async function getNextQuestion(assignmentId: number): Promise<QuestionInterface> {
+  const res = await fetch(config.public.backend + `courses/student/assignment/get-next-question/`, {
+    credentials: "include",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: assignmentId })
   });
-  if (!res.ok) return;
-  const data = (await res.json()) as any[];
-
-  return data.map((assignment) => {
-    return {
-      type: "teacher",
-      id: assignment.id,
-      name: assignment.name,
-      assigned: new Date(assignment.datetime_assigned),
-      due: new Date(assignment.datetime_due),
-      questionsLength: assignment.num_of_questions,
-      allowLate: assignment.late_submissions
-    };
-  });
+  if (!res.ok) throw new Error("Failed to fetch next question");
+  return await res.json();
 }
 
-export async function getStudentList(courseId: number): Promise<TeacherStudentList[] | undefined> {
-  const res = await fetch(`wtv/api/courses/${courseId}/teacher/student-list`, {
-    headers: {
-      Authorization: `Bearer wtv`
-    }
+export async function submitQuestionAnswer(questionId: number, answerId: number): Promise<SubmitAnswer | string> {
+  const res = await fetch(config.public.backend + `courses/student/submit-answer/`, {
+    credentials: "include",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ questionInstanceID: questionId, answerID: answerId })
   });
-  if (!res.ok) return;
-  const data = (await res.json()) as any[];
+  if (!res.ok) throw new Error("Failed to submit answer");
+  return await res.json();
+}
 
-  return data.map((student) => {
-    return {
-      uid: student.id,
-      name: student.name,
-      email: student.email
-    };
+export async function submitAssignment(assignmentId: number): Promise<SubmitAssignment> {
+  const res = await fetch(config.public.backend + "courses/student/submit-assignment/", {
+    credentials: "include",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: assignmentId })
   });
+  if (!res.ok) throw new Error("Failed to submit answer");
+  return await res.json();
+}
+
+export async function getAssignmentResults(assignmentId: number): Promise<AssignmentResults> {
+  const res = await fetch(config.public.backend + `courses/student/assignment-results/${assignmentId}`, {
+    credentials: "include"
+  });
+  if (!res.ok) throw new Error("Failed to fetch assignment results");
+  return await res.json();
+}
+
+export async function studentJoinCourse(courseCode: string) {
+  const res = await fetch(config.public.backend + `courses/student/join/${courseCode}`, {
+    credentials: "include"
+  });
+  if (!res.ok) throw new Error("Failed to join course");
 }

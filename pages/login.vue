@@ -16,7 +16,7 @@
         <div class="relative flex items-start justify-center flex-col gap-1">
           <label class="font-medium" for="email">Your email address <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
-            class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[var(--bg-fadded-color)]"
+            class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:[color:var(--bg-color)]"
             id="email"
             type="email"
             required
@@ -65,10 +65,10 @@
         </div>
 
         <button class="du-btn du-btn-wide du-btn-md bg-green-accent" type="submit">
-          <p class="" v-if="!showLoginAnimation">
+          <span v-if="loading" class="loading du-loading du-loading-sm"></span>
+          <p v-else>
             {{ showLogin ? "Log in" : "Sign up" }}
           </p>
-          <p class="flex items-center justify-center gap-2" v-else>Loading...</p>
         </button>
         <NuxtLink to="/reset-password" class="no-underline font-medium transition duration-500 hover:underline" v-if="showLogin"> Forgot password?</NuxtLink>
       </form>
@@ -92,7 +92,6 @@ const userStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 
-const showLoginAnimation = ref(false);
 const showLogin = ref(true);
 
 const email = ref("");
@@ -104,6 +103,7 @@ const emailErr = ref("");
 const nameErr = ref("");
 const passwordErr = ref("");
 const confirmPasswordErr = ref("");
+const loading = ref(false);
 
 watch(
   () => route.query.signup,
@@ -145,58 +145,28 @@ onMounted(() => {
 
 async function loginWithEmail() {
   if (emailErr.value || passwordErr.value || nameErr.value) return;
-
-  if (!showLogin.value) return signupWithEmail();
-
-  try {
-    showLoginAnimation.value = true;
-    // do login stuff
-  } catch (error) {
-    if (error instanceof Error) {
-      passwordErr.value = error.message;
-      if (!error.message) passwordErr.value = "Something went wrong. Please try again.";
+  loading.value = true;
+  if (showLogin.value) {
+    const data = await userStore.login(email.value, password.value);
+    if (!data) {
+      router.push(`${userStore.userType}/dashboard/`);
+    } else {
+      if ("non_field_errors" in data) emailErr.value = data.non_field_errors.join(" ");
+      if ("password" in data) passwordErr.value = data.password.join(" ");
+      if ("email" in data) emailErr.value = data.email.join(" ");
     }
-    return;
-  } finally {
-    showLoginAnimation.value = false;
-  }
-
-  // teachers be damned (for now)
-  if (userStore.isAuth) router.push("/student/dashboard");
-  else passwordErr.value = "Something went wrong. Please try again.";
-}
-
-async function signupWithEmail() {
-  if (password.value != confirmPassword.value) {
-    passwordErr.value = "Passwords do not match.";
-    return;
-  }
-
-  try {
-    showLoginAnimation.value = true;
-    // do signup stuff
-  } catch (error) {
-    if (error instanceof Error) passwordErr.value = error.message;
-    return;
-  } finally {
-    showLoginAnimation.value = false;
-  }
-
-  // teachers be damned (for now)
-  if (userStore.isAuth) router.push("/student/dashboard");
-  else passwordErr.value = "Something went wrong. Please try again.";
-}
-
-async function loginWithGoogle() {
-  console.log("google");
-}
-
-async function loginWithMicrosoft() {
-  console.log("microsoft");
-}
-
-async function loginWithFacebook() {
-  console.log("facebook");
+  } // Sign up logic
+  // else if (confirmPasswordErr.value) {
+  // } else {
+  //   let data = await userStore.signUp(email.value, password.value, name.value);
+  //   if (data == "Success") {
+  //   } else {
+  //     if ("password" in data) passwordErr.value = data.password.join(" ");
+  //     if ("email" in data) emailErr.value = data.email.join(" ");
+  //     if ("name" in data) nameErr.value = data.name.join(" ");
+  //   }
+  // }
+  loading.value = false;
 }
 </script>
 

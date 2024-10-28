@@ -4,7 +4,14 @@
 
 ## Project Setup
 
-1. Install dependencies and run locally
+1. Create a .env file in the root of the project
+
+```env
+VITE_BACKEND_URL = /* backend URL */
+```
+
+2. Install dependencies and run locally
+
 ```sh
 npm install
 npm run dev
