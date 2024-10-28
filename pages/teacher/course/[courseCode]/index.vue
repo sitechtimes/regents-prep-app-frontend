@@ -57,6 +57,11 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: "teacher",
+  middleware: ["auth", "add-course"],
+  requiresAuth: true
+});
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
