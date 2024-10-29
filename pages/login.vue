@@ -143,11 +143,11 @@ onMounted(() => {
   else showLogin.value = true;
 });
 
-async function loginWithEmail() {
+/* async function loginWithEmail() {
   userStore.isAuth = true;
   router.push("/student/dashboard");
-  return;
-/*   if (emailErr.value || passwordErr.value || nameErr.value) return;
+  return; */
+if (emailErr.value || passwordErr.value || nameErr.value) return;
   loading.value = true;
   if (showLogin.value) {
     const data = await userStore.login(email.value, password.value);
@@ -158,7 +158,7 @@ async function loginWithEmail() {
       if ("password" in data) passwordErr.value = data.password.join(" ");
       if ("email" in data) emailErr.value = data.email.join(" ");
     }
-  } */ // Sign up logic
+  } // Sign up logic
   // else if (confirmPasswordErr.value) {
   // } else {
   //   let data = await userStore.signUp(email.value, password.value, name.value);
