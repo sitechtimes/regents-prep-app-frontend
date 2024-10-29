@@ -143,10 +143,10 @@ onMounted(() => {
   else showLogin.value = true;
 });
 
-/* async function loginWithEmail() {
-  userStore.isAuth = true;
+async function loginWithEmail() {
+  /* userStore.isAuth = true;
   router.push("/student/dashboard");
-  return; */
+  return; */ 
 if (emailErr.value || passwordErr.value || nameErr.value) return;
   loading.value = true;
   if (showLogin.value) {
