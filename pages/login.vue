@@ -155,7 +155,13 @@ async function loginWithEmail() {
       if ("password" in data) passwordErr.value = data.password.join(" ");
       if ("email" in data) emailErr.value = data.email.join(" ");
     }
-  } // Sign up logic
+  }
+  //Login Bypass Code:
+  /*userStore.isAuth = true;
+  router.push("/student/dashboard");
+  return;*/
+
+  // Sign up logic
   // else if (confirmPasswordErr.value) {
   // } else {
   //   let data = await userStore.signUp(email.value, password.value, name.value);
