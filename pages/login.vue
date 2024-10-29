@@ -144,10 +144,7 @@ onMounted(() => {
 });
 
 async function loginWithEmail() {
-  /* userStore.isAuth = true;
-  router.push("/student/dashboard");
-  return; */ 
-if (emailErr.value || passwordErr.value || nameErr.value) return;
+  if (emailErr.value || passwordErr.value || nameErr.value) return;
   loading.value = true;
   if (showLogin.value) {
     const data = await userStore.login(email.value, password.value);
