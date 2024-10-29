@@ -104,9 +104,7 @@ const toggleMenu = () => {
 
 onBeforeMount(() => {
   const routeCode = route.params.assignmentId as string;
-  currentAssignment.value = currentCourse.value?.assignments.find(
-    (assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment
-  ) as StudentAssignment & { question: QuestionInterface[] };
+  currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as StudentAssignment;
 });
 
 onMounted(() => {
