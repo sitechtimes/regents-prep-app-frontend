@@ -8,10 +8,10 @@
         v-model="searchTerm"
       />
       <div class="rounded-b-box rounded-se-box relative overflow-x-auto items">
-        <table class="table flex items-center justify-center">
+        <table class="table items-center justify-center">
           <thead>
             <tr>
-              <th class="py-3 px-10">Class {{ route.params.courseCode }}</th>
+              <th class="py-3 px-10"></th>
               <th class="py-3 px-10">First Name</th>
               <th class="py-3 px-10">Last Name</th>
               <th class="py-3 px-10">Remove Student</th>
@@ -23,7 +23,7 @@
               <td class="py-3 px-10">{{ student.firstName }}</td>
               <td class="py-3 px-10">{{ student.lastName }}</td>
               <td class="py-3 px-10 flex items-center justify-center">
-                <button @click="removeStudent(index)" class="btn btn-sm h-8 w-8 rounded-full transition-300 hover:bg-[var(--gray)] flex items-center justify-center">✕</button>
+                <button @click="removeStudent(index)" class="btn btn-sm h-8 w-8 pt-0.5 rounded-full transition-300 hover:bg-[var(--gray)] flex items-center justify-center">✕</button>
               </td>
             </tr>
             <tr v-if="filteredStudents.length === 0" class="border-t">
