@@ -93,8 +93,8 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
-const { currentCourse } = storeToRefs(store);
 const currentAssignment = ref<StudentAssignment & { question: QuestionInterface[] }>();
+const { currentCourse } = storeToRefs(store);
 const loaded = ref(false);
 const showSideMenu = ref(false);
 
@@ -112,12 +112,12 @@ onMounted(() => {
   loaded.value = true;
 });
 
-const startAssignment = () => {
+/* const startAssignment = () => {
   alert('Starting assignment: ' + currentAssignment.value?.name);
 };
 
 const currentQuestionIndex = ref(0);
-
+ */
 /* const navigateToQuestion = (questionIndex: number) => {
   if (questionIndex >= 0 && questionIndex < (currentAssignment.value?.question.length || 0)) {
     currentQuestionIndex.value = questionIndex;
