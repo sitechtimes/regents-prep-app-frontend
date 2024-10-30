@@ -17,7 +17,7 @@
           <!--prettier-ignore-->
           <StudentDashboardCard
             @click="router.push(`/student/course/${course.id}`)"
-            v-for="course in (courses.filter((course) => !('joinCode' in course)) as StudentCourseInfo[])"
+            v-for="course in (courses.filter((course) => !('joinCode' in course)) as StudentCourse[])"
             :course="course"
             :key="course.id"
           />

@@ -35,8 +35,8 @@ export interface StudentAssignmentInstance {
   questionsCompleted: number;
   /** Number of questions correct. */
   questionsCorrect: number;
-  /** Date object of when the assignment was submitted in ISO format. */
-  submitted: string | null;
+  /** Date object of when the assignment was submitted. */
+  submitted: Date | null;
 }
 
 interface Assignment {
@@ -44,10 +44,10 @@ interface Assignment {
   id: number;
   /** @readonly Name of the assignment. */
   name: string;
-  /** @readonly Date object of when the assignment was assigned in ISO format. */
-  dateAssigned: string;
-  /** @readonly Date object of when the assignment is due in ISO format. */
-  dueDate: string;
+  /** @readonly Date object of when the assignment was assigned. */
+  dateAssigned: Date;
+  /** @readonly Date object of when the assignment is due. */
+  dueDate: Date;
   /** @readonly Number of questions in the assignment. */
   numOfQuestions: number;
   /** @readonly Whether or not the assignment can be turned in late. */
@@ -65,8 +65,8 @@ export interface StudentAssignment extends Assignment {
     questionsCompleted: number;
     /** Number of questions correct in the assignment. */
     questionsCorrect: number;
-    /** Date object of when the assignment was submitted in ISO format. */
-    dateSubmitted: string | null;
+    /** Date object of when the assignment was submitted. */
+    dateSubmitted: Date | null;
   };
 }
 
@@ -81,7 +81,7 @@ export interface TeacherStudentList {
   email: string;
 }
 
-export interface Course {
+interface Course {
   /** @readonly ID of the course. */
   id: number;
   /** @readonly Name of the course. */
@@ -96,12 +96,12 @@ export interface Course {
   subject: "Math" | "English" | "Science" | "History" | "Russian";
 }
 
-export interface StudentCourseInfo extends Course {
+export interface StudentCourse extends Course {
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
   assignments: StudentAssignment[];
 }
 
-export interface TeacherCourseInfo extends Course {
+export interface TeacherCourse extends Course {
   /** @readonly 6-digit join code for the course. */
   joinCode: string;
   /** @readonly The number of students in the course. */

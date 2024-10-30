@@ -50,7 +50,7 @@
 const userStore = useUserStore();
 const router = useRouter();
 const props = defineProps<{
-  course: StudentCourseInfo;
+  course: StudentCourse;
 }>();
 
 const { courses } = storeToRefs(userStore);
