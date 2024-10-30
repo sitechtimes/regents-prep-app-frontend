@@ -6,7 +6,6 @@ export const useUserStore = defineStore("userStore", () => {
   const userType = ref<"student" | "teacher">("student");
   const courses = ref<(StudentCourse | TeacherCourse)[]>([]);
   const currentCourse = ref<StudentCourse | TeacherCourse>();
-  const router = useRouter();
   const initComplete = ref(false);
 
   async function init() {
@@ -34,9 +33,7 @@ export const useUserStore = defineStore("userStore", () => {
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
-    console.log(data.courses);
     courseToDate(data.courses);
-    console.log(data.courses);
     courses.value = data.courses;
   }
 
