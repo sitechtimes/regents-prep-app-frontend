@@ -48,7 +48,7 @@ const filteredStudents = computed(() =>
   students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()))
 );
 
-function removeStudent(index: number): void {
+function removeStudent(index: number) {
   students.value.splice(index, 1);
 }
 
