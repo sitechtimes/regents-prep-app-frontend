@@ -156,11 +156,6 @@ async function loginWithEmail() {
       if ("email" in data) emailErr.value = data.email.join(" ");
     }
   }
-  //Login Bypass Code:
-  /*userStore.isAuth = true;
-  router.push("/student/dashboard");
-  return;*/
-
   // Sign up logic
   // else if (confirmPasswordErr.value) {
   // } else {

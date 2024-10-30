@@ -8,23 +8,22 @@ export const useUserStore = defineStore("userStore", () => {
   const currentCourse = ref<StudentCourseInfo | TeacherCourseInfo>();
   const router = useRouter();
   const initComplete = ref(false);
+  const initStarted = ref(false);
 
   async function init() {
+    if (initStarted.value) return;
+    initStarted.value = true;
     const res = await fetch(config.public.backend + "init/", {
       credentials: "include"
     });
-    if (!res.ok) {
-      initComplete.value = false;
-      return;
-    }
+    if (!res.ok) return;
     const data = await res.json();
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
     courses.value = data.courses;
     initComplete.value = true;
-    router.push(`${userType.value}/dashboard`);
-    console.log(initComplete.value);
+    console.log("initCompleted:", initComplete.value);
   }
   async function login(email: string, password: string) {
     const res = await fetch(config.public.backend + "auth/login/", {
