@@ -7,15 +7,13 @@
           <h2 class="text-xl font-semibold mb-4">Questions</h2>
           <div>
             <div class="mb-2">
-              <button class="w-full bg-blue-500 text-white py-2 rounded">
-                Question (insert number)
-              </button>
+              <button class="w-full bg-blue-500 text-white py-2 rounded">Question (insert number)</button>
             </div>
           </div>
           <!-- <div v-else>
             <p>No questions available.</p>
           </div> -->
-          <button  class="mt-4 text-gray-600">Close Menu</button>
+          <button class="mt-4 text-gray-600">Close Menu</button>
         </div>
       </div>
     </div>
@@ -31,32 +29,22 @@
           </div>
 
           <!-- The div you display questions with-->
-          <div class="h-3/5 bg-gray-100 rounded-lg shadow-md">
-
-          </div>
+          <div class="h-3/5 bg-gray-100 rounded-lg shadow-md"></div>
 
           <div class="h-1/5 flex space-x-4 items-center">
             <!-- Previous Question Button -->
             <div class="flex-1 bg-white rounded shadow-md flex justify-center items-center">
-              <button
-                class="text-2xl font-bold text-gray-700">
-                &lt;
-              </button>
+              <button class="text-2xl font-bold text-gray-700">&lt;</button>
             </div>
 
             <!-- Current Question Display -->
             <div class="flex-1 bg-white rounded shadow-md flex justify-center items-center">
-              <p class="text-lg font-semibold">
-                Current Question Number / Total Number of Questions
-              </p>
+              <p class="text-lg font-semibold">Current Question Number / Total Number of Questions</p>
             </div>
 
             <!-- Next Question Button -->
             <div class="flex-1 bg-white rounded shadow-md flex justify-center items-center">
-              <button
-                class="text-2xl font-bold text-gray-700">
-                &gt;
-              </button>
+              <button class="text-2xl font-bold text-gray-700">&gt;</button>
             </div>
           </div>
         </div>
@@ -65,12 +53,11 @@
         <div class="h-1/5 bg-gray-300 p-4 flex justify-between items-center">
           <!-- Left -->
           <div>
-            <p>Attempts Left: </p>
+            <p>Attempts Left:</p>
             <p>Due Date: {{ currentAssignment?.dueDate.toLocaleDateString() }}</p>
           </div>
           <!-- Center -->
-          <button @click="returnToDashboard" class="bg-gray-500 text-white px-4 py-2 rounded">Return to
-            Dashboard</button>
+          <button @click="returnToDashboard" class="bg-gray-500 text-white px-4 py-2 rounded">Return to Dashboard</button>
           <!-- Right -->
           <button @click="submitAssignment" class="bg-red-500 text-white px-4 py-2 rounded">Submit Assignment</button>
         </div>
@@ -78,8 +65,7 @@
     </div>
 
     <!-- Button to toggle the sliding menu -->
-    <button @click="toggleMenu" class="fixed top-4 left-4 bg-blue-500 text-white p-2 rounded z-50">Show
-      Questions</button>
+    <button @click="toggleMenu" class="fixed top-4 left-4 bg-blue-500 text-white p-2 rounded z-50">Show Questions</button>
   </div>
 </template>
 
@@ -107,10 +93,10 @@ onBeforeMount(() => {
   currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as StudentAssignment;
 });
 
-onMounted(() => {
+/* onMounted(() => {
   if (!currentAssignment.value) return router.push(`/student/dashboard?assignment=${route.params.assignmentId}`);
   loaded.value = true;
-});
+}); */
 
 /* const startAssignment = () => {
   alert('Starting assignment: ' + currentAssignment.value?.name);
@@ -127,13 +113,12 @@ const currentQuestionIndex = ref(0);
 }; */
 
 const returnToDashboard = () => {
-  router.push('/student/dashboard');
-};
+  router.push("/student/dashboard");
+}; 
 
 const submitAssignment = () => {
-  alert('Assignment submitted!');
+  alert("Assignment submitted!");
 };
-
 </script>
 
 <style scoped>
