@@ -18,7 +18,7 @@ onBeforeMount(() => {
 
 onMounted(async () => {
   await userStore.init();
-  disableAuth.value = false;
+  userStore.disableAuth = false;
   document.body.style.display = "block";
 });
 </script>
