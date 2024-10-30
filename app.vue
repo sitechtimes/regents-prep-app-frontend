@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+const router = useRouter();
 const userStore = useUserStore();
 
 onBeforeMount(() => {
@@ -16,8 +17,11 @@ onBeforeMount(() => {
   }
 });
 
-onMounted(() => {
-  userStore.init();
+onMounted(async () => {
+  await userStore.init();
+  userStore.disableAuth = false;
+  if (!userStore.isAuth && router.currentRoute.meta.requiresAuth) router.push("/login");
+});
   document.body.style.display = "block";
 });
 </script>
