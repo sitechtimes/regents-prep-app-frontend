@@ -47,15 +47,11 @@
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore();
 const router = useRouter();
 const props = defineProps<{
   course: StudentCourse;
 }>();
-console.log(userStore.courses);
-const { courses } = storeToRefs(userStore);
 const currentTime = ref(new Date());
-console.log(props.course);
 const sortedAssignments = props.course.assignments
   .filter((a) => !a.instanceInfo.dateSubmitted)
   .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())

@@ -42,12 +42,11 @@ export function formatDate(target: Date, current: Date) {
 
 export function courseToDate(courses: (StudentCourse | TeacherCourse)[]) {
   courses.forEach((course: any) => {
-    course.assignments = assignmentToDate(course.assignments);
+    assignmentToDate(course.assignments);
   });
 }
 
 export function assignmentToDate(assignments: (StudentAssignment | TeacherAssignment)[]) {
-  if (assignments.length === 0) return [];
   assignments.forEach((assignment: StudentAssignment | TeacherAssignment) => {
     assignment.dueDate = new Date(assignment.dueDate);
     assignment.dateAssigned = new Date(assignment.dateAssigned);

@@ -42,15 +42,11 @@
 </template>
 
 <script setup lang="ts">
-const store = useUserStore();
 const router = useRouter();
 const props = defineProps<{
   course: TeacherCourse;
 }>();
-
-const { courses } = storeToRefs(store);
 const currentTime = ref(new Date());
-
 const sortedAssignments = props.course.assignments.sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime()).slice(0, 2);
 
 /* 
