@@ -7,6 +7,7 @@ export const useUserStore = defineStore("userStore", () => {
   const courses = ref<(StudentCourseInfo | TeacherCourseInfo)[]>([]);
   const currentCourse = ref<StudentCourseInfo | TeacherCourseInfo>();
   const router = useRouter();
+  const initComplete = ref(false);
 
   async function init() {
     const res = await fetch(config.public.backend + "init/", {
@@ -18,7 +19,7 @@ export const useUserStore = defineStore("userStore", () => {
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
     courses.value = data.courses;
-    router.push(`${userType.value}/dashboard`);
+    initComplete.value = true;
   }
   async function login(email: string, password: string) {
     const res = await fetch(config.public.backend + "auth/login/", {
@@ -35,5 +36,5 @@ export const useUserStore = defineStore("userStore", () => {
     courses.value = data.courses;
   }
 
-  return { isAuth, userType, theme, courses, currentCourse, init, login };
+  return { isAuth, userType, theme, courses, currentCourse, init, login, initComplete };
 });
