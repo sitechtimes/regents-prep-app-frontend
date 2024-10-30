@@ -12,7 +12,7 @@
           <p class="text-center mb-4" v-if="!assignments">No Current Assignments</p>
           <NuxtLink
             :to="`/teacher/course/${currentCourse?.id}/${assignment.id}`"
-            v-for="assignment in assignments.filter((a: TeacherAssignment) => a.dueDate >= currentDate)"
+            v-for="assignment in assignments.filter((a) => a.dueDate >= currentDate)"
             :key="assignment.id"
             class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2"
           >

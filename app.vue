@@ -17,7 +17,6 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  userStore.init();
   document.body.style.display = "block";
 });
 </script>
