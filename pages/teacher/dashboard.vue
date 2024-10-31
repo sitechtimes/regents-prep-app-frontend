@@ -17,7 +17,7 @@
           <!--prettier-ignore-->
           <TeacherDashboardCard
             @click="router.push(`/teacher/course/${course.id}`)"
-            v-for="course in (courses.filter((course) => !('instanceInfo' in course)) as TeacherCourseInfo[])"
+            v-for="course in (courses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
             :course="course"
             :key="course.id"
           />

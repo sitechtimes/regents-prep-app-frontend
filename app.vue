@@ -7,8 +7,9 @@
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore();
 const router = useRouter();
+const userStore = useUserStore();
+const route = useRoute();
 
 onBeforeMount(() => {
   if (localStorage.getItem("theme") === "dark") {
@@ -17,7 +18,11 @@ onBeforeMount(() => {
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
+  await userStore.init();
+  userStore.disableAuth = false;
+  if (!userStore.isAuth && route.meta.requiresAuth) router.push("/login");
+  else if (userStore.isAuth && ["/login", "/"].includes(route.path)) router.push("/student/dashboard");
   document.body.style.display = "block";
 });
 </script>

@@ -7,7 +7,7 @@
 1. Create a .env file in the root of the project
 
 ```env
-VITE_BACKEND_URL = /* backend URL */
+NUXT_PUBLIC_BACKEND = /* backend URL make sure to append slash */
 ```
 
 2. Install dependencies and run locally

@@ -93,7 +93,6 @@ function toggleTheme() {
 </script>
 
 <style scoped>
-
 .slide-right-enter-active,
 .slide-right-leave-active {
   transition: all 0.35s ease-in-out;

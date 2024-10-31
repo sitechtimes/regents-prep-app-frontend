@@ -4,8 +4,8 @@
       <StudentFilters
         :assignments="
           userStore.courses
-            .filter((c) => c.assignments.some((a) => 'instanceInfo' in a))
-            .map((c) => c.assignments.filter((a) => 'instanceInfo' in a))
+            .filter((c): c is StudentCourse => c.assignments.some((a) => 'instanceInfo' in a))
+            .map((c: StudentCourse) => c.assignments.filter((a) => 'instanceInfo' in a))
             .flat()
         "
         :deselect="deselectFilters"
@@ -60,13 +60,13 @@ watch(deselectFilters, async () => {
 const { courses } = storeToRefs(userStore);
 const assignments = ref<StudentAssignment[]>(
   courses.value
-    .filter((c) => "instanceInfo" in c.assignments[0])
-    .map((c) => c.assignments.filter((a) => "instanceInfo" in a))
+    .filter((c): c is StudentCourse => "instanceInfo" in c.assignments[0])
+    .map((c: StudentCourse) => c.assignments.filter((a) => "instanceInfo" in a))
     .flat()
 );
 
 function findCourse(assignment: StudentAssignment) {
-  return userStore.courses.find((c) => c.assignments.some((a) => a.id === assignment.id && "instanceInfo" in a));
+  return userStore.courses.find((c: StudentCourse | TeacherCourse) => c.assignments.some((a) => a.id === assignment.id && "instanceInfo" in a));
 }
 
 const loaded = ref(false);
