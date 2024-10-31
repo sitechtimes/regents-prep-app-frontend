@@ -58,7 +58,10 @@ userStore.$subscribe(async (mutation, state) => {
   loaded.value = true;
   await getAssignments();
 });
-
+onMounted(() => {
+  if (!userStore.initComplete) return;
+  currentCourse.value = courses.value.find((c) => c.id === Number(route.params.courseCode));
+});
 async function getAssignments() {
   loaded.value = false;
   /* fetch the rest of the course assignments
