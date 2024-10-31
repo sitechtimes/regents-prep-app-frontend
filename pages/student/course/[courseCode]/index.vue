@@ -50,9 +50,12 @@ const { courses, currentCourse } = storeToRefs(userStore);
 const assignments = ref<StudentAssignment[]>(currentCourse.value?.assignments.filter((a) => "instanceInfo" in a) ?? []);
 
 const loaded = ref(false);
-
-onMounted(async () => {
-  if (!currentCourse.value) return router.push(`/student/dashboard?course=${route.params.courseCode}`);
+userStore.$subscribe(async (mutation, state) => {
+  if (!userStore.initComplete) return;
+  let findCourse = courses.value.find((c) => c.id === Number(route.params.courseCode));
+  if (!findCourse) return router.push(`/student/dashboard?course=${route.params.courseCode}`);
+  currentCourse.value = findCourse;
+  loaded.value = true;
   await getAssignments();
 });
 
