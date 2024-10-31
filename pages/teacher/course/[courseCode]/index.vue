@@ -20,7 +20,7 @@
             <p class="text-center">Due: {{ formatDate(assignment.dueDate, currentDate) }}</p>
             <div class="text-center mt-2">
               <span class="font-semibold mr-1">Class Submissions:</span>
-              <div class="border border-gray-400 rounded-full px-2 py-1 inline-block mt-1">{{ assignment.submissions }}/{{ (currentCourse as TeacherCourseInfo).students ?? 0 }} Students</div>
+              <div class="border border-gray-400 rounded-full px-2 py-1 inline-block mt-1">{{ assignment.submissions }}/{{ (currentCourse as TeacherCourse).students ?? 0 }} Students</div>
             </div>
           </NuxtLink>
         </div>
@@ -62,7 +62,6 @@ definePageMeta({
   middleware: ["auth", "add-course"],
   requiresAuth: true
 });
-
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
@@ -88,7 +87,6 @@ onMounted(() => {
 .opacity-leave-active {
   transition: 0.25s ease;
 }
-
 .opacity-enter-from,
 .opacity-leave-to {
   opacity: 0;

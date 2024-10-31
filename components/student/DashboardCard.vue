@@ -43,20 +43,15 @@
       </div>
       <p v-else>No assignments</p>
     </div>
-    <!-- Above is the code for the bottom of the cours card-->
   </div>
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore();
 const router = useRouter();
 const props = defineProps<{
-  course: StudentCourseInfo;
+  course: StudentCourse;
 }>();
-
-const { courses } = storeToRefs(userStore);
 const currentTime = ref(new Date());
-
 const sortedAssignments = props.course.assignments
   .filter((a) => !a.instanceInfo.dateSubmitted)
   .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())

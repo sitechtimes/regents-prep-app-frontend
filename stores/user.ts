@@ -1,12 +1,12 @@
 export const useUserStore = defineStore("userStore", () => {
   const config = useRuntimeConfig();
   const isAuth = ref(false);
+  const disableAuth = ref(true);
   const theme = ref<"light" | "dark">("light");
   const name = ref<string>("");
   const userType = ref<"student" | "teacher">("student");
-  const courses = ref<(StudentCourseInfo | TeacherCourseInfo)[]>([]);
-  const currentCourse = ref<StudentCourseInfo | TeacherCourseInfo>();
-  const router = useRouter();
+  const courses = ref<(StudentCourse | TeacherCourse)[]>([]);
+  const currentCourse = ref<StudentCourse | TeacherCourse>();
   const initComplete = ref(false);
 
   async function init() {
@@ -18,6 +18,7 @@ export const useUserStore = defineStore("userStore", () => {
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
+    courseToDate(data.courses);
     courses.value = data.courses;
     initComplete.value = true;
   }
@@ -33,8 +34,9 @@ export const useUserStore = defineStore("userStore", () => {
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
+    courseToDate(data.courses);
     courses.value = data.courses;
   }
 
-  return { isAuth, userType, theme, courses, currentCourse, init, login, initComplete };
+  return { isAuth, disableAuth, userType, theme, courses, currentCourse, init, login };
 });

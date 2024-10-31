@@ -81,7 +81,7 @@ export interface TeacherStudentList {
   email: string;
 }
 
-export interface Course {
+interface Course {
   /** @readonly ID of the course. */
   id: number;
   /** @readonly Name of the course. */
@@ -96,12 +96,12 @@ export interface Course {
   subject: "Math" | "English" | "Science" | "History" | "Russian";
 }
 
-export interface StudentCourseInfo extends Course {
+export interface StudentCourse extends Course {
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
   assignments: StudentAssignment[];
 }
 
-export interface TeacherCourseInfo extends Course {
+export interface TeacherCourse extends Course {
   /** @readonly 6-digit join code for the course. */
   joinCode: string;
   /** @readonly The number of students in the course. */
