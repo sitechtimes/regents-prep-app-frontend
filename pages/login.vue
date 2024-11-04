@@ -45,7 +45,7 @@
     </div>
 
     <h3>Don't have an account?</h3>
-    <h3 class="m-0 font-medium">Please ask your teacher about account creation.</h3>
+    <h3 class="m-0 font-medium">Ask your teacher about account creation.</h3>
   </div>
 </template>
 
