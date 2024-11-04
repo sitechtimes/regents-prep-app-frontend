@@ -68,6 +68,7 @@ async function loadAssignments() {
 onMounted(() => {
   if (!userStore.initComplete) return;
   currentCourse.value = courses.value.find((c) => c.id === Number(route.params.courseCode));
+  loadAssignments();
   loaded.value = true;
 });
 </script>
