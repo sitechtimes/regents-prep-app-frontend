@@ -62,12 +62,10 @@ const router = useRouter();
 const email = ref("");
 const name = ref("");
 const password = ref("");
-const confirmPassword = ref("");
 
 const emailErr = ref("");
 const nameErr = ref("");
 const passwordErr = ref("");
-const confirmPasswordErr = ref("");
 const loading = ref(false);
 
 watch(email, (value) => {
