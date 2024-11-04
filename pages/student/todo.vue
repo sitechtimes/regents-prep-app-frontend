@@ -60,7 +60,7 @@ watch(deselectFilters, async () => {
 const { courses } = storeToRefs(userStore);
 const assignments = ref<StudentAssignment[]>(
   courses.value
-    .filter((c): c is StudentCourse => "instanceInfo" in c.assignments[0])
+    .filter((c): c is StudentCourse => (c.assignments.length != 0 ? "instanceInfo" in c.assignments[0] : false))
     .map((c: StudentCourse) => c.assignments.filter((a) => "instanceInfo" in a))
     .flat()
 );

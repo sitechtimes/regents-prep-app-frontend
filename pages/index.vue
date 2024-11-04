@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row justify-center items-center min-h-screen w-screen px-8 space-x-10">
+  <div class="flex flex-row justify-center items-center min-h-screen w-screen px-8 space-x-10" :class="{ 'bg-lime-300': isYoda }">
     <!-- left side -->
     <div class="w-1/3">
       <div class="flex items-center mb-6">
