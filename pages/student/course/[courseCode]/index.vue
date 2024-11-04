@@ -14,7 +14,7 @@
         </div>
 
         <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(a) => (assignments = a)" @refresh="getAssignments" />
+          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(a) => (assignments = a)" @refresh="loadAssignments" />
 
           <StudentAssignmentCard
             v-for="assignment in assignments"
@@ -41,9 +41,11 @@ const router = useRouter();
 const userStore = useUserStore();
 
 const deselectFilters = ref(false);
-watch(deselectFilters, async () => {
-  await delay(50);
-  deselectFilters.value = false;
+watchEffect(async () => {
+  if (deselectFilters.value) {
+    await delay(50);
+    deselectFilters.value = false;
+  }
 });
 
 const { courses, currentCourse } = storeToRefs(userStore);
@@ -55,21 +57,19 @@ userStore.$subscribe(async (mutation, state) => {
   let findCourse = courses.value.find((c) => c.id === Number(route.params.courseCode));
   if (!findCourse) return router.push(`/student/dashboard?course=${route.params.courseCode}`);
   currentCourse.value = findCourse;
+  loadAssignments();
   loaded.value = true;
-  await getAssignments();
 });
+
+async function loadAssignments() {
+  assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
+}
+
 onMounted(() => {
   if (!userStore.initComplete) return;
   currentCourse.value = courses.value.find((c) => c.id === Number(route.params.courseCode));
   loaded.value = true;
 });
-async function getAssignments() {
-  loaded.value = false;
-  /* fetch the rest of the course assignments
-  and add it to currentcourse.assignments
-  and then find the course in courses and add it to that */
-  loaded.value = true;
-}
 </script>
 
 <style scoped></style>

@@ -1,7 +1,7 @@
-const config = useRuntimeConfig();
+export async function getAssignments(courseId: number): Promise<(StudentAssignment | TeacherAssignment)[]> {
+  const config = useRuntimeConfig();
 
-export async function getAssignments(assignmentId: number): Promise<(StudentAssignment | TeacherAssignment)[]> {
-  const res = await fetch(config.public.backend + `courses/${assignmentId}/assignments/`, {
+  const res = await fetch(config.public.backend + `courses/${courseId}/assignments/`, {
     credentials: "include"
   });
   if (!res.ok) throw new Error("Failed to fetch assignments");
@@ -11,6 +11,8 @@ export async function getAssignments(assignmentId: number): Promise<(StudentAssi
 }
 
 export async function getCourseStudents(courseId: number): Promise<TeacherStudentList[]> {
+  const config = useRuntimeConfig();
+
   const res = await fetch(config.public.backend + `courses/${courseId}/teacher/student-list/`, {
     credentials: "include"
   });
@@ -19,6 +21,8 @@ export async function getCourseStudents(courseId: number): Promise<TeacherStuden
 }
 
 export async function getStudentAssignment(assignmentId: number): Promise<AssignmentInstance> {
+  const config = useRuntimeConfig();
+
   const res = await fetch(config.public.backend + `courses/student/assignment-instance/`, {
     credentials: "include",
     method: "POST",
@@ -30,6 +34,8 @@ export async function getStudentAssignment(assignmentId: number): Promise<Assign
 }
 
 export async function getNextQuestion(assignmentId: number): Promise<QuestionInterface> {
+  const config = useRuntimeConfig();
+
   const res = await fetch(config.public.backend + `courses/student/assignment/get-next-question/`, {
     credentials: "include",
     method: "POST",
@@ -41,6 +47,8 @@ export async function getNextQuestion(assignmentId: number): Promise<QuestionInt
 }
 
 export async function submitQuestionAnswer(questionId: number, answerId: number): Promise<SubmitAnswer> {
+  const config = useRuntimeConfig();
+
   const res = await fetch(config.public.backend + `courses/student/submit-answer/`, {
     credentials: "include",
     method: "POST",
@@ -52,6 +60,8 @@ export async function submitQuestionAnswer(questionId: number, answerId: number)
 }
 
 export async function submitAssignment(assignmentId: number): Promise<SubmitAssignment> {
+  const config = useRuntimeConfig();
+
   const res = await fetch(config.public.backend + "courses/student/submit-assignment/", {
     credentials: "include",
     method: "POST",
@@ -63,6 +73,8 @@ export async function submitAssignment(assignmentId: number): Promise<SubmitAssi
 }
 
 export async function getAssignmentResults(assignmentId: number): Promise<AssignmentResults> {
+  const config = useRuntimeConfig();
+
   const res = await fetch(config.public.backend + `courses/student/assignment-results/${assignmentId}`, {
     credentials: "include"
   });
@@ -71,6 +83,8 @@ export async function getAssignmentResults(assignmentId: number): Promise<Assign
 }
 
 export async function studentJoinCourse(courseCode: string): Promise<string> {
+  const config = useRuntimeConfig();
+
   const res = await fetch(config.public.backend + `courses/student/join/${courseCode}`, {
     credentials: "include"
   });
