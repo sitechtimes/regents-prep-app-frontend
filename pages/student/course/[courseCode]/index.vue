@@ -41,11 +41,8 @@ const router = useRouter();
 const userStore = useUserStore();
 
 const deselectFilters = ref(false);
-watchEffect(async () => {
-  if (deselectFilters.value) {
-    await delay(50);
-    deselectFilters.value = false;
-  }
+watch(deselectFilters, () => {
+  if (deselectFilters.value) deselectFilters.value = false;
 });
 
 const { courses, currentCourse } = storeToRefs(userStore);
@@ -58,18 +55,17 @@ userStore.$subscribe(async (mutation, state) => {
   if (!findCourse) return router.push(`/student/dashboard?course=${route.params.courseCode}`);
   currentCourse.value = findCourse;
   loadAssignments();
-  loaded.value = true;
 });
 
 async function loadAssignments() {
   assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
+  loaded.value = true;
 }
 
 onMounted(() => {
   if (!userStore.initComplete) return;
   currentCourse.value = courses.value.find((c) => c.id === Number(route.params.courseCode));
   loadAssignments();
-  loaded.value = true;
 });
 </script>
 
