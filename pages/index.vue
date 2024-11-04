@@ -12,8 +12,7 @@
       <p class="text-2xl mt-4 mb-8">Don't fail your Regents.</p>
       <!-- buttons -->
       <div class="flex space-x-4">
-        <NuxtLink to="/login?signup=1" class="flex items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full"> Sign up </NuxtLink>
-        <NuxtLink to="/login" class="flex items-center bg-transparent border-2 border-black text-black text-2xl font-semibold px-6 py-2 rounded-full"> Login </NuxtLink>
+        <NuxtLink to="/login" class="flex items-center bg-green-accent border-2 border-black text-black text-2xl font-semibold px-6 py-2 rounded-full"> Login </NuxtLink>
       </div>
     </div>
 
