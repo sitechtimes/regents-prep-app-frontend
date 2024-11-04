@@ -86,6 +86,8 @@ watch(counter, () => {
     if (cooldown < 1) spawnYoda(event);
   });
 });
+
+defineExpose({ counter, yodas, spawnYoda });
 </script>
 
 <style scoped>

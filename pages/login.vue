@@ -99,6 +99,9 @@ async function loginWithEmail() {
   }
   loading.value = false;
 }
+
+// for vitest
+defineExpose({ email, emailErr, password, passwordErr });
 </script>
 
 <style scoped>
