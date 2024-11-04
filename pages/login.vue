@@ -6,7 +6,7 @@
         src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F88d26018-fa1a-4b92-a8b9-d8ed3f9e178e_3840x2160.png"
         aria-hidden="true"
     /></a>
-    <h1 class="text-5xl font-bold mb-6">Welcome Back!</h1>
+    <h1 class="text-5xl font-bold mb-6">Welcome back!</h1>
     <div class="flex items-center justify-center flex-col bg-[color:var(--bg-color)] p-4 rounded-3xl mb-4">
       <h3 class="mb-4">Log in to your Regents Prep App account</h3>
 
@@ -14,11 +14,12 @@
         <div class="relative flex items-start justify-center flex-col gap-1">
           <label class="font-medium" for="email">Your email address <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
-            class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:[color:var(--bg-color)]"
+            class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-300 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
             id="email"
             type="email"
             required
             v-model="email"
+            autocomplete="email"
           />
           <p class="absolute error font-medium text-red-500" v-show="emailErr.length > 0">{{ emailErr }}</p>
         </div>
@@ -26,12 +27,12 @@
         <div class="relative flex items-start justify-center flex-col gap-1">
           <label class="font-medium" for="password">Your password <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
-            class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
+            class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-300 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
             id="password"
             type="password"
             required
             v-model="password"
-            :autocomplete="'current-password'"
+            autocomplete="current-password"
           />
           <p class="absolute error font-medium text-red-500" v-show="passwordErr.length > 0">{{ passwordErr }}</p>
         </div>
@@ -89,11 +90,6 @@ watch(name, (value) => {
   else nameErr.value = "";
 });
 
-watch(confirmPassword, (value) => {
-  if (value != password.value) confirmPasswordErr.value = "Passwords do not match.";
-  else confirmPasswordErr.value = "";
-});
-
 async function loginWithEmail() {
   if (emailErr.value || passwordErr.value || nameErr.value) return;
   loading.value = true;
@@ -111,6 +107,6 @@ async function loginWithEmail() {
 
 <style scoped>
 .error {
-  bottom: -1.75rem;
+  @apply -bottom-7;
 }
 </style>
