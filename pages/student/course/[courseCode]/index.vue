@@ -76,8 +76,7 @@ userStore.$subscribe(async () => {
 });
 
 async function loadAssignments() {
-  // assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
-  assignments.value = currentCourse.value?.assignments.filter((a) => "instanceInfo" in a) ?? [];
+  assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
   loaded.value = true;
 }
 

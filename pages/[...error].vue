@@ -87,6 +87,7 @@ watch(counter, () => {
   });
 });
 
+// for vitest
 defineExpose({ counter, yodas, spawnYoda });
 </script>
 
