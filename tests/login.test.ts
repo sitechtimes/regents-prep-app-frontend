@@ -42,8 +42,10 @@ describe("Login Page", () => {
 
     const testCases = [
       { name: "should not allow passwords shorter than 8 characters", input: "bogdan", expect: "Password must be at least 8 characters." },
+      { name: "should not allow empty passwords", input: "", expect: "Password must be at least 8 characters." },
       { name: "should not allow emails longer than 50 characters", input: "bogdanpneumonoultramicroscopicsilicovolcanoconiosis", expect: "Password must be less than 50 characters." },
-      { name: "should not throw error for passwords within 8-50 characters", input: "bogdansussyomin", expect: "" }
+      { name: "should not throw error for passwords within 8-50 characters", input: "bogdansussyomin", expect: "" },
+      { name: "should not throw error for passwords with non-alphanumeric characters", input: "😂😲🤯😱😭😡🔥❌💥👿", expect: "" }
     ];
 
     for (let testCase of testCases) {

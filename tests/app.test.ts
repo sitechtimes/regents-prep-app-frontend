@@ -9,7 +9,7 @@ import App from "~/app.vue";
 vi.mock("#app", () => ({
   useRuntimeConfig: () => ({
     public: {
-      backendUrl: "https://example.com" // provide a mock URL for testing
+      backendUrl: "http://localhost:8000/" // TODO: get the url with all the numbers and shit
     }
   })
 }));
