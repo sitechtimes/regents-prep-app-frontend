@@ -1,4 +1,5 @@
 export const useUserStore = defineStore("userStore", () => {
+  const config = useRuntimeConfig();
   const isAuth = ref(false);
   const theme = ref<"light" | "dark">("light");
   const name = ref<string>("");
@@ -8,8 +9,6 @@ export const useUserStore = defineStore("userStore", () => {
   const initComplete = ref(false);
 
   async function init() {
-    const config = useRuntimeConfig();
-    console.log(config.public.backend);
     const res = await fetch(config.public.backend + "init/", {
       credentials: "include"
     });
@@ -23,7 +22,6 @@ export const useUserStore = defineStore("userStore", () => {
     initComplete.value = true;
   }
   async function login(email: string, password: string) {
-    const config = useRuntimeConfig();
     const res = await fetch(config.public.backend + "auth/login/", {
       method: "POST",
       credentials: "include",

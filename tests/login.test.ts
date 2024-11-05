@@ -3,15 +3,15 @@ import { describe } from "vitest";
 import { expect, test } from "vitest";
 import Login from "~/pages/login.vue";
 
-const page = await mountSuspended(Login);
-
 describe("Login Page", () => {
-  test("should be visible", () => {
+  test("should be visible", async () => {
+    const page = await mountSuspended(Login);
     expect(page.exists()).toBe(true);
     expect(page.isVisible()).toBe(true);
   });
 
-  describe("Email Regex Check", () => {
+  describe("Email Regex Check", async () => {
+    const page = await mountSuspended(Login);
     const email = ref(page.vm.email);
     const emailErr = ref(page.vm.emailErr);
 
@@ -35,7 +35,8 @@ describe("Login Page", () => {
     }
   });
 
-  describe("Password Regex Check", () => {
+  describe("Password Regex Check", async () => {
+    const page = await mountSuspended(Login);
     const password = ref(page.vm.password);
     const passwordErr = ref(page.vm.passwordErr);
 

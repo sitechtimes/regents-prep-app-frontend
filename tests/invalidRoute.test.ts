@@ -3,25 +3,27 @@ import { describe } from "vitest";
 import { expect, test } from "vitest";
 import ErrorPage from "~/pages/[...error].vue";
 
-const page = await mountSuspended(ErrorPage);
-
 describe("404 Page", () => {
-  test("should be visible", () => {
+  test("should be visible", async () => {
+    const page = await mountSuspended(ErrorPage);
     expect(page.exists()).toBe(true);
     expect(page.isVisible()).toBe(true);
   });
 
-  test("should have counter set to 5 by default", () => {
+  test("should have counter set to 5 by default", async () => {
+    const page = await mountSuspended(ErrorPage);
     const counter = ref(page.vm.counter);
     expect(counter.value).toBe(5);
   });
 
-  test("should have empty yoda array by default", () => {
+  test("should have empty yoda array by default", async () => {
+    const page = await mountSuspended(ErrorPage);
     const yodas = ref(page.vm.yodas);
     expect(yodas.value.length).toBe(0);
   });
 
-  test("should be able to spawn yodas", () => {
+  test("should be able to spawn yodas", async () => {
+    const page = await mountSuspended(ErrorPage);
     const yodas = ref(page.vm.yodas);
 
     page.vm.spawnYoda(new MouseEvent("mousemove"));

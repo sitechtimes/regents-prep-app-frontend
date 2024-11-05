@@ -42,7 +42,9 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: "teacher"
+  layout: "teacher",
+  middleware: ["auth", "remove-course"],
+  requiresAuth: true
 });
 
 const myModal3 = ref<HTMLDialogElement>();
