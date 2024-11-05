@@ -17,12 +17,18 @@
           <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(a) => (assignments = a)" @refresh="loadAssignments" />
 
           <StudentAssignmentCard
+            v-if="assignments.length > 0"
             v-for="assignment in assignments"
             :key="assignment.id"
             @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
             :assignment="assignment"
             clickable
           />
+
+          <div id="no-assignments" v-else>
+            <p>no assignments!!!!</p>
+            <p>for now................................</p>
+          </div>
         </div>
       </div>
     </div>
@@ -45,14 +51,26 @@ watch(deselectFilters, () => {
   if (deselectFilters.value) deselectFilters.value = false;
 });
 
-const { courses, currentCourse } = storeToRefs(userStore);
+const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 const assignments = ref<StudentAssignment[]>(currentCourse.value?.assignments.filter((a) => "instanceInfo" in a) ?? []);
 
 const loaded = ref(false);
-userStore.$subscribe(async (mutation, state) => {
-  if (!userStore.initComplete) return;
-  let findCourse = courses.value.find((c) => c.id === Number(route.params.courseCode));
+
+onMounted(() => {
+  if (!initComplete.value) return;
+
+  currentCourse.value = courses.value.find((c) => c.id === Number(route.params.courseCode));
+  if (!currentCourse.value) return router.push(`/student/dashboard?course=${route.params.courseCode}`);
+
+  loadAssignments();
+});
+
+userStore.$subscribe(async () => {
+  if (!initComplete.value) return;
+
+  const findCourse = courses.value.find((c) => c.id === Number(route.params.courseCode));
   if (!findCourse) return router.push(`/student/dashboard?course=${route.params.courseCode}`);
+
   currentCourse.value = findCourse;
   loadAssignments();
 });
@@ -62,11 +80,8 @@ async function loadAssignments() {
   loaded.value = true;
 }
 
-onMounted(() => {
-  if (!userStore.initComplete) return;
-  currentCourse.value = courses.value.find((c) => c.id === Number(route.params.courseCode));
-  loadAssignments();
-});
+// for vitest
+defineExpose({ loaded, courses, currentCourse, initComplete, assignments });
 </script>
 
 <style scoped></style>
