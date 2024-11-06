@@ -25,8 +25,12 @@
           </label>
           <button v-show="route.path === '/student/dashboard'" @click="openTheJoin" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
           <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
-          <!-- make this look better and add account settings -->
-          <button class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-black"><img class="w-6 h-6 dark:invert" src="/ui/user.svg" alt="Open account settings" /></button>
+          <!-- make this look better and add account settings 
+          avatar becomes dropdown, logout button and user settings comes there-->
+          <button class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-black">
+            <img class="w-6 h-6 dark:invert" src="/ui/user.svg" alt="Open account settings" />
+          </button>
+          <button @click="logOut()" class="w-8 h-8 dark:invert">logout</button>
         </div>
       </header>
 
@@ -88,6 +92,7 @@
 <script setup lang="ts">
 const userStore = useUserStore();
 const route = useRoute();
+const router = useRouter();
 
 const { courses, currentCourse } = storeToRefs(userStore);
 
@@ -96,6 +101,7 @@ const showSideMenu = ref(true);
 const showJoinClass = ref(false);
 
 const isDarkMode = ref(false);
+const openDropdown = ref(false);
 
 function openTheJoin() {
   console.log("HELP");
@@ -117,6 +123,13 @@ function toggleTheme() {
   userStore.theme = isDarkMode.value ? "dark" : "light";
   document.body.classList.toggle("dark", isDarkMode.value);
   localStorage.setItem("theme", userStore.theme);
+}
+
+function logOut() {
+  userStore.isAuth = false;
+  router.push(`/login`);
+  console.log("logged out!");
+  //remove cookies to remain logged out post-refresh
 }
 </script>
 
