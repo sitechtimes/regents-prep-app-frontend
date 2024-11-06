@@ -86,6 +86,9 @@ watch(counter, () => {
     if (cooldown < 1) spawnYoda(event);
   });
 });
+
+// for vitest
+defineExpose({ counter, yodas, spawnYoda });
 </script>
 
 <style scoped>

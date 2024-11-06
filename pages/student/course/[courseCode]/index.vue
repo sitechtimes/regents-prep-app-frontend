@@ -14,15 +14,21 @@
         </div>
 
         <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(a) => (assignments = a)" @refresh="getAssignments" />
+          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(a) => (assignments = a)" @refresh="loadAssignments" />
 
           <StudentAssignmentCard
+            v-if="assignments.length > 0"
             v-for="assignment in assignments"
             :key="assignment.id"
             @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
             :assignment="assignment"
             clickable
           />
+
+          <div id="no-assignments" v-else>
+            <p>no assignments!!!!</p>
+            <p>for now................................</p>
+          </div>
         </div>
       </div>
     </div>
@@ -41,28 +47,41 @@ const router = useRouter();
 const userStore = useUserStore();
 
 const deselectFilters = ref(false);
-watch(deselectFilters, async () => {
-  await delay(50);
-  deselectFilters.value = false;
+watch(deselectFilters, () => {
+  if (deselectFilters.value) deselectFilters.value = false;
 });
 
-const { courses, currentCourse } = storeToRefs(userStore);
+const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 const assignments = ref<StudentAssignment[]>(currentCourse.value?.assignments.filter((a) => "instanceInfo" in a) ?? []);
 
 const loaded = ref(false);
 
-onMounted(async () => {
+onMounted(() => {
+  if (!initComplete.value) return;
+
+  currentCourse.value = courses.value.find((c) => c.id === Number(route.params.courseCode));
   if (!currentCourse.value) return router.push(`/student/dashboard?course=${route.params.courseCode}`);
-  await getAssignments();
+
+  loadAssignments();
 });
 
-async function getAssignments() {
-  loaded.value = false;
-  /* fetch the rest of the course assignments
-  and add it to currentcourse.assignments
-  and then find the course in courses and add it to that */
+userStore.$subscribe(async () => {
+  if (!initComplete.value) return;
+
+  const findCourse = courses.value.find((c) => c.id === Number(route.params.courseCode));
+  if (!findCourse) return router.push(`/student/dashboard?course=${route.params.courseCode}`);
+
+  currentCourse.value = findCourse;
+  loadAssignments();
+});
+
+async function loadAssignments() {
+  assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
   loaded.value = true;
 }
+
+// for vitest
+defineExpose({ loaded, courses, currentCourse, initComplete, assignments });
 </script>
 
 <style scoped></style>
