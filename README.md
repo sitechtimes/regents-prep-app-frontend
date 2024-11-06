@@ -13,7 +13,7 @@ NUXT_PUBLIC_BACKEND = /* backend URL (make sure to append slash to the end) */
 2. Install dependencies and run locally
 
 ```sh
-npm install
+npm install --legacy-peer-deps
 npm run dev
 ```
 
