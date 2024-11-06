@@ -1,18 +1,19 @@
-import { mountSuspended } from "@nuxt/test-utils/runtime";
+import { mockNuxtImport, mountSuspended } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, vi } from "vitest";
 import { describe } from "vitest";
 import { expect, test } from "vitest";
 import App from "~/app.vue";
+import * as dotenv from "dotenv";
 
-// Mock useRuntimeConfig
-vi.mock("#app", () => ({
-  useRuntimeConfig: () => ({
-    public: {
-      backendUrl: "http://localhost:8000/" // TODO: get the url with all the numbers and shit
-    }
-  })
-}));
+// Load the .env.test file
+dotenv.config({ path: ".env.test" });
+
+mockNuxtImport("useRuntimeConfig", () => {
+  return () => {
+    return { public: { backend: process.env.NUXT_PUBLIC_BACKEND } };
+  };
+});
 
 describe("Main App", () => {
   beforeEach(() => {

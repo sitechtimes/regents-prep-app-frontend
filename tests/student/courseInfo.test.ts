@@ -1,8 +1,18 @@
-import { mountSuspended } from "@nuxt/test-utils/runtime";
+import { mockNuxtImport, mountSuspended } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, vi } from "vitest";
 import { expect, test } from "vitest";
 import Course from "~/pages/student/course/[courseCode]/index.vue";
+import * as dotenv from "dotenv";
+
+// Load the .env.test file
+dotenv.config({ path: ".env.test" });
+
+mockNuxtImport("useRuntimeConfig", () => {
+  return () => {
+    return { public: { backend: process.env.NUXT_PUBLIC_BACKEND } };
+  };
+});
 
 describe("Student Course Info Page", () => {
   beforeEach(() => {
