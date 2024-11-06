@@ -39,8 +39,8 @@
 
     <div class="flex flex-col items-end justify-start gap-2 w-1/5">
       <div class="flex items-center justify-center gap-2">
-        <p>{{ assignment.instanceInfo.dateSubmitted ? "Submitted" : "Assigned" }}</p>
-        <div class="w-2 h-2 rounded-full" :class="{ 'bg-red-600': !assignment.instanceInfo.dateSubmitted, 'bg-green-600': assignment.instanceInfo.dateSubmitted }"></div>
+        <p>{{ assignment.instanceInfo.datetimeSubmitted ? "Submitted" : "Assigned" }}</p>
+        <div class="w-2 h-2 rounded-full" :class="{ 'bg-red-600': !assignment.instanceInfo.datetimeSubmitted, 'bg-green-600': assignment.instanceInfo.datetimeSubmitted }"></div>
       </div>
 
       <div class="flex items-center justify-center gap-2">

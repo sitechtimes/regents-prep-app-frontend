@@ -53,7 +53,7 @@ const props = defineProps<{
 }>();
 const currentTime = ref(new Date());
 const sortedAssignments = props.course.assignments
-  .filter((a) => !a.instanceInfo.dateSubmitted)
+  .filter((a) => !a.instanceInfo.datetimeSubmitted)
   .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())
   .slice(0, 2);
 </script>

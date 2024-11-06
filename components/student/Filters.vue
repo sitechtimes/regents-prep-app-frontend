@@ -112,8 +112,8 @@ watch(currentSort, () => updateFilter());
 const showFilters = ref(false);
 const filters: Record<string, (assignment: StudentAssignment) => boolean> = {
   all: (assignment) => true,
-  "not turned in": (assignment) => !assignment.instanceInfo.dateSubmitted,
-  "turned in": (assignment) => assignment.instanceInfo.dateSubmitted !== null,
+  "not turned in": (assignment) => !assignment.instanceInfo.datetimeSubmitted,
+  "turned in": (assignment) => assignment.instanceInfo.datetimeSubmitted !== null,
   ungraded: (assignment) => assignment.instanceInfo.questionsCorrect === null,
   graded: (assignment) => assignment.instanceInfo.questionsCorrect !== null
 };
