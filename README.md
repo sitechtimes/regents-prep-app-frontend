@@ -13,7 +13,8 @@ NUXT_PUBLIC_BACKEND = /* backend URL (make sure to append slash to the end) */
 2. Install dependencies and run locally
 
 ```sh
-npm install --legacy-peer-deps
+npm install
+npm install pinia --legacy-peer-deps (if pinia gives an error)
 npm run dev
 ```
 
