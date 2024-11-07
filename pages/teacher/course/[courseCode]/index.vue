@@ -15,11 +15,10 @@
         <!-- Current Assignments Section -->
         <div
           class="bg-[var(--light-gray)] flex-1 flex flex-col items-center border-2 border-[var(--faded-bg-color)] rounded-lg p-4">
-          <h3 class="font-bold text-xl pb-2">Current Assignments:</h3>
+          <h3 class="font-bold text-3xl pb-2 ">Current Assignments:</h3>
           <p class="text-center mb-4" v-if="!currentAssignments.length">No Current Assignments</p>
           <div class="w-full flex flex-col gap-4">
-            <div v-for="assignment in currentAssignments" :key="assignment.id"
-              class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2">
+            <div v-for="assignment in currentAssignments" :key="assignment.id" class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2">
               <p class="font-medium text-center">{{ assignment.name }}</p>
               <p class="text-center">Due: {{ formatDate(assignment.dueDate, currentDate) }}</p>
               <div class="text-center mt-2">
@@ -34,13 +33,13 @@
 
         <!-- Past Assignments Section -->
         <div class="flex-1 flex flex-col items-center border-2 border-[var(--faded-bg-color)] rounded-lg p-4">
-          <h3 class="font-bold text-xl pb-2">Past Assignments:</h3>
+          <h3 class="font-bold text-3xl pb-2">Past Assignments:</h3>
           <p class="text-center mb-4" v-if="!pastAssignments.length">No Past Assignments</p>
           <div class="w-full flex flex-col gap-4">
             <div v-for="assignment in pastAssignments" :key="assignment.id"
               class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2">
               <p class="font-medium text-center">{{ assignment.name }}</p>
-              <p class="text-center">Submitted: {{ formatDate(assignment.dueDate, currentDate) }}</p>
+              <p class="text-center">Due: {{ formatDate(assignment.dueDate, currentDate) }}</p>
               <div class="text-center mt-2">
                 <span class="mr-1">Class Submissions:</span>
                 <div class="border border-gray-400 rounded-full px-2 py-1 inline-block mt-1">
@@ -99,7 +98,7 @@ async function fetchAndSetAssignments(courseId: number) {
     .finally(() => {
       setTimeout(() => {
         loaded.value = true;
-      }, 1000);
+      }, 250);
     });
 }
 
