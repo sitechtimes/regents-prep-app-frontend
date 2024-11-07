@@ -46,6 +46,7 @@ definePageMeta({
 
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
 const searchTerm = ref("");
 
 const students: Ref<TeacherStudentList[]> = ref([]);
