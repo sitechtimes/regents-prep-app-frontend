@@ -72,43 +72,41 @@ const { courses, currentCourse } = storeToRefs(userStore);
 const currentDate = ref(new Date());
 
 const loaded = ref(false);
+const currentAssignments = ref<TeacherAssignment[]>([]);
+const pastAssignments = ref<TeacherAssignment[]>([]);
 
-// Filter current and past assignments based on dueDate
-const currentAssignments = ref<TeacherAssignment[]>(
-  (currentCourse.value?.assignments.filter((a) => new Date(a.dueDate) >= currentDate.value) as TeacherAssignment[]) ?? []
-);
+async function fetchAndSetAssignments(courseId: number) {
+  loaded.value = false;
 
-const pastAssignments = ref<TeacherAssignment[]>(
-  (currentCourse.value?.assignments.filter((a) => new Date(a.dueDate) < currentDate.value) as TeacherAssignment[]) ?? []
-);
+  getAssignments(courseId)
+    .then((assignments) => {
+      currentAssignments.value = assignments.filter((a) => new Date(a.dueDate) >= currentDate.value) as TeacherAssignment[];
+      pastAssignments.value = assignments.filter((a) => new Date(a.dueDate) < currentDate.value) as TeacherAssignment[];
+    })
+    .catch(async (error) => {
+      console.error("Error fetching assignments:", error);
+      await router.push(`/teacher/dashboard?course=${courseId}`);
+    })
+    .finally(() => {loaded.value = true;});
+}
 
 userStore.$subscribe(async (mutation, state) => {
-  console.log('Mutation:', mutation);
-  console.log('State:', state);
   if (!userStore.initComplete) return;
-  console.log('User store initComplete:', userStore.initComplete);
   
-  let findCourse = courses.value.find((c) => c.id === Number(route.params.courseCode));
-  console.log('Found Course:', findCourse);
-
-  if (!findCourse) return router.push(`/teacher/dashboard?course=${route.params.courseCode}`);
+  const courseId = Number(route.params.courseCode);
+  let findCourse = courses.value.find((c) => c.id === courseId);
+  
+  if (!findCourse) return router.push(`/teacher/dashboard?course=${courseId}`);
+  
   currentCourse.value = findCourse;
-  console.log('Course Code:', route.params.courseCode);
-  
-  currentAssignments.value = (currentCourse.value?.assignments.filter((a) => new Date(a.dueDate) >= currentDate.value) as TeacherAssignment[]) ?? [];
-  pastAssignments.value = (currentCourse.value?.assignments.filter((a) => new Date(a.dueDate) < currentDate.value) as TeacherAssignment[]) ?? [];
 
-  loaded.value = true;
+  await fetchAndSetAssignments(courseId);
 });
 
-onMounted(async() => {
-  loaded.value = true;
-  await getAssignments();
+onMounted(async () => {
+  const courseId = Number(route.params.courseCode);
+  await fetchAndSetAssignments(courseId);
 });
-async function getAssignments(){
-  loaded.value = false;
-  loaded.value = true;
-}
 </script>
 
 <style scoped>
