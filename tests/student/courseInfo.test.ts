@@ -10,7 +10,7 @@ dotenv.config({ path: ".env.test" });
 
 mockNuxtImport("useRuntimeConfig", () => {
   return () => {
-    return { public: { backend: process.env.NUXT_PUBLIC_BACKEND } };
+    return { public: { backend: process.env.NUXT_TEST_BACKEND } };
   };
 });
 

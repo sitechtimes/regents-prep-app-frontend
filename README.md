@@ -13,7 +13,7 @@ NUXT_PUBLIC_BACKEND = /* backend URL (make sure to append slash to the end) */
 2. Create a `.env.test` file in the root of the project
 
 ```env
-NUXT_PUBLIC_BACKEND = http://localhost:3000/tests
+NUXT_TEST_BACKEND = http://localhost:3000/api/tests/
 ```
 
 3. Install dependencies and run locally
