@@ -1,4 +1,4 @@
-import { mockNuxtImport, mountSuspended } from "@nuxt/test-utils/runtime";
+import { mockNuxtImport, mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, vi } from "vitest";
 import { describe } from "vitest";
@@ -14,6 +14,12 @@ mockNuxtImport("useRuntimeConfig", () => {
     return { public: { backend: process.env.NUXT_TEST_BACKEND } };
   };
 });
+
+registerEndpoint("/init", () => ({
+  name: "Wicheal Mhalen",
+  userType: "Student",
+  courses: []
+}));
 
 describe("Main App", () => {
   beforeEach(() => {

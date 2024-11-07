@@ -1,5 +1,3 @@
 export default defineEventHandler((event) => {
-  return {
-    // data
-  };
+  return 5;
 });

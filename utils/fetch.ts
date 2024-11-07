@@ -4,8 +4,10 @@ export async function getAssignments(courseId: number): Promise<(StudentAssignme
   const res = await fetch(config.public.backend + `courses/${courseId}/assignments/`, {
     credentials: "include"
   });
+  console.log(res);
   if (!res.ok) throw new Error("Failed to fetch assignments");
   const data = await res.json();
+  console.log(data);
   assignmentToDate(data);
   return data;
 }
@@ -82,7 +84,7 @@ export async function getAssignmentResults(assignmentId: number): Promise<Assign
   return await res.json();
 }
 
-export async function studentJoinCourse(courseCode: string): Promise<string> {
+export async function studentJoinCourse(courseCode: string): Promise<number> {
   const config = useRuntimeConfig();
 
   const res = await fetch(config.public.backend + `courses/student/join/${courseCode}`, {
