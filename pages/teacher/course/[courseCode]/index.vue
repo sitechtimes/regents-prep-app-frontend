@@ -99,7 +99,7 @@ async function fetchAndSetAssignments(courseId: number) {
     .finally(() => {
       setTimeout(() => {
         loaded.value = true;
-      }, 500);
+      }, 1000);
     });
 }
 
