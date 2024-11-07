@@ -1,19 +1,25 @@
 <template>
   <div>
-    <div v-if="!loaded">
-      <p>loading very hard............</p>
+    <div v-if="!loaded" class="full-page-loader">
+      <div class="loading-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <p class="loading-text">Loading your content...</p>
     </div>
 
     <div v-else>
       <div class="w-full h-[80%] flex gap-4 p-4">
-        
+
         <!-- Current Assignments Section -->
-        <div class="bg-[var(--light-gray)] flex-1 flex flex-col items-center border-2 border-[var(--faded-bg-color)] rounded-lg p-4">
+        <div
+          class="bg-[var(--light-gray)] flex-1 flex flex-col items-center border-2 border-[var(--faded-bg-color)] rounded-lg p-4">
           <h3 class="font-bold text-xl pb-2">Current Assignments:</h3>
           <p class="text-center mb-4" v-if="!currentAssignments.length">No Current Assignments</p>
           <div class="w-full flex flex-col gap-4">
-            <div v-for="assignment in currentAssignments" :key="assignment.id" 
-                 class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2">
+            <div v-for="assignment in currentAssignments" :key="assignment.id"
+              class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2">
               <p class="font-medium text-center">{{ assignment.name }}</p>
               <p class="text-center">Due: {{ formatDate(assignment.dueDate, currentDate) }}</p>
               <div class="text-center mt-2">
@@ -31,7 +37,8 @@
           <h3 class="font-bold text-xl pb-2">Past Assignments:</h3>
           <p class="text-center mb-4" v-if="!pastAssignments.length">No Past Assignments</p>
           <div class="w-full flex flex-col gap-4">
-            <div v-for="assignment in pastAssignments" :key="assignment.id" class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2">
+            <div v-for="assignment in pastAssignments" :key="assignment.id"
+              class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2">
               <p class="font-medium text-center">{{ assignment.name }}</p>
               <p class="text-center">Submitted: {{ formatDate(assignment.dueDate, currentDate) }}</p>
               <div class="text-center mt-2">
@@ -47,11 +54,13 @@
     </div>
 
     <div class="w-full flex gap-4 p-4">
-      <button class="justify-center w-[50%] flex items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full transition-transform duration-300 ease-in-out">
+      <button
+        class="justify-center w-[50%] flex items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full transition-transform duration-300 ease-in-out">
         <h3>View Student List</h3>
       </button>
 
-      <button class="justify-center w-[50%] flex items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full transition-transform duration-300 ease-in-out">
+      <button
+        class="justify-center w-[50%] flex items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full transition-transform duration-300 ease-in-out">
         <h3>Assign Student Homework</h3>
       </button>
     </div>
@@ -87,7 +96,11 @@ async function fetchAndSetAssignments(courseId: number) {
       console.error("Error fetching assignments:", error);
       await router.push(`/teacher/dashboard?course=${courseId}`);
     })
-    .finally(() => {loaded.value = true;});
+    .finally(() => {
+      setTimeout(() => {
+        loaded.value = true;
+      }, 500);
+    });
 }
 
 userStore.$subscribe(async (mutation, state) => {
@@ -117,5 +130,62 @@ onMounted(async () => {
 .opacity-enter-from,
 .opacity-leave-to {
   opacity: 0;
+}
+.full-page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  color: #ffffff;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 12px;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  background-color: #4caf50; 
+  border-radius: 50%;
+  animation: pulse 0.6s ease-in-out infinite alternate;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Loading text */
+.loading-text {
+  margin-top: 16px;
+  font-size: 1.2em;
+  font-weight: 500;
+  text-align: center;
+  opacity: 0.9;
+  color: white;
+}
+
+/* Keyframes for pulse animation */
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0.6;
+  }
 }
 </style>
