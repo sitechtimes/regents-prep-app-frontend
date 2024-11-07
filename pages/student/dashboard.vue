@@ -8,7 +8,7 @@
     <div class="w-full" v-else>
       <Transition name="opacity">
         <div v-if="showNotFound" @click="router.push('/student/dashboard')" class="z-50 w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center">
-          <NotFound type="student" :message="route.query.course ? 'class' : 'assignment'" @close="router.push('/student/dashboard')" @click="$event.stopPropagation()" />
+          <NotFound type="student" :message="route.query.course ? 'class' : 'assignment'" @close="router.push('/student/dashboard')" @click.stop />
         </div>
       </Transition>
 
@@ -17,7 +17,7 @@
           <!--prettier-ignore-->
           <StudentDashboardCard
             @click="router.push(`/student/course/${course.id}`)"
-            v-for="course in (courses.filter((course) => !('joinCode' in course)) as StudentCourse[])"
+            v-for="course in (courses.filter((course: StudentCourse|TeacherCourse) => !('joinCode' in course)) as StudentCourse[])"
             :course="course"
             :key="course.id"
           />

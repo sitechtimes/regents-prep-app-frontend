@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]" @click="deselectFilters = true">
+  <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]">
     <div v-if="!loaded">
       <p>loading...............................</p>
       <!-- maybe put an animation here -->
@@ -14,7 +14,7 @@
         </div>
 
         <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(a) => (assignments = a)" @refresh="loadAssignments" />
+          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(a: StudentAssignment) => (assignments = a)" @refresh="loadAssignments(true)" />
 
           <StudentAssignmentCard
             v-if="assignments.length > 0"
@@ -74,8 +74,11 @@ userStore.$subscribe(async () => {
   currentCourse.value = findCourse;
   loadAssignments();
 });
-
-async function loadAssignments() {
+let ran = false;
+async function loadAssignments(redirect = false) {
+  console.log(ran, redirect);
+  if (ran && !redirect) return;
+  ran = true;
   assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
   loaded.value = true;
 }
