@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.5",
+    "@rollup/rollup-darwin-arm64": "^4.24.4",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.4",
     "vue": "latest",
