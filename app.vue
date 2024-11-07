@@ -19,9 +19,10 @@ onBeforeMount(() => {
 });
 
 onMounted(async () => {
-  /*await userStore.init();
+  console.log(await getAssignments(5));
+  await userStore.init();
   if (!userStore.isAuth && route.meta.requiresAuth) router.push("/login");
-  else if (userStore.isAuth && ["/login", "/"].includes(route.path)) router.push("/student/dashboard");*/
+  else if (userStore.isAuth && ["/login", "/"].includes(route.path)) router.push("/student/dashboard");
   document.body.style.display = "block";
 });
 </script>

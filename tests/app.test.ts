@@ -15,12 +15,6 @@ mockNuxtImport("useRuntimeConfig", () => {
   };
 });
 
-registerEndpoint("/init", () => ({
-  name: "Wicheal Mhalen",
-  userType: "Student",
-  courses: []
-}));
-
 describe("Main App", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
