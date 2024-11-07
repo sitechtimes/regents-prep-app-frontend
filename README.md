@@ -4,16 +4,23 @@
 
 ## Project Setup
 
-1. Create a .env file in the root of the project
+1. Create a `.env` file in the root of the project
 
 ```env
 NUXT_PUBLIC_BACKEND = /* backend URL (make sure to append slash to the end) */
 ```
 
-2. Install dependencies and run locally
+2. Create a `.env.test` file in the root of the project
+
+```env
+NUXT_PUBLIC_BACKEND = http://localhost:3000/tests
+```
+
+3. Install dependencies and run locally
 
 ```sh
 npm install
+npm install pinia --legacy-peer-deps (if pinia gives an error)
 npm run dev
 ```
 
