@@ -101,9 +101,14 @@ userStore.$subscribe(async (mutation, state) => {
   loaded.value = true;
 });
 
-onMounted(() => {
+onMounted(async() => {
   loaded.value = true;
+  await getAssignments();
 });
+async function getAssignments(){
+  loaded.value = false;
+  loaded.value = true;
+}
 </script>
 
 <style scoped>
