@@ -65,8 +65,6 @@ onMounted(() => {
 // for vitest
 defineExpose({ courses, showNotFound, loaded });
 
-//Note to Self: replicate the fetching logic from the student->course->[courseCode]->todo.vue file to display the different assignments on the teacher front end. Use vuedev to manually route to the page.
-
 </script>
 
 <style scoped>

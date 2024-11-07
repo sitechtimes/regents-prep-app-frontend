@@ -18,7 +18,8 @@
           <h3 class="font-bold text-3xl pb-2 ">Current Assignments:</h3>
           <p class="text-center mb-4" v-if="!currentAssignments.length">No Current Assignments</p>
           <div class="w-full flex flex-col gap-4">
-            <div v-for="assignment in currentAssignments" :key="assignment.id" class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2">
+            <div v-for="assignment in currentAssignments" :key="assignment.id"
+              class="border-2 border-[var(--faded-bg-color)] rounded-lg p-2 bg-[var(--light-gray)] shadow-md transition-transform duration-200 hover:scale-105 w-[100%] mb-2">
               <p class="font-medium text-center">{{ assignment.name }}</p>
               <p class="text-center">Due: {{ formatDate(assignment.dueDate, currentDate) }}</p>
               <div class="text-center mt-2">
@@ -86,30 +87,28 @@ const pastAssignments = ref<TeacherAssignment[]>([]);
 async function fetchAndSetAssignments(courseId: number) {
   loaded.value = false;
 
-  getAssignments(courseId)
-    .then((assignments) => {
-      currentAssignments.value = assignments.filter((a) => new Date(a.dueDate) >= currentDate.value) as TeacherAssignment[];
-      pastAssignments.value = assignments.filter((a) => new Date(a.dueDate) < currentDate.value) as TeacherAssignment[];
-    })
-    .catch(async (error) => {
-      console.error("Error fetching assignments:", error);
-      await router.push(`/teacher/dashboard?course=${courseId}`);
-    })
-    .finally(() => {
-      setTimeout(() => {
-        loaded.value = true;
-      }, 250);
-    });
+  try {
+    const assignments = await getAssignments(courseId);
+    currentAssignments.value = assignments.filter((a) => new Date(a.dueDate) >= currentDate.value) as TeacherAssignment[];
+    pastAssignments.value = assignments.filter((a) => new Date(a.dueDate) < currentDate.value) as TeacherAssignment[];
+  } catch (error) {
+    console.error("Error fetching assignments:", error);
+    await router.push(`/teacher/dashboard?course=${courseId}`);
+  } finally {
+    setTimeout(() => {
+      loaded.value = true;
+    }, 250);
+  }
 }
 
 userStore.$subscribe(async (mutation, state) => {
   if (!userStore.initComplete) return;
-  
+
   const courseId = Number(route.params.courseCode);
   let findCourse = courses.value.find((c) => c.id === courseId);
-  
+
   if (!findCourse) return router.push(`/teacher/dashboard?course=${courseId}`);
-  
+
   currentCourse.value = findCourse;
 
   await fetchAndSetAssignments(courseId);
@@ -126,17 +125,19 @@ onMounted(async () => {
 .opacity-leave-active {
   transition: 0.25s ease;
 }
+
 .opacity-enter-from,
 .opacity-leave-to {
   opacity: 0;
 }
+
 .full-page-loader {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.85); 
+  background-color: rgba(0, 0, 0, 0.85);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -153,7 +154,7 @@ onMounted(async () => {
 .dot {
   width: 16px;
   height: 16px;
-  background-color: #4caf50; 
+  background-color: #4caf50;
   border-radius: 50%;
   animation: pulse 0.6s ease-in-out infinite alternate;
 }
@@ -182,6 +183,7 @@ onMounted(async () => {
     transform: scale(1);
     opacity: 1;
   }
+
   to {
     transform: scale(1.5);
     opacity: 0.6;
