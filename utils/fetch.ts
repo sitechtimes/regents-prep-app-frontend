@@ -82,7 +82,7 @@ export async function getAssignmentResults(assignmentId: number): Promise<Assign
   return await res.json();
 }
 
-export async function studentJoinCourse(courseCode: string): Promise<string> {
+export async function studentJoinCourse(courseCode: string): Promise<number> {
   const config = useRuntimeConfig();
 
   const res = await fetch(config.public.backend + `courses/student/join/${courseCode}`, {
