@@ -2,8 +2,7 @@
   <div class="w-full flex items-center justify-start gap-3">
     <div class="relative">
       <button
-        @click="
-          $event.stopPropagation();
+        @click.stop="
           showFilters = false;
           showSorts = !showSorts;
         "
@@ -18,10 +17,7 @@
         <button
           v-for="sort in Object.keys(sorts)"
           :key="sort"
-          @click="
-            $event.stopPropagation();
-            currentSort = sort;
-          "
+          @click.stop="currentSort = sort"
           class="w-full text-xl py-1 rounded-lg"
           :class="{ 'bg-green-accent': currentSort === sort, 'hover:bg-gray-accent': currentSort !== sort }"
         >
@@ -32,8 +28,7 @@
 
     <div class="relative">
       <button
-        @click="
-          $event.stopPropagation();
+        @click.stop="
           showSorts = false;
           showFilters = !showFilters;
         "
@@ -48,12 +43,9 @@
         <button
           v-for="filter in Object.keys(filters)"
           :key="filter"
-          @click="
-            $event.stopPropagation();
-            currentFilter = filter;
-          "
+          @click.stop="currentFilter = filter"
           class="w-full text-xl py-1 rounded-lg"
-          :class="{ 'bg-green-accent': currentFilter === filter, 'hover:bg-gray-accent': currentFilter !== filter }"
+          :class="currentFilter === filter ? 'bg-green-accent' : 'hover:bg-gray-accent'"
         >
           {{ filter[0].toUpperCase() + filter.slice(1) }}
         </button>
@@ -61,11 +53,7 @@
     </div>
 
     <button
-      @click="
-        $event.stopPropagation();
-        showSorts = false;
-        showFilters = false;
-      "
+      @click.stop="showSorts = showFilters = false"
       class="p-2 rounded-full flex items-center justify-center gap-1 border-2 border-gray-accent transition-all"
       :class="{ 'bg-gray-accent': search.length > 0 }"
     >
@@ -84,14 +72,11 @@ const props = defineProps<{
   assignments: StudentAssignment[];
   deselect: boolean;
 }>();
-watch(
-  () => props.deselect,
-  (bool) => {
-    if (!bool) return;
-    showSorts.value = false;
-    showFilters.value = false;
-  }
-);
+watchEffect(() => {
+  if (props.deselect) showSorts.value = showFilters.value = false;
+});
+
+const allAssignments = ref<StudentAssignment[]>(props.assignments);
 
 const emit = defineEmits<{
   filteredAssignments: [StudentAssignment[]];
@@ -107,35 +92,33 @@ const sorts: Record<string, (a: StudentAssignment, b: StudentAssignment) => numb
   "least complete": (a, b) => a.instanceInfo.questionsCompleted / a.numOfQuestions - b.instanceInfo.questionsCompleted / b.numOfQuestions
 };
 const currentSort = ref<keyof typeof sorts>("latest");
-watch(currentSort, () => updateFilter());
+watch(currentSort, updateFilter);
 
 const showFilters = ref(false);
 const filters: Record<string, (assignment: StudentAssignment) => boolean> = {
-  all: (assignment) => true,
-  "not turned in": (assignment) => !assignment.instanceInfo.datetimeSubmitted,
-  "turned in": (assignment) => assignment.instanceInfo.datetimeSubmitted !== null,
-  ungraded: (assignment) => assignment.instanceInfo.questionsCorrect === null,
-  graded: (assignment) => assignment.instanceInfo.questionsCorrect !== null
+  all: () => true,
+  "not turned in": (assignment) => !assignment.instanceInfo.dateSubmitted,
+  "turned in": (assignment) => assignment.instanceInfo.dateSubmitted !== null,
+  ungraded: (assignment) => assignment.instanceInfo.questionsCorrect === undefined,
+  graded: (assignment) => assignment.instanceInfo.questionsCorrect > -1
 };
 const currentFilter = ref<keyof typeof filters>("all");
-watch(currentFilter, () => updateFilter());
+watch(currentFilter, updateFilter);
 
 const search = ref("");
-watch(search, () => updateFilter());
+watch(search, updateFilter);
 
 function updateFilter() {
   emit(
     "filteredAssignments",
-    props.assignments
+    allAssignments.value
       .filter((a) => a.name.toLowerCase().includes(search.value.toLowerCase()))
       .filter(filters[currentFilter.value])
       .sort(sorts[currentSort.value])
   );
 }
 
-onMounted(() => {
-  updateFilter();
-});
+onMounted(updateFilter);
 </script>
 
 <style scoped>
