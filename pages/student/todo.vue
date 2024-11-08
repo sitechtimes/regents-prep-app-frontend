@@ -14,12 +14,9 @@
       />
     </div>
 
-    <div v-if="!loaded">
-      <p>loading...............................</p>
-      <!-- maybe put an animation here -->
-    </div>
+    <Loading :show="!loaded" />
 
-    <div class="w-2/3 flex flex-col items-center justify-center" v-else>
+    <div class="w-2/3 flex flex-col items-center justify-center" v-if="loaded">
       <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
         <div class="w-full h-full flex items-center justify-center gap-2" v-for="assignment in assignments" :key="assignment.id">
           <NuxtLink
@@ -66,7 +63,7 @@ const assignments = ref<StudentAssignment[]>(
 );
 
 function findCourse(assignment: StudentAssignment) {
-  return userStore.courses.find((c: StudentCourse | TeacherCourse) => c.assignments.some((a) => a.id === assignment.id && "instanceInfo" in a));
+  return userStore.courses.find((c) => c.assignments.some((a) => a.id === assignment.id && "instanceInfo" in a));
 }
 
 const loaded = ref(false);
