@@ -8,23 +8,16 @@
           <h3 class="font-bold text-3xl pb-2">Current Assignments:</h3>
           <div class="loading-div w-full h-28 rounded-lg border-2 border-gray-200 dark:border-gray-700 shadow-md" v-if="!loaded"></div>
           <div class="flex flex-col items-center justify-center w-full" v-else>
-            <p class="text-center mb-4" v-if="!currentAssignments.length">No Current Assignments</p>
+            <p class="text-center mb-4" id="no-current-assignments" v-if="!currentAssignments.length">No Current Assignments</p>
             <div class="w-full flex flex-col gap-4">
-              <NuxtLink
+              <TeacherAssignmentCard
                 v-for="assignment in currentAssignments"
                 :key="assignment.id"
-                :to="`/teacher/course/${currentCourse.id}/${assignment.id}`"
-                class="border-2 border-gray-200 dark:border-gray-700 rounded-lg p-2 bg-gray-100 dark:bg-gray-900 shadow-md transition duration-500 hover:scale-105 mb-2"
-              >
-                <p class="font-medium text-center">{{ assignment.name }}</p>
-                <p class="text-center">Due: {{ formatDate(assignment.dueDate, currentDate) }}</p>
-                <div class="text-center mt-2">
-                  <span class="font-semibold mr-1">Class Submissions:</span>
-                  <div class="border border-gray-400 dark:border-gray-500 rounded-full px-2 py-1 inline-block mt-1">
-                    {{ assignment.numSubmitted }}/{{ (currentCourse as TeacherCourse).students ?? 0 }} Students
-                  </div>
-                </div>
-              </NuxtLink>
+                :course="currentCourse"
+                :assignment="assignment"
+                :current-date="currentDate"
+                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)"
+              />
             </div>
           </div>
         </div>
@@ -34,23 +27,16 @@
           <h3 class="font-bold text-3xl pb-2">Past Assignments:</h3>
           <div class="loading-div w-full h-28 rounded-lg border-2 border-gray-200 dark:border-gray-900 p-2 shadow-md" v-if="!loaded"></div>
           <div class="flex flex-col items-center justify-center w-full" v-else>
-            <p class="text-center mb-4" v-if="!pastAssignments.length">No Past Assignments</p>
+            <p class="text-center mb-4" id="no-past-assignments" v-if="!pastAssignments.length">No Past Assignments</p>
             <div class="w-full flex flex-col gap-4">
-              <NuxtLink
+              <TeacherAssignmentCard
                 v-for="assignment in pastAssignments"
                 :key="assignment.id"
-                :to="`/teacher/course/${currentCourse.id}/${assignment.id}`"
-                class="border-2 border-gray-200 dark:border-gray-700 rounded-lg p-2 bg-gray-100 dark:bg-gray-900 shadow-md transition duration-500 hover:scale-105 mb-2"
-              >
-                <p class="font-medium text-center">{{ assignment.name }}</p>
-                <p class="text-center">Due: {{ formatDate(assignment.dueDate, currentDate) }}</p>
-                <div class="text-center mt-2">
-                  <span class="mr-1">Class Submissions:</span>
-                  <div class="border border-gray-400 dark:border-gray-500 rounded-full px-2 py-1 inline-block mt-1">
-                    {{ assignment.numSubmitted }}/{{ (currentCourse as TeacherCourse).students ?? 0 }} Students
-                  </div>
-                </div>
-              </NuxtLink>
+                :course="currentCourse"
+                :assignment="assignment"
+                :current-date="currentDate"
+                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)"
+              />
             </div>
           </div>
         </div>
@@ -82,7 +68,7 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
-const { courses, currentCourse } = storeToRefs(userStore);
+const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 const currentDate = ref(new Date());
 
 const loaded = ref(false);
@@ -99,7 +85,7 @@ onMounted(async () => {
 });
 
 userStore.$subscribe(async () => {
-  if (!userStore.initComplete) return;
+  if (!initComplete.value) return;
   const courseId = Number(route.params.courseCode);
 
   currentCourse.value = courses.value.find((course) => course.id === courseId);
@@ -122,10 +108,12 @@ async function fetchAndSetAssignments(courseId: number, redirect = false) {
     console.error("Error fetching assignments:", error);
     await router.push(`/teacher/dashboard?course=${courseId}`);
   } finally {
-    await delay(250);
     loaded.value = true;
   }
 }
+
+// for vitest
+defineExpose({ courses, currentCourse, loaded, currentAssignments, pastAssignments, initComplete });
 </script>
 
 <style scoped>
