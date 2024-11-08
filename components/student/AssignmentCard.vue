@@ -27,9 +27,7 @@
         @click="submitAssignment"
         class="px-8 py-2 text-xl font-medium rounded-full bg-green-300"
         :class="{
-          'brightness-50': assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
-          grayscale: assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
-          'cursor-not-allowed': assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
+          'brightness-50 grayscale cursor-not-allowed': assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
           'cursor-pointer': assignment.instanceInfo.questionsCompleted === assignment.numOfQuestions
         }"
         :disabled="assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions"
@@ -53,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   assignment: StudentAssignment;
   clickable?: boolean;
 }>();
