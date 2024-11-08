@@ -11,9 +11,9 @@
         <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
           <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(a: StudentAssignment[]) => (assignments = a)" @refresh="loadAssignments(true)" />
 
-          <div class="loading-div w-full h-36 p-6 rounded-2xl flex items-center justify-center gap-2 border-2 border-gray-accent" v-if="assignments.length === 0"></div>
+          <div class="loading-div w-full h-36 p-6 rounded-2xl flex items-center justify-center gap-2 border-2 border-gray-accent" v-if="!loaded"></div>
           <StudentAssignmentCard
-            v-else
+            v-if="loaded && assignments.length > 0"
             v-for="assignment in assignments"
             :key="assignment.id"
             @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
