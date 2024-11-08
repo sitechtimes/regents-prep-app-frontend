@@ -5,7 +5,6 @@ import { expect, test } from "vitest";
 import Course from "~/pages/student/course/[courseCode]/index.vue";
 import * as dotenv from "dotenv";
 
-// Load the .env.test file
 dotenv.config({ path: ".env.test" });
 
 mockNuxtImport("useRuntimeConfig", () => {
