@@ -7,13 +7,15 @@
     </div>
 
     <div class="flex flex-col items-center justify-center gap-2 w-2/5" v-if="assignment.instanceInfo">
-      <p class="text-xl font-medium" v-if="assignment.instanceInfo.questionsCorrect !== undefined">
-        Your grade: {{ assignment.instanceInfo.questionsCorrect }}/{{ assignment.numOfQuestions }}
-        <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCorrect / assignment.numOfQuestions) * 100) }}%)</span>
-      </p>
-      <p class="text-xl font-medium" v-else>
-        Your progress: {{ assignment.instanceInfo.questionsCompleted }}/{{ assignment.numOfQuestions }}
-        <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCompleted / assignment.numOfQuestions) * 100) }}%)</span>
+      <p class="text-xl font-medium">
+        <span v-if="assignment.instanceInfo.questionsCorrect !== undefined">
+          Your grade: {{ assignment.instanceInfo.questionsCorrect }}/{{ assignment.numOfQuestions }}
+          <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCorrect / assignment.numOfQuestions) * 100) }}%)</span>
+        </span>
+        <span v-else>
+          Your progress: {{ assignment.instanceInfo.questionsCompleted }}/{{ assignment.numOfQuestions }}
+          <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCompleted / assignment.numOfQuestions) * 100) }}%)</span>
+        </span>
       </p>
 
       <div class="w-full h-4 bg-gray-800 rounded-full">
@@ -22,18 +24,6 @@
           :style="{ width: ((assignment.instanceInfo.questionsCorrect ?? assignment.instanceInfo.questionsCompleted) / assignment.numOfQuestions) * 100 + '%' }"
         ></div>
       </div>
-      <button
-        v-if="!clickable"
-        @click="submitAssignment"
-        class="px-8 py-2 text-xl font-medium rounded-full bg-green-300"
-        :class="{
-          'brightness-50 grayscale cursor-not-allowed': assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
-          'cursor-pointer': assignment.instanceInfo.questionsCompleted === assignment.numOfQuestions
-        }"
-        :disabled="assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions"
-      >
-        Submit
-      </button>
     </div>
 
     <div class="flex flex-col items-end justify-start gap-2 w-1/5">
@@ -56,10 +46,6 @@ defineProps<{
   clickable?: boolean;
 }>();
 const currentTime = ref(new Date());
-
-async function submitAssignment() {
-  // submit assignment
-}
 </script>
 
 <style scoped>
