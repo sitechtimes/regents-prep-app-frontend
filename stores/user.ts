@@ -20,9 +20,10 @@ export const useUserStore = defineStore("userStore", () => {
     userType.value = data.userType.toLowerCase();
     courseToDate(data.courses);
     courses.value = data.courses;
+    studentList.value = data.courses.students;
     //studentList.value = data.;
     initComplete.value = true;
-    console.log(data);
+    console.log(data.courses.subject);
   }
   async function login(email: string, password: string) {
     const res = await fetch(config.public.backend + "auth/login/", {
