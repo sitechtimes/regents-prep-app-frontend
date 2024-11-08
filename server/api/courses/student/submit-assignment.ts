@@ -4,7 +4,7 @@ type Body = {
   id: number;
 };
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<SubmitAssignment> => {
   setHeader(event, "Access-Control-Allow-Methods", "POST");
 
   const body = (await readBody(event)) as Body | undefined;
@@ -14,5 +14,5 @@ export default defineEventHandler(async (event) => {
     numOfQuestions: 4,
     questionsCompleted: 2,
     questionsCorrect: 0
-  } as SubmitAssignment;
+  };
 });

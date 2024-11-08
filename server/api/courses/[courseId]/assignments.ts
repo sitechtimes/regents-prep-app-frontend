@@ -1,6 +1,6 @@
 import { StudentAssignment } from "~/utils/types";
 
-export default defineEventHandler((event) => {
+export default defineEventHandler((event): StudentAssignment[] => {
   const courseId = Number(getRouterParam(event, "courseId"));
 
   if (courseId == 1)

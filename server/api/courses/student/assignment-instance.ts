@@ -4,7 +4,7 @@ type Body = {
   id: number;
 };
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<AssignmentInstance> => {
   setHeader(event, "Access-Control-Allow-Methods", "POST");
 
   const body = (await readBody(event)) as Body | undefined;
@@ -13,5 +13,5 @@ export default defineEventHandler(async (event) => {
   return {
     assignment: 6,
     student: 9
-  } as AssignmentInstance;
+  };
 });

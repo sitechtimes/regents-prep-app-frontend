@@ -4,7 +4,7 @@ type Body = {
   id: number;
 };
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<QuestionInterface> => {
   setHeader(event, "Access-Control-Allow-Methods", "POST");
 
   const body = (await readBody(event)) as Body | undefined;
@@ -15,5 +15,5 @@ export default defineEventHandler(async (event) => {
     questionsRemaining: 9,
     remainingAttempts: null,
     question: []
-  } as QuestionInterface;
+  };
 });

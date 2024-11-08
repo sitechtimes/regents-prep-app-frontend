@@ -5,7 +5,7 @@ type Body = {
   answerID: number;
 };
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<SubmitAnswer> => {
   setHeader(event, "Access-Control-Allow-Methods", "POST");
 
   const body = (await readBody(event)) as Body | undefined;
@@ -14,5 +14,5 @@ export default defineEventHandler(async (event) => {
   return {
     isCorrect: true,
     remainingAttempts: 6
-  } as SubmitAnswer;
+  };
 });
