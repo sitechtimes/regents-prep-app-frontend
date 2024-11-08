@@ -14,7 +14,7 @@
         </div>
 
         <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(a: StudentAssignment) => (assignments = a)" @refresh="loadAssignments(true)" />
+          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(a: StudentAssignment[]) => (assignments = a)" @refresh="loadAssignments(true)" />
 
           <StudentAssignmentCard
             v-if="assignments.length > 0"
@@ -74,9 +74,9 @@ userStore.$subscribe(async () => {
   currentCourse.value = findCourse;
   loadAssignments();
 });
+
 let ran = false;
 async function loadAssignments(redirect = false) {
-  console.log(ran, redirect);
   if (ran && !redirect) return;
   ran = true;
   assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];

@@ -19,7 +19,6 @@ onBeforeMount(() => {
 });
 
 onMounted(async () => {
-  console.log(await getAssignments(5));
   await userStore.init();
   if (!userStore.isAuth && route.meta.requiresAuth) router.push("/login");
   else if (userStore.isAuth && ["/login", "/"].includes(route.path)) router.push("/student/dashboard");

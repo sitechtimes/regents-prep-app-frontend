@@ -20,7 +20,7 @@ describe("Student Course Info Page", { retry: 1 }, () => {
   });
 
   afterEach(async () => {
-    await delay(500);
+    await delay(25);
   });
 
   test("should be visible", async () => {
