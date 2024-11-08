@@ -76,15 +76,14 @@ const currentAssignments = ref<TeacherAssignment[]>([]);
 const pastAssignments = ref<TeacherAssignment[]>([]);
 
 onMounted(async () => {
-  const courseId = Number(route.params.courseCode);
-
-  currentCourse.value = courses.value.find((course) => course.id === courseId);
-  if (!currentCourse.value) return router.push(`/teacher/dashboard?course=${courseId}`);
-
-  await fetchAndSetAssignments(courseId);
+  await getCourse();
 });
 
 userStore.$subscribe(async () => {
+  await getCourse();
+});
+
+async function getCourse() {
   if (!initComplete.value) return;
   const courseId = Number(route.params.courseCode);
 
@@ -92,7 +91,7 @@ userStore.$subscribe(async () => {
   if (!currentCourse.value) return router.push(`/teacher/dashboard?course=${courseId}`);
 
   await fetchAndSetAssignments(courseId);
-});
+}
 
 let ran = false;
 async function fetchAndSetAssignments(courseId: number, redirect = false) {

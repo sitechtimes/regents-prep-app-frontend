@@ -2,14 +2,9 @@
   <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]" @click="deselectFilters = true">
     <div class="w-2/3 flex flex-col items-center justify-center">
       <StudentFilters
-        :assignments="
-          userStore.courses
-            .filter((c): c is StudentCourse => c.assignments.some((a) => 'instanceInfo' in a))
-            .map((c: StudentCourse) => c.assignments.filter((a) => 'instanceInfo' in a))
-            .flat()
-        "
+        :assignments="(userStore.courses.filter((course) => course.assignments.some((assignment) => 'instanceInfo' in assignment)) as StudentCourse[]).map((course) => course.assignments).flat()"
         :deselect="deselectFilters"
-        @filteredAssignments="(a) => (assignments = a)"
+        @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
         @refresh="getAssignments"
       />
     </div>
@@ -28,7 +23,7 @@
             }"
           ></NuxtLink>
           <StudentAssignmentCard
-            @click="router.push(`/student/course/${courses.find((c) => c.assignments.map((a) => a.id).includes(assignment.id))?.id}/${assignment.id}`)"
+            @click="router.push(`/student/course/${courses.find((course) => course.assignments.map((assignment) => assignment.id).includes(assignment.id))?.id}/${assignment.id}`)"
             :assignment="assignment"
             clickable
           />
@@ -50,20 +45,16 @@ const userStore = useUserStore();
 
 const deselectFilters = ref(false);
 watch(deselectFilters, async () => {
-  await delay(50);
   deselectFilters.value = false;
 });
 
 const { courses } = storeToRefs(userStore);
 const assignments = ref<StudentAssignment[]>(
-  courses.value
-    .filter((c): c is StudentCourse => (c.assignments.length != 0 ? "instanceInfo" in c.assignments[0] : false))
-    .map((c: StudentCourse) => c.assignments.filter((a) => "instanceInfo" in a))
-    .flat()
+  (courses.value.filter((c) => (c.assignments.length != 0 ? "instanceInfo" in c.assignments[0] : false)) as StudentCourse[]).map((c) => c.assignments).flat()
 );
 
-function findCourse(assignment: StudentAssignment) {
-  return userStore.courses.find((c) => c.assignments.some((a) => a.id === assignment.id && "instanceInfo" in a));
+function findCourse(findAssignment: StudentAssignment) {
+  return userStore.courses.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "instanceInfo" in assignment));
 }
 
 const loaded = ref(false);
