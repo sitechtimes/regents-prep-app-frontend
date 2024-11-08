@@ -30,7 +30,12 @@
           <button class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-black">
             <img class="w-6 h-6 dark:invert" src="/ui/user.svg" alt="Open account settings" />
           </button>
-          <button @click="userStore.logout()" class="w-8 h-8 dark:invert">logout</button>
+          <button
+            @click="userStore.logout()"
+            class="px-4 py-2 rounded-md flex items-center justify-center transition duration-200 ease-in-out text-black bg-red-500 hover:bg-red-600 border border-[var(--faded-bg-color)] dark:text-white dark:bg-red-600 dark:hover:bg-red-700"
+          >
+            Logout
+          </button>
         </div>
       </header>
 
