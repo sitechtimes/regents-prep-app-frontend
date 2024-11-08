@@ -121,7 +121,7 @@ export interface AssignmentInstance {
     /** @readonly Number of questions in the assignment. */
     numOfQuestions: number;
     /** @readonly Time allowed (depends on timer style). */
-    timeAllotted: Number;
+    timeAllotted: number;
     /** @readonly Assignment time style: Unlimited Time, Time Per Question, Total Time */
     timerStyle: "UT" | "TPQ" | "TT";
   };

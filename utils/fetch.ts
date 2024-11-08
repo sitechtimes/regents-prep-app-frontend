@@ -61,7 +61,7 @@ export async function submitQuestionAnswer(questionId: number, answerId: number)
   return await res.json();
 }
 
-export async function submitAssignment(assignmentId: number): Promise<SubmitAssignment> {
+export async function submitAssignmentReq(assignmentId: number): Promise<SubmitAssignment> {
   const config = useRuntimeConfig();
 
   const res = await fetch(config.public.backend + "courses/student/submit-assignment/", {
