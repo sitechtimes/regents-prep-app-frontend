@@ -30,7 +30,7 @@
           <button class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-black">
             <img class="w-6 h-6 dark:invert" src="/ui/user.svg" alt="Open account settings" />
           </button>
-          <button @click="logOut()" class="w-8 h-8 dark:invert">logout</button>
+          <button @click="userStore.logout()" class="w-8 h-8 dark:invert">logout</button>
         </div>
       </header>
 
@@ -123,13 +123,6 @@ function toggleTheme() {
   userStore.theme = isDarkMode.value ? "dark" : "light";
   document.body.classList.toggle("dark", isDarkMode.value);
   localStorage.setItem("theme", userStore.theme);
-}
-
-function logOut() {
-  userStore.isAuth = false;
-  router.push(`/login`);
-  console.log("logged out!");
-  //remove cookies to remain logged out post-refresh
 }
 </script>
 
