@@ -1,20 +1,15 @@
 export interface QuestionInterface {
   /** @readonly ID of the question. */
   id: number;
-  /** @readonly Number of attempts allowed.
-   *
-   * If `null`, there is no limit.
-   */
-  questionsRemaining: number;
-  /** Number of remaining attempts. */
-  remainingAttempts: number | null;
+  /** Number of attempts used. */
+  answerAttemptsUsed: number;
   /** @readonly Question data */
-  question: Question[];
+  question: Question;
 }
 
 export interface Question {
   /** @readonly What the question says. */
-  text: string;
+  text: HTMLElement;
   /** @readonly The type of answer for the question. */
   answerType: "Multiple Choice" | "Written Response" | "True or False";
   /** @readonly Array of answers. */
@@ -22,7 +17,7 @@ export interface Question {
     /** @readonly ID of the answer. */
     id: number;
     /** @readonly What the answer choice says. */
-    text: string;
+    text: HTMLElement;
   }[];
 }
 
@@ -39,7 +34,7 @@ export interface StudentAssignmentInstance {
   submitted: Date | null;
 }
 
-interface Assignment {
+interface BaseAssignment {
   /** @readonly ID of the assignment. */
   id: number;
   /** @readonly Name of the assignment. */
@@ -54,11 +49,11 @@ interface Assignment {
   lateSubmissions: boolean;
 }
 
-export interface TeacherAssignment extends Assignment {
+export interface TeacherAssignment extends BaseAssignment {
   /** @readonly How many students submitted the assignment. */
   submissions: number;
 }
-export interface StudentAssignment extends Assignment {
+export interface StudentAssignment extends BaseAssignment {
   /** @readonly Number of questions completed in the assignment. */
   instanceInfo: {
     /** Number of questions completed in the assignment. */
@@ -114,9 +109,22 @@ export interface TeacherCourse extends Course {
 
 export interface AssignmentInstance {
   /** @readonly ID of the assignment instance. */
-  assignment: number;
-  /** @readonly ID of the student. */
-  student: number;
+  id: number;
+  /** @readonly Number of questions completed. */
+  questionsCompleted: number;
+  /** @readonly Date object of when the assignment was submitted. */
+  dateSubmitted: Date | null;
+  /** @readonly ID of the assignment. */
+  assignment: {
+    /** @readonly Number of attempts allowed per question. */
+    attemptsAllowed: number;
+    /** @readonly Number of questions in the assignment. */
+    numOfQuestions: number;
+    /** @readonly Time allowed (depends on timer style). */
+    timeAllotted: Number;
+    /** @readonly Assignment time style: Unlimited Time, Time Per Question, Total Time */
+    timerStyle: "UT" | "TPQ" | "TT";
+  };
 }
 
 export interface SubmitAnswer {

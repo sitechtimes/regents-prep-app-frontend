@@ -20,23 +20,25 @@ export async function getCourseStudents(courseId: number): Promise<TeacherStuden
   return await res.json();
 }
 
-export async function getStudentAssignment(assignmentId: number): Promise<AssignmentInstance> {
+export async function getStudentAssignment(assignmentID: number, courseID: number): Promise<AssignmentInstance> {
   const config = useRuntimeConfig();
 
   const res = await fetch(config.public.backend + `courses/student/assignment-instance/`, {
     credentials: "include",
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id: assignmentId })
+    body: JSON.stringify({ assignmentID, courseID })
   });
   if (!res.ok) throw new Error("Failed to fetch student assignment");
-  return await res.json();
+  const data = await res.json();
+  data.dateSubmitted = data.dateSubmitted ? new Date(data.dateSubmitted) : null;
+  return data;
 }
 
 export async function getNextQuestion(assignmentId: number): Promise<QuestionInterface> {
   const config = useRuntimeConfig();
 
-  const res = await fetch(config.public.backend + `courses/student/assignment/get-next-question/`, {
+  const res = await fetch(config.public.backend + `courses/student/get-next-question/`, {
     credentials: "include",
     method: "POST",
     headers: { "Content-Type": "application/json" },

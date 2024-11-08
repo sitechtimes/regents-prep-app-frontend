@@ -9,7 +9,7 @@ export const useUserStore = defineStore("userStore", () => {
   const initComplete = ref(false);
 
   async function init() {
-    const res = await fetch(config.public.backend + "/init/", {
+    const res = await fetch(config.public.backend + "init/", {
       credentials: "include"
     });
     if (!res.ok) return;
