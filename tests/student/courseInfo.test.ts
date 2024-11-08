@@ -1,4 +1,4 @@
-import { mockNuxtImport, mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime";
+import { mockNuxtImport, mountSuspended } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
 import { afterEach, beforeEach, describe, vi } from "vitest";
 import { expect, test } from "vitest";
