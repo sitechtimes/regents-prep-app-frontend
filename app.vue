@@ -1,9 +1,7 @@
 <template>
   <div>
     <NuxtLayout>
-      <div v-if="!loaded">
-        <h1>loading...</h1>
-      </div>
+      <Loading :show="!loaded" />
       <NuxtPage />
     </NuxtLayout>
   </div>
