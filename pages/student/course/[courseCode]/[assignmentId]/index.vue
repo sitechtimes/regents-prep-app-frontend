@@ -17,28 +17,38 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: ["auth", "add-course"],
+  middleware: "auth",
   requiresAuth: true
 });
 
 const route = useRoute();
 const router = useRouter();
-const store = useUserStore();
+const userStore = useUserStore();
 const currentAssignment = ref<StudentAssignment>();
-const { currentCourse } = storeToRefs(store);
+const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 
 const loaded = ref(false);
 
-onBeforeMount(() => {
-  const routeCode = route.params.assignmentId as string;
-  currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as StudentAssignment;
-  console.log(currentCourse.value);
+onMounted(() => {
+  getCourse();
 });
 
-onMounted(() => {
-  if (!currentAssignment.value) return router.push(`/student/dashboard?assignment=${route.params.assignmentId}`);
-  loaded.value = true;
+userStore.$subscribe(async () => {
+  getCourse();
 });
+
+function getCourse() {
+  if (!initComplete.value) return;
+
+  const routeCode = route.params.assignmentId as string;
+  const courseCode = Number(route.params.courseCode);
+  currentCourse.value = courses.value.find((course) => course.id === courseCode);
+  currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as StudentAssignment;
+
+  if (!currentCourse.value) return router.push(`/student/dashboard?course=${courseCode}`);
+  if (!currentAssignment.value) return router.push(`/student/dashboard?assignment=${routeCode}`);
+  loaded.value = true;
+}
 </script>
 
 <style scoped></style>
