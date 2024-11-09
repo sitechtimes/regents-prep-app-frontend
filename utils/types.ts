@@ -52,6 +52,8 @@ interface Assignment {
   numOfQuestions: number;
   /** @readonly Whether or not the assignment can be turned in late. */
   lateSubmissions: boolean;
+  /** @readonly Number of completed questions in the assignment.*/
+  questionsCompleted: number;
 }
 
 export interface TeacherAssignment extends Assignment {

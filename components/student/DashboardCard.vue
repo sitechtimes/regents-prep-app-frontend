@@ -12,10 +12,10 @@
       <h3 class="font-bold text-xl pt-1 pb-2">Assignments</h3>
       <div class="flex flex-wrap items-start justify-around w-full h-full gap-7" v-if="course.assignments.length > 0">
         <div
-          v-for="assignment in sortedAssignments"
+          v-for="assignment in props.course.assignments"
           :key="assignment.id"
           class="flex flex-col items-center justify-center h-full min-w-[45%] px-5"
-          :class="sortedAssignments.length === 1 ? 'w-full' : ''"
+          :class="props.course.assignments.length === 1 ? 'w-full' : ''"
         >
           <p class="font-medium text-center" :title="assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.dueDate, currentTime) }}</p>
           <div class="flex flex-col items-center justify-start w-full h-full">
@@ -28,9 +28,11 @@
             <div @click.stop="router.push(`/student/course/${course.id}/${assignment.id}`)" class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden">
               <span
                 class="absolute size-full"
-                :style="{ transform: `translateX(-${(1 - assignment.instanceInfo.questionsCompleted / assignment.numOfQuestions) * 100 + '%'})`, backgroundColor: subjectColors[course.subject] }"
+                :style="{ transform: `translateX(-${(1 - assignment.questionsCompleted / assignment.numOfQuestions) * 100 + '%'})`, backgroundColor: subjectColors[course.subject] }"
+                v-if="assignment.questionsCompleted > 0"
               ></span>
-              <span class="w-full z-10 text-center font-mono px-2"> {{ assignment.instanceInfo.questionsCompleted }}/{{ assignment.numOfQuestions }} </span>
+              <span class="w-full z-10 text-center font-mono px-2" v-if="assignment.questionsCompleted > 0"> {{ assignment.questionsCompleted }}/{{ assignment.numOfQuestions }} </span>
+              <span class="w-full z-10 text-center px-2" v-else>Assignment not started</span>
             </div>
           </div>
         </div>
@@ -41,15 +43,13 @@
 </template>
 
 <script setup lang="ts">
+//date submitted not necessary, questionsCompleted can be from assignment.
 const router = useRouter();
 const props = defineProps<{
   course: StudentCourse;
 }>();
 const currentTime = ref(new Date());
-const sortedAssignments = props.course.assignments
-  .filter((a) => !a.instanceInfo.dateSubmitted)
-  .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())
-  .slice(0, 2);
+props.course.assignments.forEach((a) => console.log(a.due_date));
 </script>
 
 <style scoped>
