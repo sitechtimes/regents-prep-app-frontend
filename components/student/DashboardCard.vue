@@ -49,7 +49,6 @@ const props = defineProps<{
   course: StudentCourse;
 }>();
 const currentTime = ref(new Date());
-console.log(props.course);
 </script>
 
 <style scoped>
