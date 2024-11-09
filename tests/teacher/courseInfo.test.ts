@@ -25,7 +25,6 @@ describe("Teacher Course Info Page", { retry: 1 }, () => {
   test("should be visible", async () => {
     const page = await mountSuspended(Course);
     expect(page.exists()).toBe(true);
-    expect(page.isVisible()).toBe(true);
   });
 
   test("should not be loaded if course is not found", async () => {

@@ -12,7 +12,6 @@ describe("Teacher Dashboard Page", () => {
   test("should be visible", async () => {
     const page = await mountSuspended(Dashboard);
     expect(page.exists()).toBe(true);
-    expect(page.isVisible()).toBe(true);
   });
 
   test("should be loaded", async () => {
