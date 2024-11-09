@@ -66,7 +66,7 @@ export interface StudentAssignment extends Assignment {
     /** Number of questions correct in the assignment. */
     questionsCorrect: number;
     /** Date object of when the assignment was submitted. */
-    datetimeSubmitted: Date | null;
+    dateSubmitted: Date | null;
   };
 }
 
