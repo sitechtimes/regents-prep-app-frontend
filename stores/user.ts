@@ -30,7 +30,6 @@ export const useUserStore = defineStore("userStore", () => {
     });
     if (!res.ok) return await res.json();
     const data = await res.json();
-    console.log(data);
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();

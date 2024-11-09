@@ -49,7 +49,7 @@ const props = defineProps<{
   course: StudentCourse;
 }>();
 const currentTime = ref(new Date());
-props.course.assignments.forEach((a) => console.log(a.dueDate));
+console.log(props.course);
 </script>
 
 <style scoped>
