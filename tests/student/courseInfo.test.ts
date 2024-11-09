@@ -95,13 +95,13 @@ describe("Student Course Info Page", { retry: 1 }, () => {
   });
 
   test("should not show assignment cards if assignments dont exist", async () => {
-    const page = await mountSuspended(Course, { route: { params: { courseCode: "2" } } });
+    const page = await mountSuspended(Course, { route: { params: { courseCode: "99" } } });
     const initComplete = ref(page.vm.initComplete);
     const courses = ref(page.vm.courses);
 
     initComplete.value = true;
     const testCourse: StudentCourse = {
-      id: 2,
+      id: 99,
       name: "AP Literally Torture",
       teacher: "Lichan",
       period: 9,

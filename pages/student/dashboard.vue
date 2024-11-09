@@ -1,11 +1,8 @@
 <template>
   <div class="flex flex-col items-start justify-start w-full h-full overflow-hidden">
-    <div v-if="!loaded">
-      <p>loading very hard............</p>
-      <!-- maybe put an animation here -->
-    </div>
+    <Loading :show="!loaded" />
 
-    <div class="w-full" v-else>
+    <div class="w-full" v-if="loaded">
       <Transition name="opacity">
         <div v-if="showNotFound" @click="router.push('/student/dashboard')" class="z-50 w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center">
           <NotFound type="student" :message="route.query.course ? 'class' : 'assignment'" @close="router.push('/student/dashboard')" @click.stop />
@@ -17,7 +14,7 @@
           <!--prettier-ignore-->
           <StudentDashboardCard
             @click="router.push(`/student/course/${course.id}`)"
-            v-for="course in (courses.filter((course: StudentCourse|TeacherCourse) => !('joinCode' in course)) as StudentCourse[])"
+            v-for="course in (courses.filter((course) => !('joinCode' in course)) as StudentCourse[])"
             :course="course"
             :key="course.id"
           />

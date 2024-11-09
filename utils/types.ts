@@ -58,7 +58,7 @@ interface Assignment {
 
 export interface TeacherAssignment extends Assignment {
   /** @readonly How many students submitted the assignment. */
-  submissions: number;
+  numSubmitted: number;
 }
 export interface StudentAssignment extends Assignment {
   /** @readonly Number of questions completed in the assignment. */
