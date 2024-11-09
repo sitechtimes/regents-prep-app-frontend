@@ -1,7 +1,7 @@
 export const useUserStore = defineStore("userStore", () => {
   const config = useRuntimeConfig();
   const isAuth = ref(false);
-  const theme = ref<"light" | "dark">("light");
+  const isDarkMode = ref(false);
   const name = ref<string>("");
   const userType = ref<"student" | "teacher">("student");
   const courses = ref<(StudentCourse | TeacherCourse)[]>([]);
@@ -48,5 +48,5 @@ export const useUserStore = defineStore("userStore", () => {
     return;
   }
 
-  return { isAuth, initComplete, userType, theme, courses, currentCourse, init, login, logout };
+  return { isAuth, initComplete, userType, isDarkMode, courses, currentCourse, init, login, logout };
 });

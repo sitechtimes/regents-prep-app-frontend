@@ -18,12 +18,14 @@
               <circle cx="12" cy="12" r="5" />
               <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
             </svg>
-            <input type="checkbox" class="du-toggle theme-controller dark:invert" @click="toggleTheme" :checked="isDarkMode" />
+            <input type="checkbox" class="du-toggle theme-controller dark:invert" @click="isDarkMode = !isDarkMode" :checked="isDarkMode" />
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </label>
-          <button v-show="route.path === '/student/dashboard'" @click="openTheJoin" class="text-5xl"><img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" /></button>
+          <button id="join-button" v-show="route.path === '/student/dashboard'" @click="openTheJoin" class="text-5xl">
+            <img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" />
+          </button>
           <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
           <!-- make this look better and add account settings 
           avatar becomes dropdown, logout button and user settings comes there-->
@@ -41,7 +43,7 @@
 
       <div class="w-full h-full flex items-start justify-between">
         <Transition name="slide-right">
-          <div v-show="showSideMenu" class="w-[23rem] h-[calc(100vh-4rem)] bg-[var(--bg-color)] flex flex-col items-start justify-start">
+          <div id="side-menu" v-show="showSideMenu" class="w-[23rem] h-[calc(100vh-4rem)] bg-[var(--bg-color)] flex flex-col items-start justify-start">
             <div class="fixed pt-4 w-72 h-[calc(100vh-4rem)] bg-[var(--bg-color)] border-r border-r-[var(--faded-bg-color)]">
               <div class="w-full flex flex-col items-center justify-center px-2">
                 <NuxtLink
@@ -99,13 +101,16 @@ const userStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 
-const { courses, currentCourse } = storeToRefs(userStore);
+const { courses, currentCourse, isDarkMode } = storeToRefs(userStore);
+
+watch(currentCourse, (course) => {
+  console.log(course);
+});
 
 const loaded = ref(false);
 const showSideMenu = ref(true);
 const showJoinClass = ref(false);
 
-const isDarkMode = ref(false);
 const openDropdown = ref(false);
 
 function openTheJoin() {
@@ -114,21 +119,12 @@ function openTheJoin() {
 }
 
 onMounted(() => {
-  const savedTheme = localStorage.getItem("theme") || "light";
-  if (savedTheme === "dark" || savedTheme === "light") {
-    userStore.theme = savedTheme;
-    isDarkMode.value = savedTheme === "dark";
-    document.body.classList.toggle("dark", isDarkMode.value);
-  }
+  currentCourse.value = undefined;
   loaded.value = true;
 });
 
-function toggleTheme() {
-  isDarkMode.value = !isDarkMode.value;
-  userStore.theme = isDarkMode.value ? "dark" : "light";
-  document.body.classList.toggle("dark", isDarkMode.value);
-  localStorage.setItem("theme", userStore.theme);
-}
+// for vitest
+defineExpose({ courses, currentCourse, loaded, showSideMenu, showJoinClass });
 </script>
 
 <style scoped>

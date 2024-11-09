@@ -6,15 +6,18 @@
         <!-- Current Assignments Section -->
         <div class="flex-1 flex flex-col items-center border-2 border-gray-200 dark:border-gray-700 rounded-lg p-4">
           <h3 class="font-bold text-3xl pb-2">Current Assignments:</h3>
-          <div class="loading-div w-full h-28 rounded-lg border-2 border-gray-200 dark:border-gray-700 shadow-md"
-            v-if="!loaded"></div>
+          <div class="loading-div w-full h-28 rounded-lg border-2 border-gray-200 dark:border-gray-700 shadow-md" v-if="!loaded"></div>
           <div class="flex flex-col items-center justify-center w-full" v-else>
-            <p class="text-center mb-4" id="no-current-assignments" v-if="!currentAssignments.length">No Current
-              Assignments</p>
+            <p class="text-center mb-4" id="no-current-assignments" v-if="!currentAssignments.length">No Current Assignments</p>
             <div class="w-full flex flex-col gap-4">
-              <TeacherAssignmentCard v-for="assignment in currentAssignments" :key="assignment.id"
-                :course="currentCourse" :assignment="assignment" :current-date="currentDate"
-                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)" />
+              <TeacherAssignmentCard
+                v-for="assignment in currentAssignments"
+                :key="assignment.id"
+                :course="currentCourse"
+                :assignment="assignment"
+                :current-date="currentDate"
+                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)"
+              />
             </div>
           </div>
         </div>
@@ -22,14 +25,18 @@
         <!-- Past Assignments Section -->
         <div class="flex-1 flex flex-col items-center border-2 border-gray-200 dark:border-gray-700 rounded-lg p-4">
           <h3 class="font-bold text-3xl pb-2">Past Assignments:</h3>
-          <div class="loading-div w-full h-28 rounded-lg border-2 border-gray-200 dark:border-gray-900 p-2 shadow-md"
-            v-if="!loaded"></div>
+          <div class="loading-div w-full h-28 rounded-lg border-2 border-gray-200 dark:border-gray-900 p-2 shadow-md" v-if="!loaded"></div>
           <div class="flex flex-col items-center justify-center w-full" v-else>
             <p class="text-center mb-4" id="no-past-assignments" v-if="!pastAssignments.length">No Past Assignments</p>
             <div class="w-full flex flex-col gap-4">
-              <TeacherAssignmentCard v-for="assignment in pastAssignments" :key="assignment.id" :course="currentCourse"
-                :assignment="assignment" :current-date="currentDate"
-                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)" />
+              <TeacherAssignmentCard
+                v-for="assignment in pastAssignments"
+                :key="assignment.id"
+                :course="currentCourse"
+                :assignment="assignment"
+                :current-date="currentDate"
+                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)"
+              />
             </div>
           </div>
         </div>
@@ -37,12 +44,13 @@
 
       <!-- Action buttons -->
       <div class="w-full flex gap-4 p-4">
-        <NuxtLink :to="`/teacher/course/${currentCourse.id}/roster`"
-          class="w-1/2 flex justify-center items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full transition-transform duration-300 ease-in-out">
+        <NuxtLink
+          :to="`/teacher/course/${currentCourse.id}/roster`"
+          class="w-1/2 flex justify-center items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full transition-transform duration-300 ease-in-out"
+        >
           <h3>View Student List</h3>
         </NuxtLink>
-        <button
-          class="w-1/2 flex justify-center items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full transition-transform duration-300 ease-in-out">
+        <button class="w-1/2 flex justify-center items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full transition-transform duration-300 ease-in-out">
           <h3>Assign Student Homework</h3>
         </button>
       </div>
@@ -53,7 +61,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "teacher",
-  middleware: ["auth", "add-course"],
+  middleware: "auth",
   requiresAuth: true
 });
 
@@ -68,11 +76,11 @@ const currentAssignments = ref<TeacherAssignment[]>([]);
 const pastAssignments = ref<TeacherAssignment[]>([]);
 
 onMounted(async () => {
-  await getCourse();
+  getCourse();
 });
 
 userStore.$subscribe(async () => {
-  await getCourse();
+  getCourse();
 });
 
 async function getCourse() {
