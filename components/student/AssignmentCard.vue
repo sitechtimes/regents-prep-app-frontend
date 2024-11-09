@@ -7,17 +7,18 @@
     </div>
 
     <div class="flex flex-col items-center justify-center gap-2 w-2/5" v-if="assignment.instanceInfo">
-      <p class="text-xl font-medium" v-if="!assignment.instanceInfo.questionsCorrect">
-        Your progress: {{ assignment.instanceInfo.questionsCompleted }}/{{ assignment.numOfQuestions }}
-        <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCompleted / assignment.numOfQuestions) * 100) }}%)</span>
-      </p>
-      <p class="text-xl font-medium" v-else>
+      <p class="text-xl font-medium" v-if="assignment.instanceInfo.questionsCorrect !== undefined">
         Your grade: {{ assignment.instanceInfo.questionsCorrect }}/{{ assignment.numOfQuestions }}
         <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCorrect / assignment.numOfQuestions) * 100) }}%)</span>
       </p>
+      <p class="text-xl font-medium" v-else>
+        Your progress: {{ assignment.instanceInfo.questionsCompleted }}/{{ assignment.numOfQuestions }}
+        <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCompleted / assignment.numOfQuestions) * 100) }}%)</span>
+      </p>
+
       <div class="w-full h-4 bg-gray-800 rounded-full">
         <div
-          class="min-w-[5%] h-full bg-green-500 rounded-full"
+          class="h-full bg-green-500 rounded-full"
           :style="{ width: ((assignment.instanceInfo.questionsCorrect ?? assignment.instanceInfo.questionsCompleted) / assignment.numOfQuestions) * 100 + '%' }"
         ></div>
       </div>
@@ -26,9 +27,7 @@
         @click="submitAssignment"
         class="px-8 py-2 text-xl font-medium rounded-full bg-green-300"
         :class="{
-          'brightness-50': assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
-          grayscale: assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
-          'cursor-not-allowed': assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
+          'brightness-50 grayscale cursor-not-allowed': assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
           'cursor-pointer': assignment.instanceInfo.questionsCompleted === assignment.numOfQuestions
         }"
         :disabled="assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions"
@@ -40,19 +39,19 @@
     <div class="flex flex-col items-end justify-start gap-2 w-1/5">
       <div class="flex items-center justify-center gap-2">
         <p>{{ assignment.instanceInfo.dateSubmitted ? "Submitted" : "Assigned" }}</p>
-        <div class="w-2 h-2 rounded-full" :class="{ 'bg-red-600': !assignment.instanceInfo.dateSubmitted, 'bg-green-600': assignment.instanceInfo.dateSubmitted }"></div>
+        <div class="w-2 h-2 rounded-full" :class="assignment.instanceInfo.dateSubmitted ? 'bg-green-600' : 'bg-red-600'"></div>
       </div>
 
       <div class="flex items-center justify-center gap-2">
-        <p>{{ assignment.instanceInfo.questionsCorrect ? `Graded: ${Math.round((assignment.instanceInfo.questionsCorrect / assignment.numOfQuestions) * 100)}%` : "Ungraded" }}</p>
-        <div class="w-2 h-2 rounded-full" :class="{ 'bg-red-600': !assignment.instanceInfo.questionsCorrect, 'bg-green-600': assignment.instanceInfo.questionsCorrect }"></div>
+        <p>{{ assignment.instanceInfo.questionsCorrect > -1 ? "Graded" : "Ungraded" }}</p>
+        <div class="w-2 h-2 rounded-full" :class="assignment.instanceInfo.questionsCorrect === undefined ? 'bg-red-600' : 'bg-green-600'"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   assignment: StudentAssignment;
   clickable?: boolean;
 }>();
