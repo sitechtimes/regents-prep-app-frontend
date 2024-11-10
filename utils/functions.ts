@@ -42,8 +42,6 @@ export function formatDate(target: Date, current: Date) {
 
 export function courseToDate(courses: (StudentCourse | TeacherCourse)[]) {
   for (let course of courses) {
-    // first function: assignmentToDate(course.assignments);
-    // second function:course.assignments = []; (This second function was implemented in place of the first, but only serves to remove all of the assignments in the course. Why?)
     assignmentToDate(course.assignments);
   }
 }

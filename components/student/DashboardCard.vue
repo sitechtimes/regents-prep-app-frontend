@@ -43,7 +43,6 @@
 </template>
 
 <script setup lang="ts">
-//date submitted not necessary, questionsCompleted can be from assignment.
 const router = useRouter();
 const props = defineProps<{
   course: StudentCourse;
