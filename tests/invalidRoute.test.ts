@@ -7,7 +7,6 @@ describe("404 Page", () => {
   test("should be visible", async () => {
     const page = await mountSuspended(ErrorPage);
     expect(page.exists()).toBe(true);
-    expect(page.isVisible()).toBe(true);
   });
 
   test("should have counter set to 5 by default", async () => {

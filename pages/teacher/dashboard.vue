@@ -33,14 +33,14 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "teacher",
-  middleware: ["auth", "remove-course"],
+  middleware: "auth",
   requiresAuth: true
 });
 
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
-const { courses } = storeToRefs(store);
+const { courses, currentCourse } = storeToRefs(store);
 
 const showNotFound = ref(false);
 const loaded = ref(false);
@@ -57,6 +57,7 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
+  currentCourse.value = undefined;
   loaded.value = true;
 });
 // for vitest

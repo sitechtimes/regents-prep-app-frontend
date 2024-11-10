@@ -1,12 +1,13 @@
 export const useUserStore = defineStore("userStore", () => {
   const config = useRuntimeConfig();
   const isAuth = ref(false);
-  const theme = ref<"light" | "dark">("light");
+  const isDarkMode = ref(false);
   const name = ref<string>("");
   const userType = ref<"student" | "teacher">("student");
   const courses = ref<(StudentCourse | TeacherCourse)[]>([]);
   const currentCourse = ref<StudentCourse | TeacherCourse>();
   const initComplete = ref(false);
+  const router = useRouter();
 
   async function init() {
     const res = await fetch(config.public.backend + "init/", {
@@ -37,5 +38,15 @@ export const useUserStore = defineStore("userStore", () => {
     courses.value = data.courses;
   }
 
-  return { isAuth, initComplete, userType, theme, courses, currentCourse, init, login };
+  async function logout() {
+    const res = await fetch(config.public.backend + "auth/logout/", {
+      method: "POST",
+      credentials: "include"
+    });
+    if (!res.ok) return;
+    router.push("/");
+    return;
+  }
+
+  return { isAuth, initComplete, userType, isDarkMode, courses, currentCourse, init, login, logout };
 });

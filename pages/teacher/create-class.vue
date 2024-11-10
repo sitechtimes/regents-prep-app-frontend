@@ -43,15 +43,19 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "teacher",
-  middleware: ["auth", "remove-course"],
+  middleware: "auth",
   requiresAuth: true
 });
+
+const router = useRouter();
+const userStore = useUserStore();
 
 const myModal3 = ref<HTMLDialogElement>();
 
 const className = ref("");
 const selectedOption = ref("");
-const router = useRouter();
+
+const { courses, currentCourse } = storeToRefs(userStore);
 
 type Regent = {
   id: number;
@@ -64,6 +68,10 @@ const regentTypes: Regent[] = [
   { id: 2, name: "Algebra" },
   { id: 3, name: "Chemistry" }
 ];
+
+onMounted(() => {
+  currentCourse.value = undefined;
+});
 
 function createNewClass() {}
 

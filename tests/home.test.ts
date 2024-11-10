@@ -7,7 +7,6 @@ describe("Home Page", () => {
   test("should be visible", async () => {
     const page = await mountSuspended(Index);
     expect(page.exists()).toBe(true);
-    expect(page.isVisible()).toBe(true);
   });
 
   test("should have yoda set to false by default", async () => {

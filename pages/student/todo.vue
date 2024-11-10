@@ -36,7 +36,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: ["auth", "remove-course"],
+  middleware: ["auth"],
   requiresAuth: true
 });
 
@@ -48,7 +48,7 @@ watch(deselectFilters, async () => {
   deselectFilters.value = false;
 });
 
-const { courses } = storeToRefs(userStore);
+const { courses, currentCourse } = storeToRefs(userStore);
 const assignments = ref<StudentAssignment[]>(
   (courses.value.filter((c) => (c.assignments.length != 0 ? "instanceInfo" in c.assignments[0] : false)) as StudentCourse[]).map((c) => c.assignments).flat()
 );
@@ -60,6 +60,7 @@ function findCourse(findAssignment: StudentAssignment) {
 const loaded = ref(false);
 
 onMounted(async () => {
+  currentCourse.value = undefined;
   await getAssignments();
 });
 
