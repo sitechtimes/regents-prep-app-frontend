@@ -31,8 +31,7 @@
                 :style="{ transform: `translateX(-${(1 - assignment.questionsCompleted / assignment.numOfQuestions) * 100 + '%'})`, backgroundColor: subjectColors[course.subject] }"
                 v-if="assignment.questionsCompleted > 0"
               ></span>
-              <span class="w-full z-10 text-center font-mono px-2" v-if="assignment.questionsCompleted > 0"> {{ assignment.questionsCompleted }}/{{ assignment.numOfQuestions }} </span>
-              <span class="w-full z-10 text-center px-2" v-else>Assignment not started</span>
+              <span class="w-full z-10 text-center font-mono px-2"> {{ assignment.questionsCompleted }}/{{ assignment.numOfQuestions }} </span>
             </div>
           </div>
         </div>
