@@ -36,6 +36,7 @@ export const useUserStore = defineStore("userStore", () => {
     userType.value = data.userType.toLowerCase();
     courseToDate(data.courses);
     courses.value = data.courses;
+    initComplete.value = true;
   }
 
   async function logout() {
