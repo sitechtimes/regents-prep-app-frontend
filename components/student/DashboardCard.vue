@@ -26,11 +26,7 @@
               >{{ assignment.name }}</NuxtLink
             >
             <div @click.stop="router.push(`/student/course/${course.id}/${assignment.id}`)" class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden">
-              <span
-                class="absolute size-full"
-                :style="{ transform: `translateX(-${(1 - assignment.questionsCompleted / assignment.numOfQuestions) * 100 + '%'})`, backgroundColor: subjectColors[course.subject] }"
-                v-if="assignment.questionsCompleted > 0"
-              ></span>
+              <div class="absolute left-0 h-full" :style="{ width: (assignment.questionsCompleted / assignment.numOfQuestions) * 100 + '%', backgroundColor: subjectColors[course.subject] }"></div>
               <span class="w-full z-10 text-center font-mono px-2"> {{ assignment.questionsCompleted }}/{{ assignment.numOfQuestions }} </span>
             </div>
           </div>

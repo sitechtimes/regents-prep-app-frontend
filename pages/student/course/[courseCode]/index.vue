@@ -13,7 +13,7 @@
 
           <div class="loading-div w-full h-36 p-6 rounded-2xl flex items-center justify-center gap-2 border-2 border-gray-accent" v-if="!loaded"></div>
           <StudentAssignmentCard
-            v-if="loaded && assignments.length > 0"
+            v-else-if="loaded && assignments.length > 0"
             v-for="assignment in assignments"
             :key="assignment.id"
             @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
@@ -21,7 +21,7 @@
             clickable
           />
 
-          <div id="no-assignments" v-else>
+          <div id="no-assignments" v-else-if="loaded && assignments.length === 0">
             <p>no assignments!!!!</p>
             <p>for now................................</p>
           </div>
