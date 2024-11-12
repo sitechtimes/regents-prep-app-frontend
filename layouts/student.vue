@@ -88,7 +88,7 @@
           </div>
         </Transition>
 
-        <div class="w-full h-full p-4">
+        <div class="w-full h-full min-h-[calc(100vh-6rem)] p-4">
           <slot />
         </div>
       </div>

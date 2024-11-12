@@ -2,14 +2,14 @@
   <div class="flex flex-col items-start justify-start w-full h-full overflow-hidden">
     <Loading :show="!loaded" />
 
-    <div class="w-full" v-if="loaded">
+    <div class="w-full h-full" v-if="loaded">
       <Transition name="opacity">
         <div v-if="showNotFound" @click="router.push('/student/dashboard')" class="z-50 w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center">
           <NotFound type="student" :message="route.query.course ? 'class' : 'assignment'" @close="router.push('/student/dashboard')" @click.stop />
         </div>
       </Transition>
 
-      <div class="h-screen flex flex-col">
+      <div class="w-full h-full flex flex-col">
         <div class="flex flex-wrap items-start justify-start align-top gap-8" v-if="courses.length > 0">
           <!--prettier-ignore-->
           <StudentDashboardCard
