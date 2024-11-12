@@ -10,7 +10,7 @@
       </Transition>
 
       <div class="h-screen flex flex-col">
-        <div class="flex flex-wrap items-start justify-start align-top gap-8" v-if="courses.length > 0">
+        <div class="flex flex-wrap items-start justify-start align-top gap-8 lg:w-fit" v-if="courses.length > 0">
           <!--prettier-ignore-->
           <StudentDashboardCard
             @click="router.push(`/student/course/${course.id}`)"

@@ -2,16 +2,21 @@
   <div class="w-screen min-h-screen">
     <div class="w-screen min-h-screen flex flex-col items-center justify-start">
       <header class="px-5 sticky top-0 z-50 bg-[var(--bg-color)] w-full h-16 border-b border-b-[var(--faded-bg-color)] flex items-center justify-between">
-        <div class="flex items-center justify-start gap-3 w-1/3">
-          <button @click="showSideMenu = !showSideMenu"><img class="w-12 h-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
+        <button @click="toggleSideMenu">
+          <img class="w-12 h-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" />
+        </button>
+
+        <div class="flex items-center justify-center w-1/3">
           <NuxtLink v-if="currentCourse" :to="`/student/course/${currentCourse.id}`" class="hover:underline hover:underline-offset-1 flex flex-col items-start justify-center">
             <h4 class="text-xl font-medium">{{ currentCourse.name }}</h4>
             <p class="text-sm">Period {{ currentCourse.period }}</p>
           </NuxtLink>
         </div>
+
         <div class="flex items-center justify-center w-1/3">
           <NuxtLink to="/student/dashboard" class="text-3xl">SITHS Regents Prep</NuxtLink>
         </div>
+
         <div class="flex items-center justify-end gap-3 w-1/3">
           <label class="relative inline-flex items-center du-flex cursor-pointer gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -27,8 +32,6 @@
             <img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" />
           </button>
           <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
-          <!-- make this look better and add account settings 
-          avatar becomes dropdown, logout button and user settings comes there-->
           <button class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-black">
             <img class="w-6 h-6 dark:invert" src="/ui/user.svg" alt="Open account settings" />
           </button>
@@ -43,8 +46,14 @@
 
       <div class="w-full h-full flex items-start justify-between">
         <Transition name="slide-right">
-          <div id="side-menu" v-show="showSideMenu" class="w-[23rem] h-[calc(100vh-4rem)] bg-[var(--bg-color)] flex flex-col items-start justify-start">
-            <div class="fixed pt-4 w-72 h-[calc(100vh-4rem)] bg-[var(--bg-color)] border-r border-r-[var(--faded-bg-color)]">
+          <div 
+            id="side-menu" 
+            v-show="showSideMenu" 
+            :class="{'lg:block': true, 'lg:w-[23rem] w-full': showSideMenu}" 
+            class="fixed top-0 left-0 h-full bg-black bg-opacity-70 lg:bg-opacity-0 lg:bg-transparent z-40 lg:z-0 transition-all duration-500"
+            :style="{ transform: showSideMenu ? 'translateX(0)' : 'translateX(-100%)', opacity: showSideMenu ? 1 : 0 }"
+          >
+            <div class="pt-4 w-72 h-full bg-[var(--bg-color)] border-r border-r-[var(--faded-bg-color)]">
               <div class="w-full flex flex-col items-center justify-center px-2">
                 <NuxtLink
                   to="/student/dashboard"
@@ -54,6 +63,7 @@
                   <img class="w-8 h-8 p-1 dark:invert" src="/ui/home.svg" aria-hidden="true" />
                   <p>Dashboard</p>
                 </NuxtLink>
+
                 <NuxtLink
                   to="/student/todo"
                   class="hover:bg-gray-accent duration-200 w-full pl-4 h-12 rounded-xl text-xl flex items-center justify-start gap-3"
@@ -88,7 +98,16 @@
           </div>
         </Transition>
 
-        <div class="w-full h-full p-4">
+        <Transition name="fade-overlay">
+          <div 
+            v-show="showSideMenu" 
+            class="fixed top-0 left-0 w-full h-full bg-black transition-all duration-500 ease-in-out z-30"
+            :style="{ transform: showSideMenu ? 'translateX(0)' : 'translateX(-100%)', opacity: showSideMenu ? 0.5 : 0 }"
+          ></div>
+        </Transition>
+
+        <!-- Main Content Area -->
+        <div class="w-full h-full p-4 lg:ml-[23rem]">
           <slot />
         </div>
       </div>
@@ -108,34 +127,61 @@ watch(currentCourse, (course) => {
 });
 
 const loaded = ref(false);
-const showSideMenu = ref(true);
+const showSideMenu = ref(false); 
 const showJoinClass = ref(false);
 
 const openDropdown = ref(false);
+
+function toggleSideMenu() {
+  showSideMenu.value = !showSideMenu.value;
+}
 
 function openTheJoin() {
   console.log("HELP");
   showJoinClass.value = true;
 }
 
-onMounted(() => {
-  currentCourse.value = undefined;
-  loaded.value = true;
+watchEffect(() => {
+  if (window.innerWidth <= 1024) {  
+    showSideMenu.value = false;
+  } else {
+    showSideMenu.value = true;
+  }
 });
 
-// for vitest
-defineExpose({ courses, currentCourse, loaded, showSideMenu, showJoinClass });
+onMounted(() => {
+  setTimeout(() => {
+    loaded.value = true;
+  }, 1100);
+});
 </script>
 
 <style scoped>
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all 0.35s ease-in-out;
+  transition: transform .5s ease-in-out, opacity 0.5s ease-in-out;
+}
+.slide-right-enter, .slide-right-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
 }
 
-.slide-right-enter-from,
-.slide-right-leave-to {
-  transform: translateX(-24rem);
-  width: 0;
+.fade-overlay-enter-active,
+.fade-overlay-leave-active {
+  transition: transform 0.25s ease, opacity 0.5s ease;
+}
+.fade-overlay-enter, .fade-overlay-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+#side-menu {
+  z-index: 40;
+}
+
+@media (min-width: 1024px) {
+  #side-menu {
+    display: block !important;
+  }
 }
 </style>
