@@ -26,8 +26,6 @@ const emits = defineEmits(["close"]);
 const joinCode = ref("");
 watch(joinCode, (input) => {
   if (input.length > 6) return (joinCode.value = String(input).slice(0, 6));
-
-  joinCode.value = [...String(input)].filter((char) => !isNaN(Number(char))).join("");
 });
 
 function joinCourse() {
