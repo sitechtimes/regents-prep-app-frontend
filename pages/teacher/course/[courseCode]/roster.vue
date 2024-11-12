@@ -32,7 +32,7 @@
           </tbody>
         </table>
       </div>
-      <button @click="pushUserBack" class="du-btn du-btn-wide du-btn-md bg-green-accent mt-4">Return To Class Page</button>
+      <button @click="router.push(`/teacher/course/${route.params.courseCode}`)" class="du-btn du-btn-wide du-btn-md bg-green-accent mt-4">Return To Class Page</button>
     </div>
   </div>
 </template>
@@ -75,10 +75,6 @@ async function getCourse() {
 
 function removeStudent(index: number) {
   students.value.splice(index, 1);
-}
-
-function pushUserBack() {
-  router.push(`/teacher/course/${route.params.courseCode}`);
 }
 </script>
 
