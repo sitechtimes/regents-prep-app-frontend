@@ -62,6 +62,10 @@ function removeStudent(index: number) {
 function pushUserBack() {
   router.push(`/teacher/course/${route.params.courseCode}`);
 }
+
+onMounted(async () => {
+  await getCourseStudents;
+});
 </script>
 
 <style scoped></style>

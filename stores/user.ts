@@ -6,7 +6,6 @@ export const useUserStore = defineStore("userStore", () => {
   const userType = ref<"student" | "teacher">("student");
   const courses = ref<(StudentCourse | TeacherCourse)[]>([]);
   const currentCourse = ref<StudentCourse | TeacherCourse>();
-  const studentList = ref<TeacherStudentList>();
   const initComplete = ref(false);
 
   async function init() {
@@ -20,10 +19,8 @@ export const useUserStore = defineStore("userStore", () => {
     userType.value = data.userType.toLowerCase();
     courseToDate(data.courses);
     courses.value = data.courses;
-    studentList.value = data.courses.students;
     //studentList.value = data.;
     initComplete.value = true;
-    console.log(data.courses.subject);
   }
   async function login(email: string, password: string) {
     const res = await fetch(config.public.backend + "auth/login/", {
