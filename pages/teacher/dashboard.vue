@@ -1,7 +1,6 @@
 <template>
   <div class="flex flex-col items-start justify-start w-full h-full">
     <Loading :show="!loaded" />
-
     <div v-if="loaded">
       <Transition name="opacity">
         <div v-if="showNotFound" @click="router.push('/teacher/dashboard')" class="z-50 w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center">
@@ -19,7 +18,8 @@
             :key="course.id"
           />
         </div>
-        <div class="flex flex-col items-center gap-4" v-else>
+        <!--The v-else needs fixing Make it an github issue/lil css-ery will help-->
+        <div class="flex flex-col items-center gap-4" v-else> 
           <h2 class="text-4xl md:text-5xl font-extrabold text-[var(--text-color)]" id="no-classes">No classes found!</h2>
           <p class="text-lg text-[var(--text-color)]">It looks like you haven't created any classes yet.</p>
           <p class="text-md text-[var(--text-color)]">Click the button below to create your first class!</p>

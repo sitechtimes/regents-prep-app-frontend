@@ -19,7 +19,7 @@
             :key="course.id"
           />
         </div>
-
+        <!--Fix Later-->
         <div class="flex items-center justify-center h-full w-full overflow-hidden" v-else>
           <div class="flex flex-col items-center gap-4">
             <h2 class="text-4xl md:text-5xl font-extrabold text-[var(--text-color)]" id="no-classes">No classes found!</h2>
