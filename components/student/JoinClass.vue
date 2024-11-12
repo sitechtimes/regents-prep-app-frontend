@@ -8,8 +8,8 @@
           <input class="du-input bg-gray-200 w-96" id="joinCode" type="text" v-model="joinCode" placeholder="Enter the 6-character join code" />
         </form>
         <div class="flex w-full justify-end gap-2">
-          <button class="du-btn du-btn-sm" @click="emit('close')">Cancel</button>
-          <button class="du-btn du-btn-sm bg-green-accent" form="join-code" type="submit">Join</button>
+          <button class="du-btn du-btn-md" @click="emit('close')">Cancel</button>
+          <button class="du-btn du-btn-md bg-green-accent" form="join-code" type="submit">Join</button>
         </div>
       </div>
     </div>
