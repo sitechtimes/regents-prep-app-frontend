@@ -21,9 +21,11 @@
             clickable
           />
 
-          <div id="no-assignments" v-else-if="loaded && assignments.length === 0">
-            <p>no assignments!!!!</p>
-            <p>for now................................</p>
+          <div id="no-assignments" v-else-if="loaded && assignments.length === 0" class="flex flex-col items-center justify-center p-8 text-center text-gray-accent overflow-visible">
+            <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="w-16 h-16 mb-4 dark:invert" />
+            <h3 class="text-2xl font-semibold mb-2">No Assignments Yet</h3>
+            <p class="text-lg">You're all caught up!</p>
+            <p class="text-sm mt-2">Check back later for new assignments.</p>
           </div>
         </div>
       </div>

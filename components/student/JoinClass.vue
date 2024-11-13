@@ -5,11 +5,11 @@
         <h2 class="text-xl dark:invert">Join A Class</h2>
         <form id="joinCodeForm" class="flex flex-col mb-4 dark:invert" @submit.prevent="joinCourse">
           <label class="du-label" for="joinCode">Join Code</label>
-          <input class="du-input bg-gray-200" id="joinCode" type="text" v-model="joinCode" placeholder="enter the 6 digit join code" />
+          <input class="du-input dark:text-black bg-gray-200" id="joinCode" type="text" v-model="joinCode" placeholder="enter the 6 digit join code" />
         </form>
         <div class="flex w-full justify-end gap-2">
           <button class="du-btn du-btn-sm dark:invert" @click="emits('close')">Cancel</button>
-          <button class="du-btn du-btn-sm bg-green-accent dark:invert" form="joinCodeForm" type="submit">Join</button>
+          <button class="du-btn du-btn-sm bg-green-accent dark:bg-green-500 dark:invert" form="joinCodeForm" type="submit">Join</button>
         </div>
       </div>
     </div>
