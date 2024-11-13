@@ -72,9 +72,8 @@ const props = defineProps<{
   assignments: StudentAssignment[];
   deselect: boolean;
 }>();
-watchEffect(() => {
-  if (props.deselect) showSorts.value = showFilters.value = false;
-});
+// prettier-ignore
+watch(() => props.deselect, () => showSorts.value = showFilters.value = false);
 
 const allAssignments = ref<StudentAssignment[]>(props.assignments);
 
