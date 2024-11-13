@@ -75,8 +75,6 @@ const props = defineProps<{
 // prettier-ignore
 watch(() => props.deselect, () => showSorts.value = showFilters.value = false);
 
-const allAssignments = ref<StudentAssignment[]>(props.assignments);
-
 const emit = defineEmits<{
   filteredAssignments: [StudentAssignment[]];
   refresh: [void];
@@ -110,7 +108,7 @@ watch(search, updateFilter);
 function updateFilter() {
   emit(
     "filteredAssignments",
-    allAssignments.value
+    props.assignments
       .filter((a) => a.name.toLowerCase().includes(search.value.toLowerCase()))
       .filter(filters[currentFilter.value])
       .sort(sorts[currentSort.value])

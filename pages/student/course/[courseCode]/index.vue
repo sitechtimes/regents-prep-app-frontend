@@ -9,7 +9,12 @@
         </div>
 
         <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)" @refresh="loadAssignments(true)" />
+          <StudentFilters
+            :assignments="currentCourse.assignments.filter((a) => 'instanceInfo' in a)"
+            :deselect="deselectFilters"
+            @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
+            @refresh="loadAssignments(true)"
+          />
 
           <div class="loading-div w-full h-36 p-6 rounded-2xl flex items-center justify-center gap-2 border-2 border-gray-accent" v-if="!loaded"></div>
           <StudentAssignmentCard
