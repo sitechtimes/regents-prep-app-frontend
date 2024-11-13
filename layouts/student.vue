@@ -23,7 +23,7 @@
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </label>
-          <button id="join-button" v-show="route.path === '/student/dashboard'" @click="openTheJoin" class="text-5xl">
+          <button id="join-button" v-show="route.path === '/student/dashboard/'" @click="openTheJoin" class="text-5xl">
             <img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" />
           </button>
           <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />

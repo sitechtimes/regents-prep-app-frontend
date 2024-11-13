@@ -1,16 +1,16 @@
 <template>
   <Transition name="join-menu-scale">
-    <div v-show="props.show" @click="emit('close')" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen min-h-screen flex items-center justify-center z-[51]">
+    <div v-if="props.show" @click="emit('close')" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen min-h-screen flex items-center justify-center z-[51]">
       <div @click.stop class="join-menu bg-white p-6 rounded-lg flex flex-col items-center justify-center">
         <h2 class="text-xl">Create New Course</h2>
         <form id="create-course" class="flex flex-col mb-4" @submit.prevent="createCourse">
           <label class="du-label" for="course-name">Course Name <span title="Required" class="text-red-500 font-2xl">*</span></label>
-          <input class="du-input bg-gray-200 w-96" id="course-name" type="text" v-model="courseName" required placeholder="Enter the name of the course" />
+          <input class="du-input bg-gray-200 w-96" id="course-name" type="text" v-model="courseName" placeholder="Enter the name of the course" />
 
           <label class="du-label" for="course-subject">Course Subject <span title="Required" class="text-red-500 font-2xl">*</span></label>
-          <select class="du-select bg-gray-200 w-96" id="course-subject" v-model="courseSubject" required>
+          <select class="du-select bg-gray-200 w-96" id="course-subject" v-model="courseSubject">
             <option value="" selected>Select the subject of the course</option>
-            <option v-for="regents in Object.values(regentsTypes).flat()" :key="regents" :value="regents">{{ regents }}</option>
+            <option v-for="regents in Object.values(regentsTypes).flat().sort()" :key="regents" :value="regents">{{ regents }}</option>
           </select>
 
           <label class="du-label" for="course-name">Period <span title="Required" class="text-red-500 font-2xl">*</span></label>
@@ -29,7 +29,15 @@
         </form>
         <div class="flex w-full justify-end gap-2">
           <button class="du-btn du-btn-md" @click="emit('close')">Cancel</button>
-          <button class="du-btn du-btn-md bg-green-accent" form="create-course" type="submit">Create</button>
+          <button
+            class="du-btn du-btn-md bg-green-accent"
+            :class="{ grayscale: !courseName || !courseSubject || !coursePeriod }"
+            :disabled="!courseName || !courseSubject || !coursePeriod"
+            form="create-course"
+            type="submit"
+          >
+            Create
+          </button>
         </div>
       </div>
     </div>

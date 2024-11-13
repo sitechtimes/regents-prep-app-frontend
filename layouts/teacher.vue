@@ -24,7 +24,7 @@
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </label>
-          <button id="join-button" v-show="route.path === '/teacher/dashboard'" @click="showCreateClass = true" class="text-5xl">
+          <button id="join-button" v-show="route.path === '/teacher/dashboard/'" @click="showCreateClass = true" class="text-5xl">
             <img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" />
           </button>
           <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" />

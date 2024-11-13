@@ -1,6 +1,6 @@
 <template>
   <Transition name="join-menu-scale">
-    <div v-show="props.show" @click="emit('close')" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen min-h-screen flex items-center justify-center z-[51]">
+    <div v-if="props.show" @click="emit('close')" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen min-h-screen flex items-center justify-center z-[51]">
       <div @click.stop class="join-menu bg-white p-6 rounded-lg flex flex-col items-center justify-center">
         <h2 class="text-xl">Join a Course</h2>
         <form id="join-code" class="flex flex-col mb-4" @submit.prevent="joinCourse">
@@ -9,7 +9,7 @@
         </form>
         <div class="flex w-full justify-end gap-2">
           <button class="du-btn du-btn-md" @click="emit('close')">Cancel</button>
-          <button class="du-btn du-btn-md bg-green-accent" form="join-code" type="submit">Join</button>
+          <button class="du-btn du-btn-md bg-green-accent" :class="{ grayscale: joinCode.length != 6 }" :disabled="joinCode.length != 6" form="join-code" type="submit">Join</button>
         </div>
       </div>
     </div>
