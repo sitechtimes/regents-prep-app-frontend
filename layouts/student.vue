@@ -23,7 +23,7 @@
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </label>
-          <button id="join-button" v-show="route.path === '/student/dashboard/'" @click="openTheJoin" class="text-5xl">
+          <button id="join-button" v-show="route.path === '/student/dashboard'" @click="openTheJoin" class="text-5xl">
             <img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" />
           </button>
           <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
@@ -34,7 +34,7 @@
           </button>
           <button
             @click="userStore.logout()"
-            class="px-4 py-2 rounded-md flex items-center justify-center transition duration-200 ease-in-out text-black bg-red-500 hover:bg-red-600 border border-[var(--faded-bg-color)] dark:text-white dark:bg-red-600 dark:hover:bg-red-700"
+            class="w-24 h-10 bg-red-600 hover:bg-red-500 text-white dark:bg-red-500 dark:hover:bg-red-400 rounded-lg text-lg font-medium flex items-center justify-center duration-200"
           >
             Logout
           </button>
