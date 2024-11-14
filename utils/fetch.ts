@@ -1,5 +1,3 @@
-import type { TeacherStudentList } from "./types";
-
 export async function getAssignments(courseId: number): Promise<(StudentAssignment | TeacherAssignment)[]> {
   const config = useRuntimeConfig();
 
@@ -22,12 +20,6 @@ export async function getCourseStudents(courseId: number): Promise<TeacherStuden
   const data = await res.json();
   return data;
 }
-/* 
-export async function getStudentList(courseId:number): Promise<TeacherStudentList[]> {
-  const config = useRuntimeConfig();
-
-  const res = await fetch(config.public.backend + ``)
-}; */
 
 export async function getStudentAssignment(assignmentId: number): Promise<AssignmentInstance> {
   const config = useRuntimeConfig();
