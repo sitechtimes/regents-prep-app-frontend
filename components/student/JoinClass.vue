@@ -21,11 +21,14 @@ const props = defineProps<{
   show: boolean;
 }>();
 
-const emits = defineEmits(["close"]);
+const emit = defineEmits(["close"]);
 
 const joinCode = ref("");
 watch(joinCode, (input) => {
   if (input.length > 6) return (joinCode.value = String(input).slice(0, 6));
+
+onUnmounted(() => {
+  joinCode.value = "";
 });
 
 function joinCourse() {
@@ -33,6 +36,7 @@ function joinCourse() {
   alert("you are now enrolled in jail!");
   // make it join a class 👍
   // no way really? i think it should join a course instead
+  emit("close");
 }
 </script>
 

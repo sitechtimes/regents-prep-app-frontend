@@ -24,7 +24,7 @@
             </svg>
           </label>
           <button id="join-button" v-show="route.path === '/student/dashboard'" @click="openTheJoin" class="text-5xl">
-            <!-- <img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" />-->+
+            <img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Join a new course" />
           </button>
           <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
           <!-- make this look better and add account settings 
@@ -88,7 +88,7 @@
           </div>
         </Transition>
 
-        <div class="w-full h-full p-4">
+        <div class="w-full h-full min-h-[calc(100vh-6rem)] p-4">
           <slot />
         </div>
       </div>

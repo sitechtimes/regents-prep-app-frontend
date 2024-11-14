@@ -24,6 +24,10 @@
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </label>
+          <button id="create-button" v-show="route.path === '/teacher/dashboard/'" @click="showCreateClass = true" class="text-5xl">
+            <img class="w-8 h-8 dark:invert" src="/ui/plus.svg" alt="Create a new course" />
+          </button>
+          <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" />
           <!-- make this look better and add account settings 
           avatar becomes dropdown, logout button and user settings comes there-->
           <button class="w-8 h-8 rounded-full flex items-center justify-center border-2 border-black">
@@ -82,7 +86,7 @@
           </div>
         </Transition>
 
-        <div class="w-full h-full p-4">
+        <div class="w-full h-full min-h-[calc(100vh-6rem)] p-4">
           <slot />
         </div>
       </div>
@@ -98,6 +102,7 @@ const { courses, currentCourse, isDarkMode } = storeToRefs(userStore);
 
 const loaded = ref(false);
 const showSideMenu = ref(true);
+const showCreateClass = ref(false);
 
 onMounted(() => {
   loaded.value = true;
