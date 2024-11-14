@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]">
+  <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]" @click="deselectFilters = !deselectFilters">
     <div class="w-full flex items-center justify-center">
       <div class="w-2/3 flex flex-col items-center justify-center" v-if="currentCourse">
         <div class="flex flex-col items-start justify-end w-full h-52 p-6 rounded-2xl" :style="{ backgroundColor: subjectColors[currentCourse.subject] }">
@@ -9,7 +9,12 @@
         </div>
 
         <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)" @refresh="loadAssignments(true)" />
+          <StudentFilters
+            :assignments="currentCourse.assignments.filter((a) => 'instanceInfo' in a)"
+            :deselect="deselectFilters"
+            @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
+            @refresh="loadAssignments(true)"
+          />
 
           <div class="loading-div w-full h-36 p-6 rounded-2xl flex items-center justify-center gap-2 border-2 border-gray-accent" v-if="!loaded"></div>
           <StudentAssignmentCard
@@ -43,9 +48,6 @@ const router = useRouter();
 const userStore = useUserStore();
 
 const deselectFilters = ref(false);
-watch(deselectFilters, () => {
-  if (deselectFilters.value) deselectFilters.value = false;
-});
 
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 const assignments = ref<StudentAssignment[]>(currentCourse.value?.assignments.filter((a) => "instanceInfo" in a) ?? []);
@@ -72,9 +74,10 @@ function getCourse() {
 
 let ran = false;
 async function loadAssignments(redirect = false) {
-  if (ran && !redirect) return;
+  if (!currentCourse.value || (ran && !redirect)) return;
   ran = true;
   assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
+  currentCourse.value.assignments = assignments.value;
   loaded.value = true;
 }
 
