@@ -20,8 +20,7 @@ export async function getCourseStudents(courseId: number): Promise<TeacherStuden
   });
   if (!res.ok) throw new Error("Failed to fetch students");
   const data = await res.json();
-  console.log(data);
-  return await res.json();
+  return data;
 }
 /* 
 export async function getStudentList(courseId:number): Promise<TeacherStudentList[]> {
