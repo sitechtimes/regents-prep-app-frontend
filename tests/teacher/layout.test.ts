@@ -16,6 +16,22 @@ describe("Teacher Layout", () => {
     expect(loaded.value).toBe(true);
   });
 
+  test("should show create button if on dashboard", async () => {
+    const page = await mountSuspended(Layout, {
+      route: { path: "/teacher/dashboard/" },
+      attachTo: document.body
+    });
+    expect(page.find("#create-button").isVisible()).toBe(true);
+  });
+
+  test("should not show teacher button if not on dashboard", async () => {
+    const page = await mountSuspended(Layout, {
+      route: { path: "/teacher/course/1" },
+      attachTo: document.body
+    });
+    expect(page.find("#create-button").isVisible()).toBe(false);
+  });
+
   test("should show side menu if on showSideMenu is true", async () => {
     const page = await mountSuspended(Layout, { attachTo: document.body });
 

@@ -18,7 +18,7 @@ describe("Student Layout", () => {
 
   test("should show join button if on dashboard", async () => {
     const page = await mountSuspended(Layout, {
-      route: { path: "/student/dashboard" },
+      route: { path: "/student/dashboard/" },
       attachTo: document.body
     });
     expect(page.find("#join-button").isVisible()).toBe(true);
