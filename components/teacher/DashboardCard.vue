@@ -22,16 +22,13 @@
             <NuxtLink
               class="text-xl hover:underline hover:underline-offset-1 w-[70%] text-center text-nowrap overflow-hidden overflow-ellipsis"
               :to="`/teacher/course/${course.id}/${assignment.id}`"
-              @click="$event.stopPropagation()"
+              @click.stop
               >{{ assignment.name }}</NuxtLink
             >
-            <div
-              @click="
-                $event.stopPropagation();
-                router.push(`/teacher/course/${course.id}/${assignment.id}`);
-              "
-              class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden"
-            ></div>
+            <div @click.stop="router.push(`/teacher/course/${course.id}/${assignment.id}`)" class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden">
+              <div class="absolute left-0 h-full" :style="{ width: (assignment.numSubmitted / course.students) * 100 + '%', backgroundColor: subjectColors[course.subject] }"></div>
+              <span class="w-full z-10 text-center font-mono px-2"> {{ assignment.numSubmitted }}/{{ course.students }} </span>
+            </div>
           </div>
         </div>
       </div>

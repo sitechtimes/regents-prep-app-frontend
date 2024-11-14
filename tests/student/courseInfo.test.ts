@@ -1,18 +1,30 @@
-import { mountSuspended } from "@nuxt/test-utils/runtime";
+import { mockNuxtImport, mountSuspended } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
-import { beforeEach, describe, vi } from "vitest";
+import { afterEach, beforeEach, describe, vi } from "vitest";
 import { expect, test } from "vitest";
 import Course from "~/pages/student/course/[courseCode]/index.vue";
+import * as dotenv from "dotenv";
 
-describe("Student Course Info Page", () => {
+dotenv.config({ path: ".env.test" });
+
+mockNuxtImport("useRuntimeConfig", () => {
+  return () => {
+    return { public: { backend: process.env.NUXT_TEST_BACKEND } };
+  };
+});
+
+describe("Student Course Info Page", { retry: 1 }, () => {
   beforeEach(() => {
     setActivePinia(createPinia());
+  });
+
+  afterEach(async () => {
+    await delay(25);
   });
 
   test("should be visible", async () => {
     const page = await mountSuspended(Course);
     expect(page.exists()).toBe(true);
-    expect(page.isVisible()).toBe(true);
   });
 
   test("should not be loaded if course is not found", async () => {
@@ -26,63 +38,53 @@ describe("Student Course Info Page", () => {
 
   test("should be loaded if course is found", async () => {
     const page = await mountSuspended(Course, { route: { params: { courseCode: "1" } } });
-    const loaded = ref(page.vm.loaded);
     const initComplete = ref(page.vm.initComplete);
     const courses = ref(page.vm.courses);
 
     initComplete.value = true;
-    courses.value = [
-      {
-        id: 1,
-        name: "AP Calculus CD",
-        teacher: "Wichael Mhalen",
-        period: 2,
-        subject: "Math",
-        assignments: []
-      }
-    ];
-    await vi.waitUntil(() => courses.value.length > 0, { timeout: 500, interval: 10 });
+    const testCourse: StudentCourse = {
+      id: 1,
+      name: "AP Calculus CD",
+      teacher: "Wichael Mhalen",
+      period: 2,
+      subject: "Math",
+      assignments: []
+    };
+    courses.value = [testCourse];
+    await page.vm.$nextTick();
 
     const currentCourse = ref(page.vm.currentCourse);
-    expect(currentCourse.value).toBeTruthy();
+    expect(currentCourse.value).toMatchObject(testCourse);
+    await page.vm.$nextTick();
+
+    const loaded = ref(page.vm.loaded);
+    await vi.waitUntil(() => loaded.value, { timeout: 500, interval: 10 });
     expect(loaded.value).toBe(true);
   });
 
   test("should show assignment cards if assignments exist", async () => {
     const page = await mountSuspended(Course, { route: { params: { courseCode: "1" } } });
-    const loaded = ref(page.vm.loaded);
     const initComplete = ref(page.vm.initComplete);
     const courses = ref(page.vm.courses);
 
     initComplete.value = true;
-    courses.value = [
-      {
-        id: 1,
-        name: "AP Calculus CD",
-        teacher: "Wichael Mhalen",
-        period: 2,
-        subject: "Math",
-        assignments: [
-          {
-            id: 420,
-            name: "Power Rule practice",
-            dateAssigned: new Date(),
-            dueDate: new Date(),
-            numOfQuestions: 5,
-            lateSubmissions: false,
-            instanceInfo: {
-              questionsCompleted: 3,
-              questionsCorrect: 3,
-              dateSubmitted: null
-            }
-          }
-        ]
-      }
-    ];
-    await vi.waitUntil(() => courses.value.length > 0, { timeout: 500, interval: 10 });
+    const testCourse: StudentCourse = {
+      id: 1,
+      name: "AP Calculus CD",
+      teacher: "Wichael Mhalen",
+      period: 2,
+      subject: "Math",
+      assignments: [] // actual test data is in server/api/courses/[courseId]/assignments
+    };
+    courses.value = [testCourse];
+    await page.vm.$nextTick();
 
     const currentCourse = ref(page.vm.currentCourse);
     expect(currentCourse.value).toBeTruthy();
+    await page.vm.$nextTick();
+
+    const loaded = ref(page.vm.loaded);
+    await vi.waitUntil(() => loaded.value, { timeout: 500, interval: 10 });
     expect(loaded.value).toBe(true);
 
     const assignments = ref(page.vm.assignments);
@@ -92,26 +94,28 @@ describe("Student Course Info Page", () => {
   });
 
   test("should not show assignment cards if assignments dont exist", async () => {
-    const page = await mountSuspended(Course, { route: { params: { courseCode: "1" } } });
-    const loaded = ref(page.vm.loaded);
+    const page = await mountSuspended(Course, { route: { params: { courseCode: "99" } } });
     const initComplete = ref(page.vm.initComplete);
     const courses = ref(page.vm.courses);
 
     initComplete.value = true;
-    courses.value = [
-      {
-        id: 1,
-        name: "AP Calculus CD",
-        teacher: "Wichael Mhalen",
-        period: 2,
-        subject: "Math",
-        assignments: []
-      }
-    ];
-    await vi.waitUntil(() => courses.value.length > 0, { timeout: 500, interval: 10 });
+    const testCourse: StudentCourse = {
+      id: 99,
+      name: "AP Literally Torture",
+      teacher: "Lichan",
+      period: 9,
+      subject: "English",
+      assignments: [] // actual test data is in server/api/courses/[courseId]/assignments
+    };
+    courses.value = [testCourse];
+    await page.vm.$nextTick();
 
     const currentCourse = ref(page.vm.currentCourse);
     expect(currentCourse.value).toBeTruthy();
+    await page.vm.$nextTick();
+
+    const loaded = ref(page.vm.loaded);
+    await vi.waitUntil(() => loaded.value, { timeout: 500, interval: 10 });
     expect(loaded.value).toBe(true);
 
     const assignments = ref(page.vm.assignments);

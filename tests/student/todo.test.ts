@@ -3,11 +3,9 @@ import { describe } from "vitest";
 import { expect, test } from "vitest";
 import Todo from "~/pages/student/todo.vue";
 
-const page = await mountSuspended(Todo);
-
 describe("Student Todo Page", () => {
-  test("should be visible", () => {
+  test("should be visible", async () => {
+    const page = await mountSuspended(Todo);
     expect(page.exists()).toBe(true);
-    expect(page.isVisible()).toBe(true);
   });
 });

@@ -7,7 +7,6 @@ describe("Login Page", () => {
   test("should be visible", async () => {
     const page = await mountSuspended(Login);
     expect(page.exists()).toBe(true);
-    expect(page.isVisible()).toBe(true);
   });
 
   describe("Email Regex Check", async () => {

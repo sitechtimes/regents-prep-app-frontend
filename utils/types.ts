@@ -52,11 +52,13 @@ interface Assignment {
   numOfQuestions: number;
   /** @readonly Whether or not the assignment can be turned in late. */
   lateSubmissions: boolean;
+  /** @readonly Number of completed questions in the assignment.*/
+  questionsCompleted: number;
 }
 
 export interface TeacherAssignment extends Assignment {
   /** @readonly How many students submitted the assignment. */
-  submissions: number;
+  numSubmitted: number;
 }
 export interface StudentAssignment extends Assignment {
   /** @readonly Number of questions completed in the assignment. */

@@ -32,7 +32,7 @@
           </tbody>
         </table>
       </div>
-      <button @click="pushUserBack" class="du-btn du-btn-wide du-btn-md bg-green-accent mt-4">Return To Class Page</button>
+      <button @click="router.push(`/teacher/course/${route.params.courseCode}`)" class="du-btn du-btn-wide du-btn-md bg-green-accent mt-4">Return To Class Page</button>
     </div>
   </div>
 </template>
@@ -40,25 +40,41 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "teacher",
-  middleware: ["auth", "add-course"],
+  middleware: "auth",
   requiresAuth: true
 });
 
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
+
 const searchTerm = ref("");
+const { courses, currentCourse, initComplete } = storeToRefs(userStore);
+
 const students: Ref<TeacherStudentList[]> = ref([]);
 
 const filteredStudents = computed(() =>
   students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()))
 );
 
-function removeStudent(index: number) {
-  students.value.splice(index, 1);
+onMounted(async () => {
+  getCourse();
+});
+
+userStore.$subscribe(async () => {
+  getCourse();
+});
+
+async function getCourse() {
+  if (!initComplete.value) return;
+  const courseId = Number(route.params.courseCode);
+
+  currentCourse.value = courses.value.find((course) => course.id === courseId);
+  if (!currentCourse.value) return router.push(`/teacher/dashboard?course=${courseId}`);
 }
 
-function pushUserBack() {
-  router.push(`/teacher/course/${route.params.courseCode}`);
+function removeStudent(index: number) {
+  students.value.splice(index, 1);
 }
 
 onMounted(async () => {

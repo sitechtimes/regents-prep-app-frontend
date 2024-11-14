@@ -41,17 +41,17 @@ export function formatDate(target: Date, current: Date) {
 }
 
 export function courseToDate(courses: (StudentCourse | TeacherCourse)[]) {
-  courses.forEach((course: any) => {
+  for (let course of courses) {
     assignmentToDate(course.assignments);
-  });
+  }
 }
 
 export function assignmentToDate(assignments: (StudentAssignment | TeacherAssignment)[]) {
-  assignments.forEach((assignment: StudentAssignment | TeacherAssignment) => {
+  for (let assignment of assignments) {
     assignment.dueDate = new Date(assignment.dueDate);
     assignment.dateAssigned = new Date(assignment.dateAssigned);
     if ("instanceInfo" in assignment) {
       assignment.instanceInfo.dateSubmitted = assignment.instanceInfo.dateSubmitted ? new Date(assignment.instanceInfo.dateSubmitted) : null;
     }
-  });
+  }
 }
