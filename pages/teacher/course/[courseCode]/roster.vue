@@ -38,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import studentList from "~/server/api/courses/[courseId]/teacher/student-list";
+
 definePageMeta({
   layout: "teacher",
   middleware: "auth",
@@ -51,7 +53,9 @@ const userStore = useUserStore();
 const searchTerm = ref("");
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 
-const students: Ref<TeacherStudentList[]> = ref([]);
+const courseId = Number(route.params.courseCode);
+
+const students = await getCourseStudents(courseId);
 
 const filteredStudents = computed(() =>
   students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()))
