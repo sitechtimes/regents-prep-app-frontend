@@ -16,7 +16,7 @@
         <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCompleted / assignment.numOfQuestions) * 100) }}%)</span>
       </p>
 
-      <div class="w-full h-4 bg-gray-800 rounded-full">
+      <div class="w-full h-4 bg-gray-800 dark:invert rounded-full">
         <div
           class="h-full bg-green-500 rounded-full"
           :style="{ width: ((assignment.instanceInfo.questionsCorrect ?? assignment.instanceInfo.questionsCompleted) / assignment.numOfQuestions) * 100 + '%' }"

@@ -2,7 +2,7 @@
   <div class="flex flex-col items-start justify-start w-full h-full overflow-hidden">
     <Loading :show="!loaded" />
 
-    <div class="w-full" v-if="loaded">
+    <div class="w-full h-full" v-if="loaded">
       <Transition name="opacity">
         <div v-if="showNotFound" @click="router.push('/student/dashboard')" class="z-50 w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center">
           <NotFound type="student" :message="route.query.course ? 'class' : 'assignment'" @close="router.push('/student/dashboard')" @click.stop />
@@ -19,7 +19,7 @@
             :key="course.id"
           />
         </div>
-
+        <!--Fix Later-->
         <div class="flex items-center justify-center h-full w-full overflow-hidden" v-else>
           <div class="flex flex-col items-center gap-4">
             <h2 class="text-4xl md:text-5xl font-extrabold text-[var(--text-color)]" id="no-classes">No classes found!</h2>

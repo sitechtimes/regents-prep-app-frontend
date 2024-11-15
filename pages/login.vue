@@ -1,18 +1,12 @@
 <template>
   <div class="flex items-center justify-center flex-col w-screen min-h-screen bg-gray py-12">
-    <a href="/"
-      ><img
-        class="logo h-32 transition duration-500 animate-spin"
-        src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F88d26018-fa1a-4b92-a8b9-d8ed3f9e178e_3840x2160.png"
-        aria-hidden="true"
-    /></a>
     <h1 class="text-5xl font-bold mb-6">Welcome back!</h1>
     <div class="flex items-center justify-center flex-col bg-[color:var(--bg-color)] p-4 rounded-3xl mb-4">
       <h3 class="mb-4">Log in to your Regents Prep App account</h3>
 
       <form class="login flex items-center justify-center flex-col gap-7 w-full" @submit="loginWithEmail" @submit.prevent>
         <div class="relative flex items-start justify-center flex-col gap-1">
-          <label class="font-medium" for="email">Your email address <span title="Required" class="text-red-500 font-2xl">*</span></label>
+          <label class="font-medium" for="email">Email Address <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
             class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-300 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
             id="email"
@@ -25,7 +19,7 @@
         </div>
 
         <div class="relative flex items-start justify-center flex-col gap-1">
-          <label class="font-medium" for="password">Your password <span title="Required" class="text-red-500 font-2xl">*</span></label>
+          <label class="font-medium" for="password">Password <span title="Required" class="text-red-500 font-2xl">*</span></label>
           <input
             class="w-96 h-12 rounded-lg border-0 bg-gray-300 px-4 transition duration-300 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[color:var(--bg-color)]"
             id="password"
@@ -91,7 +85,7 @@ async function loginWithEmail() {
   loading.value = true;
   const data = await userStore.login(email.value, password.value);
   if (!data) {
-    router.push(`${userStore.userType}/dashboard/`);
+    router.push(`${userStore.userType}/dashboard`);
   } else {
     if ("non_field_errors" in data) emailErr.value = data.non_field_errors.join(" ");
     if ("password" in data) passwordErr.value = data.password.join(" ");

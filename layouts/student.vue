@@ -37,7 +37,7 @@
           </button>
           <button
             @click="userStore.logout()"
-            class="px-4 py-2 rounded-md flex items-center justify-center transition duration-200 ease-in-out text-black bg-red-500 hover:bg-red-600 border border-[var(--faded-bg-color)] dark:text-white dark:bg-red-600 dark:hover:bg-red-700"
+            class="w-24 h-10 bg-red-600 hover:bg-red-500 text-white dark:bg-red-500 dark:hover:bg-red-400 rounded-lg text-lg font-medium flex items-center justify-center duration-200"
           >
             Logout
           </button>
@@ -46,10 +46,10 @@
 
       <div class="w-full h-full flex items-start justify-between">
         <Transition name="slide-right">
-          <div 
-            id="side-menu" 
-            v-show="showSideMenu" 
-            :class="{'lg:block': true, 'lg:w-[23rem] w-full': showSideMenu}" 
+          <div
+            id="side-menu"
+            v-show="showSideMenu"
+            :class="{ 'lg:block': true, 'lg:w-[23rem] w-full': showSideMenu }"
             class="fixed top-0 left-0 h-full bg-black bg-opacity-70 lg:bg-opacity-0 lg:bg-transparent z-40 lg:z-0 transition-all duration-500"
             :style="{ transform: showSideMenu ? 'translateX(0)' : 'translateX(-100%)', opacity: showSideMenu ? 1 : 0 }"
           >
@@ -98,16 +98,7 @@
           </div>
         </Transition>
 
-        <Transition name="fade-overlay">
-          <div 
-            v-show="showSideMenu" 
-            class="fixed top-0 left-0 w-full h-full bg-black transition-all duration-500 ease-in-out z-30"
-            :style="{ transform: showSideMenu ? 'translateX(0)' : 'translateX(-100%)', opacity: showSideMenu ? 0.5 : 0 }"
-          ></div>
-        </Transition>
-
-        <!-- Main Content Area -->
-        <div class="w-full h-full p-4 lg:ml-[23rem]">
+        <div class="w-full h-full min-h-[calc(100vh-6rem)] p-4">
           <slot />
         </div>
       </div>
@@ -127,7 +118,7 @@ watch(currentCourse, (course) => {
 });
 
 const loaded = ref(false);
-const showSideMenu = ref(false); 
+const showSideMenu = ref(false);
 const showJoinClass = ref(false);
 
 const openDropdown = ref(false);
@@ -142,7 +133,7 @@ function openTheJoin() {
 }
 
 watchEffect(() => {
-  if (window.innerWidth <= 1024) {  
+  if (window.innerWidth <= 1024) {
     showSideMenu.value = false;
   } else {
     showSideMenu.value = true;
@@ -159,18 +150,24 @@ onMounted(() => {
 <style scoped>
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: transform .5s ease-in-out, opacity 0.5s ease-in-out;
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out;
 }
-.slide-right-enter, .slide-right-leave-to {
+.slide-right-enter,
+.slide-right-leave-to {
   transform: translateX(-100%);
   opacity: 0;
 }
 
 .fade-overlay-enter-active,
 .fade-overlay-leave-active {
-  transition: transform 0.25s ease, opacity 0.5s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.5s ease;
 }
-.fade-overlay-enter, .fade-overlay-leave-to {
+.fade-overlay-enter,
+.fade-overlay-leave-to {
   transform: translateX(-100%);
   opacity: 0;
 }

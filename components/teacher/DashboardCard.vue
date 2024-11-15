@@ -25,7 +25,10 @@
               @click.stop
               >{{ assignment.name }}</NuxtLink
             >
-            <div @click.stop="router.push(`/teacher/course/${course.id}/${assignment.id}`)" class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden"></div>
+            <div @click.stop="router.push(`/teacher/course/${course.id}/${assignment.id}`)" class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden">
+              <div class="absolute left-0 h-full" :style="{ width: (assignment.numSubmitted / course.students) * 100 + '%', backgroundColor: subjectColors[course.subject] }"></div>
+              <span class="w-full z-10 text-center font-mono px-2"> {{ assignment.numSubmitted }}/{{ course.students }} </span>
+            </div>
           </div>
         </div>
       </div>
