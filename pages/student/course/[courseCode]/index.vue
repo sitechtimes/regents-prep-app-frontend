@@ -1,33 +1,32 @@
 <template>
-  <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]" @click="deselectFilters = !deselectFilters">
+  <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]"
+    @click="deselectFilters = !deselectFilters">
     <div class="w-full flex items-center justify-center">
       <div class="w-2/3 flex flex-col items-center justify-center" v-if="currentCourse">
-        <div class="flex flex-col items-start justify-end w-full h-52 p-6 rounded-2xl" :style="{ backgroundColor: subjectColors[currentCourse.subject] }">
+        <div class="flex flex-col items-start justify-end w-full h-52 p-6 rounded-2xl"
+          :style="{ backgroundColor: subjectColors[currentCourse.subject] }">
           <h1 class="text-4xl font-semibold">{{ currentCourse.name }}</h1>
           <h3 class="text-lg">Period {{ currentCourse.period }}</h3>
           <h3 class="text-xl">{{ currentCourse.teacher }}</h3>
         </div>
 
         <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-          <StudentFilters
-            :assignments="currentCourse.assignments.filter((a) => 'instanceInfo' in a)"
+          <StudentFilters :assignments="currentCourse.assignments.filter((a) => 'instanceInfo' in a)"
             :deselect="deselectFilters"
             @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
-            @refresh="loadAssignments(true)"
-          />
+            @refresh="loadAssignments(true)" />
 
-          <div class="loading-div w-full h-36 p-6 rounded-2xl flex items-center justify-center gap-2 border-2 border-gray-accent" v-if="!loaded"></div>
-          <StudentAssignmentCard
-            v-else-if="loaded && assignments.length > 0"
-            v-for="assignment in assignments"
-            :key="assignment.id"
-            @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
-            :assignment="assignment"
-            clickable
-          />
+          <div
+            class="loading-div w-full h-36 p-6 rounded-2xl flex items-center justify-center gap-2 border-[1px] border-[var(--border-color)]"
+            v-if="!loaded"></div>
+          <StudentAssignmentCard v-else-if="loaded && assignments.length > 0" v-for="assignment in assignments"
+            :key="assignment.id" @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
+            :assignment="assignment" clickable />
 
-          <div id="no-assignments" v-else-if="loaded && assignments.length === 0" class="flex flex-col items-center justify-center p-8 text-center text-gray-accent overflow-visible">
-            <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="w-16 h-16 mb-4 dark:invert" />
+          <div id="no-assignments" v-else-if="loaded && assignments.length === 0"
+            class="flex flex-col items-center justify-center p-8 text-center text-gray-accent overflow-visible">
+            <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon"
+              class="w-16 h-16 mb-4 dark:invert" />
             <h3 class="text-2xl font-semibold mb-2">No Assignments Yet</h3>
             <p class="text-lg">You're all caught up!</p>
             <p class="text-sm mt-2">Check back later for new assignments.</p>
@@ -92,6 +91,7 @@ defineExpose({ loaded, courses, currentCourse, initComplete, assignments });
   0% {
     background-position-x: -100%;
   }
+
   100% {
     background-position-x: 100%;
   }

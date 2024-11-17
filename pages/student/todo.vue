@@ -1,32 +1,26 @@
 <template>
-  <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]" @click="deselectFilters = true">
+  <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]"
+    @click="deselectFilters = true">
     <div class="w-2/3 flex flex-col items-center justify-center">
       <StudentFilters
         :assignments="(userStore.courses.filter((course) => course.assignments.some((assignment) => 'instanceInfo' in assignment)) as StudentCourse[]).map((course) => course.assignments).flat()"
-        :deselect="deselectFilters"
-        @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
-        @refresh="getAssignments"
-      />
+        :deselect="deselectFilters" @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
+        @refresh="getAssignments" />
     </div>
 
     <Loading :show="!loaded" />
 
     <div class="w-2/3 flex flex-col items-center justify-center" v-if="loaded">
       <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-        <div class="w-full h-full flex items-center justify-center gap-2" v-for="assignment in assignments" :key="assignment.id">
-          <NuxtLink
-            :to="`/student/course/${findCourse(assignment)?.id}`"
-            class="w-2 h-20 rounded-full"
-            :title="findCourse(assignment)?.name"
-            :style="{
+        <div class="w-full h-full flex items-center justify-center gap-2" v-for="assignment in assignments"
+          :key="assignment.id">
+          <NuxtLink :to="`/student/course/${findCourse(assignment)?.id}`" class="w-2 h-20 rounded-full"
+            :title="findCourse(assignment)?.name" :style="{
               backgroundColor: subjectColors[findCourse(assignment)?.subject ?? 'Math']
-            }"
-          ></NuxtLink>
+            }"></NuxtLink>
           <StudentAssignmentCard
             @click="router.push(`/student/course/${courses.find((course) => course.assignments.map((assignment) => assignment.id).includes(assignment.id))?.id}/${assignment.id}`)"
-            :assignment="assignment"
-            clickable
-          />
+            :assignment="assignment" clickable />
         </div>
       </div>
     </div>

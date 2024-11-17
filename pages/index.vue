@@ -1,9 +1,10 @@
 <template>
-  <div class="flex flex-row justify-center items-center min-h-screen w-screen px-8 space-x-10" :class="{ 'bg-lime-300': isYoda }">
+  <div class="flex flex-row justify-center items-center min-h-screen w-screen px-8 space-x-10"
+    :class="{ 'bg-lime-300': isYoda }">
     <!-- left side -->
     <div class="w-1/3">
       <div class="flex items-center mb-6">
-        <div class="border-r-4 border-black h-32 mr-6"></div>
+        <div class="bg-[var(--primary)] w-1 h-32 mr-6"></div>
         <h1 class="font-bold text-5xl leading-relaxed flex flex-col">
           <span class="text-3xl">Welcome to the</span>
           SITHS Regents Prep App
@@ -12,23 +13,18 @@
       <p class="text-2xl mt-4 mb-8">Don't fail your Regents.</p>
       <!-- buttons -->
       <div class="flex space-x-4">
-        <NuxtLink to="/login" class="flex items-center bg-green-accent border-2 border-black text-black text-2xl font-semibold px-6 py-2 rounded-full"> Login </NuxtLink>
+        <NuxtLink to="/login"
+          class="flex items-center bg-[var(--primary)] hover:brightness-[0.85] hover:dark:brightness-125 text-[var(--text-color)] text-2xl px-6 py-2 rounded-xl">
+          Login </NuxtLink>
       </div>
     </div>
 
     <!-- right side -->
     <div class="w-1/4">
-      <img class="cat cursor-default" v-show="isYoda" src="/landingYoda.png" alt="A very short-haired black cat, edited to be green" title="The almighty Yoda." />
-      <img
-        ref="landingCatRef"
-        @click="toggle"
-        id="landing"
-        class="cat z-50 cursor-help"
-        :draggable="false"
-        src="/landingCat.png"
-        alt="Cat on a computer"
-        title="This cat has some sort of hidden switch..?"
-      />
+      <img class="cat cursor-default" v-show="isYoda" src="/landingYoda.png"
+        alt="A very short-haired black cat, edited to be green" title="The almighty Yoda." />
+      <img ref="landingCatRef" @click="toggle" id="landing" class="cat z-50 cursor-help" :draggable="false"
+        src="/landingCat.png" alt="Cat on a computer" title="This cat has some sort of hidden switch..?" />
     </div>
   </div>
 </template>

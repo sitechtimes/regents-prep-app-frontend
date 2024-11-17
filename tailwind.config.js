@@ -13,11 +13,13 @@ export default {
         "green-accent": "var(--primary)",
         secondary: "#426B1F",
         tertiary: "#4E684A",
-        "gray-accent": "var(--gray)"
+        "gray-accent": "#E5E5E5",
+        "dark-hover": "#292929",
+        "dark-border": "#3D444D",
       }
     }
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"),],
   daisyui: {
     prefix: "du-"
   },

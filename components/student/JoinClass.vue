@@ -1,15 +1,21 @@
 <template>
   <Transition name="join-menu-scale">
-    <div v-if="props.show" @click="emit('close')" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen min-h-screen flex items-center justify-center z-[51]">
-      <div @click.stop class="join-menu bg-[var(--bg-color)] p-6 rounded-lg flex flex-col items-center justify-center">
-        <h2 class="text-xl text-[var(--text-color)]">Join a Course</h2>
+    <div v-if="props.show" @click="emit('close')"
+      class="join-menu-bg fixed top-0 left-0 bg-black bg-opacity-45 w-screen min-h-screen flex items-center justify-center z-[50]">
+      <div @click.stop
+        class="join-menu bg-[var(--bg-color)] p-6 rounded-xl flex flex-col items-center justify-center border-[1px] border-[var(--border-color)]">
+        <h2 class="text-xl text-[var(--text-color)] font-semibold">Join a Course</h2>
         <form id="join-code" class="flex flex-col mb-4" @submit.prevent="joinCourse">
           <label class="du-label" for="joinCode">Join Code</label>
-          <input class="du-input bg-gray-200 w-96 text-[var(--bg-color)]" id="joinCode" type="text" v-model="joinCode" placeholder="Enter the 6-character join code" />
+          <input class="du-input bg-gray-200 w-96 text-black" id="joinCode" type="text" v-model="joinCode"
+            placeholder="Enter the 6-characters join code" />
         </form>
         <div class="flex w-full justify-end gap-2">
-          <button class="du-btn du-btn-md" @click="emit('close')">Cancel</button>
-          <button class="du-btn du-btn-md bg-green-accent text-[var(--text-color)]" :class="{ grayscale: joinCode.length != 6 }" :disabled="joinCode.length != 6" form="join-code" type="submit">
+          <button class="border-[1px] border-[var(--border-color)] px-4 py-2 rounded-lg"
+            @click="emit('close')">Cancel</button>
+          <button class="px-4 py-2 rounded-lg bg-[var(--primary)] text-[var(--text-color)]"
+            :class="{ grayscale: joinCode.length != 6 }" :disabled="joinCode.length != 6" form="join-code"
+            type="submit">
             Join
           </button>
         </div>
