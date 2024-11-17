@@ -65,7 +65,7 @@
     <button
       @click.stop="showSorts = showFilters = false"
       class="flex items-center justify-center gap-2 rounded-full border border-[var(--border-color)] p-2 px-4 transition-all"
-      :class="{ 'bg-gray-accen dark:bg-dark-hover': search.length > 0 }"
+      :class="{ 'bg-gray-accent dark:bg-dark-hover': search.length > 0 }"
     >
       <img class="h-5 w-5 dark:invert" src="/ui/search.svg" aria-hidden="true" />
       <input class="h-5 bg-transparent transition-all focus-within:outline-0" type="text" placeholder="Search for an assignment" v-model="search" />
