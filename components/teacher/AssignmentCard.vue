@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-2 border-gray-200 dark:border-gray-700 rounded-lg p-2 bg-gray-100 dark:bg-gray-900 shadow-sm transition duration-500 hover:scale-[1.02] mb-2 cursor-pointer">
+    class="border border-gray-200 dark:border-dark-border rounded-lg p-2 bg-gray-100 dark:bg-dark-hover shadow-sm transition duration-500 hover:[scale-[1.02]] hover:shadow-lg hover:shadow-[var(--gray)] mb-2 cursor-pointer">
     <p class="font-medium text-center">{{ assignment.name }}</p>
     <p class="text-center">Due: {{ formatDate(assignment.dueDate, currentDate) }}</p>
     <div class="text-center mt-2">
