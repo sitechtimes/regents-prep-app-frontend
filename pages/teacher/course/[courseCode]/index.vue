@@ -6,7 +6,7 @@
         <!-- Current Assignments Section -->
         <div class="flex flex-1 flex-col items-center rounded-lg border border-[var(--border-color)] p-4">
           <h3 class="pb-2 text-3xl font-bold">Current Assignments:</h3>
-          <div class="loading-div dark:border-dark-bordersh adow-md h-28 w-full rounded-lg border border-gray-accent" v-if="!loaded"></div>
+          <div class="loading-div h-28 w-full rounded-lg border border-[var(--border-color)] p-2 shadow-md" v-if="!loaded"></div>
           <div class="flex w-full flex-col items-center justify-center" v-else>
             <p class="mb-4 text-center" id="no-current-assignments" v-if="!currentAssignments.length">No Current Assignments</p>
             <div class="flex w-full flex-col gap-4">
@@ -25,7 +25,7 @@
         <!-- Past Assignments Section -->
         <div class="flex flex-1 flex-col items-center rounded-lg border border-[var(--border-color)] p-4">
           <h3 class="pb-2 text-3xl font-bold">Past Assignments:</h3>
-          <div class="loading-div h-28 w-full rounded-lg border border-gray-accent p-2 shadow-md dark:border-gray-900" v-if="!loaded"></div>
+          <div class="loading-div h-28 w-full rounded-lg border border-[var(--border-color)] p-2 shadow-md" v-if="!loaded"></div>
           <div class="flex w-full flex-col items-center justify-center" v-else>
             <p class="mb-4 text-center" id="no-past-assignments" v-if="!pastAssignments.length">No Past Assignments</p>
             <div class="flex w-full flex-col gap-4">
