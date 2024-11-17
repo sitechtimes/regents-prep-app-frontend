@@ -1,6 +1,6 @@
 <template>
   <div
-    class="hover:border-[var(--primary)] hover:shadow-lg hover:dark:shadow-[var(--gray)] cursor-pointer border-[1px] border-[var(--faded-bg-color)] rounded-lg overflow-hidden w-[45rem] flex flex-col items-center justify-center transition-all duration-300 ease-in-out">
+    class="hover:border-[var(--primary)] hover:shadow-lg hover:dark:shadow-[var(--gray)] cursor-pointer border border-[var(--faded-bg-color)] rounded-lg overflow-hidden w-[45rem] flex flex-col items-center justify-center transition-all duration-300 ease-in-out">
     <div class="w-full h-24 flex flex-col items-center justify-end p-2"
       :style="{ backgroundColor: subjectColors[course.subject] }">
       <h2 :title="course.name"

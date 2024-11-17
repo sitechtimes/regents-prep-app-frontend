@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full p-6 rounded-2xl flex items-center justify-center gap-2 border-[1px] border-[var(--border-color)]"
+  <div class="w-full p-6 rounded-2xl flex items-center justify-center gap-2 border border-[var(--border-color)]"
     :class="{ assignment: clickable }">
     <div class="flex flex-col items-start justify-start w-2/5 pl-4">
       <h3 class="text-2xl font-semibold overflow-hidden overflow-ellipsis w-full text-nowrap">{{ assignment.name }}</h3>

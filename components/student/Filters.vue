@@ -5,13 +5,13 @@
         showFilters = false;
       showSorts = !showSorts;
       " :class="{ 'bg-gray-accent': currentSort !== Object.keys(sorts)[0] }"
-        class="hover:bg-[var(--hover-background)] py-1 px-5 rounded-full flex items-center justify-center gap-1 border-[1px] border-[var(--border-color)]">
+        class="hover:bg-[var(--hover-background)] py-1 px-5 rounded-full flex items-center justify-center gap-1 border border-[var(--border-color)]">
         <img class="w-5 h-5 dark:invert" src="/ui/sort.svg" aria-hidden="true" />
         <p class="text-lg font-medium">Sort</p>
       </button>
 
       <div v-show="showSorts"
-        class="absolute w-52 z-10 top-12 left-0 p-3 bg-[var(--bg-color)] rounded-xl border-[1px] border-[var(--border-color)] flex flex-col items-start justify-center">
+        class="absolute w-52 z-10 top-12 left-0 p-3 bg-[var(--bg-color)] rounded-xl border border-[var(--border-color)] flex flex-col items-start justify-center">
         <button v-for="sort in Object.keys(sorts)" :key="sort" @click.stop="currentSort = sort"
           class="w-full text-xl py-1 rounded-lg text-left pl-4"
           :class="{ 'bg-green-accent': currentSort === sort, 'hover:bg-[var(--hover-background)] ': currentSort !== sort }">
@@ -25,13 +25,13 @@
         showSorts = false;
       showFilters = !showFilters;
       " :class="{ 'bg-gray-accent': currentFilter !== Object.keys(filters)[0] }"
-        class="hover:bg-[var(--hover-background)] py-1 px-5 rounded-full flex items-center justify-center gap-1 border-[1px] border-[var(--border-color)]">
+        class="hover:bg-[var(--hover-background)] py-1 px-5 rounded-full flex items-center justify-center gap-1 border border-[var(--border-color)]">
         <img class="w-5 h-5 dark:invert" src="/ui/filter.svg" aria-hidden="true" />
         <p class="text-lg font-medium">Filter</p>
       </button>
 
       <div v-show="showFilters"
-        class="absolute w-52 z-10 top-12 left-0 p-3 bg-[var(--bg-color)] rounded-xl border-[1px] border-[var(--border-color)] flex flex-col items-start justify-center">
+        class="absolute w-52 z-10 top-12 left-0 p-3 bg-[var(--bg-color)] rounded-xl border border-[var(--border-color)] flex flex-col items-start justify-center">
         <button v-for="filter in Object.keys(filters)" :key="filter" @click.stop="currentFilter = filter"
           class="w-full text-xl py-1 rounded-lg text-left pl-4"
           :class="currentFilter === filter ? 'bg-green-accent' : 'hover:bg-[var(--hover-background)] '">
@@ -41,7 +41,7 @@
     </div>
 
     <button @click.stop="showSorts = showFilters = false"
-      class="p-2 rounded-full flex items-center justify-center gap-2 px-4 border-[1px] border-[var(--border-color)] transition-all"
+      class="p-2 rounded-full flex items-center justify-center gap-2 px-4 border border-[var(--border-color)] transition-all"
       :class="{ 'bg-gray-accen dark:bg-dark-hover': search.length > 0 }">
       <img class="w-5 h-5 dark:invert" src="/ui/search.svg" aria-hidden="true" />
       <input class="h-5 bg-transparent transition-all focus-within:outline-0" type="text"
@@ -49,7 +49,7 @@
     </button>
 
     <button @click="emit('refresh')"
-      class="hover:bg-[var(--hover-background)] refresh p-2 rounded-full flex items-center justify-center border-[1px] border-[var(--border-color)]">
+      class="hover:bg-[var(--hover-background)] refresh p-2 rounded-full flex items-center justify-center border border-[var(--border-color)]">
       <img class="w-5 h-5 dark:invert" src="/ui/refresh.svg" aria-hidden="true" />
     </button>
   </div>

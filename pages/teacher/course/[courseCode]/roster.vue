@@ -2,7 +2,7 @@
   <div class="flex min-h-screen w-screen flex-col items-center justify-center py-12">
     <div class="relative flex flex-col items-center justify-center gap-1">
       <input
-        class="mb-6 h-10 w-96 rounded-lg border-[1px] bg-[var(--bg-color)] px-2 py-1 transition-all duration-500 hover:border-[var(--primary)]"
+        class="mb-6 h-10 w-96 rounded-lg border bg-[var(--bg-color)] px-2 py-1 transition-all duration-500 hover:border-[var(--primary)]"
         type="text" placeholder="Search for Student..." v-model="searchTerm" />
       <div class="items relative overflow-x-auto rounded-b-box rounded-se-box">
         <table class="table items-center justify-center">
