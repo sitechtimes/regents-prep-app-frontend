@@ -6,32 +6,37 @@
         <!-- Current Assignments Section -->
         <div class="flex flex-1 flex-col items-center rounded-lg border border-[var(--border-color)] p-4">
           <h3 class="pb-2 text-3xl font-bold">Current Assignments:</h3>
-          <div
-            class="loading-div dark:border-dark-bordersh adow-md h-28 w-full rounded-lg border border-gray-accent"
-            v-if="!loaded"></div>
+          <div class="loading-div dark:border-dark-bordersh adow-md h-28 w-full rounded-lg border border-gray-accent" v-if="!loaded"></div>
           <div class="flex w-full flex-col items-center justify-center" v-else>
-            <p class="mb-4 text-center" id="no-current-assignments" v-if="!currentAssignments.length">No Current
-              Assignments</p>
+            <p class="mb-4 text-center" id="no-current-assignments" v-if="!currentAssignments.length">No Current Assignments</p>
             <div class="flex w-full flex-col gap-4">
-              <TeacherAssignmentCard v-for="assignment in currentAssignments" :key="assignment.id"
-                :course="currentCourse" :assignment="assignment" :current-date="currentDate"
-                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)" />
+              <TeacherAssignmentCard
+                v-for="assignment in currentAssignments"
+                :key="assignment.id"
+                :course="currentCourse"
+                :assignment="assignment"
+                :current-date="currentDate"
+                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)"
+              />
             </div>
           </div>
         </div>
 
         <!-- Past Assignments Section -->
-        <div class="flex flex-1 flex-col items-center rounded-lg border border-[var(--border-color)] p-4 ">
+        <div class="flex flex-1 flex-col items-center rounded-lg border border-[var(--border-color)] p-4">
           <h3 class="pb-2 text-3xl font-bold">Past Assignments:</h3>
-          <div
-            class="loading-div h-28 w-full rounded-lg border border-gray-accent p-2 shadow-md dark:border-gray-900"
-            v-if="!loaded"></div>
+          <div class="loading-div h-28 w-full rounded-lg border border-gray-accent p-2 shadow-md dark:border-gray-900" v-if="!loaded"></div>
           <div class="flex w-full flex-col items-center justify-center" v-else>
             <p class="mb-4 text-center" id="no-past-assignments" v-if="!pastAssignments.length">No Past Assignments</p>
             <div class="flex w-full flex-col gap-4">
-              <TeacherAssignmentCard v-for="assignment in pastAssignments" :key="assignment.id" :course="currentCourse"
-                :assignment="assignment" :current-date="currentDate"
-                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)" />
+              <TeacherAssignmentCard
+                v-for="assignment in pastAssignments"
+                :key="assignment.id"
+                :course="currentCourse"
+                :assignment="assignment"
+                :current-date="currentDate"
+                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)"
+              />
             </div>
           </div>
         </div>
@@ -39,12 +44,15 @@
 
       <!-- Action buttons -->
       <div class="flex w-full gap-4 p-4">
-        <NuxtLink :to="`/teacher/course/${currentCourse.id}/roster`"
-          class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125">
+        <NuxtLink
+          :to="`/teacher/course/${currentCourse.id}/roster`"
+          class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125"
+        >
           <p>View Student List</p>
         </NuxtLink>
         <button
-          class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125">
+          class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125"
+        >
           <p>Assign Student Homework</p>
         </button>
       </div>

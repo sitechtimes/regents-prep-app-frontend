@@ -1,30 +1,34 @@
 <template>
-  <div class="flex flex-row justify-center items-center min-h-screen w-screen px-8 space-x-10"
-    :class="{ 'bg-lime-300': isYoda }">
+  <div class="flex min-h-screen w-screen flex-row items-center justify-center space-x-10 px-8" :class="{ 'bg-lime-300': isYoda }">
     <!-- left side -->
     <div class="w-1/3">
-      <div class="flex items-center mb-6">
-        <div class="bg-[var(--primary)] w-1 h-32 mr-6"></div>
-        <h1 class="font-bold text-5xl leading-relaxed flex flex-col">
+      <div class="mb-6 flex items-center">
+        <div class="mr-6 h-32 w-1 bg-[var(--primary)]"></div>
+        <h1 class="flex flex-col text-5xl font-bold leading-relaxed">
           <span class="text-3xl">Welcome to the</span>
           SITHS Regents Prep App
         </h1>
       </div>
-      <p class="text-2xl mt-4 mb-8">Don't fail your Regents.</p>
+      <p class="mb-8 mt-4 text-2xl">Don't fail your Regents.</p>
       <!-- buttons -->
       <div class="flex space-x-4">
-        <NuxtLink to="/login"
-          class="flex items-center bg-[var(--primary)] hover:brightness-[0.85] hover:dark:brightness-125 text-[var(--text-color)] text-2xl px-6 py-2 rounded-xl">
-          Login </NuxtLink>
+        <NuxtLink to="/login" class="flex items-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] hover:brightness-[0.85] hover:dark:brightness-125"> Login </NuxtLink>
       </div>
     </div>
 
     <!-- right side -->
     <div class="w-1/4">
-      <img class="cat cursor-default" v-show="isYoda" src="/landingYoda.png"
-        alt="A very short-haired black cat, edited to be green" title="The almighty Yoda." />
-      <img ref="landingCatRef" @click="toggle" id="landing" class="cat z-50 cursor-help" :draggable="false"
-        src="/landingCat.png" alt="Cat on a computer" title="This cat has some sort of hidden switch..?" />
+      <img class="cat cursor-default" v-show="isYoda" src="/landingYoda.png" alt="A very short-haired black cat, edited to be green" title="The almighty Yoda." />
+      <img
+        ref="landingCatRef"
+        @click="toggle"
+        id="landing"
+        class="cat z-50 cursor-help"
+        :draggable="false"
+        src="/landingCat.png"
+        alt="Cat on a computer"
+        title="This cat has some sort of hidden switch..?"
+      />
     </div>
   </div>
 </template>

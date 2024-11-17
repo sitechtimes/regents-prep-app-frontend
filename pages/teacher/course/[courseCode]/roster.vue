@@ -3,7 +3,10 @@
     <div class="relative flex flex-col items-center justify-center gap-1">
       <input
         class="mb-6 h-10 w-96 rounded-lg border bg-[var(--bg-color)] px-2 py-1 transition-all duration-500 hover:border-[var(--primary)]"
-        type="text" placeholder="Search for Student..." v-model="searchTerm" />
+        type="text"
+        placeholder="Search for Student..."
+        v-model="searchTerm"
+      />
       <div class="items relative overflow-x-auto rounded-b-box rounded-se-box">
         <table class="table items-center justify-center">
           <thead>
@@ -20,8 +23,7 @@
               <td class="px-10 py-3">{{ student.firstName }}</td>
               <td class="px-10 py-3">{{ student.lastName }}</td>
               <td class="flex items-center justify-center px-10 py-3">
-                <button @click="removeStudent(index)"
-                  class="btn btn-sm transition-300 flex h-8 w-8 items-center justify-center rounded-full pt-0.5 hover:bg-[var(--gray)]">✕</button>
+                <button @click="removeStudent(index)" class="btn btn-sm transition-300 flex h-8 w-8 items-center justify-center rounded-full pt-0.5 hover:bg-[var(--gray)]">✕</button>
               </td>
             </tr>
             <tr v-if="filteredStudents.length === 0" class="border-t">
@@ -30,8 +32,7 @@
           </tbody>
         </table>
       </div>
-      <button @click="router.push(`/teacher/course/${route.params.courseCode}`)"
-        class="mt-4 rounded-xl bg-[var(--primary)] px-6 py-2 text-[var(text-color)]">Return To Class Page</button>
+      <button @click="router.push(`/teacher/course/${route.params.courseCode}`)" class="mt-4 rounded-xl bg-[var(--primary)] px-6 py-2 text-[var(text-color)]">Return To Class Page</button>
     </div>
   </div>
 </template>
