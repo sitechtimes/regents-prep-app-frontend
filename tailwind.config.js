@@ -21,7 +21,8 @@ export default {
   },
   plugins: [require("daisyui"),],
   daisyui: {
-    prefix: "du-"
+    prefix: "du-",
+    logs: false
   },
   darkMode: "selector",
   future: {
