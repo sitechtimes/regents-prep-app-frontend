@@ -1,12 +1,10 @@
 <template>
   <Transition name="opacity">
-    <div
-      class="fixed inset-0 bg-[var(--bg-color)] bg-opacity-85 flex flex-col items-center justify-center z-50 pointer-events-none"
-      v-if="show">
+    <div class="pointer-events-none fixed inset-0 z-50 flex flex-col items-center justify-center bg-[var(--bg-color)] bg-opacity-85" v-if="show">
       <div class="flex space-x-3">
-        <div class="w-6 h-6 bg-green-accent rounded-full loading" style="animation-delay: 0s"></div>
-        <div class="w-6 h-6 bg-green-accent rounded-full loading" style="animation-delay: 0.2s"></div>
-        <div class="w-6 h-6 bg-green-accent rounded-full loading" style="animation-delay: 0.4s"></div>
+        <div class="loading h-6 w-6 rounded-full bg-green-accent" style="animation-delay: 0s"></div>
+        <div class="loading h-6 w-6 rounded-full bg-green-accent" style="animation-delay: 0.2s"></div>
+        <div class="loading h-6 w-6 rounded-full bg-green-accent" style="animation-delay: 0.4s"></div>
       </div>
       <p class="mt-4 text-2xl font-bold text-[var(--text-color)] opacity-90">Loading...</p>
     </div>
@@ -28,7 +26,6 @@ const props = defineProps<{
 }
 
 @keyframes bounce {
-
   0%,
   100% {
     transform: translateY(-50%);

@@ -1,18 +1,18 @@
 <template>
-  <div class="flex flex-row justify-center items-center min-h-screen w-screen px-8 space-x-10" :class="{ 'bg-lime-300': isYoda }">
+  <div class="flex min-h-screen w-screen flex-row items-center justify-center space-x-10 px-8" :class="{ 'bg-lime-300': isYoda }">
     <!-- left side -->
     <div class="w-1/3">
-      <div class="flex items-center mb-6">
-        <div class="border-r-4 border-black h-32 mr-6"></div>
-        <h1 class="font-bold text-5xl leading-relaxed flex flex-col">
+      <div class="mb-6 flex items-center">
+        <div class="mr-6 h-32 w-1 bg-[var(--primary)]"></div>
+        <h1 class="flex flex-col text-5xl font-bold leading-relaxed">
           <span class="text-3xl">Welcome to the</span>
           SITHS Regents Prep App
         </h1>
       </div>
-      <p class="text-2xl mt-4 mb-8">Don't fail your Regents.</p>
+      <p class="mb-8 mt-4 text-2xl">Don't fail your Regents.</p>
       <!-- buttons -->
       <div class="flex space-x-4">
-        <NuxtLink to="/login" class="flex items-center bg-green-accent border-2 border-black text-black text-2xl font-semibold px-6 py-2 rounded-full"> Login </NuxtLink>
+        <NuxtLink to="/login" class="flex items-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] hover:brightness-[0.85] hover:dark:brightness-125"> Login </NuxtLink>
       </div>
     </div>
 

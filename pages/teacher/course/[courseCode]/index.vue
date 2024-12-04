@@ -2,14 +2,14 @@
   <div>
     <div v-if="currentCourse">
       <!-- Main content container -->
-      <div class="w-full h-[80%] flex gap-4 p-4">
+      <div class="flex h-[80%] w-full gap-4 p-4">
         <!-- Current Assignments Section -->
-        <div class="flex-1 flex flex-col items-center border-2 border-gray-200 dark:border-gray-700 rounded-lg p-4">
-          <h3 class="font-bold text-3xl pb-2">Current Assignments:</h3>
-          <div class="loading-div w-full h-28 rounded-lg border-2 border-gray-200 dark:border-gray-700 shadow-md" v-if="!loaded"></div>
-          <div class="flex flex-col items-center justify-center w-full" v-else>
-            <p class="text-center mb-4" id="no-current-assignments" v-if="!currentAssignments.length">No Current Assignments</p>
-            <div class="w-full flex flex-col gap-4">
+        <div class="flex flex-1 flex-col items-center rounded-lg border border-[var(--border-color)] p-4">
+          <h3 class="pb-2 text-3xl font-bold">Current Assignments:</h3>
+          <div class="loading-div h-28 w-full rounded-lg border border-[var(--border-color)] p-2 shadow-md" v-if="!loaded"></div>
+          <div class="flex w-full flex-col items-center justify-center" v-else>
+            <p class="mb-4 text-center" id="no-current-assignments" v-if="!currentAssignments.length">No Current Assignments</p>
+            <div class="flex w-full flex-col gap-4">
               <TeacherAssignmentCard
                 v-for="assignment in currentAssignments"
                 :key="assignment.id"
@@ -23,12 +23,12 @@
         </div>
 
         <!-- Past Assignments Section -->
-        <div class="flex-1 flex flex-col items-center border-2 border-gray-200 dark:border-gray-700 rounded-lg p-4">
-          <h3 class="font-bold text-3xl pb-2">Past Assignments:</h3>
-          <div class="loading-div w-full h-28 rounded-lg border-2 border-gray-200 dark:border-gray-900 p-2 shadow-md" v-if="!loaded"></div>
-          <div class="flex flex-col items-center justify-center w-full" v-else>
-            <p class="text-center mb-4" id="no-past-assignments" v-if="!pastAssignments.length">No Past Assignments</p>
-            <div class="w-full flex flex-col gap-4">
+        <div class="flex flex-1 flex-col items-center rounded-lg border border-[var(--border-color)] p-4">
+          <h3 class="pb-2 text-3xl font-bold">Past Assignments:</h3>
+          <div class="loading-div h-28 w-full rounded-lg border border-[var(--border-color)] p-2 shadow-md" v-if="!loaded"></div>
+          <div class="flex w-full flex-col items-center justify-center" v-else>
+            <p class="mb-4 text-center" id="no-past-assignments" v-if="!pastAssignments.length">No Past Assignments</p>
+            <div class="flex w-full flex-col gap-4">
               <TeacherAssignmentCard
                 v-for="assignment in pastAssignments"
                 :key="assignment.id"
@@ -43,15 +43,17 @@
       </div>
 
       <!-- Action buttons -->
-      <div class="w-full flex gap-4 p-4">
+      <div class="flex w-full gap-4 p-4">
         <NuxtLink
           :to="`/teacher/course/${currentCourse.id}/roster`"
-          class="w-1/2 flex justify-center items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full transition-transform duration-300 ease-in-out"
+          class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125"
         >
-          <h3>View Student List</h3>
+          <p>View Student List</p>
         </NuxtLink>
-        <button class="w-1/2 flex justify-center items-center bg-green-accent text-black text-2xl font-semibold px-6 py-2 rounded-full transition-transform duration-300 ease-in-out">
-          <h3>Assign Student Homework</h3>
+        <button
+          class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125"
+        >
+          <p>Assign Student Homework</p>
         </button>
       </div>
     </div>
