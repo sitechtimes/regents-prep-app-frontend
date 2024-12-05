@@ -55,11 +55,12 @@ const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 
 const courseId = Number(route.params.courseCode);
 
-const students = await getCourseStudents(courseId);
+/* const students = await getCourseStudents(courseId); */
+const currentStudents = ref<TeacherStudentList[]>([]);
 
-const filteredStudents = computed(() =>
+/* const filteredStudents = computed(() =>
   students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()))
-);
+); */
 
 onMounted(async () => {
   getCourse();
@@ -77,8 +78,19 @@ async function getCourse() {
   if (!currentCourse.value) return router.push(`/teacher/dashboard?course=${courseId}`);
 }
 
+async function getStudents() {
+  try {
+    const students = await getCourseStudents(courseId);
+    currentStudents.value = students.value.filter(
+      (student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase())
+    );
+  } catch (error) {
+    console.error("Error fetching assignments:", error);
+  }
+}
+
 function removeStudent(index: number) {
-  students.value.splice(index, 1);
+  currentStudents.value.splice(index, 1);
 }
 
 onMounted(async () => {
