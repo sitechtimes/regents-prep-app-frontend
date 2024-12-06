@@ -6,7 +6,6 @@ export const useUserStore = defineStore("userStore", () => {
   const userType = ref<"student" | "teacher">("student");
   const courses = ref<(StudentCourse | TeacherCourse)[]>([]);
   const currentCourse = ref<StudentCourse | TeacherCourse>();
-  const studentList = ref<TeacherStudentList[]>([]);
   const initComplete = ref(false);
   const router = useRouter();
 
