@@ -1,17 +1,16 @@
 <template>
-  <div class="flex min-h-screen w-screen flex-col items-center justify-center py-12">
-    <div class="relative flex flex-col items-center justify-center gap-1">
+  <div class="flex w-full flex-col items-center py-12">
+    <div class="relative flex w-full flex-col items-center justify-center gap-1">
       <input
-        class="mb-6 h-10 w-96 rounded-lg border bg-[var(--bg-color)] px-2 py-1 transition-all duration-500 hover:border-[var(--primary)]"
+        class="mb-6 h-10 w-2/3 rounded-lg border bg-[var(--bg-color)] px-2 py-1 transition-all duration-500 hover:border-[var(--primary)]"
         type="text"
         placeholder="Search for Student..."
         v-model="searchTerm"
       />
-      <div class="items relative overflow-x-auto rounded-b-box rounded-se-box">
-        <table class="table items-center justify-center">
+      <div class="items relative flex w-full items-center justify-center overflow-x-auto rounded-b-box rounded-se-box">
+        <table class="table w-3/4 items-center justify-center">
           <thead>
             <tr>
-              <th class="px-10 py-3"></th>
               <th class="px-10 py-3">First Name</th>
               <th class="px-10 py-3">Last Name</th>
               <th class="px-10 py-3">Remove Student</th>
@@ -19,11 +18,10 @@
           </thead>
           <tbody>
             <tr class="border-t" v-for="(student, index) in filteredStudents" :key="student.id">
-              <th class="px-10 py-3">{{ student.id }}</th>
-              <td class="px-10 py-3">{{ student.firstName }}</td>
+              <td class="justify-center justify-items-center px-10 py-3">{{ student.firstName }}</td>
               <td class="px-10 py-3">{{ student.lastName }}</td>
-              <td class="flex items-center justify-center px-10 py-3">
-                <button @click="removeStudent(index)" class="btn btn-sm transition-300 flex h-8 w-8 items-center justify-center rounded-full pt-0.5 hover:bg-[var(--gray)]">✕</button>
+              <td class="px-10 py-3">
+                <button @click="removeStudent(index)" class="btn btn-sm transition-300 flex h-8 items-center justify-center rounded-xl bg-[#fd7e78] p-3 hover:brightness-110">Remove</button>
               </td>
             </tr>
             <tr v-if="filteredStudents.length === 0" class="border-t">
@@ -64,10 +62,12 @@ const filteredStudents = ref<TeacherStudentList[]>([]);
 
 onMounted(async () => {
   getCourse();
+  getStudents();
 });
 
 userStore.$subscribe(async () => {
   getCourse();
+  getStudents();
 });
 
 async function getCourse() {
