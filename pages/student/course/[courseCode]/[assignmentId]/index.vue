@@ -25,12 +25,14 @@ const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 const currentAssignment = ref<StudentAssignment>();
+const assignmentId = route.params.assignmentId;
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 
 const loaded = ref(false);
 
 onMounted(() => {
   getCourse();
+  console.log(assignmentId)
 });
 
 userStore.$subscribe(async () => {
