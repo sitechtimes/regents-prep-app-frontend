@@ -32,7 +32,6 @@ export async function getStudentAssignment(assignmentId: number): Promise<Assign
   if (!res.ok) throw new Error("Failed to fetch student assignment");
   return await res.json();
 }
-
 export async function getNextQuestion(assignmentId: number): Promise<QuestionInterface> {
   const config = useRuntimeConfig();
 
@@ -42,6 +41,7 @@ export async function getNextQuestion(assignmentId: number): Promise<QuestionInt
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id: assignmentId })
   });
+  console.log(res)
   if (!res.ok) throw new Error("Failed to fetch next question");
   return await res.json();
 }
