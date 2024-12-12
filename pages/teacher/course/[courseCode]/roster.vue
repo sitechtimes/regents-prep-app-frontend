@@ -46,7 +46,7 @@ const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 
-const searchTerm = ref("");
+const searchTerm = ref("").value.toLowerCase();
 const courseId = Number(route.params.courseCode);
 
 const filteredStudents = ref<TeacherStudentList[]>([]);
@@ -54,11 +54,9 @@ const filteredStudents = ref<TeacherStudentList[]>([]);
 async function getStudents() {
   try {
     const students = await getCourseStudents(courseId);
-    filteredStudents.value = students.filter(
-      (student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase())
-    );
+    filteredStudents.value = students.filter((student) => student.firstName.toLowerCase().includes(searchTerm) || student.lastName.toLowerCase().includes(searchTerm));
   } catch (error) {
-    console.error("Error fetching assignments:", error);
+    console.error("Error fetching students:", error);
   }
 }
 

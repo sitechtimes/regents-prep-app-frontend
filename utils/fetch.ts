@@ -17,8 +17,7 @@ export async function getCourseStudents(courseId: number): Promise<TeacherStuden
     credentials: "include"
   });
   if (!res.ok) throw new Error("Failed to fetch students");
-  const data = await res.json();
-  return data;
+  return await res.json();
 }
 
 export async function getStudentAssignment(assignmentId: number): Promise<AssignmentInstance> {
