@@ -66,9 +66,10 @@ onMounted(async () => {
 
 async function getAssignments() {
   loaded.value = false;
-  /* fetch the rest of the course assignments
-  and add it to currentcourse.assignments
-  and then find the course in courses and add it to that */
+  
+  const assignment = await studentTodo();
+  assignments.value = assignment;
+  
   loaded.value = true;
 }
 </script>
