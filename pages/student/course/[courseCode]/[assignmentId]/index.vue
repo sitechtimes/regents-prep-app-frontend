@@ -7,7 +7,6 @@
         <div
           class="rounded-[7px] w-full h-[90vh]"
           v-if="currentAssignment"
-          :assignment="currentAssignment"
         >
           <div class="w-full h-[10%] rounded-t-[7px] overflow-hidden overflow-ellipsis text-nowrap text-5xl font-semibold flex justify-center items-center">
             Assignment Name
@@ -27,7 +26,7 @@
             </div>
             <button 
               class="w-[50%] font-bold text-2xl flex items-center justify-center"
-              @click="getNextQuestion"
+              @click="getQuestion"
             >
               <div class="bg-green-300 p-2 pl-4 pr-4 rounded-lg border-2 border-black">
                 Next Question
@@ -47,92 +46,32 @@ definePageMeta({
   requiresAuth: true,
 });
 
-import { ref, computed, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
-
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 
-const currentAssignment = ref<StudentAssignment | null>(null);
+const currentAssignment = ref<StudentAssignment>();
 const loaded = ref(false);
 
-onMounted(() => {
-  getCourse();
-});
-
-userStore.$subscribe(async () => {
-  getCourse();
-});
-
-async function fetchFromApi(url: string, options: RequestInit = {}) {
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-    credentials: "include", // Ensures cookies are sent with the request
-  });
-
-  if (!response.ok) {
-    throw new Error(`Error fetching from API: ${response.statusText}`);
-  }
-
-  return response.json();
-}
+onMounted(getCourse);
+userStore.$subscribe(getCourse);
 
 async function getCourse() {
   if (!initComplete.value) return;
 
   const routeCode = route.params.assignmentId as string;
   const courseCode = Number(route.params.courseCode);
-
-  if (!courses.value.length) {
-    try {
-      const data = await fetchFromApi("/init/");
-      userStore.$patch({ courses: data.courses });
-    } catch (error) {
-      console.error("Failed to fetch courses:", error);
-    }
-  }
-
   currentCourse.value = courses.value.find((course) => course.id === courseCode);
-  currentAssignment.value = currentCourse.value?.assignments.find(
-    (assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment
-  ) || null;
-
-  if (currentAssignment.value) {
-    console.log("Current Assignment:", currentAssignment.value);
-  } else {
-    console.error("Assignment not found.");
-  }
+  currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as StudentAssignment;
 
   if (!currentCourse.value) return router.push(`/student/dashboard?course=${courseCode}`);
   if (!currentAssignment.value) return router.push(`/student/dashboard?assignment=${routeCode}`);
-
   loaded.value = true;
 }
-getNextQuestionHandler();
-async function getNextQuestionHandler() {
-  if (!currentAssignment.value) {
-    console.error("No current assignment to fetch the next question for.");
-    return;
-  }
 
-  try {
-    const nextQuestionData = await getNextQuestion(currentAssignment.value.id);
-    if (nextQuestionData) {
-      currentAssignment.value = { ...currentAssignment.value, question: nextQuestionData };
-      console.log("Next Question Fetched:", nextQuestionData);
-    } else {
-      console.error("Invalid response structure for next question.");
-    }
-  } catch (error) {
-    console.error("Failed to fetch the next question:", error);
-  }
+async function getQuestion() {
+
 }
 </script>
 
