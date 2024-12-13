@@ -6,7 +6,7 @@
       <div class="flex w-2/3 flex-col items-center justify-center" v-if="currentCourse">
         <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
-        <p>Subject Review / Assignment</p>
+        <NuxtLink :to="`/student/course/${courseCode}/${assignmentId}/stats`">Subject Review / Assignment</NuxtLink>
         <!-- placeholder text for now -->
         <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600">Start</button>
       </div>
@@ -26,6 +26,7 @@ const router = useRouter();
 const userStore = useUserStore();
 const currentAssignment = ref<StudentAssignment>();
 const assignmentId = route.params.assignmentId;
+const courseCode = Number(route.params.courseCode);
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 
 const loaded = ref(false);
@@ -33,6 +34,7 @@ const loaded = ref(false);
 onMounted(() => {
   getCourse();
   console.log(assignmentId)
+  console.log(courseCode)
 });
 
 userStore.$subscribe(async () => {
