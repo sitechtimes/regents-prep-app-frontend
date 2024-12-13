@@ -1,3 +1,5 @@
+import type { TeacherStudentList } from "./types";
+
 export async function getAssignments(courseId: number): Promise<(StudentAssignment | TeacherAssignment)[]> {
   const config = useRuntimeConfig();
 
@@ -17,6 +19,18 @@ export async function getCourseStudents(courseId: number): Promise<TeacherStuden
     credentials: "include"
   });
   if (!res.ok) throw new Error("Failed to fetch students");
+  return await res.json();
+}
+
+export async function removeStudents(courseId: number): Promise<TeacherStudentList[]> {
+  const config = useRuntimeConfig();
+
+  const res = await fetch(config.public.backed + `teacher/remove-student/${courseId}/<student_id>/`, {
+    credentials: "include",
+    method: "DEL",
+    headers: {"course_id", ""}
+  });
+  if (!res.ok) throw new Error("Failed to delete students");
   return await res.json();
 }
 
