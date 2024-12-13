@@ -54,8 +54,12 @@ const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 const currentAssignment = ref<StudentAssignment>();
 const loaded = ref(false);
 
-onMounted(getCourse);
-userStore.$subscribe(getCourse);
+onMounted(() => {
+  getCourse();
+});
+userStore.$subscribe(() => {
+  getCourse();
+});
 
 async function getCourse() {
   if (!initComplete.value) return;
@@ -71,7 +75,8 @@ async function getCourse() {
 }
 
 async function getQuestion() {
-
+  console.log(currentAssignment.value)
+  console.log(getNextQuestion(currentAssignment.value?.id ?? 1))
 }
 </script>
 
