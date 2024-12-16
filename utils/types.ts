@@ -150,3 +150,34 @@ export interface AssignmentResults extends SubmitAssignment {
     question: Question;
   }[];
 }
+
+export interface newAssignment {
+  /** @readonly ID of the question. */
+  id: number;
+}
+
+export interface newStudentAssignment extends newAssignment {
+  /** @readonly Date object of when the assignment was submitted. */
+  dateSubmitted: Date | string | null;
+
+  /** @readonly Number of questions completed. */
+  questionsCompleted: number;
+
+  /** @readonly assignment object for assignment properties. */
+
+  assignment: {
+    /** @readonly Name of the assignment. */
+    name: string;
+
+    /** @readonly Whether or not the assignment can be turned in late. */
+    numOfQuestions: number;
+
+    /** @readonly Date object of when the assignment is due. */
+    dueDate: Date | string | null;
+
+    /** @readonly Whether or not the assignment can be turned in late. */
+    lateSubmissions: boolean;
+  };
+}
+
+export interface newStudentAllAssignment extends newStudentAssignment {}
