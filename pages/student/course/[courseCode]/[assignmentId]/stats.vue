@@ -1,42 +1,48 @@
 <template>
-  <div class="flex h-full w-full flex-col items-center justify-center"></div>
+  <div class="flex h-full w-full flex-col items-center justify-center">
+    <h2>hi!!</h2>
+    <p>does this work?</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+definePageMeta({
+  layout: "student",
+  middleware: "auth",
+  requiresAuth: true
+});
 
 const route = useRoute();
-const assignmentResults = ref<any>(null);
-const loaded = ref(false);
-
+const userStore = useUserStore();
 const assignmentId = route.params.assignmentId;
-
-async function fetchAssignmentResults() {
-  try {
-    const response = await fetch('/courses/student/assignment-results/${assignmentId}', {
-      method: 'GET',
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch assignment results');
-    }
-    const data = await response.json();
-    assignmentResults.value = data;
-    loaded.value = true;
-  } catch (error) {
-    console.error('Error fetching assignment results:', error);
-    loaded.value = true; 
-  }
-  console.log(assignmentResults.value)
-}
+const apiURL = `/courses/student/assignment-results/${assignmentId}`
 
 onMounted(() => {
-  if (assignmentId) {
-    fetchAssignmentResults();
-  }
+  console.log(assignmentId)
+  getAssignmentStats();
 });
-</script>
 
+userStore.$subscribe(async () => {
+  getAssignmentStats();
+});
+
+function getAssignmentStats() {
+  //just need to replace assignment instance id for what we need
+  fetch(apiURL)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    console.log(apiURL)
+  });
+}
+</script>
 
 <style scoped></style>
