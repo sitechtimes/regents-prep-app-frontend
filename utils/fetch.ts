@@ -22,18 +22,6 @@ export async function getCourseStudents(courseId: number): Promise<TeacherStuden
   return await res.json();
 }
 
-export async function removeStudents(courseId: number): Promise<TeacherStudentList[]> {
-  const config = useRuntimeConfig();
-
-  const res = await fetch(config.public.backed + `teacher/remove-student/${courseId}/<student_id>/`, {
-    credentials: "include",
-    method: "DEL",
-    headers: {"course_id", ""}
-  });
-  if (!res.ok) throw new Error("Failed to delete students");
-  return await res.json();
-}
-
 export async function getStudentAssignment(assignmentId: number): Promise<AssignmentInstance> {
   const config = useRuntimeConfig();
 
@@ -113,5 +101,18 @@ export async function studentTodo(): Promise<StudentAssignment[]> {
     credentials: "include"
   });
   if (!res.ok) throw new Error("Failed to fetch student todo");
+  return await res.json();
+}
+
+export async function removeStudents(courseId: number, studentId: number): Promise<TeacherStudentList[]> {
+  const config = useRuntimeConfig();
+
+  const res = await fetch(config.public.backed + `teacher/remove-student/${courseId}/<student_id>/`, {
+    credentials: "include",
+    method: "DEL",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ courseId: courseId, studentId: studentId })
+  });
+  if (!res.ok) throw new Error("Failed to delete students");
   return await res.json();
 }
