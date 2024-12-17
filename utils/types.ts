@@ -177,7 +177,24 @@ export interface newStudentAssignment extends newAssignment {
 
     /** @readonly Whether or not the assignment can be turned in late. */
     lateSubmissions: boolean;
+
+    course?: {
+      /** @readonly Id of the course assignment belongs to */
+      id: number;
+
+      /** @readonly Name of the course assignment belongs to */
+      name: string;
+    };
   };
 }
 
-export interface newStudentAllAssignment extends newStudentAssignment {}
+export interface newTeacherAssignment extends newStudentAssignment {
+  /** @readonly Name of the assignment. */
+  name: string;
+
+  /** @readonly Date the assignment was submitted */
+  dateAssigned: Date | string;
+
+  /** @readonly Date the assignment is due */
+  dueDate: Date | string;
+}
