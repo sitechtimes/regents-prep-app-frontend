@@ -6,7 +6,7 @@
         type="text"
         placeholder="Search for Student..."
         v-model="searchTerm"
-        @click="console.log(filteredStudents)"
+        @click="getStudentId"
       />
       <div class="items relative flex w-full items-center justify-center overflow-x-auto rounded-b-box rounded-se-box">
         <table class="table w-3/4">
@@ -61,13 +61,17 @@ async function getStudents() {
   }
 }
 
-/* function removeStudent(index: number) {
-  filteredStudents.value.splice(index, 1);
+/* function getStudentId() {
+   const studentId =  filteredStudents.value.filter((student) => student.id).forEach((student) => console.log(student.id));
 } */
 
+const studentId = filteredStudents;
+
 async function removeStudent(index: number) {
+  filteredStudents.value.splice(index, 1);
+
   try {
-    const removeStudents = await removeStudent(courseId);
+    const removeStudent = await removeStudents(courseId, studentId);
   } catch (error) {
     console.error(error);
   }
