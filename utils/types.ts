@@ -71,7 +71,10 @@ export interface StudentAssignment extends Assignment {
     dateSubmitted: Date | null;
   };
 }
-
+export interface CreateCourse {
+  id: number;
+  joinCode: string;
+}
 export interface TeacherStudentList {
   /** @readonly UID of the student. */
   id: number;
