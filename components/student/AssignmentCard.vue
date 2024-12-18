@@ -1,19 +1,19 @@
 <template>
   <div class="flex w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6" :class="{ assignment: clickable }">
     <div class="flex w-2/5 flex-col items-start justify-start pl-4">
-      <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.name }}</h3>
-      <p :title="assignment.dateAssigned.toLocaleString()">Assigned {{ formatDate(assignment.dateAssigned, currentTime) }}</p>
-      <p :title="assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.dueDate, currentTime) }}</p>
+      <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.assignment.name }}</h3>
+      <!--       <p :title="assignment.dateAssigned.toLocaleString()">Assigned {{ formatDate(assignment.dateAssigned, currentTime) }}</p> -->
+      <p :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
     </div>
 
-    <div class="flex w-2/5 flex-col items-center justify-center gap-2" v-if="assignment.instanceInfo">
-      <p class="text-xl font-medium" v-if="assignment.instanceInfo.questionsCorrect !== undefined">
-        Your Grade: {{ assignment.instanceInfo.questionsCorrect }}/{{ assignment.numOfQuestions }}
-        <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCorrect / assignment.numOfQuestions) * 100) }}%)</span>
+    <div class="flex w-2/5 flex-col items-center justify-center gap-2" v-if="assignment.assignment">
+      <p class="text-xl font-medium" v-if="assignment.questionsCompleted !== undefined">
+        Your Grade: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numOfQuestions }}
+        <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100) }}%)</span>
       </p>
       <p class="text-xl font-medium" v-else>
-        Your Progress: {{ assignment.instanceInfo.questionsCompleted }}/{{ assignment.numOfQuestions }}
-        <span class="text-sm">({{ Math.floor((assignment.instanceInfo.questionsCompleted / assignment.numOfQuestions) * 100) }}%)</span>
+        Your Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numOfQuestions }}
+        <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100) }}%)</span>
       </p>
 
       <div class="h-4 w-full rounded-full border-[1.5px] border-gray-300">
@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  assignment: StudentAssignment;
+  assignment: newStudentAssignment;
   clickable?: boolean;
 }>();
 const currentTime = ref(new Date());

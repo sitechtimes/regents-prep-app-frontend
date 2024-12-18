@@ -24,7 +24,7 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
-const currentAssignment = ref<StudentAssignment>();
+const currentAssignment = ref<newStudentAssignment>();
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 
 const loaded = ref(false);
@@ -43,7 +43,7 @@ function getCourse() {
   const routeCode = route.params.assignmentId as string;
   const courseCode = Number(route.params.courseCode);
   currentCourse.value = courses.value.find((course) => course.id === courseCode);
-  currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as StudentAssignment;
+  currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as newStudentAssignment;
 
   if (!currentCourse.value) return router.push(`/student/dashboard?course=${courseCode}`);
   if (!currentAssignment.value) return router.push(`/student/dashboard?assignment=${routeCode}`);

@@ -100,7 +100,7 @@ interface Course {
 
 export interface StudentCourse extends Course {
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
-  assignments: StudentAssignment[];
+  assignments: newStudentAssignment[];
 }
 
 export interface TeacherCourse extends Course {
@@ -109,7 +109,7 @@ export interface TeacherCourse extends Course {
   /** @readonly The number of students in the course. */
   students: number;
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
-  assignments: TeacherAssignment[];
+  assignments: newTeacherAssignment[];
   /** Total number of unsubmitted, future assignments. */
   assignmentsLength: number;
 }
@@ -158,7 +158,7 @@ export interface newAssignment {
 
 export interface newStudentAssignment extends newAssignment {
   /** @readonly Date object of when the assignment was submitted. */
-  dateSubmitted: Date | string | null;
+  dateSubmitted: Date;
 
   /** @readonly Number of questions completed. */
   questionsCompleted: number;
@@ -169,15 +169,16 @@ export interface newStudentAssignment extends newAssignment {
     /** @readonly Name of the assignment. */
     name: string;
 
-    /** @readonly Whether or not the assignment can be turned in late. */
+    /** @readonly Number of questions in the assignment */
     numOfQuestions: number;
 
     /** @readonly Date object of when the assignment is due. */
-    dueDate: Date | string | null;
+    dueDate: Date;
 
     /** @readonly Whether or not the assignment can be turned in late. */
     lateSubmissions: boolean;
 
+    /** @readonly Object identifying the course assignment belongs to. */
     course?: {
       /** @readonly Id of the course assignment belongs to */
       id: number;
@@ -188,13 +189,22 @@ export interface newStudentAssignment extends newAssignment {
   };
 }
 
-export interface newTeacherAssignment extends newStudentAssignment {
+export interface newTeacherAssignment extends newAssignment {
   /** @readonly Name of the assignment. */
   name: string;
 
   /** @readonly Date the assignment was submitted */
-  dateAssigned: Date | string;
+  dateAssigned: Date;
 
   /** @readonly Date the assignment is due */
-  dueDate: Date | string;
+  dueDate: Date;
+
+  /** @readonly Number of questions in the assignment */
+  numOfQuestions: number;
+
+  /** @readonly Whether or not the assignment can be turned in late. */
+  lateSubmissions: boolean;
+
+  /** @readonly Number of questions submitted */
+  numSubmitted: number;
 }

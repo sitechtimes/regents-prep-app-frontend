@@ -79,24 +79,24 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  assignments: StudentAssignment[];
+  assignments: newStudentAssignment[];
   deselect: boolean;
 }>();
 // prettier-ignore
 watch(() => props.deselect, () => showSorts.value = showFilters.value = false);
 
 const emit = defineEmits<{
-  filteredAssignments: [StudentAssignment[]];
+  filteredAssignments: [newStudentAssignment[]];
   refresh: [void];
 }>();
 
 const showSorts = ref(false);
-const sorts: Record<string, (a: StudentAssignment, b: StudentAssignment) => number> = {
+const sorts: Record<string, (a: newStudentAssignment, b: newStudentAssignment) => number> = {
   latest: (a, b) => b.dateAssigned.getTime() - a.dateAssigned.getTime(),
   oldest: (a, b) => a.dateAssigned.getTime() - b.dateAssigned.getTime(),
   "due soon": (a, b) => a.dueDate.getTime() - b.dueDate.getTime(),
-  "most progress": (a, b) => b.instanceInfo.questionsCompleted / b.numOfQuestions - a.instanceInfo.questionsCompleted / a.numOfQuestions,
-  "least progress": (a, b) => a.instanceInfo.questionsCompleted / a.numOfQuestions - b.instanceInfo.questionsCompleted / b.numOfQuestions
+  "most progress": (a, b) => b.questionsCompleted / b.assignment.numOfQuestions - a.questionsCompleted / a.assignment.numOfQuestions,
+  "least progress": (a, b) => a.questionsCompleted / a.assignment.numOfQuestions - b.questionsCompleted / b.assignment.numOfQuestions
 };
 const currentSort = ref<keyof typeof sorts>("latest");
 watch(currentSort, updateFilter);
