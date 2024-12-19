@@ -10,7 +10,7 @@
 
         <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
           <StudentFilters
-            :assignments="currentCourse.assignments.filter((a) => 'instanceInfo' in a)"
+            :assignments="currentCourse.assignments.filter((a) => 'assignment' in a)"
             :deselect="deselectFilters"
             @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
             @refresh="loadAssignments(true)"
@@ -52,7 +52,7 @@ const userStore = useUserStore();
 const deselectFilters = ref(false);
 
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
-const assignments = ref<StudentAssignment[]>(currentCourse.value?.assignments.filter((a) => "instanceInfo" in a) ?? []);
+const assignments = ref<newStudentAssignment[]>(currentCourse.value?.assignments.filter((a) => "assignment" in a));
 
 const loaded = ref(false);
 
@@ -78,7 +78,7 @@ let ran = false;
 async function loadAssignments(redirect = false) {
   if (!currentCourse.value || (ran && !redirect)) return;
   ran = true;
-  assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
+  assignments.value = (await getAssignments(Number(route.params.courseCode))) as newStudentAssignment[];
   currentCourse.value.assignments = assignments.value;
   loaded.value = true;
 }

@@ -16,10 +16,10 @@
         <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100) }}%)</span>
       </p>
 
-      <div class="h-4 w-full rounded-full border-[1.5px] border-gray-300">
+      <div class="h-4 w-full rounded-full border-[1.5px] border-gray-300" v-if="assignment.assignment.questionsCorrect">
         <div
           class="h-full rounded-full bg-green-500"
-          :style="{ width: ((assignment.instanceInfo.questionsCorrect ?? assignment.instanceInfo.questionsCompleted) / assignment.numOfQuestions) * 100 + '%' }"
+          :style="{ width: ((assignment.assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.assignment.numOfQuestions) * 100 + '%' }"
         ></div>
       </div>
       <button
@@ -27,10 +27,10 @@
         @click="submitAssignment"
         class="rounded-lg bg-[var(--primary)] px-4 py-2 text-[var(--text-color)]"
         :class="{
-          'brightness-60 cursor-not-allowed grayscale': assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions,
-          'cursor-pointer': assignment.instanceInfo.questionsCompleted === assignment.numOfQuestions
+          'brightness-60 cursor-not-allowed grayscale': assignment.questionsCompleted !== assignment.assignment.numOfQuestions,
+          'cursor-pointer': assignment.questionsCompleted === assignment.assignment.numOfQuestions
         }"
-        :disabled="assignment.instanceInfo.questionsCompleted !== assignment.numOfQuestions"
+        :disabled="assignment.questionsCompleted !== assignment.assignment.numOfQuestions"
       >
         Submit
       </button>
@@ -38,13 +38,13 @@
 
     <div class="flex w-1/5 flex-col items-end justify-start gap-2">
       <div class="flex items-center justify-center gap-2">
-        <p>{{ assignment.instanceInfo.dateSubmitted ? "Submitted" : "Assigned" }}</p>
-        <div class="h-2 w-2 rounded-full" :class="assignment.instanceInfo.dateSubmitted ? 'bg-green-600' : 'bg-red-600'"></div>
+        <p>{{ assignment.dateSubmitted ? "Submitted" : "Assigned" }}</p>
+        <div class="h-2 w-2 rounded-full" :class="assignment.dateSubmitted ? 'bg-green-600' : 'bg-red-600'"></div>
       </div>
 
-      <div class="flex items-center justify-center gap-2">
-        <p>{{ assignment.instanceInfo.questionsCorrect > -1 ? "Graded" : "Ungraded" }}</p>
-        <div class="h-2 w-2 rounded-full" :class="assignment.instanceInfo.questionsCorrect === undefined ? 'bg-red-600' : 'bg-green-600'"></div>
+      <div class="flex items-center justify-center gap-2" v-if="assignment.assignment.questionsCorrect">
+        <p>{{ assignment.assignment.questionsCorrect > -1 ? "Graded" : "Ungraded" }}</p>
+        <div class="h-2 w-2 rounded-full" :class="assignment.assignment.questionsCorrect === undefined ? 'bg-red-600' : 'bg-green-600'"></div>
       </div>
     </div>
   </div>

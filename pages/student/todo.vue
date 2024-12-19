@@ -49,12 +49,12 @@ watch(deselectFilters, async () => {
 });
 
 const { courses, currentCourse } = storeToRefs(userStore);
-const assignments = ref<StudentAssignment[]>(
-  (courses.value.filter((c) => (c.assignments.length != 0 ? "instanceInfo" in c.assignments[0] : false)) as StudentCourse[]).map((c) => c.assignments).flat()
+const assignments = ref<newStudentAssignment[]>(
+  (courses.value.filter((c) => (c.assignments.length != 0 ? "assignment" in c.assignments[0] : false)) as StudentCourse[]).map((c) => c.assignments).flat()
 );
 
-function findCourse(findAssignment: StudentAssignment) {
-  return userStore.courses.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "instanceInfo" in assignment));
+function findCourse(findAssignment: newStudentAssignment) {
+  return userStore.courses.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "assignment" in assignment));
 }
 
 const loaded = ref(false);
@@ -66,10 +66,10 @@ onMounted(async () => {
 
 async function getAssignments() {
   loaded.value = false;
-  
+
   const assignment = await studentTodo();
   assignments.value = assignment;
-  
+
   loaded.value = true;
 }
 </script>

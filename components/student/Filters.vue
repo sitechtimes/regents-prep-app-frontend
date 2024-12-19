@@ -94,7 +94,7 @@ const showSorts = ref(false);
 const sorts: Record<string, (a: newStudentAssignment, b: newStudentAssignment) => number> = {
   latest: (a, b) => b.dateAssigned.getTime() - a.dateAssigned.getTime(),
   oldest: (a, b) => a.dateAssigned.getTime() - b.dateAssigned.getTime(),
-  "due soon": (a, b) => a.dueDate.getTime() - b.dueDate.getTime(),
+  "due soon": (a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime(),
   "most progress": (a, b) => b.questionsCompleted / b.assignment.numOfQuestions - a.questionsCompleted / a.assignment.numOfQuestions,
   "least progress": (a, b) => a.questionsCompleted / a.assignment.numOfQuestions - b.questionsCompleted / b.assignment.numOfQuestions
 };
@@ -102,12 +102,12 @@ const currentSort = ref<keyof typeof sorts>("latest");
 watch(currentSort, updateFilter);
 
 const showFilters = ref(false);
-const filters: Record<string, (assignment: StudentAssignment) => boolean> = {
+const filters: Record<string, (assignment: newStudentAssignment) => boolean> = {
   all: () => true,
-  "not turned in": (assignment) => !assignment.instanceInfo.dateSubmitted,
-  "turned in": (assignment) => assignment.instanceInfo.dateSubmitted !== null,
-  ungraded: (assignment) => assignment.instanceInfo.questionsCorrect === undefined,
-  graded: (assignment) => assignment.instanceInfo.questionsCorrect > -1
+  "not turned in": (assignment) => !assignment.dateSubmitted,
+  "turned in": (assignment) => assignment.dateSubmitted !== null,
+  ungraded: (assignment) => assignment.assignment.questionsCorrect === undefined,
+  graded: (assignment) => Boolean(assignment.assignment.questionsCorrect)
 };
 const currentFilter = ref<keyof typeof filters>("all");
 watch(currentFilter, updateFilter);
@@ -119,7 +119,7 @@ function updateFilter() {
   emit(
     "filteredAssignments",
     props.assignments
-      .filter((a) => a.name.toLowerCase().includes(search.value.toLowerCase()))
+      .filter((a) => a.assignment.name.toLowerCase().includes(search.value.toLowerCase()))
       .filter(filters[currentFilter.value])
       .sort(sorts[currentSort.value])
   );

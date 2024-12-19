@@ -157,8 +157,14 @@ export interface newAssignment {
 }
 
 export interface newStudentAssignment extends newAssignment {
+  /** @readonly ID of the assignment. */
+  id: number;
+
   /** @readonly Date object of when the assignment was submitted. */
   dateSubmitted: Date;
+
+  /** @readonly Date object of when the assignment was assigned. */
+  dateAssigned: Date;
 
   /** @readonly Number of questions completed. */
   questionsCompleted: number;
@@ -171,6 +177,9 @@ export interface newStudentAssignment extends newAssignment {
 
     /** @readonly Number of questions in the assignment */
     numOfQuestions: number;
+
+    /** @readonly Number of correct questions in the assignment */
+    questionsCorrect?: number;
 
     /** @readonly Date object of when the assignment is due. */
     dueDate: Date;
@@ -190,6 +199,9 @@ export interface newStudentAssignment extends newAssignment {
 }
 
 export interface newTeacherAssignment extends newAssignment {
+  /** @readonly ID of the assignment. */
+  id: number;
+
   /** @readonly Name of the assignment. */
   name: string;
 
