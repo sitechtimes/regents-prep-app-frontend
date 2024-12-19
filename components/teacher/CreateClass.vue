@@ -35,6 +35,7 @@
             :disabled="!courseName || !courseSubject || !coursePeriod"
             form="create-course"
             type="submit"
+            @submit="submitCreateCourse(courseName, coursePeriod, 1)"
           >
             Create
           </button>
@@ -60,12 +61,12 @@ const regentsTypes = {
 };
 
 const courseName = ref("");
-const courseSubject = ref("");
+const courseSubject = ref(0);
 const coursePeriod = ref(0);
 
 onUnmounted(() => {
   courseName.value = "";
-  courseSubject.value = "";
+  courseSubject.value = 0;
   coursePeriod.value = 0;
 });
 
@@ -74,6 +75,7 @@ function createCourse() {
   alert("you are now enrolled in jail!");
   // make it join a class 👍
   // no way really? i think it should join a course instead
+  console.log("courseSubject", courseSubject.value)
   emit("close");
 }
 </script>

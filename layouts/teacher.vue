@@ -14,10 +14,10 @@
         </div>
         <div class="flex w-1/3 items-center justify-end gap-3">
           <ToggleTheme></ToggleTheme>
-          <button id="create-button" v-show="route.path === '/teacher/dashboard'" @click="showCreateClass = true" type="submit" @submit="submitCreateCourse" class="text-5xl">
+          <button id="create-button" v-show="route.path === '/teacher/dashboard'" @click="showCreateClass = true, submitCreateCourse" type="submit"  class="text-5xl">
             <img class="h-6 w-6 dark:invert" src="/ui/plus.svg" alt="Create a new course" />
           </button>
-          <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" />
+          <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" @submit="submitCreateCourse" />
           <AccountSettings class="mr-3" />
         </div>
       </header>
