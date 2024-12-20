@@ -163,9 +163,6 @@ export interface newStudentAssignment extends newAssignment {
   /** @readonly Date object of when the assignment was submitted. */
   dateSubmitted: Date;
 
-  /** @readonly Date object of when the assignment was assigned. */
-  dateAssigned: Date;
-
   /** @readonly Number of questions completed. */
   questionsCompleted: number;
 
@@ -181,11 +178,14 @@ export interface newStudentAssignment extends newAssignment {
     /** @readonly Number of correct questions in the assignment */
     questionsCorrect?: number;
 
+    /** @readonly Whether or not the assignment can be turned in late. */
+    lateSubmissions: boolean;
+
     /** @readonly Date object of when the assignment is due. */
     dueDate: Date;
 
-    /** @readonly Whether or not the assignment can be turned in late. */
-    lateSubmissions: boolean;
+    /** @readonly Date object of when the assignment was assigned. */
+    dateAssigned: Date;
 
     /** @readonly Object identifying the course assignment belongs to. */
     course?: {

@@ -52,7 +52,7 @@ const userStore = useUserStore();
 const deselectFilters = ref(false);
 
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
-const assignments = ref<newStudentAssignment[]>(currentCourse.value?.assignments.filter((a) => "assignment" in a));
+const assignments = ref<newStudentAssignment[]>(currentCourse.value.assignments.filter((a) => "assignment" in a));
 
 const loaded = ref(false);
 

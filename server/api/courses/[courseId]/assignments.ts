@@ -1,24 +1,23 @@
-import { StudentAssignment, TeacherAssignment } from "~/utils/types";
+import { newStudentAssignment, newTeacherAssignment } from "~/utils/types";
 
-export default defineEventHandler((event): (StudentAssignment | TeacherAssignment)[] => {
+export default defineEventHandler((event): (newStudentAssignment | newTeacherAssignment)[] => {
   const courseId = Number(getRouterParam(event, "courseId"));
 
-  const assignments: Record<number, (StudentAssignment | TeacherAssignment)[]> = {
+  const assignments: Record<number, (newStudentAssignment | newTeacherAssignment)[]> = {
     1: [
       {
         id: 420,
-        name: "Power Rule practice",
-        dateAssigned: new Date(),
-        dueDate: new Date(),
-        numOfQuestions: 5,
-        lateSubmissions: false,
-        instanceInfo: {
-          questionsCompleted: 3,
-          questionsCorrect: 3,
-          dateSubmitted: null
+        dateSubmitted: new Date(),
+        questionsCompleted: 3,
+        assignment: {
+          name: "Power Rule practice",
+          numOfQuestions: 5,
+          lateSubmissions: false,
+          dueDate: new Date(),
+          dateAssigned: new Date()
         }
       }
-    ] as StudentAssignment[],
+    ] as newStudentAssignment[],
 
     2: [
       {
@@ -30,7 +29,7 @@ export default defineEventHandler((event): (StudentAssignment | TeacherAssignmen
         lateSubmissions: false,
         numSubmitted: 0
       }
-    ] as TeacherAssignment[],
+    ] as newTeacherAssignment[],
 
     3: [
       {
@@ -42,10 +41,9 @@ export default defineEventHandler((event): (StudentAssignment | TeacherAssignmen
         lateSubmissions: false,
         numSubmitted: 0
       }
-    ] as TeacherAssignment[],
+    ] as newTeacherAssignment[],
 
     99: []
   };
-
   return assignments[courseId];
 });
