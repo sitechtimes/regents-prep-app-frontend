@@ -3,7 +3,7 @@
     <div class="flex min-h-screen w-screen flex-col items-center justify-start">
       <header class="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-[var(--border-color)] bg-[var(--bg-color)] px-5">
         <div class="flex w-1/3 items-center justify-start gap-3">
-          <button @click="showSideMenu = !showSideMenu"><img class="h-12 w-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
+          <button @click="showSideMenu = !showSideMenu"><img class="h-12 w-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" type="submit" /></button>
           <NuxtLink v-if="currentCourse" :to="`/teacher/course/${currentCourse.id}`" class="flex flex-col items-start justify-center hover:underline hover:underline-offset-1">
             <h4 class="text-xl font-medium">{{ currentCourse.name }}</h4>
             <p class="text-sm">Period {{ currentCourse.period }}</p>
@@ -14,10 +14,10 @@
         </div>
         <div class="flex w-1/3 items-center justify-end gap-3">
           <ToggleTheme></ToggleTheme>
-          <button id="create-button" v-show="route.path === '/teacher/dashboard'" @click="showCreateClass = true" class="text-5xl">
+          <button id="create-button" v-show="route.path === '/teacher/dashboard'" @click="showCreateClass = true, submitCreateCourse" type="submit"  class="text-5xl">
             <img class="h-6 w-6 dark:invert" src="/ui/plus.svg" alt="Create a new course" />
           </button>
-          <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" />
+          <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" @submit="submitCreateCourse" />
           <AccountSettings class="mr-3" />
         </div>
       </header>

@@ -104,7 +104,7 @@ export async function studentTodo(): Promise<StudentAssignment[]> {
 
 export async function submitCreateCourse(name:string, period:number, subject: number): Promise<CreateCourse[]> {
   const config = useRuntimeConfig();
-  const res = await fetch(config.public.backend + "courses/teacher/create-course", {
+  const res = await fetch(config.public.backend + `courses/teacher/create-course/`, {
     credentials: "include",
     method: "POST",
     headers: { "Content-Type": "application/json" },

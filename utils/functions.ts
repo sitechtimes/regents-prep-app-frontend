@@ -41,7 +41,7 @@ export function formatDate(target: Date, current: Date) {
 }
 
 export function courseToDate(courses: (StudentCourse | TeacherCourse)[]) {
-  for (let course of courses) { 
+  for (let course of courses) {
     course.assignments = [];
     assignmentToDate(course.assignments);
   }
