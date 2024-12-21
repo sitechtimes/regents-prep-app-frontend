@@ -14,7 +14,7 @@
         </div>
         <div class="flex w-1/3 items-center justify-end gap-3">
           <ToggleTheme></ToggleTheme>
-          <button id="create-button" v-show="route.path === '/teacher/dashboard/'" @click="showCreateClass = true" class="text-5xl">
+          <button id="create-button" v-show="route.path === '/teacher/dashboard'" @click="showCreateClass = true" class="text-5xl">
             <img class="h-6 w-6 dark:invert" src="/ui/plus.svg" alt="Create a new course" />
           </button>
           <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" />
