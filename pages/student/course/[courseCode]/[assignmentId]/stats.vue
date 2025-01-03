@@ -28,7 +28,7 @@
             :key="questionInstance.id"
             class="hover:bg-green-accent text-center"
           >
-            <td class="px-4 py-2 text-center">
+            <td class="px-4 py-2 text-center text-xl font-medium">
               {{ index + 1 }}
             </td>
             <td class="px-4 py-2" v-html="questionInstance.question.text"></td>
@@ -53,6 +53,7 @@
                 {{ getResultText(questionInstance) }}
               </span>
             </td>
+
           </tr>
         </tbody>
       </table>
