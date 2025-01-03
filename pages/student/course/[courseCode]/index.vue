@@ -39,6 +39,8 @@
 </template>
 
 <script setup lang="ts">
+import { a } from "vitest/dist/chunks/suite.B2jumIFP.js";
+
 definePageMeta({
   layout: "student",
   middleware: "auth",
@@ -53,6 +55,8 @@ const deselectFilters = ref(false);
 
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 const assignments = ref<newStudentAssignment[]>(currentCourse.value.assignments.filter((a) => "assignment" in a));
+
+console.log(currentCourse.value?.assignments.filter((a) => "assignment" in a));
 
 const loaded = ref(false);
 

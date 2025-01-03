@@ -14,7 +14,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   course: StudentCourse | TeacherCourse;
-  assignment: TeacherAssignment;
+  assignment: newTeacherAssignment;
   currentDate: Date;
 }>();
 </script>

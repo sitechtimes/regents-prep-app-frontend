@@ -157,9 +157,6 @@ export interface newAssignment {
 }
 
 export interface newStudentAssignment extends newAssignment {
-  /** @readonly ID of the assignment. */
-  id: number;
-
   /** @readonly Date object of when the assignment was submitted. */
   dateSubmitted: Date;
 
@@ -199,9 +196,6 @@ export interface newStudentAssignment extends newAssignment {
 }
 
 export interface newTeacherAssignment extends newAssignment {
-  /** @readonly ID of the assignment. */
-  id: number;
-
   /** @readonly Name of the assignment. */
   name: string;
 

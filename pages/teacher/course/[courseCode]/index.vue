@@ -74,8 +74,8 @@ const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 const currentDate = ref(new Date());
 
 const loaded = ref(false);
-const currentAssignments = ref<TeacherAssignment[]>([]);
-const pastAssignments = ref<TeacherAssignment[]>([]);
+const currentAssignments = ref<newTeacherAssignment[]>([]);
+const pastAssignments = ref<newTeacherAssignment[]>([]);
 
 onMounted(async () => {
   getCourse();
@@ -103,8 +103,9 @@ async function fetchAndSetAssignments(courseId: number, redirect = false) {
 
   try {
     const assignments = await getAssignments(courseId);
-    currentAssignments.value = assignments.filter((assignment) => new Date(assignment.dueDate) >= currentDate.value) as TeacherAssignment[];
-    pastAssignments.value = assignments.filter((assignment) => new Date(assignment.dueDate) < currentDate.value) as TeacherAssignment[];
+
+    currentAssignments.value = assignments.filter((assignment) => new Date((assignment as newTeacherAssignment).dueDate) >= currentDate.value) as newTeacherAssignment[];
+    pastAssignments.value = assignments.filter((assignment) => new Date((assignment as newTeacherAssignment).dueDate) < currentDate.value) as newTeacherAssignment[];
   } catch (error) {
     console.error("Error fetching assignments:", error);
     await router.push(`/teacher/dashboard?course=${courseId}`);

@@ -92,8 +92,8 @@ const emit = defineEmits<{
 
 const showSorts = ref(false);
 const sorts: Record<string, (a: newStudentAssignment, b: newStudentAssignment) => number> = {
-  latest: (a, b) => b.dateAssigned.getTime() - a.dateAssigned.getTime(),
-  oldest: (a, b) => a.dateAssigned.getTime() - b.dateAssigned.getTime(),
+  latest: (a, b) => b.assignment.dateAssigned.getTime() - a.assignment.dateAssigned.getTime(),
+  oldest: (a, b) => a.assignment.dateAssigned.getTime() - b.assignment.dateAssigned.getTime(),
   "due soon": (a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime(),
   "most progress": (a, b) => b.questionsCompleted / b.assignment.numOfQuestions - a.questionsCompleted / a.assignment.numOfQuestions,
   "least progress": (a, b) => a.questionsCompleted / a.assignment.numOfQuestions - b.questionsCompleted / b.assignment.numOfQuestions
