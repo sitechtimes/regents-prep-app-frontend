@@ -2,13 +2,11 @@
   <div class="flex h-full w-full flex-col items-center justify-center">
     <!--<h2 class="text-2xl mt-6">{{ currentAssignment.name }}</h2>-->
     <h3 class="text-xl mt-6">Assignment Statistics</h3>
-    <p>Grade: {{ (questionsCorrect / numOfQuestions * 100).toFixed(0)}}%</p>
+    <p>Grade: {{ (questionsCorrect / numOfQuestions * 100).toFixed(0) }}%</p>
     <div class="h-4 w-24 rounded-full border-[1.5px] border-gray-300">
-        <div
-          class="h-full rounded-full bg-green-500"
-          :style="{ width: (questionsCorrect / numOfQuestions) * 100 + '%' }"
-        ></div>
+      <div class="h-full rounded-full bg-green-500" :style="{ width: (questionsCorrect / numOfQuestions) * 100 + '%' }">
       </div>
+    </div>
 
     <div class="w-full max-w-4xl mt-6 mb-6">
       <table class="table-auto w-full">
@@ -23,24 +21,28 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="(questionInstance, index) in questionInstances"
-            :key="questionInstance.id"
-            class="hover:bg-green-accent text-center"
-          >
-            <td class="px-4 py-2 text-center text-xl font-medium">
-              {{ index + 1 }}
+          <tr v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
+            class="hover:bg-green-accent text-center du-collapse bg-base-200">
+            <td class="du-collapse-title px-4 py-2 text-center text-xl font-medium">
+              <p class="">{{ index + 1 }}</p>
             </td>
-            <td class="px-4 py-2" v-html="questionInstance.question.text"></td>
-            <td class="px-4 py-2">
-              {{ questionInstance.question.answerType }}
+            <!-- question details -->
+            <td class="px-4 py-2 h-full">
+              <div v-html="questionInstance.question.text" class="du-collapse-content"></div> 
             </td>
-            <td class="px-4 py-2">
+            <!-- question answer type (multiple choice, etc) -->
+            <td class="px-4 py-2 h-full">
+              <div>{{ questionInstance.question.answerType }}</div>
+            </td>
+          </tr>
+
+
+          <!-- <td class="px-4 py-2 du-collapse-content">
               {{
                 getCorrectAnswerText(questionInstance.question.answers)
               }}
             </td>
-            <td class="px-4 py-2">
+            <td class="px-4 py-2 du-collapse-content">
               {{
                 getUserAnswerText(
                   questionInstance.userAnswers[0],
@@ -48,16 +50,25 @@
                 )
               }}
             </td>
-            <td class ="px-4 py-2">
+            <td class ="px-4 py-2 du-collapse-content">
               <span :class="getResultClass(questionInstance)">
                 {{ getResultText(questionInstance) }}
               </span>
-            </td>
+            </td> -->
 
-          </tr>
         </tbody>
       </table>
     </div>
+
+    <!-- testing!! -->
+    <div v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
+      class="hover:bg-green-accent text-center du-collapse bg-base-200">
+      <input type="checkbox" />
+      <div class="du-collapse-title px-4 py-2 text-center text-xl font-medium"> {{ index + 1 }}</div>
+      <div class="du-collapse-content" v-html="questionInstance.question.text">
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -97,7 +108,7 @@ const questionsCorrect = ref(0);
 onMounted(async () => {
   try {
     const results = await getAssignmentResults(assignmentId.value);
-    console.log( results);
+    console.log(results);
     numOfQuestions.value = results.numOfQuestions || 0;
     questionsCorrect.value = results.questionsCorrect || 0;
     questionInstances.value = results.questionInstances.map((instance: any) => ({
@@ -143,6 +154,4 @@ function getResultClass(questionInstance: QuestionInstance): string {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
