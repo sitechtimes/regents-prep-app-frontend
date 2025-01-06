@@ -6,10 +6,12 @@
     <div class="h-4 w-24 rounded-full border-[1.5px] border-gray-300">
       <div class="h-full rounded-full bg-green-500" :style="{ width: (questionsCorrect / numOfQuestions) * 100 + '%' }">
       </div>
+      <div class="h-full rounded-full bg-red-500" :style="{ width: 100 - ((questionsCorrect / numOfQuestions) * 100) + '%' }">
+      </div>
     </div>
 
     <div class="w-full max-w-4xl mt-6 mb-6">
-      <table class="table-auto w-full">
+      <!--<table class="table-auto w-full">
         <thead>
           <tr>
             <th class="px-4 py-2">#</th>
@@ -25,16 +27,16 @@
             class="hover:bg-green-accent text-center du-collapse bg-base-200">
             <td class="du-collapse-title px-4 py-2 text-center text-xl font-medium">
               <p class="">{{ index + 1 }}</p>
-            </td>
-            <!-- question details -->
+            </td>-->
+            <!-- question details
             <td class="px-4 py-2 h-full">
               <div v-html="questionInstance.question.text" class="du-collapse-content"></div> 
             </td>
-            <!-- question answer type (multiple choice, etc) -->
+             question answer type (multiple choice, etc)
             <td class="px-4 py-2 h-full">
               <div>{{ questionInstance.question.answerType }}</div>
             </td>
-          </tr>
+          </tr>-->
 
 
           <!-- <td class="px-4 py-2 du-collapse-content">
@@ -54,20 +56,32 @@
               <span :class="getResultClass(questionInstance)">
                 {{ getResultText(questionInstance) }}
               </span>
-            </td> -->
+            </td>
 
         </tbody>
-      </table>
+      </table> -->
     </div>
 
-    <!-- testing!! -->
-    <div v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
-      class="hover:bg-green-accent text-center du-collapse bg-base-200">
-      <input type="checkbox" />
-      <div class="du-collapse-title px-4 py-2 text-center text-xl font-medium"> {{ index + 1 }}</div>
-      <div class="du-collapse-content" v-html="questionInstance.question.text">
-      </div>
-    </div>
+    <!-- testing, will probably be the winner!! -->
+<div class="header-row grid grid-cols-5 px-4 py-2 gap-4 text-lg font-bold border-b w-full">
+  <div>Question</div>
+  <div>Question Preview</div>
+  <div>Student's Answer</div>
+  <div>Correct Answer</div>
+  <div>Results</div>
+</div>
+<div v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
+  class="hover:bg-green-accent du-collapse bg-gray text-sm">
+  <input type="checkbox" />
+  <div class="du-collapse-title px-4 py-15 text-lg font-medium grid grid-cols-5 gap-4"> 
+    <div>{{ index + 1 }}</div>
+    <div>{{ stripHtml(truncateString(questionInstance.question.text, 25)) }}...</div>
+    <div>{{ getUserAnswerText(questionInstance.userAnswers[0], questionInstance.question.answers) }}</div>
+    <div>{{ getCorrectAnswerText(questionInstance.question.answers) }}</div>
+    <div><span :class="getResultClass(questionInstance)">{{ getResultText(questionInstance) }}</span></div>
+  </div>
+  <div class="du-collapse-content px-4 py-15 text-lg font-medium" v-html="questionInstance.question.text"></div>
+</div>
 
   </div>
 </template>
@@ -137,7 +151,7 @@ function getUserAnswerText(userAnswerId: number, answers: Answer[]): string {
 }
 
 function stripHtml(html: string): string {
-  return html.replace(/<\/?p>/g, "");
+  return html.replace(/<\/?(p|em)>/g, "");
 }
 
 function getResultText(questionInstance: QuestionInstance): string {
@@ -151,6 +165,14 @@ function getResultText(questionInstance: QuestionInstance): string {
 function getResultClass(questionInstance: QuestionInstance): string {
   const isCorrect = getResultText(questionInstance) === "Correct";
   return isCorrect ? "text-green-500 font-bold" : "text-red-500 font-bold";
+}
+
+function truncateString(str: string, maxLength: number) {
+  if (str.length > maxLength) {
+    return str.substring(0, maxLength);
+  } else {
+    return str;
+  }
 }
 </script>
 
