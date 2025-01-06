@@ -54,9 +54,7 @@ const userStore = useUserStore();
 const deselectFilters = ref(false);
 
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
-const assignments = ref<newStudentAssignment[]>(currentCourse.value.assignments.filter((a) => "assignment" in a));
-
-console.log(currentCourse.value?.assignments.filter((a) => "assignment" in a));
+const assignments = ref<StudentAssignment[]>(currentCourse.value ? currentCourse.value.assignments.filter((a) => "assignment" in a) : []);
 
 const loaded = ref(false);
 
@@ -82,7 +80,7 @@ let ran = false;
 async function loadAssignments(redirect = false) {
   if (!currentCourse.value || (ran && !redirect)) return;
   ran = true;
-  assignments.value = (await getAssignments(Number(route.params.courseCode))) as newStudentAssignment[];
+  assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
   currentCourse.value.assignments = assignments.value;
   loaded.value = true;
 }

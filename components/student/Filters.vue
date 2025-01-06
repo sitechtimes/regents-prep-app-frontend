@@ -79,19 +79,19 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  assignments: newStudentAssignment[];
+  assignments: StudentAssignment[];
   deselect: boolean;
 }>();
 // prettier-ignore
 watch(() => props.deselect, () => showSorts.value = showFilters.value = false);
 
 const emit = defineEmits<{
-  filteredAssignments: [newStudentAssignment[]];
+  filteredAssignments: [StudentAssignment[]];
   refresh: [void];
 }>();
 
 const showSorts = ref(false);
-const sorts: Record<string, (a: newStudentAssignment, b: newStudentAssignment) => number> = {
+const sorts: Record<string, (a: StudentAssignment, b: StudentAssignment) => number> = {
   latest: (a, b) => b.assignment.dateAssigned.getTime() - a.assignment.dateAssigned.getTime(),
   oldest: (a, b) => a.assignment.dateAssigned.getTime() - b.assignment.dateAssigned.getTime(),
   "due soon": (a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime(),
@@ -102,7 +102,7 @@ const currentSort = ref<keyof typeof sorts>("latest");
 watch(currentSort, updateFilter);
 
 const showFilters = ref(false);
-const filters: Record<string, (assignment: newStudentAssignment) => boolean> = {
+const filters: Record<string, (assignment: StudentAssignment) => boolean> = {
   all: () => true,
   "not turned in": (assignment) => !assignment.dateSubmitted,
   "turned in": (assignment) => assignment.dateSubmitted !== null,

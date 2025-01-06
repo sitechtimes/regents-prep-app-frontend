@@ -49,11 +49,11 @@ watch(deselectFilters, async () => {
 });
 
 const { courses, currentCourse } = storeToRefs(userStore);
-const assignments = ref<newStudentAssignment[]>(
-  (courses.value.filter((c) => (c.assignments.length != 0 ? "assignment" in c.assignments[0] : false)) as StudentCourse[]).map((c) => c.assignments).flat()
-);
+const assignments = ref<StudentAssignment[]>((courses.value.filter((c) => (c.assignments.length != 0 ? "assignment" in c.assignments[0] : false)) as StudentCourse[]).map((c) => c.assignments).flat());
 
-function findCourse(findAssignment: newStudentAssignment) {
+console.log(assignments.value);
+
+function findCourse(findAssignment: StudentAssignment) {
   return userStore.courses.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "assignment" in assignment));
 }
 
@@ -71,6 +71,8 @@ async function getAssignments() {
   assignments.value = assignment;
 
   loaded.value = true;
+
+  //This function does not work. The studentToDo request form the backend does not work.
 }
 </script>
 

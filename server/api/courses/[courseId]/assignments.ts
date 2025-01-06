@@ -1,9 +1,9 @@
-import { newStudentAssignment, newTeacherAssignment } from "~/utils/types";
+import { StudentAssignment, TeacherAssignment } from "~/utils/types";
 
-export default defineEventHandler((event): (newStudentAssignment | newTeacherAssignment)[] => {
+export default defineEventHandler((event): (StudentAssignment | TeacherAssignment)[] => {
   const courseId = Number(getRouterParam(event, "courseId"));
 
-  const assignments: Record<number, (newStudentAssignment | newTeacherAssignment)[]> = {
+  const assignments: Record<number, (StudentAssignment | TeacherAssignment)[]> = {
     1: [
       {
         id: 420,
@@ -17,7 +17,7 @@ export default defineEventHandler((event): (newStudentAssignment | newTeacherAss
           dateAssigned: new Date()
         }
       }
-    ] as newStudentAssignment[],
+    ] as StudentAssignment[],
 
     2: [
       {
@@ -29,7 +29,7 @@ export default defineEventHandler((event): (newStudentAssignment | newTeacherAss
         lateSubmissions: false,
         numSubmitted: 0
       }
-    ] as newTeacherAssignment[],
+    ] as TeacherAssignment[],
 
     3: [
       {
@@ -41,7 +41,7 @@ export default defineEventHandler((event): (newStudentAssignment | newTeacherAss
         lateSubmissions: false,
         numSubmitted: 0
       }
-    ] as newTeacherAssignment[],
+    ] as TeacherAssignment[],
 
     99: []
   };

@@ -1,4 +1,4 @@
-export async function getAssignments(courseId: number): Promise<newStudentAssignment[] | newTeacherAssignment[]> {
+export async function getAssignments(courseId: number): Promise<StudentAssignment[] | TeacherAssignment[]> {
   const config = useRuntimeConfig();
 
   const res = await fetch(config.public.backend + `courses/${courseId}/assignments/`, {
@@ -92,7 +92,7 @@ export async function studentJoinCourse(courseCode: string): Promise<number> {
   return await res.json();
 }
 
-export async function studentTodo(): Promise<newStudentAssignment[]> {
+export async function studentTodo(): Promise<StudentAssignment[]> {
   const config = useRuntimeConfig();
   console.log(config.public.backend);
   const res = await fetch(config.public.backend + `courses/student/to-do/0`, {

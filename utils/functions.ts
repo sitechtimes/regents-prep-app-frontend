@@ -1,4 +1,4 @@
-import type { newTeacherAssignment } from "./types";
+import type { TeacherAssignment } from "./types";
 
 /**
  * @warning Be sure to await this function in order to actually use the delay.
@@ -48,7 +48,7 @@ export function courseToDate(courses: (StudentCourse | TeacherCourse)[]) {
   }
 }
 
-export function assignmentToDate(assignments: newStudentAssignment[] | newTeacherAssignment[]) {
+export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssignment[]) {
   for (let assignment of assignments) {
     if ("assignment" in assignment) {
       //This if statement determines if the function is done to a studentAssignment, as the type for studentAssignment includes an 'assignment' object.

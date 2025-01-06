@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  assignment: newStudentAssignment;
+  assignment: StudentAssignment;
   clickable?: boolean;
 }>();
 const currentTime = ref(new Date());

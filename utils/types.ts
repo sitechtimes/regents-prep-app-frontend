@@ -39,39 +39,6 @@ export interface StudentAssignmentInstance {
   submitted: Date | null;
 }
 
-interface Assignment {
-  /** @readonly ID of the assignment. */
-  id: number;
-  /** @readonly Name of the assignment. */
-  name: string;
-  /** @readonly Date object of when the assignment was assigned. */
-  dateAssigned: Date;
-  /** @readonly Date object of when the assignment is due. */
-  dueDate: Date;
-  /** @readonly Number of questions in the assignment. */
-  numOfQuestions: number;
-  /** @readonly Whether or not the assignment can be turned in late. */
-  lateSubmissions: boolean;
-  /** @readonly Number of completed questions in the assignment.*/
-  questionsCompleted: number;
-}
-
-export interface TeacherAssignment extends Assignment {
-  /** @readonly How many students submitted the assignment. */
-  numSubmitted: number;
-}
-export interface StudentAssignment extends Assignment {
-  /** @readonly Number of questions completed in the assignment. */
-  instanceInfo: {
-    /** Number of questions completed in the assignment. */
-    questionsCompleted: number;
-    /** Number of questions correct in the assignment. */
-    questionsCorrect: number;
-    /** Date object of when the assignment was submitted. */
-    dateSubmitted: Date | null;
-  };
-}
-
 export interface TeacherStudentList {
   /** @readonly UID of the student. */
   id: number;
@@ -100,7 +67,7 @@ interface Course {
 
 export interface StudentCourse extends Course {
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
-  assignments: newStudentAssignment[];
+  assignments: StudentAssignment[];
 }
 
 export interface TeacherCourse extends Course {
@@ -109,7 +76,7 @@ export interface TeacherCourse extends Course {
   /** @readonly The number of students in the course. */
   students: number;
   /** @readonly Array of the 3 soonest assignments that are due for the course. */
-  assignments: newTeacherAssignment[];
+  assignments: TeacherAssignment[];
   /** Total number of unsubmitted, future assignments. */
   assignmentsLength: number;
 }
@@ -151,12 +118,12 @@ export interface AssignmentResults extends SubmitAssignment {
   }[];
 }
 
-export interface newAssignment {
+export interface Assignment {
   /** @readonly ID of the question. */
   id: number;
 }
 
-export interface newStudentAssignment extends newAssignment {
+export interface StudentAssignment extends Assignment {
   /** @readonly Date object of when the assignment was submitted. */
   dateSubmitted: Date;
 
@@ -195,7 +162,7 @@ export interface newStudentAssignment extends newAssignment {
   };
 }
 
-export interface newTeacherAssignment extends newAssignment {
+export interface TeacherAssignment extends Assignment {
   /** @readonly Name of the assignment. */
   name: string;
 
