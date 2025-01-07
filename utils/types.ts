@@ -125,7 +125,7 @@ export interface Assignment {
 
 export interface StudentAssignment extends Assignment {
   /** @readonly Date object of when the assignment was submitted. */
-  dateSubmitted: Date;
+  dateSubmitted: Date | null;
 
   /** @readonly Number of questions completed. */
   questionsCompleted: number;
