@@ -1,88 +1,45 @@
 <template>
   <div class="flex h-full w-full flex-col items-center justify-center">
-    <!--<h2 class="text-2xl mt-6">{{ currentAssignment.name }}</h2>-->
-    <h3 class="text-xl mt-6">Assignment Statistics</h3>
-    <p>Grade: {{ (questionsCorrect / numOfQuestions * 100).toFixed(0) }}%</p>
-    <div class="h-4 w-24 rounded-full border-[1.5px] border-gray-300">
-      <div class="h-full rounded-full bg-green-500" :style="{ width: (questionsCorrect / numOfQuestions) * 100 + '%' }">
+    <h3 class="text-2xl mt-6">Assignment Statistics</h3>
+    <p class="text-xl py-1 mb-5 font-medium">Grade: {{ (questionsCorrect / numOfQuestions * 100).toFixed(0) }}%</p>
+    <div class="relative w-full max-w-lg h-8 mb-20 rounded-full border-[1.5px] border-gray-300 overflow-hidden">
+      <div class="absolute inset-0 bg-red-500" :style="{ width: '100%' }">
       </div>
-      <div class="h-full rounded-full bg-red-500" :style="{ width: 100 - ((questionsCorrect / numOfQuestions) * 100) + '%' }">
+      <div class="absolute h-full bg-green-500" :style="{ width: (questionsCorrect / numOfQuestions) * 100 + '%' }">
+      </div>
+      <div class="absolute inset-0 flex items-center justify-center text-white font-bold text-lg">
+        {{ questionsCorrect }} / {{ numOfQuestions }}
       </div>
     </div>
-
-    <div class="w-full max-w-4xl mt-6 mb-6">
-      <!--<table class="table-auto w-full">
-        <thead>
-          <tr>
-            <th class="px-4 py-2">#</th>
-            <th class="px-4 py-2">Question</th>
-            <th class="px-4 py-2">Answer Type</th>
-            <th class="px-4 py-2">Correct Answer</th>
-            <th class="px-4 py-2">Your Answer</th>
-            <th class="px-4 py-2">Results</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
-            class="hover:bg-green-accent text-center du-collapse bg-base-200">
-            <td class="du-collapse-title px-4 py-2 text-center text-xl font-medium">
-              <p class="">{{ index + 1 }}</p>
-            </td>-->
-            <!-- question details
-            <td class="px-4 py-2 h-full">
-              <div v-html="questionInstance.question.text" class="du-collapse-content"></div> 
-            </td>
-             question answer type (multiple choice, etc)
-            <td class="px-4 py-2 h-full">
-              <div>{{ questionInstance.question.answerType }}</div>
-            </td>
-          </tr>-->
-
-
-          <!-- <td class="px-4 py-2 du-collapse-content">
-              {{
-                getCorrectAnswerText(questionInstance.question.answers)
-              }}
-            </td>
-            <td class="px-4 py-2 du-collapse-content">
-              {{
-                getUserAnswerText(
-                  questionInstance.userAnswers[0],
-                  questionInstance.question.answers
-                )
-              }}
-            </td>
-            <td class ="px-4 py-2 du-collapse-content">
-              <span :class="getResultClass(questionInstance)">
-                {{ getResultText(questionInstance) }}
-              </span>
-            </td>
-
-        </tbody>
-      </table> -->
+    <div class="header-row grid grid-cols-5 px-4 py-2 gap-4 text-lg font-bold border-b w-full">
+      <div>Question</div>
+      <div>Question Preview</div>
+      <div>Student's Answer</div>
+      <div>Correct Answer</div>
+      <div>Results</div>
     </div>
-
-    <!-- testing, will probably be the winner!! -->
-<div class="header-row grid grid-cols-5 px-4 py-2 gap-4 text-lg font-bold border-b w-full">
-  <div>Question</div>
-  <div>Question Preview</div>
-  <div>Student's Answer</div>
-  <div>Correct Answer</div>
-  <div>Results</div>
-</div>
-<div v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
-  class="hover:bg-green-accent du-collapse bg-gray text-sm">
-  <input type="checkbox" />
-  <div class="du-collapse-title px-4 py-15 text-lg font-medium grid grid-cols-5 gap-4"> 
-    <div>{{ index + 1 }}</div>
-    <div>{{ stripHtml(truncateString(questionInstance.question.text, 25)) }}...</div>
-    <div>{{ getUserAnswerText(questionInstance.userAnswers[0], questionInstance.question.answers) }}</div>
-    <div>{{ getCorrectAnswerText(questionInstance.question.answers) }}</div>
-    <div><span :class="getResultClass(questionInstance)">{{ getResultText(questionInstance) }}</span></div>
-  </div>
-  <div class="du-collapse-content px-4 py-15 text-lg font-medium" v-html="questionInstance.question.text"></div>
-</div>
-
+    <div v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
+      class="hover:bg-green-accent du-collapse bg-gray text-sm">
+      <input type="checkbox" />
+      <div class="du-collapse-title px-4 py-15 text-lg font-medium grid grid-cols-5 gap-4">
+        <div>{{ index + 1 }}</div>
+        <div>{{ stripHtml(truncateString(questionInstance.question.text, 25)) }}...</div>
+        <div>{{ getUserAnswerText(questionInstance.userAnswers[0], questionInstance.question.answers) }}</div>
+        <div>{{ getCorrectAnswerText(questionInstance.question.answers) }}</div>
+        <div><span :class="getResultClass(questionInstance)">{{ getResultText(questionInstance) }}</span></div>
+      </div>
+      <div class="du-collapse-content px-4 py-15 text-lg font-medium">
+        <p class="mb-4" v-html="questionInstance.question.text"></p>
+        <ul class="list-disc ml-6">
+          <li v-for="answer in questionInstance.question.answers" :key="answer.id" :class="{
+            'text-blue-500': questionInstance.userAnswers.includes(answer.id),
+            'font-bold text-green-500': answer.isCorrect
+          }" class="mb-2">
+            <span v-html="stripHtml(answer.text)"></span>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
