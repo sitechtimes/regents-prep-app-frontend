@@ -1,5 +1,3 @@
-import type { TeacherAssignment } from "./types";
-
 /**
  * @warning Be sure to await this function in order to actually use the delay.
  * @param {number} ms - Number of milliseconds to delay.

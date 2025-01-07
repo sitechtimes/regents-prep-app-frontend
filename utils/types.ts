@@ -118,7 +118,7 @@ export interface AssignmentResults extends SubmitAssignment {
   }[];
 }
 
-export interface Assignment {
+interface Assignment {
   /** @readonly ID of the question. */
   id: number;
 }

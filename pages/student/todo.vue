@@ -64,10 +64,11 @@ onMounted(async () => {
   await getAssignments();
 });
 
-async function getAssignments() {
+async function getToDoAssignments() {
   loaded.value = false;
 
-  const assignment = await studentTodo();
+  const assignment = (await getAssignments(0)) as StudentAssignment[];
+
   assignments.value = assignment;
 
   loaded.value = true;
