@@ -90,10 +90,6 @@ async function getCourse() {
   currentCourse.value = courses.value.find((course) => course.id === courseId);
   if (!currentCourse.value) return router.push(`/teacher/dashboard?course=${courseId}`);
 }
-
-function removeStudent(index: number) {
-  students.value.splice(index, 1);
-}
 </script>
 
 <style scoped></style>
