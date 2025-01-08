@@ -5,7 +5,7 @@
         :assignments="(userStore.courses.filter((course) => course.assignments.some((assignment) => 'instanceInfo' in assignment)) as StudentCourse[]).map((course) => course.assignments).flat()"
         :deselect="deselectFilters"
         @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
-        @refresh="getAssignments"
+        @refresh="getToDoAssignments"
       />
     </div>
 
@@ -61,7 +61,7 @@ const loaded = ref(false);
 
 onMounted(async () => {
   currentCourse.value = undefined;
-  await getAssignments(0);
+  await getToDoAssignments();
 });
 
 async function getToDoAssignments() {
