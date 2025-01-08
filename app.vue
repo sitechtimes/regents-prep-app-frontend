@@ -24,11 +24,8 @@ onBeforeMount(() => {
   if (localStorage.getItem("theme") === "dark") isDarkMode.value = true;
 });
 
-onMounted(async () => {
+onMounted(() => {
   document.body.style.display = "block";
-  await userStore.init();
-  if (!userStore.isAuth && route.meta.requiresAuth) router.push("/login");
-  else if (userStore.isAuth && ["/login", "/"].includes(route.path)) router.push(`/${userStore.userType}/dashboard`);
   loaded.value = true;
 });
 

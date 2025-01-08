@@ -39,11 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import { a } from "vitest/dist/chunks/suite.B2jumIFP.js";
-
 definePageMeta({
   layout: "student",
-  middleware: "auth",
+  middleware: "student-get-course",
   requiresAuth: true
 });
 
@@ -54,36 +52,12 @@ const userStore = useUserStore();
 const deselectFilters = ref(false);
 
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
-const assignments = ref<StudentAssignment[]>(currentCourse.value ? currentCourse.value.assignments.filter((a) => "assignment" in a) : []);
+const assignments = ref<StudentAssignment[]>();
 
 const loaded = ref(false);
 
-onMounted(() => {
-  getCourse();
-});
-
-userStore.$subscribe(async () => {
-  getCourse();
-});
-
-function getCourse() {
-  if (!initComplete.value) return;
-  const courseCode = Number(route.params.courseCode);
-
-  currentCourse.value = courses.value.find((course) => course.id === courseCode);
-  if (!currentCourse.value) return router.push(`/student/dashboard?course=${courseCode}`);
-
-  loadAssignments();
-}
-
-let ran = false;
-async function loadAssignments(redirect = false) {
-  if (!currentCourse.value || (ran && !redirect)) return;
-  ran = true;
-  assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
-  currentCourse.value.assignments = assignments.value;
-  loaded.value = true;
-}
+onMounted(() => getCourse());
+watch(courses, () => getCourse(), { deep: true });
 
 // for vitest
 defineExpose({ loaded, courses, currentCourse, initComplete, assignments });

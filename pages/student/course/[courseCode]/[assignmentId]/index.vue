@@ -17,7 +17,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "auth",
+  middleware: "student-get-course",
   requiresAuth: true
 });
 
@@ -25,7 +25,7 @@ const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 const currentAssignment = ref<StudentAssignment>();
-const { courses, currentCourse, initComplete } = storeToRefs(userStore);
+const { courses, currentCourse } = storeToRefs(userStore);
 
 const loaded = ref(false);
 
@@ -45,8 +45,8 @@ function getCourse() {
   currentCourse.value = courses.value.find((course) => course.id === courseCode);
   currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as StudentAssignment;
 
-  if (!currentCourse.value) return router.push(`/student/dashboard?course=${courseCode}`);
-  if (!currentAssignment.value) return router.push(`/student/dashboard?assignment=${routeCode}`);
+  if (!currentCourse.value) return router.replace(`/student/dashboard?course=${courseCode}`);
+  if (!currentAssignment.value) return router.replace(`/student/dashboard?assignment=${routeCode}`);
   loaded.value = true;
 }
 </script>
