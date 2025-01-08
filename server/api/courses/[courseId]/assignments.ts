@@ -1,6 +1,6 @@
 import { StudentAssignment, TeacherAssignment } from "~/utils/types";
 
-export default defineEventHandler((event): (StudentAssignment | TeacherAssignment)[] => {
+export default defineEventHandler((event): (StudentAssignment | TeacherAssignment)[] | (StudentAssignment | TeacherAssignment)[][] => {
   const courseId = Number(getRouterParam(event, "courseId"));
 
   const assignments: Record<number, (StudentAssignment | TeacherAssignment)[]> = {
@@ -45,5 +45,7 @@ export default defineEventHandler((event): (StudentAssignment | TeacherAssignmen
 
     99: []
   };
+
+  if (courseId === 0) return Object.values(assignments);
   return assignments[courseId];
 });

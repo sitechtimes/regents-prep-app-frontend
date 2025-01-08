@@ -61,7 +61,7 @@ const loaded = ref(false);
 
 onMounted(async () => {
   currentCourse.value = undefined;
-  await getAssignments();
+  await getAssignments(0);
 });
 
 async function getToDoAssignments() {
