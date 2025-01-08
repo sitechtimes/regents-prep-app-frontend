@@ -1,4 +1,4 @@
-export async function getAssignments(courseId: number): Promise<(StudentAssignment | TeacherAssignment)[]> {
+export async function getAssignments(courseId: number): Promise<StudentAssignment[] | TeacherAssignment[]> {
   const config = useRuntimeConfig();
 
   const res = await fetch(config.public.backend + `courses/${courseId}/assignments/`, {

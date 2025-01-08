@@ -10,6 +10,7 @@ export default defineEventHandler(async (event): Promise<QuestionInterface> => {
   const body = (await readBody(event)) as Body | undefined;
   if (!body || !body.id) throw createError({ statusCode: 400 });
 
+  // TODO whats the real QuestionInterface
   return {
     id: body.id,
     questionsRemaining: 9,

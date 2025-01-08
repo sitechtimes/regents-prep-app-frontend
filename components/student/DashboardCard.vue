@@ -17,17 +17,20 @@
           class="flex h-full min-w-[45%] flex-col items-center justify-center px-5"
           :class="props.course.assignments.length === 1 ? 'w-full' : ''"
         >
-          <p class="text-center font-medium" :title="assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.dueDate, currentTime) }}</p>
+          <p class="text-center font-medium" :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
           <div class="flex h-full w-full flex-col items-center justify-start">
             <NuxtLink
               class="w-[70%] overflow-hidden overflow-ellipsis text-nowrap text-center text-xl hover:underline hover:underline-offset-1"
               :to="`/student/course/${course.id}/${assignment.id}`"
               @click.stop
-              >{{ assignment.name }}</NuxtLink
+              >{{ assignment.assignment.name }}</NuxtLink
             >
             <div @click.stop="router.push(`/student/course/${course.id}/${assignment.id}`)" class="relative flex h-full w-full items-center overflow-hidden rounded-full bg-[var(--gray)]">
-              <div class="absolute left-0 h-full" :style="{ width: (assignment.questionsCompleted / assignment.numOfQuestions) * 100 + '%', backgroundColor: subjectColors[course.subject] }"></div>
-              <span class="z-10 w-full px-2 text-center font-mono"> {{ assignment.questionsCompleted }}/{{ assignment.numOfQuestions }} </span>
+              <div
+                class="absolute left-0 h-full"
+                :style="{ width: (assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100 + '%', backgroundColor: subjectColors[course.subject] }"
+              ></div>
+              <span class="z-10 w-full px-2 text-center font-mono"> {{ assignment.questionsCompleted }}/{{ assignment.assignment.numOfQuestions }} </span>
             </div>
           </div>
         </div>

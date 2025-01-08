@@ -10,7 +10,7 @@
 
         <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
           <StudentFilters
-            :assignments="currentCourse.assignments.filter((a) => 'instanceInfo' in a)"
+            :assignments="currentCourse.assignments.filter((a) => 'assignment' in a)"
             :deselect="deselectFilters"
             @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
             @refresh="loadAssignments(true)"
@@ -39,6 +39,8 @@
 </template>
 
 <script setup lang="ts">
+import { a } from "vitest/dist/chunks/suite.B2jumIFP.js";
+
 definePageMeta({
   layout: "student",
   middleware: "auth",
@@ -52,7 +54,7 @@ const userStore = useUserStore();
 const deselectFilters = ref(false);
 
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
-const assignments = ref<StudentAssignment[]>(currentCourse.value?.assignments.filter((a) => "instanceInfo" in a) ?? []);
+const assignments = ref<StudentAssignment[]>(currentCourse.value ? currentCourse.value.assignments.filter((a) => "assignment" in a) : []);
 
 const loaded = ref(false);
 
