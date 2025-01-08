@@ -19,7 +19,7 @@
       <div>Results</div>
     </div>
     <div v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
-      class="hover:bg-green-accent du-collapse bg-gray text-sm">
+      class="hover:bg-[var(--hover-background)] du-collapse bg-gray text-sm">
       <input type="checkbox" />
       <div class="du-collapse-title px-4 py-15 text-lg font-medium grid grid-cols-5 gap-4">
         <div>{{ index + 1 }}</div>
@@ -30,14 +30,25 @@
       </div>
       <div class="du-collapse-content px-4 py-15 text-lg font-medium">
         <p class="mb-4" v-html="questionInstance.question.text"></p>
-        <ul class="list-disc ml-6">
-          <li v-for="answer in questionInstance.question.answers" :key="answer.id" :class="{
-            'text-blue-500': questionInstance.userAnswers.includes(answer.id),
-            'font-bold text-green-500': answer.isCorrect
-          }" class="mb-2">
-            <span v-html="stripHtml(answer.text)"></span>
-          </li>
-        </ul>
+        <ul>
+  <li
+    v-for="answer in questionInstance.question.answers"
+    :key="answer.id"
+    :class="{
+      'text-blue-500 font-bold': questionInstance.userAnswers?.includes(answer.id),
+      'text-green-500 font-bold': answer.isCorrect
+    }"
+    class="mb-2 flex items-center gap-2"
+  >
+    <span class="w-4 flex justify-center">
+      <span v-if="answer.isCorrect">✔️</span>
+      <span v-else-if="questionInstance.userAnswers.includes(answer.id)">❌</span>
+      <span v-else>•</span>
+    </span>
+    <span>{{ stripHtml(answer.text) }}</span>
+  </li>
+</ul>
+
       </div>
     </div>
   </div>
