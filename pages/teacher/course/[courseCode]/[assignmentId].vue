@@ -78,7 +78,7 @@ const filteredOptions = computed(() => {
 // Here is the width for the button when the dropdown is closed
 const computedDropdownWidth = computed(() => {
   if (selectedName.value) {
-    return Math.max(selectedName.value.length * 9, 300); //max width
+    return Math.max(selectedName.value.length * 10, 250); //max width
   }
   return 200; // default width of the button
 });
