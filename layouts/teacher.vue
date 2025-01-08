@@ -17,7 +17,7 @@
           <button id="create-button" v-show="route.path === '/teacher/dashboard'" @click="showCreateClass = true"   class="text-5xl">
             <img class="h-6 w-6 dark:invert" src="/ui/plus.svg" alt="Create a new course" />
           </button>
-          <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" @submit="submitCreateCourse(name, period, subject)" />
+          <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" />
           <AccountSettings class="mr-3" />
         </div>
       </header>
@@ -84,9 +84,7 @@ onMounted(() => {
 
 // for vitest
 defineExpose({ courses, currentCourse, loaded, showSideMenu });
-const createCourse = () => {
-  submitCreateCourse(name, period, subject);
-};
+
 
 </script>
 
