@@ -5,7 +5,6 @@
         :assignments="(userStore.courses.filter((course) => course.assignments.some((assignment) => 'instanceInfo' in assignment)) as StudentCourse[]).map((course) => course.assignments).flat()"
         :deselect="deselectFilters"
         @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
-        @refresh="getAssignments"
       />
     </div>
 
@@ -41,16 +40,15 @@ definePageMeta({
 
 const router = useRouter();
 const userStore = useUserStore();
+const { courses } = storeToRefs(userStore);
 
 const deselectFilters = ref(false);
 watch(deselectFilters, async () => {
+  await nextTick();
   deselectFilters.value = false;
 });
 
-const { courses, currentCourse } = storeToRefs(userStore);
-const assignments = ref<StudentAssignment[]>((courses.value.filter((c) => (c.assignments.length != 0 ? "assignment" in c.assignments[0] : false)) as StudentCourse[]).map((c) => c.assignments).flat());
-
-console.log(assignments.value);
+const assignments = ref<StudentAssignment[]>();
 
 function findCourse(findAssignment: StudentAssignment) {
   return userStore.courses.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "assignment" in assignment));
@@ -59,21 +57,8 @@ function findCourse(findAssignment: StudentAssignment) {
 const loaded = ref(false);
 
 onMounted(async () => {
-  currentCourse.value = undefined;
-  await getAssignments(0);
+  assignments.value = await getStudentTodo();
 });
-
-async function getToDoAssignments() {
-  loaded.value = false;
-
-  const assignment = (await getAssignments(0)) as StudentAssignment[];
-
-  assignments.value = assignment;
-
-  loaded.value = true;
-
-  //This function does not work. The studentToDo request form the backend does not work.
-}
 </script>
 
 <style scoped></style>

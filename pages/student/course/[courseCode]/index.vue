@@ -9,16 +9,11 @@
         </div>
 
         <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
-          <StudentFilters
-            :assignments="currentCourse.assignments.filter((a) => 'assignment' in a)"
-            :deselect="deselectFilters"
-            @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
-            @refresh="loadAssignments(true)"
-          />
+          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)" />
 
-          <div class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6" v-if="!loaded"></div>
+          <div class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6" v-if="!assignments"></div>
           <StudentAssignmentCard
-            v-else-if="loaded && assignments.length > 0"
+            v-else-if="assignments.length > 0"
             v-for="assignment in assignments"
             :key="assignment.id"
             @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
@@ -26,7 +21,7 @@
             clickable
           />
 
-          <div id="no-assignments" v-else-if="loaded && assignments.length === 0" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
+          <div id="no-assignments" v-else-if="assignments.length === 0" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
             <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="mb-4 h-16 w-16 dark:invert" />
             <h3 class="mb-2 text-2xl font-semibold">No Assignments Yet</h3>
             <p class="text-lg">You're all caught up!</p>
@@ -51,16 +46,11 @@ const userStore = useUserStore();
 
 const deselectFilters = ref(false);
 
-const { courses, currentCourse, initComplete } = storeToRefs(userStore);
-const assignments = ref<StudentAssignment[]>();
-
-const loaded = ref(false);
-
-onMounted(() => getCourse());
-watch(courses, () => getCourse(), { deep: true });
+const { courses, currentCourse } = storeToRefs(userStore);
+const assignments = ref(currentCourse.value?.assignments as StudentAssignment[]);
 
 // for vitest
-defineExpose({ loaded, courses, currentCourse, initComplete, assignments });
+defineExpose({ courses, currentCourse, assignments });
 </script>
 
 <style scoped>

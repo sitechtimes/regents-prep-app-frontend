@@ -92,12 +92,11 @@ export async function studentJoinCourse(courseCode: string): Promise<number> {
   return await res.json();
 }
 
-export async function studentTodo(): Promise<StudentAssignment[]> {
+export async function getStudentTodo(): Promise<StudentAssignment[]> {
   const config = useRuntimeConfig();
-  console.log(config.public.backend);
-  const res = await fetch(config.public.backend + `courses/student/to-do/0`, {
+  const res = await fetch(config.public.backend + `courses/0/assignments/`, {
     credentials: "include"
   });
-  if (!res.ok) throw new Error("Failed to fetch student todo");
+  if (!res.ok) throw new Error("Failed to fetch student todo list");
   return await res.json();
 }
