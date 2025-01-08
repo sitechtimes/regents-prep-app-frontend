@@ -35,7 +35,7 @@
             :disabled="!courseName || !courseSubject || !coursePeriod"
             form="create-course"
             type="submit"
-            @submit="submitCreateCourse(courseName, coursePeriod, 1)"
+            @click="submitCreateCourse(courseName, coursePeriod, 1)"
           >
             Create
           </button>
