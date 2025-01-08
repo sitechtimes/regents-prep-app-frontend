@@ -75,9 +75,7 @@ const { courses, currentCourse } = storeToRefs(userStore);
 const loaded = ref(false);
 const showSideMenu = ref(true);
 const showCreateClass = ref(false);
-let name = '';
-let period = 0;
-let subject = 0;
+
 onMounted(() => {
   loaded.value = true;
 });
