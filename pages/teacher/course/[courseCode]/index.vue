@@ -103,8 +103,9 @@ async function fetchAndSetAssignments(courseId: number, redirect = false) {
 
   try {
     const assignments = await getAssignments(courseId);
-    currentAssignments.value = assignments.filter((assignment) => new Date(assignment.dueDate) >= currentDate.value) as TeacherAssignment[];
-    pastAssignments.value = assignments.filter((assignment) => new Date(assignment.dueDate) < currentDate.value) as TeacherAssignment[];
+
+    currentAssignments.value = assignments.filter((assignment) => new Date((assignment as TeacherAssignment).dueDate) >= currentDate.value) as TeacherAssignment[];
+    pastAssignments.value = assignments.filter((assignment) => new Date((assignment as TeacherAssignment).dueDate) < currentDate.value) as TeacherAssignment[];
   } catch (error) {
     console.error("Error fetching assignments:", error);
     await router.push(`/teacher/dashboard?course=${courseId}`);
