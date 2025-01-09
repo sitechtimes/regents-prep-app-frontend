@@ -3,7 +3,7 @@
     <h3 class="text-2xl mt-6">Assignment Statistics</h3>
     <p class="text-xl py-1 mb-5 font-medium">Grade: {{ (questionsCorrect / numOfQuestions * 100).toFixed(0) }}%</p>
     <div class="relative w-full max-w-lg h-8 mb-20 rounded-full border-[1.5px] border-gray-300 overflow-hidden">
-      <div class="absolute inset-0 bg-red-500" :style="{ width: '100%' }">
+      <div class="absolute inset-0 bg-red-500 w-full">
       </div>
       <div class="absolute h-full bg-green-500" :style="{ width: (questionsCorrect / numOfQuestions) * 100 + '%' }">
       </div>
@@ -91,8 +91,8 @@ onMounted(async () => {
   try {
     const results = await getAssignmentResults(assignmentId.value);
     console.log(results);
-    numOfQuestions.value = results.numOfQuestions || 0;
-    questionsCorrect.value = results.questionsCorrect || 0;
+    numOfQuestions.value = results.numOfQuestions ?? 0;
+    questionsCorrect.value = results.questionsCorrect ?? 0;
     questionInstances.value = results.questionInstances.map((instance: any) => ({
       ...instance,
       userAnswers: instance.userAnswers.map((answer: string | number) =>
@@ -104,25 +104,29 @@ onMounted(async () => {
   }
 });
 
-function getCorrectAnswerText(answers: Answer[]): string {
-  const correctAnswer = answers.find(function (answer) {
-    return answer.isCorrect;
-  });
+function getCorrectAnswerText(answers: Answer[]) {
+  function findCorrectAnswer(answers: Answer[]) {
+    return answers.find(function (answer) {
+      return answer.isCorrect;
+    });
+  }
+  const correctAnswer = findCorrectAnswer(answers);
   return correctAnswer ? stripHtml(correctAnswer.text) : "N/A";
 }
 
-function getUserAnswerText(userAnswerId: number, answers: Answer[]): string {
+
+function getUserAnswerText(userAnswerId: number, answers: Answer[]) {
   const userAnswer = answers.find(function (answer) {
     return answer.id === userAnswerId;
   });
   return userAnswer ? stripHtml(userAnswer.text) : "No Answer Selected";
 }
 
-function stripHtml(html: string): string {
+function stripHtml(html: string) {
   return html.replace(/<\/?(p|em)>/g, "");
 }
 
-function getResultText(questionInstance: QuestionInstance): string {
+function getResultText(questionInstance: QuestionInstance) {
   const correctAnswerId = questionInstance.question.answers.find(function (answer) {
     return answer.isCorrect;
   })?.id;
@@ -130,7 +134,7 @@ function getResultText(questionInstance: QuestionInstance): string {
   return correctAnswerId === userAnswerId ? "Correct" : "Incorrect";
 }
 
-function getResultClass(questionInstance: QuestionInstance): string {
+function getResultClass(questionInstance: QuestionInstance) {
   const isCorrect = getResultText(questionInstance) === "Correct";
   return isCorrect ? "text-green-500 font-bold" : "text-red-500 font-bold";
 }
