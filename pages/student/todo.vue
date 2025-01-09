@@ -69,6 +69,8 @@ async function getToDoAssignments() {
 
   const assignment = (await getAssignments(0)) as StudentAssignment[];
 
+  console.log(assignment);
+
   assignments.value = assignment;
 
   loaded.value = true;
