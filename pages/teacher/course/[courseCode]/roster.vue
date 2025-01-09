@@ -37,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import studentList from '~/server/api/courses/[courseId]/teacher/student-list';
+
 definePageMeta({
   layout: "teacher",
   middleware: "auth",
@@ -49,24 +51,34 @@ const userStore = useUserStore();
 
 const searchTerm = ref("").value.toLowerCase();
 const courseId = Number(route.params.courseCode);
-const studentId = Number();
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 
+const students: Ref<TeacherStudentList[]> = ref([]);
 const filteredStudents: Ref<TeacherStudentList[]> = ref([]);
 
 async function getStudents() {
   try {
-    const students = await getCourseStudents(courseId);
-    filteredStudents.value = students.filter((student) => student.firstName.toLowerCase().includes(searchTerm) || student.lastName.toLowerCase().includes(searchTerm));
+    const fetchedStudents = await getCourseStudents(courseId);
+    students.value = fetchedStudents
+    filteredStudents.value = students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm) || student.lastName.toLowerCase().includes(searchTerm));
+
+/*     watch(searchTerm, () => {
+  filteredStudents.value = students.value.filter((student) =>
+    student.firstName.toLowerCase().includes(searchTerm) ||
+    student.lastName.toLowerCase().includes(searchTerm)
+  );
+}); */
+
   } catch (error) {
     console.error("Error fetching students:", error);
   }
 }
 
 async function removeStudent(index: number) {
+  const studentId = filteredStudents.value[index].id;
   try {
-    const removeStudent = await removeStudents(courseId, studentId);
-    filteredStudents.value.splice(index, 1) === removeStudent;
+    await removeStudents(courseId, studentId);
+    filteredStudents.value.splice(index, 1);
   } catch (error) {
     console.error(error);
   }
