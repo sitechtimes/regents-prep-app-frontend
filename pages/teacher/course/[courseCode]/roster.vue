@@ -49,25 +49,24 @@ const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 
-const searchTerm = ref("").value.toLowerCase();
+const searchTerm = ref("");
 const courseId = Number(route.params.courseCode);
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 
-const students: Ref<TeacherStudentList[]> = ref([]);
 const filteredStudents: Ref<TeacherStudentList[]> = ref([]);
 
 async function getStudents() {
   try {
-    const fetchedStudents = await getCourseStudents(courseId);
-    students.value = fetchedStudents;
-    filteredStudents.value = students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm) || student.lastName.toLowerCase().includes(searchTerm));
+    const students = await getCourseStudents(courseId);
+    filteredStudents.value = students.filter(
+      (student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase())
+    );
 
-    /*     watch(searchTerm, () => {
-  filteredStudents.value = students.value.filter((student) =>
-    student.firstName.toLowerCase().includes(searchTerm) ||
-    student.lastName.toLowerCase().includes(searchTerm)
-  );
-}); */
+    watch(searchTerm, () => {
+      filteredStudents.value = students.filter(
+        (student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase())
+      );
+    });
   } catch (error) {
     console.error("Error fetching students:", error);
   }
