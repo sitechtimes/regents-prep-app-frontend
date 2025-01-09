@@ -84,10 +84,6 @@ const router = useRouter();
 
 const { courses, currentCourse } = storeToRefs(userStore);
 
-watch(currentCourse, (course) => {
-  console.log(course);
-});
-
 const loaded = ref(false);
 const showSideMenu = ref(true);
 const showJoinClass = ref(false);

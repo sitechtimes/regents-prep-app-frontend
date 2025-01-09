@@ -40,15 +40,21 @@
 </template>
 
 <script setup lang="ts">
+const userStore = useUserStore();
+const { courses, currentCourse } = storeToRefs(userStore);
+
 definePageMeta({
   layout: "student",
   middleware: "student-get-course",
   requiresAuth: true
 });
 
+useSeoMeta({
+  title: () => currentCourse.value?.name ?? "Class Details"
+});
+
 const route = useRoute();
 const router = useRouter();
-const userStore = useUserStore();
 
 const currentFilters = ref<TodoFilter>();
 const currentSorter = ref<TodoSorter>();
@@ -60,9 +66,7 @@ watch(deselectFilters, async (val) => {
   deselectFilters.value = false;
 });
 
-const { courses, currentCourse } = storeToRefs(userStore);
 const assignments = ref(currentCourse.value?.assignments as StudentAssignment[]);
-
 const filteredAssignments = computed(() => {
   if (!currentFilters.value || !currentSorter.value) return;
   const filters = currentFilters.value;
@@ -74,6 +78,17 @@ const filteredAssignments = computed(() => {
     .filter((assignment) => assignment.assignment.name.toLowerCase().includes(search.toLowerCase()))
     .sort(sorter);
 });
+
+onMounted(async () => {
+  console.log(courses.value)
+  if (!courses.value) return;
+  const courseCode = Number(route.params.courseCode);
+
+  currentCourse.value = courses.value.find((course) => course.id === courseCode);
+  if (!currentCourse.value) return navigateTo(`/student/dashboard?course=${courseCode}`);
+
+  currentCourse.value.assignments = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
+})
 
 // for vitest
 defineExpose({ courses, currentCourse, assignments });
