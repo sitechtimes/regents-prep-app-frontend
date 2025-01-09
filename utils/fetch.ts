@@ -107,7 +107,7 @@ export async function studentTodo(): Promise<StudentAssignment[]> {
 export async function removeStudents(courseId: number, studentId: number): Promise<TeacherStudentList[]> {
   const config = useRuntimeConfig();
 
-  const res = await fetch(config.public.backed + `teacher/remove-student/${courseId}/<student_id>/`, {
+  const res = await fetch(config.public.backed + `teacher/remove-student/${courseId}/${studentId}/`, {
     credentials: "include",
     method: "DEL",
     headers: { "Content-Type": "application/json" },

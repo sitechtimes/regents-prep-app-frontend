@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import studentList from '~/server/api/courses/[courseId]/teacher/student-list';
+import studentList from "~/server/api/courses/[courseId]/teacher/student-list";
 
 definePageMeta({
   layout: "teacher",
@@ -59,16 +59,15 @@ const filteredStudents: Ref<TeacherStudentList[]> = ref([]);
 async function getStudents() {
   try {
     const fetchedStudents = await getCourseStudents(courseId);
-    students.value = fetchedStudents
+    students.value = fetchedStudents;
     filteredStudents.value = students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm) || student.lastName.toLowerCase().includes(searchTerm));
 
-/*     watch(searchTerm, () => {
+    /*     watch(searchTerm, () => {
   filteredStudents.value = students.value.filter((student) =>
     student.firstName.toLowerCase().includes(searchTerm) ||
     student.lastName.toLowerCase().includes(searchTerm)
   );
 }); */
-
   } catch (error) {
     console.error("Error fetching students:", error);
   }
@@ -76,6 +75,7 @@ async function getStudents() {
 
 async function removeStudent(index: number) {
   const studentId = filteredStudents.value[index].id;
+  const courseId = Number(route.params.courseCode);
   try {
     await removeStudents(courseId, studentId);
     filteredStudents.value.splice(index, 1);
