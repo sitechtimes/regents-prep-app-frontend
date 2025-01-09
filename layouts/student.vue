@@ -10,7 +10,7 @@
           </NuxtLink>
         </div>
         <div class="flex w-1/3 items-center justify-center">
-          <NuxtLink to="/student/dashboard" class="border-b-2 border-transparent text-3xl transition-all duration-500 ease-in-out hover:border-current"> SITHS Regents Prep</NuxtLink>
+          <NuxtLink to="/student/dashboard" class="border-b-2 border-transparent text-3xl transition-all duration-500 ease-in-out hover:border-current">SITHS Regents Prep</NuxtLink>
         </div>
         <div class="flex w-1/3 items-center justify-end gap-3">
           <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />

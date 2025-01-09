@@ -9,19 +9,25 @@
         </div>
 
         <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
-          <StudentFilters :assignments="assignments" :deselect="deselectFilters" @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)" />
+          <StudentTodoToolbar
+            :closeToolbar="deselectFilters"
+            :assignments="assignments"
+            @sort="(sorter) => (currentSorter = sorter)"
+            @filter="(filter) => (currentFilters = filter)"
+            @search="(term) => (currentSearch = term)"
+          />
 
-          <div class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6" v-if="!assignments"></div>
+          <div class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6" v-if="!filteredAssignments"></div>
           <StudentAssignmentCard
-            v-else-if="assignments.length > 0"
-            v-for="assignment in assignments"
+            v-else-if="filteredAssignments.length > 0"
+            v-for="assignment in filteredAssignments"
             :key="assignment.id"
             @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
             :assignment="assignment"
             clickable
           />
 
-          <div id="no-assignments" v-else-if="assignments.length === 0" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
+          <div id="no-assignments" v-else-if="filteredAssignments.length === 0" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
             <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="mb-4 h-16 w-16 dark:invert" />
             <h3 class="mb-2 text-2xl font-semibold">No Assignments Yet</h3>
             <p class="text-lg">You're all caught up!</p>
@@ -44,10 +50,30 @@ const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 
+const currentFilters = ref<TodoFilter>();
+const currentSorter = ref<TodoSorter>();
+const currentSearch = ref("");
 const deselectFilters = ref(false);
+watch(deselectFilters, async (val) => {
+  if (!val) return;
+  await nextTick();
+  deselectFilters.value = false;
+});
 
 const { courses, currentCourse } = storeToRefs(userStore);
 const assignments = ref(currentCourse.value?.assignments as StudentAssignment[]);
+
+const filteredAssignments = computed(() => {
+  if (!currentFilters.value || !currentSorter.value) return;
+  const filters = currentFilters.value;
+  const sorter = currentSorter.value;
+  const search = currentSearch.value;
+
+  return assignments.value
+    ?.filter(filters)
+    .filter((assignment) => assignment.assignment.name.toLowerCase().includes(search.toLowerCase()))
+    .sort(sorter);
+});
 
 // for vitest
 defineExpose({ courses, currentCourse, assignments });

@@ -48,14 +48,14 @@ const emit = defineEmits<{
 const showSorters = ref(false);
 
 const sorters: Record<string, TodoSorter> = {
+  "due soon": (a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime(),
   latest: (a, b) => b.assignment.dateAssigned.getTime() - a.assignment.dateAssigned.getTime(),
   oldest: (a, b) => a.assignment.dateAssigned.getTime() - b.assignment.dateAssigned.getTime(),
-  "due soon": (a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime(),
   "most progress": (a, b) => b.questionsCompleted / b.assignment.numOfQuestions - a.questionsCompleted / a.assignment.numOfQuestions,
   "least progress": (a, b) => a.questionsCompleted / a.assignment.numOfQuestions - b.questionsCompleted / b.assignment.numOfQuestions
 };
 
-const currentSorter = ref("a-z");
+const currentSorter = ref("due soon");
 watch(currentSorter, (sorter) => {
   emit("sort", sorters[sorter]);
 });

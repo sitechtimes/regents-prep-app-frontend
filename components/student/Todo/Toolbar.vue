@@ -6,14 +6,14 @@
   >
     <StudentTodoSort :close="closeSorters" @sort="(sorter) => emit('sort', sorter)" @click.stop="closeOptions(true, true, false)" />
     <StudentTodoFilter :close="closeFilters" @filter="(filter) => emit('filter', filter)" @click.stop="closeOptions(true, false, true)" />
-    <BlueprintsSearch @search="(term) => emit('search', term)" />
+    <StudentTodoSearch @search="(term) => emit('search', term)" />
   </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   closeToolbar: boolean;
-  assignments: StudentAssignment[];
+  assignments: StudentAssignment[] | undefined;
 }>();
 watch(
   () => props.closeToolbar,

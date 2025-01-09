@@ -56,7 +56,7 @@ const filters: Record<string, TodoFilter> = {
 const currentFilters = ref([""]);
 watch(currentFilters, () => emitFilter());
 
-onMounted(emitFilter());
+onMounted(emitFilter);
 
 function emitFilter() {
   emit("filter", (assignment: StudentAssignment) => currentFilters.value.every((filter) => filters[filter](assignment)) && currentFilters.value.some((filter) => filters[filter](assignment)));
