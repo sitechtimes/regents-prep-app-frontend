@@ -2,7 +2,7 @@
   <div class="flex w-full flex-col items-center py-12">
     <div class="relative flex w-full flex-col items-center justify-center gap-1">
       <input
-        class="mb-6 h-10 w-2/3 rounded-lg border bg-[var(--bg-color)] px-2 py-1 transition-all duration-500 hover:border-[var(--primary)]"
+        class="mb-6 h-10 w-2/3 rounded-lg border bg-[var(--bg-color)] px-2 py-1 transition duration-500 hover:border-[var(--primary)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
         type="text"
         placeholder="Search for Student..."
         v-model="searchTerm"
@@ -75,6 +75,7 @@ async function getStudents() {
 async function removeStudent(index: number) {
   const studentId = filteredStudents.value[index].id;
   const courseId = Number(route.params.courseCode);
+
   try {
     await removeStudents(courseId, studentId);
     filteredStudents.value.splice(index, 1);
