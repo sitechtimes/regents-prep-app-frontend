@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = !deselectFilters">
-    <div class="flex w-full items-center justify-center">
+    <div class="flex w-full items-center justify-center" v-if="loaded">
       <div class="flex w-2/3 flex-col items-center justify-center" v-if="currentCourse">
         <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[currentCourse.subject] }">
           <h1 class="text-4xl font-semibold">{{ currentCourse.name }}</h1>
@@ -56,6 +56,8 @@ useSeoMeta({
 const route = useRoute();
 const router = useRouter();
 
+const loaded = ref(false);
+
 const currentFilters = ref<TodoFilter>();
 const currentSorter = ref<TodoSorter>();
 const currentSearch = ref("");
@@ -79,16 +81,9 @@ const filteredAssignments = computed(() => {
     .sort(sorter);
 });
 
-onMounted(async () => {
-  console.log(courses.value)
-  if (!courses.value) return;
-  const courseCode = Number(route.params.courseCode);
-
-  currentCourse.value = courses.value.find((course) => course.id === courseCode);
-  if (!currentCourse.value) return navigateTo(`/student/dashboard?course=${courseCode}`);
-
-  currentCourse.value.assignments = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
-})
+onMounted(() => {
+  loaded.value = true;
+});
 
 // for vitest
 defineExpose({ courses, currentCourse, assignments });
