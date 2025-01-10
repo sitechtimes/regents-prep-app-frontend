@@ -107,7 +107,7 @@ export async function removeStudents(courseId: number, studentId: number): Promi
 
   const res = await fetch(config.public.backed + `teacher/remove-student/${courseId}/${studentId}/`, {
     credentials: "include",
-    method: "DELETE",
+    method: "DEL",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ courseId: courseId, studentId: studentId })
   });
