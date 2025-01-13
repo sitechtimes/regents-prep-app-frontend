@@ -35,7 +35,6 @@
             :disabled="!courseName || !courseSubject || !coursePeriod"
             form="create-course"
             type="submit"
-            @click="submitCreateCourse(courseName, coursePeriod, 1)"
           >
             Create
           </button>
@@ -74,6 +73,7 @@ function createCourse() {
   if (!courseName.value || !courseSubject.value || !Object.values(regentsTypes).flat().includes(courseSubject.value) || !coursePeriod.value) return;
   alert("you are now enrolled in jail!");
   // make it join a class 👍
+  submitCreateCourse(courseName, coursePeriod, 1)
   // no way really? i think it should join a course instead
   console.log("courseSubject", courseSubject.value)
   emit("close");
