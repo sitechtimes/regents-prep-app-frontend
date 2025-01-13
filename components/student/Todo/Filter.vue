@@ -32,8 +32,8 @@ const currentFilters = ref<string[]>([]);
 const filters: Record<string, TodoFilter> = {
   "not turned in": (assignment) => !assignment.dateSubmitted,
   "turned in": (assignment) => assignment.dateSubmitted !== null,
-  ungraded: (assignment) => assignment.assignment.questionsCorrect === undefined,
-  graded: (assignment) => assignment.assignment.questionsCorrect !== undefined
+  ungraded: (assignment) => assignment.questionsCorrect === undefined,
+  graded: (assignment) => assignment.questionsCorrect !== undefined
 };
 
 const filterExclusions: Record<string, string[]> = {
