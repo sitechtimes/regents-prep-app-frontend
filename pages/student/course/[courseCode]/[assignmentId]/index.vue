@@ -23,13 +23,8 @@ const userStore = useUserStore();
 const currentAssignment = ref<StudentAssignment>();
 const { currentCourse } = storeToRefs(userStore);
 
-onMounted(() => {
-  window.addEventListener("beforeunload", warnForUnsavedChanges);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("beforeunload", warnForUnsavedChanges);
-});
+onMounted(() => window.addEventListener("beforeunload", warnForUnsavedChanges));
+onBeforeUnmount(() => window.removeEventListener("beforeunload", warnForUnsavedChanges));
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
   event.preventDefault();
