@@ -15,18 +15,13 @@ export default {
         tertiary: "#4E684A",
         "gray-accent": "#E5E5E5",
         "dark-hover": "#292929",
-        "dark-border": "#3D444D",
+        "dark-border": "#3D444D"
       }
     }
   },
-  plugins: [require("daisyui"),],
-  daisyui: {
-    prefix: "du-",
-    logs: false
-  },
+  plugins: [require("daisyui"), require("flyonui")],
+  daisyui: { prefix: "du-", logs: false },
+  flyonui: { prefix: "fo-", logs: false },
   darkMode: "selector",
-  future: {
-    // mobile support for hover until tailwind v4 is out and this is default behavior
-    hoverOnlyWhenSupported: true
-  }
+  future: { hoverOnlyWhenSupported: true } // mobile support for hover until tailwind v4 is out and this is default behavior
 };
