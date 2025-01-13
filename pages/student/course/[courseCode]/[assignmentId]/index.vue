@@ -22,6 +22,19 @@ const router = useRouter();
 const userStore = useUserStore();
 const currentAssignment = ref<StudentAssignment>();
 const { currentCourse } = storeToRefs(userStore);
+
+onMounted(() => {
+  window.addEventListener("beforeunload", warnForUnsavedChanges);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("beforeunload", warnForUnsavedChanges);
+});
+
+function warnForUnsavedChanges(event: BeforeUnloadEvent) {
+  event.preventDefault();
+  // TODO: add api call to save progress
+}
 </script>
 
 <style scoped></style>
