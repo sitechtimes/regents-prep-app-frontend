@@ -72,7 +72,6 @@ function findCourse(findAssignment: StudentAssignment) {
 
 onMounted(async () => {
   assignments.value = await getStudentTodo();
-  console.log(assignments.value);
   loaded.value = true;
 });
 </script>
