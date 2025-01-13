@@ -2,7 +2,7 @@
   <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = true">
     <div class="flex w-2/3 flex-col items-center justify-center">
       <StudentFilters
-        :assignments="(userStore.courses.filter((course) => course.assignments.some((assignment) => 'instanceInfo' in assignment)) as StudentCourse[]).map((course) => course.assignments).flat()"
+        :assignments="(userStore.courses.filter((course) => course.assignments.some((assignment) => 'assignment' in assignment)) as StudentCourse[]).map((course) => course.assignments).flat()"
         :deselect="deselectFilters"
         @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
         @refresh="getToDoAssignments"
@@ -68,6 +68,8 @@ async function getToDoAssignments() {
   loaded.value = false;
 
   const assignment = (await getAssignments(0)) as StudentAssignment[];
+
+  console.log(assignment);
 
   assignments.value = assignment;
 
