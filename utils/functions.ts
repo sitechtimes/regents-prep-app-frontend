@@ -46,12 +46,18 @@ export function courseToDate(courses: (StudentCourse | TeacherCourse)[]) {
   }
 }
 
-export function assignmentToDate(assignments: (StudentAssignment | TeacherAssignment)[]) {
+export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssignment[]) {
   for (let assignment of assignments) {
-    assignment.dueDate = new Date(assignment.dueDate);
-    assignment.dateAssigned = new Date(assignment.dateAssigned);
-    if ("instanceInfo" in assignment) {
-      assignment.instanceInfo.dateSubmitted = assignment.instanceInfo.dateSubmitted ? new Date(assignment.instanceInfo.dateSubmitted) : null;
+    if ("assignment" in assignment) {
+      //This if statement determines if the function is done to a studentAssignment, as the type for studentAssignment includes an 'assignment' object.
+      assignment.assignment.dueDate = new Date(assignment.assignment.dueDate);
+      assignment.assignment.dateAssigned = new Date(assignment.assignment.dateAssigned);
+      if ("dateSubmitted" in assignment) {
+        assignment.dateSubmitted = assignment.dateSubmitted;
+      }
+    } else {
+      assignment.dueDate = new Date(assignment.dueDate);
+      assignment.dateAssigned = new Date(assignment.dateAssigned);
     }
   }
 }

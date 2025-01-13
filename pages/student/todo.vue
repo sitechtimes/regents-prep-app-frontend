@@ -1,22 +1,22 @@
 <template>
-  <div class="flex flex-col items-center justify-start w-full h-full min-h-[calc(100vh-6rem)]" @click="deselectFilters = true">
-    <div class="w-2/3 flex flex-col items-center justify-center">
+  <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = true">
+    <div class="flex w-2/3 flex-col items-center justify-center">
       <StudentFilters
-        :assignments="(userStore.courses.filter((course) => course.assignments.some((assignment) => 'instanceInfo' in assignment)) as StudentCourse[]).map((course) => course.assignments).flat()"
+        :assignments="(userStore.courses.filter((course) => course.assignments.some((assignment) => 'assignment' in assignment)) as StudentCourse[]).map((course) => course.assignments).flat()"
         :deselect="deselectFilters"
         @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
-        @refresh="getAssignments"
+        @refresh="getToDoAssignments"
       />
     </div>
 
     <Loading :show="!loaded" />
 
-    <div class="w-2/3 flex flex-col items-center justify-center" v-if="loaded">
-      <div class="w-full flex flex-col items-center justify-center gap-4 mt-5">
-        <div class="w-full h-full flex items-center justify-center gap-2" v-for="assignment in assignments" :key="assignment.id">
+    <div class="flex w-2/3 flex-col items-center justify-center" v-if="loaded">
+      <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
+        <div class="flex h-full w-full items-center justify-center gap-2" v-for="assignment in assignments" :key="assignment.id">
           <NuxtLink
             :to="`/student/course/${findCourse(assignment)?.id}`"
-            class="w-2 h-20 rounded-full"
+            class="h-20 w-2 rounded-full"
             :title="findCourse(assignment)?.name"
             :style="{
               backgroundColor: subjectColors[findCourse(assignment)?.subject ?? 'Math']
@@ -49,27 +49,33 @@ watch(deselectFilters, async () => {
 });
 
 const { courses, currentCourse } = storeToRefs(userStore);
-const assignments = ref<StudentAssignment[]>(
-  (courses.value.filter((c) => (c.assignments.length != 0 ? "instanceInfo" in c.assignments[0] : false)) as StudentCourse[]).map((c) => c.assignments).flat()
-);
+const assignments = ref<StudentAssignment[]>((courses.value.filter((c) => (c.assignments.length != 0 ? "assignment" in c.assignments[0] : false)) as StudentCourse[]).map((c) => c.assignments).flat());
+
+console.log(assignments.value);
 
 function findCourse(findAssignment: StudentAssignment) {
-  return userStore.courses.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "instanceInfo" in assignment));
+  return userStore.courses.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "assignment" in assignment));
 }
 
 const loaded = ref(false);
 
 onMounted(async () => {
   currentCourse.value = undefined;
-  await getAssignments();
+  await getToDoAssignments();
 });
 
-async function getAssignments() {
+async function getToDoAssignments() {
   loaded.value = false;
-  /* fetch the rest of the course assignments
-  and add it to currentcourse.assignments
-  and then find the course in courses and add it to that */
+
+  const assignment = (await getAssignments(0)) as StudentAssignment[];
+
+  console.log(assignment);
+
+  assignments.value = assignment;
+
   loaded.value = true;
+
+  //This function does not work. The studentToDo request form the backend does not work.
 }
 </script>
 

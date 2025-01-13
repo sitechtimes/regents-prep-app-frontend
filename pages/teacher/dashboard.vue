@@ -1,16 +1,16 @@
 <template>
-  <div class="flex flex-col items-start justify-start w-full h-full">
+  <div class="flex h-full w-full flex-col items-start justify-start">
     <Loading :show="!loaded" />
 
-    <div class="w-full h-full" v-if="loaded">
+    <div class="h-full w-full" v-if="loaded">
       <Transition name="opacity">
-        <div v-if="showNotFound" @click="router.push('/teacher/dashboard')" class="z-50 w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center">
+        <div v-if="showNotFound" @click="router.push('/teacher/dashboard')" class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-[rgba(0,0,0,0.5)]">
           <NotFound type="teacher" :message="route.query.course ? 'class' : 'assignment'" @close="router.push('/teacher/dashboard')" @click.stop />
         </div>
       </Transition>
 
-      <div class="w-full h-full flex flex-col">
-        <div class="flex flex-wrap items-start justify-start align-top gap-8" v-if="courses.length > 0">
+      <div class="flex h-full w-full flex-col">
+        <div class="flex flex-wrap items-start justify-start gap-8 align-top" v-if="courses.length > 0">
           <!--prettier-ignore-->
           <TeacherDashboardCard
             @click="router.push(`/teacher/course/${course.id}`)"
@@ -20,12 +20,12 @@
           />
         </div>
         <!--The v-else needs fixing Make it an github issue/lil css-ery will help-->
-        <div class="flex items-center justify-center h-full w-full overflow-hidden" v-else>
+        <div class="flex h-full w-full items-center justify-center overflow-hidden" v-else>
           <div class="flex flex-col items-center gap-4">
-            <h2 class="text-4xl md:text-5xl font-extrabold text-[var(--text-color)]" id="no-classes">No classes found!</h2>
+            <h2 class="text-4xl font-extrabold text-[var(--text-color)] md:text-5xl" id="no-classes">No classes found!</h2>
             <p class="text-lg text-[var(--text-color)]">It looks like you haven't created any classes yet.</p>
             <p class="text-md text-[var(--text-color)]">Click the button below to create your first class!</p>
-            <button @click="showCreateClass = true" class="mt-4 px-4 py-2 bg-green-accent text-white rounded-lg hover:bg-gray-600 transition duration-200">Create Class</button>
+            <button @click="showCreateClass = true" class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600">Create Class</button>
           </div>
         </div>
         <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" />

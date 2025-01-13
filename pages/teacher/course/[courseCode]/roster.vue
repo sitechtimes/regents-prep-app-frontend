@@ -1,38 +1,38 @@
 <template>
-  <div class="flex items-center justify-center flex-col w-screen min-h-screen py-12">
-    <div class="relative flex items-center justify-center flex-col gap-1">
+  <div class="flex min-h-screen w-screen flex-col items-center justify-center py-12">
+    <div class="relative flex flex-col items-center justify-center gap-1">
       <input
-        class="input input-bordered w-96 h-10 mb-6 px-2 py-1 rounded-lg border-2 transition duration-500 focus:outline focus:outline-2 focus:outline-[color:var(--primary)] focus:bg-[var(--bg-color)]"
+        class="mb-6 h-10 w-96 rounded-lg border bg-[var(--bg-color)] px-2 py-1 transition-all duration-500 hover:border-[var(--primary)]"
         type="text"
-        placeholder="Search Student..."
+        placeholder="Search for Student..."
         v-model="searchTerm"
       />
-      <div class="rounded-b-box rounded-se-box relative overflow-x-auto items">
+      <div class="items relative overflow-x-auto rounded-b-box rounded-se-box">
         <table class="table items-center justify-center">
           <thead>
             <tr>
-              <th class="py-3 px-10"></th>
-              <th class="py-3 px-10">First Name</th>
-              <th class="py-3 px-10">Last Name</th>
-              <th class="py-3 px-10">Remove Student</th>
+              <th class="px-10 py-3"></th>
+              <th class="px-10 py-3">First Name</th>
+              <th class="px-10 py-3">Last Name</th>
+              <th class="px-10 py-3">Remove Student</th>
             </tr>
           </thead>
           <tbody>
             <tr class="border-t" v-for="(student, index) in filteredStudents" :key="student.id">
-              <th class="py-3 px-10">{{ student.id }}</th>
-              <td class="py-3 px-10">{{ student.firstName }}</td>
-              <td class="py-3 px-10">{{ student.lastName }}</td>
-              <td class="py-3 px-10 flex items-center justify-center">
-                <button @click="removeStudent(index)" class="btn btn-sm h-8 w-8 pt-0.5 rounded-full transition-300 hover:bg-[var(--gray)] flex items-center justify-center">✕</button>
+              <th class="px-10 py-3">{{ student.id }}</th>
+              <td class="px-10 py-3">{{ student.firstName }}</td>
+              <td class="px-10 py-3">{{ student.lastName }}</td>
+              <td class="flex items-center justify-center px-10 py-3">
+                <button @click="removeStudent(index)" class="btn btn-sm transition-300 flex h-8 w-8 items-center justify-center rounded-full pt-0.5 hover:bg-[var(--gray)]">✕</button>
               </td>
             </tr>
             <tr v-if="filteredStudents.length === 0" class="border-t">
-              <td colspan="4" class="text-center items-center justify-center py-3 px-10">No results found</td>
+              <td colspan="4" class="items-center justify-center px-10 py-3 text-center">No students</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <button @click="router.push(`/teacher/course/${route.params.courseCode}`)" class="du-btn du-btn-wide du-btn-md bg-green-accent mt-4">Return To Class Page</button>
+      <button @click="router.push(`/teacher/course/${route.params.courseCode}`)" class="mt-4 rounded-xl bg-[var(--primary)] px-6 py-2 text-[var(text-color)]">Return To Class Page</button>
     </div>
   </div>
 </template>

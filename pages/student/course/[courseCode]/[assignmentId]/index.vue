@@ -1,14 +1,14 @@
 <template>
-  <div class="flex flex-col items-center justify-start w-full h-full">
+  <div class="flex h-full w-full flex-col items-center justify-start">
     <Loading :show="!loaded" />
 
-    <div class="w-full flex items-center justify-center" v-if="loaded">
-      <div class="w-2/3 flex flex-col items-center justify-center" v-if="currentCourse">
+    <div class="flex w-full items-center justify-center" v-if="loaded">
+      <div class="flex w-2/3 flex-col items-center justify-center" v-if="currentCourse">
         <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
         <p>Subject Review / Assignment</p>
         <!-- placeholder text for now -->
-        <button class="mt-4 px-4 py-2 bg-green-accent text-white rounded-lg hover:bg-gray-600 transition duration-200">Start</button>
+        <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600">Start</button>
       </div>
     </div>
   </div>

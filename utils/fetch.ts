@@ -1,4 +1,4 @@
-export async function getAssignments(courseId: number): Promise<(StudentAssignment | TeacherAssignment)[]> {
+export async function getAssignments(courseId: number): Promise<StudentAssignment[] | TeacherAssignment[]> {
   const config = useRuntimeConfig();
 
   const res = await fetch(config.public.backend + `courses/${courseId}/assignments/`, {
@@ -89,5 +89,15 @@ export async function studentJoinCourse(courseCode: string): Promise<number> {
     credentials: "include"
   });
   if (!res.ok) throw new Error("Failed to join course");
+  return await res.json();
+}
+
+export async function studentTodo(): Promise<StudentAssignment[]> {
+  const config = useRuntimeConfig();
+  console.log(config.public.backend);
+  const res = await fetch(config.public.backend + `courses/student/to-do/0`, {
+    credentials: "include"
+  });
+  if (!res.ok) throw new Error("Failed to fetch student todo");
   return await res.json();
 }
