@@ -7,20 +7,17 @@
     </div>
 
     <div class="flex w-2/5 flex-col items-center justify-center gap-2" v-if="assignment.assignment">
-      <p class="text-xl font-medium" v-if="assignment.questionsCompleted !== undefined">
-        Your Grade: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numOfQuestions }}
-        <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100) }}%)</span>
+      <p class="text-xl font-medium" v-if="assignment.questionsCorrect !== undefined">
+        Your Grade: {{ assignment.questionsCorrect }}/{{ assignment.assignment.numOfQuestions }}
+        <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.assignment.numOfQuestions) * 100) }}%)</span>
       </p>
       <p class="text-xl font-medium" v-else>
         Your Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numOfQuestions }}
         <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100) }}%)</span>
       </p>
 
-      <div class="h-4 w-full rounded-full border-[1.5px] border-gray-300" v-if="assignment.assignment.questionsCorrect">
-        <div
-          class="h-full rounded-full bg-green-500"
-          :style="{ width: ((assignment.assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.assignment.numOfQuestions) * 100 + '%' }"
-        ></div>
+      <div class="h-4 w-full rounded-full border-[1.5px] border-gray-300" v-if="assignment.questionsCorrect">
+        <div class="h-full rounded-full bg-green-500" :style="{ width: ((assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.assignment.numOfQuestions) * 100 + '%' }"></div>
       </div>
       <button
         v-if="!clickable"
@@ -42,9 +39,9 @@
         <div class="h-2 w-2 rounded-full" :class="assignment.dateSubmitted ? 'bg-green-600' : 'bg-red-600'"></div>
       </div>
 
-      <div class="flex items-center justify-center gap-2" v-if="assignment.assignment.questionsCorrect">
-        <p>{{ assignment.assignment.questionsCorrect > -1 ? "Graded" : "Ungraded" }}</p>
-        <div class="h-2 w-2 rounded-full" :class="assignment.assignment.questionsCorrect === undefined ? 'bg-red-600' : 'bg-green-600'"></div>
+      <div class="flex items-center justify-center gap-2" v-if="assignment.questionsCorrect">
+        <p>{{ assignment.questionsCorrect > -1 ? "Graded" : "Ungraded" }}</p>
+        <div class="h-2 w-2 rounded-full" :class="assignment.questionsCorrect === undefined ? 'bg-red-600' : 'bg-green-600'"></div>
       </div>
     </div>
   </div>

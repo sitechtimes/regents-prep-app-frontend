@@ -130,6 +130,9 @@ export interface StudentAssignment extends Assignment {
   /** @readonly Number of questions completed. */
   questionsCompleted: number;
 
+  /** @readonly Number of correct questions in the assignment */
+  questionsCorrect?: number;
+
   /** @readonly assignment object for assignment properties. */
 
   assignment: {
@@ -138,9 +141,6 @@ export interface StudentAssignment extends Assignment {
 
     /** @readonly Number of questions in the assignment */
     numOfQuestions: number;
-
-    /** @readonly Number of correct questions in the assignment */
-    questionsCorrect?: number;
 
     /** @readonly Whether or not the assignment can be turned in late. */
     lateSubmissions: boolean;
