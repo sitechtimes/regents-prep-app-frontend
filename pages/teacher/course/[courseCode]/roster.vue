@@ -37,8 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import studentList from "~/server/api/courses/[courseId]/teacher/student-list";
-
 definePageMeta({
   layout: "teacher",
   middleware: "auth",
