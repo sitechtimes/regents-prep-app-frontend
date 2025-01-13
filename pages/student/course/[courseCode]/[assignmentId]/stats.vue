@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-full w-full flex-col items-center justify-center">
     <h3 class="text-2xl mt-6">Assignment Statistics</h3>
-    <p class="text-xl py-1 mb-5 font-medium">Grade: {{ (questionsCorrect / numOfQuestions * 100).toFixed(0) }}%</p>
+    <p class="text-xl py-1 mb-5 font-medium">Grade: {{ (questionsCorrect / numOfQuestions * 100).toFixed(2) }}%</p>
     <div class="relative w-full max-w-lg h-8 mb-20 rounded-full border-[1.5px] border-gray-300 overflow-hidden">
       <div class="absolute inset-0 bg-red-500 w-full">
       </div>
@@ -95,44 +95,51 @@ onMounted(async () => {
     questionsCorrect.value = results.questionsCorrect ?? 0;
     questionInstances.value = results.questionInstances.map((instance: any) => ({
       ...instance,
-      userAnswers: instance.userAnswers.map((answer: string | number) =>
-        typeof answer === "string" ? Number(answer) : answer
-      ),
+      userAnswers: instance.userAnswers.map((answer: string | number) => Number(answer)),
     }));
   } catch (error) {
     console.error("Error fetching assignment results:", error);
   }
 });
 
+function findCorrectAnswer(answers: Answer[]){
+  return answers.find(function (answer) {
+    return answer.isCorrect;
+  });
+}
+
 function getCorrectAnswerText(answers: Answer[]) {
-  function findCorrectAnswer(answers: Answer[]) {
-    return answers.find(function (answer) {
-      return answer.isCorrect;
-    });
-  }
   const correctAnswer = findCorrectAnswer(answers);
   return correctAnswer ? stripHtml(correctAnswer.text) : "N/A";
 }
 
-
-function getUserAnswerText(userAnswerId: number, answers: Answer[]) {
-  const userAnswer = answers.find(function (answer) {
+function findUserAnswer(answers: Answer[], userAnswerId: number) {
+  return answers.find(function (answer) {
     return answer.id === userAnswerId;
   });
+}
+
+function getUserAnswerText(userAnswerId: number, answers: Answer[]){
+  const userAnswer = findUserAnswer(answers, userAnswerId);
   return userAnswer ? stripHtml(userAnswer.text) : "No Answer Selected";
 }
+
 
 function stripHtml(html: string) {
   return html.replace(/<\/?(p|em)>/g, "");
 }
-
-function getResultText(questionInstance: QuestionInstance) {
-  const correctAnswerId = questionInstance.question.answers.find(function (answer) {
+function findCorrectAnswerId(answers: Answer[]) {
+  return answers.find(function (answer) {
     return answer.isCorrect;
   })?.id;
+}
+
+function getResultText(questionInstance: QuestionInstance) {
+  const correctAnswerId = findCorrectAnswerId(questionInstance.question.answers);
   const userAnswerId = questionInstance.userAnswers[0];
   return correctAnswerId === userAnswerId ? "Correct" : "Incorrect";
 }
+
 
 function getResultClass(questionInstance: QuestionInstance) {
   const isCorrect = getResultText(questionInstance) === "Correct";
