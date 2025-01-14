@@ -75,8 +75,8 @@ async function removeStudent(index: number) {
   const courseId = Number(route.params.courseCode);
 
   try {
-    await removeStudents(courseId, studentId);
     filteredStudents.value.splice(index, 1);
+    await removeStudents(courseId, studentId);
   } catch (error) {
     console.error(error);
   }
