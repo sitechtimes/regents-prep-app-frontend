@@ -20,7 +20,6 @@ NUXT_TEST_BACKEND = http://localhost:3000/api/
 
 ```sh
 npm install
-npm install pinia --legacy-peer-deps (if pinia gives an error)
 npm run dev
 ```
 
