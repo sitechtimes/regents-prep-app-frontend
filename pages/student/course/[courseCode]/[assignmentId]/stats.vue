@@ -18,36 +18,31 @@
       <div>Correct Answer</div>
       <div>Results</div>
     </div>
-    <div v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
+    <div v-if="questionInstances" v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
       class="hover:bg-[var(--hover-background)] du-collapse bg-gray text-sm">
       <input type="checkbox" />
       <div class="du-collapse-title px-4 py-15 text-lg font-medium grid grid-cols-5 gap-4">
         <div>{{ index + 1 }}</div>
-        <div>{{ stripHtml(truncateString(questionInstance.question.text, 25)) }}...</div>
-        <div>{{ getUserAnswerText(questionInstance.userAnswers[0], questionInstance.question.answers) }}</div>
-        <div>{{ getCorrectAnswerText(questionInstance.question.answers) }}</div>
-        <div><span :class="getResultClass(questionInstance)">{{ getResultText(questionInstance) }}</span></div>
+        <div>{{ stripHtml(truncateString(questionInstance.question[index].text, 25)) }}...</div>
+        <div>{{ getUserAnswerText(questionInstance.userAnswers[0], questionInstance.question[index].answers) }}</div>
+        <div>{{ getCorrectAnswerText(questionInstance.question[index].answers) }}</div>
+        <!-- <div><span :class="getResultClass(questionInstance)">{{ getResultText(questionInstance) }}</span></div> -->
       </div>
       <div class="du-collapse-content px-4 py-15 text-lg font-medium">
-        <p class="mb-4" v-html="questionInstance.question.text"></p>
+        <p class="mb-4" v-html="questionInstance.question[index].text"></p>
         <ul>
-  <li
-    v-for="answer in questionInstance.question.answers"
-    :key="answer.id"
-    :class="{
-      'text-blue-500 font-bold': questionInstance.userAnswers?.includes(answer.id),
-      'text-green-500 font-bold': answer.isCorrect
-    }"
-    class="mb-2 flex items-center gap-2"
-  >
-    <span class="w-4 flex justify-center">
-      <span v-if="answer.isCorrect">✔️</span>
-      <span v-else-if="questionInstance.userAnswers.includes(answer.id)">❌</span>
-      <span v-else>•</span>
-    </span>
-    <span>{{ stripHtml(answer.text) }}</span>
-  </li>
-</ul>
+          <li v-for="answer in questionInstance.question[index].answers" :key="answer.id" :class="{
+            'text-blue-500 font-bold': questionInstance.userAnswers?.includes(answer.id),
+            'text-green-500 font-bold': answer.isCorrect
+          }" class="mb-2 flex items-center gap-2">
+            <span class="w-4 flex justify-center">
+              <span v-if="answer.isCorrect">✔️</span>
+              <span v-else-if="questionInstance.userAnswers.includes(answer.id)">❌</span>
+              <span v-else>•</span>
+            </span>
+            <span>{{ stripHtml(answer.text) }}</span>
+          </li>
+        </ul>
 
       </div>
     </div>
@@ -61,30 +56,30 @@ definePageMeta({
   requiresAuth: true
 });
 
-interface Answer {
+/*interface Answer {
   id: number;
   text: string;
   isCorrect: boolean;
 }
 
-interface Question {
+ interface Question {
   id: number;
   text: string;
   answerType: string;
   answers: Answer[];
 }
 
-interface QuestionInstance {
+interface QuestionInterface {
   id: number;
   userAnswers: number[];
   isComplete: boolean;
   question: Question;
-}
+} */
 
 const route = useRoute();
 const assignmentId = ref(Number(route.params.assignmentId));
 const numOfQuestions = ref(0);
-const questionInstances = ref<QuestionInstance[]>([]);
+const questionInstances = ref<QuestionInterface[]>();
 const questionsCorrect = ref(0);
 
 onMounted(async () => {
@@ -102,7 +97,7 @@ onMounted(async () => {
   }
 });
 
-function findCorrectAnswer(answers: Answer[]){
+function findCorrectAnswer(answers: Answer[]) {
   return answers.find(function (answer) {
     return answer.isCorrect;
   });
@@ -119,7 +114,7 @@ function findUserAnswer(answers: Answer[], userAnswerId: number) {
   });
 }
 
-function getUserAnswerText(userAnswerId: number, answers: Answer[]){
+function getUserAnswerText(userAnswerId: number, answers: Answer[]) {
   const userAnswer = findUserAnswer(answers, userAnswerId);
   return userAnswer ? stripHtml(userAnswer.text) : "No Answer Selected";
 }
@@ -134,17 +129,17 @@ function findCorrectAnswerId(answers: Answer[]) {
   })?.id;
 }
 
-function getResultText(questionInstance: QuestionInstance) {
-  const correctAnswerId = findCorrectAnswerId(questionInstance.question.answers);
+function getResultText(questionInstance: QuestionInterface, index: number) {
+  const correctAnswerId = findCorrectAnswerId(questionInstance.question[index].answers);
   const userAnswerId = questionInstance.userAnswers[0];
   return correctAnswerId === userAnswerId ? "Correct" : "Incorrect";
 }
 
 
-function getResultClass(questionInstance: QuestionInstance) {
+/* function getResultClass(questionInstance: QuestionInterface) {
   const isCorrect = getResultText(questionInstance) === "Correct";
   return isCorrect ? "text-green-500 font-bold" : "text-red-500 font-bold";
-}
+} */
 
 function truncateString(str: string, maxLength: number) {
   if (str.length > maxLength) {
