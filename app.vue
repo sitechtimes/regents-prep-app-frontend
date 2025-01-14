@@ -24,7 +24,13 @@ onBeforeMount(() => {
   if (localStorage.getItem("theme") === "dark") isDarkMode.value = true;
 });
 
+const userTypes: Record<string, string> = {
+  student: "/teacher",
+  teacher: "/student"
+};
+
 onMounted(() => {
+  if (route.path.includes(userTypes[userStore.userType])) router.replace(`/${userStore.userType}/dashboard`);
   document.body.style.display = "block";
   loaded.value = true;
 });
