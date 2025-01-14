@@ -23,15 +23,15 @@
       <input type="checkbox" />
       <div class="du-collapse-title px-4 py-15 text-lg font-medium grid grid-cols-5 gap-4">
         <div>{{ index + 1 }}</div>
-        <div>{{ stripHtml(truncateString(questionInstance.question[index].text, 25)) }}...</div>
-        <div>{{ getUserAnswerText(questionInstance.userAnswers[0], questionInstance.question[index].answers) }}</div>
-        <div>{{ getCorrectAnswerText(questionInstance.question[index].answers) }}</div>
+        <div>{{ stripHtml(truncateString(questionInstance.question.text, 25)) }}...</div>
+        <div>{{ getUserAnswerText(questionInstance.userAnswers[0], questionInstance.question.answers) }}</div>
+        <div>{{ getCorrectAnswerText(questionInstance.question.answers) }}</div>
         <!-- <div><span :class="getResultClass(questionInstance)">{{ getResultText(questionInstance) }}</span></div> -->
       </div>
       <div class="du-collapse-content px-4 py-15 text-lg font-medium">
-        <p class="mb-4" v-html="questionInstance.question[index].text"></p>
+        <p class="mb-4" v-html="questionInstance.question.text"></p>
         <ul>
-          <li v-for="answer in questionInstance.question[index].answers" :key="answer.id" :class="{
+          <li v-for="answer in questionInstance.question.answers" :key="answer.id" :class="{
             'text-blue-500 font-bold': questionInstance.userAnswers?.includes(answer.id),
             'text-green-500 font-bold': answer.isCorrect
           }" class="mb-2 flex items-center gap-2">
@@ -119,7 +119,6 @@ function getUserAnswerText(userAnswerId: number, answers: Answer[]) {
   return userAnswer ? stripHtml(userAnswer.text) : "No Answer Selected";
 }
 
-
 function stripHtml(html: string) {
   return html.replace(/<\/?(p|em)>/g, "");
 }
@@ -134,7 +133,6 @@ function getResultText(questionInstance: QuestionInterface, index: number) {
   const userAnswerId = questionInstance.userAnswers[0];
   return correctAnswerId === userAnswerId ? "Correct" : "Incorrect";
 }
-
 
 /* function getResultClass(questionInstance: QuestionInterface) {
   const isCorrect = getResultText(questionInstance) === "Correct";
