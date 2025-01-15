@@ -112,5 +112,5 @@ export async function removeStudents(courseId: number, studentId: number): Promi
     body: JSON.stringify({ courseId: courseId, studentId: studentId })
   });
   if (!res.ok) throw new Error("Failed to delete students");
-  return await res.json();
+  return [];
 }
