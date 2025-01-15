@@ -4,13 +4,13 @@
       <header class="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-[var(--border-color)] bg-[var(--bg-color)] px-5">
         <div class="flex w-1/3 items-center justify-start gap-3">
           <button @click="showSideMenu = !showSideMenu"><img class="h-12 w-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
-          <NuxtLink v-if="currentCourse" :to="`/student/course/${currentCourse.id}`" class="flex flex-col items-start justify-center hover:underline hover:underline-offset-1">
+          <NuxtLink v-if="loaded && currentCourse" :to="`/student/course/${currentCourse.id}`" class="flex flex-col items-start justify-center hover:underline hover:underline-offset-1">
             <h4 class="text-xl font-medium">{{ currentCourse.name }}</h4>
             <p class="text-sm">Period {{ currentCourse.period }}</p>
           </NuxtLink>
         </div>
         <div class="flex w-1/3 items-center justify-center">
-          <NuxtLink to="/student/dashboard" class="border-b-2 border-transparent text-3xl transition-all duration-500 ease-in-out hover:border-current"> SITHS Regents Prep</NuxtLink>
+          <NuxtLink to="/student/dashboard" class="border-b-2 border-transparent text-3xl transition-all duration-500 ease-in-out hover:border-current">SITHS Regents Prep</NuxtLink>
         </div>
         <div class="flex w-1/3 items-center justify-end gap-3">
           <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
@@ -84,18 +84,11 @@ const router = useRouter();
 
 const { courses, currentCourse } = storeToRefs(userStore);
 
-watch(currentCourse, (course) => {
-  console.log(course);
-});
-
 const loaded = ref(false);
 const showSideMenu = ref(true);
 const showJoinClass = ref(false);
 
-const openDropdown = ref(false);
-
 onMounted(() => {
-  currentCourse.value = undefined;
   loaded.value = true;
 });
 

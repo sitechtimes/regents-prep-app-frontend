@@ -25,7 +25,7 @@
             <h2 class="text-4xl font-extrabold text-[var(--text-color)] md:text-5xl" id="no-classes">No classes found!</h2>
             <p class="text-lg text-[var(--text-color)]">It looks like you haven't added any classes yet.</p>
             <p class="text-md text-[var(--text-color)]">Click the button below to add your first class!</p>
-            <button @click="openTheJoin" class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600">Add Class</button>
+            <button @click="showJoinClass = true" class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600">Add Class</button>
           </div>
         </div>
         <StudentJoinClass :show="showJoinClass" @close="showJoinClass = false" />
@@ -37,7 +37,6 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "auth",
   requiresAuth: true
 });
 
@@ -50,11 +49,6 @@ const showNotFound = ref(false);
 const loaded = ref(false);
 
 const showJoinClass = ref(false);
-
-function openTheJoin() {
-  console.log("HELP");
-  showJoinClass.value = true;
-}
 
 watch(
   () => route.query,
