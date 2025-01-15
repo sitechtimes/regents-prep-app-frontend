@@ -3,7 +3,7 @@
     <div class="flex w-2/3 flex-col items-center justify-center" v-if="currentCourse">
       <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
-      <NuxtLink :to="`/student/course/${route.params.courseCode}/${route.params.assignmentId}/stats`">Subject Review / Assignment</NuxtLink>
+      <NuxtLink :to="`/student/course/${route.params.courseCode}/${route.params.assignmentId}/stats`">Assignment Stats</NuxtLink>
       <!-- placeholder text for now -->
       <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600">Start</button>
     </div>
@@ -19,9 +19,10 @@ definePageMeta({
 
 const route = useRoute();
 const router = useRouter();
+
 const userStore = useUserStore();
-const currentAssignment = ref<StudentAssignment>();
 const { currentCourse } = storeToRefs(userStore);
+const currentAssignment = computed(() => currentCourse.value?.assignments.find((assignment) => assignment.id === Number(route.params.assignmentId)) as StudentAssignment);
 
 onMounted(() => window.addEventListener("beforeunload", warnForUnsavedChanges));
 onBeforeUnmount(() => window.removeEventListener("beforeunload", warnForUnsavedChanges));
