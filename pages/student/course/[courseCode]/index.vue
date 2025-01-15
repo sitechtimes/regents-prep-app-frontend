@@ -83,6 +83,7 @@ const filteredAssignments = computed(() => {
 
 onMounted(() => {
   loaded.value = true;
+  console.log(courses.value);
 });
 
 // for vitest

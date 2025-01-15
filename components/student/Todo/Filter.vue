@@ -1,7 +1,7 @@
 <template>
   <div class="relative flex flex-col items-start justify-start rounded-xl">
     <button
-      @click="toggleFilters"
+      @click="showFilters = !showFilters"
       class="flex h-9 w-9 items-center justify-center rounded-full border bg-white p-0 transition duration-500 lg:w-32 lg:justify-start lg:p-2 lg:px-4 dark:bg-neutral-800"
       :class="buttonClass"
     >
@@ -27,22 +27,14 @@ const props = defineProps<{ close: boolean }>();
 const emit = defineEmits<{ filter: [TodoFilter] }>();
 
 const showFilters = ref(false);
-const currentFilters = ref<string[]>(["all"]);
+const currentFilters = ref(["all"]);
 
 const filters: Record<string, TodoFilter> = {
-  "all": (assignment) => true,
+  all: (_) => true,
   "not turned in": (assignment) => !assignment.dateSubmitted,
   "turned in": (assignment) => assignment.dateSubmitted !== null,
   ungraded: (assignment) => assignment.questionsCorrect === undefined,
   graded: (assignment) => assignment.questionsCorrect !== undefined
-};
-
-const filterExclusions: Record<string, string[]> = {
-  "all": ["not turned in", "turned in", "ungraded", "graded"],
-  "not turned in": ["turned in"],
-  "turned in": ["not turned in"],
-  ungraded: ["graded"],
-  graded: ["ungraded"]
 };
 
 watch(currentFilters, () => emitFilter());
@@ -54,20 +46,25 @@ watch(
 onMounted(emitFilter);
 
 function emitFilter() {
-  emit("filter", (assignment: StudentAssignment) => currentFilters.value.every((filter) => filters[filter](assignment)) && currentFilters.value.some((filter) => filters[filter](assignment)));
+  emit("filter", (assignment: StudentAssignment) => currentFilters.value.every((filter) => filters[filter](assignment)));
 }
 
-function toggleFilters() {
-  showFilters.value = !showFilters.value;
-}
+const filterExclusions: Record<string, string[]> = {
+  all: ["not turned in", "turned in", "ungraded", "graded"],
+  "not turned in": ["turned in"],
+  "turned in": ["not turned in"],
+  ungraded: ["graded"],
+  graded: ["ungraded"]
+};
 
 function selectFilter(name: string) {
-  currentFilters.value = currentFilters.value.includes(name) ? currentFilters.value.filter((filter) => filter !== name) : [...currentFilters.value, name];
+  // prettier-ignore
+  currentFilters.value = (currentFilters.value.includes(name) 
+  ? currentFilters.value.filter((filter) => filter !== name) 
+  : [...currentFilters.value, name]
+  ).filter((filter) => !filterExclusions[name].includes(filter) && filter !== "all");
 
-  const exclusions = filterExclusions[name] || [];
-  for (const exclude of exclusions) {
-    currentFilters.value = currentFilters.value.filter((filter) => filter !== exclude);
-  }
+  if (currentFilters.value.length === 0) currentFilters.value = ["all"];
 }
 
 function getCheckboxBgColor(key: string) {
