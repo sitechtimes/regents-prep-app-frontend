@@ -1,41 +1,43 @@
 <template>
   <div class="flex h-full w-full flex-col items-center justify-center">
-    <h3 class="text-2xl mt-6">Assignment Statistics</h3>
-    <p class="text-xl py-1 mb-5 font-medium">Grade: {{ (questionsCorrect / numOfQuestions * 100).toFixed(2) }}%</p>
-    <div class="relative w-full max-w-lg h-8 mb-20 rounded-full border-[1.5px] border-gray-300 overflow-hidden">
-      <div class="absolute inset-0 bg-red-500 w-full">
-      </div>
-      <div class="absolute h-full bg-green-500" :style="{ width: (questionsCorrect / numOfQuestions) * 100 + '%' }">
-      </div>
-      <div class="absolute inset-0 flex items-center justify-center text-white font-bold text-lg">
-        {{ questionsCorrect }} / {{ numOfQuestions }}
-      </div>
+    <h3 class="mt-6 text-2xl">Assignment Statistics</h3>
+    <p class="mb-5 py-1 text-xl font-medium">Grade: {{ ((questionsCorrect / numOfQuestions) * 100).toFixed(2) }}%</p>
+    <div class="relative mb-20 h-8 w-full max-w-lg overflow-hidden rounded-full border-[1.5px] border-gray-300">
+      <div class="absolute inset-0 w-full bg-red-500"></div>
+      <div class="absolute h-full bg-green-500" :style="{ width: (questionsCorrect / numOfQuestions) * 100 + '%' }"></div>
+      <div class="absolute inset-0 flex items-center justify-center text-lg font-bold text-white">{{ questionsCorrect }} / {{ numOfQuestions }}</div>
     </div>
-    <div class="header-row grid grid-cols-5 px-4 py-2 gap-4 text-lg font-bold border-b w-full">
+    <div class="header-row grid w-full grid-cols-5 gap-4 border-b px-4 py-2 text-lg font-bold">
       <div>Question</div>
       <div>Question Preview</div>
       <div>Student's Answer</div>
       <div>Correct Answer</div>
       <div>Results</div>
     </div>
-    <div v-if="questionInstances" v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id"
-      class="hover:bg-[var(--hover-background)] du-collapse bg-gray text-sm">
+    <div v-if="questionInstances" v-for="(questionInstance, index) in questionInstances" :key="questionInstance.id" class="bg-gray du-collapse text-sm hover:bg-[var(--hover-background)]">
       <input type="checkbox" />
-      <div class="du-collapse-title px-4 py-15 text-lg font-medium grid grid-cols-5 gap-4">
+      <div class="py-15 du-collapse-title grid grid-cols-5 gap-4 px-4 text-lg font-medium">
         <div>{{ index + 1 }}</div>
         <div>{{ stripHtml(truncateString(questionInstance.question.text, 25)) }}...</div>
         <div>{{ getUserAnswerText(questionInstance.userAnswers[0], questionInstance.question.answers) }}</div>
         <div>{{ getCorrectAnswerText(questionInstance.question.answers) }}</div>
-        <!-- <div><span :class="getResultClass(questionInstance)">{{ getResultText(questionInstance) }}</span></div> -->
+        <div>
+          <span :class="getResultClass(questionInstance)">{{ getResultText(questionInstance) }}</span>
+        </div>
       </div>
-      <div class="du-collapse-content px-4 py-15 text-lg font-medium">
+      <div class="py-15 du-collapse-content px-4 text-lg font-medium">
         <p class="mb-4" v-html="questionInstance.question.text"></p>
         <ul>
-          <li v-for="answer in questionInstance.question.answers" :key="answer.id" :class="{
-            'text-blue-500 font-bold': questionInstance.userAnswers?.includes(answer.id),
-            'text-green-500 font-bold': answer.isCorrect
-          }" class="mb-2 flex items-center gap-2">
-            <span class="w-4 flex justify-center">
+          <li
+            v-for="answer in questionInstance.question.answers"
+            :key="answer.id"
+            :class="{
+              'font-bold text-blue-500': questionInstance.userAnswers?.includes(answer.id),
+              'font-bold text-green-500': answer.isCorrect
+            }"
+            class="mb-2 flex items-center gap-2"
+          >
+            <span class="flex w-4 justify-center">
               <span v-if="answer.isCorrect">✔️</span>
               <span v-else-if="questionInstance.userAnswers.includes(answer.id)">❌</span>
               <span v-else>•</span>
@@ -43,7 +45,6 @@
             <span>{{ stripHtml(answer.text) }}</span>
           </li>
         </ul>
-
       </div>
     </div>
   </div>
@@ -90,7 +91,7 @@ onMounted(async () => {
     questionsCorrect.value = results.questionsCorrect ?? 0;
     questionInstances.value = results.questionInstances.map((instance: any) => ({
       ...instance,
-      userAnswers: instance.userAnswers.map((answer: string | number) => Number(answer)),
+      userAnswers: instance.userAnswers.map((answer: string | number) => Number(answer))
     }));
   } catch (error) {
     console.error("Error fetching assignment results:", error);
@@ -128,16 +129,16 @@ function findCorrectAnswerId(answers: Answer[]) {
   })?.id;
 }
 
-function getResultText(questionInstance: QuestionInterface, index: number) {
-  const correctAnswerId = findCorrectAnswerId(questionInstance.question[index].answers);
+function getResultText(questionInstance: QuestionInterface) {
+  const correctAnswerId = findCorrectAnswerId(questionInstance.question.answers);
   const userAnswerId = questionInstance.userAnswers[0];
   return correctAnswerId === userAnswerId ? "Correct" : "Incorrect";
 }
 
-/* function getResultClass(questionInstance: QuestionInterface) {
+function getResultClass(questionInstance: QuestionInterface) {
   const isCorrect = getResultText(questionInstance) === "Correct";
   return isCorrect ? "text-green-500 font-bold" : "text-red-500 font-bold";
-} */
+}
 
 function truncateString(str: string, maxLength: number) {
   if (str.length > maxLength) {
