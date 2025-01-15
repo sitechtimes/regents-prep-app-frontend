@@ -40,9 +40,11 @@ export function formatDate(target: Date, current: Date) {
   return labels[String(diffDays)] || (diffDays > 1 && diffDays <= 7 ? week : diffDays < -1 && diffDays >= -7 ? `last ${week}` : long);
 }
 
-export function courseToDate(courses: (StudentCourse | TeacherCourse)[]) {
+export function courseToDate(courses: StudentCourse[]) {
   for (let course of courses) {
-    assignmentToDate(course.assignments);
+    if ("assignment" in course) {
+      assignmentToDate(course.assignments);
+    }
   }
 }
 
