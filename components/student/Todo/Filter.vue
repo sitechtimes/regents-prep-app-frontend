@@ -27,9 +27,10 @@ const props = defineProps<{ close: boolean }>();
 const emit = defineEmits<{ filter: [TodoFilter] }>();
 
 const showFilters = ref(false);
-const currentFilters = ref<string[]>([]);
+const currentFilters = ref<string[]>(["all"]);
 
 const filters: Record<string, TodoFilter> = {
+  "all": (assignment) => true,
   "not turned in": (assignment) => !assignment.dateSubmitted,
   "turned in": (assignment) => assignment.dateSubmitted !== null,
   ungraded: (assignment) => assignment.questionsCorrect === undefined,
@@ -37,6 +38,7 @@ const filters: Record<string, TodoFilter> = {
 };
 
 const filterExclusions: Record<string, string[]> = {
+  "all": ["not turned in", "turned in", "ungraded", "graded"],
   "not turned in": ["turned in"],
   "turned in": ["not turned in"],
   ungraded: ["graded"],
@@ -63,9 +65,9 @@ function selectFilter(name: string) {
   currentFilters.value = currentFilters.value.includes(name) ? currentFilters.value.filter((filter) => filter !== name) : [...currentFilters.value, name];
 
   const exclusions = filterExclusions[name] || [];
-  exclusions.forEach((exclude) => {
+  for (const exclude of exclusions) {
     currentFilters.value = currentFilters.value.filter((filter) => filter !== exclude);
-  });
+  }
 }
 
 function getCheckboxBgColor(key: string) {
