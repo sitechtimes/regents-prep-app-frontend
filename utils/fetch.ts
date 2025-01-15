@@ -1,102 +1,51 @@
-export async function getAssignments(courseId: number): Promise<StudentAssignment[] | TeacherAssignment[]> {
+async function requestEndpoint(endpoint: string, method?: string, body?: any): Promise<any> {
   const config = useRuntimeConfig();
+  const options: RequestInit = { credentials: "include" };
+  if (method) {
+    options["method"] = method;
+    options["headers"] = { "Content-Type": "application/json" };
+    options["body"] = JSON.stringify(body);
+  }
 
-  const res = await fetch(config.public.backend + `courses/${courseId}/assignments/`, {
-    credentials: "include"
-  });
-  if (!res.ok) throw new Error("Failed to fetch assignments");
-  const data = await res.json();
+  const res = await fetch(config.public.backend + endpoint, options);
+  if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`);
+  return await res.json();
+}
+
+export async function getAssignments(courseId: number): Promise<StudentAssignment[] | TeacherAssignment[]> {
+  const data = await requestEndpoint(`courses/${courseId}/assignments/`);
   assignmentToDate(data);
   return data;
 }
 
 export async function getCourseStudents(courseId: number): Promise<TeacherStudentList[]> {
-  const config = useRuntimeConfig();
-
-  const res = await fetch(config.public.backend + `courses/${courseId}/teacher/student-list/`, {
-    credentials: "include"
-  });
-  if (!res.ok) throw new Error("Failed to fetch students");
-  return await res.json();
+  return await requestEndpoint(`courses/${courseId}/teacher/student-list/`);
 }
 
 export async function getStudentAssignment(assignmentId: number): Promise<AssignmentInstance> {
-  const config = useRuntimeConfig();
-
-  const res = await fetch(config.public.backend + `courses/student/assignment-instance/`, {
-    credentials: "include",
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id: assignmentId })
-  });
-  if (!res.ok) throw new Error("Failed to fetch student assignment");
-  return await res.json();
+  return await requestEndpoint(`courses/student/assignment-instance/`, "POST", { id: assignmentId });
 }
 
 export async function getNextQuestion(assignmentId: number): Promise<QuestionInterface> {
-  const config = useRuntimeConfig();
-
-  const res = await fetch(config.public.backend + `courses/student/assignment/get-next-question/`, {
-    credentials: "include",
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id: assignmentId })
-  });
-  if (!res.ok) throw new Error("Failed to fetch next question");
-  return await res.json();
+  return await requestEndpoint(`courses/student/assignment/get-next-question/`, "POST", { id: assignmentId });
 }
 
 export async function submitQuestionAnswer(questionId: number, answerId: number): Promise<SubmitAnswer> {
-  const config = useRuntimeConfig();
-
-  const res = await fetch(config.public.backend + `courses/student/submit-answer/`, {
-    credentials: "include",
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ questionInstanceID: questionId, answerID: answerId })
-  });
-  if (!res.ok) throw new Error("Failed to submit answer");
-  return await res.json();
+  return await requestEndpoint(`courses/student/submit-answer/`, "POST", { questionInstanceID: questionId, answerID: answerId });
 }
 
 export async function submitAssignment(assignmentId: number): Promise<SubmitAssignment> {
-  const config = useRuntimeConfig();
-
-  const res = await fetch(config.public.backend + "courses/student/submit-assignment/", {
-    credentials: "include",
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id: assignmentId })
-  });
-  if (!res.ok) throw new Error("Failed to submit answer");
-  return await res.json();
+  return await requestEndpoint("courses/student/submit-assignment/", "POST", { id: assignmentId });
 }
 
 export async function getAssignmentResults(assignmentId: number): Promise<AssignmentResults> {
-  const config = useRuntimeConfig();
-
-  const res = await fetch(config.public.backend + `courses/student/assignment-results/${assignmentId}`, {
-    credentials: "include"
-  });
-  if (!res.ok) throw new Error("Failed to fetch assignment results");
-  return await res.json();
+  return await requestEndpoint(`courses/student/assignment-results/${assignmentId}`);
 }
 
 export async function studentJoinCourse(courseCode: string): Promise<number> {
-  const config = useRuntimeConfig();
-
-  const res = await fetch(config.public.backend + `courses/student/join/${courseCode}`, {
-    credentials: "include"
-  });
-  if (!res.ok) throw new Error("Failed to join course");
-  return await res.json();
+  return await requestEndpoint(`courses/student/join/${courseCode}`);
 }
 
 export async function getStudentTodo(): Promise<StudentAssignment[]> {
-  const config = useRuntimeConfig();
-  const res = await fetch(config.public.backend + `courses/0/assignments/`, {
-    credentials: "include"
-  });
-  if (!res.ok) throw new Error("Failed to fetch student todo list");
-  return await res.json();
+  return await requestEndpoint(`courses/0/assignments/`);
 }
