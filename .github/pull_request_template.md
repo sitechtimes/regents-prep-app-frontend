@@ -1,3 +1,11 @@
+<!--------------------------------
+Before you submit your PR:
+1. Do you have any console.logs for testing purposes? Remove them please!
+2. Does your code actually work? Test all of your changes one more time!
+3. Fill out the Additions, Changes, and Notes sections below. It helps us review your PR because I ain't reading allat lil bro
+4. Delete these instruction comments (optional)
+--------------------------------->
+
 <!--------------------------------------------------------------------------------------------------------------
 Summarize any additions (new content) your PR includes. If it is related to an issue, tag it at the end.
 
@@ -19,6 +27,18 @@ Examples:
 - Terminated yoda from life (#1337)
 -------------------------------------------------------------------------------------------------------------->
 ### Changes
+- 
+- 
+- 
+
+<!--------------------------------------------------------------------------------------------------------------
+Is something unfinished due to something that toally isn't your fault? Mention the problem and what needs to be fixed.
+
+Examples:
+- Yoda clicks need to be registered on the backend (new api endpoint required)
+- Yodas are not terminated after 3 seconds because one does not simply terminate yoda
+-------------------------------------------------------------------------------------------------------------->
+### Notes
 - 
 - 
 - 

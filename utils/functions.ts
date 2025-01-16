@@ -49,14 +49,12 @@ export function courseToDate(courses: StudentCourse[]) {
 }
 
 export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssignment[]) {
-  for (let assignment of assignments) {
+  for (const assignment of assignments) {
     if ("assignment" in assignment) {
-      //This if statement determines if the function is done to a studentAssignment, as the type for studentAssignment includes an 'assignment' object.
+      // Check if assignment is of type StudentAssignment
       assignment.assignment.dueDate = new Date(assignment.assignment.dueDate);
       assignment.assignment.dateAssigned = new Date(assignment.assignment.dateAssigned);
-      if ("dateSubmitted" in assignment) {
-        assignment.dateSubmitted = assignment.dateSubmitted;
-      }
+      if ("dateSubmitted" in assignment) assignment.dateSubmitted = assignment.dateSubmitted;
     } else {
       assignment.dueDate = new Date(assignment.dueDate);
       assignment.dateAssigned = new Date(assignment.dateAssigned);

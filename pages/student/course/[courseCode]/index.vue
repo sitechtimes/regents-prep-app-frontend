@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = !deselectFilters">
-    <div class="flex w-full items-center justify-center">
+    <div class="flex w-full items-center justify-center" v-if="loaded">
       <div class="flex w-2/3 flex-col items-center justify-center" v-if="currentCourse">
         <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[currentCourse.subject] }">
           <h1 class="text-4xl font-semibold">{{ currentCourse.name }}</h1>
@@ -9,24 +9,25 @@
         </div>
 
         <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
-          <StudentFilters
-            :assignments="currentCourse.assignments.filter((a) => 'assignment' in a)"
-            :deselect="deselectFilters"
-            @filteredAssignments="(filteredAssignments) => (assignments = filteredAssignments)"
-            @refresh="loadAssignments(true)"
+          <StudentTodoToolbar
+            :closeToolbar="deselectFilters"
+            :assignments="assignments"
+            @sort="(sorter) => (currentSorter = sorter)"
+            @filter="(filter) => (currentFilters = filter)"
+            @search="(term) => (currentSearch = term)"
           />
 
-          <div class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6" v-if="!loaded"></div>
+          <div class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6" v-if="!filteredAssignments"></div>
           <StudentAssignmentCard
-            v-else-if="loaded && assignments.length > 0"
-            v-for="assignment in assignments"
+            v-else-if="filteredAssignments.length > 0"
+            v-for="assignment in filteredAssignments"
             :key="assignment.id"
             @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
             :assignment="assignment"
             clickable
           />
 
-          <div id="no-assignments" v-else-if="loaded && assignments.length === 0" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
+          <div id="no-assignments" v-else-if="filteredAssignments.length === 0" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
             <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="mb-4 h-16 w-16 dark:invert" />
             <h3 class="mb-2 text-2xl font-semibold">No Assignments Yet</h3>
             <p class="text-lg">You're all caught up!</p>
@@ -39,54 +40,54 @@
 </template>
 
 <script setup lang="ts">
-import { a } from "vitest/dist/chunks/suite.B2jumIFP.js";
+const userStore = useUserStore();
+const { courses, currentCourse } = storeToRefs(userStore);
 
 definePageMeta({
   layout: "student",
-  middleware: "auth",
+  middleware: "student-get-course",
   requiresAuth: true
+});
+
+useSeoMeta({
+  title: () => currentCourse.value?.name ?? "Class Details"
 });
 
 const route = useRoute();
 const router = useRouter();
-const userStore = useUserStore();
-
-const deselectFilters = ref(false);
-
-const { courses, currentCourse, initComplete } = storeToRefs(userStore);
-const assignments = ref<StudentAssignment[]>(currentCourse.value ? currentCourse.value.assignments.filter((a) => "assignment" in a) : []);
 
 const loaded = ref(false);
 
+const currentFilters = ref<TodoFilter>();
+const currentSorter = ref<TodoSorter>();
+const currentSearch = ref("");
+const deselectFilters = ref(false);
+watch(deselectFilters, async (val) => {
+  if (!val) return;
+  await nextTick();
+  deselectFilters.value = false;
+});
+
+const assignments = ref(currentCourse.value?.assignments as StudentAssignment[]);
+const filteredAssignments = computed(() => {
+  if (!currentFilters.value || !currentSorter.value) return;
+  const filters = currentFilters.value;
+  const sorter = currentSorter.value;
+  const search = currentSearch.value;
+
+  return assignments.value
+    ?.filter(filters)
+    .filter((assignment) => assignment.assignment.name.toLowerCase().includes(search.toLowerCase()))
+    .sort(sorter);
+});
+
 onMounted(() => {
-  getCourse();
-});
-
-userStore.$subscribe(async () => {
-  getCourse();
-});
-
-function getCourse() {
-  if (!initComplete.value) return;
-  const courseCode = Number(route.params.courseCode);
-
-  currentCourse.value = courses.value.find((course) => course.id === courseCode);
-  if (!currentCourse.value) return router.push(`/student/dashboard?course=${courseCode}`);
-
-  loadAssignments();
-}
-
-let ran = false;
-async function loadAssignments(redirect = false) {
-  if (!currentCourse.value || (ran && !redirect)) return;
-  ran = true;
-  assignments.value = (await getAssignments(Number(route.params.courseCode))) as StudentAssignment[];
-  currentCourse.value.assignments = assignments.value;
   loaded.value = true;
-}
+  console.log(courses.value);
+});
 
 // for vitest
-defineExpose({ loaded, courses, currentCourse, initComplete, assignments });
+defineExpose({ courses, currentCourse, assignments });
 </script>
 
 <style scoped>
