@@ -10,15 +10,18 @@
     <!-- Above is the code for the top of the course card -->
     <div class="flex h-full min-h-36 w-full columns-2 bg-[var(--bg-color)] p-2">
       <div class="w-full">
-        <div class="h-16 text-center text-4xl font-bold"><h3 class="self-center pt-3 underline">Class Code</h3></div>
+        <div class="h-16 text-center text-5xl font-bold"><h3 class="self-center pt-3 underline">Class Code</h3></div>
+        <div class="h-8 text-center text-5xl font-bold">
+          <h2 class="self-center" id="copy">{{ props.course.joinCode }}</h2>
+        </div>
       </div>
-      <div class="divider divider-dark-border"></div>
+      <div class="divider fo-divider-horizontal fo-divider flex"></div>
       <div class="w-full">
-        <div class="h-16 text-center text-4xl font-bold"><h3 class="self-center pt-3 underline">Students in class</h3></div>
+        <div class="h-16 text-center text-5xl font-bold"><h3 class="self-center pt-3 underline">Students</h3></div>
+        <div class="h-8 text-center text-5xl font-bold">
+          <h2 @click="" class="self-center">{{ props.course.numOfStudents }}</h2>
+        </div>
       </div>
-      <!--       <div class="card grid h-20 flex-grow place-items-center rounded-box bg-base-300">content</div>
-      <div class="divider divider-horizontal divider-neutral">test</div>
-      <div class="card grid h-20 flex-grow place-items-center rounded-box bg-base-300">content</div> -->
     </div>
     <!-- Above is the code for the bottom of the cours card-->
   </div>
@@ -31,10 +34,24 @@ const props = defineProps<{
 }>();
 const currentTime = ref(new Date());
 
-/* 
-  const filter = computed((arr: teacherAssignmentOverview[]) => {
-  
-  }); 
+async function copy(data: number) {
+  try {
+    await navigator.clipboard.writeText(String(data));
+    console.log("Page URL copied to clipboard");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+/*
+function copy() {
+  let copyText = document.querySelector("#input");
+  copyText.select();
+  document.execCommand("copy");
+}
+
+document.querySelector("#copy").addEventListener("click", copy);
+  });
   */
 </script>
 
