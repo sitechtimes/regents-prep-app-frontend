@@ -42,6 +42,25 @@ jobs:
         run: echo "${{ needs.files.outputs }}"
       - name: Should skip
         run: echo "${{ needs.files.outputs.should_skip }}"
+      - name: if
+        run: echo "${{ needs.files.outputs.should_skip != 'true' }}"
+      - name: else
+        run: echo "${{ needs.files.outputs.should_skip == 'true' }}"
+
+  log2:
+    name: Log2
+    runs-on: ubuntu-latest
+    needs: files
+    if: needs.files.outputs.should_skip != 'true'
+    steps:
+      - name: Outputs
+        run: echo "${{ needs.files.outputs }}"
+      - name: Should skip
+        run: echo "${{ needs.files.outputs.should_skip }}"
+      - name: if
+        run: echo "${{ needs.files.outputs.should_skip != 'true' }}"
+      - name: else
+        run: echo "${{ needs.files.outputs.should_skip == 'true' }}"
 
   # lint:
   #   needs: files
