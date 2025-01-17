@@ -6,7 +6,7 @@ import globals from "globals";
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    ignores: ["**/.nuxt", "**/node_modules", "**/.output"]
+    ignores: ["**/.nuxt", "**/node_modules", "**/.output", "**/dist"]
   },
   {
     languageOptions: {
@@ -15,7 +15,7 @@ export default [
   },
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
-  ...pluginVue.configs["flat/essential"],
+  ...pluginVue.configs["flat/recommended"],
   {
     name: "main",
     languageOptions: {
@@ -76,7 +76,21 @@ export default [
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-return": "off",
 
-      "vue/multi-word-component-names": "off"
+      "vue/multi-word-component-names": "off",
+      "vue/block-lang": ["error", { lang: "ts" }],
+      "vue/block-order": ["error", { order: ["template", "script", "style"] }],
+      "vue/component-api-style": "error",
+      "vue/component-name-in-template-casing": "error",
+      "vue/custom-event-name-casing": "error",
+      "vue/define-emits-declaration": "error",
+      "vue/define-props-declaration": "error",
+      "vue/enforce-style-attribute": "error",
+      "vue/html-button-has-type": "error",
+      "vue/new-line-between-multi-line-property": "error",
+      "vue/no-static-inline-styles": "error",
+      "vue/no-template-target-blank": "error",
+      "vue/no-unused-emit-declarations": "error",
+      
     }
   }
 ];
