@@ -13,8 +13,11 @@ export default defineEventHandler(async (event): Promise<QuestionInterface> => {
   // TODO whats the real QuestionInterface
   return {
     id: body.id,
-    questionsRemaining: 9,
-    remainingAttempts: null,
-    question: []
-  };
+    answerAttemptsUsed: 2,
+    question: {
+      text: "",
+      answerType: "",
+      answers: []
+    }
+  } as QuestionInterface;
 });

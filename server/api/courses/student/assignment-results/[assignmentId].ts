@@ -10,6 +10,7 @@ export default defineEventHandler((): AssignmentResults => {
         id: 5,
         userAnswers: [],
         isComplete: true,
+        answerAttemptCount: 2,
         question: {
           text: "Where was Bogdan on January 6th?",
           answerType: "Multiple Choice",

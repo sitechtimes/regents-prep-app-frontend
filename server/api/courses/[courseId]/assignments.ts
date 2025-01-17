@@ -9,6 +9,7 @@ export default defineEventHandler((event): (StudentAssignment | TeacherAssignmen
         id: 420,
         dateSubmitted: new Date(),
         questionsCompleted: 3,
+        questionsCorrect: 2,
         assignment: {
           name: "Power Rule practice",
           numOfQuestions: 5,
