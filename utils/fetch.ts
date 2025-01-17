@@ -1,4 +1,4 @@
-async function requestEndpoint(endpoint: string, method?: string, body?: any): Promise<any> {
+async function requestEndpoint<T>(endpoint: string, method?: string, body?: Record<string | number, T>): Promise<any> {
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
   if (method) {

@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   /** When to show the loading screen */
   show: boolean;
 }>();

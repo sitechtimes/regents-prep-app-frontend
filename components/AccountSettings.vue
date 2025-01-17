@@ -12,12 +12,10 @@
 
 <script setup lang="ts">
 const userStore = useUserStore();
-const confirmLogout = () => {
+function confirmLogout() {
   const confirmed = window.confirm("Are you sure you want to logout?");
-  if (confirmed) {
-    userStore.logout();
-  }
-};
+  if (confirmed) void userStore.logout();
+}
 </script>
 
 <style scoped></style>
