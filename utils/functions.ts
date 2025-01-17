@@ -22,9 +22,7 @@ export function getRandomItem<T>(arr: T[]) {
 export function formatDate(target: Date, current: Date) {
   const dateHour = target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" });
   const week = target.toLocaleDateString("default", { weekday: "long" });
-  const long = `${target.toLocaleString("default", { year: target.getFullYear() === current.getFullYear() ? undefined : "numeric", month: "short", day: "numeric" })}
-     at 
-    ${target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" })}`;
+  const long = `${target.toLocaleString("default", { year: target.getFullYear() === current.getFullYear() ? undefined : "numeric", month: "short", day: "numeric" })} at ${target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" })}`;
 
   const inputDate = new Date(target).setHours(0, 0, 0, 0);
   const now = new Date(current).setHours(0, 0, 0, 0);

@@ -67,7 +67,7 @@ onMounted(() => {
 });
 
 // for vitest
-defineExpose({ courses, showNotFound, loaded });
+defineExpose({ courses, showNotFound, showJoinClass, loaded });
 </script>
 
 <style scoped>
