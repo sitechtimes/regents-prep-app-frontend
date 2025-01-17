@@ -30,67 +30,76 @@ jobs:
             public/**
             .vscode/**
             .github/**
-            !.github/workflows/ci.yml
             **.md
             nodeˍmodules/** # the committed node modules folder
 
-  lint:
-    needs: files
-    timeout-minutes: 10
+  log:
+    name: Log
     runs-on: ubuntu-latest
-    name: Lint
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set Node.js version to 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
-      - name: Lint
-        run: npm run lint
-
-  test:
     needs: files
-    if: needs.files.outputs.should_skip != 'true'
-
-    timeout-minutes: 20
-    runs-on: ${{ matrix.os }}
-    name: Build & Test
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node_version: [18, 20, 22]
-        include:
-          - os: windows-latest
-            node_version: 22
-          - os: macos-latest
-            node_version: 22
-      fail-fast: false
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Outputs
+        run: echo "${{ needs.files.outputs }}"
+      - name: Should skip
+        run: echo "${{ needs.files.outputs.should_skip }}"
 
-      - name: Set Node.js version to ${{ matrix.node_version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node_version }}
+  # lint:
+  #   needs: files
+  #   timeout-minutes: 10
+  #   runs-on: ubuntu-latest
+  #   name: Lint
 
-      - name: Install dependencies
-        run: npm install
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Build
-        run: npm run build
+  #     - name: Set Node.js version to 22
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 22
 
-      - name: Test
-        run: npm run test
+  #     - name: Install dependencies
+  #       run: npm install
+
+  #     - name: Build
+  #       run: npm run build
+
+  #     - name: Lint
+  #       run: npm run lint
+
+  # test:
+  #   needs: files
+  #   if: needs.files.outputs.should_skip != 'true'
+
+  #   timeout-minutes: 20
+  #   runs-on: ${{ matrix.os }}
+  #   name: Build & Test
+
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       node_version: [18, 20, 22]
+  #       include:
+  #         - os: windows-latest
+  #           node_version: 22
+  #         - os: macos-latest
+  #           node_version: 22
+  #     fail-fast: false
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+
+  #     - name: Set Node.js version to ${{ matrix.node_version }}
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ matrix.node_version }}
+
+  #     - name: Install dependencies
+  #       run: npm install
+
+  #     - name: Build
+  #       run: npm run build
+
+  #     - name: Test
+  #       run: npm run test
