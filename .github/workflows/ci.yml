@@ -30,6 +30,7 @@ jobs:
             public/**
             .vscode/**
             .github/**
+            !.github/workflows/ci.yml
             **.md
             nodeˍmodules/** # the committed node modules folder
 
