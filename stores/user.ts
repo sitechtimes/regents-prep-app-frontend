@@ -46,5 +46,5 @@ export const useUserStore = defineStore("userStore", () => {
     return;
   }
 
-  return { isAuth, userType, isDarkMode, courses, currentCourse, init, login, logout };
+  return { name, isAuth, initComplete, userType, isDarkMode, courses, currentCourse, init, login, logout };
 });
