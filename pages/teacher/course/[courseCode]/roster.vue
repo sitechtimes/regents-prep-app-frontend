@@ -51,31 +51,26 @@ const searchTerm = ref("");
 const courseId = Number(route.params.courseCode);
 const { courses, currentCourse, initComplete } = storeToRefs(userStore);
 
-const filteredStudents: Ref<TeacherStudentList[]> = ref([]);
+const students: Ref<TeacherStudentList[]> = ref([]);
 
 async function getStudents() {
   try {
-    const students = await getCourseStudents(courseId);
-    filteredStudents.value = students.filter(
-      (student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase())
-    );
-
-    watch(searchTerm, () => {
-      filteredStudents.value = students.filter(
-        (student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase())
-      );
-    });
+    students.value = await getCourseStudents(courseId);
   } catch (error) {
     console.error("Error fetching students:", error);
   }
 }
 
+const filteredStudents = computed(() => {
+  return students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()));
+});
+
 async function removeStudent(index: number) {
-  const studentId = filteredStudents.value[index].id;
+  const studentId = students.value[index].id;
   const courseId = Number(route.params.courseCode);
 
   try {
-    filteredStudents.value.splice(index, 1);
+    students.value.splice(index, 1);
     await removeStudents(courseId, studentId);
   } catch (error) {
     console.error(error);
