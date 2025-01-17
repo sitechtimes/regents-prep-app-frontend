@@ -1,6 +1,6 @@
 import { AssignmentResults } from "~/utils/types";
 
-export default defineEventHandler((event): AssignmentResults => {
+export default defineEventHandler((): AssignmentResults => {
   return {
     numOfQuestions: 4,
     questionsCompleted: 2,

@@ -2,9 +2,9 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: Reco
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
   if (method) {
-    options["method"] = method;
-    options["headers"] = { "Content-Type": "application/json" };
-    options["body"] = JSON.stringify(body);
+    options.method = method;
+    options.headers = { "Content-Type": "application/json" };
+    options.body = JSON.stringify(body);
   }
 
   const res = await fetch(config.public.backend + endpoint, options);

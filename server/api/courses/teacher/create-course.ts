@@ -1,15 +1,15 @@
 import { TeacherCourse } from "~/utils/types";
 
-type Body = {
+interface Body {
   name: string;
   period: number;
   subject: number;
-};
+}
 
 export default defineEventHandler(async (event): Promise<TeacherCourse> => {
   setHeader(event, "Access-Control-Allow-Methods", "POST");
 
-  const body = (await readBody(event)) as Body | undefined;
+  const body = (await readBody(event)) as Body;
   if (!body) throw createError({ statusCode: 400 });
 
   // TODO does it return just this or everything else in TeacherCourse

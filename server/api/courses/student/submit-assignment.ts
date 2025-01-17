@@ -1,14 +1,14 @@
 import { SubmitAssignment } from "~/utils/types";
 
-type Body = {
+interface Body {
   id: number;
-};
+}
 
 export default defineEventHandler(async (event): Promise<SubmitAssignment> => {
   setHeader(event, "Access-Control-Allow-Methods", "POST");
 
-  const body = (await readBody(event)) as Body | undefined;
-  if (!body || !body.id) throw createError({ statusCode: 400 });
+  const body = (await readBody(event)) as Body;
+  if (!body?.id) throw createError({ statusCode: 400 });
 
   return {
     numOfQuestions: 4,

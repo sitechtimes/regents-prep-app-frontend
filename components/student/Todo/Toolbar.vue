@@ -13,14 +13,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   closeToolbar: boolean;
-  assignments: StudentAssignment[] | undefined;
 }>();
-watch(
-  () => props.closeToolbar,
-  (val) => {
-    if (val) closeOptions();
-  }
-);
 
 const emit = defineEmits<{
   sort: [TodoSorter | undefined];
@@ -28,28 +21,15 @@ const emit = defineEmits<{
   search: [string];
 }>();
 
-const route = useRoute();
-const userStore = useUserStore();
-
 const toolbar = useTemplateRef("toolbar");
 const isSticky = ref(false);
-const loading = ref(false);
-const success = ref(false);
 
 const closeFilters = ref(false);
 const closeSorters = ref(false);
 const closeSettings = ref(false);
 
-onMounted(() => {
-  window.addEventListener("scroll", detectSticky);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("scroll", detectSticky);
-});
-
 let previousPosition = 0;
-function detectSticky(event: Event) {
+function detectSticky() {
   if (!toolbar.value) return;
   const newPosition = toolbar.value.getBoundingClientRect().top;
 
@@ -58,6 +38,14 @@ function detectSticky(event: Event) {
   previousPosition = newPosition;
   isSticky.value = false;
 }
+
+onMounted(() => {
+  window.addEventListener("scroll", detectSticky);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", detectSticky);
+});
 
 function closeOptions(settings = true, filters = true, sorters = true) {
   if (settings) closeSettings.value = true;
@@ -69,6 +57,13 @@ function closeOptions(settings = true, filters = true, sorters = true) {
     if (sorters) closeSorters.value = false;
   }, 1);
 }
+
+watch(
+  () => props.closeToolbar,
+  (val) => {
+    if (val) closeOptions();
+  }
+);
 </script>
 
 <style scoped></style>

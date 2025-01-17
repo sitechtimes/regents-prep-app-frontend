@@ -1,6 +1,6 @@
 import { QuestionInterface } from "~/utils/types";
 
-export default defineEventHandler(async (event): Promise<QuestionInterface> => {
+export default defineEventHandler((): Promise<QuestionInterface> => {
   // TODO what interface is this
   return {
     name: "mhalen",

@@ -1,3 +1,6 @@
+import daisyUi from "daisyui";
+import flyonUi from "flyonui";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./app.vue", "./pages/**/*.{vue,js,ts,jsx,tsx}", "./components/**/*.{vue,js,ts,jsx,tsx}", "./layouts/**/*.{vue,js,ts,jsx,tsx}"],
@@ -19,7 +22,7 @@ export default {
       }
     }
   },
-  plugins: [require("daisyui"), require("flyonui")],
+  plugins: [daisyUi, flyonUi],
   daisyui: { prefix: "du-", logs: false },
   flyonui: { prefix: "fo-", logs: false },
   darkMode: "selector",

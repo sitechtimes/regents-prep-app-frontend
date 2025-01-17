@@ -9,7 +9,7 @@ export const useUserStore = defineStore("userStore", () => {
   const router = useRouter();
 
   async function init() {
-    const res = await fetch(config.public.backend + "init/", {
+    const res = await fetch(`${config.public.backend}init/`, {
       credentials: "include"
     });
     if (!res.ok) return;
@@ -21,7 +21,7 @@ export const useUserStore = defineStore("userStore", () => {
     courses.value = data.courses;
   }
   async function login(email: string, password: string) {
-    const res = await fetch(config.public.backend + "auth/login/", {
+    const res = await fetch(`${config.public.backend}auth/login/`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -37,13 +37,12 @@ export const useUserStore = defineStore("userStore", () => {
   }
 
   async function logout() {
-    const res = await fetch(config.public.backend + "auth/logout/", {
+    const res = await fetch(`${config.public.backend}auth/logout/`, {
       method: "POST",
       credentials: "include"
     });
     if (!res.ok) return;
-    router.push("/");
-    return;
+    void router.push("/");
   }
 
   return { isAuth, userType, isDarkMode, courses, currentCourse, init, login, logout };

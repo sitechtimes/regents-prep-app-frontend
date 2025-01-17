@@ -18,16 +18,16 @@
 
     <!-- right side -->
     <div class="w-1/4">
-      <img class="cat cursor-default" v-show="isYoda" src="/landingYoda.png" alt="A very short-haired black cat, edited to be green" title="The almighty Yoda." />
+      <img v-show="isYoda" class="cat cursor-default" src="/landingYoda.png" alt="A very short-haired black cat, edited to be green" title="The almighty Yoda." />
       <img
-        ref="landingCatRef"
-        @click="toggle"
         id="landing"
+        ref="landingCatRef"
         class="cat z-50 cursor-help"
         :draggable="false"
         src="/landingCat.png"
         alt="Cat on a computer"
         title="This cat has some sort of hidden switch..?"
+        @click="toggle"
       />
     </div>
   </div>
@@ -35,37 +35,29 @@
 
 <script setup lang="ts">
 const isYoda = ref(false);
-const landingCatRef = ref<HTMLImageElement | undefined>();
-let startingCount = 10; // min clicks to unleash yoda
+const landingCatRef = useTemplateRef("landingCatRef");
+const startingCount = 10; // min clicks to unleash yoda
 let count = startingCount;
 const clicks = ref(0);
-
-function toggle() {
-  if (isYoda.value || !landingCatRef.value) return;
-  clicks.value++;
-  if (Math.random() > 0.7) count--;
-  if (count > 0) return;
-  isYoda.value = !isYoda.value;
-  bye();
-}
 
 function bye() {
   if (!landingCatRef.value) return;
   const rect = landingCatRef.value.getBoundingClientRect();
-  landingCatRef.value.style.left = rect.left + "px";
-  landingCatRef.value.style.top = rect.top + "px";
+  landingCatRef.value.style.left = `${rect.left}px`;
+  landingCatRef.value.style.top = `${rect.top}px`;
   landingCatRef.value.style.width = "24%";
   landingCatRef.value.style.position = "fixed";
   landingCatRef.value.style.filter = "brightness(1)";
   // strength scales with how many clicks it took. have fun
-  let vx = (clicks.value / startingCount) ** 2 * (clicks.value % 2 === 0 ? -1 : 1);
+  const vx = (clicks.value / startingCount) ** 2 * (clicks.value % 2 === 0 ? -1 : 1);
   let vy = -10;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let iteration = 0;
   function physics(el: HTMLImageElement) {
     iteration++;
-    el.style.left = Number(el.style.left.slice(0, -2)) + vx + "px";
-    el.style.top = Number(el.style.top.slice(0, -2)) + vy + "px";
-    el.style.rotate = Number((el.style.rotate ?? "0deg").slice(0, -3)) + vx + "deg";
+    el.style.left = `${Number(el.style.left.slice(0, -2)) + vx}px`;
+    el.style.top = `${Number(el.style.top.slice(0, -2)) + vy}px`;
+    el.style.rotate = `${Number((el.style.rotate ?? "0deg").slice(0, -3)) + vx}deg`;
     vy += 0.5;
     if (Number(el.style.top.slice(0, -2)) < window.innerHeight)
       setTimeout(() => {
@@ -74,6 +66,15 @@ function bye() {
     else el.remove();
   }
   physics(landingCatRef.value);
+}
+
+function toggle() {
+  if (isYoda.value || !landingCatRef.value) return;
+  clicks.value++;
+  if (Math.random() > 0.7) count--;
+  if (count > 0) return;
+  isYoda.value = !isYoda.value;
+  bye();
 }
 
 // for vitest

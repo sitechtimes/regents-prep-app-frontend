@@ -1,4 +1,4 @@
-export default defineEventHandler((event) => {
+export default defineEventHandler(() => {
   return {
     name: "Wicheal Mhalen",
     userType: "Student",

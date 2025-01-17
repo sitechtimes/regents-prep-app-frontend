@@ -1,6 +1,6 @@
 import { TeacherStudentList } from "~/utils/types";
 
-export default defineEventHandler((event): TeacherStudentList[] => {
+export default defineEventHandler((): TeacherStudentList[] => {
   return [
     {
       id: 5,

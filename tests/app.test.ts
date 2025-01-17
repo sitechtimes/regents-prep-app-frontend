@@ -1,6 +1,6 @@
 import { mockNuxtImport, mountSuspended } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
-import { beforeEach, vi } from "vitest";
+import { beforeEach } from "vitest";
 import { describe } from "vitest";
 import { expect, test } from "vitest";
 import App from "~/app.vue";
