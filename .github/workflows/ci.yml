@@ -71,10 +71,14 @@ jobs:
         os: [ubuntu-latest]
         node_version: [18, 20, 22]
         include:
+          - os: ubuntu-latest
+            url_env: "http://localhost:3000/api/"
           - os: windows-latest
             node_version: 22
+            url_env: "http://127.0.0.1:3000/api/"
           - os: macos-latest
             node_version: 22
+            url_env: "http://localhost:3000/api/"
       fail-fast: false
 
     steps:
@@ -97,7 +101,7 @@ jobs:
       - name: Test
         run: npm run test
         env:
-          NUXT_PUBLIC_BACKEND: http://localhost:3000/api/
+          NUXT_PUBLIC_BACKEND: ${{ matrix.url_env }}
 
       - name: Stop server
         run: kill $(lsof -t -i:3000)
