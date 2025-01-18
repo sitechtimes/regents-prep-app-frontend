@@ -5,7 +5,6 @@ on:
     branches:
       - dev
       - prod
-      - 274-rewrite-tests
   pull_request:
 
 jobs:
