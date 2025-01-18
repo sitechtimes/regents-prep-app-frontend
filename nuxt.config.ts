@@ -15,6 +15,10 @@ export default defineNuxtConfig({
       backend: ""
     }
   },
+  devServer: {
+    host: "localhost",
+    port: 3000
+  },
   app: {
     head: {
       title: "Unregents Prep",

@@ -15,11 +15,14 @@ describe("Student Todo Page", () => {
   });
 
   test("should be loaded", async () => {
+    const config = useRuntimeConfig();
     const page = await mountSuspended(Page);
     const courses = ref(page.vm.courses);
     courses.value = [];
 
     const loaded = ref(page.vm.loaded);
+    // eslint-disable-next-line no-console
+    console.log(config.public.backend);
     await vi.waitUntil(() => loaded.value, { timeout: 500, interval: 10 });
     expect(loaded.value).toBe(true);
   });
