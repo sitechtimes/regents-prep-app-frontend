@@ -62,18 +62,21 @@ const filteredAssignments = computed(() => {
 
   return assignments.value
     ?.filter(filters)
-    .filter((assignment) => assignment.assignment.name.toLowerCase().includes(search.toLowerCase()))
+    .filter((assignment) => assignment.assignment?.name.toLowerCase().includes(search.toLowerCase()))
     .sort(sorter);
 });
 
 function findCourse(findAssignment: StudentAssignment) {
-  return userStore.courses.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "assignment" in assignment));
+  return courses.value.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "assignment" in assignment));
 }
 
 onMounted(async () => {
   assignments.value = await getStudentTodo();
   loaded.value = true;
 });
+
+// for vitest
+defineExpose({ courses, loaded, deselectFilters, assignments, filteredAssignments });
 </script>
 
 <style scoped></style>

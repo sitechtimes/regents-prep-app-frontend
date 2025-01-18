@@ -1,6 +1,6 @@
 <template>
   <Transition name="join-menu-scale">
-    <div v-if="props.show" class="join-menu-bg fixed left-0 top-0 z-[50] flex min-h-screen w-screen items-center justify-center bg-black bg-opacity-45" @click="emit('close')">
+    <div v-if="show" class="join-menu-bg fixed left-0 top-0 z-[50] flex min-h-screen w-screen items-center justify-center bg-black bg-opacity-45" @click="emit('close')">
       <div class="join-menu flex flex-col items-center justify-center rounded-xl border border-[var(--border-color)] bg-[var(--bg-color)] p-6" @click.stop>
         <h2 class="text-xl font-semibold text-[var(--text-color)]">Join a Course</h2>
         <form id="join-code" class="mb-4 flex flex-col" @submit.prevent="joinCourse">
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   show: boolean;
 }>();
 

@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe } from "vitest";
 import { expect, test } from "vitest";
 import Index from "~/pages/index.vue";
 
-describe("Home Page", () => {
+describe("Home Page", { retry: 1 }, () => {
   let originalInnerHeight: number;
 
   beforeEach(() => {

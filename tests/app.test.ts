@@ -4,9 +4,6 @@ import { beforeEach } from "vitest";
 import { describe } from "vitest";
 import { expect, test } from "vitest";
 import App from "~/app.vue";
-import * as dotenv from "dotenv";
-
-dotenv.config({ path: ".env.test" });
 
 describe("Main App", () => {
   beforeEach(() => {

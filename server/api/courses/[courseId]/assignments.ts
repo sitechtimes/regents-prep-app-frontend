@@ -22,7 +22,7 @@ export default defineEventHandler((event): (StudentAssignment | TeacherAssignmen
 
     2: [
       {
-        id: 420,
+        id: 421,
         name: "Power Rule practice",
         dateAssigned: new Date(),
         dueDate: new Date(new Date().getTime() + 86_400_000),
@@ -34,7 +34,7 @@ export default defineEventHandler((event): (StudentAssignment | TeacherAssignmen
 
     3: [
       {
-        id: 420,
+        id: 422,
         name: "Power Rule practice",
         dateAssigned: new Date(),
         dueDate: new Date(new Date().getTime() - 86_400_000),
@@ -47,6 +47,6 @@ export default defineEventHandler((event): (StudentAssignment | TeacherAssignmen
     99: []
   };
 
-  if (courseId === 0) return Object.values(assignments);
+  if (courseId === 0) return [assignments[1]];
   return assignments[courseId];
 });
