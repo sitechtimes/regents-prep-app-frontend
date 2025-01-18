@@ -89,15 +89,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Start server
-        run: npm run dev &
-        env:
-          NODE_ENV: development
+      - name: Build
+        run: npm run build
 
       - name: Test
         run: npm run test
         env:
-          NUXT_PUBLIC_BACKEND: "http://localhost:3000/api/"
-
-      - name: Stop server
-        run: kill $(lsof -t -i:3000)
+          NUXT_PUBLIC_BACKEND: ""

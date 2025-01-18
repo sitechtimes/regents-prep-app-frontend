@@ -4,6 +4,33 @@ import { beforeEach, describe, vi } from "vitest";
 import { expect, test } from "vitest";
 import Page from "~/pages/student/todo.vue";
 
+global.fetch = vi.fn(() =>
+  Promise.resolve(
+    new Response(
+      JSON.stringify([
+        [
+          [
+            {
+              id: 420,
+              dateSubmitted: new Date(),
+              questionsCompleted: 3,
+              questionsCorrect: 2,
+              assignment: {
+                name: "Power Rule practice",
+                numOfQuestions: 5,
+                lateSubmissions: false,
+                dueDate: new Date(),
+                dateAssigned: new Date()
+              }
+            }
+          ]
+        ]
+      ]),
+      { status: 200 }
+    )
+  )
+);
+
 describe("Student Todo Page", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
@@ -15,14 +42,12 @@ describe("Student Todo Page", () => {
   });
 
   test("should be loaded", async () => {
-    const config = useRuntimeConfig();
     const page = await mountSuspended(Page);
     const courses = ref(page.vm.courses);
     courses.value = [];
 
     const loaded = ref(page.vm.loaded);
-    // eslint-disable-next-line no-console
-    console.log(config.public.backend);
+
     await vi.waitUntil(() => loaded.value, { timeout: 500, interval: 10 });
     expect(loaded.value).toBe(true);
   });
