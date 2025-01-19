@@ -7,15 +7,15 @@ body:
     attributes:
       label: Description
       description: A clear and concise description of what you want to do.
-      placeholder: I want to add yoda to every page (for the funny)
+      placeholder: I want to add yoda to the bottom of every scrollable container in the app (for the funny) (it wont interfere with normal usage of the app probably)
     validations:
       required: true
 
   - type: textarea
     attributes:
       label: Suggested solution
-      description: Describe your solution to the problem.
-      placeholder: We can add a yoda to the bottom of every scrollable container so it wont interfere with normal usage of the app probably
+      description: Describe your technical solution to the problem.
+      placeholder: At the bottom of every scrollable container, we can add yoda with `mt-20` to make sure it stays at the bottom. We can also use the `IntersectionObserver` JavaScript API to detect when the user scrolls past the normal scrollable distance of the container, and automatically force the scrollable view back up when the user stops scrolling
     validations:
       required: true
 
