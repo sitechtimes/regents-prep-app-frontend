@@ -31,9 +31,7 @@ body:
     attributes:
       label: Additional information
       description: Please provide any additional information related to the bug. Screenshots, code snippets, and logs are useful.
-      placeholder: "![Image](https://github.com/user-attachments/assets/1f35723f-5f1e-4949-9379-9bd1f6fed56f)"
-    validations:
-      required: true
+      placeholder: "Yoda is watching"
 
   - type: checkboxes
     attributes:
