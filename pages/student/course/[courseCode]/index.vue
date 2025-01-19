@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = !deselectFilters">
-    <div class="flex w-full items-center justify-center" v-if="loaded">
-      <div class="flex w-2/3 flex-col items-center justify-center" v-if="currentCourse">
+    <div v-if="loaded" class="flex w-full items-center justify-center">
+      <div v-if="currentCourse" class="flex w-2/3 flex-col items-center justify-center">
         <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[currentCourse.subject] }">
           <h1 class="text-4xl font-semibold">{{ currentCourse.name }}</h1>
           <h3 class="text-lg">Period {{ currentCourse.period }}</h3>
@@ -10,24 +10,24 @@
 
         <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
           <StudentTodoToolbar
-            :closeToolbar="deselectFilters"
+            :close-toolbar="deselectFilters"
             :assignments="assignments"
             @sort="(sorter) => (currentSorter = sorter)"
             @filter="(filter) => (currentFilters = filter)"
             @search="(term) => (currentSearch = term)"
           />
 
-          <div class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6" v-if="!filteredAssignments"></div>
+          <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6"></div>
           <StudentAssignmentCard
-            v-else-if="filteredAssignments.length > 0"
-            v-for="assignment in filteredAssignments"
+            v-for="assignment in assignments"
+            v-else-if="assignments.length > 0"
             :key="assignment.id"
-            @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
             :assignment="assignment"
             clickable
+            @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
           />
 
-          <div id="no-assignments" v-else-if="filteredAssignments.length === 0" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
+          <div v-else-if="assignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
             <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="mb-4 h-16 w-16 dark:invert" />
             <h3 class="mb-2 text-2xl font-semibold">No Assignments Yet</h3>
             <p class="text-lg">You're all caught up!</p>
@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 const userStore = useUserStore();
-const { courses, currentCourse } = storeToRefs(userStore);
+const { currentCourse } = storeToRefs(userStore);
 
 definePageMeta({
   layout: "student",
@@ -53,7 +53,6 @@ useSeoMeta({
   title: () => currentCourse.value?.name ?? "Class Details"
 });
 
-const route = useRoute();
 const router = useRouter();
 
 const loaded = ref(false);
@@ -68,26 +67,24 @@ watch(deselectFilters, async (val) => {
   deselectFilters.value = false;
 });
 
-const assignments = ref(currentCourse.value?.assignments as StudentAssignment[]);
-const filteredAssignments = computed(() => {
+const assignments = computed(() => {
   if (!currentFilters.value || !currentSorter.value) return;
   const filters = currentFilters.value;
   const sorter = currentSorter.value;
   const search = currentSearch.value;
 
-  return assignments.value
-    ?.filter(filters)
+  return (currentCourse.value?.assignments as StudentAssignment[])
+    .filter(filters)
     .filter((assignment) => assignment.assignment.name.toLowerCase().includes(search.toLowerCase()))
     .sort(sorter);
 });
 
 onMounted(() => {
   loaded.value = true;
-  console.log(courses.value);
 });
 
 // for vitest
-defineExpose({ courses, currentCourse, assignments });
+defineExpose({ loaded, currentCourse, currentFilters, currentSorter, currentSearch, assignments });
 </script>
 
 <style scoped>

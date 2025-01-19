@@ -1,34 +1,34 @@
 <template>
   <div
-    class="hover:border-[var(--primary)] hover:shadow-lg hover:dark:shadow-[var(--gray)] cursor-pointer border border-[var(--faded-bg-color)] rounded-lg overflow-hidden w-[45rem] flex flex-col items-center justify-center transition-all duration-300 ease-in-out">
-    <div class="w-full h-24 flex flex-col items-center justify-end p-2 drop-shadow-md"
-      :style="{ backgroundColor: subjectColors[course.subject] }">
-      <h2 :title="course.name"
-        class="text-2xl text-center font-semibold text-nowrap overflow-ellipsis w-full overflow-hidden">{{ course.name
-        }}</h2>
+    class="flex w-[45rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border border-[var(--faded-bg-color)] transition-all duration-300 ease-in-out hover:border-[var(--primary)] hover:shadow-lg hover:dark:shadow-[var(--gray)]"
+  >
+    <div class="flex h-24 w-full flex-col items-center justify-end p-2 drop-shadow-md" :style="{ backgroundColor: subjectColors[course.subject] }">
+      <h2 :title="course.name" class="w-full overflow-hidden overflow-ellipsis text-nowrap text-center text-2xl font-semibold">{{ course.name }}</h2>
       <p class="text-sm">Period {{ course.period }}</p>
       <p>{{ course.teacher }}</p>
     </div>
     <!-- Above is the code for the top of the course card -->
-    <div class="flex flex-col items-center justify-start w-full min-h-36 h-full p-2 bg-[var(--bg-color)]">
-      <h3 class="font-bold text-xl pt-1 pb-2">Assignments</h3>
-      <div class="flex flex-wrap items-start justify-around w-full h-full gap-7" v-if="course.assignments.length > 0">
-        <div v-for="assignment in sortedAssignments" :key="assignment.id"
-          class="flex flex-col items-center justify-center h-full min-w-[45%] px-5"
-          :class="sortedAssignments.length === 1 ? 'w-full' : ''">
-          <p class="font-medium text-center" :title="assignment.dueDate.toLocaleString()">Due {{
-            formatDate(assignment.dueDate, currentTime) }}</p>
-          <div class="flex flex-col items-center justify-start w-full h-full">
+    <div class="flex h-full min-h-36 w-full flex-col items-center justify-start bg-[var(--bg-color)] p-2">
+      <h3 class="pb-2 pt-1 text-xl font-bold">Assignments</h3>
+      <div v-if="course.assignments.length > 0" class="flex h-full w-full flex-wrap items-start justify-around gap-7">
+        <div
+          v-for="assignment in sortedAssignments"
+          :key="assignment.id"
+          class="flex h-full min-w-[45%] flex-col items-center justify-center px-5"
+          :class="sortedAssignments.length === 1 ? 'w-full' : ''"
+        >
+          <p class="text-center font-medium" :title="assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.dueDate, currentTime) }}</p>
+          <div class="flex h-full w-full flex-col items-center justify-start">
             <NuxtLink
-              class="text-xl hover:underline hover:underline-offset-1 w-[70%] text-center text-nowrap overflow-hidden overflow-ellipsis"
-              :to="`/teacher/course/${course.id}/${assignment.id}`" @click.stop>{{ assignment.name }}</NuxtLink>
-            <div @click.stop="router.push(`/teacher/course/${course.id}/${assignment.id}`)"
-              class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden">
-              <div class="absolute left-0 h-full"
-                :style="{ width: (assignment.numSubmitted / course.students) * 100 + '%', backgroundColor: subjectColors[course.subject] }">
-              </div>
-              <span class="w-full z-10 text-center font-mono px-2"> {{ assignment.numSubmitted }}/{{ course.students }}
-              </span>
+              class="w-[70%] overflow-hidden overflow-ellipsis text-nowrap text-center text-xl hover:underline hover:underline-offset-1"
+              :to="`/teacher/course/${course.id}/${assignment.id}`"
+              @click.stop
+            >
+              {{ assignment.name }}
+            </NuxtLink>
+            <div class="relative flex h-full w-full items-center overflow-hidden rounded-full bg-[var(--gray)]" @click.stop="router.push(`/teacher/course/${course.id}/${assignment.id}`)">
+              <div class="absolute left-0 h-full" :style="{ width: (assignment.numSubmitted / course.students) * 100 + '%', backgroundColor: subjectColors[course.subject] }"></div>
+              <span class="z-10 w-full px-2 text-center font-mono"> {{ assignment.numSubmitted }}/{{ course.students }} </span>
             </div>
           </div>
         </div>
@@ -45,7 +45,7 @@ const props = defineProps<{
   course: TeacherCourse;
 }>();
 const currentTime = ref(new Date());
-const sortedAssignments = props.course.assignments.sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime()).slice(0, 2);
+const sortedAssignments = props.course.assignments.toSorted((a, b) => a.dueDate.getTime() - b.dueDate.getTime()).slice(0, 2);
 
 /* 
   const filter = computed((arr: teacherAssignmentOverview[]) => {

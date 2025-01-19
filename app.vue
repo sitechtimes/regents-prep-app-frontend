@@ -30,7 +30,7 @@ const userTypes: Record<string, string> = {
 };
 
 onMounted(() => {
-  if (route.path.includes(userTypes[userStore.userType])) router.replace(`/${userStore.userType}/dashboard`);
+  if (route.path.includes(userTypes[userStore.userType])) void router.replace(`/${userStore.userType}/dashboard`);
   document.body.style.display = "block";
   loaded.value = true;
 });

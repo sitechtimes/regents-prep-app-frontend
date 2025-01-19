@@ -1,34 +1,34 @@
 <template>
   <Transition name="join-menu-scale">
-    <div v-if="props.show" @click="emit('close')" class="join-menu-bg fixed top-0 left-0 bg-[rgba(0,0,0,0.25)] w-screen min-h-screen flex items-center justify-center z-[51]">
-      <div @click.stop class="join-menu bg-white p-6 rounded-lg flex flex-col items-center justify-center">
+    <div v-if="show" class="join-menu-bg fixed left-0 top-0 z-[51] flex min-h-screen w-screen items-center justify-center bg-[rgba(0,0,0,0.25)]" @click="emit('close')">
+      <div class="join-menu flex flex-col items-center justify-center rounded-lg bg-white p-6" @click.stop>
         <h2 class="text-xl">Create New Course</h2>
-        <form id="create-course" class="flex flex-col mb-4" @submit.prevent="createCourse">
-          <label class="du-label" for="course-name">Course Name <span title="Required" class="text-red-500 font-2xl">*</span></label>
-          <input class="du-input bg-gray-200 w-96" id="course-name" type="text" v-model="courseName" placeholder="Enter the name of the course" />
+        <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
+          <label class="du-label" for="course-name">Course Name <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <input id="course-name" v-model="courseName" class="du-input w-96 bg-gray-200" type="text" placeholder="Enter the name of the course" />
 
-          <label class="du-label" for="course-subject">Course Subject <span title="Required" class="text-red-500 font-2xl">*</span></label>
-          <select class="du-select bg-gray-200 w-96" id="course-subject" v-model="courseSubject">
+          <label class="du-label" for="course-subject">Course Subject <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <select id="course-subject" v-model="courseSubject" class="du-select w-96 bg-gray-200">
             <option value="" selected>Select the subject of the course</option>
             <option v-for="regents in Object.values(regentsTypes).flat().sort()" :key="regents" :value="regents">{{ regents }}</option>
           </select>
 
-          <label class="du-label" for="course-name">Period <span title="Required" class="text-red-500 font-2xl">*</span></label>
-          <div class="flex items-center justify-between w-96">
+          <label class="du-label" for="course-name">Period <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <div class="flex w-96 items-center justify-between">
             <button
-              class="h-12 duration-200 flex-1"
-              :class="{ 'rounded-l-lg': num == 1, 'rounded-r-lg': num == 9, 'bg-gray-accent': num != coursePeriod, 'bg-green-accent': num == coursePeriod }"
               v-for="num in 9"
               :key="num"
-              @click="coursePeriod = num"
+              class="h-12 flex-1 duration-200"
+              :class="{ 'rounded-l-lg': num == 1, 'rounded-r-lg': num == 9, 'bg-gray-accent': num != coursePeriod, 'bg-green-accent': num == coursePeriod }"
               type="button"
+              @click="coursePeriod = num"
             >
               {{ num }}
             </button>
           </div>
         </form>
         <div class="flex w-full justify-end gap-2">
-          <button class="du-btn du-btn-md" @click="emit('close')">Cancel</button>
+          <button class="du-btn du-btn-md" type="button" @click="emit('close')">Cancel</button>
           <button
             class="du-btn du-btn-md bg-green-accent"
             :class="{ grayscale: !courseName || !courseSubject || !coursePeriod }"
@@ -45,11 +45,13 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   show: boolean;
 }>();
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits<{
+  close: [void];
+}>();
 
 const regentsTypes = {
   Math: ["Algebra I", "Geometry", "Algebra II"],

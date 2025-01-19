@@ -25,7 +25,7 @@ describe("Login Page", () => {
       { name: "should not throw error for valid emails", input: "bogdansussyomin@ventdefeater.app", expect: "" }
     ];
 
-    for (let testCase of testCases) {
+    for (const testCase of testCases) {
       test(testCase.name, async () => {
         email.value = testCase.input;
         await page.vm.$nextTick();
@@ -47,7 +47,7 @@ describe("Login Page", () => {
       { name: "should not throw error for passwords with non-alphanumeric characters", input: "😂😲🤯😱😭😡🔥❌💥👿", expect: "" }
     ];
 
-    for (let testCase of testCases) {
+    for (const testCase of testCases) {
       test(testCase.name, async () => {
         password.value = testCase.input;
         await page.vm.$nextTick();
