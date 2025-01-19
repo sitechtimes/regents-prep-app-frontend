@@ -17,17 +17,17 @@
             @search="(term) => (currentSearch = term)"
           />
 
-          <div v-if="!filteredAssignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6"></div>
+          <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6"></div>
           <StudentAssignmentCard
-            v-for="assignment in filteredAssignments"
-            v-else-if="filteredAssignments.length > 0"
+            v-for="assignment in assignments"
+            v-else-if="assignments.length > 0"
             :key="assignment.id"
             :assignment="assignment"
             clickable
             @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
           />
 
-          <div v-else-if="filteredAssignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
+          <div v-else-if="assignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
             <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="mb-4 h-16 w-16 dark:invert" />
             <h3 class="mb-2 text-2xl font-semibold">No Assignments Yet</h3>
             <p class="text-lg">You're all caught up!</p>
@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 const userStore = useUserStore();
-const { courses, currentCourse } = storeToRefs(userStore);
+const { currentCourse } = storeToRefs(userStore);
 
 definePageMeta({
   layout: "student",
@@ -67,14 +67,13 @@ watch(deselectFilters, async (val) => {
   deselectFilters.value = false;
 });
 
-const assignments = ref(currentCourse.value?.assignments as StudentAssignment[]);
-const filteredAssignments = computed(() => {
+const assignments = computed(() => {
   if (!currentFilters.value || !currentSorter.value) return;
   const filters = currentFilters.value;
   const sorter = currentSorter.value;
   const search = currentSearch.value;
 
-  return assignments.value
+  return (currentCourse.value?.assignments as StudentAssignment[])
     .filter(filters)
     .filter((assignment) => assignment.assignment.name.toLowerCase().includes(search.toLowerCase()))
     .sort(sorter);
@@ -85,7 +84,7 @@ onMounted(() => {
 });
 
 // for vitest
-defineExpose({ courses, currentCourse, assignments });
+defineExpose({ loaded, currentCourse, currentFilters, currentSorter, currentSearch, assignments });
 </script>
 
 <style scoped>
