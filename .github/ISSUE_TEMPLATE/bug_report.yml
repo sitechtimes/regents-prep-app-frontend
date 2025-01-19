@@ -2,7 +2,7 @@ name: 🐞 Bug Report
 description: Report a bug on Regents Prep
 labels: ["bug"]
 title: "bug: "
-type: Bug
+type: "Bug"
 body:
   - type: textarea
     attributes:
