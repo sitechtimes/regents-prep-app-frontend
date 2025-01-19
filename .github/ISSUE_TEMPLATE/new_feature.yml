@@ -2,6 +2,7 @@ name: 🔥 New Feature
 description: Add a new feature to Regents Prep
 labels: ["enhancement"]
 title: "feature: "
+type: Feature
 body:
   - type: textarea
     attributes:
