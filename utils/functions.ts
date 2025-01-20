@@ -28,7 +28,7 @@ export function formatDate(target: Date, current: Date) {
   const now = new Date(current).setHours(0, 0, 0, 0);
   const diffDays = Math.round((inputDate - now) / (24 * 60 * 60 * 1000));
 
-  const labels: Record<string, string> = {
+  const labels: Readonly<Record<string, string>> = {
     "0": `today at ${dateHour}`,
     "1": `tomorrow at ${dateHour}`,
     "-1": `yesterday at ${dateHour}`

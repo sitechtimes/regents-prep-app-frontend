@@ -41,17 +41,10 @@
 
 <script setup lang="ts">
 const router = useRouter();
-const props = defineProps<{
-  course: TeacherCourse;
-}>();
+const props = defineProps<{ course: TeacherCourse }>();
+
 const currentTime = ref(new Date());
 const sortedAssignments = props.course.assignments.toSorted((a, b) => a.dueDate.getTime() - b.dueDate.getTime()).slice(0, 2);
-
-/* 
-  const filter = computed((arr: teacherAssignmentOverview[]) => {
-  
-  }); 
-  */
 </script>
 
 <style scoped>

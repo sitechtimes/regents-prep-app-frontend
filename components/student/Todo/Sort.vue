@@ -27,13 +27,8 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  close: boolean;
-}>();
-
-const emit = defineEmits<{
-  sort: [TodoSorter | undefined];
-}>();
+const props = defineProps<{ close: boolean }>();
+const emit = defineEmits<{ sort: [TodoSorter | undefined] }>();
 
 const showSorters = ref(false);
 
@@ -44,7 +39,7 @@ watch(
   }
 );
 
-const sorters: Record<string, TodoSorter> = {
+const sorters: Readonly<Record<string, TodoSorter>> = {
   "due soon": (a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime(),
   latest: (a, b) => b.assignment.dateAssigned.getTime() - a.assignment.dateAssigned.getTime(),
   oldest: (a, b) => a.assignment.dateAssigned.getTime() - b.assignment.dateAssigned.getTime(),
@@ -53,13 +48,9 @@ const sorters: Record<string, TodoSorter> = {
 };
 
 const currentSorter = ref("due soon");
-watch(currentSorter, (sorter) => {
-  emit("sort", sorters[sorter]);
-});
+watch(currentSorter, (sorter) => emit("sort", sorters[sorter]));
 
-onMounted(() => {
-  emit("sort", sorters[currentSorter.value]);
-});
+onMounted(() => emit("sort", sorters[currentSorter.value]));
 
 function selectSorter(name: string) {
   if (currentSorter.value === name) return;

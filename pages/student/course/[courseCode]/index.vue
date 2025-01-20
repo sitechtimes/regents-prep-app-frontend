@@ -79,9 +79,7 @@ const assignments = computed(() => {
     .sort(sorter);
 });
 
-onMounted(() => {
-  loaded.value = true;
-});
+onMounted(() => (loaded.value = true));
 
 // for vitest
 defineExpose({ loaded, currentCourse, currentFilters, currentSorter, currentSearch, assignments });

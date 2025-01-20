@@ -7,13 +7,8 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  message: "class" | "assignment";
-}>();
-
-const emit = defineEmits<{
-  close: [void];
-}>();
+defineProps<{ message: "class" | "assignment" }>();
+const emit = defineEmits<{ close: [void] }>();
 </script>
 
 <style scoped></style>

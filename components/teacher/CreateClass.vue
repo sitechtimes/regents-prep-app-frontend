@@ -45,15 +45,10 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  show: boolean;
-}>();
+defineProps<{ show: boolean }>();
+const emit = defineEmits<{ close: [void] }>();
 
-const emit = defineEmits<{
-  close: [void];
-}>();
-
-const regentsTypes = {
+const regentsTypes: Readonly<Record<string, string[]>> = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
   English: ["English"],
   Science: ["Chemistry", "Physics", "Biology"],

@@ -20,9 +20,7 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{
-  search: [string];
-}>();
+const emit = defineEmits<{ search: [string] }>();
 
 const search = ref("");
 watch(search, (value) => emit("search", value));

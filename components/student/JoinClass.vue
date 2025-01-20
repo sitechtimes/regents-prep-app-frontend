@@ -25,22 +25,15 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  show: boolean;
-}>();
-
-const emit = defineEmits<{
-  close: [void];
-}>();
+defineProps<{ show: boolean }>();
+const emit = defineEmits<{ close: [void] }>();
 
 const joinCode = ref("");
 watch(joinCode, (input) => {
   if (input.length > 6) return (joinCode.value = String(input).slice(0, 6));
 });
 
-onUnmounted(() => {
-  joinCode.value = "";
-});
+onUnmounted(() => (joinCode.value = ""));
 
 function joinCourse() {
   if (!joinCode.value) return;

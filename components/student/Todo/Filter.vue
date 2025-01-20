@@ -24,13 +24,18 @@
 
 <script setup lang="ts">
 const props = defineProps<{ close: boolean }>();
-
 const emit = defineEmits<{ filter: [TodoFilter] }>();
 
 const showFilters = ref(false);
 const currentFilters = ref(["all"]);
 
-const filters: Record<string, TodoFilter> = {
+const buttonClass = computed(() =>
+  showFilters.value
+    ? "border-2 border-[#794dff] shadow-sm shadow-[#794dff38] ring-0 ring-[#794dff]"
+    : "border-neutral-300 hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-neutral-700"
+);
+
+const filters: Readonly<Record<string, TodoFilter>> = {
   all: () => true,
   "not turned in": (assignment) => !assignment.dateSubmitted,
   "turned in": (assignment) => assignment.dateSubmitted !== null,
@@ -45,12 +50,14 @@ function emitFilter() {
 watch(currentFilters, () => emitFilter());
 watch(
   () => props.close,
-  (val) => (val ? (showFilters.value = false) : null)
+  (val) => {
+    if (val) showFilters.value = false;
+  }
 );
 
 onMounted(emitFilter);
 
-const filterExclusions: Record<string, string[]> = {
+const filterExclusions: Readonly<Record<string, string[]>> = {
   all: ["not turned in", "turned in", "ungraded", "graded"],
   "not turned in": ["turned in"],
   "turned in": ["not turned in"],
@@ -71,10 +78,4 @@ function selectFilter(name: string) {
 function getCheckboxBgColor(key: string) {
   return currentFilters.value.includes(key) ? "inherit" : "";
 }
-
-const buttonClass = computed(() =>
-  showFilters.value
-    ? "border-2 border-[#794dff] shadow-sm shadow-[#794dff38] ring-0 ring-[#794dff]"
-    : "border-neutral-300 hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-neutral-700"
-);
 </script>

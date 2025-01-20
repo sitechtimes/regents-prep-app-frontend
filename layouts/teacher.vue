@@ -76,9 +76,7 @@ const loaded = ref(false);
 const showSideMenu = ref(true);
 const showCreateClass = ref(false);
 
-onMounted(() => {
-  loaded.value = true;
-});
+onMounted(() => (loaded.value = true));
 
 // for vitest
 defineExpose({ courses, currentCourse, loaded, showSideMenu });

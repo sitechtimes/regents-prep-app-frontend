@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 const userStore = useUserStore();
+
 function confirmLogout() {
   const confirmed = window.confirm("Are you sure you want to logout?");
   if (confirmed) void userStore.logout();

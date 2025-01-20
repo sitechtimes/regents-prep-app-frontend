@@ -42,9 +42,8 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  course: StudentCourse;
-}>();
+defineProps<{ course: StudentCourse }>();
+
 const router = useRouter();
 const currentTime = ref(new Date());
 </script>

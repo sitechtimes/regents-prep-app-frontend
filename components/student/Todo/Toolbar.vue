@@ -11,10 +11,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  closeToolbar: boolean;
-}>();
-
+const props = defineProps<{ closeToolbar: boolean }>();
 const emit = defineEmits<{
   sort: [TodoSorter | undefined];
   filter: [TodoFilter];
@@ -33,19 +30,14 @@ function detectSticky() {
   if (!toolbar.value) return;
   const newPosition = toolbar.value.getBoundingClientRect().top;
 
-  if (newPosition === previousPosition) return (isSticky.value = true);
+  if (newPosition === previousPosition) return void (isSticky.value = true);
 
   previousPosition = newPosition;
   isSticky.value = false;
 }
 
-onMounted(() => {
-  window.addEventListener("scroll", detectSticky);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("scroll", detectSticky);
-});
+onMounted(() => window.addEventListener("scroll", detectSticky));
+onBeforeUnmount(() => window.removeEventListener("scroll", detectSticky));
 
 function closeOptions(settings = true, filters = true, sorters = true) {
   if (settings) closeSettings.value = true;

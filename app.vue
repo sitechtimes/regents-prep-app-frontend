@@ -24,7 +24,7 @@ onBeforeMount(() => {
   if (localStorage.getItem("theme") === "dark") isDarkMode.value = true;
 });
 
-const userTypes: Record<string, string> = {
+const userTypes: Readonly<Record<string, string>> = {
   student: "/teacher",
   teacher: "/student"
 };
