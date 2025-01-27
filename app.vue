@@ -24,11 +24,14 @@ onBeforeMount(() => {
   if (localStorage.getItem("theme") === "dark") isDarkMode.value = true;
 });
 
-onMounted(async () => {
+const userTypes: Readonly<Record<string, string>> = {
+  student: "/teacher",
+  teacher: "/student"
+};
+
+onMounted(() => {
+  if (route.path.includes(userTypes[userStore.userType])) void router.replace(`/${userStore.userType}/dashboard`);
   document.body.style.display = "block";
-  await userStore.init();
-  if (!userStore.isAuth && route.meta.requiresAuth) router.push("/login");
-  else if (userStore.isAuth && ["/login", "/"].includes(route.path)) router.push(`/${userStore.userType}/dashboard`);
   loaded.value = true;
 });
 

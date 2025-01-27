@@ -4,4 +4,4 @@ export const subjectColors = {
   Science: "var(--science)", //green
   History: "var(--history)", //yellow
   Russian: "var(--russian)" //purple
-};
+} as const;

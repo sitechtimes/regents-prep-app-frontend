@@ -1,17 +1,3 @@
-export interface QuestionInterface {
-  /** @readonly ID of the question. */
-  id: number;
-  /** @readonly Number of attempts allowed.
-   *
-   * If `null`, there is no limit.
-   */
-  questionsRemaining: number;
-  /** Number of remaining attempts. */
-  remainingAttempts: number | null;
-  /** @readonly Question data */
-  question: Question[];
-}
-
 export interface Question {
   /** @readonly What the question says. */
   text: string;
@@ -24,6 +10,20 @@ export interface Question {
     /** @readonly What the answer choice says. */
     text: string;
   }[];
+}
+
+export interface QuestionInterface {
+  /** @readonly ID of the question. */
+  id: number;
+  /** @readonly Number of attempts allowed.
+   *
+   * If `null`, there is no limit.
+   */
+  questionsRemaining: number;
+  /** Number of remaining attempts. */
+  remainingAttempts: number | null;
+  /** @readonly Question data */
+  question: Question[];
 }
 
 export interface StudentAssignmentInstance {
@@ -39,42 +39,6 @@ export interface StudentAssignmentInstance {
   submitted: Date | null;
 }
 
-interface Assignment {
-  /** @readonly ID of the assignment. */
-  id: number;
-  /** @readonly Name of the assignment. */
-  name: string;
-  /** @readonly Date object of when the assignment was assigned. */
-  dateAssigned: Date;
-  /** @readonly Date object of when the assignment is due. */
-  dueDate: Date;
-  /** @readonly Number of questions in the assignment. */
-  numOfQuestions: number;
-  /** @readonly Whether or not the assignment can be turned in late. */
-  lateSubmissions: boolean;
-  /** @readonly Number of completed questions in the assignment.*/
-  questionsCompleted: number;
-}
-
-export interface TeacherAssignment extends Assignment {
-  /** @readonly How many students submitted the assignment. */
-  numSubmitted: number;
-}
-export interface StudentAssignment extends Assignment {
-  /** @readonly Number of questions completed in the assignment. */
-  instanceInfo: {
-    /** Number of questions completed in the assignment. */
-    questionsCompleted: number;
-    /** Number of questions correct in the assignment. */
-    questionsCorrect: number;
-    /** Date object of when the assignment was submitted. */
-    dateSubmitted: Date | null;
-  };
-}
-export interface CreateCourse {
-  id: number;
-  joinCode: string;
-}
 export interface TeacherStudentList {
   /** @readonly UID of the student. */
   id: number;
@@ -84,6 +48,70 @@ export interface TeacherStudentList {
   lastName: string;
   /** @readonly Email of the student. */
   email: string;
+}
+
+interface Assignment {
+  /** @readonly ID of the question. */
+  id: number;
+}
+
+export interface StudentAssignment extends Assignment {
+  /** @readonly Date object of when the assignment was submitted. */
+  dateSubmitted: Date | null;
+
+  /** @readonly Number of questions completed. */
+  questionsCompleted: number;
+
+  /** @readonly Number of correct questions in the assignment */
+  questionsCorrect?: number;
+
+  /** @readonly assignment object for assignment properties. */
+
+  assignment: {
+    /** @readonly Name of the assignment. */
+    name: string;
+
+    /** @readonly Number of questions in the assignment */
+    numOfQuestions: number;
+
+    /** @readonly Whether or not the assignment can be turned in late. */
+    lateSubmissions: boolean;
+
+    /** @readonly Date object of when the assignment is due. */
+    dueDate: Date;
+
+    /** @readonly Date object of when the assignment was assigned. */
+    dateAssigned: Date;
+
+    /** @readonly Object identifying the course assignment belongs to. */
+    course?: {
+      /** @readonly Id of the course assignment belongs to */
+      id: number;
+
+      /** @readonly Name of the course assignment belongs to */
+      name: string;
+    };
+  };
+}
+
+export interface TeacherAssignment extends Assignment {
+  /** @readonly Name of the assignment. */
+  name: string;
+
+  /** @readonly Date the assignment was submitted */
+  dateAssigned: Date;
+
+  /** @readonly Date the assignment is due */
+  dueDate: Date;
+
+  /** @readonly Number of questions in the assignment */
+  numOfQuestions: number;
+
+  /** @readonly Whether or not the assignment can be turned in late. */
+  lateSubmissions: boolean;
+
+  /** @readonly Number of questions submitted */
+  numSubmitted: number;
 }
 
 interface Course {

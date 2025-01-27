@@ -1,15 +1,11 @@
 <template>
   <div class="flex h-full w-full flex-col items-center justify-start">
-    <Loading :show="!loaded" />
+    <div v-if="studentCurrentCourse" class="flex w-2/3 flex-col items-center justify-center">
+      <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
-    <div class="flex w-full items-center justify-center" v-if="loaded">
-      <div class="flex w-2/3 flex-col items-center justify-center" v-if="currentCourse">
-        <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
-
-        <p>Subject Review / Assignment</p>
-        <!-- placeholder text for now -->
-        <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600">Start</button>
-      </div>
+      <NuxtLink :to="`/student/course/${route.params.courseCode}/${route.params.assignmentId}/stats`">Subject Review / Assignment</NuxtLink>
+      <!-- placeholder text for now -->
+      <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600" type="button">Start</button>
     </div>
   </div>
 </template>
@@ -17,38 +13,22 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "auth",
+  middleware: "student-get-course",
   requiresAuth: true
 });
 
 const route = useRoute();
-const router = useRouter();
 const userStore = useUserStore();
 const currentAssignment = ref<StudentAssignment>();
-const { courses, currentCourse, initComplete } = storeToRefs(userStore);
+const { studentCurrentCourse } = storeToRefs(userStore);
 
-const loaded = ref(false);
-
-onMounted(() => {
-  getCourse();
-});
-
-userStore.$subscribe(async () => {
-  getCourse();
-});
-
-function getCourse() {
-  if (!initComplete.value) return;
-
-  const routeCode = route.params.assignmentId as string;
-  const courseCode = Number(route.params.courseCode);
-  currentCourse.value = courses.value.find((course) => course.id === courseCode);
-  currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as StudentAssignment;
-
-  if (!currentCourse.value) return router.push(`/student/dashboard?course=${courseCode}`);
-  if (!currentAssignment.value) return router.push(`/student/dashboard?assignment=${routeCode}`);
-  loaded.value = true;
+function warnForUnsavedChanges(event: BeforeUnloadEvent) {
+  event.preventDefault();
+  // TODO: add api call to save progress
 }
+
+onMounted(() => window.addEventListener("beforeunload", warnForUnsavedChanges));
+onBeforeUnmount(() => window.removeEventListener("beforeunload", warnForUnsavedChanges));
 </script>
 
 <style scoped></style>

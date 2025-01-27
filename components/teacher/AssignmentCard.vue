@@ -1,19 +1,19 @@
 <template>
   <div
-    class="border border-gray-200 dark:border-dark-border rounded-lg p-2 bg-gray-100 dark:bg-dark-hover shadow-sm transition duration-500 hover:[scale-[1.02]] hover:shadow-lg hover:shadow-[var(--gray)] mb-2 cursor-pointer">
-    <p class="font-medium text-center">{{ assignment.name }}</p>
+    class="hover:[scale-[1.02]] mb-2 cursor-pointer rounded-lg border border-gray-200 bg-gray-100 p-2 shadow-sm transition duration-500 hover:shadow-lg hover:shadow-[var(--gray)] dark:border-dark-border dark:bg-dark-hover"
+  >
+    <p class="text-center font-medium">{{ assignment.name }}</p>
     <p class="text-center">Due: {{ formatDate(assignment.dueDate, currentDate) }}</p>
-    <div class="text-center mt-2">
-      <span class="font-semibold mr-1">Class Submissions:</span>
-      <div class="border border-gray-400 dark:border-gray-500 rounded-full px-2 py-1 inline-block mt-1">{{
-        assignment.numSubmitted }}/{{ (course as TeacherCourse).students ?? 0 }} Students</div>
+    <div class="mt-2 text-center">
+      <span class="mr-1 font-semibold">Class Submissions:</span>
+      <div class="mt-1 inline-block rounded-full border border-gray-400 px-2 py-1 dark:border-gray-500">{{ assignment.numSubmitted }}/{{ course.students ?? 0 }} Students</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  course: StudentCourse | TeacherCourse;
+defineProps<{
+  course: TeacherCourse;
   assignment: TeacherAssignment;
   currentDate: Date;
 }>();
