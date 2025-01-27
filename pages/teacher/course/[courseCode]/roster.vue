@@ -17,11 +17,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(student, index) in filteredStudents" :key="student.id" class="border-t">
+            <tr v-for="student in filteredStudents" :key="student.id" class="border-t">
               <td class="py-3 pl-10">{{ student.firstName }}</td>
               <td class="py-3 pl-10">{{ student.lastName }}</td>
               <td class="flex items-center justify-center py-3">
-                <button class="btn btn-sm transition-200 flex h-8 items-center justify-center rounded-xl bg-[#fd7e78] p-3 hover:brightness-125" type="button" @click="removeStudent(index)">✕</button>
+                <button class="btn btn-sm transition-200 flex h-8 items-center justify-center rounded-xl bg-[#fd7e78] p-3 hover:brightness-125" type="button" @click="removeStudent(student)">✕</button>
               </td>
             </tr>
             <tr v-if="filteredStudents.length === 0" class="border-t">
@@ -46,26 +46,21 @@ definePageMeta({
 
 const route = useRoute();
 const router = useRouter();
+const courseId = Number(route.params.courseCode);
 
 const searchTerm = ref("");
 
-// does this even work?
-// TODO: actually get students
 const students = ref<TeacherStudentList[]>([]);
 
 const filteredStudents = computed(() =>
   students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()))
 );
 
-async function removeStudent(index: number) {
-  const studentId = filteredStudents.value[index].id;
-  const courseId = Number(route.params.courseCode);
-  try {
-    filteredStudents.value.splice(index, 1);
-    await removeStudents(courseId, studentId);
-  } catch (error) {
-    console.error(error);
-  }
+onMounted(async () => (students.value = await getCourseStudents(courseId)));
+
+async function removeStudent(student: TeacherStudentList) {
+  students.value.splice(students.value.indexOf(student), 1);
+  await removeStudents(courseId, student.id);
 }
 </script>
 
