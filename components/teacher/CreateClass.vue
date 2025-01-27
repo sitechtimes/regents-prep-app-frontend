@@ -66,11 +66,11 @@ onBeforeUnmount(() => {
   coursePeriod.value = 0;
 });
 
-function createCourse() {
+async function createCourse() {
   if (!courseName.value || !courseSubject.value || !Object.values(regentsTypes).flat().includes(courseSubject.value) || !coursePeriod.value) return;
 
   const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
-  submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
+  await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
 
   // TODO: make an actual modal
   alert("You have successfully created a course!");

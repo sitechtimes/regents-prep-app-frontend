@@ -19,7 +19,7 @@ describe("Teacher Layout", () => {
 
   test("should show create button if on dashboard", async () => {
     const page = await mountSuspended(Page, {
-      route: { path: "/teacher/dashboard/" },
+      route: { path: "/teacher/dashboard" },
       attachTo: document.body
     });
     expect(page.find("#create-button").isVisible()).toBe(true);
