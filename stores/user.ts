@@ -25,7 +25,7 @@ export const useUserStore = defineStore("userStore", () => {
 
     if (userType.value === "student") {
       courseToDate(data.courses);
-      return (studentCourses.value = data.courses);
+      return void (studentCourses.value = data.courses);
     }
 
     teacherCourses.value = data.courses;
@@ -46,7 +46,7 @@ export const useUserStore = defineStore("userStore", () => {
 
     if (userType.value === "student") {
       courseToDate(data.courses);
-      return (studentCourses.value = data.courses);
+      return void (studentCourses.value = data.courses);
     }
 
     teacherCourses.value = data.courses;
