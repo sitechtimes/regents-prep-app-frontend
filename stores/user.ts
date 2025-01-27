@@ -1,29 +1,34 @@
 export const useUserStore = defineStore("userStore", () => {
   const config = useRuntimeConfig();
+  const router = useRouter();
+
   const isAuth = ref(false);
   const isDarkMode = ref(false);
   const name = ref<string>("");
   const userType = ref<"student" | "teacher">("student");
-  const courses = ref<(StudentCourse | TeacherCourse)[]>([]);
-  const currentCourse = ref<StudentCourse | TeacherCourse>();
-  const initComplete = ref(false);
-  const router = useRouter();
+
+  const studentCourses = ref<StudentCourse[]>([]);
+  const teacherCourses = ref<TeacherCourse[]>([]);
+  const studentCurrentCourse = ref<StudentCourse>();
+  const teacherCurrentCourse = ref<TeacherCourse>();
 
   async function init() {
-    const res = await fetch(config.public.backend + "init/", {
+    const res = await fetch(`${config.public.backend}init/`, {
       credentials: "include"
     });
     if (!res.ok) return;
     const data = await res.json();
+
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
     courseToDate(data.courses);
-    courses.value = data.courses;
-    initComplete.value = true;
+
+    if (userType.value === "student") studentCourses.value = data.courses;
+    else teacherCourses.value = data.courses;
   }
   async function login(email: string, password: string) {
-    const res = await fetch(config.public.backend + "auth/login/", {
+    const res = await fetch(`${config.public.backend}auth/login/`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -31,23 +36,24 @@ export const useUserStore = defineStore("userStore", () => {
     });
     if (!res.ok) return await res.json();
     const data = await res.json();
+
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
     courseToDate(data.courses);
-    courses.value = data.courses;
-    initComplete.value = true;
+
+    if (userType.value === "student") studentCourses.value = data.courses;
+    else teacherCourses.value = data.courses;
   }
 
   async function logout() {
-    const res = await fetch(config.public.backend + "auth/logout/", {
+    const res = await fetch(`${config.public.backend}auth/logout/`, {
       method: "POST",
       credentials: "include"
     });
     if (!res.ok) return;
-    router.push("/");
-    return;
+    void router.push("/");
   }
 
-  return { isAuth, initComplete, userType, isDarkMode, courses, currentCourse, init, login, logout };
+  return { isAuth, userType, isDarkMode, studentCourses, teacherCourses, studentCurrentCourse, teacherCurrentCourse, init, login, logout };
 });

@@ -27,8 +27,7 @@
 <script setup lang="ts">
 const counter = ref(5);
 
-const yodas: Yoda[] = reactive([]);
-type Yoda = {
+interface Yoda {
   x: number;
   vx: number;
   y: number;
@@ -36,10 +35,12 @@ type Yoda = {
   angle: number;
   created: number;
   influence: number;
-};
+}
+const yodas = reactive<Yoda[]>([]);
 
 let movementX = 0;
 let movementY = 0;
+let cooldown = 5;
 function spawnYoda(e: MouseEvent) {
   movementX = e.movementX;
   movementY = e.movementY;
@@ -55,7 +56,6 @@ function spawnYoda(e: MouseEvent) {
   });
 }
 
-let cooldown = 5;
 let interval: NodeJS.Timeout;
 
 watch(counter, () => {
@@ -76,7 +76,7 @@ watch(counter, () => {
       yoda.angle += yoda.vx * yoda.vy * 0.1;
       i++;
     });
-    for (var j = explode.length - 1; j >= 0; j--) yodas.splice(explode[j], 1);
+    for (let j = explode.length - 1; j >= 0; j--) yodas.splice(explode[j], 1);
   }
 
   interval = setInterval(update, 10);

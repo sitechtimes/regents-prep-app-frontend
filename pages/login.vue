@@ -8,27 +8,27 @@
         <div class="relative flex flex-col items-start justify-center gap-1">
           <label class="font-medium" for="email">Email Address <span title="Required" class="font-2xl text-red-500">*</span></label>
           <input
-            class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
             id="email"
+            v-model="email"
+            class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
             type="email"
             required
-            v-model="email"
             autocomplete="email"
           />
-          <p class="error absolute font-medium text-red-500" v-show="emailErr.length > 0">{{ emailErr }}</p>
+          <p v-show="emailErr.length > 0" class="error absolute font-medium text-red-500">{{ emailErr }}</p>
         </div>
 
         <div class="relative flex flex-col items-start justify-center gap-1">
           <label class="font-medium" for="password">Password <span title="Required" class="font-2xl text-red-500">*</span></label>
           <input
-            class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
             id="password"
+            v-model="password"
+            class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
             type="password"
             required
-            v-model="password"
             autocomplete="current-password"
           />
-          <p class="error absolute font-medium text-red-500" v-show="passwordErr.length > 0">{{ passwordErr }}</p>
+          <p v-show="passwordErr.length > 0" class="error absolute font-medium text-red-500">{{ passwordErr }}</p>
         </div>
 
         <button class="rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
@@ -50,7 +50,6 @@ useSeoMeta({
 
 const userStore = useUserStore();
 
-const route = useRoute();
 const router = useRouter();
 
 const email = ref("");
@@ -64,7 +63,7 @@ const loading = ref(false);
 
 watch(email, (value) => {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  if (value.length != 0 && !emailRegex.test(value)) emailErr.value = "Invalid email.";
+  if (value.length !== 0 && !emailRegex.test(value)) emailErr.value = "Invalid email.";
   else emailErr.value = "";
 });
 
@@ -85,7 +84,7 @@ async function loginWithEmail() {
   loading.value = true;
   const data = await userStore.login(email.value, password.value);
   if (!data) {
-    router.push(`${userStore.userType}/dashboard`);
+    void router.push(`${userStore.userType}/dashboard`);
   } else {
     if ("non_field_errors" in data) emailErr.value = data.non_field_errors.join(" ");
     if ("password" in data) passwordErr.value = data.password.join(" ");
