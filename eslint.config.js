@@ -110,7 +110,8 @@ export default [
       "vue/max-attributes-per-line": "off",
       "vue/require-v-for-key": "off",
       "vue/singleline-html-element-content-newline": "off",
-      "vue/multiline-html-element-content-newline": "off"
+      "vue/multiline-html-element-content-newline": "off",
+      "vue/no-v-html": "off"
     }
   }
 ];

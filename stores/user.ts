@@ -12,7 +12,7 @@ export const useUserStore = defineStore("userStore", () => {
   const studentCurrentCourse = ref<StudentCourse>();
   const teacherCurrentCourse = ref<TeacherCourse>();
 
-  async function init() {
+  async function init(): Promise<void> {
     const res = await fetch(`${config.public.backend}init/`, {
       credentials: "include"
     });
@@ -37,8 +37,8 @@ export const useUserStore = defineStore("userStore", () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email, password: password })
     });
-    if (!res.ok) return await res.json();
     const data = await res.json();
+    if (!res.ok) return data;
 
     isAuth.value = true;
     name.value = data.name;
