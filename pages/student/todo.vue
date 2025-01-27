@@ -21,11 +21,7 @@
             backgroundColor: subjectColors[findCourse(assignment)?.subject ?? 'Math']
           }"
         />
-        <StudentAssignmentCard
-          :assignment="assignment"
-          clickable
-          @click="router.push(`/student/course/${courses.find((course) => course.assignments.map((assignment) => assignment.id).includes(assignment.id))?.id}/${assignment.id}`)"
-        />
+        <StudentAssignmentCard :assignment="assignment" clickable @click="router.push(`/student/course/${findCourse(assignment)?.id}/${assignment.id}`)" />
       </div>
     </div>
   </div>
@@ -39,7 +35,7 @@ definePageMeta({
 
 const router = useRouter();
 const userStore = useUserStore();
-const { courses } = storeToRefs(userStore);
+const { studentCourses } = storeToRefs(userStore);
 
 const loaded = ref(false);
 
@@ -67,7 +63,7 @@ const filteredAssignments = computed(() => {
 });
 
 function findCourse(findAssignment: StudentAssignment) {
-  return courses.value.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "assignment" in assignment));
+  return studentCourses.value.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id));
 }
 
 onMounted(async () => {
@@ -76,7 +72,7 @@ onMounted(async () => {
 });
 
 // for vitest
-defineExpose({ courses, loaded, deselectFilters, assignments, filteredAssignments });
+defineExpose({ studentCourses, loaded, deselectFilters, assignments, filteredAssignments });
 </script>
 
 <style scoped></style>

@@ -22,7 +22,7 @@ describe("Student Dashboard Page", () => {
 
   test("should show no classes text if no courses", async () => {
     const page = await mountSuspended(Page);
-    const courses = ref(page.vm.courses);
+    const courses = ref(page.vm.studentCourses);
     courses.value = [];
 
     const noClasses = page.find("#no-classes");
@@ -35,7 +35,7 @@ describe("Student Dashboard Page", () => {
 
   test("should show class dashboard cards if courses exist", async () => {
     const page = await mountSuspended(Page);
-    const courses = ref(page.vm.courses);
+    const courses = ref(page.vm.studentCourses);
     courses.value = [
       {
         id: 1,

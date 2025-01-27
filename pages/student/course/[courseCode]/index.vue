@@ -1,11 +1,11 @@
 <template>
   <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = !deselectFilters">
     <div v-if="loaded" class="flex w-full items-center justify-center">
-      <div v-if="currentCourse" class="flex w-2/3 flex-col items-center justify-center">
-        <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[currentCourse.subject] }">
-          <h1 class="text-4xl font-semibold">{{ currentCourse.name }}</h1>
-          <h3 class="text-lg">Period {{ currentCourse.period }}</h3>
-          <h3 class="text-xl">{{ currentCourse.teacher }}</h3>
+      <div v-if="studentCurrentCourse" class="flex w-2/3 flex-col items-center justify-center">
+        <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[studentCurrentCourse.subject] }">
+          <h1 class="text-4xl font-semibold">{{ studentCurrentCourse.name }}</h1>
+          <h3 class="text-lg">Period {{ studentCurrentCourse.period }}</h3>
+          <h3 class="text-xl">{{ studentCurrentCourse.teacher }}</h3>
         </div>
 
         <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
@@ -24,7 +24,7 @@
             :key="assignment.id"
             :assignment="assignment"
             clickable
-            @click="router.push(`/student/course/${currentCourse.id}/${assignment.id}`)"
+            @click="router.push(`/student/course/${studentCurrentCourse.id}/${assignment.id}`)"
           />
 
           <div v-else-if="assignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 const userStore = useUserStore();
-const { currentCourse } = storeToRefs(userStore);
+const { studentCurrentCourse } = storeToRefs(userStore);
 
 definePageMeta({
   layout: "student",
@@ -50,7 +50,7 @@ definePageMeta({
 });
 
 useSeoMeta({
-  title: () => currentCourse.value?.name ?? "Class Details"
+  title: () => studentCurrentCourse.value?.name ?? "Class Details"
 });
 
 const router = useRouter();
@@ -73,7 +73,7 @@ const assignments = computed(() => {
   const sorter = currentSorter.value;
   const search = currentSearch.value;
 
-  return (currentCourse.value?.assignments as StudentAssignment[])
+  return studentCurrentCourse.value?.assignments
     .filter(filters)
     .filter((assignment) => assignment.assignment.name.toLowerCase().includes(search.toLowerCase()))
     .sort(sorter);
@@ -82,7 +82,7 @@ const assignments = computed(() => {
 onMounted(() => (loaded.value = true));
 
 // for vitest
-defineExpose({ loaded, currentCourse, currentFilters, currentSorter, currentSearch, assignments });
+defineExpose({ loaded, studentCurrentCourse, currentFilters, currentSorter, currentSearch, assignments });
 </script>
 
 <style scoped>

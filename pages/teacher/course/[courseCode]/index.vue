@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="currentCourse">
+    <div v-if="teacherCurrentCourse">
       <!-- Main content container -->
       <div class="flex h-[80%] w-full gap-4 p-4">
         <!-- Current Assignments Section -->
@@ -13,10 +13,10 @@
               <TeacherAssignmentCard
                 v-for="assignment in currentAssignments"
                 :key="assignment.id"
-                :course="currentCourse"
+                :course="teacherCurrentCourse"
                 :assignment="assignment"
                 :current-date="currentDate"
-                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)"
+                @click="router.push(`/teacher/course/${teacherCurrentCourse.id}/${assignment.id}`)"
               />
             </div>
           </div>
@@ -32,10 +32,10 @@
               <TeacherAssignmentCard
                 v-for="assignment in pastAssignments"
                 :key="assignment.id"
-                :course="currentCourse"
+                :course="teacherCurrentCourse"
                 :assignment="assignment"
                 :current-date="currentDate"
-                @click="router.push(`/teacher/course/${currentCourse.id}/${assignment.id}`)"
+                @click="router.push(`/teacher/course/${teacherCurrentCourse.id}/${assignment.id}`)"
               />
             </div>
           </div>
@@ -45,7 +45,7 @@
       <!-- Action buttons -->
       <div class="flex w-full gap-4 p-4">
         <NuxtLink
-          :to="`/teacher/course/${currentCourse.id}/roster`"
+          :to="`/teacher/course/${teacherCurrentCourse.id}/roster`"
           class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125"
         >
           <p>View Student List</p>
@@ -70,16 +70,16 @@ definePageMeta({
 
 const router = useRouter();
 const userStore = useUserStore();
-const { courses, currentCourse } = storeToRefs(userStore);
+const { teacherCourses, teacherCurrentCourse } = storeToRefs(userStore);
 const currentDate = ref(new Date());
 
 const loaded = ref(false);
-const assignments = ref(currentCourse.value?.assignments as TeacherAssignment[]);
-const currentAssignments = computed(() => assignments?.value.filter((assignment) => new Date((assignment as TeacherAssignment).dueDate) >= currentDate.value) as TeacherAssignment[]);
-const pastAssignments = computed(() => assignments?.value.filter((assignment) => new Date((assignment as TeacherAssignment).dueDate) < currentDate.value) as TeacherAssignment[]);
+const assignments = ref(teacherCurrentCourse.value?.assignments);
+const currentAssignments = computed(() => assignments.value?.filter((assignment) => new Date((assignment as TeacherAssignment).dueDate) >= currentDate.value) as TeacherAssignment[]);
+const pastAssignments = computed(() => assignments.value?.filter((assignment) => new Date((assignment as TeacherAssignment).dueDate) < currentDate.value) as TeacherAssignment[]);
 
 // for vitest
-defineExpose({ courses, currentCourse, loaded, currentAssignments, pastAssignments });
+defineExpose({ teacherCourses, teacherCurrentCourse, loaded, currentAssignments, pastAssignments });
 </script>
 
 <style scoped>

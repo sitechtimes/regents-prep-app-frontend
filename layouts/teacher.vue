@@ -4,9 +4,9 @@
       <header class="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-[var(--border-color)] bg-[var(--bg-color)] px-5">
         <div class="flex w-1/3 items-center justify-start gap-3">
           <button type="button" @click="showSideMenu = !showSideMenu"><img class="h-12 w-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
-          <NuxtLink v-if="currentCourse" :to="`/teacher/course/${currentCourse.id}`" class="flex flex-col items-start justify-center hover:underline hover:underline-offset-1">
-            <h4 class="text-xl font-medium">{{ currentCourse.name }}</h4>
-            <p class="text-sm">Period {{ currentCourse.period }}</p>
+          <NuxtLink v-if="teacherCurrentCourse" :to="`/teacher/course/${teacherCurrentCourse.id}`" class="flex flex-col items-start justify-center hover:underline hover:underline-offset-1">
+            <h4 class="text-xl font-medium">{{ teacherCurrentCourse.name }}</h4>
+            <p class="text-sm">Period {{ teacherCurrentCourse.period }}</p>
           </NuxtLink>
         </div>
         <div class="flex w-1/3 items-center justify-center">
@@ -41,7 +41,7 @@
 
               <div v-if="loaded" class="flex h-full w-full flex-col items-center justify-start px-2">
                 <NuxtLink
-                  v-for="course in courses"
+                  v-for="course in teacherCourses"
                   :key="course.id"
                   class="flex h-14 w-full items-center justify-start gap-3 rounded-xl pl-4 text-lg duration-300 hover:bg-[var(--hover-background)]"
                   :style="{ backgroundColor: route.path.includes(`/teacher/course/${course.id}`) ? `var(--${course.subject.toLowerCase()}-faded)` : '' }"
@@ -70,7 +70,7 @@
 const userStore = useUserStore();
 const route = useRoute();
 
-const { courses, currentCourse } = storeToRefs(userStore);
+const { teacherCourses, teacherCurrentCourse } = storeToRefs(userStore);
 
 const loaded = ref(false);
 const showSideMenu = ref(true);
@@ -79,7 +79,7 @@ const showCreateClass = ref(false);
 onMounted(() => (loaded.value = true));
 
 // for vitest
-defineExpose({ courses, currentCourse, loaded, showSideMenu });
+defineExpose({ teacherCourses, teacherCurrentCourse, loaded, showSideMenu });
 </script>
 
 <style scoped>

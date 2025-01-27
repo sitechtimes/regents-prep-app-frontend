@@ -17,7 +17,7 @@ describe("Student Course Info Page", () => {
 
   test("should show assignment cards if assignments exist", async () => {
     const page = await mountSuspended(Page, { route: { params: { courseCode: "1" } }, attachTo: document.body });
-    const currentCourse = ref(page.vm.currentCourse);
+    const currentCourse = ref(page.vm.studentCurrentCourse);
 
     currentCourse.value = {
       id: 1,
@@ -50,7 +50,7 @@ describe("Student Course Info Page", () => {
 
   test("should not show assignment cards if assignments dont exist", async () => {
     const page = await mountSuspended(Page, { route: { params: { courseCode: "99" } }, attachTo: document.body });
-    const currentCourse = ref(page.vm.currentCourse);
+    const currentCourse = ref(page.vm.studentCurrentCourse);
 
     currentCourse.value = {
       id: 1,

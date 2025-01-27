@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-full w-full flex-col items-center justify-start">
-    <div v-if="currentCourse" class="flex w-2/3 flex-col items-center justify-center">
+    <div v-if="studentCurrentCourse" class="flex w-2/3 flex-col items-center justify-center">
       <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
       <NuxtLink :to="`/student/course/${route.params.courseCode}/${route.params.assignmentId}/stats`">Subject Review / Assignment</NuxtLink>
@@ -20,7 +20,7 @@ definePageMeta({
 const route = useRoute();
 const userStore = useUserStore();
 const currentAssignment = ref<StudentAssignment>();
-const { currentCourse } = storeToRefs(userStore);
+const { studentCurrentCourse } = storeToRefs(userStore);
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
   event.preventDefault();
