@@ -102,17 +102,6 @@ input:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-::-webkit-scrollbar {
-  width: 0.75em;
-}
-::-webkit-scrollbar-track {
-  background-color: var(--faded-bg-color);
-}
-::-webkit-scrollbar-thumb {
-  background-color: var(--primary);
-  border-radius: 1em;
-}
-
 /* daisy ui stuff below... */
 .du-btn {
   @apply rounded-full;

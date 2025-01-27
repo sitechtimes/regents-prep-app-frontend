@@ -1,5 +1,18 @@
+export interface Question {
+  /** @readonly What the question says. */
+  text: string;
+  /** @readonly The type of answer for the question. */
+  answerType: "Multiple Choice" | "Written Response" | "True or False";
+  /** @readonly Array of answers. */
+  answers: {
+    /** @readonly ID of the answer. */
+    id: number;
+    /** @readonly What the answer choice says. */
+    text: string;
+  }[];
+}
+
 export interface QuestionInterface {
-  userAnswers: any;
   /** @readonly ID of the question. */
   id: number;
   /** @readonly Number of attempts allowed.
@@ -11,24 +24,6 @@ export interface QuestionInterface {
   remainingAttempts: number | null;
   /** @readonly Question data */
   question: Question[];
-}
-
-export interface Question {
-  /** @readonly What the question says. */
-  text: string;
-  /** @readonly The type of answer for the question. */
-  answerType: "Multiple Choice" | "Written Response" | "True or False";
-  /** @readonly Array of answers. */
-  answers: Answer[];
-}
-
-export interface Answer {
-  /** @readonly ID of the answer. */
-  id: number;
-  /** @readonly What the answer choice says. */
-  text: string;
-  /** @readonly The correct answer */
-  isCorrect: boolean;
 }
 
 export interface StudentAssignmentInstance {
@@ -53,6 +48,70 @@ export interface TeacherStudentList {
   lastName: string;
   /** @readonly Email of the student. */
   email: string;
+}
+
+interface Assignment {
+  /** @readonly ID of the question. */
+  id: number;
+}
+
+export interface StudentAssignment extends Assignment {
+  /** @readonly Date object of when the assignment was submitted. */
+  dateSubmitted: Date | null;
+
+  /** @readonly Number of questions completed. */
+  questionsCompleted: number;
+
+  /** @readonly Number of correct questions in the assignment */
+  questionsCorrect?: number;
+
+  /** @readonly assignment object for assignment properties. */
+
+  assignment: {
+    /** @readonly Name of the assignment. */
+    name: string;
+
+    /** @readonly Number of questions in the assignment */
+    numOfQuestions: number;
+
+    /** @readonly Whether or not the assignment can be turned in late. */
+    lateSubmissions: boolean;
+
+    /** @readonly Date object of when the assignment is due. */
+    dueDate: Date;
+
+    /** @readonly Date object of when the assignment was assigned. */
+    dateAssigned: Date;
+
+    /** @readonly Object identifying the course assignment belongs to. */
+    course?: {
+      /** @readonly Id of the course assignment belongs to */
+      id: number;
+
+      /** @readonly Name of the course assignment belongs to */
+      name: string;
+    };
+  };
+}
+
+export interface TeacherAssignment extends Assignment {
+  /** @readonly Name of the assignment. */
+  name: string;
+
+  /** @readonly Date the assignment was submitted */
+  dateAssigned: Date;
+
+  /** @readonly Date the assignment is due */
+  dueDate: Date;
+
+  /** @readonly Number of questions in the assignment */
+  numOfQuestions: number;
+
+  /** @readonly Whether or not the assignment can be turned in late. */
+  lateSubmissions: boolean;
+
+  /** @readonly Number of questions submitted */
+  numSubmitted: number;
 }
 
 interface Course {
@@ -121,68 +180,4 @@ export interface AssignmentResults extends SubmitAssignment {
     /** @readonly The data for the question referenced by the instance. */
     question: Question;
   }[];
-}
-
-interface Assignment {
-  /** @readonly ID of the question. */
-  id: number;
-}
-
-export interface StudentAssignment extends Assignment {
-  /** @readonly Date object of when the assignment was submitted. */
-  dateSubmitted: Date | null;
-
-  /** @readonly Number of questions completed. */
-  questionsCompleted: number;
-
-  /** @readonly assignment object for assignment properties. */
-
-  assignment: {
-    /** @readonly Name of the assignment. */
-    name: string;
-
-    /** @readonly Number of questions in the assignment */
-    numOfQuestions: number;
-
-    /** @readonly Number of correct questions in the assignment */
-    questionsCorrect?: number;
-
-    /** @readonly Whether or not the assignment can be turned in late. */
-    lateSubmissions: boolean;
-
-    /** @readonly Date object of when the assignment is due. */
-    dueDate: Date;
-
-    /** @readonly Date object of when the assignment was assigned. */
-    dateAssigned: Date;
-
-    /** @readonly Object identifying the course assignment belongs to. */
-    course?: {
-      /** @readonly Id of the course assignment belongs to */
-      id: number;
-
-      /** @readonly Name of the course assignment belongs to */
-      name: string;
-    };
-  };
-}
-
-export interface TeacherAssignment extends Assignment {
-  /** @readonly Name of the assignment. */
-  name: string;
-
-  /** @readonly Date the assignment was submitted */
-  dateAssigned: Date;
-
-  /** @readonly Date the assignment is due */
-  dueDate: Date;
-
-  /** @readonly Number of questions in the assignment */
-  numOfQuestions: number;
-
-  /** @readonly Whether or not the assignment can be turned in late. */
-  lateSubmissions: boolean;
-
-  /** @readonly Number of questions submitted */
-  numSubmitted: number;
 }

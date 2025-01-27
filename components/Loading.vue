@@ -1,10 +1,10 @@
 <template>
   <Transition name="opacity">
-    <div class="pointer-events-none fixed inset-0 z-50 flex flex-col items-center justify-center bg-[var(--bg-color)] bg-opacity-85" v-if="show">
+    <div v-if="show" class="pointer-events-none fixed inset-0 z-50 flex flex-col items-center justify-center bg-[var(--bg-color)] bg-opacity-85">
       <div class="flex space-x-3">
-        <div class="loading h-6 w-6 rounded-full bg-green-accent" style="animation-delay: 0s"></div>
-        <div class="loading h-6 w-6 rounded-full bg-green-accent" style="animation-delay: 0.2s"></div>
-        <div class="loading h-6 w-6 rounded-full bg-green-accent" style="animation-delay: 0.4s"></div>
+        <div class="loading delay-1 h-6 w-6 rounded-full bg-green-accent"></div>
+        <div class="loading delay-2 h-6 w-6 rounded-full bg-green-accent"></div>
+        <div class="loading delay-3 h-6 w-6 rounded-full bg-green-accent"></div>
       </div>
       <p class="mt-4 text-2xl font-bold text-[var(--text-color)] opacity-90">Loading...</p>
     </div>
@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   /** When to show the loading screen */
   show: boolean;
 }>();
@@ -36,6 +36,18 @@ const props = defineProps<{
     transform: none;
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
+}
+
+.delay-1 {
+  animation-delay: 0s;
+}
+
+.delay-2 {
+  animation-delay: 0.2s;
+}
+
+.delay-3 {
+  animation-delay: 0.4s;
 }
 
 .loading {

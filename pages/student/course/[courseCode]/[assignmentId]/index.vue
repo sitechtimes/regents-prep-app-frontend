@@ -1,10 +1,7 @@
 <template>
   <div class="flex h-full w-full flex-col items-center justify-start">
-    <Loading :show="!loaded" />
-
-    <div class="flex w-full items-center justify-center" v-if="loaded">
-      <div class="flex w-2/3 flex-col items-center justify-center" v-if="currentCourse">
-        <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
+    <div v-if="studentCurrentCourse" class="flex w-2/3 flex-col items-center justify-center">
+      <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
         <NuxtLink :to="`/student/course/${courseCode}/${assignmentId}/stats`">Subject Review / Assignment</NuxtLink>
         <!-- placeholder text for now -->
@@ -17,42 +14,24 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "auth",
+  middleware: "student-get-course",
   requiresAuth: true
 });
 
 const route = useRoute();
-const router = useRouter();
 const userStore = useUserStore();
 const currentAssignment = ref<StudentAssignment>();
 const assignmentId = route.params.assignmentId;
 const courseCode = Number(route.params.courseCode);
-const { courses, currentCourse, initComplete } = storeToRefs(userStore);
+const { studentCurrentCourse } = storeToRefs(userStore);
 
-const loaded = ref(false);
-
-onMounted(() => {
-  getCourse();
-  console.log(assignmentId)
-  console.log(courseCode)
-});
-
-userStore.$subscribe(async () => {
-  getCourse();
-});
-
-function getCourse() {
-  if (!initComplete.value) return;
-
-  const routeCode = route.params.assignmentId as string;
-  const courseCode = Number(route.params.courseCode);
-  currentCourse.value = courses.value.find((course) => course.id === courseCode);
-  currentAssignment.value = currentCourse.value?.assignments.find((assignment) => assignment.id === Number(routeCode) && "instanceInfo" in assignment) as StudentAssignment;
-
-  if (!currentCourse.value) return router.push(`/student/dashboard?course=${courseCode}`);
-  if (!currentAssignment.value) return router.push(`/student/dashboard?assignment=${routeCode}`);
-  loaded.value = true;
+function warnForUnsavedChanges(event: BeforeUnloadEvent) {
+  event.preventDefault();
+  // TODO: add api call to save progress
 }
+
+onMounted(() => window.addEventListener("beforeunload", warnForUnsavedChanges));
+onBeforeUnmount(() => window.removeEventListener("beforeunload", warnForUnsavedChanges));
 </script>
 
 <style scoped></style>
