@@ -56,11 +56,21 @@ const filteredStudents = computed(() =>
   students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()))
 );
 
-onMounted(async () => (students.value = await getCourseStudents(courseId)));
+onMounted(async () => {
+  try {
+    students.value = await getCourseStudents(courseId);
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 async function removeStudent(student: TeacherStudentList) {
-  students.value.splice(students.value.indexOf(student), 1);
-  await removeStudents(courseId, student.id);
+  try {
+    students.value.splice(students.value.indexOf(student), 1);
+    await removeStudents(courseId, student.id);
+  } catch (error) {
+    console.error(error);
+  }
 }
 </script>
 
