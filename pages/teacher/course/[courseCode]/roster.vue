@@ -40,6 +40,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "teacher",
+  middleware: "teacher-get-course",
   requiresAuth: true
 });
 
@@ -56,15 +57,16 @@ const filteredStudents = computed(() =>
   students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()))
 );
 
-onMounted(async () => {
-  getCourse();
-  getStudents();
-});
-
-userStore.$subscribe(async () => {
-  getCourse();
-  getStudents();
-});
+async function removeStudent(index: number) {
+  const studentId = filteredStudents.value[index].id;
+  const courseId = Number(route.params.courseCode);
+  try {
+    filteredStudents.value.splice(index, 1);
+    await removeStudents(courseId, studentId);
+  } catch (error) {
+    console.error(error);
+  }
+}
 </script>
 
 <style scoped></style>

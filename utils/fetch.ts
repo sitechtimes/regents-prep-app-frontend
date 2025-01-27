@@ -50,15 +50,6 @@ export async function getStudentTodo() {
   return requestEndpoint<StudentAssignment[]>("courses/0/assignments/");
 }
 
-export async function removeStudents(courseId: number, studentId: number): Promise<TeacherStudentList[]> {
-  const config = useRuntimeConfig();
-
-  const res = await fetch(config.public.backend + `courses/teacher/remove-student/${courseId}/${studentId}/`, {
-    credentials: "include",
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ courseId: courseId, studentId: studentId })
-  });
-  if (!res.ok) throw new Error("Failed to delete students");
-  return [];
+export async function removeStudents(courseId: number, studentId: number) {
+  await requestEndpoint<TeacherStudentList[]>(`courses/teacher/remove-student/${courseId}/${studentId}/`, "DELETE", { courseId, studentId });
 }
