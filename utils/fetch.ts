@@ -54,14 +54,6 @@ export async function removeStudents(courseId: number, studentId: number) {
   await requestEndpoint<TeacherStudentList[]>(`courses/teacher/remove-student/${courseId}/${studentId}`, "DELETE");
 }
 
-export async function submitCreateCourse(name:string, period:number, subject: number): Promise<CreateCourse[]> {
-  const config = useRuntimeConfig();
-  const res = await fetch(config.public.backend + `courses/teacher/create-course/`, {
-    credentials: "include",
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: name, period: period, subject: subject })
-  });
-  if (!res.ok) throw new Error("Failed to create course.");
-  return await res.json();
+export async function submitCreateCourse(name: string, period: number, subject: number) {
+  return requestEndpoint<CreateCourse[]>("courses/teacher/create-course/", "POST", { name, period, subject });
 }

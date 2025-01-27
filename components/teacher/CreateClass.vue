@@ -57,22 +57,23 @@ const regentsTypes: Readonly<Record<string, string[]>> = {
 };
 
 const courseName = ref("");
-const courseSubject = ref(0);
+const courseSubject = ref("");
 const coursePeriod = ref(0);
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   courseName.value = "";
-  courseSubject.value = 0;
+  courseSubject.value = "";
   coursePeriod.value = 0;
 });
 
 function createCourse() {
   if (!courseName.value || !courseSubject.value || !Object.values(regentsTypes).flat().includes(courseSubject.value) || !coursePeriod.value) return;
-  alert("you are now enrolled in jail!");
-  // make it join a class 👍
-  submitCreateCourse(courseName, coursePeriod, 1)
-  // no way really? i think it should join a course instead
-  console.log("courseSubject", courseSubject.value)
+
+  const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
+  submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
+
+  // TODO: make an actual modal
+  alert("You have successfully created a course!");
   emit("close");
 }
 </script>
