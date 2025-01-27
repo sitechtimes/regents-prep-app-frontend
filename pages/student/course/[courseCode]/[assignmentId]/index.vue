@@ -3,10 +3,9 @@
     <div v-if="studentCurrentCourse" class="flex w-2/3 flex-col items-center justify-center">
       <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
-        <NuxtLink :to="`/student/course/${courseCode}/${assignmentId}/stats`">Subject Review / Assignment</NuxtLink>
-        <!-- placeholder text for now -->
-        <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600">Start</button>
-      </div>
+      <NuxtLink :to="`/student/course/${courseCode}/${assignmentId}/stats`">Subject Review / Assignment</NuxtLink>
+      <!-- placeholder text for now -->
+      <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600" type="button">Start</button>
     </div>
   </div>
 </template>
@@ -20,10 +19,12 @@ definePageMeta({
 
 const route = useRoute();
 const userStore = useUserStore();
-const currentAssignment = ref<StudentAssignment>();
-const assignmentId = route.params.assignmentId;
-const courseCode = Number(route.params.courseCode);
 const { studentCurrentCourse } = storeToRefs(userStore);
+
+const assignmentId = Number(route.params.assignmentId);
+const courseCode = Number(route.params.courseCode);
+
+const currentAssignment = ref<StudentAssignment>();
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
   event.preventDefault();

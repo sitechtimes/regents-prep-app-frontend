@@ -1,15 +1,19 @@
+export interface Answer {
+  /** @readonly ID of the answer. */
+  id: number;
+  /** @readonly What the answer choice says. */
+  text: string;
+  /** @readonly Whether or not this answer is the correct answer */
+  isCorrect: boolean;
+}
+
 export interface Question {
   /** @readonly What the question says. */
   text: string;
   /** @readonly The type of answer for the question. */
   answerType: "Multiple Choice" | "Written Response" | "True or False";
   /** @readonly Array of answers. */
-  answers: {
-    /** @readonly ID of the answer. */
-    id: number;
-    /** @readonly What the answer choice says. */
-    text: string;
-  }[];
+  answers: Answer[];
 }
 
 export interface QuestionInterface {
