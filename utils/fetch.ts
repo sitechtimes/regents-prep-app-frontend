@@ -49,3 +49,7 @@ export async function studentJoinCourse(courseCode: string) {
 export async function getStudentTodo() {
   return requestEndpoint<StudentAssignment[]>("courses/0/assignments/");
 }
+
+export async function removeStudents(courseId: number, studentId: number) {
+  await requestEndpoint<TeacherStudentList[]>(`courses/teacher/remove-student/${courseId}/${studentId}/`, "DELETE", { courseId, studentId });
+}

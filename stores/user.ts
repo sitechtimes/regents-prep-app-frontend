@@ -22,10 +22,13 @@ export const useUserStore = defineStore("userStore", () => {
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
-    courseToDate(data.courses);
 
-    if (userType.value === "student") studentCourses.value = data.courses;
-    else teacherCourses.value = data.courses;
+    if (userType.value === "student") {
+      courseToDate(data.courses);
+      return (studentCourses.value = data.courses);
+    }
+
+    teacherCourses.value = data.courses;
   }
   async function login(email: string, password: string) {
     const res = await fetch(`${config.public.backend}auth/login/`, {
@@ -40,10 +43,13 @@ export const useUserStore = defineStore("userStore", () => {
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
-    courseToDate(data.courses);
 
-    if (userType.value === "student") studentCourses.value = data.courses;
-    else teacherCourses.value = data.courses;
+    if (userType.value === "student") {
+      courseToDate(data.courses);
+      return (studentCourses.value = data.courses);
+    }
+
+    teacherCourses.value = data.courses;
   }
 
   async function logout() {
