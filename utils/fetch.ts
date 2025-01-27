@@ -51,5 +51,5 @@ export async function getStudentTodo() {
 }
 
 export async function removeStudents(courseId: number, studentId: number) {
-  await requestEndpoint<TeacherStudentList[]>(`courses/teacher/remove-student/${courseId}/${studentId}/`, "DELETE", { courseId, studentId });
+  await requestEndpoint<TeacherStudentList[]>(`courses/teacher/remove-student/${courseId}/${studentId}`, "DELETE");
 }
