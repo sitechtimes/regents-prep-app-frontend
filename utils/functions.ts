@@ -53,8 +53,6 @@ export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssig
 
 export function courseToDate(courses: StudentCourse[]) {
   for (const course of courses) {
-    if ("assignment" in course) {
-      assignmentToDate(course.assignments);
-    }
+    assignmentToDate(course.assignments);
   }
 }
