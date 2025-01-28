@@ -32,32 +32,8 @@
 </template>
 
 <script setup lang="ts">
-const router = useRouter();
-const props = defineProps<{
-  course: TeacherCourse;
-}>();
+const props = defineProps<{ course: TeacherCourse }>();
 const userStore = useUserStore();
-const currentTime = ref(new Date());
-
-async function copy(data: number) {
-  try {
-    await navigator.clipboard.writeText(String(data));
-    console.log("Page URL copied to clipboard");
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-/*
-function copy() {
-  let copyText = document.querySelector("#input");
-  copyText.select();
-  document.execCommand("copy");
-}
-
-document.querySelector("#copy").addEventListener("click", copy);
-  });
-  */
 </script>
 
 <style scoped>
