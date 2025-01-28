@@ -143,9 +143,7 @@ export interface TeacherCourse extends Course {
   /** @readonly 6-digit join code for the course. */
   joinCode: string;
   /** @readonly The number of students in the course. */
-  students: number;
-  /** @readonly Array of the 3 soonest assignments that are due for the course. */
-  assignments: TeacherAssignment[];
+  numOfStudents: number;
   /** Total number of unsubmitted, future assignments. */
   assignmentsLength: number;
 }

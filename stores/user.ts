@@ -61,5 +61,5 @@ export const useUserStore = defineStore("userStore", () => {
     void router.push("/");
   }
 
-  return { isAuth, userType, isDarkMode, studentCourses, teacherCourses, studentCurrentCourse, teacherCurrentCourse, init, login, logout };
+  return { name, isAuth, userType, isDarkMode, studentCourses, teacherCourses, studentCurrentCourse, teacherCurrentCourse, init, login, logout };
 });
