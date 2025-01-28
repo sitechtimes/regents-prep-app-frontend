@@ -1,7 +1,7 @@
 <template>
   <div
     ref="toolbar"
-    class=" bg-body top-20 mt-4 flex flex-wrap items-center justify-center gap-4 rounded-full border-transparent px-5 py-2 transition duration-500 xl:flex-nowrap"
+    class="bg-body top-20 mt-4 flex flex-wrap items-center justify-center gap-4 rounded-full border-transparent px-5 py-2 transition duration-500 xl:flex-nowrap"
     :class="{ 'shadow dark:border dark:border-neutral-700': isSticky }"
   >
     <StudentTodoSort :close="closeSorters" @sort="(sorter) => emit('sort', sorter)" @click.stop="closeOptions(true, true, false)" />
@@ -50,7 +50,11 @@ function closeOptions(settings = true, filters = true, sorters = true) {
   }, 1);
 }
 
-watch(() => props.closeToolbar,(val) => {if (val) closeOptions();}
+watch(
+  () => props.closeToolbar,
+  (val) => {
+    if (val) closeOptions();
+  }
 );
 </script>
 
