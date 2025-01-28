@@ -73,7 +73,7 @@
             </div>
           </div>
         </Transition>
-        <div v-show="showSideMenu" class="fixed inset-0 z-[9998] bg-black bg-opacity-50" @click="showSideMenu = false"></div>
+        <div v-show="showSideMenu" class="fixed inset-0 z-[90] bg-black bg-opacity-50" @click="showSideMenu = false"></div>
         <div class="h-full min-h-[calc(100vh-6rem)] w-full p-4">
           <slot></slot>
         </div>
