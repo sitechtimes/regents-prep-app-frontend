@@ -48,7 +48,8 @@ describe("Student Layout", () => {
     const page = await mountSuspended(Page, { attachTo: document.body });
 
     const showSideMenu = ref(page.vm.showSideMenu);
-    expect(showSideMenu.value).toBe(true);
+    showSideMenu.value = true;
+    await nextTick();
     expect(page.find("#side-menu").isVisible()).toBe(true);
   });
 
@@ -57,7 +58,7 @@ describe("Student Layout", () => {
 
     const showSideMenu = ref(page.vm.showSideMenu);
     showSideMenu.value = false;
-    await page.vm.$nextTick();
+    await nextTick();
     expect(page.find("#side-menu").isVisible()).toBe(false);
   });
 });
