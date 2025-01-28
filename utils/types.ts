@@ -39,6 +39,11 @@ export interface StudentAssignmentInstance {
   submitted: Date | null;
 }
 
+export interface CreateCourse {
+  id: number;
+  joinCode: string;
+}
+
 export interface TeacherStudentList {
   /** @readonly UID of the student. */
   id: number;

@@ -2,13 +2,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (!import.meta.client) return;
 
   const userStore = useUserStore();
-  const { courses, currentCourse } = storeToRefs(userStore);
+  const { teacherCourses, teacherCurrentCourse } = storeToRefs(userStore);
 
-  if (!courses.value) return;
+  if (!teacherCourses.value) return;
   const courseCode = Number(to.params.courseCode);
 
-  currentCourse.value = courses.value.find((course) => course.id === courseCode);
-  if (!currentCourse.value) return void navigateTo(`/teacher/dashboard?course=${courseCode}`);
+  teacherCurrentCourse.value = teacherCourses.value.find((course) => course.id === courseCode);
+  if (!teacherCurrentCourse.value) return void navigateTo(`/teacher/dashboard?course=${courseCode}`);
 
-  currentCourse.value.assignments = (await getAssignments(Number(to.params.courseCode))) as TeacherAssignment[];
+  teacherCurrentCourse.value.assignments = await getAssignments<TeacherAssignment[]>(Number(to.params.courseCode));
 });

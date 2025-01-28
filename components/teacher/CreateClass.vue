@@ -60,17 +60,20 @@ const courseName = ref("");
 const courseSubject = ref("");
 const coursePeriod = ref(0);
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   courseName.value = "";
   courseSubject.value = "";
   coursePeriod.value = 0;
 });
 
-function createCourse() {
+async function createCourse() {
   if (!courseName.value || !courseSubject.value || !Object.values(regentsTypes).flat().includes(courseSubject.value) || !coursePeriod.value) return;
-  alert("you are now enrolled in jail!");
-  // make it join a class 👍
-  // no way really? i think it should join a course instead
+
+  const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
+  await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
+
+  // TODO: make an actual modal
+  alert("You have successfully created a course!");
   emit("close");
 }
 </script>

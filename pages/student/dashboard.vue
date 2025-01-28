@@ -10,10 +10,10 @@
       </Transition>
 
       <div class="flex h-full w-full flex-col">
-        <div v-if="courses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top ">
+        <div v-if="studentCourses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top">
           <!--prettier-ignore-->
           <StudentDashboardCard
-            v-for="course in (courses.filter((course) => !('joinCode' in course)) as StudentCourse[])"
+            v-for="course in studentCourses"
             :key="course.id"
             :course="course"
             @click="router.push(`/student/course/${course.id}`)"
@@ -43,7 +43,7 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
-const { courses, currentCourse } = storeToRefs(userStore);
+const { studentCourses, studentCurrentCourse } = storeToRefs(userStore);
 
 const showNotFound = ref(false);
 const loaded = ref(false);
@@ -62,12 +62,12 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  currentCourse.value = undefined;
+  studentCurrentCourse.value = undefined;
   loaded.value = true;
 });
 
 // for vitest
-defineExpose({ courses, showNotFound, showJoinClass, loaded });
+defineExpose({ studentCourses, showNotFound, showJoinClass, loaded });
 </script>
 
 <style scoped>

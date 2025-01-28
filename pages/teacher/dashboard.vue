@@ -10,10 +10,10 @@
       </Transition>
 
       <div class="flex h-full w-full flex-col">
-        <div v-if="courses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top">
+        <div v-if="teacherCourses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top">
           <!--prettier-ignore-->
           <TeacherDashboardCard
-            v-for="course in (courses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
+            v-for="course in (teacherCourses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
             :key="course.id"
             :course="course"
             @click="router.push(`/teacher/course/${course.id}`)"
@@ -43,7 +43,7 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
-const { courses, currentCourse } = storeToRefs(store);
+const { teacherCourses, teacherCurrentCourse } = storeToRefs(store);
 
 const showNotFound = ref(false);
 const loaded = ref(false);
@@ -61,11 +61,11 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  currentCourse.value = undefined;
+  teacherCurrentCourse.value = undefined;
   loaded.value = true;
 });
 // for vitest
-defineExpose({ courses, showNotFound, loaded });
+defineExpose({ teacherCourses, showNotFound, loaded });
 </script>
 
 <style scoped>

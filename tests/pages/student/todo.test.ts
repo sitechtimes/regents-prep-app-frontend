@@ -43,7 +43,7 @@ describe("Student Todo Page", () => {
 
   test("should be loaded", async () => {
     const page = await mountSuspended(Page);
-    const courses = ref(page.vm.courses);
+    const courses = ref(page.vm.studentCourses);
     courses.value = [];
 
     const loaded = ref(page.vm.loaded);

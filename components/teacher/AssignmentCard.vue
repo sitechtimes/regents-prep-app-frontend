@@ -6,14 +6,14 @@
     <p class="text-center">Due: {{ formatDate(assignment.dueDate, currentDate) }}</p>
     <div class="mt-2 text-center">
       <span class="mr-1 font-semibold">Class Submissions:</span>
-      <div class="mt-1 inline-block rounded-full border border-gray-400 px-2 py-1 dark:border-gray-500">{{ assignment.numSubmitted }}/{{ (course as TeacherCourse).students ?? 0 }} Students</div>
+      <div class="mt-1 inline-block rounded-full border border-gray-400 px-2 py-1 dark:border-gray-500">{{ assignment.numSubmitted }}/{{ course.students ?? 0 }} Students</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  course: StudentCourse | TeacherCourse;
+  course: TeacherCourse;
   assignment: TeacherAssignment;
   currentDate: Date;
 }>();

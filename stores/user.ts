@@ -1,24 +1,34 @@
 export const useUserStore = defineStore("userStore", () => {
   const config = useRuntimeConfig();
+  const router = useRouter();
+
   const isAuth = ref(false);
   const isDarkMode = ref(false);
   const name = ref<string>("");
   const userType = ref<"student" | "teacher">("student");
-  const courses = ref<(StudentCourse | TeacherCourse)[]>([]);
-  const currentCourse = ref<StudentCourse | TeacherCourse>();
-  const router = useRouter();
 
-  async function init() {
+  const studentCourses = ref<StudentCourse[]>([]);
+  const teacherCourses = ref<TeacherCourse[]>([]);
+  const studentCurrentCourse = ref<StudentCourse>();
+  const teacherCurrentCourse = ref<TeacherCourse>();
+
+  async function init(): Promise<void> {
     const res = await fetch(`${config.public.backend}init/`, {
       credentials: "include"
     });
     if (!res.ok) return;
     const data = await res.json();
+
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
-    courseToDate(data.courses);
-    courses.value = data.courses;
+
+    if (userType.value === "student") {
+      courseToDate(data.courses);
+      return void (studentCourses.value = data.courses);
+    }
+
+    teacherCourses.value = data.courses;
   }
   async function login(email: string, password: string) {
     const res = await fetch(`${config.public.backend}auth/login/`, {
@@ -27,13 +37,19 @@ export const useUserStore = defineStore("userStore", () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: email, password: password })
     });
-    if (!res.ok) return await res.json();
     const data = await res.json();
+    if (!res.ok) return data;
+
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase();
-    courseToDate(data.courses);
-    courses.value = data.courses;
+
+    if (userType.value === "student") {
+      courseToDate(data.courses);
+      return void (studentCourses.value = data.courses);
+    }
+
+    teacherCourses.value = data.courses;
   }
 
   async function logout() {
@@ -45,5 +61,5 @@ export const useUserStore = defineStore("userStore", () => {
     void router.push("/");
   }
 
-  return { isAuth, userType, isDarkMode, courses, currentCourse, init, login, logout };
+  return { isAuth, userType, isDarkMode, studentCourses, teacherCourses, studentCurrentCourse, teacherCurrentCourse, init, login, logout };
 });

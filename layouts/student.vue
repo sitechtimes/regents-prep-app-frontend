@@ -6,16 +6,16 @@
           <button type="button" @click="showSideMenu = !showSideMenu">
             <img class="h-12 w-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" />
           </button>
-          <NuxtLink v-if="loaded && currentCourse" :to="`/student/course/${currentCourse.id}`" class="flex flex-col items-start justify-center hover:underline hover:underline-offset-1">
-            <h4 class="text-xl font-medium">{{ currentCourse.name }}</h4>
-            <p class="text-sm">Period {{ currentCourse.period }}</p>
+          <NuxtLink v-if="loaded && studentCurrentCourse" :to="`/student/course/${studentCurrentCourse.id}`" class="flex flex-col items-start justify-center hover:underline hover:underline-offset-1">
+            <h4 class="text-xl font-medium">{{ studentCurrentCourse.name }}</h4>
+            <p class="text-sm">Period {{ studentCurrentCourse.period }}</p>
           </NuxtLink>
         </div>
         <div class="flex w-[40px] items-center justify-center">
-          <NuxtLink to="/student/dashboard" class="border-b-2 border-transparent text-3xl transition-all duration-500 ease-in-out hover:border-current flex content-center" >
-            <div class="text-3xl p-1 flex items-center justify-center sm:text-5xl">SITHS</div>
-            <div class="p-1 text-3xl flex items-center justify-center sm:text-5xl">|</div>
-            <div class="p-1 text-base flex items-center justify-center sm:text-2xl">Regents Prep</div>
+          <NuxtLink to="/student/dashboard" class="flex content-center border-b-2 border-transparent text-3xl transition-all duration-500 ease-in-out hover:border-current">
+            <div class="flex items-center justify-center p-1 text-3xl sm:text-5xl">SITHS</div>
+            <div class="flex items-center justify-center p-1 text-3xl sm:text-5xl">|</div>
+            <div class="flex items-center justify-center p-1 text-base sm:text-2xl">Regents Prep</div>
           </NuxtLink>
         </div>
         <div class="flex items-center justify-end gap-3">
@@ -33,7 +33,7 @@
           <div
             v-show="showSideMenu"
             id="side-menu"
-            class="fixed top-[4rem] left-0 z-[9999] h-[calc(100vh-4rem)] w-[23rem] flex flex-col items-start justify-start border-r border-[var(--border-color)] bg-[var(--bg-color)] pt-4 shadow-lg"
+            class="fixed left-0 top-[4rem] z-[9999] flex h-[calc(100vh-4rem)] w-[23rem] flex-col items-start justify-start border-r border-[var(--border-color)] bg-[var(--bg-color)] pt-4 shadow-lg"
           >
             <div class="flex w-full flex-col items-center justify-center px-2">
               <NuxtLink
@@ -58,16 +58,13 @@
 
             <div v-if="loaded" class="flex h-full w-full flex-col items-center justify-start px-2">
               <NuxtLink
-                v-for="course in courses"
+                v-for="course in studentCourses"
                 :key="course.id"
                 class="flex h-14 w-full items-center justify-start gap-3 rounded-xl pl-4 text-lg duration-300 hover:bg-[var(--hover-background)]"
                 :style="{ backgroundColor: route.path.includes(`/student/course/${course.id}`) ? `var(--${course.subject.toLowerCase()}-faded)` : '' }"
                 :to="`/student/course/${course.id}`"
               >
-                <div
-                  class="flex h-8 w-2 items-center justify-center rounded-full"
-                  :style="{ backgroundColor: subjectColors[course.subject as keyof typeof subjectColors] }"
-                ></div>
+                <div class="flex h-8 w-2 items-center justify-center rounded-full" :style="{ backgroundColor: subjectColors[course.subject as keyof typeof subjectColors] }"></div>
                 <div class="flex w-full flex-col items-start justify-start">
                   <p class="w-56 overflow-hidden overflow-ellipsis text-nowrap">{{ course.name }}</p>
                   <p class="text-xs">Period {{ course.period }}</p>
@@ -76,11 +73,7 @@
             </div>
           </div>
         </Transition>
-        <div
-          v-show="showSideMenu"
-          class="fixed inset-0 z-[9998] bg-black bg-opacity-50"
-          @click="showSideMenu = false"
-        ></div>
+        <div v-show="showSideMenu" class="fixed inset-0 z-[9998] bg-black bg-opacity-50" @click="showSideMenu = false"></div>
         <div class="h-full min-h-[calc(100vh-6rem)] w-full p-4">
           <slot></slot>
         </div>
@@ -94,7 +87,7 @@ const userStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 
-const { courses, currentCourse } = storeToRefs(userStore);
+const { studentCourses, studentCurrentCourse } = storeToRefs(userStore);
 
 const loaded = ref(false);
 const showSideMenu = ref(false);
@@ -105,7 +98,7 @@ router.afterEach(() => {
   showSideMenu.value = false;
 });
 // for vitest
-defineExpose({ courses, currentCourse, loaded, showSideMenu, showJoinClass });
+defineExpose({ studentCourses, studentCurrentCourse, loaded, showSideMenu, showJoinClass });
 </script>
 
 <style scoped>
