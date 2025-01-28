@@ -30,6 +30,7 @@
         <div class="flex w-full justify-end gap-2">
           <button class="du-btn du-btn-md" type="button" @click="emit('close')">Cancel</button>
           <button
+            @click="myModal1?.showModal()"
             class="du-btn du-btn-md bg-green-accent"
             :class="{ grayscale: !courseName || !courseSubject || !coursePeriod }"
             :disabled="!courseName || !courseSubject || !coursePeriod"
@@ -42,11 +43,27 @@
       </div>
     </div>
   </Transition>
+  <div>
+    <dialog ref="myModal1" class="modal">
+      <div class="modal-box">
+        <h3 class="text-lg font-bold">Hello!</h3>
+        <p class="py-4">Press ESC key or click the button below to close</p>
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{ show: boolean }>();
 const emit = defineEmits<{ close: [void] }>();
+
+const myModal1 = ref<HTMLDialogElement>();
 
 const regentsTypes: Readonly<Record<string, string[]>> = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
@@ -73,7 +90,7 @@ async function createCourse() {
   await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
 
   // TODO: make an actual modal
-  alert("You have successfully created a course!");
+  //alert("You have successfully created a course!");
   emit("close");
 }
 </script>
