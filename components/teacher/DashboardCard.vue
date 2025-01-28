@@ -17,7 +17,7 @@
       <div class="w-full">
         <div class="h-1/2 text-center text-3xl font-semibold"><h3 class="self-center pt-3">Join Code</h3></div>
         <div class="h-1/2 text-center text-3xl">
-          <h2 id="copy" class="self-center">{{ props.course.joinCode }}</h2>
+          <h2 id="copy" class="self-center">{{ course.joinCode }}</h2>
         </div>
       </div>
       <div class="divider fo-divider fo-divider-horizontal flex"></div>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ course: TeacherCourse }>();
+defineProps<{ course: TeacherCourse }>();
 const userStore = useUserStore();
 </script>
 
