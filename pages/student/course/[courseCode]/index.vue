@@ -1,14 +1,14 @@
 <template>
-  <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = !deselectFilters">
+  <div class="flex h-full  min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = !deselectFilters">
     <div v-if="loaded" class="flex w-full items-center justify-center">
-      <div v-if="currentCourse" class="flex w-2/3 flex-col items-center justify-center">
+      <div v-if="currentCourse" class="flex  flex-col items-center justify-center">
         <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[currentCourse.subject] }">
           <h1 class="text-4xl font-semibold">{{ currentCourse.name }}</h1>
           <h3 class="text-lg">Period {{ currentCourse.period }}</h3>
           <h3 class="text-xl">{{ currentCourse.teacher }}</h3>
         </div>
 
-        <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
+        <div class="mt-5  flex w-full flex-col items-center justify-center gap-4">
           <StudentTodoToolbar
             :close-toolbar="deselectFilters"
             :assignments="assignments"

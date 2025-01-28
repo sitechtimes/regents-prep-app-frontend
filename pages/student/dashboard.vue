@@ -10,7 +10,7 @@
       </Transition>
 
       <div class="flex h-full w-full flex-col">
-        <div v-if="courses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top">
+        <div v-if="courses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top ">
           <!--prettier-ignore-->
           <StudentDashboardCard
             v-for="course in (courses.filter((course) => !('joinCode' in course)) as StudentCourse[])"
