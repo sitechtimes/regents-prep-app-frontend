@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-[32rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-3xl border-2 border-[var(--faded-bg-color)] border-dark-border transition-all duration-300 ease-in-out hover:border-[var(--primary)] hover:shadow-lg hover:dark:shadow-[var(--gray)]"
+    class="flex w-[32rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-[var(--faded-bg-color)] transition-all duration-300 ease-in-out hover:border-[var(--primary)] hover:shadow-lg hover:dark:shadow-[var(--gray)]"
   >
     <div class="flex h-1/2 w-full flex-col items-center justify-end p-2 drop-shadow-md" :style="{ backgroundColor: subjectColors[course.subject] }">
       <h2 :title="course.name" class="mt-4 h-1/2 w-full overflow-hidden overflow-ellipsis text-nowrap text-center text-4xl font-semibold">{{ course.name }}</h2>
@@ -8,7 +8,7 @@
       <p class="h-1/4 text-2xl" v-if="!course.teacher">{{ userStore.name }}</p>
       <p class="h-1/4 text-xl" v-else>{{ course.teacher }}</p>
       <div class="w-full">
-        <p class="h-1/4 text-end text-xl">Period {{ course.period }}</p>
+        <p class="h-1/4 pr-1 text-end text-xl">Period {{ course.period }}</p>
       </div>
     </div>
     <!-- Above is the code for the top of the course card -->
@@ -22,7 +22,7 @@
       </div>
       <div class="divider fo-divider fo-divider-horizontal flex"></div>
       <div class="w-full">
-        <div class="h-1/2 text-center text-3xl">
+        <div class="h-full content-center text-center text-3xl">
           <h3 class="self-center">{{ course.numOfStudents }} {{ course.numOfStudents <= 0 ? `Students` : `Student` }}</h3>
         </div>
       </div>
