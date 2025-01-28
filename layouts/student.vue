@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen w-screen">
     <div class="flex min-h-screen w-screen flex-col items-center justify-start">
-      <header class="sticky top-0 z-[10000] flex h-16 w-full items-center justify-between border-b border-[var(--border-color)] bg-[var(--bg-color)] px-5">
+      <header class="sticky top-0 z-[100] flex h-16 w-full items-center justify-between border-b border-[var(--border-color)] bg-[var(--bg-color)] px-5">
         <div class="flex items-center justify-start gap-3">
           <button type="button" @click="showSideMenu = !showSideMenu">
             <img class="h-12 w-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" />
