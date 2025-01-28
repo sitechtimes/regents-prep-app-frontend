@@ -1,9 +1,9 @@
 <template>
-  <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" v-if="!loaded"></div>
-  <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = true" v-else>
+  <div v-if="!loaded" class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start"></div>
+  <div v-else class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = true">
     <div class="flex w-2/3 flex-col items-center justify-center">
       <StudentTodoToolbar
-        :closeToolbar="deselectFilters"
+        :close-toolbar="deselectFilters"
         :assignments="assignments"
         @sort="(sorter) => (currentSorter = sorter)"
         @filter="(filter) => (currentFilters = filter)"
@@ -11,8 +11,8 @@
       />
     </div>
 
-    <div class="mt-5 flex w-2/3 flex-col items-center justify-center gap-4" v-if="filteredAssignments">
-      <div class="flex h-full w-full items-center justify-center gap-2" v-for="assignment in filteredAssignments" :key="assignment.id">
+    <div v-if="filteredAssignments" class="mt-5 flex w-2/3 flex-col items-center justify-center gap-4">
+      <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex h-full w-full items-center justify-center gap-2">
         <NuxtLink
           :to="`/student/course/${findCourse(assignment)?.id}`"
           class="h-20 w-2 rounded-full"
@@ -20,12 +20,8 @@
           :style="{
             backgroundColor: subjectColors[findCourse(assignment)?.subject ?? 'Math']
           }"
-        ></NuxtLink>
-        <StudentAssignmentCard
-          @click="router.push(`/student/course/${courses.find((course) => course.assignments.map((assignment) => assignment.id).includes(assignment.id))?.id}/${assignment.id}`)"
-          :assignment="assignment"
-          clickable
         />
+        <StudentAssignmentCard :assignment="assignment" clickable @click="router.push(`/student/course/${findCourse(assignment)?.id}/${assignment.id}`)" />
       </div>
     </div>
   </div>
@@ -39,7 +35,7 @@ definePageMeta({
 
 const router = useRouter();
 const userStore = useUserStore();
-const { courses } = storeToRefs(userStore);
+const { studentCourses } = storeToRefs(userStore);
 
 const loaded = ref(false);
 
@@ -62,18 +58,21 @@ const filteredAssignments = computed(() => {
 
   return assignments.value
     ?.filter(filters)
-    .filter((assignment) => assignment.assignment.name.toLowerCase().includes(search.toLowerCase()))
+    .filter((assignment) => assignment.assignment?.name.toLowerCase().includes(search.toLowerCase()))
     .sort(sorter);
 });
 
 function findCourse(findAssignment: StudentAssignment) {
-  return userStore.courses.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id && "assignment" in assignment));
+  return studentCourses.value.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id));
 }
 
 onMounted(async () => {
   assignments.value = await getStudentTodo();
   loaded.value = true;
 });
+
+// for vitest
+defineExpose({ studentCourses, loaded, deselectFilters, assignments, filteredAssignments });
 </script>
 
 <style scoped></style>

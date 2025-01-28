@@ -1,10 +1,10 @@
 /**
  * @warning Be sure to await this function in order to actually use the delay.
- * @param {number} ms - Number of milliseconds to delay.
+ * @param ms - Number of milliseconds to delay.
  * @example await delay(1000); // Wait for 1 second
  */
 export function delay(ms: number): Promise<void> {
-  return new Promise((executor: any) => setTimeout(executor, ms));
+  return new Promise((executor: () => void) => setTimeout(executor, ms));
 }
 
 /** Returns a random integer between `min` and `max`, inclusive. */
@@ -22,30 +22,19 @@ export function getRandomItem<T>(arr: T[]) {
 export function formatDate(target: Date, current: Date) {
   const dateHour = target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" });
   const week = target.toLocaleDateString("default", { weekday: "long" });
-  const long =
-    target.toLocaleString("default", { year: target.getFullYear() === current.getFullYear() ? undefined : "numeric", month: "short", day: "numeric" }) +
-    " at " +
-    target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" });
+  const long = `${target.toLocaleString("default", { year: target.getFullYear() === current.getFullYear() ? undefined : "numeric", month: "short", day: "numeric" })} at ${target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" })}`;
 
   const inputDate = new Date(target).setHours(0, 0, 0, 0);
   const now = new Date(current).setHours(0, 0, 0, 0);
   const diffDays = Math.round((inputDate - now) / (24 * 60 * 60 * 1000));
 
-  const labels: Record<string, string> = {
+  const labels: Readonly<Record<string, string>> = {
     "0": `today at ${dateHour}`,
     "1": `tomorrow at ${dateHour}`,
     "-1": `yesterday at ${dateHour}`
   };
 
   return labels[String(diffDays)] || (diffDays > 1 && diffDays <= 7 ? week : diffDays < -1 && diffDays >= -7 ? `last ${week}` : long);
-}
-
-export function courseToDate(courses: StudentCourse[]) {
-  for (let course of courses) {
-    if ("assignment" in course) {
-      assignmentToDate(course.assignments);
-    }
-  }
 }
 
 export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssignment[]) {
@@ -59,5 +48,11 @@ export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssig
       assignment.dueDate = new Date(assignment.dueDate);
       assignment.dateAssigned = new Date(assignment.dateAssigned);
     }
+  }
+}
+
+export function courseToDate(courses: (StudentCourse | TeacherCourse)[]) {
+  for (const course of courses) {
+    assignmentToDate(course.assignments);
   }
 }

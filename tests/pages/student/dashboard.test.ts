@@ -2,7 +2,7 @@ import { mountSuspended } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, vi } from "vitest";
 import { expect, test } from "vitest";
-import Dashboard from "~/pages/student/dashboard.vue";
+import Page from "~/pages/student/dashboard.vue";
 
 describe("Student Dashboard Page", () => {
   beforeEach(() => {
@@ -10,19 +10,19 @@ describe("Student Dashboard Page", () => {
   });
 
   test("should be visible", async () => {
-    const page = await mountSuspended(Dashboard);
+    const page = await mountSuspended(Page);
     expect(page.exists()).toBe(true);
   });
 
   test("should be loaded", async () => {
-    const page = await mountSuspended(Dashboard);
+    const page = await mountSuspended(Page);
     const loaded = ref(page.vm.loaded);
     expect(loaded.value).toBe(true);
   });
 
   test("should show no classes text if no courses", async () => {
-    const page = await mountSuspended(Dashboard);
-    const courses = ref(page.vm.courses);
+    const page = await mountSuspended(Page);
+    const courses = ref(page.vm.studentCourses);
     courses.value = [];
 
     const noClasses = page.find("#no-classes");
@@ -34,8 +34,8 @@ describe("Student Dashboard Page", () => {
   });
 
   test("should show class dashboard cards if courses exist", async () => {
-    const page = await mountSuspended(Dashboard);
-    const courses = ref(page.vm.courses);
+    const page = await mountSuspended(Page);
+    const courses = ref(page.vm.studentCourses);
     courses.value = [
       {
         id: 1,
@@ -56,7 +56,7 @@ describe("Student Dashboard Page", () => {
 
   describe("Not Found Modals", () => {
     test("should display course not found modal if course in route query", async () => {
-      const page = await mountSuspended(Dashboard, { route: { query: { course: "69" } } });
+      const page = await mountSuspended(Page, { route: { query: { course: "69" } } });
       const showNotFound = ref(page.vm.showNotFound);
       expect(showNotFound.value).toBe(true);
 
@@ -66,7 +66,7 @@ describe("Student Dashboard Page", () => {
     });
 
     test("should display assignment not found modal if assignment in route query", async () => {
-      const page = await mountSuspended(Dashboard, { route: { query: { assignment: "69" } } });
+      const page = await mountSuspended(Page, { route: { query: { assignment: "69" } } });
       const showNotFound = ref(page.vm.showNotFound);
       expect(showNotFound.value).toBe(true);
 
@@ -76,19 +76,19 @@ describe("Student Dashboard Page", () => {
     });
 
     test("should not display a course not found modal if course route query is empty", async () => {
-      const page = await mountSuspended(Dashboard, { route: { query: { course: "" } } });
+      const page = await mountSuspended(Page, { route: { query: { course: "" } } });
       const showNotFound = ref(page.vm.showNotFound);
       expect(showNotFound.value).toBe(false);
     });
 
     test("should not display an assignment not found modal if assignment route query is empty", async () => {
-      const page = await mountSuspended(Dashboard, { route: { query: { assignment: "" } } });
+      const page = await mountSuspended(Page, { route: { query: { assignment: "" } } });
       const showNotFound = ref(page.vm.showNotFound);
       expect(showNotFound.value).toBe(false);
     });
 
     test("should not display a not found modal if other route query", async () => {
-      const page = await mountSuspended(Dashboard, {
+      const page = await mountSuspended(Page, {
         route: {
           query: {
             bogdansussyomin:
@@ -101,7 +101,7 @@ describe("Student Dashboard Page", () => {
     });
 
     test("should not display a not found modal if no route query", async () => {
-      const page = await mountSuspended(Dashboard);
+      const page = await mountSuspended(Page);
       const showNotFound = ref(page.vm.showNotFound);
       expect(showNotFound.value).toBe(false);
     });
