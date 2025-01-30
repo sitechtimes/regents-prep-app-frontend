@@ -57,23 +57,18 @@
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  min-height: 100vh;
-  overflow-x: hidden;
   background-color: var(--bg-color);
-  display: none;
+  @apply m-0 hidden overflow-x-hidden p-0 transition duration-500;
 }
 
 * {
-  box-sizing: border-box;
   font-family: "Mukta", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  color: var(--text-color);
-  @apply transition-all duration-500;
+  @apply text-black dark:text-white;
+}
+
+/* prettier-ignore */
+h1, h2, h3, h4, h5, h6, p, span, strong {
+  @apply transition duration-500;
 }
 
 button {
