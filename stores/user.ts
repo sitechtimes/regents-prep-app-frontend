@@ -8,7 +8,7 @@ export const useUserStore = defineStore("userStore", () => {
   const userType = ref<"student" | "teacher">("student");
 
   const studentCourses = ref<StudentCourse[]>([]);
-  const teacherCourses = ref<TeacherCourse[]>([]);
+  const teacherCourses = ref<TeacherCourseNoAssignment[]>([]);
   const studentCurrentCourse = ref<StudentCourse>();
   const teacherCurrentCourse = ref<TeacherCourse>();
 
