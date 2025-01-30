@@ -6,28 +6,29 @@
       <p :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
     </div>
 
-    <div class="flex w-2/5 flex-col items-center justify-center gap-2" v-if="assignment.assignment">
-      <p class="text-xl font-medium" v-if="assignment.questionsCorrect !== undefined">
+    <div v-if="assignment.assignment" class="flex w-2/5 flex-col items-center justify-center gap-2">
+      <p v-if="assignment.questionsCorrect !== undefined" class="text-xl font-medium">
         Your Grade: {{ assignment.questionsCorrect }}/{{ assignment.assignment.numOfQuestions }}
         <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.assignment.numOfQuestions) * 100) }}%)</span>
       </p>
-      <p class="text-xl font-medium" v-else>
+      <p v-else class="text-xl font-medium">
         Your Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numOfQuestions }}
         <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100) }}%)</span>
       </p>
 
-      <div class="h-4 w-full rounded-full border-[1.5px] border-gray-300" v-if="assignment.questionsCorrect">
+      <div v-if="assignment.questionsCorrect" class="h-4 w-full rounded-full border-[1.5px] border-gray-300">
         <div class="h-full rounded-full bg-green-500" :style="{ width: ((assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.assignment.numOfQuestions) * 100 + '%' }"></div>
       </div>
       <button
         v-if="!clickable"
-        @click="submitAssignment"
         class="rounded-lg bg-[var(--primary)] px-4 py-2 text-[var(--text-color)]"
         :class="{
           'brightness-60 cursor-not-allowed grayscale': assignment.questionsCompleted !== assignment.assignment.numOfQuestions,
           'cursor-pointer': assignment.questionsCompleted === assignment.assignment.numOfQuestions
         }"
         :disabled="assignment.questionsCompleted !== assignment.assignment.numOfQuestions"
+        type="button"
+        @click="submitAssignment"
       >
         Submit
       </button>
@@ -39,7 +40,7 @@
         <div class="h-2 w-2 rounded-full" :class="assignment.dateSubmitted ? 'bg-green-600' : 'bg-red-600'"></div>
       </div>
 
-      <div class="flex items-center justify-center gap-2" v-if="assignment.questionsCorrect">
+      <div v-if="assignment.questionsCorrect" class="flex items-center justify-center gap-2">
         <p>{{ assignment.questionsCorrect > -1 ? "Graded" : "Ungraded" }}</p>
         <div class="h-2 w-2 rounded-full" :class="assignment.questionsCorrect === undefined ? 'bg-red-600' : 'bg-green-600'"></div>
       </div>

@@ -1,0 +1,45 @@
+name: 🐞 Bug Report
+description: Report a bug on Regents Prep
+labels: ["bug"]
+title: "bug: "
+type: "Bug"
+body:
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of the bug.
+      placeholder: I did a yoda to yoda and then he yoda'd 10 times all over the place (absolute cinema)
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: Describe what should have happened when you encountered the bug.
+      placeholder: Clicking the yoda button an even number of times on `/student/todo` should summon yoda
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Please provide any reproduction steps that may need to be described. E.g. if the bug happens every other day except Tuesdays, make sure that's mentioned.
+      placeholder: Click to yoda button on `/student/dashboard` 2 times, then click the yoda button on `/student/todo` 7 times
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: Please provide any additional information related to the bug. Screenshots, code snippets, and logs are useful.
+      placeholder: "Yoda is watching"
+
+  - type: checkboxes
+    attributes:
+      label: Validations
+      description: Before submitting the issue, please make sure you do the following
+      options:
+        - label: Check that there isn't [already an issue](https://github.com/sitechtimes/regents-prep-app-frontend/issues) that reports the same bug to avoid creating a duplicate.
+          required: true
+        - label: Make sure this isn't a you problem. Ensure you are up to date with `dev` and you have `npm install`ed everything you need to.
+          required: true

@@ -1,57 +1,39 @@
 <template>
   <div
-    class="hover:border-[var(--primary)] hover:shadow-lg hover:dark:shadow-[var(--gray)] cursor-pointer border border-[var(--faded-bg-color)] rounded-lg overflow-hidden w-[45rem] flex flex-col items-center justify-center transition-all duration-300 ease-in-out">
-    <div class="w-full h-24 flex flex-col items-center justify-end p-2 drop-shadow-md"
-      :style="{ backgroundColor: subjectColors[course.subject] }">
-      <h2 :title="course.name"
-        class="text-2xl text-center font-semibold text-nowrap overflow-ellipsis w-full overflow-hidden">{{ course.name
-        }}</h2>
-      <p class="text-sm">Period {{ course.period }}</p>
-      <p>{{ course.teacher }}</p>
+    class="flex w-[32rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-[var(--faded-bg-color)] transition-all duration-300 ease-in-out hover:border-[var(--primary)] hover:shadow-lg hover:dark:shadow-[var(--gray)]"
+  >
+    <div class="flex h-1/2 w-full flex-col items-center justify-end p-2 drop-shadow-md" :style="{ backgroundColor: subjectColors[course.subject] }">
+      <h2 :title="course.name" class="mt-4 h-1/2 w-full overflow-hidden overflow-ellipsis text-nowrap text-center text-4xl font-semibold">{{ course.name }}</h2>
+
+      <p v-if="!course.teacher" class="h-1/4 text-2xl">{{ userStore.name }}</p>
+      <p v-else class="h-1/4 text-xl">{{ course.teacher }}</p>
+      <div class="w-full">
+        <p class="h-1/4 pr-1 text-end text-xl">Period {{ course.period }}</p>
+      </div>
     </div>
     <!-- Above is the code for the top of the course card -->
-    <div class="flex flex-col items-center justify-start w-full min-h-36 h-full p-2 bg-[var(--bg-color)]">
-      <h3 class="font-bold text-xl pt-1 pb-2">Assignments</h3>
-      <div class="flex flex-wrap items-start justify-around w-full h-full gap-7" v-if="course.assignments.length > 0">
-        <div v-for="assignment in sortedAssignments" :key="assignment.id"
-          class="flex flex-col items-center justify-center h-full min-w-[45%] px-5"
-          :class="sortedAssignments.length === 1 ? 'w-full' : ''">
-          <p class="font-medium text-center" :title="assignment.dueDate.toLocaleString()">Due {{
-            formatDate(assignment.dueDate, currentTime) }}</p>
-          <div class="flex flex-col items-center justify-start w-full h-full">
-            <NuxtLink
-              class="text-xl hover:underline hover:underline-offset-1 w-[70%] text-center text-nowrap overflow-hidden overflow-ellipsis"
-              :to="`/teacher/course/${course.id}/${assignment.id}`" @click.stop>{{ assignment.name }}</NuxtLink>
-            <div @click.stop="router.push(`/teacher/course/${course.id}/${assignment.id}`)"
-              class="relative flex items-center rounded-full w-full h-full bg-[var(--gray)] overflow-hidden">
-              <div class="absolute left-0 h-full"
-                :style="{ width: (assignment.numSubmitted / course.students) * 100 + '%', backgroundColor: subjectColors[course.subject] }">
-              </div>
-              <span class="w-full z-10 text-center font-mono px-2"> {{ assignment.numSubmitted }}/{{ course.students }}
-              </span>
-            </div>
-          </div>
+
+    <div class="flex h-full min-h-24 w-full columns-2 rounded-3xl bg-[var(--bg-color)] p-2">
+      <div class="w-full">
+        <div class="h-1/2 text-center text-3xl font-semibold"><h3 class="self-center pt-3">Join Code</h3></div>
+        <div class="h-1/2 text-center text-3xl">
+          <h2 id="copy" class="self-center">{{ course.joinCode }}</h2>
         </div>
       </div>
-      <p v-else>No assignments</p>
+      <div class="divider fo-divider fo-divider-horizontal flex"></div>
+      <div class="w-full">
+        <div class="h-full content-center text-center text-3xl">
+          <h3 class="self-center">{{ course.numOfStudents }} {{ course.numOfStudents <= 0 ? `Students` : `Student` }}</h3>
+        </div>
+      </div>
     </div>
     <!-- Above is the code for the bottom of the cours card-->
   </div>
 </template>
 
 <script setup lang="ts">
-const router = useRouter();
-const props = defineProps<{
-  course: TeacherCourse;
-}>();
-const currentTime = ref(new Date());
-const sortedAssignments = props.course.assignments.sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime()).slice(0, 2);
-
-/* 
-  const filter = computed((arr: teacherAssignmentOverview[]) => {
-  
-  }); 
-  */
+defineProps<{ course: TeacherCourse }>();
+const userStore = useUserStore();
 </script>
 
 <style scoped>
