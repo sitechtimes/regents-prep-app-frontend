@@ -1,9 +1,9 @@
 <template>
   <div class="flex h-full w-full flex-col items-center justify-start">
-    <div v-if="studentCurrentCourse" class="flex w-2/3 flex-col items-center justify-center">
+    <div v-if="studentCurrentCourse" class="flex h-full w-2/3 flex-col items-center justify-center gap-10">
       <StudentAssignmentCard v-if="currentAssignment" :assignment="currentAssignment" />
 
-      <div class="mt-10 flex w-full items-center justify-around gap-4">
+      <div v-if="!assignmentInProgress" class="flex w-full items-center justify-around gap-4">
         <div
           class="cursor-pointer select-none rounded-xl bg-blue-400 px-7 py-2 text-xl font-semibold transition duration-500 hover:bg-blue-500 hover:duration-150 dark:bg-blue-700 dark:hover:bg-blue-600"
           :class="{ 'du-tooltip cursor-auto saturate-0': !currentAssignment?.dateSubmitted }"
@@ -20,6 +20,8 @@
           Start
         </button>
       </div>
+
+      <div v-else class="flex w-full flex-col items-center justify-center"></div>
     </div>
   </div>
 </template>
@@ -51,6 +53,7 @@ watch(currentQuestion, (question) => {
 
 onMounted(() => {
   if (route.query.q) currentQuestion.value = Number(route.query.q);
+  console.log(currentAssignment.value);
 });
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
