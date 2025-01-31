@@ -41,19 +41,20 @@ const { studentCurrentCourse } = storeToRefs(userStore);
 const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === Number(route.params.assignmentId)));
 
 const assignmentInProgress = ref(false);
-const currentQuestion = ref<number>();
+const currentQuestionIndex = ref<number>();
+const currentQuestion = ref<QuestionInterface>();
 
 watch(assignmentInProgress, (isInProgress) => {
-  if (isInProgress && !currentQuestion.value) currentQuestion.value = 0;
+  if (isInProgress && !currentQuestion.value) currentQuestionIndex.value = 0;
 });
 
-watch(currentQuestion, (question) => {
+watch(currentQuestionIndex, async (question) => {
   void router.push({ query: { ...route.query, q: assignmentInProgress.value ? question : undefined } });
+  currentQuestion.value = await getNextQuestion();
 });
 
 onMounted(() => {
-  if (route.query.q) currentQuestion.value = Number(route.query.q);
-  console.log(currentAssignment.value);
+  if (route.query.q) currentQuestionIndex.value = Number(route.query.q);
 });
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
