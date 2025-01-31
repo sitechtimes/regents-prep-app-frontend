@@ -1,6 +1,6 @@
 <template>
   <Transition name="join-menu-scale">
-    <div v-if="show" class="join-menu-bg fixed left-0 top-0 z-[51] flex min-h-screen w-screen items-center justify-center bg-[rgba(0,0,0,0.20)]" @click="emit('close')">
+    <div v-if="show" class="join-menu-bg fixed left-0 top-0 z-[51] flex min-h-screen w-screen items-center justify-center bg-[rgba(0,0,0,0.15)]" @click="emit('close')">
       <div class="join-menu flex flex-col items-center justify-center rounded-lg bg-white p-6" @click.stop>
         <h2 class="text-xl">Create New Course</h2>
         <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
