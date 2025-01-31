@@ -30,12 +30,12 @@
         <div class="flex w-full justify-end gap-2">
           <button class="du-btn du-btn-md" type="button" @click="emit('close')">Cancel</button>
           <button
-            @click="myModal1?.showModal()"
             class="du-btn du-btn-md bg-green-accent"
             :class="{ grayscale: !courseName || !courseSubject || !coursePeriod }"
             :disabled="!courseName || !courseSubject || !coursePeriod"
             form="create-course"
             type="submit"
+            @click="myModal1?.showModal()"
           >
             Create
           </button>
@@ -49,7 +49,7 @@
       <p class="py-4">You have successfully created a course!</p>
       <div class="modal-action">
         <form method="dialog">
-          <button class="du-btn du-btn-sm bg-green-accent">Close</button>
+          <button class="du-btn du-btn-sm bg-green-accent" type="button">Close</button>
         </form>
       </div>
     </div>
