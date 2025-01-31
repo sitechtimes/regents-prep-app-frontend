@@ -4,19 +4,17 @@
 
 ## Project Setup
 
-1. Create a `.env` file in the root of the project
+1. Ensure Node.js is installed on your machine
+
+2. Clone the repository
+
+3. Create a `.env` file in the root of the project
 
 ```sh
 NUXT_PUBLIC_BACKEND = /* backend URL (make sure to append slash to the end) */
 ```
 
-2. Create a `.env.test` file in the root of the project
-
-```sh
-NUXT_TEST_BACKEND = http://localhost:3000/api/
-```
-
-3. Install dependencies and run locally
+4. Install dependencies and run locally
 
 ```sh
 npm install

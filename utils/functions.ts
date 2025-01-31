@@ -51,7 +51,7 @@ export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssig
   }
 }
 
-export function courseToDate(courses: (StudentCourse | TeacherCourse)[]) {
+export function courseToDate(courses: StudentCourse[]) {
   for (const course of courses) {
     assignmentToDate(course.assignments);
   }

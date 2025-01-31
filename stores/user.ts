@@ -8,7 +8,7 @@ export const useUserStore = defineStore("userStore", () => {
   const userType = ref<"student" | "teacher">("student");
 
   const studentCourses = ref<StudentCourse[]>([]);
-  const teacherCourses = ref<TeacherCourse[]>([]);
+  const teacherCourses = ref<TeacherCourseNoAssignment[]>([]);
   const studentCurrentCourse = ref<StudentCourse>();
   const teacherCurrentCourse = ref<TeacherCourse>();
 
@@ -61,5 +61,5 @@ export const useUserStore = defineStore("userStore", () => {
     void router.push("/");
   }
 
-  return { isAuth, userType, isDarkMode, studentCourses, teacherCourses, studentCurrentCourse, teacherCurrentCourse, init, login, logout };
+  return { name, isAuth, userType, isDarkMode, studentCourses, teacherCourses, studentCurrentCourse, teacherCurrentCourse, init, login, logout };
 });

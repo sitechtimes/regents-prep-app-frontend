@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = !deselectFilters">
     <div v-if="loaded" class="flex w-full items-center justify-center">
-      <div v-if="studentCurrentCourse" class="flex w-2/3 flex-col items-center justify-center">
+      <div v-if="studentCurrentCourse" class="flex flex-col items-center justify-center">
         <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[studentCurrentCourse.subject] }">
           <h1 class="text-4xl font-semibold">{{ studentCurrentCourse.name }}</h1>
           <h3 class="text-lg">Period {{ studentCurrentCourse.period }}</h3>
