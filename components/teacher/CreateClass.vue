@@ -49,7 +49,7 @@
       <p class="py-4">You have successfully created a course!</p>
       <div class="modal-action">
         <form method="dialog">
-          <button class="du-btn du-btn-sm bg-green-accent" type="button">Close</button>
+          <button class="du-btn du-btn-sm bg-green-accent" type="submit">Close</button>
         </form>
       </div>
     </div>
@@ -60,7 +60,7 @@
 defineProps<{ show: boolean }>();
 const emit = defineEmits<{ close: [void] }>();
 
-const myModal1 = ref<HTMLDialogElement>();
+const myModal1 = useTemplateRef("myModal1");
 
 const regentsTypes: Readonly<Record<string, string[]>> = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
