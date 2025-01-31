@@ -79,7 +79,7 @@ const pastAssignments = computed(() => assignments.value?.filter((assignment) =>
 onMounted(() => (loaded.value = true));
 
 // for vitest
-defineExpose({ teacherCourses, teacherCurrentCourse, loaded, currentAssignments, pastAssignments });
+defineExpose({ teacherCourses, teacherCurrentCourse, loaded, assignments, currentAssignments, pastAssignments });
 </script>
 
 <style scoped>
