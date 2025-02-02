@@ -1,3 +1,15 @@
+/**
+ * Makes a request to the given endpoint with the given method and body.
+ *
+ * By default, the method will be "GET".
+ *
+ * Automatically sets "Content-Type" to "application/json" if a method is given.
+ *
+ * Automatically converts the body to JSON if given.
+ * @template T the type of the JSON response
+ * @param endpoint the endpoint to request. Will be automatically appended to the base URL, so it should start NOT with a slash.
+ * @returns the JSON response, or throws an error if the response is not OK.
+ */
 async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T> {
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
@@ -12,6 +24,7 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
   return res.json();
 }
 
+/** Requests the `courses/courseId/assignments/` endpoint */
 export async function getAssignments<T extends StudentAssignment[] | TeacherAssignment[]>(courseId: number) {
   const data = await requestEndpoint<T>(`courses/${courseId}/assignments/`);
   assignmentToDate(data);
