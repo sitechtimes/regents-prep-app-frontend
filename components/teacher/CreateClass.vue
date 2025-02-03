@@ -35,7 +35,7 @@
             :disabled="!courseName || !courseSubject || !coursePeriod"
             form="create-course"
             type="submit"
-            @click="createdCourseModal?.showModal()"
+            @click="myModal1?.showModal()"
           >
             Create
           </button>
@@ -43,7 +43,7 @@
       </div>
     </div>
   </Transition>
-  <dialog ref="createdCourseModal" class="modal rounded-lg p-6">
+  <dialog ref="myModal1" class="modal rounded-lg p-6">
     <div class="modal-box">
       <h3 class="text-lg font-bold">Congrats!</h3>
       <p class="py-4">You have successfully created a course!</p>
@@ -60,7 +60,7 @@
 defineProps<{ show: boolean }>();
 const emit = defineEmits<{ close: [void] }>();
 
-const createdCourseModal = useTemplateRef("createdCourseModal");
+const myModal1 = useTemplateRef("myModal1");
 
 const regentsTypes: Readonly<Record<string, string[]>> = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
