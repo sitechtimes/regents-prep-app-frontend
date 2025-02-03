@@ -4,7 +4,7 @@
       <header class="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-[var(--border-color)] bg-[var(--bg-color)] px-5">
         <div class="flex w-1/3 items-center justify-start gap-3">
           <button type="button" @click="showSideMenu = !showSideMenu"><img class="h-12 w-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" /></button>
-          <NuxtLink v-if="teacherCurrentCourse" :to="`/teacher/course/${teacherCurrentCourse.id}`" class="flex flex-col items-start justify-center hover:underline hover:underline-offset-1">
+          <NuxtLink v-if="loaded && teacherCurrentCourse" :to="`/teacher/course/${teacherCurrentCourse.id}`" class="flex flex-col items-start justify-center hover:underline hover:underline-offset-1">
             <h4 class="text-xl font-medium">{{ teacherCurrentCourse.name }}</h4>
             <p class="text-sm">Period {{ teacherCurrentCourse.period }}</p>
           </NuxtLink>
