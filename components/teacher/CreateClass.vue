@@ -1,6 +1,6 @@
 <template>
   <Transition name="join-menu-scale">
-    <div v-if="show" class="join-menu-bg fixed left-0 top-0 z-[51] flex min-h-screen w-screen items-center justify-center bg-[rgba(0,0,0,0.25)]" @click="emit('close')">
+    <div v-if="show" class="join-menu-bg fixed left-0 top-0 z-[51] flex min-h-screen w-screen items-center justify-center bg-[rgba(0,0,0,0.15)]" @click="emit('close')">
       <div class="join-menu flex flex-col items-center justify-center rounded-lg bg-white p-6" @click.stop>
         <h2 class="text-xl">Create New Course</h2>
         <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
@@ -42,11 +42,24 @@
       </div>
     </div>
   </Transition>
+  <dialog ref="successModal" class="du-modal rounded-lg p-6">
+    <div class="du-modal-box">
+      <h3 class="text-lg font-bold">Congrats!</h3>
+      <p class="py-4">You have successfully created a course!</p>
+      <div class="du-modal-action">
+        <form method="dialog">
+          <button class="du-btn du-btn-sm bg-green-accent" type="submit">Close</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
 </template>
 
 <script setup lang="ts">
 defineProps<{ show: boolean }>();
 const emit = defineEmits<{ close: [void] }>();
+
+const successModal = useTemplateRef("successModal");
 
 const regentsTypes: Readonly<Record<string, string[]>> = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
@@ -72,8 +85,7 @@ async function createCourse() {
   const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
   await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
 
-  // TODO: make an actual modal
-  alert("You have successfully created a course!");
+  successModal.value?.showModal();
   emit("close");
 }
 </script>
