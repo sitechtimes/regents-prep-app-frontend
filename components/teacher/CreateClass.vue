@@ -35,7 +35,6 @@
             :disabled="!courseName || !courseSubject || !coursePeriod"
             form="create-course"
             type="submit"
-            @click="successModal?.showModal()"
           >
             Create
           </button>
@@ -86,6 +85,7 @@ async function createCourse() {
   const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
   await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
 
+  successModal.value?.showModal();
   emit("close");
 }
 </script>
