@@ -1,5 +1,5 @@
 <template>
-  <div v-if="teacherCurrentCourse">
+  <div v-if="loaded && teacherCurrentCourse">
     <!-- Main content container -->
     <div class="flex h-[80%] w-full gap-4 p-4">
       <!-- Current Assignments Section -->

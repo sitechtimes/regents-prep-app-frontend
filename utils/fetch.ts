@@ -1,3 +1,12 @@
+/**
+ * Makes a request to the given endpoint with the given method and body.
+ *
+ * @template T - the type of the request's response
+ * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
+ * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
+ * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ * @returns - the JSON response, or throws an error if the response is not OK.
+ */
 async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T> {
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
@@ -12,6 +21,7 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
   return res.json();
 }
 
+/** Requests the `courses/courseId/assignments/` endpoint */
 export async function getAssignments<T extends StudentAssignment[] | TeacherAssignment[]>(courseId: number) {
   const data = await requestEndpoint<T>(`courses/${courseId}/assignments/`);
   assignmentToDate(data);
