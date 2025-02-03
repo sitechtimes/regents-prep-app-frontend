@@ -1,14 +1,11 @@
 /**
  * Makes a request to the given endpoint with the given method and body.
  *
- * By default, the method will be "GET".
- *
- * Automatically sets "Content-Type" to "application/json" if a method is given.
- *
- * Automatically converts the body to JSON if given.
- * @template T the type of the JSON response
- * @param endpoint the endpoint to request. Will be automatically appended to the base URL, so it should start NOT with a slash.
- * @returns the JSON response, or throws an error if the response is not OK.
+ * @template T - the type of the request's response
+ * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
+ * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
+ * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ * @returns - the JSON response, or throws an error if the response is not OK.
  */
 async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T> {
   const config = useRuntimeConfig();
