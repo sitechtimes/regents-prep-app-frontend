@@ -35,7 +35,7 @@
             :disabled="!courseName || !courseSubject || !coursePeriod"
             form="create-course"
             type="submit"
-            @click="createdCourseModal?.showModal()"
+            @click="successModal?.showModal()"
           >
             Create
           </button>
@@ -43,11 +43,11 @@
       </div>
     </div>
   </Transition>
-  <dialog ref="createdCourseModal" class="modal rounded-lg p-6">
-    <div class="modal-box">
+  <dialog ref="successModal" class="du-modal rounded-lg p-6">
+    <div class="du-modal-box">
       <h3 class="text-lg font-bold">Congrats!</h3>
       <p class="py-4">You have successfully created a course!</p>
-      <div class="modal-action">
+      <div class="du-modal-action">
         <form method="dialog">
           <button class="du-btn du-btn-sm bg-green-accent" type="submit">Close</button>
         </form>
@@ -60,7 +60,7 @@
 defineProps<{ show: boolean }>();
 const emit = defineEmits<{ close: [void] }>();
 
-const createdCourseModal = useTemplateRef("createdCourseModal");
+const successModal = useTemplateRef("successModal");
 
 const regentsTypes: Readonly<Record<string, string[]>> = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
