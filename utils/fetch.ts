@@ -77,7 +77,6 @@ export async function submitCreateAssignment(
   randomQuestions: number,
   dueDate: string,
   numOfQuestions: number,
-  timerStyle: number,
   lateSubmissions: boolean,
   timeAllotted: number,
   attemptsAllowed: number
@@ -91,7 +90,6 @@ export async function submitCreateAssignment(
     randomQuestions,
     dueDates,
     numOfQuestions,
-    timerStyle,
     lateSubmissions,
     timeAllotted,
     attemptsAllowed
