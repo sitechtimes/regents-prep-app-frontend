@@ -10,8 +10,13 @@ describe("teacherCourse", async () => {
 
     assignments.value = [
       {
-        // assignment 1
-        id: 1
+        name: "test",
+        dateAssigned: new Date(),
+        dueDate: new Date(),
+        numOfQuestions: 4,
+        lateSubmissions: false,
+        numSubmitted: 2,
+        id: 9
       }
     ];
     await nextTick();
