@@ -84,7 +84,7 @@ export async function submitCreateAssignment(
 ) {
   const dueDates = new Date(dueDate);
   dueDates.toISOString();
-  await requestEndpoint<TeacherAssignment[]>(`courses/teacher/create-assignment/`, "POST", {
+  await requestEndpoint(`courses/teacher/create-assignment/`, "POST", {
     name,
     courseID,
     guaranteedQuestions,
