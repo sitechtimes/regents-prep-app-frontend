@@ -1,5 +1,12 @@
-import type { CreateCourse } from "./types";
-
+/**
+ * Makes a request to the given endpoint with the given method and body.
+ *
+ * @template T - the type of the request's response
+ * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
+ * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
+ * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ * @returns - the JSON response, or throws an error if the response is not OK.
+ */
 async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T> {
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
@@ -14,6 +21,7 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
   return res.json();
 }
 
+/** Requests the `courses/courseId/assignments/` endpoint */
 export async function getAssignments<T extends StudentAssignment[] | TeacherAssignment[]>(courseId: number) {
   const data = await requestEndpoint<T>(`courses/${courseId}/assignments/`);
   assignmentToDate(data);
@@ -49,7 +57,9 @@ export async function studentJoinCourse(courseCode: string) {
 }
 
 export async function getStudentTodo() {
-  return requestEndpoint<StudentAssignment[]>("courses/0/assignments/");
+  const data = await requestEndpoint<StudentAssignment[]>("courses/0/assignments/");
+  assignmentToDate(data);
+  return data;
 }
 
 export async function removeStudents(courseId: number, studentId: number) {
@@ -60,8 +70,30 @@ export async function submitCreateCourse(name: string, period: number, subject: 
   return requestEndpoint<CreateCourse[]>("courses/teacher/create-course/", "POST", { name, period, subject });
 }
 
-export async function submitCreateAssignment(name: string, courseID: number, guaranteedQuestions: number, randomQuestions: number, dueDate: string, numOfQuestions: number, timerStyle: number, lateSubmissions: boolean, timeAllotted: number, attemptsAllowed: number){
-  const dueDates = new Date(dueDate)
-  dueDates.toISOString()
-  await requestEndpoint<TeacherAssignment[]>(`courses/teacher/create-assignment/`, "POST", { name, courseID, guaranteedQuestions, randomQuestions, dueDates, numOfQuestions, timerStyle, lateSubmissions, timeAllotted, attemptsAllowed });
+export async function submitCreateAssignment(
+  name: string,
+  courseID: number,
+  guaranteedQuestions: number,
+  randomQuestions: number,
+  dueDate: string,
+  numOfQuestions: number,
+  timerStyle: number,
+  lateSubmissions: boolean,
+  timeAllotted: number,
+  attemptsAllowed: number
+) {
+  const dueDates = new Date(dueDate);
+  dueDates.toISOString();
+  await requestEndpoint<TeacherAssignment[]>(`courses/teacher/create-assignment/`, "POST", {
+    name,
+    courseID,
+    guaranteedQuestions,
+    randomQuestions,
+    dueDates,
+    numOfQuestions,
+    timerStyle,
+    lateSubmissions,
+    timeAllotted,
+    attemptsAllowed
+  });
 }
