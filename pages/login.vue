@@ -32,7 +32,7 @@
         </div>
 
         <button class="rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
-          <span v-if="loading" class="loading du-loading du-loading-sm"></span>
+          <span v-if="loading" class="loading du-loading du-loading-sm mt-1"></span>
           <p v-else class="text-lg">Login</p>
         </button>
       </form>
@@ -49,15 +49,12 @@ useSeoMeta({
 });
 
 const userStore = useUserStore();
-
 const router = useRouter();
 
 const email = ref("");
-const name = ref("");
 const password = ref("");
 
 const emailErr = ref("");
-const nameErr = ref("");
 const passwordErr = ref("");
 const loading = ref(false);
 
@@ -73,20 +70,15 @@ watch(password, (value) => {
   else passwordErr.value = "";
 });
 
-watch(name, (value) => {
-  if (value.length < 2) nameErr.value = "Name must be at least 2 characters.";
-  else if (value.length > 40) nameErr.value = "name must be less than 40 characters.";
-  else nameErr.value = "";
-});
-
 async function loginWithEmail() {
-  if (emailErr.value || passwordErr.value || nameErr.value) return;
+  if (emailErr.value || passwordErr.value) return;
   loading.value = true;
   const data = await userStore.login(email.value, password.value);
   if (!data) {
     void router.push(`${userStore.userType}/dashboard`);
   } else {
     if ("non_field_errors" in data) emailErr.value = data.non_field_errors.join(" ");
+    if ("non_field_errors" in data) passwordErr.value = data.non_field_errors.join(" ");
     if ("password" in data) passwordErr.value = data.password.join(" ");
     if ("email" in data) emailErr.value = data.email.join(" ");
   }
