@@ -1,3 +1,5 @@
+import type { CreateCourse } from "./types";
+
 async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T> {
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
@@ -56,4 +58,10 @@ export async function removeStudents(courseId: number, studentId: number) {
 
 export async function submitCreateCourse(name: string, period: number, subject: number) {
   return requestEndpoint<CreateCourse[]>("courses/teacher/create-course/", "POST", { name, period, subject });
+}
+
+export async function submitCreateAssignment(name: string, courseID: number, guaranteedQuestions: number, randomQuestions: number, dueDate: string, numOfQuestions: number, timerStyle: number, lateSubmissions: boolean, timeAllotted: number, attemptsAllowed: number){
+  const dueDates = new Date(dueDate)
+  dueDates.toISOString()
+  await requestEndpoint<TeacherAssignment[]>(`courses/teacher/create-assignment/`, "POST", { name, courseID, guaranteedQuestions, randomQuestions, dueDates, numOfQuestions, timerStyle, lateSubmissions, timeAllotted, attemptsAllowed });
 }
