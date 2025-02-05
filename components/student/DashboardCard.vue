@@ -17,7 +17,9 @@
           class="flex h-full min-w-[45%] flex-col items-center justify-center px-5"
           :class="course.assignments.length === 1 ? 'w-full' : ''"
         >
-          <p class="text-center font-medium" :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
+          <ClientOnly>
+            <p class="text-center font-medium" :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
+          </ClientOnly>
           <div class="flex h-full w-full flex-col items-center justify-start">
             <NuxtLink
               class="w-[70%] overflow-hidden overflow-ellipsis text-nowrap text-center text-xl hover:underline hover:underline-offset-1"
