@@ -39,6 +39,7 @@ const filters: Readonly<Record<string, TodoFilter>> = {
   all: () => true,
   "not turned in": (assignment) => !assignment.dateSubmitted,
   "turned in": (assignment) => assignment.dateSubmitted !== null,
+  // "past-due": (assignment) => assignment.dueDate
   ungraded: (assignment) => assignment.questionsCorrect === undefined,
   graded: (assignment) => assignment.questionsCorrect !== undefined
 };
