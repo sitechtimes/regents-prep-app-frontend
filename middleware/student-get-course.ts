@@ -11,4 +11,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (!studentCurrentCourse.value) return void navigateTo(`/student/dashboard?course=${courseCode}`);
 
   studentCurrentCourse.value.assignments = await getAssignments<StudentAssignment[]>(Number(to.params.courseCode));
+
+  //Line 10, 13 Mock these functions
 });

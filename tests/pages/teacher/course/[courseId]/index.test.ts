@@ -18,9 +18,6 @@ describe("teacherCourse", async () => {
     const page = await mountSuspended(Index);
     const currentAssignments = ref(page.vm.currentAssignments);
 
-    function()
-
-
     expect(currentAssignments.value).toHaveLength(1);
   });
 
