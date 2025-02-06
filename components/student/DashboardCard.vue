@@ -12,7 +12,7 @@
       <h3 class="pb-2 pt-1 text-xl font-bold">Assignments</h3>
       <div v-if="course.assignments.length > 0" class="flex h-full w-full flex-wrap items-start justify-around gap-7">
         <div
-          v-for="assignment in course.assignments"
+          v-for="assignment in dashboardAssignments"
           :key="assignment.id"
           class="flex h-full min-w-[45%] flex-col items-center justify-center px-5"
           :class="course.assignments.length === 1 ? 'w-full' : ''"
@@ -44,10 +44,21 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{ course: StudentCourse }>();
+const props = defineProps<{ course: StudentCourse }>();
 
 const router = useRouter();
 const currentTime = ref(new Date());
+
+const dashboardAssignments = computed(() => {
+  return props.course.assignments
+    .sort((a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime())
+    .filter((assignment) => new Date(assignment.assignment.dueDate) >= new Date())
+    .slice(0, 2);
+
+  //(a, b) => b.assignment.dateAssigned.getTime() - a.assignment.dateAssigned.getTime()
+});
+
+console.log(dashboardAssignments.value);
 </script>
 
 <style scoped>
