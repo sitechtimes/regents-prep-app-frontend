@@ -81,14 +81,12 @@ export async function submitCreateAssignment(
   timeAllotted: number,
   attemptsAllowed: number
 ) {
-  const dueDates = new Date(dueDate);
-  dueDates.toISOString();
   await requestEndpoint(`courses/teacher/create-assignment/`, "POST", {
     name,
     courseID,
     guaranteedQuestions,
     randomQuestions,
-    dueDates,
+    dueDate,
     numOfQuestions,
     lateSubmissions,
     timeAllotted,
