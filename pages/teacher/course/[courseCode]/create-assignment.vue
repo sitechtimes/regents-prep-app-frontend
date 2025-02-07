@@ -1,43 +1,43 @@
 <template>
   <div class="mx-auto max-w-lg rounded-lg p-6 shadow-md">
     <h2 class="mb-4 text-2xl font-semibold">Create Assignment</h2>
-    <form @submit.prevent="createAssignment" class="space-y-4">
+    <form class="space-y-4" @submit.prevent="createAssignment">
       <input v-model="name" type="text" placeholder="Assignment Name" class="input-field" required />
       <!--courseID probably auto filled in?-->
       <input v-model.number="courseID" type="number" placeholder="Course ID" class="input-field" required />
       <div class="relative">
         <label for="guaranteedQuestions">Guaranteed Questions</label>
-        <div @click="toggleGuaranteedDropdown" class="mt-1 block w-full cursor-pointer rounded-md border-gray-300 px-3 py-2 shadow-sm focus:ring-blue-500 sm:text-sm">
+        <div class="mt-1 block w-full cursor-pointer rounded-md border-gray-300 px-3 py-2 shadow-sm focus:ring-blue-500 sm:text-sm" @click="toggleGuaranteedDropdown">
           <span v-if="guaranteedQuestions.length > 0">{{ guaranteedQuestions.length }} Selected</span>
           <span v-else>Select Questions</span>
         </div>
         <div v-if="guaranteedDropdownOpen" class="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border border-gray-300 bg-white shadow-lg">
           <div v-for="n in getGuaranteedCurrentBatch()" :key="'guaranteed-' + n" class="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100">
-            <input type="checkbox" :id="'guaranteed-' + n" :value="n" v-model="guaranteedQuestions" class="h-4 w-4" />
+            <input :id="'guaranteed-' + n" v-model="guaranteedQuestions" type="checkbox" :value="n" class="h-4 w-4" />
             <label :for="'guaranteed-' + n" class="text-sm">Question object ({{ n }})</label>
           </div>
           <div class="flex justify-between bg-gray-50 px-3 py-2">
-            <button @click="goToPreviousGuaranteedPage" :disabled="guaranteedCurrentPage === 1" class="text-sm text-blue-500 hover:underline">Previous</button>
+            <button :disabled="guaranteedCurrentPage === 1" class="text-sm text-blue-500 hover:underline" type="button" @click="goToPreviousGuaranteedPage">Previous</button>
             <span class="text-sm">Page {{ guaranteedCurrentPage }}</span>
-            <button @click="goToNextGuaranteedPage" :disabled="guaranteedCurrentPage * batchSize >= allQuestions.length" class="text-sm text-blue-500 hover:underline">Next</button>
+            <button :disabled="guaranteedCurrentPage * batchSize >= allQuestions.length" class="text-sm text-blue-500 hover:underline" type="button" @click="goToNextGuaranteedPage">Next</button>
           </div>
         </div>
       </div>
       <div class="relative mt-4">
         <label for="randomQuestions">Random Questions</label>
-        <div @click="toggleRandomDropdown" class="mt-1 block w-full cursor-pointer rounded-md border-gray-300 px-3 py-2 shadow-sm focus:ring-blue-500 sm:text-sm">
+        <div class="mt-1 block w-full cursor-pointer rounded-md border-gray-300 px-3 py-2 shadow-sm focus:ring-blue-500 sm:text-sm" @click="toggleRandomDropdown">
           <span v-if="randomQuestions.length > 0">{{ randomQuestions.length }} Selected</span>
           <span v-else>Select Questions</span>
         </div>
         <div v-if="randomDropdownOpen" class="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border border-gray-300 bg-white shadow-lg">
           <div v-for="n in getRandomCurrentBatch()" :key="'random-' + n" class="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100">
-            <input type="checkbox" :id="'random-' + n" :value="n" v-model="randomQuestions" class="h-4 w-4" />
+            <input :id="'random-' + n" v-model="randomQuestions" type="checkbox" :value="n" class="h-4 w-4" />
             <label :for="'random-' + n" class="text-sm">Question object ({{ n }})</label>
           </div>
           <div class="flex justify-between bg-gray-50 px-3 py-2">
-            <button @click="goToPreviousRandomPage" :disabled="randomCurrentPage === 1" class="text-sm text-blue-500 hover:underline">Previous</button>
+            <button :disabled="randomCurrentPage === 1" class="text-sm text-blue-500 hover:underline" type="button" @click="goToPreviousRandomPage">Previous</button>
             <span class="text-sm">Page {{ randomCurrentPage }}</span>
-            <button @click="goToNextRandomPage" :disabled="randomCurrentPage * batchSize >= allQuestions.length" class="text-sm text-blue-500 hover:underline">Next</button>
+            <button :disabled="randomCurrentPage * batchSize >= allQuestions.length" class="text-sm text-blue-500 hover:underline" type="button" @click="goToNextRandomPage">Next</button>
           </div>
         </div>
       </div>
@@ -63,6 +63,7 @@
     </form>
   </div>
 </template>
+
 <script setup lang="ts">
 const name = ref("");
 const courseID = ref();
