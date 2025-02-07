@@ -18,6 +18,7 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
 
   const res = await fetch(config.public.backend + endpoint, options);
   if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`);
+  console.log(res);
   return res.json();
 }
 
@@ -73,8 +74,8 @@ export async function submitCreateCourse(name: string, period: number, subject: 
 export async function submitCreateAssignment(
   name: string,
   courseID: number,
-  guaranteedQuestions: number,
-  randomQuestions: number,
+  guaranteedQuestions: number[],
+  randomQuestions: number[],
   dueDate: string,
   numOfQuestions: number,
   lateSubmissions: boolean,
