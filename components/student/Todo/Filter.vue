@@ -39,6 +39,8 @@ const filters: Readonly<Record<string, TodoFilter>> = {
   all: () => true,
   "not turned in": (assignment) => !assignment.dateSubmitted,
   "turned in": (assignment) => assignment.dateSubmitted !== null,
+  "past due": (assignment) => assignment.assignment.dueDate && new Date(assignment.assignment.dueDate) < new Date(),
+  "not due": (assignment) => assignment.assignment.dueDate && new Date(assignment.assignment.dueDate) >= new Date(),
   ungraded: (assignment) => assignment.questionsCorrect === undefined,
   graded: (assignment) => assignment.questionsCorrect !== undefined
 };
@@ -58,9 +60,11 @@ watch(
 onMounted(emitFilter);
 
 const filterExclusions: Readonly<Record<string, string[]>> = {
-  all: ["not turned in", "turned in", "ungraded", "graded"],
+  all: ["not turned in", "turned in", "past due", "not due", "ungraded", "graded"],
   "not turned in": ["turned in"],
   "turned in": ["not turned in"],
+  "past due": ["not due"],
+  "not due": ["past due"],
   ungraded: ["graded"],
   graded: ["ungraded"]
 };
