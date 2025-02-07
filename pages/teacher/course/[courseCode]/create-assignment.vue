@@ -166,11 +166,4 @@ async function createAssignment() {
 }
 </script>
 
-<style scoped>
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 1;
-  cursor: pointer;
-}
-</style>
+<style scoped></style>

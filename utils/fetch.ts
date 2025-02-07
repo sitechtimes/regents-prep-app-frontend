@@ -18,7 +18,10 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
 
   const res = await fetch(config.public.backend + endpoint, options);
   if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`);
-  console.log(res);
+
+  const contentLength = res.headers.get("Content-Length");
+  if (contentLength === "0") return undefined as T;
+
   return res.json();
 }
 
@@ -82,7 +85,7 @@ export async function submitCreateAssignment(
   timeAllotted: number,
   attemptsAllowed: number
 ) {
-  await requestEndpoint(`courses/teacher/create-assignment/`, "POST", {
+  await requestEndpoint<void>(`courses/teacher/create-assignment/`, "POST", {
     name,
     courseID,
     guaranteedQuestions,
