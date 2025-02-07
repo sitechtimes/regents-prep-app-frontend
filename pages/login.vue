@@ -77,8 +77,7 @@ async function loginWithEmail() {
   if (!data) {
     void router.push(`${userStore.userType}/dashboard`);
   } else {
-    //  if ("non_field_errors" in data) emailErr.value = data.non_field_errors.join(" ");
-    //  if ("non_field_errors" in data) passwordErr.value = data.non_field_errors.join(" ");
+    if ("non_field_errors" in data) emailErr.value = data.non_field_errors.join(" "); //why only for email?
     if ("password" in data) passwordErr.value = data.password.join(" ");
     if ("email" in data) emailErr.value = data.email.join(" ");
   }
