@@ -55,7 +55,6 @@
       <input v-model.number="timeAllotted" type="number" placeholder="Time Allotted (mins)" class="input-field" required />
       <input v-model.number="attemptsAllowed" type="number" placeholder="Attempts Allowed" class="input-field" required />
       <p class="text-sm">Note: 0 = Unlimited</p>
-      <button @click="console.log(guaranteedQuestions, randomQuestions)">Check</button>
       <button type="submit" class="w-full rounded-lg bg-blue-500 py-2 text-white hover:bg-blue-600" :disabled="loading">
         {{ loading ? "Creating..." : "Create Assignment" }}
       </button>
@@ -90,7 +89,6 @@ function getISODateTime() {
   if (!dueDateDate.value || !dueDateTime.value) return null;
   const dateTimeString = `${dueDateDate.value}T${dueDateTime.value}:00`;
   const isoDate = new Date(dateTimeString).toISOString();
-  console.log(isoDate);
   return isoDate;
 }
 
