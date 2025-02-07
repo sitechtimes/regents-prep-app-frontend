@@ -50,15 +50,13 @@ const router = useRouter();
 const currentTime = ref(new Date());
 
 const dashboardAssignments = computed(() => {
-  return props.course.assignments
+  return [...props.course.assignments]
     .sort((a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime())
     .filter((assignment) => new Date(assignment.assignment.dueDate) >= new Date())
     .slice(0, 2);
 
   //(a, b) => b.assignment.dateAssigned.getTime() - a.assignment.dateAssigned.getTime()
 });
-
-console.log(dashboardAssignments.value);
 </script>
 
 <style scoped>
