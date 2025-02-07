@@ -60,9 +60,11 @@ watch(
 onMounted(emitFilter);
 
 const filterExclusions: Readonly<Record<string, string[]>> = {
-  all: ["not turned in", "turned in", "ungraded", "graded"],
+  all: ["not turned in", "turned in", "past due", "not due", "ungraded", "graded"],
   "not turned in": ["turned in"],
   "turned in": ["not turned in"],
+  "past due": ["not due"],
+  "not due": ["past due"],
   ungraded: ["graded"],
   graded: ["ungraded"]
 };
