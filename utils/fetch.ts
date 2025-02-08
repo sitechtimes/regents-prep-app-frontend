@@ -57,7 +57,9 @@ export async function studentJoinCourse(courseCode: string) {
 }
 
 export async function getStudentTodo() {
-  return requestEndpoint<StudentAssignment[]>("courses/0/assignments/");
+  const data = await requestEndpoint<StudentAssignment[]>("courses/0/assignments/");
+  assignmentToDate(data);
+  return data;
 }
 
 export async function removeStudents(courseId: number, studentId: number) {
