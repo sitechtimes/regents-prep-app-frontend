@@ -4,7 +4,7 @@ export const useUserStore = defineStore("userStore", () => {
 
   const isAuth = ref(false);
   const isDarkMode = ref(false);
-  const name = ref<string>("");
+  const name = ref("");
   const userType = ref<"student" | "teacher">("student");
 
   const studentCourses = ref<StudentCourse[]>([]);

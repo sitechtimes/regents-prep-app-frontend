@@ -68,7 +68,7 @@ export interface StudentAssignment extends Assignment {
   questionsCompleted: number;
 
   /** @readonly Number of correct questions in the assignment */
-  questionsCorrect?: number;
+  questionsCorrect: number;
 
   /** @readonly assignment object for assignment properties. */
 

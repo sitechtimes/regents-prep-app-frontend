@@ -1,13 +1,18 @@
-/**
- * Makes a request to the given endpoint with the given method and body.
- *
+/** Makes a request to the given endpoint with the given method and body.
+ * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
+ * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
+ * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ */
+async function requestEndpoint(endpoint: string, method?: string, body?: object): Promise<void>;
+/** Makes a request to the given endpoint with the given method and body.
  * @template T - the type of the request's response
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
- * @returns - the JSON response, or throws an error if the response is not OK.
+ * @returns the JSON response from the request.
  */
-async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T> {
+async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T>;
+async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T | void> {
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
   if (method) {
@@ -18,6 +23,10 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
 
   const res = await fetch(config.public.backend + endpoint, options);
   if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`);
+
+  const contentLength = res.headers.get("Content-Length");
+  if (contentLength === "0") return;
+
   return res.json();
 }
 
@@ -68,4 +77,34 @@ export async function removeStudents(courseId: number, studentId: number) {
 
 export async function submitCreateCourse(name: string, period: number, subject: number) {
   return requestEndpoint<CreateCourse[]>("courses/teacher/create-course/", "POST", { name, period, subject });
+}
+
+export async function joinCourse(joinCode: string) {
+  const data = await requestEndpoint<StudentCourse>(`courses/student/join/${joinCode}/`, "POST");
+  data.assignments = [];
+  return data;
+}
+
+export async function submitCreateAssignment(
+  name: string,
+  courseId: number,
+  guaranteedQuestions: number[],
+  randomQuestions: number[],
+  dueDate: Date,
+  numOfQuestions: number,
+  lateSubmissions: boolean,
+  timeAllotted: number,
+  attemptsAllowed: number
+) {
+  await requestEndpoint(`courses/teacher/create-assignment/`, "POST", {
+    name,
+    courseID: courseId,
+    guaranteedQuestions,
+    randomQuestions,
+    dueDate: dueDate.toISOString(),
+    numOfQuestions,
+    lateSubmissions,
+    timeAllotted,
+    attemptsAllowed
+  });
 }

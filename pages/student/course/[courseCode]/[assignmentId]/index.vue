@@ -13,8 +13,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "student-get-course",
-  requiresAuth: true
+  middleware: "student-get-course"
 });
 
 const route = useRoute();

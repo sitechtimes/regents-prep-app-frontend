@@ -21,19 +21,15 @@
             backgroundColor: subjectColors[assignment.assignment.course?.subject ?? 'Math']
           }"
         />
-        <StudentAssignmentCard :assignment="assignment" clickable @click="router.push(`/student/course/${assignment.assignment.course?.id}/${assignment.id}`)" />
+        <StudentAssignmentCard :assignment="assignment" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: "student",
-  requiresAuth: true
-});
+definePageMeta({ layout: "student" });
 
-const router = useRouter();
 const userStore = useUserStore();
 const { studentCourses, studentCurrentCourse } = storeToRefs(userStore);
 

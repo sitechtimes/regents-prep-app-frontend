@@ -7,18 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: {
-          light: "#FAF9E5",
-          reg: "#f1f0d6",
-          dark: "#F2F0CC",
-          navbar: "#EAE9CA"
-        },
-        "green-accent": "var(--primary)",
-        secondary: "#426B1F",
-        tertiary: "#4E684A",
-        "gray-accent": "#E5E5E5",
-        "dark-hover": "#292929",
-        "dark-border": "#3D444D"
+        body: "var(--bg-color)"
+      },
+      width: {
+        100: "25rem",
+        125: "31.25rem",
+        150: "37.5rem",
+        175: "43.75rem",
+        200: "50rem"
       }
     }
   },
