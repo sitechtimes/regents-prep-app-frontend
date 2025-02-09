@@ -1,8 +1,10 @@
 <template>
-  <NuxtLink :to="`/student/course/${assignment.assignment.course?.id}/${assignment.id}`" class="flex w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6">
+  <NuxtLink
+    :to="`/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`"
+    class="flex w-full items-center justify-center gap-2 rounded-2xl border border-neutral-300 p-6 hover:border-neutral-600 hover:shadow-lg"
+  >
     <div class="flex w-2/5 flex-col items-start justify-start pl-4">
       <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.assignment.name }}</h3>
-      <!--       <p :title="assignment.dateAssigned.toLocaleString()">Assigned {{ formatDate(assignment.dateAssigned, currentTime) }}</p> -->
       <ClientOnly>
         <p :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
       </ClientOnly>
@@ -39,6 +41,7 @@
 
 <script setup lang="ts">
 defineProps<{
+  course?: StudentCourse;
   assignment: StudentAssignment;
 }>();
 const currentTime = new Date();
