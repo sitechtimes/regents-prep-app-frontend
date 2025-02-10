@@ -34,6 +34,13 @@ export async function changeRouteQuery(query: Record<string, string | number | u
   await router.push({ query: { ...route.query, ...query } });
 }
 
+/**
+ * Changes the date/time displayed from the current date/time to the target date/time.
+ *
+ * @param target - What the new date should be.
+ * @param current - What the current date is.
+ * @example formatDate(...dueDate, new Date())
+ */
 export function formatDate(target: Date, current: Date) {
   const dateHour = target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" });
   const week = target.toLocaleDateString("default", { weekday: "long" });
@@ -52,6 +59,12 @@ export function formatDate(target: Date, current: Date) {
   return labels[String(diffDays)] || (diffDays > 1 && diffDays <= 7 ? week : diffDays < -1 && diffDays >= -7 ? `last ${week}` : long);
 }
 
+/**
+ *
+ *
+ * @param assignments - What the new date should be.
+ * @example assignmentToDate()
+ */
 export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssignment[]) {
   for (const assignment of assignments) {
     if ("assignment" in assignment) {
