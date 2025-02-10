@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="`/student/course/${course.id}`"
-    class="hover:border-border-neutral-500 bg-body flex w-80 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 transition hover:shadow-lg"
+    class="hover:border-border-neutral-500 w-115 flex flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:shadow-lg"
     type="button"
   >
     <div class="flex h-24 w-full flex-col items-center justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">

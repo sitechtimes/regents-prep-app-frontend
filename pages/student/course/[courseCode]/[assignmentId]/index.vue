@@ -3,6 +3,8 @@
     <div v-if="studentCurrentCourse" class="flex h-full w-2/3 flex-col items-center justify-center gap-10">
       <StudentAssignmentCard v-if="currentAssignment" :course="studentCurrentCourse" :assignment="currentAssignment" />
 
+      <StudentAssignmentPage :show="assignmentInProgress" />
+
       <div v-if="!assignmentInProgress" class="flex w-full items-center justify-around gap-4">
         <div
           class="cursor-pointer select-none rounded-xl bg-blue-400 px-7 py-2 text-xl font-semibold transition duration-500 hover:bg-blue-500 hover:duration-150 dark:bg-blue-700 dark:hover:bg-blue-600"
@@ -20,8 +22,6 @@
           Start
         </button>
       </div>
-
-      <div v-else class="flex w-full flex-col items-center justify-center"></div>
     </div>
   </div>
 </template>
@@ -44,10 +44,6 @@ const assignmentInProgress = ref(false);
 const currentQuestionIndex = ref<number>();
 const currentQuestion = ref<QuestionInterface>();
 
-watch(assignmentInProgress, (isInProgress) => {
-  if (isInProgress && !currentQuestion.value) currentQuestionIndex.value = 0;
-});
-
 watch(currentQuestionIndex, async (question) => {
   await router.push({ query: { ...route.query, q: assignmentInProgress.value ? question : undefined } });
   // currentQuestion.value = await getNextQuestion();
@@ -63,6 +59,8 @@ function warnForUnsavedChanges(event: BeforeUnloadEvent) {
 }
 
 watch(assignmentInProgress, (isInProgress) => {
+  if (isInProgress && !currentQuestion.value) currentQuestionIndex.value = 0;
+
   if (isInProgress) window.addEventListener("beforeunload", warnForUnsavedChanges);
   else window.removeEventListener("beforeunload", warnForUnsavedChanges);
 });
