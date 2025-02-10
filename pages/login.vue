@@ -75,7 +75,7 @@ watch(password, (value) => {
   if (value.length < 8) passwordErr.value = "Password must be at least 8 characters.";
   else if (value.length > 50) passwordErr.value = "Password must be less than 50 characters.";
   else {
-    (passwordErr.value = ""), (generalErr.value = "");
+    generalErr.value = "";
   }
 });
 
