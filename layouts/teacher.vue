@@ -44,9 +44,7 @@
                   v-for="course in teacherCourses"
                   :key="course.id"
                   class="flex h-14 w-full items-center justify-start gap-3 rounded-xl pl-4 text-lg duration-300 hover:bg-[var(--hover-background)]"
-                  :style="{
-                    backgroundColor: route.path.includes(`/teacher/course/${course.id}/`) || route.path === `/teacher/course/${course.id}` ? `var(--${course.subject.toLowerCase()}-faded)` : ''
-                  }"
+                  :style="{ backgroundColor: route.path.includes(`/teacher/course/${course.id}`) ? `var(--${course.subject.toLowerCase()}-faded)` : '' }"
                   :to="`/teacher/course/${course.id}`"
                 >
                   <div class="flex h-8 w-2 items-center justify-center rounded-full text-xl font-medium hover:bg-black" :style="{ backgroundColor: subjectColors[course.subject] }"></div>

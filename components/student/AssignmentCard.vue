@@ -3,9 +3,7 @@
     <div class="flex w-2/5 flex-col items-start justify-start pl-4">
       <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.assignment.name }}</h3>
       <!--       <p :title="assignment.dateAssigned.toLocaleString()">Assigned {{ formatDate(assignment.dateAssigned, currentTime) }}</p> -->
-      <ClientOnly>
-        <p :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
-      </ClientOnly>
+      <p :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
     </div>
 
     <div v-if="assignment.assignment" class="flex w-2/5 flex-col items-center justify-center gap-2">

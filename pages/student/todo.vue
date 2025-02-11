@@ -14,14 +14,14 @@
     <div v-if="filteredAssignments" class="mt-5 flex w-2/3 flex-col items-center justify-center gap-4">
       <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex h-full w-full items-center justify-center gap-2">
         <NuxtLink
-          :to="`/student/course/${assignment.assignment.course?.id}`"
+          :to="`/student/course/${findCourse(assignment)?.id}`"
           class="h-20 w-2 rounded-full"
-          :title="assignment.assignment.course?.name"
+          :title="findCourse(assignment)?.name"
           :style="{
-            backgroundColor: subjectColors[assignment.assignment.course?.subject ?? 'Math']
+            backgroundColor: subjectColors[findCourse(assignment)?.subject ?? 'Math']
           }"
         />
-        <StudentAssignmentCard :assignment="assignment" clickable @click="router.push(`/student/course/${assignment.assignment.course?.id}/${assignment.id}`)" />
+        <StudentAssignmentCard :assignment="assignment" clickable @click="router.push(`/student/course/${findCourse(assignment)?.id}/${assignment.id}`)" />
       </div>
     </div>
   </div>
@@ -35,7 +35,7 @@ definePageMeta({
 
 const router = useRouter();
 const userStore = useUserStore();
-const { studentCourses, studentCurrentCourse } = storeToRefs(userStore);
+const { studentCourses } = storeToRefs(userStore);
 
 const loaded = ref(false);
 
@@ -62,10 +62,12 @@ const filteredAssignments = computed(() => {
     .sort(sorter);
 });
 
+function findCourse(findAssignment: StudentAssignment) {
+  return studentCourses.value.find((course) => course.assignments.some((assignment) => assignment.id === findAssignment.id));
+}
+
 onMounted(async () => {
   assignments.value = await getStudentTodo();
-  studentCurrentCourse.value = undefined;
-
   loaded.value = true;
 });
 

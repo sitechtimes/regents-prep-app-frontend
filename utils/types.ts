@@ -92,9 +92,9 @@ export interface StudentAssignment extends Assignment {
     course?: {
       /** @readonly Id of the course assignment belongs to */
       id: number;
+
       /** @readonly Name of the course assignment belongs to */
       name: string;
-      subject: "Math" | "English" | "Science" | "History" | "Russian";
     };
   };
 }

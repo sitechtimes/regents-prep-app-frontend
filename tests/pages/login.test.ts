@@ -33,4 +33,26 @@ describe("Login Page", () => {
       });
     }
   });
+
+  describe("Password Regex Check", async () => {
+    const page = await mountSuspended(Login);
+    const password = ref(page.vm.password);
+    const passwordErr = ref(page.vm.passwordErr);
+
+    const testCases = [
+      { name: "should not allow passwords shorter than 8 characters", input: "bogdan", expect: "Password must be at least 8 characters." },
+      { name: "should not allow empty passwords", input: "", expect: "Password must be at least 8 characters." },
+      { name: "should not allow emails longer than 50 characters", input: "bogdanpneumonoultramicroscopicsilicovolcanoconiosis", expect: "Password must be less than 50 characters." },
+      { name: "should not throw error for passwords within 8-50 characters", input: "bogdansussyomin", expect: "" },
+      { name: "should not throw error for passwords with non-alphanumeric characters", input: "😂😲🤯😱😭😡🔥❌💥👿", expect: "" }
+    ];
+
+    for (const testCase of testCases) {
+      test(testCase.name, async () => {
+        password.value = testCase.input;
+        await page.vm.$nextTick();
+        expect(passwordErr.value).toBe(testCase.expect);
+      });
+    }
+  });
 });

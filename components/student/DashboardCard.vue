@@ -12,14 +12,12 @@
       <h3 class="pb-2 pt-1 text-xl font-bold">Assignments</h3>
       <div v-if="course.assignments.length > 0" class="flex h-full w-full flex-wrap items-start justify-around gap-7">
         <div
-          v-for="assignment in dashboardAssignments"
+          v-for="assignment in course.assignments"
           :key="assignment.id"
           class="flex h-full min-w-[45%] flex-col items-center justify-center px-5"
           :class="course.assignments.length === 1 ? 'w-full' : ''"
         >
-          <ClientOnly>
-            <p class="text-center font-medium" :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
-          </ClientOnly>
+          <p class="text-center font-medium" :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
           <div class="flex h-full w-full flex-col items-center justify-start">
             <NuxtLink
               class="w-[70%] overflow-hidden overflow-ellipsis text-nowrap text-center text-xl hover:underline hover:underline-offset-1"
@@ -44,19 +42,10 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ course: StudentCourse }>();
+defineProps<{ course: StudentCourse }>();
 
 const router = useRouter();
 const currentTime = ref(new Date());
-
-const dashboardAssignments = computed(() => {
-  return [...props.course.assignments]
-    .sort((a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime())
-    .filter((assignment) => new Date(assignment.assignment.dueDate) >= new Date())
-    .slice(0, 2);
-
-  //(a, b) => b.assignment.dateAssigned.getTime() - a.assignment.dateAssigned.getTime()
-});
 </script>
 
 <style scoped>
