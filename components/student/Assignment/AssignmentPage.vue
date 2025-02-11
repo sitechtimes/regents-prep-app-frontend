@@ -9,8 +9,12 @@
           <p class="text-neutral-700">{{ currentQuestion?.question.text }}</p>
 
           <!-- TODO: add answer choices -->
-          <div class="h-125 mt-8 w-full overflow-y-scroll rounded-xl bg-neutral-100">
-            <!-- <button type="button" @click="choice.selected = true" v-html="choice.text"></button> -->
+          <div
+            v-if="currentQuestion?.question.answerType === 'Multiple Choice'"
+            v-for="choice in currentQuestion?.question.answers"
+            class="h-125 mt-8 w-full overflow-y-scroll rounded-xl bg-neutral-100"
+          >
+            <button type="button" @click="choice.selected = true" v-html="choice.text"></button>
           </div>
 
           <div class="mt-8 flex w-full items-center justify-around">

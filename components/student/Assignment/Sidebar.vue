@@ -32,8 +32,17 @@
       <p class="text-sm text-neutral-700">Assigned {{ formatDate(assignment.assignment.dateAssigned, currentDate) }}</p>
       <p class="text-sm">Due {{ formatDate(assignment.assignment.dueDate, currentDate) }}</p>
 
-      <div class="mt-auto w-full" :class="{ 'du-tooltip': true }" data-tip="Complete all questions first!">
-        <button class="w-full rounded-xl bg-green-300 px-5 py-1.5 text-lg font-medium hover:bg-green-400" :class="{ grayscale: true }" type="button" @click="submit">
+      <div
+        class="mt-auto w-full"
+        :class="{ 'du-tooltip': !Object.values(assignment.assignment.questionInterfaces).every((questionInterface) => questionInterface.question.answers.some((answer) => answer.selected)) }"
+        data-tip="Complete all questions first!"
+      >
+        <button
+          class="w-full rounded-xl bg-green-300 px-5 py-1.5 text-lg font-medium hover:bg-green-400"
+          :class="{ grayscale: !Object.values(assignment.assignment.questionInterfaces).every((questionInterface) => questionInterface.question.answers.some((answer) => answer.selected)) }"
+          type="button"
+          @click="submit"
+        >
           <!-- TODO: add loading spinner -->
           Submit
         </button>
