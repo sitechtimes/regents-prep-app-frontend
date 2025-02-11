@@ -1,9 +1,9 @@
 <template>
   <div class="sticky left-0 top-0 flex h-full w-72 shrink-0 flex-col items-start justify-start border-r border-neutral-300">
-    <NuxtLink :to="`/student/course/${studentCurrentCourse?.id}`" class="group my-4 ml-2 flex items-center justify-center gap-2 rounded-xl px-5 py-2 hover:bg-neutral-200" type="button">
+    <button class="group my-4 ml-4 flex items-center justify-center gap-2 rounded-xl px-5 py-2 hover:bg-neutral-200" type="button" @click="emit('close')">
       <img class="size-4 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
       Back to course
-    </NuxtLink>
+    </button>
 
     <div class="relative w-full">
       <div class="list-overlay pointer-events-none absolute left-0 top-0 h-full w-full border-y-2 border-neutral-300"></div>
@@ -58,9 +58,7 @@ const props = defineProps<{
   assignment: StudentAssignment;
   currentQuestionIndex: number;
 }>();
-
-const userStore = useUserStore();
-const { studentCurrentCourse } = storeToRefs(userStore);
+const emit = defineEmits<{ close: [void] }>();
 
 const currentDate = new Date();
 
