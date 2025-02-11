@@ -41,12 +41,8 @@ export async function getCourseStudents(courseId: number) {
   return requestEndpoint<TeacherStudentList[]>(`courses/${courseId}/teacher/student-list/`);
 }
 
-export async function getStudentAssignment(assignmentId: number) {
-  return requestEndpoint<AssignmentInstance>("courses/student/assignment-instance/", "POST", { id: assignmentId });
-}
-
 export async function getNextQuestion(assignmentId: number) {
-  return requestEndpoint<QuestionInterface>("courses/student/assignment/get-next-question/", "POST", { id: assignmentId });
+  return requestEndpoint<QuestionInterface>("courses/student/get-next-question/", "POST", { id: assignmentId });
 }
 
 export async function submitQuestionAnswer(questionId: number, answerId: number) {
