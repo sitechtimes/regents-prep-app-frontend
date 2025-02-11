@@ -36,13 +36,12 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
-const { studentCurrentCourse } = storeToRefs(userStore);
+const { studentCurrentCourse, currentQuestion } = storeToRefs(userStore);
 
 const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === Number(route.params.assignmentId)));
 
 const assignmentInProgress = ref(false);
 const currentQuestionIndex = ref<number>();
-const currentQuestion = ref<QuestionInterface>();
 
 watch(
   () => route.query,
@@ -55,7 +54,6 @@ watch(
 
 watch(currentQuestionIndex, async (question) => {
   await router.push({ query: { ...route.query, q: assignmentInProgress.value ? question : undefined } });
-  // currentQuestion.value = await getNextQuestion();
 });
 
 onMounted(() => {

@@ -12,6 +12,8 @@ export const useUserStore = defineStore("userStore", () => {
   const studentCurrentCourse = ref<StudentCourse>();
   const teacherCurrentCourse = ref<TeacherCourse>();
 
+  const currentQuestion = ref<QuestionInterface>();
+
   async function init(): Promise<void> {
     const res = await fetch(`${config.public.backend}init/`, {
       credentials: "include"
@@ -61,5 +63,5 @@ export const useUserStore = defineStore("userStore", () => {
     void router.push("/");
   }
 
-  return { name, isAuth, userType, isDarkMode, studentCourses, teacherCourses, studentCurrentCourse, teacherCurrentCourse, init, login, logout };
+  return { name, isAuth, userType, isDarkMode, studentCourses, teacherCourses, studentCurrentCourse, teacherCurrentCourse, currentQuestion, init, login, logout };
 });

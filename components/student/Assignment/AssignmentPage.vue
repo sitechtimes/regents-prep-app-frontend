@@ -40,6 +40,8 @@ const props = defineProps<{
 }>();
 
 const route = useRoute();
+const userStore = useUserStore();
+const { currentQuestion } = storeToRefs(userStore);
 
 let lastQuestionIndex = 0;
 const currentQuestionIndex = computed(() => {
@@ -48,7 +50,6 @@ const currentQuestionIndex = computed(() => {
   lastQuestionIndex = index;
   return index;
 });
-const currentQuestion = ref<QuestionInterface>();
 
 watch(
   currentQuestionIndex,
