@@ -18,6 +18,9 @@ const loaded = ref(false);
 const showSideMenu = ref(true);
 
 onMounted(() => (loaded.value = true));
+
+// for vitest
+defineExpose({ loaded, showSideMenu });
 </script>
 
 <style scoped></style>

@@ -18,8 +18,8 @@
 
           <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6"></div>
           <StudentAssignmentCard
-            v-for="assignment in assignments"
             v-else-if="assignments.length > 0"
+            v-for="assignment in assignments"
             :key="assignment.id"
             :course="studentCurrentCourse"
             :assignment="assignment"

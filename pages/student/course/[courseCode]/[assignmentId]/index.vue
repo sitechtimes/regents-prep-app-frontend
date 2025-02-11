@@ -3,7 +3,7 @@
     <div v-if="studentCurrentCourse" class="flex h-full w-2/3 flex-col items-center justify-center gap-10">
       <StudentAssignmentCard v-if="currentAssignment" :course="studentCurrentCourse" :assignment="currentAssignment" />
 
-      <StudentAssignmentPage :show="assignmentInProgress" />
+      <StudentAssignmentPage v-if="currentAssignment" :show="assignmentInProgress" :assignment="currentAssignment" />
 
       <div v-if="!assignmentInProgress" class="flex w-full items-center justify-around gap-4">
         <div
@@ -43,6 +43,15 @@ const currentAssignment = computed(() => studentCurrentCourse.value?.assignments
 const assignmentInProgress = ref(false);
 const currentQuestionIndex = ref<number>();
 const currentQuestion = ref<QuestionInterface>();
+
+watch(
+  () => route.query,
+  (queries) => {
+    currentQuestionIndex.value = queries.q ? Number(queries.q) : undefined;
+    assignmentInProgress.value = Boolean(queries.q);
+  },
+  { immediate: true }
+);
 
 watch(currentQuestionIndex, async (question) => {
   await router.push({ query: { ...route.query, q: assignmentInProgress.value ? question : undefined } });

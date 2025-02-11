@@ -42,7 +42,13 @@ export async function getCourseStudents(courseId: number) {
 }
 
 export async function getNextQuestion(assignmentId: number) {
-  return requestEndpoint<QuestionInterface>("courses/student/get-next-question/", "POST", { id: assignmentId });
+  const data = await requestEndpoint<QuestionInterface>("courses/student/get-next-question/", "POST", { id: assignmentId });
+
+  for (const answer of data.question.answers) {
+    answer.selected = false;
+  }
+
+  return data;
 }
 
 export async function submitQuestionAnswer(questionId: number, answerId: number) {
