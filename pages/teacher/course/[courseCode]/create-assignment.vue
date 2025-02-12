@@ -45,7 +45,7 @@
         </div>
         <div class="space-y-2">
           <label class="flex items-center space-x-2">Due Date: </label>
-          <input v-model="dueDateInput" type="datetime-local" />
+          <input v-model="dueDateInput" type="datetime-local" required />
           <p v-if="dateError" class="text-red-500">{{ dateError }}</p>
         </div>
         <label class="flex items-center space-x-2">Number of Questions: </label>
@@ -78,10 +78,10 @@ const guaranteedQuestionIDs = ref<number[]>([]);
 const randomQuestionIDs = ref<number[]>([]);
 const dueDateInput = ref("");
 const dateError = ref("");
-const numOfQuestions = ref<number>(0);
+const numOfQuestions = ref(0);
 const lateSubmissions = ref(false);
-const timeAllotted = ref<number>(0);
-const attemptsAllowed = ref<number>(0);
+const timeAllotted = ref(0);
+const attemptsAllowed = ref(0);
 const loading = ref(false);
 const successMessage = ref("");
 const errorMessage = ref("");
