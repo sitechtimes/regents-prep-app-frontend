@@ -24,7 +24,7 @@
             :course="studentCurrentCourse"
             :assignment="assignment"
             clickable
-            @click="router.push(`/student/course/${studentCurrentCourse.id}/${assignment.id}`)"
+            @click="test(assignment.assignment.dueDate)"
           />
 
           <div v-else-if="assignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
@@ -53,6 +53,10 @@ useSeoMeta({
 });
 
 const router = useRouter();
+
+function test(e: Date) {
+  console.log(e);
+}
 
 const loaded = ref(false);
 
