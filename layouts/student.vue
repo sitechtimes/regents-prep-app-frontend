@@ -6,7 +6,11 @@
           <button type="button" @click="showSideMenu = !showSideMenu">
             <img class="h-12 w-12 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" />
           </button>
-          <NuxtLink v-if="loaded && studentCurrentCourse" :to="`/student/course/${studentCurrentCourse.id}`" class="flex flex-col items-start justify-center hover:underline hover:underline-offset-1">
+          <NuxtLink
+            v-if="loaded && studentCurrentCourse"
+            :to="`/student/course/${studentCurrentCourse.id}`"
+            class="hidden flex-col items-start justify-center hover:underline hover:underline-offset-1 sm:block"
+          >
             <h4 class="text-xl font-medium">{{ studentCurrentCourse.name }}</h4>
             <p class="text-sm">Period {{ studentCurrentCourse.period }}</p>
           </NuxtLink>

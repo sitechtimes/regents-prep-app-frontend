@@ -1,6 +1,6 @@
 <template>
-  <div class="flex w-full flex-row items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6" :class="{ assignment: clickable }">
-    <div class="flex w-2/5 flex-col items-start justify-start pl-4">
+  <div class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6 sm:flex-row" :class="{ assignment: clickable }">
+    <div class="flex w-5/6 flex-col items-start justify-start">
       <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.assignment.name }}</h3>
       <!--       <p :title="assignment.dateAssigned.toLocaleString()">Assigned {{ formatDate(assignment.dateAssigned, currentTime) }}</p> -->
       <ClientOnly>
@@ -8,7 +8,7 @@
       </ClientOnly>
     </div>
 
-    <div v-if="assignment.assignment" class="flex w-2/5 flex-col items-center justify-center gap-2">
+    <div v-if="assignment.assignment" class="flex w-5/6 flex-col items-center justify-center gap-2 sm:w-4/5">
       <p v-if="assignment.questionsCorrect !== undefined" class="text-xl font-medium">
         Your Grade: {{ assignment.questionsCorrect }}/{{ assignment.assignment.numOfQuestions }}
         <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.assignment.numOfQuestions) * 100) }}%)</span>
@@ -36,7 +36,7 @@
       </button>
     </div>
 
-    <div class="flex w-1/5 flex-col items-end justify-start gap-2">
+    <div class="flex w-5/6 flex-col items-start justify-start gap-2 sm:w-1/2 sm:items-end">
       <div class="flex items-center justify-center gap-2">
         <p>{{ assignment.dateSubmitted ? "Submitted" : "Assigned" }}</p>
         <div class="h-2 w-2 rounded-full" :class="assignment.dateSubmitted ? 'bg-green-600' : 'bg-red-600'"></div>
