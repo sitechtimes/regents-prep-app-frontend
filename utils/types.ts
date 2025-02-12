@@ -1,5 +1,5 @@
 export interface Question {
-  /** @readonly What the question says. */
+  /** @readonly What the question says (HTML string). */
   text: string;
   /** @readonly The type of answer for the question. */
   answerType: "Multiple Choice" | "Written Response" | "True or False";
@@ -7,7 +7,7 @@ export interface Question {
   answers: {
     /** @readonly ID of the answer. */
     id: number;
-    /** @readonly What the answer choice says. */
+    /** @readonly What the answer choice says (HTML string). */
     text: string;
   }[];
 }
@@ -24,19 +24,6 @@ export interface QuestionInterface {
   remainingAttempts: number | null;
   /** @readonly Question data */
   question: Question[];
-}
-
-export interface StudentAssignmentInstance {
-  /** @readonly ID of the assignment instance. */
-  id: number;
-  /** @readonly Number of questions in the assignment. */
-  questionsLength: number;
-  /** Number of questions completed. */
-  questionsCompleted: number;
-  /** Number of questions correct. */
-  questionsCorrect: number;
-  /** Date object of when the assignment was submitted. */
-  submitted: Date | null;
 }
 
 export interface CreateCourse {
@@ -61,7 +48,7 @@ interface Assignment {
 }
 
 export interface StudentAssignment extends Assignment {
-  /** @readonly Date object of when the assignment was submitted. */
+  /** @readonly Date object of when the assignment was submitted (Date() or null). */
   dateSubmitted: Date | null;
 
   /** @readonly Number of questions completed. */

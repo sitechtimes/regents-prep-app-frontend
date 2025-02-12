@@ -63,17 +63,19 @@ export async function studentJoinCourse(courseCode: string) {
   return requestEndpoint<number>(`courses/student/join/${courseCode}`);
 }
 
-/** Requests the `courses/0/assignments/` endpoint */
+/** Requests the `courses/0/assignments/` endpoint and returns student to-do list*/
 export async function getStudentTodo() {
   const data = await requestEndpoint<StudentAssignment[]>("courses/0/assignments/");
   assignmentToDate(data);
   return data;
 }
 
+/** Requests the `courses/teacher/` endpoint */
 export async function removeStudents(courseId: number, studentId: number) {
   await requestEndpoint<TeacherStudentList[]>(`courses/teacher/remove-student/${courseId}/${studentId}`, "DELETE");
 }
 
+/** Requests the `courses/teacher/create-course/` endpoint */
 export async function submitCreateCourse(name: string, period: number, subject: number) {
   return requestEndpoint<CreateCourse[]>("courses/teacher/create-course/", "POST", { name, period, subject });
 }
