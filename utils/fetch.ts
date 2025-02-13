@@ -63,8 +63,11 @@ export async function getAssignmentResults(assignmentId: number) {
   return requestEndpoint<AssignmentResults>(`courses/student/assignment-results/${assignmentId}`);
 }
 
-export async function studentJoinCourse(courseCode: string) {
-  return requestEndpoint<number>(`courses/student/join/${courseCode}`);
+/** Requests the courses/student/join/<joinCode>/ endpoint */
+export async function joinCourse(joinCode: string) {
+  const data = await requestEndpoint<StudentCourse>(`courses/student/join/${joinCode}/`, "POST");
+  data.assignments = [];
+  return data;
 }
 
 export async function getStudentTodo() {
