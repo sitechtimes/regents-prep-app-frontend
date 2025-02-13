@@ -9,7 +9,6 @@ export const useUserStore = defineStore("userStore", () => {
 
   const studentCourses = ref<StudentCourse[]>([]);
   const teacherCourses = ref<TeacherCourseNoAssignment[]>([]);
-  const teacherCourse = ref();
   const studentCurrentCourse = ref<StudentCourse>();
   const teacherCurrentCourse = ref<TeacherCourse>();
 
