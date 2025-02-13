@@ -1,13 +1,18 @@
-/**
- * Makes a request to the given endpoint with the given method and body.
- *
+/** Makes a request to the given endpoint with the given method and body.
+ * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
+ * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
+ * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ */
+async function requestEndpoint(endpoint: string, method?: string, body?: object): Promise<void>;
+/** Makes a request to the given endpoint with the given method and body.
  * @template T - the type of the request's response
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
- * @returns - the JSON response, or throws an error if the response is not OK.
+ * @returns the JSON response from the request.
  */
-async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T> {
+async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T>;
+async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T | void> {
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
   if (method) {
@@ -36,12 +41,14 @@ export async function getCourseStudents(courseId: number) {
   return requestEndpoint<TeacherStudentList[]>(`courses/${courseId}/teacher/student-list/`);
 }
 
-export async function getStudentAssignment(assignmentId: number) {
-  return requestEndpoint<AssignmentInstance>("courses/student/assignment-instance/", "POST", { id: assignmentId });
-}
-
 export async function getNextQuestion(assignmentId: number) {
-  return requestEndpoint<QuestionInterface>("courses/student/assignment/get-next-question/", "POST", { id: assignmentId });
+  const data = await requestEndpoint<QuestionInterface>("courses/student/get-next-question/", "POST", { id: assignmentId });
+
+  for (const answer of data.question.answers) {
+    answer.selected = false;
+  }
+
+  return data;
 }
 
 export async function submitQuestionAnswer(questionId: number, answerId: number) {

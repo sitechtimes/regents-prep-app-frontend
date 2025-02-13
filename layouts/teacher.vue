@@ -84,15 +84,4 @@ onMounted(() => (loaded.value = true));
 defineExpose({ teacherCourses, teacherCurrentCourse, loaded, showSideMenu });
 </script>
 
-<style scoped>
-.slide-right-enter-active,
-.slide-right-leave-active {
-  transition: all 0.35s ease-in-out;
-}
-
-.slide-right-enter-from,
-.slide-right-leave-to {
-  transform: translateX(-24rem);
-  width: 0;
-}
-</style>
+<style scoped></style>

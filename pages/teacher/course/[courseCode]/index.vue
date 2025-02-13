@@ -47,7 +47,7 @@
         :to="`/teacher/course/${teacherCurrentCourse.id}/roster`"
         class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125"
       >
-        <p>View Student List</p>
+        View Student List
       </NuxtLink>
       <NuxtLink
         :to="`/teacher/course/${teacherCurrentCourse.id}/create-assignment`"
@@ -62,8 +62,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "teacher",
-  middleware: "teacher-get-course",
-  requiresAuth: true
+  middleware: "teacher-get-course"
 });
 
 const router = useRouter();
