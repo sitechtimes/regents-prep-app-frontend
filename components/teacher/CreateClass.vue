@@ -83,10 +83,25 @@ async function createCourse() {
   if (!courseName.value || !courseSubject.value || !Object.values(regentsTypes).flat().includes(courseSubject.value) || !coursePeriod.value) return;
 
   const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
-  await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
+  try {
+    const [{ id, joinCode }] = await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
 
-  successModal.value?.showModal();
-  emit("close");
+    const newCourse = {
+      id,
+      joinCode,
+      name: courseName.value,
+      subject: courseSubject.value,
+      period: coursePeriod.value,
+      numOfStudents: 0
+    };
+
+    useUserStore.teacherCourses.push(newCourse);
+
+    successModal.value?.showModal();
+    emit("close");
+  } catch (error) {
+    console.error("Failed to create course:", error);
+  }
 }
 </script>
 
