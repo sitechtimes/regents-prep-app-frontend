@@ -84,14 +84,14 @@ async function createCourse() {
 
   const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
   try {
-    const [{ id, joinCode }] = await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
+    const { id, joinCode } = (await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode)) as unknown as { id: number; joinCode: string };
     const userStore = useUserStore();
     const teacherName = userStore.name;
     const newCourse = {
       id,
       joinCode,
       name: courseName.value,
-      subject: courseSubject.value,
+      subject: Object.keys(regentsTypes)[subjectCode] as "Math" | "English" | "Science" | "History" | "Russian",
       period: coursePeriod.value,
       numOfStudents: 0,
       assignmentsLength: 0,
