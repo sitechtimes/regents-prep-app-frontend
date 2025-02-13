@@ -48,7 +48,7 @@ interface Assignment {
 }
 
 export interface StudentAssignment extends Assignment {
-  /** @readonly Date object of when the assignment was submitted (Date() or null). */
+  /** @readonly Date object of when the assignment was submitted. */
   dateSubmitted: Date | null;
 
   /** @readonly Number of questions completed. */
@@ -69,10 +69,10 @@ export interface StudentAssignment extends Assignment {
     /** @readonly Whether or not the assignment can be turned in late. */
     lateSubmissions: boolean;
 
-    /** @readonly Date object of when the assignment is due. */
+    /** @readonly Date object of when the assignment is due (Date(UTC)). */
     dueDate: Date;
 
-    /** @readonly Date object of when the assignment was assigned. */
+    /** @readonly Date object of when the assignment was assigned (Date(UTC)). */
     dateAssigned: Date;
 
     /** @readonly Object identifying the course assignment belongs to. */
@@ -90,10 +90,10 @@ export interface TeacherAssignment extends Assignment {
   /** @readonly Name of the assignment. */
   name: string;
 
-  /** @readonly Date the assignment was submitted */
+  /** @readonly Date the assignment was submitted (Date(UTC)) */
   dateAssigned: Date;
 
-  /** @readonly Date the assignment is due */
+  /** @readonly Date the assignment is due (Date(UTC)) */
   dueDate: Date;
 
   /** @readonly Number of questions in the assignment */

@@ -52,7 +52,7 @@ export async function changeRouteQuery(query: Record<string, string | number | u
  *
  * @param target - The date to format.
  * @param current - The current date to compare to.
- * @example formatDate(new Date("2021-09-01T00:00:00"), new Date("2021-09-02T00:00:00")) -> "yesterday at 12:00 AM"
+ * @example formatDate(new Date(), new Date())
  */
 export function formatDate(target: Date, current: Date) {
   const dateHour = target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" });
