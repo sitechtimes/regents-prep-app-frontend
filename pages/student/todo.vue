@@ -11,7 +11,7 @@
       />
     </div>
 
-    <div v-if="filteredAssignments" class="mt-5 flex w-2/3 flex-col items-center justify-center gap-4">
+    <div v-if="filteredAssignments" class="mt-5 flex w-4/5 flex-col items-center justify-center gap-4 sm:w-[90%] md:w-[80%]">
       <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex h-full w-full items-center justify-center gap-2">
         <NuxtLink
           :to="`/student/course/${assignment.assignment.course?.id}`"

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6 sm:flex-row" :class="{ assignment: clickable }">
+  <div class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] py-4 sm:flex-row sm:p-6" :class="{ assignment: clickable }">
     <div class="flex w-5/6 flex-col items-start justify-start">
       <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.assignment.name }}</h3>
       <!--       <p :title="assignment.dateAssigned.toLocaleString()">Assigned {{ formatDate(assignment.dateAssigned, currentTime) }}</p> -->
@@ -8,7 +8,7 @@
       </ClientOnly>
     </div>
 
-    <div v-if="assignment.assignment" class="flex w-5/6 flex-col items-center justify-center gap-2 sm:w-4/5">
+    <div v-if="assignment.assignment" class="flex w-5/6 flex-col items-start justify-start gap-2 lg:w-2/3">
       <p v-if="assignment.questionsCorrect !== undefined" class="text-xl font-medium">
         Your Grade: {{ assignment.questionsCorrect }}/{{ assignment.assignment.numOfQuestions }}
         <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.assignment.numOfQuestions) * 100) }}%)</span>
