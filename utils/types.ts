@@ -69,7 +69,7 @@ export interface StudentAssignment extends Assignment {
     name: string;
 
     /** @readonly Number of questions in the assignment */
-    numOfQuestions: number;
+    numQuestions: number;
 
     /** @readonly Whether or not the assignment can be turned in late. */
     lateSubmissions: boolean;
@@ -111,7 +111,7 @@ export interface TeacherAssignment extends Assignment {
   dueDate: Date;
 
   /** @readonly Number of questions in the assignment */
-  numOfQuestions: number;
+  numQuestions: number;
 
   /** @readonly Whether or not the assignment can be turned in late. */
   lateSubmissions: boolean;
@@ -168,7 +168,7 @@ export interface SubmitAnswer {
 
 export interface SubmitAssignment {
   /** @readonly Number of questions in the assignment. */
-  numOfQuestions: number;
+  numQuestions: number;
   /** @readonly Number of questions completed. */
   questionsCompleted: number;
   /** @readonly Number of questions correct. */
