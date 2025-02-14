@@ -1,8 +1,8 @@
 <template>
   <div
     ref="toolbar"
-    class="bg-body top-20 mt-4 flex flex-wrap items-center justify-center gap-4 rounded-full border-transparent px-5 py-2 transition duration-500 xl:flex-nowrap"
-    :class="{ 'shadow dark:border dark:border-neutral-700': isSticky }"
+    class="bg-body sticky top-20 z-50 mt-4 flex flex-wrap items-center justify-center gap-4 rounded-full border-transparent px-5 py-2 transition duration-500 xl:flex-nowrap"
+    :class="{ 'shadow-lg dark:border dark:border-neutral-700': isSticky }"
   >
     <StudentTodoSort :close="closeSorters" @sort="(sorter) => emit('sort', sorter)" @click.stop="closeOptions(true, true, false)" />
     <StudentTodoFilter :close="closeFilters" @filter="(filter) => emit('filter', filter)" @click.stop="closeOptions(true, false, true)" />

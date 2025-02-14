@@ -79,7 +79,13 @@ export default [
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
 
-      "vue/multi-word-component-names": "off",
+      "vue/attributes-order": [
+        "error",
+        {
+          order: ["DEFINITION", "CONDITIONALS", "LIST_RENDERING", "RENDER_MODIFIERS", "GLOBAL", ["UNIQUE", "SLOT"], "TWO_WAY_BINDING", "OTHER_DIRECTIVES", "OTHER_ATTR", "EVENTS", "CONTENT"],
+          alphabetical: false
+        }
+      ],
       "vue/block-lang": ["error", { script: { lang: "ts" } }],
       "vue/block-order": ["error", { order: ["template", "script", "style"] }],
       "vue/component-api-style": "error",
@@ -106,6 +112,8 @@ export default [
       "vue/no-console": "error",
       "vue/no-constant-condition": "error",
 
+      "vue/no-use-v-if-with-v-for": "off",
+      "vue/multi-word-component-names": "off",
       "vue/html-self-closing": ["error", { html: { void: "always", normal: "never", component: "always" } }],
       "vue/max-attributes-per-line": "off",
       "vue/require-v-for-key": "off",
