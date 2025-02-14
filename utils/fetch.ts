@@ -1,13 +1,18 @@
-/**
- * Makes a request to the given endpoint with the given method and body.
- *
+/** Makes a request to the given endpoint with the given method and body.
+ * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
+ * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
+ * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ */
+async function requestEndpoint(endpoint: string, method?: string, body?: object): Promise<void>;
+/** Makes a request to the given endpoint with the given method and body.
  * @template T - the type of the request's response
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
- * @returns - the JSON response, or throws an error if the response is not OK.
+ * @returns the JSON response from the request.
  */
-async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T> {
+async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T>;
+async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T | void> {
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
   if (method) {
@@ -18,6 +23,10 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
 
   const res = await fetch(config.public.backend + endpoint, options);
   if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`);
+
+  const contentLength = res.headers.get("Content-Length");
+  if (contentLength === "0") return undefined as T;
+
   return res.json();
 }
 
@@ -33,14 +42,14 @@ export async function getCourseStudents(courseId: number) {
   return requestEndpoint<TeacherStudentList[]>(`courses/${courseId}/teacher/student-list/`);
 }
 
-/** Requests the `courses/student/assignment-instance/` endpoint */
-export async function getStudentAssignment(assignmentId: number) {
-  return requestEndpoint<AssignmentInstance>("courses/student/assignment-instance/", "POST", { id: assignmentId });
-}
-
-/** Requests the `courses/student/assignment/get-next-question/` endpoint */
 export async function getNextQuestion(assignmentId: number) {
-  return requestEndpoint<QuestionInterface>("courses/student/assignment/get-next-question/", "POST", { id: assignmentId });
+  const data = await requestEndpoint<QuestionInterface>("courses/student/get-next-question/", "POST", { id: assignmentId });
+
+  for (const answer of data.question.answers) {
+    answer.selected = false;
+  }
+
+  return data;
 }
 
 /** Requests the `courses/student/submit-answer/` endpoint */
@@ -58,9 +67,11 @@ export async function getAssignmentResults(assignmentId: number) {
   return requestEndpoint<AssignmentResults>(`courses/student/assignment-results/${assignmentId}`);
 }
 
-/** Requests the `courses/student/join/courseCode/` endpoint */
-export async function studentJoinCourse(courseCode: string) {
-  return requestEndpoint<number>(`courses/student/join/${courseCode}`);
+/** Requests the courses/student/join/<joinCode>/ endpoint */
+export async function joinCourse(joinCode: string) {
+  const data = await requestEndpoint<StudentCourse>(`courses/student/join/${joinCode}/`, "POST");
+  data.assignments = [];
+  return data;
 }
 
 /** Requests the `courses/0/assignments/` endpoint and returns student to-do list*/
@@ -78,4 +89,28 @@ export async function removeStudents(courseId: number, studentId: number) {
 /** Requests the `courses/teacher/create-course/` endpoint */
 export async function submitCreateCourse(name: string, period: number, subject: number) {
   return requestEndpoint<CreateCourse[]>("courses/teacher/create-course/", "POST", { name, period, subject });
+}
+
+export async function submitCreateAssignment(
+  name: string,
+  courseID: number,
+  guaranteedQuestions: number[],
+  randomQuestions: number[],
+  dueDate: string,
+  numQuestions: number,
+  lateSubmissions: boolean,
+  timeAllotted: number,
+  attemptsAllowed: number
+) {
+  await requestEndpoint<void>(`courses/teacher/create-assignment/`, "POST", {
+    name,
+    courseID,
+    guaranteedQuestions,
+    randomQuestions,
+    dueDate,
+    numQuestions,
+    lateSubmissions,
+    timeAllotted,
+    attemptsAllowed
+  });
 }

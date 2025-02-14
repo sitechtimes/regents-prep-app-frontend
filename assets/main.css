@@ -15,7 +15,7 @@
   --secondary: #2df199;
   --gray: #dadce0;
 
-  --bg-color: #fafafa;
+  --bg-color: #fefefe;
   --faded-bg-color: #d9d9d9;
   --text-color: black;
   --border-color: #d9d9d9;
@@ -57,13 +57,8 @@
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  min-height: 100vh;
-  overflow-x: hidden;
   background-color: var(--bg-color);
-  display: none;
+  @apply m-0 hidden min-h-dvh w-full overflow-x-hidden p-0;
 }
 
 * {

@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const courseCode = Number(to.params.courseCode);
 
   studentCurrentCourse.value = studentCourses.value.find((course) => course.id === courseCode);
-  if (!studentCurrentCourse.value) return void navigateTo(`/student/dashboard?course=${courseCode}`);
+  if (!studentCurrentCourse.value) return await navigateTo(`/student/dashboard?course=${courseCode}`);
 
   studentCurrentCourse.value.assignments = await getAssignments<StudentAssignment[]>(Number(to.params.courseCode));
 });

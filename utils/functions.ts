@@ -1,7 +1,5 @@
 /**
- * Sets a delay for a specified number of milliseconds.
- *
- * @warning - Be sure to await this function in order to actually use the delay.
+ * @warning Be sure to await this function in order to actually use the delay.
  * @param ms - Number of milliseconds to delay.
  * @example await delay(1000); // Wait for 1 second
  */
@@ -80,11 +78,12 @@ export function formatDate(target: Date, current: Date) {
  */
 export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssignment[]) {
   for (const assignment of assignments) {
+    // Check if assignment is of type StudentAssignment
     if ("assignment" in assignment) {
-      // Check if assignment is of type StudentAssignment
       assignment.assignment.dueDate = new Date(assignment.assignment.dueDate);
       assignment.assignment.dateAssigned = new Date(assignment.assignment.dateAssigned);
-      if ("dateSubmitted" in assignment) assignment.dateSubmitted = assignment.dateSubmitted;
+      assignment.assignment.questionInterfaces = [];
+      if ("dateSubmitted" in assignment) assignment.dateSubmitted = assignment.dateSubmitted; // TODO: what does this do???
     } else {
       assignment.dueDate = new Date(assignment.dueDate);
       assignment.dateAssigned = new Date(assignment.dateAssigned);
