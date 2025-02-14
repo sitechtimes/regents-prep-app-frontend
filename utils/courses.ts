@@ -5,3 +5,5 @@ export const subjectColors = {
   History: "var(--history)", //yellow
   Russian: "var(--russian)" //purple
 } as const;
+
+export type Subjects = "Math" | "English" | "Science" | "History" | "Russian";
