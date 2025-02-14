@@ -1,15 +1,17 @@
 <template>
-  <div class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] py-4 sm:flex-row sm:p-6" :class="{ assignment: clickable }">
+  <NuxtLink
+    :to="`/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`"
+    class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 p-6 py-4 hover:border-neutral-600 hover:shadow-lg sm:flex-row sm:p-6"
+  >
     <div class="flex w-5/6 flex-col items-start justify-start">
       <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.assignment.name }}</h3>
-      <!--       <p :title="assignment.dateAssigned.toLocaleString()">Assigned {{ formatDate(assignment.dateAssigned, currentTime) }}</p> -->
       <ClientOnly>
         <p :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
       </ClientOnly>
     </div>
 
     <div v-if="assignment.assignment" class="flex w-5/6 flex-col items-start justify-start gap-2 lg:w-2/3">
-      <p v-if="assignment.questionsCorrect !== undefined" class="text-xl font-medium">
+      <p v-if="assignment.dateSubmitted !== null" class="text-xl font-medium">
         Your Grade: {{ assignment.questionsCorrect }}/{{ assignment.assignment.numOfQuestions }}
         <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.assignment.numOfQuestions) * 100) }}%)</span>
       </p>
@@ -18,22 +20,9 @@
         <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100) }}%)</span>
       </p>
 
-      <div v-if="assignment.questionsCorrect" class="h-4 w-full rounded-full border-[1.5px] border-gray-300">
+      <div v-if="assignment.dateSubmitted !== null" class="h-4 w-full rounded-full border-[1.5px] border-gray-300">
         <div class="h-full rounded-full bg-green-500" :style="{ width: ((assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.assignment.numOfQuestions) * 100 + '%' }"></div>
       </div>
-      <button
-        v-if="!clickable"
-        class="rounded-lg bg-[var(--primary)] px-4 py-2 text-[var(--text-color)]"
-        :class="{
-          'brightness-60 cursor-not-allowed grayscale': assignment.questionsCompleted !== assignment.assignment.numOfQuestions,
-          'cursor-pointer': assignment.questionsCompleted === assignment.assignment.numOfQuestions
-        }"
-        :disabled="assignment.questionsCompleted !== assignment.assignment.numOfQuestions"
-        type="button"
-        @click="submitAssignment"
-      >
-        Submit
-      </button>
     </div>
 
     <div class="flex w-5/6 flex-col items-start justify-start gap-2 sm:w-1/2 sm:items-end">
@@ -42,30 +31,26 @@
         <div class="h-2 w-2 rounded-full" :class="assignment.dateSubmitted ? 'bg-green-600' : 'bg-red-600'"></div>
       </div>
 
-      <div v-if="assignment.questionsCorrect" class="flex items-center justify-center gap-2">
+      <div v-if="assignment.dateSubmitted !== null" class="flex items-center justify-center gap-2">
         <p>{{ assignment.questionsCorrect > -1 ? "Graded" : "Ungraded" }}</p>
         <div class="h-2 w-2 rounded-full" :class="assignment.questionsCorrect === undefined ? 'bg-red-600' : 'bg-green-600'"></div>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
 defineProps<{
+  course?: StudentCourse;
   assignment: StudentAssignment;
-  clickable?: boolean;
 }>();
-const currentTime = ref(new Date());
-
-async function submitAssignment() {
-  // submit assignment
-}
+const currentTime = new Date();
 </script>
 
 <style scoped>
 @media (hover: hover) and (pointer: fine) {
   .assignment:hover {
-    @apply cursor-pointer bg-gray-accent duration-200 dark:bg-dark-hover;
+    @apply cursor-pointer duration-200;
   }
 }
 </style>

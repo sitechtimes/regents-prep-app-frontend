@@ -9,6 +9,11 @@ export interface Question {
     id: number;
     /** @readonly What the answer choice says. */
     text: string;
+    /**
+     * Used to store which answer the student selected.
+     * @warning Must be manually added to `Question`; this field is not returned from the API.
+     */
+    selected: boolean;
   }[];
 }
 
@@ -23,7 +28,7 @@ export interface QuestionInterface {
   /** Number of remaining attempts. */
   remainingAttempts: number | null;
   /** @readonly Question data */
-  question: Question[];
+  question: Question;
 }
 
 export interface StudentAssignmentInstance {
@@ -68,7 +73,7 @@ export interface StudentAssignment extends Assignment {
   questionsCompleted: number;
 
   /** @readonly Number of correct questions in the assignment */
-  questionsCorrect?: number;
+  questionsCorrect: number;
 
   /** @readonly assignment object for assignment properties. */
 
@@ -96,6 +101,15 @@ export interface StudentAssignment extends Assignment {
       name: string;
       subject: "Math" | "English" | "Science" | "History" | "Russian";
     };
+
+    /**
+     * Used to store already-fetched `QuestionInterface`s for easy access when going back and forth.
+     *
+     * Each key is the index of the question in the assignment.
+     * @warning Must be manually added to `StudentAssignment`; this field is not returned from the API.
+     * @warning **Questions at certain indices may not exist yet**; the question must be fetched from the API first before being added.
+     */
+    questionInterfaces: Record<number, QuestionInterface>;
   };
 }
 

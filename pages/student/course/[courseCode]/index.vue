@@ -11,7 +11,6 @@
         <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
           <StudentTodoToolbar
             :close-toolbar="deselectFilters"
-            :assignments="assignments"
             @sort="(sorter) => (currentSorter = sorter)"
             @filter="(filter) => (currentFilters = filter)"
             @search="(term) => (currentSearch = term)"
@@ -19,9 +18,10 @@
 
           <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6"></div>
           <StudentAssignmentCard
-            v-for="assignment in assignments"
             v-else-if="assignments.length > 0"
+            v-for="assignment in assignments"
             :key="assignment.id"
+            :course="studentCurrentCourse"
             :assignment="assignment"
             clickable
             @click="router.push(`/student/course/${studentCurrentCourse.id}/${assignment.id}`)"
@@ -45,8 +45,7 @@ const { studentCurrentCourse } = storeToRefs(userStore);
 
 definePageMeta({
   layout: "student",
-  middleware: "student-get-course",
-  requiresAuth: true
+  middleware: "student-get-course"
 });
 
 useSeoMeta({
