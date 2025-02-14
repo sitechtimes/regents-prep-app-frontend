@@ -1,6 +1,10 @@
 <template>
-  <div
-    :to="`/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`"
+  <NuxtLink
+    :to="
+      assignment.assignment.dueDate >= currentTime
+        ? `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`
+        : `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}/stats`
+    "
     class="flex w-full items-center justify-center gap-2 rounded-2xl border border-neutral-300 p-6 hover:border-neutral-600 hover:shadow-lg"
   >
     <div class="flex w-2/5 flex-col items-start justify-start pl-4">
@@ -36,7 +40,7 @@
         <div class="h-2 w-2 rounded-full" :class="assignment.questionsCorrect === undefined ? 'bg-red-600' : 'bg-green-600'"></div>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
