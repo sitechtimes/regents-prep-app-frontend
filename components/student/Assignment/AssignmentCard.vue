@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink
+  <div
     :to="`/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`"
     class="flex w-full items-center justify-center gap-2 rounded-2xl border border-neutral-300 p-6 hover:border-neutral-600 hover:shadow-lg"
   >
@@ -36,7 +36,7 @@
         <div class="h-2 w-2 rounded-full" :class="assignment.questionsCorrect === undefined ? 'bg-red-600' : 'bg-green-600'"></div>
       </div>
     </div>
-  </NuxtLink>
+  </div>
 </template>
 
 <script setup lang="ts">

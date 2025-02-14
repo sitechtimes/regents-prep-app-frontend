@@ -24,7 +24,7 @@
             :course="studentCurrentCourse"
             :assignment="assignment"
             clickable
-            @click="test(assignment.assignment.dueDate)"
+            @click="test(assignment)"
           />
 
           <div v-else-if="assignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
@@ -54,8 +54,15 @@ useSeoMeta({
 
 const router = useRouter();
 
-function test(e: Date) {
-  console.log(e);
+const currentDate = ref(new Date());
+
+function test(e: StudentAssignment) {
+  if(e.assignment.course){
+  if (e.assignment.dueDate >= currentDate.value) {
+    router.push(`/student/course/${e.assignment.course.id}/${e.id}`);
+  } else {
+    router.push(`/student/course/${e.assignment.course.id}/${e.id}/stats`);
+  }
 }
 
 const loaded = ref(false);
