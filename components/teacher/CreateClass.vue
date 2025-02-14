@@ -62,7 +62,7 @@ const userStore = useUserStore();
 
 const successModal = useTemplateRef("successModal");
 
-const regentsTypes: Readonly<Record<string, string[]>> = {
+const regentsTypes: Readonly<Record<Subjects, string[]>> = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
   English: ["English"],
   Science: ["Chemistry", "Physics", "Biology"],
@@ -91,7 +91,7 @@ async function createCourse() {
       id,
       joinCode,
       name: courseName.value,
-      subject: Object.keys(regentsTypes)[subjectCode] as "Math" | "English" | "Science" | "History" | "Russian",
+      subject: Object.keys(regentsTypes)[subjectCode] as keyof typeof regentsTypes,
       period: coursePeriod.value,
       numOfStudents: 0,
       assignmentsLength: 0,
