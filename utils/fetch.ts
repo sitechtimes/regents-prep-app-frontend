@@ -25,7 +25,7 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
   if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`);
 
   const contentLength = res.headers.get("Content-Length");
-  if (contentLength === "0") return;
+  if (contentLength === "0") return undefined as T;
 
   return res.json();
 }
@@ -63,8 +63,11 @@ export async function getAssignmentResults(assignmentId: number) {
   return requestEndpoint<AssignmentResults>(`courses/student/assignment-results/${assignmentId}`);
 }
 
-export async function studentJoinCourse(courseCode: string) {
-  return requestEndpoint<number>(`courses/student/join/${courseCode}`);
+/** Requests the courses/student/join/<joinCode>/ endpoint */
+export async function joinCourse(joinCode: string) {
+  const data = await requestEndpoint<StudentCourse>(`courses/student/join/${joinCode}/`, "POST");
+  data.assignments = [];
+  return data;
 }
 
 export async function getStudentTodo() {
@@ -81,29 +84,23 @@ export async function submitCreateCourse(name: string, period: number, subject: 
   return requestEndpoint<CreateCourse[]>("courses/teacher/create-course/", "POST", { name, period, subject });
 }
 
-export async function joinCourse(joinCode: string) {
-  const data = await requestEndpoint<StudentCourse>(`courses/student/join/${joinCode}/`, "POST");
-  data.assignments = [];
-  return data;
-}
-
 export async function submitCreateAssignment(
   name: string,
-  courseId: number,
+  courseID: number,
   guaranteedQuestions: number[],
   randomQuestions: number[],
-  dueDate: Date,
+  dueDate: string,
   numOfQuestions: number,
   lateSubmissions: boolean,
   timeAllotted: number,
   attemptsAllowed: number
 ) {
-  await requestEndpoint(`courses/teacher/create-assignment/`, "POST", {
+  await requestEndpoint<void>(`courses/teacher/create-assignment/`, "POST", {
     name,
-    courseID: courseId,
+    courseID,
     guaranteedQuestions,
     randomQuestions,
-    dueDate: dueDate.toISOString(),
+    dueDate,
     numOfQuestions,
     lateSubmissions,
     timeAllotted,
