@@ -10,7 +10,7 @@
       </Transition>
 
       <div class="flex h-full w-full flex-col">
-        <div v-if="studentCourses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top">
+        <div v-if="studentCourses.length > 0" class="flex flex-wrap items-center justify-center gap-8 align-top xl:items-start xl:justify-start">
           <!--prettier-ignore-->
           <StudentDashboardCard
             v-for="course in studentCourses"

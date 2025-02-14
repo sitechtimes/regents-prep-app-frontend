@@ -15,7 +15,7 @@
       <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex h-full w-full items-center justify-center gap-2">
         <NuxtLink
           :to="`/student/course/${assignment.assignment.course?.id}`"
-          class="h-20 w-2 rounded-full"
+          class="h-32 w-2 rounded-full sm:h-20"
           :title="assignment.assignment.course?.name"
           :style="{
             backgroundColor: subjectColors[assignment.assignment.course?.subject ?? 'Math']
