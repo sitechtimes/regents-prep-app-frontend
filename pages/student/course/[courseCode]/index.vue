@@ -46,8 +46,6 @@ useSeoMeta({
 
 const router = useRouter();
 
-const currentDate = ref(new Date());
-
 const loaded = ref(false);
 
 const currentFilters = ref<TodoFilter>();
