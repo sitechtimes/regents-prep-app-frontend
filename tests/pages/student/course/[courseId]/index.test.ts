@@ -33,7 +33,7 @@ describe("Student Course Info Page", () => {
           questionsCorrect: 2,
           assignment: {
             name: "Power Rule practice",
-            numOfQuestions: 5,
+            numQuestions: 5,
             lateSubmissions: false,
             dueDate: new Date(),
             dateAssigned: new Date(),

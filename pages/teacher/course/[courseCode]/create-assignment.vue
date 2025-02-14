@@ -49,7 +49,7 @@
           <p v-if="dateError" class="text-red-500">{{ dateError }}</p>
         </div>
         <label class="flex items-center space-x-2">Number of Questions: </label>
-        <input v-model.number="numOfQuestions" type="number" placeholder="Ex: 3" required />
+        <input v-model.number="numQuestions" type="number" placeholder="Ex: 3" required />
         <label class="flex items-center space-x-2">
           <input v-model="lateSubmissions" type="checkbox" class="h-4 w-4" />
           <span>Allow Late Submissions</span>
@@ -78,7 +78,7 @@ const guaranteedQuestionIDs = ref<number[]>([]);
 const randomQuestionIDs = ref<number[]>([]);
 const dueDateInput = ref("");
 const dateError = ref("");
-const numOfQuestions = ref(0);
+const numQuestions = ref(0);
 const lateSubmissions = ref(false);
 const timeAllotted = ref(0);
 const attemptsAllowed = ref(0);
@@ -123,17 +123,7 @@ async function createAssignment() {
     const dueDate = new Date(dueDateInput.value).toISOString();
     const guaranteedQuestions = guaranteedQuestionIDs;
     const randomQuestions = randomQuestionIDs;
-    await submitCreateAssignment(
-      name.value,
-      courseID,
-      guaranteedQuestions.value,
-      randomQuestions.value,
-      dueDate,
-      numOfQuestions.value,
-      lateSubmissions.value,
-      timeAllotted.value,
-      attemptsAllowed.value
-    );
+    await submitCreateAssignment(name.value, courseID, guaranteedQuestions.value, randomQuestions.value, dueDate, numQuestions.value, lateSubmissions.value, timeAllotted.value, attemptsAllowed.value);
     successMessage.value = "Assignment created successfully!";
   } catch (error) {
     errorMessage.value = "Failed to create assignment.";
