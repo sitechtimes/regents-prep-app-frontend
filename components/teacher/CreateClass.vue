@@ -62,7 +62,7 @@ const userStore = useUserStore();
 
 const successModal = useTemplateRef("successModal");
 
-const regentsTypes: Readonly<Record<Subjects, string[]>> = {
+const regentsTypes: Readonly<Record<string, string[]>> = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
   English: ["English"],
   Science: ["Chemistry", "Physics", "Biology"],
@@ -85,13 +85,13 @@ async function createCourse() {
 
   const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
   try {
-    const { id, joinCode } = (await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode)) as unknown as { id: number; joinCode: string };
+    const { id, joinCode } = await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
 
     userStore.teacherCourses.push({
       id,
       joinCode,
       name: courseName.value,
-      subject: Object.keys(regentsTypes)[subjectCode] as keyof typeof regentsTypes,
+      subject: Object.keys(regentsTypes)[subjectCode] as "Math" | "English" | "Science" | "History" | "Russian",
       period: coursePeriod.value,
       numOfStudents: 0,
       assignmentsLength: 0,
