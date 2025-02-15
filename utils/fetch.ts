@@ -81,7 +81,7 @@ export async function removeStudents(courseId: number, studentId: number) {
 }
 
 export async function submitCreateCourse(name: string, period: number, subject: number) {
-  return requestEndpoint<CreateCourse[]>("courses/teacher/create-course/", "POST", { name, period, subject });
+  return requestEndpoint<CreateCourse>("courses/teacher/create-course/", "POST", { name, period, subject });
 }
 
 export async function submitCreateAssignment(
