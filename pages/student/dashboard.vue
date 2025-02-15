@@ -2,16 +2,6 @@
   <div class="flex w-full flex-col items-start justify-start">
     <div v-if="loaded" class="w-full">
       <NotFound :show-modal="showNotFound" user-type="student" :message="route.query.course ? 'class' : 'assignment'" />
-
-      <!--     <div v-if="loaded" class="h-full w-full">
-      <Transition name="opacity">
-        <div v-if="showNotFound" class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-[rgba(0,0,0,0.5)]" @click="router.push('/student/dashboard')">
-          <NotFound type="student" :message="route.query.course ? 'class' : 'assignment'" @close="router.push('/student/dashboard')" @click.stop />
-        </div>
-      </Transition>
-
-      <div class="flex h-full w-full flex-col">
-        <div v-if="studentCourses.length > 0" class="flex flex-wrap items-center justify-center gap-8 align-top xl:items-start xl:justify-start"> -->
       <div class="flex w-full flex-col">
         <div v-if="studentCourses.length > 0" class="flex flex-wrap content-start items-start justify-around gap-8">
           <!--prettier-ignore-->
