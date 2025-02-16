@@ -45,8 +45,8 @@ const sorters = {
   "due soon": ((a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime()) as TodoSorter,
   latest: ((a, b) => b.assignment.dateAssigned.getTime() - a.assignment.dateAssigned.getTime()) as TodoSorter,
   oldest: ((a, b) => a.assignment.dateAssigned.getTime() - b.assignment.dateAssigned.getTime()) as TodoSorter,
-  "most progress": ((a, b) => b.questionsCompleted / b.assignment.numOfQuestions - a.questionsCompleted / a.assignment.numOfQuestions) as TodoSorter,
-  "least progress": ((a, b) => a.questionsCompleted / a.assignment.numOfQuestions - b.questionsCompleted / b.assignment.numOfQuestions) as TodoSorter
+  "most progress": ((a, b) => b.questionsCompleted / b.assignment.numQuestions - a.questionsCompleted / a.assignment.numQuestions) as TodoSorter,
+  "least progress": ((a, b) => a.questionsCompleted / a.assignment.numQuestions - b.questionsCompleted / b.assignment.numQuestions) as TodoSorter
 } as const;
 
 type Sorter = keyof typeof sorters;

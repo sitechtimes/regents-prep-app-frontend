@@ -14,7 +14,7 @@
               <div
                 v-if="currentQuestion?.question.answerType === 'Multiple Choice'"
                 v-for="choice in currentQuestion?.question.answers"
-                class="h-125 mt-8 w-full overflow-y-scroll rounded-xl bg-neutral-100"
+                class="mt-8 h-125 w-full overflow-y-scroll rounded-xl bg-neutral-100"
               >
                 <button type="button" @click="choice.selected = true" v-html="choice.text"></button>
               </div>
@@ -89,7 +89,7 @@ async function switchQuestion(directiona: "previous" | "next") {
   if (!currentAssignment.value) return;
 
   if (directiona === "previous" && currentQuestionIndex.value > 0) await changeRouteQuery({ q: currentQuestionIndex.value - 1 });
-  if (directiona === "next" && currentQuestionIndex.value < currentAssignment.value.assignment.numOfQuestions - 1) await changeRouteQuery({ q: currentQuestionIndex.value + 1 });
+  if (directiona === "next" && currentQuestionIndex.value < currentAssignment.value.assignment.numQuestions - 1) await changeRouteQuery({ q: currentQuestionIndex.value + 1 });
 }
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
