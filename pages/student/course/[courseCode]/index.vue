@@ -17,15 +17,7 @@
           />
 
           <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6"></div>
-          <StudentAssignmentCard
-            v-else-if="assignments.length > 0"
-            v-for="assignment in assignments"
-            :key="assignment.id"
-            :course="studentCurrentCourse"
-            :assignment="assignment"
-            clickable
-            @click="router.push(`/student/course/${studentCurrentCourse.id}/${assignment.id}`)"
-          />
+          <StudentAssignmentCard v-else-if="assignments.length > 0" v-for="assignment in assignments" :key="assignment.id" :course="studentCurrentCourse" :assignment="assignment" clickable />
 
           <div v-else-if="assignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
             <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="mb-4 h-16 w-16 dark:invert" />
