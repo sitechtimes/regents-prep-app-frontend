@@ -70,8 +70,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ layout: "teacher" });
 const route = useRoute();
-
 const name = ref("");
 const courseID = Number(route.params.courseCode);
 const guaranteedQuestionIDs = ref<number[]>([]);
