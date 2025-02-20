@@ -1,16 +1,16 @@
 <template>
   <NuxtLink
     :to="`/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`"
-    class="flex w-full items-center justify-center gap-2 rounded-2xl border border-neutral-300 p-6 hover:border-neutral-600 hover:shadow-lg"
+    class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg sm:flex-row sm:p-6"
   >
-    <div class="flex w-2/5 flex-col items-start justify-start pl-4">
+    <div class="flex w-5/6 flex-col items-start justify-start">
       <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.assignment.name }}</h3>
       <ClientOnly>
         <p :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
       </ClientOnly>
     </div>
 
-    <div v-if="assignment.assignment" class="flex w-2/5 flex-col items-center justify-center gap-2">
+    <div v-if="assignment.assignment" class="flex w-5/6 flex-col items-start justify-start gap-2 lg:w-2/3">
       <p v-if="assignment.dateSubmitted !== null" class="text-xl font-medium">
         Your Grade: {{ assignment.questionsCorrect }}/{{ assignment.assignment.numOfQuestions }}
         <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.assignment.numOfQuestions) * 100) }}%)</span>
@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="flex w-1/5 flex-col items-end justify-start gap-2">
+    <div class="flex w-5/6 flex-col items-start justify-start gap-2 sm:w-1/2 sm:items-end">
       <div class="flex items-center justify-center gap-2">
         <p>{{ assignment.dateSubmitted ? "Submitted" : "Assigned" }}</p>
         <div class="h-2 w-2 rounded-full" :class="assignment.dateSubmitted ? 'bg-green-600' : 'bg-red-600'"></div>
