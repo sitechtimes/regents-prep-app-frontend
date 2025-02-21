@@ -59,7 +59,11 @@
         <label class="flex items-center space-x-2">Attempts Allowed: </label>
         <input v-model.number="attemptsAllowed" type="number" placeholder="Ex: 5" required />
         <p class="text-sm">Note: 0 = Unlimited</p>
-        <button type="submit" class="w-full rounded-lg bg-blue-500 py-2 text-white hover:bg-blue-600" :disabled="loading">
+        <button
+          type="submit"
+          class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125"
+          :disabled="loading"
+        >
           {{ loading ? "Creating..." : "Create Assignment" }}
         </button>
         <p v-if="successMessage" class="text-green-600">{{ successMessage }}</p>
