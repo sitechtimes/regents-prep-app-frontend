@@ -90,7 +90,7 @@ export async function submitCreateAssignment(
   guaranteedQuestions: number[],
   randomQuestions: number[],
   dueDate: string,
-  numOfQuestions: number,
+  numQuestions: number,
   lateSubmissions: boolean,
   timeAllotted: number,
   attemptsAllowed: number
@@ -101,7 +101,7 @@ export async function submitCreateAssignment(
     guaranteedQuestions,
     randomQuestions,
     dueDate,
-    numOfQuestions,
+    numQuestions,
     lateSubmissions,
     timeAllotted,
     attemptsAllowed
