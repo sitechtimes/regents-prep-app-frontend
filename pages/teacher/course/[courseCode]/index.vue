@@ -9,7 +9,7 @@
         <div v-else class="flex w-full flex-col items-center justify-center">
           <p v-if="!currentAssignments?.length" id="no-current-assignments" class="mb-4 text-center">No Current Assignments</p>
           <div class="flex w-full flex-col gap-4">
-            <TeacherAssignmentAssignmentCard
+            <TeacherAssignmentCard
               v-for="assignment in currentAssignments"
               :key="assignment.id"
               :course="teacherCurrentCourse"
@@ -28,7 +28,7 @@
         <div v-else class="flex w-full flex-col items-center justify-center">
           <p v-if="!pastAssignments?.length" id="no-past-assignments" class="mb-4 text-center">No Past Assignments</p>
           <div class="flex w-full flex-col gap-4">
-            <TeacherAssignmentAssignmentCard
+            <TeacherAssignmentCard
               v-for="assignment in pastAssignments"
               :key="assignment.id"
               :course="teacherCurrentCourse"
