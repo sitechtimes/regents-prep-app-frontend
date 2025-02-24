@@ -44,8 +44,6 @@ useSeoMeta({
   title: () => studentCurrentCourse.value?.name ?? "Class Details"
 });
 
-const router = useRouter();
-
 const loaded = ref(false);
 
 const currentFilters = ref<TodoFilter>();
