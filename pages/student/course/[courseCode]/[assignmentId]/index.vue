@@ -8,6 +8,7 @@
 
             <div class="mb-10 flex h-full w-full flex-col items-center justify-center px-24 py-12">
               <h2 class="text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
+              <!--<p class="text-3xl font-semibold">{{ currentAssignment }}</p>-->
               <p class="text-neutral-700">{{ currentQuestion?.question.text }}</p>
 
               <!-- TODO: add answer choices -->
@@ -28,6 +29,7 @@
                   Next
                   <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
                 </button>
+                <button @click="console.log(currentAssignment.id)">click me</button>
               </div>
             </div>
           </div>
@@ -74,7 +76,6 @@ watch(
 
     try {
       const question = await getNextQuestion(currentAssignment.value.id);
-
       currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
       currentQuestion.value = question;
     } catch (error) {
