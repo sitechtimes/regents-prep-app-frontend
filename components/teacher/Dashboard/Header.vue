@@ -20,16 +20,16 @@
     </div>
 
     <div class="flex items-center justify-end gap-3">
-      <StudentDashboardJoinClass :show="showClassModal" @close="showClassModal = false" />
+      <TeacherDashboardCreateClass :show="showClassModal" @close="showClassModal = false" />
       <button
         v-show="route.path === '/teacher/dashboard'"
-        id="join-button"
+        id="create-button"
         type="button"
         class="group du-tooltip du-tooltip-bottom flex size-9 cursor-pointer items-center justify-center rounded-full transition hover:bg-neutral-200 dark:hover:bg-neutral-700"
-        data-tip="Join a class"
+        data-tip="Create a class"
         @click="showClassModal = !showClassModal"
       >
-        <img class="size-7 transition group-active:scale-90 dark:invert" src="/ui/plus.svg" alt="Join a new course" />
+        <img class="size-7 transition group-active:scale-90 dark:invert" src="/ui/plus.svg" alt="Create a new course" />
       </button>
       <ToggleTheme />
       <AccountSettings />
