@@ -85,11 +85,11 @@ watch(
   { immediate: true }
 );
 
-async function switchQuestion(directiona: "previous" | "next") {
+async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
 
-  if (directiona === "previous" && currentQuestionIndex.value > 0) await changeRouteQuery({ q: currentQuestionIndex.value - 1 });
-  if (directiona === "next" && currentQuestionIndex.value < currentAssignment.value.assignment.numOfQuestions - 1) await changeRouteQuery({ q: currentQuestionIndex.value + 1 });
+  if (direction === "previous" && currentQuestionIndex.value > 0) await changeRouteQuery({ q: currentQuestionIndex.value - 1 });
+  if (direction === "next" && currentQuestionIndex.value < currentAssignment.value.assignment.numOfQuestions - 1) await changeRouteQuery({ q: currentQuestionIndex.value + 1 });
 }
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
