@@ -1,6 +1,10 @@
 <template>
   <NuxtLink
-    :to="`/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`"
+    :to="
+      assignment.assignment.dueDate >= currentTime || assignment.assignment.lateSubmissions
+        ? `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`
+        :`/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}/stats`
+    "
     class="flex w-full items-center justify-center gap-2 rounded-2xl border border-neutral-300 p-6 hover:border-neutral-600 hover:shadow-lg"
   >
     <div class="flex w-2/5 flex-col items-start justify-start pl-4">
