@@ -41,14 +41,15 @@ export async function getCourseStudents(courseId: number) {
   return requestEndpoint<TeacherStudentList[]>(`courses/${courseId}/teacher/student-list/`);
 }
 
-export async function getNextQuestion(assignmentId: number) {
-  const data = await requestEndpoint<QuestionInterface>("courses/student/get-next-question/", "POST", { id: assignmentId });
+export async function getNextDynamicQuestion(assignmentId: number) {
+  /*   const data = await requestEndpoint<QuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
 
   for (const answer of data.question.answers) {
     answer.selected = false;
   }
 
-  return data;
+  return data; */
+  return requestEndpoint<QuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
 }
 
 export async function submitQuestionAnswer(questionId: number, answerId: number) {

@@ -9,13 +9,13 @@
             <div class="mb-10 flex h-full w-full flex-col items-center justify-center px-24 py-12">
               <h2 class="text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
               <!--<p class="text-3xl font-semibold">{{ currentAssignment }}</p>-->
-              <p class="text-neutral-700">{{ currentQuestion?.question.text }}</p>
+              <p class="text-neutral-100">{{ currentQuestion?.question.text }}</p>
 
               <!-- TODO: add answer choices -->
               <div
                 v-if="currentQuestion?.question.answerType === 'Multiple Choice'"
                 v-for="choice in currentQuestion?.question.answers"
-                class="mt-8 h-125 w-full overflow-y-scroll rounded-xl bg-neutral-100"
+                class="mt-8 h-125 w-full overflow-y-scroll rounded-xl bg-neutral-100 text-center"
               >
                 <button type="button" @click="choice.selected = true" v-html="choice.text"></button>
               </div>
@@ -29,7 +29,6 @@
                   Next
                   <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
                 </button>
-                <button @click="console.log(currentAssignment.id)">click me</button>
               </div>
             </div>
           </div>
@@ -75,7 +74,7 @@ watch(
     if (alreadyFetchedQuestion) return (currentQuestion.value = alreadyFetchedQuestion);
 
     try {
-      const question = await getNextQuestion(currentAssignment.value.id);
+      const question = await getNextDynamicQuestion(currentAssignment.value.id);
       currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
       currentQuestion.value = question;
     } catch (error) {
