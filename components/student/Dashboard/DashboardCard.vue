@@ -47,7 +47,7 @@ const props = defineProps<{ course: StudentCourse }>();
 watch(
   () => props.course.assignments,
   (newAssignments) => {
-    console.warn("updated", newAssignments);
+    console.log("updated", newAssignments);
   }
 );
 
@@ -55,19 +55,13 @@ const currentTime = new Date();
 
 onMounted(() => {
   if (props.course.assignments) {
-    console.warn("mounted", props.course.assignments);
+    console.log("mounted", props.course.assignments);
   } else {
-    console.warn("not mounted");
+    console.log("not mounted");
   }
 });
-
-onBeforeMount(() => {
-  const courseAssignments = props.course.assignments || [];
-  assignments.value = courseAssignments
-    .filter((assignment) => assignment.dateSubmitted === null && assignment.assignment.dueDate >= new Date())
-    .sort((a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime())
-    .slice(0, 2);
-});
+onBeforeMount(() => {});
+const assignments = computed(() => [...props.course.assignments].filter((assignment) => assignment.dateSubmitted === null && assignment.assignment.dueDate >= currentTime).slice(0, 2));
 </script>
 
 <style scoped>
