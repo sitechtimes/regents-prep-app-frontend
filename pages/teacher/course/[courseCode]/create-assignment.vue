@@ -11,17 +11,15 @@
             <span v-if="guaranteedQuestionIDs.length > 0">{{ guaranteedQuestionIDs.length }} Selected</span>
             <span v-else>Select Questions</span>
           </div>
-          <div v-if="guaranteedDropdownOpen" class="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border border-gray-300 bg-white shadow-lg">
+          <div v-if="guaranteedDropdownOpen" class="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border bg-gray-200 shadow-lg">
             <div v-for="n in getCurrentBatch(guaranteedCurrentPage)" :key="n" class="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100">
               <input :id="'guaranteed-' + n" v-model="guaranteedQuestionIDs" type="checkbox" :value="n" class="h-4 w-4" />
               <label :for="'guaranteed-' + n" class="text-sm">Question object ({{ n }})</label>
             </div>
-            <div class="flex justify-between bg-gray-50 px-3 py-2">
-              <button type="button" :disabled="guaranteedCurrentPage === 1" class="text-sm text-blue-500 hover:underline" @click="changeGuaranteedPage('prev')">Previous</button>
+            <div class="flex justify-between bg-gray-200 px-3 py-2">
+              <button type="button" :disabled="guaranteedCurrentPage === 1" class="text-sm" @click="changeGuaranteedPage('prev')">Previous</button>
               <span class="text-sm">Page {{ guaranteedCurrentPage }}</span>
-              <button type="button" :disabled="guaranteedCurrentPage * batchSize >= questionNumbers.length" class="text-sm text-blue-500 hover:underline" @click="changeGuaranteedPage('next')">
-                Next
-              </button>
+              <button type="button" :disabled="guaranteedCurrentPage * batchSize >= questionNumbers.length" class="text-sm" @click="changeGuaranteedPage('next')">Next</button>
             </div>
           </div>
         </div>
@@ -31,15 +29,15 @@
             <span v-if="randomQuestionIDs.length > 0">{{ randomQuestionIDs.length }} Selected</span>
             <span v-else>Select Questions</span>
           </div>
-          <div v-if="randomDropdownOpen" class="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border border-gray-300 bg-white shadow-lg">
+          <div v-if="randomDropdownOpen" class="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border bg-gray-200 shadow-lg">
             <div v-for="n in getCurrentBatch(randomCurrentPage)" :key="n" class="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100">
               <input :id="'random-' + n" v-model="randomQuestionIDs" type="checkbox" :value="n" class="h-4 w-4" />
               <label :for="'random-' + n" class="text-sm">Question object ({{ n }})</label>
             </div>
-            <div class="flex justify-between bg-gray-50 px-3 py-2">
-              <button type="button" :disabled="randomCurrentPage === 1" class="text-sm text-blue-500 hover:underline" @click="changeRandomPage('prev')">Previous</button>
+            <div class="flex justify-between bg-gray-200 px-3 py-2">
+              <button type="button" :disabled="randomCurrentPage === 1" class="text-sm" @click="changeRandomPage('prev')">Previous</button>
               <span class="text-sm">Page {{ randomCurrentPage }}</span>
-              <button type="button" :disabled="randomCurrentPage * batchSize >= questionNumbers.length" class="text-sm text-blue-500 hover:underline" @click="changeRandomPage('next')">Next</button>
+              <button type="button" :disabled="randomCurrentPage * batchSize >= questionNumbers.length" class="text-sm" @click="changeRandomPage('next')">Next</button>
             </div>
           </div>
         </div>
@@ -59,7 +57,11 @@
         <label class="flex items-center space-x-2">Attempts Allowed: </label>
         <input v-model.number="attemptsAllowed" type="number" placeholder="Ex: 5" required />
         <p class="text-sm">Note: 0 = Unlimited</p>
-        <button type="submit" class="w-full rounded-lg bg-blue-500 py-2 text-white hover:bg-blue-600" :disabled="loading">
+        <button
+          type="submit"
+          class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125"
+          :disabled="loading"
+        >
           {{ loading ? "Creating..." : "Create Assignment" }}
         </button>
         <p v-if="successMessage" class="text-green-600">{{ successMessage }}</p>
@@ -70,8 +72,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ layout: "teacher" });
 const route = useRoute();
-
 const name = ref("");
 const courseID = Number(route.params.courseCode);
 const guaranteedQuestionIDs = ref<number[]>([]);
