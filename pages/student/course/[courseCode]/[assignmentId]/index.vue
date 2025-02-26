@@ -72,11 +72,16 @@ watch(
 
     const alreadyFetchedQuestion = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
     if (alreadyFetchedQuestion) return (currentQuestion.value = alreadyFetchedQuestion);
-
     try {
-      const question = await getNextDynamicQuestion(currentAssignment.value.id);
-      currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
-      currentQuestion.value = question;
+      if (currentAssignment.value.assignment.isStatic) {
+        const question = await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value);
+        currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
+        currentQuestion.value = question;
+      } else {
+        const question = await getNextDynamicQuestion(currentAssignment.value.id);
+        currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
+        currentQuestion.value = question;
+      }
     } catch (error) {
       console.error(error);
       // TODO: show error to user

@@ -66,6 +66,7 @@ interface Assignment {
 }
 
 export interface StudentAssignment extends Assignment {
+  isStatic: boolean;
   /** @readonly Date object of when the assignment was submitted. */
   dateSubmitted: Date | null;
 
@@ -92,6 +93,9 @@ export interface StudentAssignment extends Assignment {
 
     /** @readonly Date object of when the assignment was assigned. */
     dateAssigned: Date;
+
+    /** @readonly If the assignment is a static assignment.*/
+    isStatic: boolean;
 
     /** @readonly Object identifying the course assignment belongs to. */
     course?: {

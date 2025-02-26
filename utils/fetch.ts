@@ -52,6 +52,10 @@ export async function getNextDynamicQuestion(assignmentId: number) {
   return requestEndpoint<QuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
 }
 
+export async function getNextStaticQuestion(assignmentId: number, questionIndex: number) {
+  return requestEndpoint<QuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
+}
+
 export async function submitQuestionAnswer(questionId: number, answerId: number) {
   return requestEndpoint<SubmitAnswer>("courses/student/submit-answer/", "POST", { questionInstanceID: questionId, answerID: answerId });
 }
