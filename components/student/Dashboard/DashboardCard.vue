@@ -44,14 +44,30 @@
 <script setup lang="ts">
 const props = defineProps<{ course: StudentCourse }>();
 
+watch(
+  () => props.course.assignments,
+  (newAssignments) => {
+    console.warn("updated", newAssignments);
+  }
+);
+
 const currentTime = new Date();
 
-const assignments = computed(() =>
-  [...props.course.assignments]
-    .filter((assignment) => assignment.dateSubmitted === null && assignment.assignment.dueDate >= currentTime)
+onMounted(() => {
+  if (props.course.assignments) {
+    console.warn("mounted", props.course.assignments);
+  } else {
+    console.warn("not mounted");
+  }
+});
+
+onBeforeMount(() => {
+  const courseAssignments = props.course.assignments || [];
+  assignments.value = courseAssignments
+    .filter((assignment) => assignment.dateSubmitted === null && assignment.assignment.dueDate >= new Date())
     .sort((a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime())
-    .slice(0, 2)
-);
+    .slice(0, 2);
+});
 </script>
 
 <style scoped>
