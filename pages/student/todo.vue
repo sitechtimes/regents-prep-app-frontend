@@ -1,7 +1,13 @@
 <template>
   <div v-if="!loaded" class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start"></div>
   <div v-else class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = true">
-    <StudentTodoToolbar :close-toolbar="deselectFilters" @sort="(sorter) => (currentSorter = sorter)" @filter="(filter) => (currentFilters = filter)" @search="(term) => (currentSearch = term)" />
+    <StudentTodoToolbar
+      :close-toolbar="deselectFilters"
+      :student-courses="studentCourses"
+      @sort="(sorter) => (currentSorter = sorter)"
+      @filter="(filter) => (currentFilters = filter)"
+      @search="(term) => (currentSearch = term)"
+    />
 
     <div v-if="filteredAssignments" class="mt-5 flex w-2/3 flex-col items-center justify-center gap-4">
       <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex h-full w-full items-center justify-center gap-2">
