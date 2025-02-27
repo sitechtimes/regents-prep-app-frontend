@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="`/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`"
-    class="flex w-full items-center justify-center gap-2 rounded-2xl border border-neutral-300 p-6 hover:border-neutral-600 hover:shadow-lg"
+    class="flex w-full items-center justify-center gap-2 rounded-2xl border border-neutral-300 p-6 hover:border-neutral-600 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300"
   >
     <div class="flex w-2/5 flex-col items-start justify-start pl-4">
       <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.assignment.name }}</h3>

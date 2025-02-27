@@ -21,7 +21,9 @@
           class="flex h-full w-full flex-col items-center justify-center rounded-xl border border-neutral-300 p-3 hover:shadow-lg dark:border-neutral-600"
           @click.stop
         >
-          <p class="text-center text-sm text-neutral-700" :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
+          <p class="text-center text-sm text-neutral-700 dark:text-neutral-100" :title="assignment.assignment.dueDate.toLocaleString()">
+            Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}
+          </p>
 
           <div class="flex h-full w-full flex-col items-center justify-start gap-3">
             <p class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-center text-xl font-semibold">{{ assignment.assignment.name }}</p>

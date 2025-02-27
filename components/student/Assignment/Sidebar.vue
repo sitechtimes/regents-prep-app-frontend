@@ -1,6 +1,6 @@
 <template>
-  <div class="sticky left-0 top-0 flex h-full w-72 shrink-0 flex-col items-start justify-start border-r border-neutral-300">
-    <button class="group my-4 ml-4 flex items-center justify-center gap-2 rounded-xl px-5 py-2 hover:bg-neutral-200" type="button" @click="emit('close')">
+  <div class="sticky left-0 top-0 flex h-full w-72 shrink-0 flex-col items-start justify-start border-r border-neutral-300 dark:border-neutral-600">
+    <button class="group my-4 ml-4 flex items-center justify-center gap-2 rounded-xl px-5 py-2 hover:bg-neutral-200 dark:bg-neutral-500 dark:hover:bg-neutral-600" type="button" @click="emit('close')">
       <img class="size-4 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
       Back to course
     </button>

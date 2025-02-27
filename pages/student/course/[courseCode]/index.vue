@@ -16,7 +16,7 @@
             @search="(term) => (currentSearch = term)"
           />
 
-          <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6"></div>
+          <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6 dark:border-neutral-600"></div>
           <StudentAssignmentCard
             v-else-if="assignments.length > 0"
             v-for="assignment in assignments"
