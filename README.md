@@ -4,6 +4,8 @@
 
 ## Project Setup
 
+⚠️ **If you do not follow these steps and complain about the project not working, you will receive a lawsuit within 3-5 business days of your complaint** ⚠️
+
 1. Ensure Node.js is installed on your machine
 
 2. Clone the repository
