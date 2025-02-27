@@ -43,11 +43,16 @@ const filteredAssignments = computed(() => {
   const filters = currentFilters.value;
   const sorter = currentSorter.value;
   const search = currentSearch.value;
-  return assignments.value
+  const displayedAssignments = assignments.value
     ?.filter(filters)
     .filter((assignment) => assignment.assignment?.name.toLowerCase().includes(search.toLowerCase()))
-    .sort(sorter)
-    .filter((assignment) => (route.query.class?.length ? route.query.class?.includes(String(assignment.assignment.course?.id)) : assignment));
+    .sort(sorter);
+
+  if (route.query.class?.length) {
+    return displayedAssignments?.filter((assignment) => route.query.class?.includes(String(assignment.assignment.course?.id)));
+  }
+
+  return displayedAssignments;
 });
 
 onMounted(async () => {

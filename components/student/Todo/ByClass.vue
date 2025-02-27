@@ -25,17 +25,17 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{ close: boolean }>();
+const route = useRoute();
 const userStore = useUserStore();
 const { studentCourses } = storeToRefs(userStore);
-const props = defineProps<{ close: boolean }>();
 const showClasses = ref(false);
-const route = useRoute();
 
 const queries = ref<number[]>([]);
 
 async function updateQuery(courseId: number) {
   queries.value = queries.value.includes(courseId) ? queries.value.filter((id) => id !== courseId) : [...queries.value, courseId];
-  await (queries.value.length ? changeRouteQuery({ class: queries.value }) : changeRouteQuery({ class: undefined as undefined }));
+  await changeRouteQuery({ class: queries.value.length ? queries.value : undefined });
 }
 const buttonClass = computed(() =>
   showClasses.value
