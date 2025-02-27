@@ -8,8 +8,7 @@
 
             <div class="mb-10 flex h-full w-full flex-col items-center justify-center px-24 py-12">
               <h2 class="text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-              <!--<p class="text-3xl font-semibold">{{ currentAssignment }}</p>-->
-              <p class="text-neutral-100">{{ currentQuestion?.question.text }}</p>
+              <p class="text-neutral-100">{{ stripHtml(currentQuestion?.question.text ?? "") }}</p>
 
               <!-- TODO: add answer choices -->
               <div
@@ -20,7 +19,7 @@
                 <button type="button" @click="choice.selected = true" v-html="choice.text"></button>
               </div>
 
-              <div class="mt-8 flex w-full items-center justify-end gap-6 px-10">
+              <div v-if="currentAssignment.assignment.isStatic" class="mt-8 flex w-full items-center justify-end gap-6 px-10">
                 <button class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200" type="button" @click="switchQuestion('previous')">
                   <img class="size-5 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
                   Back
@@ -29,6 +28,10 @@
                   Next
                   <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
                 </button>
+              </div>
+              <div v-if="currentAssignment.assignment.isStatic === false" class="mt-8 flex w-full items-center justify-end gap-6 px-10">
+                <button class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200" type="button">Submit</button>
+                <button class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200" type="button">click me</button>
               </div>
             </div>
           </div>
@@ -97,6 +100,12 @@ async function switchQuestion(direction: "previous" | "next") {
   if (direction === "next" && currentQuestionIndex.value < currentAssignment.value.assignment.numQuestions - 1) await changeRouteQuery({ q: currentQuestionIndex.value + 1 });
 }
 
+/*async function submitQuestion() {
+  try {
+    //await submitQuestionAnswer(currentQuestion.id, currentQuestion.question.answer.id);
+  }
+}*/
+
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
   event.preventDefault();
   // TODO: add api call to save progress
@@ -112,6 +121,10 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => window.removeEventListener("beforeunload", warnForUnsavedChanges));
+
+function stripHtml(html: string): string {
+  return (html ?? "").replace(/<\/?(p|em)>/g, "");
+}
 </script>
 
 <style scoped>
