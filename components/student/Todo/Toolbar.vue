@@ -4,7 +4,7 @@
     class="sticky top-20 z-50 mt-4 flex flex-wrap items-center justify-center gap-4 rounded-full border-transparent bg-body px-5 py-2 transition duration-500 xl:flex-nowrap"
     :class="{ 'shadow-lg dark:border dark:border-neutral-700': isSticky }"
   >
-    <StudentTodoByClass v-if="ifTodo" :student-courses="studentCourses" :close="closeClasses" @click.stop="closeOptions(true, true, true, false)" />
+    <StudentTodoByClass v-if="route.path === `/student/todo`" :close="closeClasses" @click.stop="closeOptions(true, true, true, false)" />
     <StudentTodoSort :close="closeSorters" @sort="(sorter) => emit('sort', sorter)" @click.stop="closeOptions(true, true, false, true)" />
     <StudentTodoFilter :close="closeFilters" @filter="(filter) => emit('filter', filter)" @click.stop="closeOptions(true, false, true, true)" />
     <StudentTodoSearch @search="(term) => emit('search', term)" />
@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ closeToolbar: boolean; studentCourses: StudentCourse[] }>();
+const props = defineProps<{ closeToolbar: boolean }>();
 const emit = defineEmits<{
   sort: [TodoSorter | undefined];
   filter: [TodoFilter];
@@ -23,7 +23,6 @@ const toolbar = useTemplateRef("toolbar");
 const isSticky = ref(false);
 
 const route = useRoute();
-const ifTodo = ref(route.path === "/student/todo");
 
 const closeFilters = ref(false);
 const closeSorters = ref(false);
