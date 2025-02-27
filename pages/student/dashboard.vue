@@ -10,7 +10,6 @@
             v-for="course in studentCourses"
             :key="course.id"
             :course="course"
-            :assignments="course.assignments"
             @click="router.push(`/student/course/${course.id}`)"
           />
         </div>
