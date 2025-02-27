@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="`/student/course/${course.id}`"
-    class="hover:border-border-neutral-500 w-115 flex flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:shadow-lg"
+    class="hover:border-border-neutral-500 flex w-115 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:shadow-lg"
     type="button"
   >
     <div class="flex h-24 w-full flex-col items-center justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
@@ -27,9 +27,9 @@
             <p class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-center text-xl font-semibold">{{ assignment.assignment.name }}</p>
 
             <div class="flex w-full items-center justify-between gap-2">
-              <span class="shrink-0">Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numOfQuestions }}</span>
+              <span class="shrink-0">Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numQuestions }}</span>
               <div class="flex h-4 w-full items-start overflow-hidden rounded-full bg-neutral-300">
-                <div class="h-full" :style="{ width: (assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100 + '%', backgroundColor: subjectColors[course.subject] }"></div>
+                <div class="h-full" :style="{ width: (assignment.questionsCompleted / assignment.assignment.numQuestions) * 100 + '%', backgroundColor: subjectColors[course.subject] }"></div>
               </div>
             </div>
           </div>
