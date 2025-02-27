@@ -13,7 +13,7 @@
     <div class="flex h-full min-h-36 w-full flex-col items-center justify-start p-2">
       <h3 class="pb-2 pt-1 text-xl font-bold">Assignments</h3>
 
-      <div v-if="assignments.length > 0" :key="assignments.length" class="flex h-full w-full flex-wrap items-start justify-around gap-3 px-3 pb-3">
+      <div v-if="assignments.length > 0" class="flex h-full w-full flex-wrap items-start justify-around gap-3 px-3 pb-3">
         <NuxtLink
           v-for="assignment in assignments"
           :key="assignment.id"
