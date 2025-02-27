@@ -58,10 +58,11 @@
 <script setup lang="ts">
 defineProps<{ show: boolean }>();
 const emit = defineEmits<{ close: [void] }>();
+const userStore = useUserStore();
 
 const successModal = useTemplateRef("successModal");
 
-const regentsTypes: Readonly<Record<string, string[]>> = {
+const regentsTypes: Readonly<Record<Subjects, string[]>> = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
   English: ["English"],
   Science: ["Chemistry", "Physics", "Biology"],
@@ -83,10 +84,25 @@ async function createCourse() {
   if (!courseName.value || !courseSubject.value || !Object.values(regentsTypes).flat().includes(courseSubject.value) || !coursePeriod.value) return;
 
   const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
-  await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
+  try {
+    const { id, joinCode } = await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
 
-  successModal.value?.showModal();
-  emit("close");
+    userStore.teacherCourses.push({
+      id,
+      joinCode,
+      name: courseName.value,
+      subject: Object.keys(regentsTypes)[subjectCode] as keyof typeof regentsTypes,
+      period: coursePeriod.value,
+      numOfStudents: 0,
+      assignmentsLength: 0,
+      teacher: userStore.name
+    });
+
+    successModal.value?.showModal();
+    emit("close");
+  } catch (error) {
+    console.error("Failed to create course:", error);
+  }
 }
 </script>
 
