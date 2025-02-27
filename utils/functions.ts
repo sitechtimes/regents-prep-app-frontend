@@ -37,7 +37,7 @@ export function getRandomItem<T>(arr: T[]) {
  * @param replace - Whether to use `router.push` or `router.replace` to change the route. Defaults to `replace`.
  * @example changeRouteQuery({ u: 0 }) -> router.replace({ query: { ...route.query, u: 0 } })
  */
-export async function changeRouteQuery(query: Record<string, string | number | undefined | number[]>, method: "replace" | "push" = "replace"): Promise<void> {
+export async function changeRouteQuery<T extends string | number>(query: Record<string, T | T[] | undefined>, method: "replace" | "push" = "replace"): Promise<void> {
   const route = useRoute();
   const router = useRouter();
 
