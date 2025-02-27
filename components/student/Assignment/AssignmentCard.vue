@@ -1,6 +1,10 @@
 <template>
   <NuxtLink
-    :to="`/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`"
+    :to="
+      assignment.assignment.dueDate >= currentTime || assignment.assignment.lateSubmissions
+        ? `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`
+        :`/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}/stats`
+    "
     class="flex w-full items-center justify-center gap-2 rounded-2xl border border-neutral-300 p-6 hover:border-neutral-600 hover:shadow-lg"
   >
     <div class="flex w-2/5 flex-col items-start justify-start pl-4">
@@ -12,16 +16,16 @@
 
     <div v-if="assignment.assignment" class="flex w-2/5 flex-col items-center justify-center gap-2">
       <p v-if="assignment.dateSubmitted !== null" class="text-xl font-medium">
-        Your Grade: {{ assignment.questionsCorrect }}/{{ assignment.assignment.numOfQuestions }}
-        <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.assignment.numOfQuestions) * 100) }}%)</span>
+        Your Grade: {{ assignment.questionsCorrect }}/{{ assignment.assignment.numQuestions }}
+        <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.assignment.numQuestions) * 100) }}%)</span>
       </p>
       <p v-else class="text-xl font-medium">
-        Your Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numOfQuestions }}
-        <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100) }}%)</span>
+        Your Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numQuestions }}
+        <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numQuestions) * 100) }}%)</span>
       </p>
 
       <div v-if="assignment.dateSubmitted !== null" class="h-4 w-full rounded-full border-[1.5px] border-gray-300">
-        <div class="h-full rounded-full bg-green-500" :style="{ width: ((assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.assignment.numOfQuestions) * 100 + '%' }"></div>
+        <div class="h-full rounded-full bg-green-500" :style="{ width: ((assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.assignment.numQuestions) * 100 + '%' }"></div>
       </div>
     </div>
 

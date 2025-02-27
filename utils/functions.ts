@@ -7,14 +7,25 @@ export function delay(ms: number): Promise<void> {
   return new Promise((executor: () => void) => setTimeout(executor, ms));
 }
 
-/** Returns a random integer between `min` and `max`, inclusive. */
+/**
+ * Returns a random integer between `min` and `max`.
+ *
+ * @param min - The minimum value of the random integer.
+ * @param max - The maximum value of the random integer.
+ * @example getRandomInt(1, 10) -> 5
+ */
 export function getRandomInt(min: number, max: number) {
   const minCeiled = Math.ceil(min);
   const maxFloored = Math.floor(max);
   return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
 }
 
-/** Returns a random item from an array. */
+/**
+ * Returns a random item from an array.
+ *
+ * @param arr - The array to get a random item from.
+ * @example getRandomItem([1, 2, 3, 4, 5]) -> 3
+ */
 export function getRandomItem<T>(arr: T[]) {
   return arr[getRandomInt(0, arr.length - 1)];
 }
@@ -34,6 +45,13 @@ export async function changeRouteQuery(query: Record<string, string | number | u
   await router.push({ query: { ...route.query, ...query } });
 }
 
+/**
+ * Returns a formatted string representing the difference between two dates.
+ *
+ * @param target - The date to format.
+ * @param current - The current date to compare to.
+ * @example formatDate(new Date(), new Date())
+ */
 export function formatDate(target: Date, current: Date) {
   const dateHour = target.toLocaleString("default", { hour12: true, hour: "numeric", minute: "2-digit" });
   const week = target.toLocaleDateString("default", { weekday: "long" });
@@ -52,6 +70,12 @@ export function formatDate(target: Date, current: Date) {
   return labels[String(diffDays)] || (diffDays > 1 && diffDays <= 7 ? week : diffDays < -1 && diffDays >= -7 ? `last ${week}` : long);
 }
 
+/**
+ * Converts the `dueDate` and `dateAssigned` properties of an array of assignments to `Date` objects.
+ *
+ * @param assignments - An array of assignments to modify.
+ * @example assignmentToDate(assignment)
+ */
 export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssignment[]) {
   for (const assignment of assignments) {
     // Check if assignment is of type StudentAssignment
@@ -67,6 +91,12 @@ export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssig
   }
 }
 
+/**
+ * Converts the `dueDate` and `dateAssigned` properties of an array of courses to `Date` objects.
+ *
+ * @param courses - An array of courses.
+ * @example courseToDate(course);
+ */
 export function courseToDate(courses: StudentCourse[]) {
   for (const course of courses) {
     assignmentToDate(course.assignments);
