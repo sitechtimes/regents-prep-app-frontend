@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ closeToolbar: boolean; studentCourses: [StudentCourse] }>();
+const props = defineProps<{ closeToolbar: boolean; studentCourses: StudentCourse[] }>();
 const emit = defineEmits<{
   sort: [TodoSorter | undefined];
   filter: [TodoFilter];

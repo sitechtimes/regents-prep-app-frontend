@@ -3,6 +3,7 @@
     <button
       class="flex h-9 w-9 items-center justify-center rounded-full border bg-white p-0 transition duration-500 lg:w-32 lg:justify-start lg:p-2 lg:px-4 dark:bg-neutral-800"
       type="button"
+      :class="buttonClass"
       @click="showClasses = !showClasses"
     >
       <img class="size-5 transition duration-500 dark:invert" src="/ui/todo.svg" aria-hidden="true" />
@@ -31,15 +32,20 @@ const route = useRoute();
 
 const queries = ref<number[]>([]);
 
-function updateQuery(courseId: number) {
+async function updateQuery(courseId: number) {
   queries.value = queries.value.includes(courseId) ? queries.value.filter((id: number) => id !== courseId) : [...queries.value, courseId];
-  router.replace({
+  await router.replace({
     query: {
       ...route.query,
       class: queries.value.length ? queries.value.map(String) : undefined
     }
   });
 }
+const buttonClass = computed(() =>
+  showClasses.value
+    ? "border-2 border-[#794dff] shadow-sm shadow-[#794dff38] ring-0 ring-[#794dff]"
+    : "border-neutral-300 hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-neutral-700"
+);
 watch(
   () => props.close,
   (val) => {
@@ -47,3 +53,16 @@ watch(
   }
 );
 </script>
+
+<style scoped>
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.15s ease-in-out;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+</style>
