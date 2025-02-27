@@ -22,7 +22,7 @@
             <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600" type="button" @click="showCreateClass = true">Create Class</button>
           </div>
         </div>
-        <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" />
+        <TeacherDashboardCreateClass :show="showCreateClass" @close="showCreateClass = false" />
       </div>
     </div>
   </div>
