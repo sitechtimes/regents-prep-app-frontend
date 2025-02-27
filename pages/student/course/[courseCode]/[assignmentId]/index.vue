@@ -89,7 +89,7 @@ async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
 
   if (direction === "previous" && currentQuestionIndex.value > 0) await changeRouteQuery({ q: currentQuestionIndex.value - 1 });
-  if (direction === "next" && currentQuestionIndex.value < currentAssignment.value.assignment.numOfQuestions - 1) await changeRouteQuery({ q: currentQuestionIndex.value + 1 });
+  if (direction === "next" && currentQuestionIndex.value < currentAssignment.value.assignment.numQuestions - 1) await changeRouteQuery({ q: currentQuestionIndex.value + 1 });
 }
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
