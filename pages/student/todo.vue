@@ -48,10 +48,7 @@ const filteredAssignments = computed(() => {
     .filter((assignment) => assignment.assignment?.name.toLowerCase().includes(search.toLowerCase()))
     .sort(sorter);
 
-  if (route.query.class?.length) {
-    return displayedAssignments?.filter((assignment) => route.query.class?.includes(String(assignment.assignment.course?.id)));
-  }
-
+  if (route.query.class?.length) return displayedAssignments?.filter((assignment) => route.query.class?.includes(String(assignment.assignment.course?.id)));
   return displayedAssignments;
 });
 
