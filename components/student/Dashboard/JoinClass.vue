@@ -2,22 +2,22 @@
   <Teleport to="body">
     <Transition name="join-menu-scale">
       <div v-if="show" class="fixed left-0 top-0 z-30 flex min-h-screen w-screen items-center justify-center bg-black/45" @click="closeModal">
-        <div class="join-menu bg-body w-125 flex flex-col items-start justify-center gap-4 rounded-xl p-6" @click.stop>
-          <h2 class="text-2xl font-semibold dark:text-white">Join a class</h2>
+        <div class="join-menu flex w-125 flex-col items-start justify-center gap-4 rounded-xl bg-body p-6" @click.stop>
+          <h2 class="text-2xl font-semibold">Join a class</h2>
 
-          <form id="join-code-form" class="flex w-full flex-col rounded-xl border-2 border-neutral-200 p-6" @submit.prevent="submit">
+          <form id="join-code-form" class="flex w-full flex-col rounded-xl border-2 border-neutral-200 p-6 dark:border-neutral-600" @submit.prevent="submit">
             <label for="join-code" class="text-lg font-medium">Class Code</label>
-            <p class="text-sm text-neutral-700">Enter the class code provided by your teacher</p>
+            <p class="text-sm dark:text-neutral-300">Enter the class code provided by your teacher</p>
             <p class="my-2 font-medium leading-normal" :class="{ 'opacity-0': !isErrored && !isSuccess, 'text-red-500': isErrored, 'text-green-500': isSuccess }">
               {{ isErrored ? "Something went wrong. Try again" : isSuccess ? "Successfully enrolled!" : "." }}
             </p>
-            <input id="join-code" v-model="joinCode" class="bg-body du-input w-96 rounded-lg border border-neutral-400" type="text" placeholder="Class code" />
+            <input id="join-code" v-model="joinCode" class="du-input w-96 rounded-lg border border-neutral-400 bg-body dark:border-neutral-600" type="text" placeholder="Class code" />
           </form>
 
           <div class="flex w-full justify-end gap-2">
-            <button class="rounded-xl px-5 py-1.5 text-lg font-medium transition hover:bg-neutral-200" type="button" @click="closeModal">Cancel</button>
+            <button class="rounded-xl px-5 py-1.5 text-lg font-medium transition hover:bg-neutral-200 hover:dark:bg-neutral-700" type="button" @click="closeModal">Cancel</button>
             <button
-              class="rounded-xl bg-green-300 px-5 py-1.5 text-lg font-medium transition hover:bg-green-400"
+              class="rounded-xl bg-green-900 px-5 py-1.5 text-lg font-medium transition hover:bg-green-700"
               :class="{ 'pointer-events-none grayscale': joinCode.length != 6 }"
               :disabled="joinCode.length != 6"
               form="join-code-form"
