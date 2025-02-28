@@ -11,7 +11,7 @@
               <p class="text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
               <div
-                v-if="currentQuestion?.question.answerType === 'Multiple Choice'"
+                v-if="currentQuestion?.question.answerType === 'Multiple Choice' && !currentAssignment.assignment.isStatic"
                 v-for="choice in currentQuestion?.question.answers"
                 class="mt-4 flex w-full flex-col items-start space-y-3 overflow-y-auto"
               >
@@ -25,6 +25,21 @@
                   v-html="choice.text"
                 ></button>
               </div>
+              <!--               <div
+                v-if="currentQuestion?.question.answerType === 'Multiple Choice' && currentAssignment.assignment.isStatic"
+                v-for="choice in currentQuestion?.question.answers"
+                class="mt-4 flex w-full flex-col items-start space-y-3 overflow-y-auto"
+              >
+                <button
+                  type="button"
+                  class="w-full rounded-lg bg-neutral-300 px-6 py-3 shadow-sm"
+                  :class="{
+                    'bg-neutral-500': choice.selected
+                  }"
+                  @click="selectChoiceStatic(choice)"
+                  v-html="choice.text"
+                ></button>
+              </div> -->
 
               <div v-if="currentAssignment.assignment.isStatic" class="mt-8 flex w-full items-center justify-end gap-6 px-10">
                 <button class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200" type="button" @click="switchQuestion('previous')">
@@ -98,7 +113,7 @@ watch(
     if (alreadyFetchedQuestion) return (currentQuestion.value = alreadyFetchedQuestion);
     try {
       if (currentAssignment.value.assignment.isStatic) {
-        const question = await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value);
+        const question = await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1);
         currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
         currentQuestion.value = question;
       } else {
