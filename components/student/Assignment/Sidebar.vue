@@ -9,7 +9,7 @@
       <div class="list-overlay pointer-events-none absolute left-0 top-0 h-full w-full border-y-2 border-neutral-300"></div>
       <ul class="flex h-[70dvh] w-full shrink-0 flex-col items-start justify-start overflow-y-scroll px-4">
         <li
-          v-for="(num, index) in assignment.assignment.numOfQuestions"
+          v-for="(num, index) in assignment.assignment.numQuestions"
           :key="index"
           class="w-full border-l-4 border-neutral-200 py-0.5 pl-4 first:mt-6 last:mb-6"
           :class="{

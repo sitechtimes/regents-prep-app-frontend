@@ -3,7 +3,7 @@
     <Transition name="join-menu-scale">
       <div v-if="show" class="fixed left-0 top-0 z-30 flex min-h-screen w-screen items-center justify-center bg-black/45" @click="closeModal">
         <div class="join-menu flex w-125 flex-col items-start justify-center gap-4 rounded-xl bg-body p-6" @click.stop>
-          <h2 class="text-2xl font-semibold">Join a class</h2>
+          <h2 class="text-2xl font-semibold dark:text-white">Join a class</h2>
 
           <form id="join-code-form" class="flex w-full flex-col rounded-xl border-2 border-neutral-200 p-6 dark:border-neutral-600" @submit.prevent="submit">
             <label for="join-code" class="text-lg font-medium">Class Code</label>

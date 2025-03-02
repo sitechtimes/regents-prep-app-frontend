@@ -29,9 +29,9 @@
             <p class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-center text-xl font-semibold">{{ assignment.assignment.name }}</p>
 
             <div class="flex w-full items-center justify-between gap-2">
-              <span class="shrink-0">Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numOfQuestions }}</span>
+              <span class="shrink-0">Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numQuestions }}</span>
               <div class="flex h-4 w-full items-start overflow-hidden rounded-full bg-neutral-300">
-                <div class="h-full" :style="{ width: (assignment.questionsCompleted / assignment.assignment.numOfQuestions) * 100 + '%', backgroundColor: subjectColors[course.subject] }"></div>
+                <div class="h-full" :style="{ width: (assignment.questionsCompleted / assignment.assignment.numQuestions) * 100 + '%', backgroundColor: subjectColors[course.subject] }"></div>
               </div>
             </div>
           </div>
