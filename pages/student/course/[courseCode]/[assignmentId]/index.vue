@@ -11,7 +11,7 @@
               <p class="text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
               <div
-                v-if="currentQuestion?.question.answerType === 'Multiple Choice' && !currentAssignment.assignment.isStatic"
+                v-if="currentQuestion?.question.answerType === 'Multiple Choice'"
                 v-for="choice in currentQuestion?.question.answers"
                 class="mt-4 flex w-full flex-col items-start space-y-3 overflow-y-auto"
               >
@@ -25,7 +25,7 @@
                   v-html="choice.text"
                 ></button>
               </div>
-              <!--               <div
+              <!--<div
                 v-if="currentQuestion?.question.answerType === 'Multiple Choice' && currentAssignment.assignment.isStatic"
                 v-for="choice in currentQuestion?.question.answers"
                 class="mt-4 flex w-full flex-col items-start space-y-3 overflow-y-auto"
@@ -57,6 +57,9 @@
               <div v-if="feedbackMessage">
                 <p class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ feedbackMessage }}</p>
               </div>
+              <div v-if="errorMessage">
+                <p class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ errorMessage }}</p>
+              </div>
             </div>
           </div>
         </Transition>
@@ -77,6 +80,7 @@ const router = useRouter();
 const userStore = useUserStore();
 const { studentCurrentCourse, currentQuestion } = storeToRefs(userStore);
 const feedbackMessage = ref<string>("");
+const errorMessage = ref<string>("");
 const isAnswerCorrect = ref<boolean>(false);
 const remainingAttempts = ref<number>(0);
 const selectedChoice = ref<Question["answers"][0]>();
@@ -123,7 +127,7 @@ watch(
       }
     } catch (error) {
       console.error(error);
-      // TODO: show error to user
+      errorMessage.value = "Error fetching question. Please try again.";
     }
   },
   { immediate: true }
