@@ -1,5 +1,5 @@
 export interface Question {
-  /** @readonly What the question says. */
+  /** @readonly What the question says (HTML string). */
   text: string;
   /** @readonly The type of answer for the question. */
   answerType: "Multiple Choice" | "Written Response" | "True or False";
@@ -7,7 +7,7 @@ export interface Question {
   answers: {
     /** @readonly ID of the answer. */
     id: number;
-    /** @readonly What the answer choice says. */
+    /** @readonly What the answer choice says (HTML string). */
     text: string;
     /**
      * Used to store which answer the student selected.
@@ -29,19 +29,6 @@ export interface QuestionInterface {
   remainingAttempts: number | null;
   /** @readonly Question data */
   question: Question;
-}
-
-export interface StudentAssignmentInstance {
-  /** @readonly ID of the assignment instance. */
-  id: number;
-  /** @readonly Number of questions in the assignment. */
-  questionsLength: number;
-  /** Number of questions completed. */
-  questionsCompleted: number;
-  /** Number of questions correct. */
-  questionsCorrect: number;
-  /** Date object of when the assignment was submitted. */
-  submitted: Date | null;
 }
 
 export interface CreateCourse {
@@ -88,10 +75,10 @@ export interface StudentAssignment extends Assignment {
     /** @readonly Whether or not the assignment can be turned in late. */
     lateSubmissions: boolean;
 
-    /** @readonly Date object of when the assignment is due. */
+    /** @readonly Date object of when the assignment is due (Date(UTC)). */
     dueDate: Date;
 
-    /** @readonly Date object of when the assignment was assigned. */
+    /** @readonly Date object of when the assignment was assigned (Date(UTC)). */
     dateAssigned: Date;
 
     /** @readonly If the assignment is a static assignment.*/
@@ -121,10 +108,10 @@ export interface TeacherAssignment extends Assignment {
   /** @readonly Name of the assignment. */
   name: string;
 
-  /** @readonly Date the assignment was submitted */
+  /** @readonly Date the assignment was submitted (Date(UTC)) */
   dateAssigned: Date;
 
-  /** @readonly Date the assignment is due */
+  /** @readonly Date the assignment is due (Date(UTC)) */
   dueDate: Date;
 
   /** @readonly Number of questions in the assignment */

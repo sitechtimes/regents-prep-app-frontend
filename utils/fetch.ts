@@ -37,6 +37,7 @@ export async function getAssignments<T extends StudentAssignment[] | TeacherAssi
   return data;
 }
 
+/** Requests the `courses/courseId/teacher/student-list/` endpoint */
 export async function getCourseStudents(courseId: number) {
   return requestEndpoint<TeacherStudentList[]>(`courses/${courseId}/teacher/student-list/`);
 }
@@ -56,14 +57,17 @@ export async function getNextStaticQuestion(assignmentId: number, questionIndex:
   return requestEndpoint<QuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
 }
 
+/** Requests the `courses/student/submit-answer/` endpoint */
 export async function submitQuestionAnswer(questionId: number, answerId: number) {
   return requestEndpoint<SubmitAnswer>("courses/student/submit-answer/", "POST", { questionInstanceID: questionId, answerID: answerId });
 }
 
+/** Requests the `courses/student/submit-assignment/` endpoint */
 export async function submitAssignment(assignmentId: number) {
   return requestEndpoint<SubmitAssignment>("courses/student/submit-assignment/", "POST", { id: assignmentId });
 }
 
+/** Requests the `courses/student/assignment-results/assignmentId/` endpoint */
 export async function getAssignmentResults(assignmentId: number) {
   return requestEndpoint<AssignmentResults>(`courses/student/assignment-results/${assignmentId}`);
 }
@@ -75,16 +79,19 @@ export async function joinCourse(joinCode: string) {
   return data;
 }
 
+/** Requests the `courses/0/assignments/` endpoint and returns student to-do list*/
 export async function getStudentTodo() {
   const data = await requestEndpoint<StudentAssignment[]>("courses/0/assignments/");
   assignmentToDate(data);
   return data;
 }
 
+/** Requests the `courses/teacher/` endpoint */
 export async function removeStudents(courseId: number, studentId: number) {
   await requestEndpoint<TeacherStudentList[]>(`courses/teacher/remove-student/${courseId}/${studentId}`, "DELETE");
 }
 
+/** Requests the `courses/teacher/create-course/` endpoint */
 export async function submitCreateCourse(name: string, period: number, subject: number) {
   return requestEndpoint<CreateCourse>("courses/teacher/create-course/", "POST", { name, period, subject });
 }
