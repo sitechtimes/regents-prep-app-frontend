@@ -7,7 +7,7 @@
 
           <form id="join-code-form" class="flex w-full flex-col rounded-xl border-2 border-neutral-200 p-6 dark:border-neutral-600" @submit.prevent="submit">
             <label for="join-code" class="text-lg font-medium">Class Code</label>
-            <p class="text-sm dark:text-neutral-300">Enter the class code provided by your teacher</p>
+            <p class="text-sm text-neutral-700 dark:text-neutral-300">Enter the class code provided by your teacher</p>
             <p class="my-2 font-medium leading-normal" :class="{ 'opacity-0': !isErrored && !isSuccess, 'text-red-500': isErrored, 'text-green-500': isSuccess }">
               {{ isErrored ? "Something went wrong. Try again" : isSuccess ? "Successfully enrolled!" : "." }}
             </p>
