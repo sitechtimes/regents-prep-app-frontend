@@ -18,7 +18,24 @@ export default {
         tertiary: "#4E684A",
         "gray-accent": "#E5E5E5",
         "dark-hover": "#292929",
-        "dark-border": "#3D444D"
+        "dark-border": "#3D444D",
+        body: "var(--bg-color)"
+      },
+      width: {
+        100: "25rem",
+        115: "28.75rem",
+        125: "31.25rem",
+        150: "37.5rem",
+        175: "43.75rem",
+        200: "50rem"
+      },
+      height: {
+        100: "25rem",
+        115: "28.75rem",
+        125: "31.25rem",
+        150: "37.5rem",
+        175: "43.75rem",
+        200: "50rem"
       }
     }
   },

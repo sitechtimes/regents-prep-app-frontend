@@ -1,13 +1,7 @@
 <template>
   <div class="flex h-full w-full flex-col items-start justify-start">
-    <Loading :show="!loaded" />
-
     <div v-if="loaded" class="h-full w-full">
-      <Transition name="opacity">
-        <div v-if="showNotFound" class="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-[rgba(0,0,0,0.5)]" @click="router.push('/teacher/dashboard')">
-          <NotFound type="teacher" :message="route.query.course ? 'class' : 'assignment'" @close="router.push('/teacher/dashboard')" @click.stop />
-        </div>
-      </Transition>
+      <NotFound :show-modal="showNotFound" user-type="teacher" :message="route.query.course ? 'class' : 'assignment'" />
 
       <div class="flex h-full w-full flex-col">
         <div v-if="teacherCourses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top">
@@ -28,17 +22,14 @@
             <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-200 hover:bg-gray-600" type="button" @click="showCreateClass = true">Create Class</button>
           </div>
         </div>
-        <TeacherCreateClass :show="showCreateClass" @close="showCreateClass = false" />
+        <TeacherDashboardCreateClass :show="showCreateClass" @close="showCreateClass = false" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: "teacher",
-  requiresAuth: true
-});
+definePageMeta({ layout: "teacher" });
 
 const route = useRoute();
 const router = useRouter();

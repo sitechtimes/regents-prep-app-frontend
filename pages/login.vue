@@ -15,7 +15,7 @@
             required
             autocomplete="email"
           />
-          <p v-show="emailErr.length > 0" class="error absolute font-medium text-red-500">{{ emailErr }}</p>
+          <p v-show="emailErr.length > 0" class="error font-medium text-red-500">{{ emailErr }}</p>
         </div>
 
         <div class="relative flex flex-col items-start justify-center gap-1">
@@ -28,13 +28,16 @@
             required
             autocomplete="current-password"
           />
-          <p v-show="passwordErr.length > 0" class="error absolute font-medium text-red-500">{{ passwordErr }}</p>
         </div>
 
-        <button class="rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
-          <span v-if="loading" class="loading du-loading du-loading-sm"></span>
-          <p v-else class="text-lg">Login</p>
-        </button>
+        <p v-show="loginErr.length > 0" class="error -my-4 font-medium text-red-500">{{ loginErr }}</p>
+
+        <div class="relative flex w-96 flex-col items-center justify-center gap-1">
+          <button class="w-40 items-center rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
+            <span v-if="loading" class="loading du-loading du-loading-sm mt-1"></span>
+            <p v-else class="text-lg">Login</p>
+          </button>
+        </div>
       </form>
     </div>
 
@@ -49,16 +52,13 @@ useSeoMeta({
 });
 
 const userStore = useUserStore();
-
 const router = useRouter();
 
 const email = ref("");
-const name = ref("");
 const password = ref("");
 
 const emailErr = ref("");
-const nameErr = ref("");
-const passwordErr = ref("");
+const loginErr = ref("");
 const loading = ref(false);
 
 watch(email, (value) => {
@@ -67,34 +67,22 @@ watch(email, (value) => {
   else emailErr.value = "";
 });
 
-watch(password, (value) => {
-  if (value.length < 8) passwordErr.value = "Password must be at least 8 characters.";
-  else if (value.length > 50) passwordErr.value = "Password must be less than 50 characters.";
-  else passwordErr.value = "";
-});
-
-watch(name, (value) => {
-  if (value.length < 2) nameErr.value = "Name must be at least 2 characters.";
-  else if (value.length > 40) nameErr.value = "name must be less than 40 characters.";
-  else nameErr.value = "";
-});
-
 async function loginWithEmail() {
-  if (emailErr.value || passwordErr.value || nameErr.value) return;
+  loginErr.value = "";
+  if (emailErr.value || loginErr.value) return;
   loading.value = true;
   const data = await userStore.login(email.value, password.value);
   if (!data) {
     void router.push(`${userStore.userType}/dashboard`);
   } else {
-    if ("non_field_errors" in data) emailErr.value = data.non_field_errors.join(" ");
-    if ("password" in data) passwordErr.value = data.password.join(" ");
+    if ("non_field_errors" in data) loginErr.value = data.non_field_errors.join(" ");
     if ("email" in data) emailErr.value = data.email.join(" ");
   }
   loading.value = false;
 }
 
 // for vitest
-defineExpose({ email, emailErr, password, passwordErr });
+defineExpose({ email, emailErr, password, loginErr });
 </script>
 
 <style scoped>

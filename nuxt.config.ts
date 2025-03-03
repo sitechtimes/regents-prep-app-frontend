@@ -27,7 +27,7 @@ export default defineNuxtConfig({
           content: "We will unregents your prep"
         }
       ],
-      link: [{ rel: "icon", type: "image/vnd.microsoft.icon", href: "/favicon.ico" }],
+      link: [{ rel: "icon", type: "image/png", href: "/siths.png" }],
       htmlAttrs: {
         lang: "en"
       }

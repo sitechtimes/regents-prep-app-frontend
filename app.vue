@@ -1,7 +1,6 @@
 <template>
   <div>
     <NuxtLayout>
-      <Loading :show="!loaded" />
       <NuxtPage />
     </NuxtLayout>
   </div>
@@ -13,7 +12,6 @@ const route = useRoute();
 const userStore = useUserStore();
 
 const { isDarkMode } = storeToRefs(userStore);
-const loaded = ref(false);
 
 watch(isDarkMode, () => {
   document.body.classList.toggle("dark", isDarkMode.value);
@@ -32,11 +30,10 @@ const userTypes: Readonly<Record<string, string>> = {
 onMounted(() => {
   if (route.path.includes(userTypes[userStore.userType])) void router.replace(`/${userStore.userType}/dashboard`);
   document.body.style.display = "block";
-  loaded.value = true;
 });
 
 // for vitest
-defineExpose({ loaded, isDarkMode });
+defineExpose({ isDarkMode });
 </script>
 
 <style scoped></style>

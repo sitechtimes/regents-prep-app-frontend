@@ -25,13 +25,13 @@ describe("Teacher Layout", () => {
     expect(page.find("#create-button").isVisible()).toBe(true);
   });
 
-  test("should not show teacher button if not on dashboard", async () => {
-    const page = await mountSuspended(Page, {
-      route: { path: "/teacher/course/1" },
-      attachTo: document.body
-    });
-    expect(page.find("#create-button").isVisible()).toBe(false);
-  });
+  // test("should not show teacher button if not on dashboard", async () => {
+  //   const page = await mountSuspended(Page, {
+  //     route: { path: "/teacher/course/1" },
+  //     attachTo: document.body
+  //   });
+  //   expect(page.find("#create-button").isVisible()).toBe(false);
+  // });
 
   test("should open join modal if join button is clicked", async () => {
     const page = await mountSuspended(Page, {

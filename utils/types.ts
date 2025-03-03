@@ -1,5 +1,5 @@
 export interface Question {
-  /** @readonly What the question says. */
+  /** @readonly What the question says (HTML string). */
   text: string;
   /** @readonly The type of answer for the question. */
   answerType: "Multiple Choice" | "Written Response" | "True or False";
@@ -7,8 +7,13 @@ export interface Question {
   answers: {
     /** @readonly ID of the answer. */
     id: number;
-    /** @readonly What the answer choice says. */
+    /** @readonly What the answer choice says (HTML string). */
     text: string;
+    /**
+     * Used to store which answer the student selected.
+     * @warning Must be manually added to `Question`; this field is not returned from the API.
+     */
+    selected: boolean;
   }[];
 }
 
@@ -23,20 +28,7 @@ export interface QuestionInterface {
   /** Number of remaining attempts. */
   remainingAttempts: number | null;
   /** @readonly Question data */
-  question: Question[];
-}
-
-export interface StudentAssignmentInstance {
-  /** @readonly ID of the assignment instance. */
-  id: number;
-  /** @readonly Number of questions in the assignment. */
-  questionsLength: number;
-  /** Number of questions completed. */
-  questionsCompleted: number;
-  /** Number of questions correct. */
-  questionsCorrect: number;
-  /** Date object of when the assignment was submitted. */
-  submitted: Date | null;
+  question: Question;
 }
 
 export interface CreateCourse {
@@ -68,7 +60,7 @@ export interface StudentAssignment extends Assignment {
   questionsCompleted: number;
 
   /** @readonly Number of correct questions in the assignment */
-  questionsCorrect?: number;
+  questionsCorrect: number;
 
   /** @readonly assignment object for assignment properties. */
 
@@ -77,15 +69,15 @@ export interface StudentAssignment extends Assignment {
     name: string;
 
     /** @readonly Number of questions in the assignment */
-    numOfQuestions: number;
+    numQuestions: number;
 
     /** @readonly Whether or not the assignment can be turned in late. */
     lateSubmissions: boolean;
 
-    /** @readonly Date object of when the assignment is due. */
+    /** @readonly Date object of when the assignment is due (Date(UTC)). */
     dueDate: Date;
 
-    /** @readonly Date object of when the assignment was assigned. */
+    /** @readonly Date object of when the assignment was assigned (Date(UTC)). */
     dateAssigned: Date;
 
     /** @readonly Object identifying the course assignment belongs to. */
@@ -94,8 +86,17 @@ export interface StudentAssignment extends Assignment {
       id: number;
       /** @readonly Name of the course assignment belongs to */
       name: string;
-      subject: "Math" | "English" | "Science" | "History" | "Russian";
+      subject: Subjects;
     };
+
+    /**
+     * Used to store already-fetched `QuestionInterface`s for easy access when going back and forth.
+     *
+     * Each key is the index of the question in the assignment.
+     * @warning Must be manually added to `StudentAssignment`; this field is not returned from the API.
+     * @warning **Questions at certain indices may not exist yet**; the question must be fetched from the API first before being added.
+     */
+    questionInterfaces: Record<number, QuestionInterface>;
   };
 }
 
@@ -103,14 +104,14 @@ export interface TeacherAssignment extends Assignment {
   /** @readonly Name of the assignment. */
   name: string;
 
-  /** @readonly Date the assignment was submitted */
+  /** @readonly Date the assignment was submitted (Date(UTC)) */
   dateAssigned: Date;
 
-  /** @readonly Date the assignment is due */
+  /** @readonly Date the assignment is due (Date(UTC)) */
   dueDate: Date;
 
   /** @readonly Number of questions in the assignment */
-  numOfQuestions: number;
+  numQuestions: number;
 
   /** @readonly Whether or not the assignment can be turned in late. */
   lateSubmissions: boolean;
@@ -131,7 +132,7 @@ interface Course {
   /** @readonly Period of the course. */
   period: number;
   /** @readonly Subject of the course. */
-  subject: "Math" | "English" | "Science" | "History" | "Russian";
+  subject: Subjects;
 }
 
 export interface StudentCourse extends Course {
@@ -167,7 +168,7 @@ export interface SubmitAnswer {
 
 export interface SubmitAssignment {
   /** @readonly Number of questions in the assignment. */
-  numOfQuestions: number;
+  numQuestions: number;
   /** @readonly Number of questions completed. */
   questionsCompleted: number;
   /** @readonly Number of questions correct. */
