@@ -143,7 +143,7 @@ export interface TeacherCourseNoAssignment extends Course {
   /** @readonly 6-digit join code for the course. */
   joinCode: string;
   /** @readonly The number of students in the course. */
-  numOfStudents: number;
+  numStudents: number;
   /** Total number of unsubmitted, future assignments. */
   assignmentsLength: number;
 }
