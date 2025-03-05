@@ -169,6 +169,28 @@ async function submitQuestion() {
   }
 }
 
+//add a watch function so when for static questions, the question is saved when the user moves to the next question
+//right now answer saves, it needs to become highlighted again on the frontend if the user goes back to the question.
+//maybe retrieve the answer from the backend and set it to selectedChoice.value
+
+watch(
+  currentQuestionIndex,
+  async () => {
+    if (currentAssignment.value?.assignment.isStatic) {
+      try {
+        if (selectedChoice.value && currentQuestion.value) {
+          await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
+          console.log(selectedChoice.value);
+        }
+      } catch (error) {
+        console.log(selectedChoice.value);
+        console.error("Error saving question:", error);
+      }
+    }
+  },
+  { deep: true }
+);
+
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
   event.preventDefault();
   // TODO: add api call to save progress
