@@ -2,7 +2,6 @@
   <div class="flex w-full flex-col items-start justify-start">
     <div v-if="loaded" class="w-full">
       <NotFound :show-modal="showNotFound" user-type="student" :message="route.query.course ? 'class' : 'assignment'" />
-
       <div class="flex w-full flex-col">
         <div v-if="studentCourses.length > 0" class="flex flex-wrap content-start items-start justify-around gap-8">
           <!--prettier-ignore-->
