@@ -23,7 +23,7 @@
       <div class="divider fo-divider fo-divider-horizontal flex"></div>
       <div class="w-full">
         <div class="h-full content-center text-center text-3xl">
-          <h3 class="self-center">{{ course.numOfStudents }} {{ course.numOfStudents <= 0 ? `Students` : `Student` }}</h3>
+          <h3 class="self-center">{{ course.numStudents }} {{ course.numStudents <= 0 ? `Students` : `Student` }}</h3>
         </div>
       </div>
     </div>
