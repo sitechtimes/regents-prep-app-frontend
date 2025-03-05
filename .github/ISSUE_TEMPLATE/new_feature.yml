@@ -17,8 +17,6 @@ body:
       label: Suggested solution
       description: Describe your technical solution to the problem.
       placeholder: At the bottom of every scrollable container, we can add yoda with `mt-20` to make sure it stays at the bottom. We can also use the `IntersectionObserver` JavaScript API to detect when the user scrolls past the normal scrollable distance of the container, and automatically force the scrollable view back up when the user stops scrolling
-    validations:
-      required: true
 
   - type: textarea
     attributes:
