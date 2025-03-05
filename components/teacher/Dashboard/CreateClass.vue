@@ -93,7 +93,7 @@ async function createCourse() {
       name: courseName.value,
       subject: Object.keys(regentsTypes)[subjectCode] as keyof typeof regentsTypes,
       period: coursePeriod.value,
-      numOfStudents: 0,
+      numStudents: 0,
       assignmentsLength: 0,
       teacher: userStore.name
     });
