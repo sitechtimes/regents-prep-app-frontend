@@ -48,7 +48,7 @@ const currentTime = new Date();
 
 const assignments = computed(() =>
   [...props.course.assignments]
-    .filter((assignment) => assignment.dateSubmitted === null && assignment.assignment.dueDate >= currentTime)
+    .filter((assignment) => assignment.dateSubmitted !== null && assignment.assignment.dueDate >= currentTime)
     .sort((a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime())
     .slice(0, 2)
 );
