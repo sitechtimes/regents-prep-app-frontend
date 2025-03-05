@@ -17,7 +17,7 @@
           <div class="flex w-full justify-end gap-2">
             <button class="rounded-xl px-5 py-1.5 text-lg font-medium transition hover:bg-neutral-200 hover:dark:bg-neutral-700" type="button" @click="closeModal">Cancel</button>
             <button
-              class="rounded-xl bg-green-900 px-5 py-1.5 text-lg font-medium transition hover:bg-green-700"
+              class="rounded-xl bg-green-400 px-5 py-1.5 text-lg font-medium transition hover:bg-green-300 dark:bg-green-900 dark:hover:bg-green-800"
               :class="{ 'pointer-events-none grayscale': joinCode.length != 6 }"
               :disabled="joinCode.length != 6"
               form="join-code-form"
