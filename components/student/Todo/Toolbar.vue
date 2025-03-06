@@ -1,8 +1,8 @@
 <template>
   <div
     ref="toolbar"
-    class="sticky top-20 z-50 mt-4 flex flex-wrap items-center justify-center gap-4 rounded-full border-transparent bg-body px-5 py-2 transition duration-500 xl:flex-nowrap"
-    :class="{ 'shadow-lg dark:border dark:border-neutral-700': isSticky }"
+    class="bg-body sticky top-20 mt-4 flex items-center justify-center gap-4 rounded-full border-transparent px-5 py-2 transition duration-500 sm:flex-wrap xl:flex-nowrap"
+    :class="{ 'shadow dark:border dark:border-neutral-700': isSticky }"
   >
     <StudentTodoByClass v-if="route.path === `/student/todo`" :close="closeClasses" @click.stop="closeOptions(true, true, true, false)" />
     <StudentTodoSort :close="closeSorters" @sort="(sorter) => emit('sort', sorter)" @click.stop="closeOptions(true, true, false, true)" />
