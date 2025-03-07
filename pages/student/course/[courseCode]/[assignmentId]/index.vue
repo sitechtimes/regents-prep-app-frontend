@@ -1,20 +1,16 @@
 <template>
-  <div class="flex h-full w-full flex-col items-center justify-start">
+  <div class="flex h-full w-full flex-col items-center justify-start overflow-y-scroll">
     <div v-if="studentCurrentCourse && currentAssignment" class="flex h-full w-2/3 flex-col items-center justify-center gap-10">
       <Teleport to="body">
         <Transition name="menu-slide">
           <div v-if="assignmentInProgress" class="fixed left-0 top-0 z-50 flex h-dvh w-screen items-center justify-center bg-body">
             <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" @close="assignmentInProgress = false" />
-
+            <!--header doesnt exist? something with css and overflow needs to be fixed-->
             <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
               <h2 class="text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
               <p class="text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
-              <div
-                v-if="currentQuestion?.question.answerType === 'Multiple Choice'"
-                v-for="choice in currentQuestion?.question.answers"
-                class="mt-4 flex w-full flex-col items-start space-y-3 overflow-y-auto"
-              >
+              <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
                 <button
                   type="button"
                   class="w-full rounded-lg bg-neutral-300 px-6 py-3 shadow-sm"
@@ -124,6 +120,8 @@ watch(
         const question = await getNextDynamicQuestion(currentAssignment.value.id);
         currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
         currentQuestion.value = question;
+        //issue: when leaving it resets the question index to 1. it will still display the third question, but itll say it as question 1 (purely frontend thing)
+        //it's possible this is an issue in Sidebar.vue as well, but it's reflected in both the sidebar and the question # so it's likely here
       }
     } catch (error) {
       console.error(error);
@@ -149,14 +147,15 @@ async function submitQuestion() {
       const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
       isAnswerCorrect.value = response.isCorrect;
       remainingAttempts.value = response.remainingAttempts;
-
-      // Show feedback to the user
       if (response.isCorrect) {
         feedbackMessage.value = "Previous question correct! 🎉";
       } else if (response.remainingAttempts === 0) {
         feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
       } else {
         feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts} attempts left.`;
+        if (response.remainingAttempts === null) {
+          feedbackMessage.value = `Incorrect. You have infinite attempts.`;
+        }
       }
       if (response.isCorrect || response.remainingAttempts === 0) {
         await switchQuestion("next");
@@ -172,6 +171,7 @@ async function submitQuestion() {
 //add a watch function so when for static questions, the question is saved when the user moves to the next question
 //right now answer saves, it needs to become highlighted again on the frontend if the user goes back to the question.
 //maybe retrieve the answer from the backend and set it to selectedChoice.value
+//property: static user answer, oleg will add that to getStaticQuestion :3
 
 watch(
   currentQuestionIndex,
@@ -180,10 +180,8 @@ watch(
       try {
         if (selectedChoice.value && currentQuestion.value) {
           await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
-          console.log(selectedChoice.value);
         }
       } catch (error) {
-        console.log(selectedChoice.value);
         console.error("Error saving question:", error);
       }
     }
