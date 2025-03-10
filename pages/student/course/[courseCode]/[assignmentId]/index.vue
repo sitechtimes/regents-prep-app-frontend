@@ -5,10 +5,10 @@
         <Transition name="menu-slide">
           <div v-if="assignmentInProgress" class="fixed left-0 top-0 z-50 flex h-dvh w-screen items-center justify-center bg-body">
             <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" @close="assignmentInProgress = false" />
-            <!--header doesnt exist? something with css and overflow needs to be fixed-->
+            <!--now scrolls-->
             <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
               <h2 class="text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-              <p class="text-neutral-100" v-html="currentQuestion?.question.text"></p>
+              <p class="overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
               <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
                 <button
@@ -116,6 +116,8 @@ watch(
         const question = await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1);
         currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
         currentQuestion.value = question;
+        //find a way to highlight the selected answer when the user goes back to the question
+        //staticUserAnswer: answerID
       } else {
         const question = await getNextDynamicQuestion(currentAssignment.value.id);
         currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;

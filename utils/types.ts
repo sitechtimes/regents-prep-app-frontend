@@ -20,6 +20,8 @@ export interface Question {
 export interface QuestionInterface {
   /** @readonly ID of the question. */
   id: number;
+  /** @readonly Selected answer. */
+  staticUserAnswer: boolean | null;
   /** @readonly Number of attempts allowed.
    *
    * If `null`, there is no limit.
