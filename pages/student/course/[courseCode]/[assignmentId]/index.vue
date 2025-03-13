@@ -21,22 +21,6 @@
                   v-html="choice.text"
                 ></button>
               </div>
-              <!--<div
-                v-if="currentQuestion?.question.answerType === 'Multiple Choice' && currentAssignment.assignment.isStatic"
-                v-for="choice in currentQuestion?.question.answers"
-                class="mt-4 flex w-full flex-col items-start space-y-3 overflow-y-auto"
-              >
-                <button
-                  type="button"
-                  class="w-full rounded-lg bg-neutral-300 px-6 py-3 shadow-sm"
-                  :class="{
-                    'bg-neutral-500': choice.selected
-                  }"
-                  @click="selectChoiceStatic(choice)"
-                  v-html="choice.text"
-                ></button>
-              </div> -->
-
               <div v-if="currentAssignment.assignment.isStatic" class="mt-8 flex w-full items-center justify-end gap-6 px-10">
                 <button class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200" type="button" @click="switchQuestion('previous')">
                   <img class="size-5 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
@@ -109,13 +93,18 @@ watch(
   async () => {
     if (!currentAssignment.value) return;
 
-    const alreadyFetchedQuestion = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
+    const alreadyFetchedQuestion = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface;
     if (alreadyFetchedQuestion) return (currentQuestion.value = alreadyFetchedQuestion);
     try {
       if (currentAssignment.value.assignment.isStatic) {
         const question = await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1);
         currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
         currentQuestion.value = question;
+        if (selectedChoice.value !== undefined) {
+          currentQuestion.value.staticUserAnswer = selectedChoice.value.id;
+          //inconsistency with the backend? it's userAnswer in the backend, but staticUserAnswer in the frontend.
+          //choice.selected for the certain choice needs to be set to "true" for it to be highlighted
+        }
         //find a way to highlight the selected answer when the user goes back to the question
         //staticUserAnswer: answerID
       } else {
@@ -124,6 +113,7 @@ watch(
         currentQuestion.value = question;
         //issue: when leaving it resets the question index to 1. it will still display the third question, but itll say it as question 1 (purely frontend thing)
         //it's possible this is an issue in Sidebar.vue as well, but it's reflected in both the sidebar and the question # so it's likely here
+        //leaving this as a bug for someone else bc it's just a visual bug
       }
     } catch (error) {
       console.error(error);
@@ -145,35 +135,30 @@ async function switchQuestion(direction: "previous" | "next") {
 
 async function submitQuestion() {
   try {
-    if (selectedChoice.value && currentQuestion.value) {
-      const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
-      isAnswerCorrect.value = response.isCorrect;
-      remainingAttempts.value = response.remainingAttempts;
-      if (response.isCorrect) {
-        feedbackMessage.value = "Previous question correct! 🎉";
-      } else if (response.remainingAttempts === 0) {
-        feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
-      } else {
-        feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts} attempts left.`;
-        if (response.remainingAttempts === null) {
-          feedbackMessage.value = `Incorrect. You have infinite attempts.`;
-        }
-      }
-      if (response.isCorrect || response.remainingAttempts === 0) {
-        await switchQuestion("next");
-      }
-    } else {
+    if (!selectedChoice.value || !currentQuestion.value) {
       console.warn("No answer selected!");
+      return;
+    }
+
+    const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
+    isAnswerCorrect.value = response.isCorrect;
+    remainingAttempts.value = response.remainingAttempts;
+
+    if (response.isCorrect) {
+      feedbackMessage.value = "Previous question correct! 🎉";
+    } else if (response.remainingAttempts === 0) {
+      feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
+    } else {
+      feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts ?? "infinite"} attempts left.`;
+    }
+
+    if (response.isCorrect || response.remainingAttempts === 0) {
+      await switchQuestion("next");
     }
   } catch (error) {
     console.error("Error submitting question:", error);
   }
 }
-
-//add a watch function so when for static questions, the question is saved when the user moves to the next question
-//right now answer saves, it needs to become highlighted again on the frontend if the user goes back to the question.
-//maybe retrieve the answer from the backend and set it to selectedChoice.value
-//property: static user answer, oleg will add that to getStaticQuestion :3
 
 watch(
   currentQuestionIndex,
