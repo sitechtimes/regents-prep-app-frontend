@@ -66,7 +66,7 @@ async function submit() {
     const course = await joinCourse(joinCode.value);
     isLoading.value = false;
 
-    studentCourses.value.splice(0, 0, course);
+    studentCourses.value = [...studentCourses.value, course];
     isSuccess.value = true;
 
     setTimeout(() => {
