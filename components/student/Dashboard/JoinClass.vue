@@ -38,7 +38,6 @@ defineProps<{ show: boolean }>();
 const emit = defineEmits<{ close: [void] }>();
 
 const userStore = useUserStore();
-const { studentCourses } = storeToRefs(userStore);
 
 const isLoading = ref(false);
 const isSuccess = ref(false);
@@ -61,17 +60,20 @@ async function submit() {
   if (!joinCode.value) return;
   isLoading.value = true;
   isErrored.value = false;
-
   try {
     const course = await joinCourse(joinCode.value);
     isLoading.value = false;
-
-    studentCourses.value = [...studentCourses.value, course];
+    userStore.$patch((state) => {
+      state.studentCourses = [...state.studentCourses, course];
+    });
     isSuccess.value = true;
 
     setTimeout(() => {
       isSuccess.value = false;
       closeModal();
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
     }, 1500);
   } catch (error) {
     console.error(error);
