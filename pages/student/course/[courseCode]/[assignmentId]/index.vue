@@ -5,7 +5,6 @@
         <Transition name="menu-slide">
           <div v-if="assignmentInProgress" class="fixed left-0 top-0 z-50 flex h-dvh w-screen items-center justify-center bg-body">
             <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" @close="assignmentInProgress = false" />
-            <!--now scrolls-->
             <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
               <h2 class="text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
               <p class="overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
@@ -102,18 +101,11 @@ watch(
         currentQuestion.value = question;
         if (selectedChoice.value !== undefined) {
           currentQuestion.value.staticUserAnswer = selectedChoice.value.id;
-          //inconsistency with the backend? it's userAnswer in the backend, but staticUserAnswer in the frontend.
-          //choice.selected for the certain choice needs to be set to "true" for it to be highlighted
         }
-        //find a way to highlight the selected answer when the user goes back to the question
-        //staticUserAnswer: answerID
       } else {
         const question = await getNextDynamicQuestion(currentAssignment.value.id);
         currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
         currentQuestion.value = question;
-        //issue: when leaving it resets the question index to 1. it will still display the third question, but itll say it as question 1 (purely frontend thing)
-        //it's possible this is an issue in Sidebar.vue as well, but it's reflected in both the sidebar and the question # so it's likely here
-        //leaving this as a bug for someone else bc it's just a visual bug
       }
     } catch (error) {
       console.error(error);
