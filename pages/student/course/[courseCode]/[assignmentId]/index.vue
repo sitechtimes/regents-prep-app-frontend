@@ -39,17 +39,16 @@
                   <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
                 </button>
               </div>
-
-              <div v-if="currentAssignment.assignment.isStatic === false" class="mt-8 flex w-full items-center justify-end gap-6 px-10">
-                <button class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200" type="button" @click="submitQuestion()">Submit</button>
-              </div>
-
-              <div v-if="feedbackMessage">
-                <p class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ feedbackMessage }}</p>
-              </div>
-              <div v-if="errorMessage">
-                <p class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ errorMessage }}</p>
-              </div>
+              <button
+                v-if="!currentAssignment.assignment.isStatic"
+                class="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-neutral-100 px-10 py-2 text-xl hover:bg-neutral-200"
+                type="button"
+                @click="submitQuestion"
+              >
+                Submit
+              </button>
+              <p v-if="feedbackMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ feedbackMessage }}</p>
+              <p v-if="errorMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ errorMessage }}</p>
             </div>
           </div>
         </Transition>
@@ -69,16 +68,14 @@ const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 const { studentCurrentCourse, currentQuestion } = storeToRefs(userStore);
-const feedbackMessage = ref<string>("");
-const errorMessage = ref<string>("");
-const isAnswerCorrect = ref<boolean>(false);
-const remainingAttempts = ref<number>(0);
+const feedbackMessage = ref("");
+const errorMessage = ref("");
+const isAnswerCorrect = ref(false);
+const remainingAttempts = ref(0);
 const selectedChoice = ref<Question["answers"][0]>();
 
 function selectChoice(choice: Question["answers"][0]) {
-  currentQuestion.value?.question.answers.forEach((answer) => {
-    answer.selected = false;
-  });
+  currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
   choice.selected = true;
   selectedChoice.value = choice;
 }
@@ -103,7 +100,7 @@ watch(
   async () => {
     if (!currentAssignment.value) return;
 
-    const alreadyFetchedQuestion = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface;
+    const alreadyFetchedQuestion = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
     if (alreadyFetchedQuestion) return (currentQuestion.value = alreadyFetchedQuestion);
     try {
       if (currentAssignment.value.assignment.isStatic) {
@@ -128,56 +125,37 @@ watch(
 
 async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
-
   const newIndex = direction === "previous" ? currentQuestionIndex.value - 1 : currentQuestionIndex.value + 1;
-
-  if (newIndex >= 0 && newIndex < currentAssignment.value.assignment.numQuestions) {
-    await changeRouteQuery({ q: newIndex });
-  }
+  if (newIndex >= 0 && newIndex < currentAssignment.value.assignment.numQuestions) await changeRouteQuery({ q: newIndex });
 }
 
 async function submitQuestion() {
   try {
-    if (!selectedChoice.value || !currentQuestion.value) {
-      console.warn("No answer selected!");
-      return;
-    }
+    if (!selectedChoice.value || !currentQuestion.value) return;
 
     const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
     isAnswerCorrect.value = response.isCorrect;
     remainingAttempts.value = response.remainingAttempts;
 
-    if (response.isCorrect) {
-      feedbackMessage.value = "Previous question correct! 🎉";
-    } else if (response.remainingAttempts === 0) {
-      feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
-    } else {
-      feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts ?? "infinite"} attempts left.`;
-    }
+    if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
+    else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
+    else feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts ?? "infinite"} attempts left.`;
 
-    if (response.isCorrect || response.remainingAttempts === 0) {
-      await switchQuestion("next");
-    }
+    if (response.isCorrect || response.remainingAttempts === 0) await switchQuestion("next");
   } catch (error) {
     console.error("Error submitting question:", error);
   }
 }
 
-watch(
-  currentQuestionIndex,
-  async () => {
-    if (currentAssignment.value?.assignment.isStatic) {
-      try {
-        if (selectedChoice.value && currentQuestion.value) {
-          await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
-        }
-      } catch (error) {
-        console.error("Error saving question:", error);
-      }
+watch(currentQuestionIndex, async () => {
+  if (currentAssignment.value?.assignment.isStatic) {
+    try {
+      if (selectedChoice.value && currentQuestion.value) await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
+    } catch (error) {
+      console.error("Error saving question:", error);
     }
-  },
-  { deep: true }
-);
+  }
+});
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
   event.preventDefault();

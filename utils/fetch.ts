@@ -42,17 +42,12 @@ export async function getCourseStudents(courseId: number) {
   return requestEndpoint<TeacherStudentList[]>(`courses/${courseId}/teacher/student-list/`);
 }
 
+/** Requests the `courses/student/get-next-dynamic-question/` endpoint */
 export async function getNextDynamicQuestion(assignmentId: number) {
-  /*   const data = await requestEndpoint<QuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
-
-  for (const answer of data.question.answers) {
-    answer.selected = false;
-  }
-
-  return data; */
   return requestEndpoint<QuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
 }
 
+/** Requests the `courses/student/get-static-question/assignmentId/questionIndex/` endpoint */
 export async function getNextStaticQuestion(assignmentId: number, questionIndex: number) {
   return requestEndpoint<QuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
 }
