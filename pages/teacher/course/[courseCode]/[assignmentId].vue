@@ -1,12 +1,9 @@
 <template>
-  <div>
-    <h1>teacher assignment view</h1>
-    <p>{{ route.params.assignmentId }}</p>
+  <div class="flex min-h-screen items-center justify-center">
+    <img src="https://bigrat.monster/media/bigrat.jpg" />
   </div>
 </template>
 
-<script setup lang="ts">
-const route = useRoute();
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>
