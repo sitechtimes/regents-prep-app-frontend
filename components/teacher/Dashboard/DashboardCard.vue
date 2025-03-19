@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-[32rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-[var(--faded-bg-color)] transition-all duration-300 ease-in-out hover:border-[var(--primary)] hover:shadow-lg hover:dark:shadow-[var(--gray)]"
+    class="flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-[var(--faded-bg-color)] transition-all duration-300 ease-in-out hover:border-[var(--primary)] hover:shadow-lg sm:w-[10rem] md:w-[15rem] lg:w-[32rem] hover:dark:shadow-[var(--gray)]"
   >
     <div class="flex h-1/2 w-full flex-col items-center justify-end p-2 drop-shadow-md" :style="{ backgroundColor: subjectColors[course.subject] }">
       <h2 :title="course.name" class="mt-4 h-1/2 w-full overflow-hidden overflow-ellipsis text-nowrap text-center text-4xl font-semibold">{{ course.name }}</h2>
