@@ -12,6 +12,7 @@
             @click="router.push(`/student/course/${course.id}`)"
           />
         </div>
+
         <div v-else class="flex h-full w-full items-center justify-center overflow-hidden">
           <div class="flex flex-col items-center gap-4">
             <h2 id="no-classes" class="text-4xl font-extrabold text-[var(--text-color)] md:text-5xl">No classes found!</h2>
