@@ -1,10 +1,9 @@
 <template>
-  <div class="flex h-full w-full flex-col items-start justify-start">
-    <div v-if="loaded" class="h-full w-full">
+  <div class="flex w-full flex-col items-start justify-start">
+    <div v-if="loaded" class="w-full">
       <NotFound :show-modal="showNotFound" user-type="teacher" :message="route.query.course ? 'class' : 'assignment'" />
-
-      <div class="flex h-full w-full flex-col">
-        <div v-if="teacherCourses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top">
+      <div class="flex w-full flex-col">
+        <div v-if="teacherCourses.length > 0" class="flex flex-wrap content-start items-start justify-around gap-8">
           <!--prettier-ignore-->
           <TeacherDashboardCard
             v-for="course in (teacherCourses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
