@@ -107,11 +107,9 @@ watch(
     let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
     if (!question) {
       try {
-        if (currentAssignment.value.assignment.isStatic) {
-          question = await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1);
-        } else {
-          question = await getNextDynamicQuestion(currentAssignment.value.id);
-        }
+        question = currentAssignment.value.assignment.isStatic
+          ? await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1)
+          : await getNextDynamicQuestion(currentAssignment.value.id);
         currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
       } catch (error) {
         console.error(error);
