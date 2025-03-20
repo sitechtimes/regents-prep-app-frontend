@@ -1,5 +1,6 @@
 <template>
   <NuxtLink
+    v-if="!assignment.dateSubmitted"
     :to="
       assignment.assignment.dueDate >= currentTime || assignment.assignment.lateSubmissions
         ? `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`
