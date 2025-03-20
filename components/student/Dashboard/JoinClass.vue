@@ -38,6 +38,7 @@ defineProps<{ show: boolean }>();
 const emit = defineEmits<{ close: [void] }>();
 
 const userStore = useUserStore();
+const { studentCourses } = storeToRefs(userStore);
 
 const isLoading = ref(false);
 const isSuccess = ref(false);
@@ -63,9 +64,8 @@ async function submit() {
   try {
     const course = await joinCourse(joinCode.value);
     isLoading.value = false;
-    userStore.$patch((state) => {
-      state.studentCourses = [...state.studentCourses, course];
-    });
+
+    studentCourses.value.splice(0, 0, course);
     isSuccess.value = true;
 
     setTimeout(() => {
