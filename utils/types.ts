@@ -8,6 +8,8 @@ export interface Answer {
    * @warning Must be manually added to `Question`; this field is not returned from the API.
    */
   selected: boolean;
+  /** @readonly Selected answer. */
+  staticUserAnswer: number | null;
 }
 
 export interface Question {
