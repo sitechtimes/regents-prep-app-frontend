@@ -13,9 +13,7 @@
                 <button
                   type="button"
                   class="w-full rounded-lg bg-neutral-300 px-6 py-3 shadow-sm"
-                  :class="{
-                    'bg-neutral-500': choice.selected
-                  }"
+                  :class="{ 'bg-neutral-500': choice.id === choice.staticUserAnswer }"
                   @click="selectChoice(choice)"
                   v-html="choice.text"
                 ></button>
@@ -70,11 +68,9 @@ const userStore = useUserStore();
 const { studentCurrentCourse, currentQuestion } = storeToRefs(userStore);
 const feedbackMessage = ref("");
 const errorMessage = ref("");
-const isAnswerCorrect = ref(false);
-const remainingAttempts = ref(0);
-const selectedChoice = ref<Question["answers"][0]>();
+const selectedChoice = ref<Answer>();
 
-function selectChoice(choice: Question["answers"][0]) {
+function selectChoice(choice: Answer) {
   currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
   choice.selected = true;
   selectedChoice.value = choice;
@@ -99,22 +95,28 @@ watch(
   currentQuestionIndex,
   async () => {
     if (!currentAssignment.value) return;
-
+    if (currentAssignment.value?.assignment.isStatic && selectedChoice.value && currentQuestion.value) {
+      try {
+        await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
+      } catch (error) {
+        console.error("Error saving question:", error);
+      }
+    }
     const alreadyFetchedQuestion = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
     if (alreadyFetchedQuestion) return (currentQuestion.value = alreadyFetchedQuestion);
     try {
+      let question;
       if (currentAssignment.value.assignment.isStatic) {
-        const question = await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1);
-        currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
-        currentQuestion.value = question;
-        if (selectedChoice.value !== undefined) {
-          currentQuestion.value.staticUserAnswer = selectedChoice.value.id;
+        question = await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1);
+        if (selectedChoice.value !== undefined && currentQuestion.value) {
+          question.staticUserAnswer = selectedChoice.value.id;
+          selectedChoice.value.selected = true;
         }
       } else {
-        const question = await getNextDynamicQuestion(currentAssignment.value.id);
-        currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
-        currentQuestion.value = question;
+        question = await getNextDynamicQuestion(currentAssignment.value.id);
       }
+      currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
+      currentQuestion.value = question;
     } catch (error) {
       console.error(error);
       errorMessage.value = "Error fetching question. Please try again.";
@@ -134,28 +136,17 @@ async function submitQuestion() {
     if (!selectedChoice.value || !currentQuestion.value) return;
 
     const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
-    isAnswerCorrect.value = response.isCorrect;
-    remainingAttempts.value = response.remainingAttempts;
 
     if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
     else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
-    else feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts ?? "infinite"} attempts left.`;
+    else if (!response.remainingAttempts) feedbackMessage.value = `Incorrect. Try again!`;
+    else feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts} attempts left.`;
 
     if (response.isCorrect || response.remainingAttempts === 0) await switchQuestion("next");
   } catch (error) {
     console.error("Error submitting question:", error);
   }
 }
-
-watch(currentQuestionIndex, async () => {
-  if (currentAssignment.value?.assignment.isStatic) {
-    try {
-      if (selectedChoice.value && currentQuestion.value) await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
-    } catch (error) {
-      console.error("Error saving question:", error);
-    }
-  }
-});
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
   event.preventDefault();
