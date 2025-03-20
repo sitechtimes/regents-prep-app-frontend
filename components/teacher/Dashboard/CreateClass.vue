@@ -5,20 +5,20 @@
         <h2 class="text-xl">Create New Course</h2>
         <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
           <label class="du-label" for="course-name">Course Name <span title="Required" class="font-2xl text-red-500">*</span></label>
-          <input id="course-name" v-model="courseName" class="du-input w-96 bg-gray-200" type="text" placeholder="Enter the name of the course" />
+          <input id="course-name" v-model="courseName" class="du-input w-96 bg-gray-200 text-xl" type="text" placeholder="Enter the name of the course" />
 
           <label class="du-label" for="course-subject">Course Subject <span title="Required" class="font-2xl text-red-500">*</span></label>
-          <select id="course-subject" v-model="courseSubject" class="du-select w-96 bg-gray-200">
+          <select id="course-subject" v-model="courseSubject" class="du-select w-96 bg-gray-200 text-xl">
             <option value="" selected>Select the subject of the course</option>
             <option v-for="regents in Object.values(regentsTypes).flat().sort()" :key="regents" :value="regents">{{ regents }}</option>
           </select>
 
           <label class="du-label" for="course-name">Period <span title="Required" class="font-2xl text-red-500">*</span></label>
-          <div class="flex w-96 items-center justify-between">
+          <div class="flex w-96 items-center justify-between gap-1">
             <button
               v-for="num in 9"
               :key="num"
-              class="h-12 flex-1 duration-200"
+              class="h-12 flex-1 text-xl duration-200 hover:bg-gray-300"
               :class="{ 'rounded-l-lg': num == 1, 'rounded-r-lg': num == 9, 'bg-gray-accent': num != coursePeriod, 'bg-green-accent': num == coursePeriod }"
               type="button"
               @click="coursePeriod = num"

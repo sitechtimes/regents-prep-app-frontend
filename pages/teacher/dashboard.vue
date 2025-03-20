@@ -4,7 +4,7 @@
       <NotFound :show-modal="showNotFound" user-type="teacher" :message="route.query.course ? 'class' : 'assignment'" />
 
       <div class="flex h-full w-full flex-col">
-        <div v-if="teacherCourses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top">
+        <div v-if="teacherCourses.length > 0" class="flex flex-wrap place-content-start items-start justify-around gap-8 align-top">
           <!--prettier-ignore-->
           <TeacherDashboardCard
             v-for="course in (teacherCourses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
