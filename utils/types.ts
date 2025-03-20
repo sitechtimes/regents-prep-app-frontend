@@ -31,6 +31,22 @@ export interface QuestionInterface {
   question: Question;
 }
 
+/** @param T - Whether the `guaranteedQuestions` field should be an array of `Question` objects or an array of question IDs */
+export interface TeacherAssignmentStatistic<T extends boolean> {
+  statisticsData: {
+    /** ID of the assignment instance */
+    assignmentInstance: number;
+    /** ID of the question */
+    question: number;
+    /** User answers for the entire assignment */
+    userAnswers: number[];
+    /** Time spent on the assignment, in seconds */
+    timeSpent: number;
+  };
+  /** Array of guaranteed questions if `T` is true, question IDs if false */
+  guaranteedQuestions: T extends true ? Question[] : number[];
+}
+
 export interface CreateCourse {
   id: number;
   joinCode: string;

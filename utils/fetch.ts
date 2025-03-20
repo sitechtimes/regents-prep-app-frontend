@@ -114,3 +114,12 @@ export async function submitCreateAssignment(
     attemptsAllowed
   });
 }
+
+/** Requests the `courses/teacher/assignment/{assignmentId}/per-question-statistics/{includeGuaranteedQuestions}/{studentIds}` endpoint
+ * @param assignmentId - The ID of the assignment for which to get statistics.
+ * @param includeGuaranteedQuestions - Whether to include guarnanteed questions, or just their IDs. Defaults to false.
+ * @param studentIds - An optional array of student IDs for which to get statistics. Defaults to all students.
+ */
+export async function getTeacherQuestionStatistic<T extends boolean = false>(assignmentId: number, includeGuaranteedQuestions?: T, studentIds?: number[]) {
+  return requestEndpoint<TeacherAssignmentStatistic<T>>(`/courses/teacher/assignment/${assignmentId}/per-question-statistics/${!!includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`);
+}
