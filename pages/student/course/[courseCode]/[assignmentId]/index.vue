@@ -13,7 +13,7 @@
                 <button
                   type="button"
                   class="w-full rounded-lg bg-neutral-300 px-6 py-3 shadow-sm"
-                  :class="{ 'bg-neutral-500': choice.id === choice.staticUserAnswer }"
+                  :class="{ 'bg-neutral-500': choice.selected }"
                   @click="selectChoice(choice)"
                   v-html="choice.text"
                 ></button>
@@ -71,9 +71,11 @@ const errorMessage = ref("");
 const selectedChoice = ref<Answer>();
 
 function selectChoice(choice: Answer) {
+  if (!currentQuestion.value) return;
   currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
   choice.selected = true;
   selectedChoice.value = choice;
+  currentQuestion.value.staticUserAnswer = choice.id;
 }
 
 const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === Number(route.params.assignmentId)));
@@ -102,24 +104,26 @@ watch(
         console.error("Error saving question:", error);
       }
     }
-    const alreadyFetchedQuestion = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
-    if (alreadyFetchedQuestion) return (currentQuestion.value = alreadyFetchedQuestion);
-    try {
-      let question;
-      if (currentAssignment.value.assignment.isStatic) {
-        question = await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1);
-        if (selectedChoice.value !== undefined && currentQuestion.value) {
-          question.staticUserAnswer = selectedChoice.value.id;
-          selectedChoice.value.selected = true;
+    let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
+    if (!question) {
+      try {
+        if (currentAssignment.value.assignment.isStatic) {
+          question = await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1);
+        } else {
+          question = await getNextDynamicQuestion(currentAssignment.value.id);
         }
-      } else {
-        question = await getNextDynamicQuestion(currentAssignment.value.id);
+        currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
+      } catch (error) {
+        console.error(error);
+        errorMessage.value = "Error fetching question. Please try again.";
       }
-      currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
-      currentQuestion.value = question;
-    } catch (error) {
-      console.error(error);
-      errorMessage.value = "Error fetching question. Please try again.";
+    }
+    currentQuestion.value = question;
+    if (question?.staticUserAnswer !== undefined) {
+      question.question.answers.forEach((answer) => {
+        answer.selected = answer.id === question.staticUserAnswer;
+      });
+      selectedChoice.value = question.question.answers.find((answer) => answer.id === question.staticUserAnswer);
     }
   },
   { immediate: true }
