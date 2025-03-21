@@ -70,22 +70,24 @@ const submitState = reactive({
 
 async function submit() {
   submitState.isLoading = true;
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const response = await submitAssignment(props.assignment.id);
-    // TODO: do smth with response
 
-    submitState.isLoading = false;
-    submitState.isSuccess = true;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data: response, error } = await tryCatch(submitAssignment(props.assignment.id));
+  // TODO: do smth with response
 
-    await changeRouteQuery({ q: undefined });
-    window.location.reload();
-  } catch (error) {
+  if (error) {
     submitState.isLoading = false;
     submitState.isErrored = true;
     console.error(error);
     // TODO: show error to user
+    return;
   }
+
+  submitState.isLoading = false;
+  submitState.isSuccess = true;
+
+  await changeRouteQuery({ q: undefined });
+  window.location.reload();
 }
 </script>
 

@@ -84,25 +84,23 @@ async function createCourse() {
   if (!courseName.value || !courseSubject.value || !Object.values(regentsTypes).flat().includes(courseSubject.value) || !coursePeriod.value) return;
 
   const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
-  try {
-    const { id, joinCode } = await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
 
-    userStore.teacherCourses.push({
-      id,
-      joinCode,
-      name: courseName.value,
-      subject: Object.keys(regentsTypes)[subjectCode] as keyof typeof regentsTypes,
-      period: coursePeriod.value,
-      numStudents: 0,
-      assignmentsLength: 0,
-      teacher: userStore.name
-    });
+  const { data: course, error } = await tryCatch(submitCreateCourse(courseName.value, coursePeriod.value, subjectCode));
+  if (error) return console.error("Failed to create course:", error);
 
-    successModal.value?.showModal();
-    emit("close");
-  } catch (error) {
-    console.error("Failed to create course:", error);
-  }
+  userStore.teacherCourses.push({
+    id: course.id,
+    joinCode: course.joinCode,
+    name: courseName.value,
+    subject: Object.keys(regentsTypes)[subjectCode] as keyof typeof regentsTypes,
+    period: coursePeriod.value,
+    numStudents: 0,
+    assignmentsLength: 0,
+    teacher: userStore.name
+  });
+
+  successModal.value?.showModal();
+  emit("close");
 }
 </script>
 

@@ -80,15 +80,15 @@ watch(
     const alreadyFetchedQuestion = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
     if (alreadyFetchedQuestion) return (currentQuestion.value = alreadyFetchedQuestion);
 
-    try {
-      const question = await getNextQuestion(currentAssignment.value.id);
-
-      currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
-      currentQuestion.value = question;
-    } catch (error) {
+    const { data: question, error } = await tryCatch(getNextQuestion(currentAssignment.value.id));
+    if (error) {
       console.error(error);
       // TODO: show error to user
+      return;
     }
+
+    currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
+    currentQuestion.value = question;
   },
   { immediate: true }
 );

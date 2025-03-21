@@ -1,3 +1,32 @@
+interface Success<T> {
+  data: T;
+  error?: never;
+}
+interface Failure<E> {
+  data?: never;
+  error: E;
+}
+
+export type Result<T, E = Error> = Success<T> | Failure<E>;
+/** Implements try/catch for a given promise.
+ *
+ * If the promise resolves, returns an object with a `data` property. If the promise rejects, returns an object with an `error` property.
+ * @template E - the type of error to return. Defaults to `Error`.
+ * @param promise - the promise to implement try/catch for.
+ * @example
+ * const { data, error } = await tryCatch(getData());
+ * if (error) return; // handle the error
+ * doSomething(data); // data can now be used
+ */
+export async function tryCatch<T, E = Error>(promise: Promise<T>): Promise<Result<T, E>> {
+  try {
+    const data = await promise;
+    return { data };
+  } catch (error) {
+    return { error: error as E };
+  }
+}
+
 /** Makes a request to the given endpoint with the given method and body.
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.

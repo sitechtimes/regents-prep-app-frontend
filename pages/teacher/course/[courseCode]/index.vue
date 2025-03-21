@@ -1,60 +1,53 @@
 <template>
-  <div v-if="loaded && teacherCurrentCourse">
-    <!-- Main content container -->
-    <div class="flex h-[80%] w-full gap-4 p-4">
-      <!-- Current Assignments Section -->
-      <div class="flex flex-1 flex-col items-center rounded-lg border border-[var(--border-color)] p-4">
-        <h3 class="pb-2 text-3xl font-bold">Current Assignments:</h3>
-        <div v-if="!loaded" class="loading-div h-28 w-full rounded-lg border border-[var(--border-color)] p-2 shadow-md"></div>
-        <div v-else class="flex w-full flex-col items-center justify-center">
-          <p v-if="!currentAssignments?.length" id="no-current-assignments" class="mb-4 text-center">No Current Assignments</p>
-          <div class="flex w-full flex-col gap-4">
-            <TeacherAssignmentCard
-              v-for="assignment in currentAssignments"
-              :key="assignment.id"
-              :course="teacherCurrentCourse"
-              :assignment="assignment"
-              :current-date="currentDate"
-              @click="router.push(`/teacher/course/${teacherCurrentCourse.id}/${assignment.id}`)"
-            />
-          </div>
-        </div>
+  <div v-if="loaded && teacherCurrentCourse" class="flex w-full flex-col items-start justify-start gap-5 p-4 px-64">
+    <div class="flex w-full flex-col items-end justify-center gap-4">
+      <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[teacherCurrentCourse.subject] }">
+        <h1 class="text-4xl font-semibold">{{ teacherCurrentCourse.name }}</h1>
+        <h3 class="text-xl">Period {{ teacherCurrentCourse.period }}</h3>
       </div>
 
-      <!-- Past Assignments Section -->
-      <div class="flex flex-1 flex-col items-center rounded-lg border border-[var(--border-color)] p-4">
-        <h3 class="pb-2 text-3xl font-bold">Past Assignments:</h3>
-        <div v-if="!loaded" class="loading-div h-28 w-full rounded-lg border border-[var(--border-color)] p-2 shadow-md"></div>
-        <div v-else class="flex w-full flex-col items-center justify-center">
-          <p v-if="!pastAssignments?.length" id="no-past-assignments" class="mb-4 text-center">No Past Assignments</p>
-          <div class="flex w-full flex-col gap-4">
-            <TeacherAssignmentCard
-              v-for="assignment in pastAssignments"
-              :key="assignment.id"
-              :course="teacherCurrentCourse"
-              :assignment="assignment"
-              :current-date="currentDate"
-              @click="router.push(`/teacher/course/${teacherCurrentCourse.id}/${assignment.id}`)"
-            />
-          </div>
-        </div>
+      <div class="flex items-center justify-center gap-4">
+        <NuxtLink
+          class="flex h-9 items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white p-0 transition duration-500 hover:border-neutral-400 lg:justify-start lg:p-2 lg:px-4 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-neutral-700"
+          :to="`/teacher/course/${teacherCurrentCourse.id}/roster`"
+        >
+          <img class="size-5 transition duration-500 dark:invert" src="/ui/users.svg" aria-hidden="true" />
+          <p class="hidden grow translate-y-px transition duration-500 lg:block">View Students</p>
+        </NuxtLink>
+        <NuxtLink
+          class="flex h-9 items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white p-0 transition duration-500 hover:border-neutral-400 lg:justify-start lg:p-2 lg:px-4 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-neutral-700"
+          :to="`/teacher/course/${teacherCurrentCourse.id}/create-assignment`"
+        >
+          <img class="size-5 transition duration-500 dark:invert" src="/ui/plus.svg" aria-hidden="true" />
+          <p class="hidden grow translate-y-px transition duration-500 lg:block">New Assignment</p>
+        </NuxtLink>
       </div>
     </div>
 
-    <!-- Action buttons -->
-    <div class="flex w-full gap-4 p-4">
-      <NuxtLink
-        :to="`/teacher/course/${teacherCurrentCourse.id}/roster`"
-        class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125"
+    <div class="flex w-full items-start justify-start border-b border-neutral-300">
+      <button
+        class="translate-y-0.5 border-b-4 p-2 px-8 text-2xl font-semibold transition"
+        :class="{ 'text-neutral-500 grayscale hover:grayscale-[.66]': currentTab === 'past' }"
+        :style="{ borderColor: subjectColors[teacherCurrentCourse.subject] }"
+        type="button"
+        @click="currentTab = 'current'"
       >
-        View Student List
-      </NuxtLink>
-      <NuxtLink
-        :to="`/teacher/course/${teacherCurrentCourse.id}/create-assignment`"
-        class="flex w-1/2 items-center justify-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] transition-all duration-300 ease-in-out hover:brightness-[0.85] hover:dark:brightness-125"
+        Current
+      </button>
+      <button
+        class="translate-y-0.5 border-b-4 p-2 px-8 text-2xl font-semibold transition"
+        :class="{ 'text-neutral-500 grayscale hover:grayscale-[.66]': currentTab === 'current' }"
+        :style="{ borderColor: subjectColors[teacherCurrentCourse.subject] }"
+        type="button"
+        @click="currentTab = 'past'"
       >
-        <p>Assign Student Homework</p>
-      </NuxtLink>
+        Past
+      </button>
+    </div>
+
+    <div class="mt-5 flex w-full flex-wrap items-center justify-center gap-4">
+      <TeacherAssignmentCard v-for="assignment in filteredAssignments" :key="assignment.id" :course="teacherCurrentCourse" :assignment="assignment" :current-date="currentDate" />
+      <p v-if="!filteredAssignments?.length" class="mb-4 text-center">No {{ currentTab }} assignments</p>
     </div>
   </div>
 </template>
@@ -65,20 +58,22 @@ definePageMeta({
   middleware: "teacher-get-course"
 });
 
-const router = useRouter();
 const userStore = useUserStore();
 const { teacherCourses, teacherCurrentCourse } = storeToRefs(userStore);
-const currentDate = ref(new Date());
+
+const currentDate = new Date();
+const currentTab = ref<"current" | "past">("current");
 
 const loaded = ref(false);
 const assignments = computed(() => teacherCurrentCourse.value?.assignments);
-const currentAssignments = computed(() => assignments.value?.filter((assignment) => new Date(assignment.dueDate) >= currentDate.value));
-const pastAssignments = computed(() => assignments.value?.filter((assignment) => new Date(assignment.dueDate) < currentDate.value));
+const filteredAssignments = computed(() =>
+  assignments.value?.filter((assignment) => (currentTab.value === "current" ? new Date(assignment.dueDate) >= currentDate : new Date(assignment.dueDate) < currentDate))
+);
 
 onMounted(() => (loaded.value = true));
 
 // for vitest
-defineExpose({ teacherCourses, teacherCurrentCourse, loaded, currentAssignments, pastAssignments });
+defineExpose({ teacherCourses, teacherCurrentCourse, loaded, filteredAssignments });
 </script>
 
 <style scoped>

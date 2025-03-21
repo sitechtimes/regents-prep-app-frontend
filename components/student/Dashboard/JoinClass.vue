@@ -62,22 +62,23 @@ async function submit() {
   isLoading.value = true;
   isErrored.value = false;
 
-  try {
-    const course = await joinCourse(joinCode.value);
-    isLoading.value = false;
+  const { data: course, error } = await tryCatch(joinCourse(joinCode.value));
+  isLoading.value = false;
 
-    studentCourses.value.splice(0, 0, course);
-    isSuccess.value = true;
-
-    setTimeout(() => {
-      isSuccess.value = false;
-      closeModal();
-    }, 1500);
-  } catch (error) {
+  if (error) {
     console.error(error);
     isLoading.value = false;
     isErrored.value = true;
+    return;
   }
+
+  studentCourses.value.splice(0, 0, course);
+  isSuccess.value = true;
+
+  setTimeout(() => {
+    isSuccess.value = false;
+    closeModal();
+  }, 1500);
 }
 </script>
 
