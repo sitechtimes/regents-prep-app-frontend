@@ -1,10 +1,10 @@
 <template>
   <button
-    class="group flex w-1/4 max-w-[33%] grow items-center justify-between gap-6 self-stretch rounded-xl bg-neutral-100 px-12 py-3 hover:bg-neutral-200"
+    class="group flex w-[45%] max-w-[50%] grow items-center justify-between gap-6 self-stretch rounded-xl bg-neutral-200 px-12 py-3 hover:bg-neutral-300"
     type="button"
     @click="emit('select', topic)"
   >
-    <p class="text-left text-xl font-semibold" v-html="loadedTopics[typeof topic === 'number' ? topic : topic.id].name"></p>
+    <p class="text-left text-xl font-semibold" v-html="loadedTopics[typeof topic === 'number' ? topic : topic.id]?.name"></p>
     <img class="size-7 group-hover:translate-x-1.5" src="/ui/chevronRight.svg" alt="Click to expand" />
   </button>
 </template>

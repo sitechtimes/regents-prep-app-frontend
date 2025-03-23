@@ -31,10 +31,14 @@
       <div>
         <p class="fo-label fo-label-text pointer-events-none shrink-0">Questions and Topics <span title="Required" class="font-2xl text-red-500">*</span></p>
         <div class="flex h-96 w-full items-center justify-center rounded-lg border border-neutral-400 bg-white hover:border-neutral-500">
-          <div class="mb-10 flex flex-col items-center justify-center">
+          <div v-if="!assignmentInfo.topicIds.length && !assignmentInfo.questionIds.length" class="mb-10 flex flex-col items-center justify-center">
             <img class="size-40 opacity-65" src="/ui/plus.svg" aria-hidden="true" />
             <h5 class="text-center text-xl font-bold text-neutral-500">No Questions or Topics Selected</h5>
             <p class="w-3/4 text-center text-sm font-medium text-neutral-400">Select questions and topics from the question bank to add them to this assignment!</p>
+          </div>
+
+          <div v-else class="flex h-full flex-col items-center justify-center overflow-y-scroll p-2">
+            <div v-for="question in assignmentInfo.questionIds" :key="question.id">{{ question.id }}</div>
           </div>
         </div>
       </div>
@@ -57,7 +61,7 @@
       </div>
     </form>
 
-    <TeacherAssignmentQuestionCatalog />
+    <TeacherAssignmentQuestionCatalog :view-only="false" @select-question="(id) => assignmentInfo.questionIds.push({ id, isGuaranteed: true })" />
   </div>
 </template>
 
@@ -87,15 +91,14 @@ const assignmentInfo = reactive({
     date: currentDateISO,
     time: "23:59"
   },
-  guaranteedQuestions: ref<number[]>([]),
-  randomQuestions: ref<number[]>([]),
-  topics: ref<number[]>([]),
+  questionIds: ref<{ id: number; isGuaranteed: boolean }[]>([]),
+  topicIds: ref<number[]>([]),
   lateSubmissions: false,
   timeAllotted: ref<number>(),
   attemptsAllowed: ref<number>()
 });
 
-const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.guaranteedQuestions.length || assignmentInfo.randomQuestions.length || assignmentInfo.topics.length));
+const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length));
 
 const createAssignmentResult = reactive({
   isLoading: false,

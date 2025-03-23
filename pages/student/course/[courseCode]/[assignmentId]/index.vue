@@ -74,7 +74,7 @@ function selectChoice(choice: Answer) {
   currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
   choice.selected = true;
   selectedChoice.value = choice;
-  currentQuestion.value.staticUserAnswer = choice.id;
+  currentQuestion.value.selectedAnswerId = choice.id;
 }
 
 const assignmentId = Number(route.params.assignmentId);
@@ -103,7 +103,7 @@ watch(
       if (error) console.error(error);
     }
 
-    let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
+    let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as StaticQuestionInterface | DynamicQuestionInterface | undefined;
     if (!question) {
       const { data, error } = currentAssignment.value.assignment.isStatic
         ? await tryCatch(getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1))
@@ -120,9 +120,10 @@ watch(
 
     currentQuestion.value = question;
 
-    if (question?.staticUserAnswer !== undefined) {
-      question.question.answers.forEach((answer) => (answer.selected = answer.id === question.staticUserAnswer));
-      selectedChoice.value = question.question.answers.find((answer) => answer.id === question.staticUserAnswer);
+    // for static questions
+    if (question?.selectedAnswerId !== undefined) {
+      (question as StaticQuestionInterface).question.answers.forEach((answer) => (answer.selected = answer.id === question.selectedAnswerId));
+      selectedChoice.value = (question as StaticQuestionInterface).question.answers.find((answer) => answer.id === question.selectedAnswerId);
     }
   },
   { immediate: true }

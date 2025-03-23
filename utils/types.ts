@@ -3,13 +3,14 @@ export interface Answer {
   id: number;
   /** @readonly What the answer choice says (HTML string). */
   text: string;
-  /**
-   * Used to store which answer the student selected.
-   * @warning Must be manually added to `Question`; this field is not returned from the API.
+  /** Used to store which answer the student selected.
+   * @warning Must be manually added to `Answer`; this field is not returned from the API.
    */
   selected: boolean;
-  /** @readonly Selected answer. */
-  staticUserAnswer: number | null;
+  /** @readonly ID of the selected answer.
+   * @warning only present for static questions.
+   */
+  selectedAnswerId: number | null;
 }
 
 export interface Question {
@@ -21,20 +22,40 @@ export interface Question {
   answers: Answer[];
 }
 
-export interface QuestionInterface {
-  /** @readonly ID of the question. */
+interface QuestionInterface {
+  /** @readonly ID of the question interface. */
   id: number;
-  /** @readonly Selected answer. */
-  staticUserAnswer: number | null;
-  /** @readonly Number of attempts allowed.
-   *
-   * If `null`, there is no limit.
-   */
-  questionsRemaining: number;
-  /** Number of remaining attempts. */
-  remainingAttempts: number | null;
-  /** @readonly Question data */
   question: Question;
+  selectedAnswerId: number | null;
+}
+
+export interface DynamicQuestionInterface extends QuestionInterface {
+  /** Number of attempts used on this dynamic question. */
+  answerAttemptsUsed: number;
+}
+
+export interface StaticQuestionInterface extends QuestionInterface {
+  /** Index of the question.
+   * @warning Only present if questionIndex was not passed in the URL.
+   * @warning Starts at 1, with 0 indicating an unknown index.
+   */
+  questionIndex: number;
+}
+
+export interface TopicQuestionInterface {
+  id: number;
+  /** @readonly What the answer choice says (HTML string). */
+  text: string;
+  answerType: "Multiple Choice" | "Written Response" | "True or False";
+  difficulty: number;
+  answers: {
+    id: number;
+    /** @readonly What the answer choice says (HTML string). */
+    text: string;
+    isCorrect: boolean;
+  }[];
+  correctFirstAttempts: number;
+  totalFirstAttempts: number;
 }
 
 /** @template T - Whether the `guaranteedQuestions` field should be an array of `Question` objects or an array of question IDs */
@@ -62,7 +83,7 @@ export interface Topic {
 export interface TopicMapped extends Topic {
   /** IDs of child topics */
   children: number[] | null;
-  questions: QuestionInterface[] | null;
+  questions: TopicQuestionInterface[];
 }
 
 export interface CreateCourse {

@@ -13,7 +13,7 @@ export const useUserStore = defineStore("userStore", () => {
   const studentCurrentCourse = ref<StudentCourse>();
   const teacherCurrentCourse = ref<TeacherCourse>();
 
-  const currentQuestion = ref<QuestionInterface>();
+  const currentQuestion = ref<DynamicQuestionInterface | StaticQuestionInterface>();
 
   async function init(): Promise<void> {
     const res = await fetch(`${config.public.backend}init/`, {

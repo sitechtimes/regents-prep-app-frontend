@@ -17,9 +17,9 @@
     <div class="flex w-full flex-col items-center justify-center gap-10">
       <div v-if="!currentTopic || currentTopic.hasChildren" class="flex w-full flex-col items-start justify-center gap-4">
         <h3 class="px-5 text-2xl font-bold">Topics</h3>
-        <div class="flex w-full flex-wrap items-center justify-center gap-4">
+        <div class="flex w-full flex-wrap items-center justify-start gap-4">
           <TeacherAssignmentCatalogTopic
-            v-for="topic in currentTopic ? currentTopic.children : initialTopics"
+            v-for="topic in currentTopic ? currentTopic.children?.sort((a, b) => a - b) : initialTopics"
             :key="typeof topic === 'number' ? topic : topic.id"
             :loaded-topics="loadedTopics"
             :topic="topic"
@@ -28,10 +28,16 @@
         </div>
       </div>
 
-      <div v-if="currentTopic?.hasQuestions" class="flex w-full flex-col items-start justify-center gap-4">
+      <div class="flex w-full flex-col items-start justify-center gap-4">
         <h3 class="px-5 text-2xl font-bold">Questions</h3>
-        <div class="flex w-full flex-wrap items-center justify-center gap-4">
-          <TeacherAssignmentCatalogQuestion v-for="question in currentTopic.questions" :key="question.id" :question="question" />
+        <div class="flex w-full flex-wrap items-center justify-start gap-4">
+          <TeacherAssignmentCatalogQuestion
+            v-for="question in currentTopic ? currentTopic.questions : initialQuestions"
+            :key="question.id"
+            :view-only="viewOnly"
+            :question="question"
+            @select="emit('selectQuestion', question.id)"
+          />
         </div>
       </div>
     </div>
@@ -39,12 +45,16 @@
 </template>
 
 <script setup lang="ts">
-// const props = defineProps<{}>();
-// const emit = defineEmits<{}>();
+defineProps<{ viewOnly: boolean }>();
+const emit = defineEmits<{
+  selectQuestion: [questionId: number];
+  selectTopic: [topicId: number];
+}>();
 
 /** @example { [id]: Topic } */
 const loadedTopics = ref<Record<number, TopicMapped>>({});
 const initialTopics = ref<Topic[]>([]);
+const initialQuestions = ref<TopicQuestionInterface[]>([]);
 
 async function loadQuestions(topicId: number) {
   const { data: questions, error } = await tryCatch(getQuestionsUnderTopic(topicId));
@@ -57,10 +67,7 @@ async function loadTopics(topicId: number) {
   const parentIsLoaded = parent !== undefined;
   if (parentIsLoaded && parent.hasChildren && parent.children?.length) return;
 
-  const { data: topics, error } = await tryCatch(getTopics(topicId));
-  if (error) return console.error(error);
-
-  for (const topic of topics) {
+  async function loadTopicsRecursively(topic: Topic) {
     const loadedTopic = loadedTopics.value[topic.id];
 
     if (loadedTopic) return;
@@ -68,30 +75,39 @@ async function loadTopics(topicId: number) {
     const mappedTopic: TopicMapped = {
       ...topic,
       children: topic.hasChildren ? [] : null,
-      questions: topic.hasQuestions ? ((await loadQuestions(topic.id)) ?? []) : null
+      questions: (await loadQuestions(topic.id)) ?? []
     };
     loadedTopics.value[topic.id] = mappedTopic;
     if (parentIsLoaded) parent.children?.push(topic.id);
   }
+
+  const { data: topics, error } = await tryCatch(getTopics(topicId));
+  if (error) return console.error(error);
+
+  console.log(topics);
+
+  for (const topic of topics) void loadTopicsRecursively(topic);
 
   return topics;
 }
 
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
-watch(currentTopic, async (topic) => {
+watch(currentTopic, (topic) => {
   if (!topic) return (currentTopicPath.value = []);
   if (currentTopicPath.value.includes(topic.id)) currentTopicPath.value = currentTopicPath.value.slice(0, currentTopicPath.value.indexOf(topic.id));
 
   if (topic) {
-    await loadTopics(topic.id);
+    void loadTopics(topic.id);
     currentTopicPath.value.push(topic.id);
   }
 });
 
 onMounted(async () => {
   const topics = await loadTopics(1);
+  const questions = await loadQuestions(1);
   if (topics) initialTopics.value = topics;
+  if (questions) initialQuestions.value = questions;
 });
 </script>
 

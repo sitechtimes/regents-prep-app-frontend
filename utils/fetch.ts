@@ -73,12 +73,12 @@ export async function getCourseStudents(courseId: number) {
 
 /** Requests the `courses/student/get-next-dynamic-question/` endpoint */
 export async function getNextDynamicQuestion(assignmentId: number) {
-  return requestEndpoint<QuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
+  return requestEndpoint<DynamicQuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
 }
 
 /** Requests the `courses/student/get-static-question/assignmentId/questionIndex/` endpoint */
 export async function getNextStaticQuestion(assignmentId: number, questionIndex: number) {
-  return requestEndpoint<QuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
+  return requestEndpoint<StaticQuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
 }
 
 /** Requests the `courses/student/submit-answer/` endpoint */
@@ -165,5 +165,5 @@ export async function getTopics(topicId: number) {
  * @param numOfQuestions - The number of questions to get. Defaults to 10.
  */
 export async function getQuestionsUnderTopic(topicId: number, offset = 0, includeQuestionCount = false, numOfQuestions = 10) {
-  return requestEndpoint<{ questions: QuestionInterface[] }>(`/questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}`);
+  return requestEndpoint<{ questions: TopicQuestionInterface[] }>(`/questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}`);
 }
