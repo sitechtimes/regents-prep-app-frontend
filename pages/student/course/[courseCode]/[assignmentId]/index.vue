@@ -58,8 +58,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "student-get-course",
-  requiresAuth: true
+  middleware: "student-get-course"
 });
 
 const route = useRoute();
@@ -78,7 +77,8 @@ function selectChoice(choice: Answer) {
   currentQuestion.value.staticUserAnswer = choice.id;
 }
 
-const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === Number(route.params.assignmentId)));
+const assignmentId = Number(route.params.assignmentId);
+const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
 
 const assignmentInProgress = ref(false);
 watch(assignmentInProgress, (val) => {
@@ -97,30 +97,31 @@ watch(
   currentQuestionIndex,
   async () => {
     if (!currentAssignment.value) return;
+
     if (currentAssignment.value?.assignment.isStatic && selectedChoice.value && currentQuestion.value) {
-      try {
-        await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
-      } catch (error) {
-        console.error("Error saving question:", error);
-      }
+      const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id));
+      if (error) console.error(error);
     }
+
     let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
     if (!question) {
-      try {
-        question = currentAssignment.value.assignment.isStatic
-          ? await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1)
-          : await getNextDynamicQuestion(currentAssignment.value.id);
-        currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
-      } catch (error) {
+      const { data, error } = currentAssignment.value.assignment.isStatic
+        ? await tryCatch(getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1))
+        : await tryCatch(getNextDynamicQuestion(currentAssignment.value.id));
+
+      if (error) {
         console.error(error);
         errorMessage.value = "Error fetching question. Please try again.";
+      } else {
+        question = data;
+        currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = data;
       }
     }
+
     currentQuestion.value = question;
+
     if (question?.staticUserAnswer !== undefined) {
-      question.question.answers.forEach((answer) => {
-        answer.selected = answer.id === question.staticUserAnswer;
-      });
+      question.question.answers.forEach((answer) => (answer.selected = answer.id === question.staticUserAnswer));
       selectedChoice.value = question.question.answers.find((answer) => answer.id === question.staticUserAnswer);
     }
   },

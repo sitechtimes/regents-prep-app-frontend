@@ -62,7 +62,10 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ layout: "teacher" });
+definePageMeta({
+  layout: "teacher",
+  middleware: "teacher-get-course"
+});
 
 const route = useRoute();
 const userStore = useUserStore();

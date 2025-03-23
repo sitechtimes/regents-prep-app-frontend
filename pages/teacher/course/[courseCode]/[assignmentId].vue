@@ -5,6 +5,11 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: "teacher",
+  middleware: "teacher-get-course"
+});
+
 const userStore = useUserStore();
 const { teacherCourses, teacherCurrentCourse } = storeToRefs(userStore);
 const route = useRoute();
