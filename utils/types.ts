@@ -1,25 +1,31 @@
+export interface Answer {
+  /** @readonly ID of the answer. */
+  id: number;
+  /** @readonly What the answer choice says (HTML string). */
+  text: string;
+  /**
+   * Used to store which answer the student selected.
+   * @warning Must be manually added to `Question`; this field is not returned from the API.
+   */
+  selected: boolean;
+  /** @readonly Selected answer. */
+  staticUserAnswer: number | null;
+}
+
 export interface Question {
   /** @readonly What the question says (HTML string). */
   text: string;
   /** @readonly The type of answer for the question. */
   answerType: "Multiple Choice" | "Written Response" | "True or False";
   /** @readonly Array of answers. */
-  answers: {
-    /** @readonly ID of the answer. */
-    id: number;
-    /** @readonly What the answer choice says (HTML string). */
-    text: string;
-    /**
-     * Used to store which answer the student selected.
-     * @warning Must be manually added to `Question`; this field is not returned from the API.
-     */
-    selected: boolean;
-  }[];
+  answers: Answer[];
 }
 
 export interface QuestionInterface {
   /** @readonly ID of the question. */
   id: number;
+  /** @readonly Selected answer. */
+  staticUserAnswer: number | null;
   /** @readonly Number of attempts allowed.
    *
    * If `null`, there is no limit.
@@ -107,6 +113,9 @@ export interface StudentAssignment extends Assignment {
 
     /** @readonly Date object of when the assignment was assigned (Date(UTC)). */
     dateAssigned: Date;
+
+    /** @readonly If the assignment is a static assignment.*/
+    isStatic: boolean;
 
     /** @readonly Object identifying the course assignment belongs to. */
     course?: {
