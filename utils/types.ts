@@ -31,7 +31,7 @@ export interface QuestionInterface {
   question: Question;
 }
 
-/** @param T - Whether the `guaranteedQuestions` field should be an array of `Question` objects or an array of question IDs */
+/** @template T - Whether the `guaranteedQuestions` field should be an array of `Question` objects or an array of question IDs */
 export interface TeacherAssignmentStatistic<T extends boolean> {
   statisticsData: {
     /** ID of the assignment instance */
@@ -45,6 +45,18 @@ export interface TeacherAssignmentStatistic<T extends boolean> {
   };
   /** Array of guaranteed questions if `T` is true, question IDs if false */
   guaranteedQuestions: T extends true ? Question[] : number[];
+}
+
+export interface Topic {
+  id: number;
+  name: string;
+  hasChildren: boolean;
+  hasQuestions: boolean;
+}
+export interface TopicMapped extends Topic {
+  /** IDs of child topics */
+  children: number[] | null;
+  questions: QuestionInterface[] | null;
 }
 
 export interface CreateCourse {
@@ -102,7 +114,7 @@ export interface StudentAssignment extends Assignment {
       id: number;
       /** @readonly Name of the course assignment belongs to */
       name: string;
-      subject: Subjects;
+      subject: Subject;
     };
 
     /**
@@ -148,7 +160,7 @@ interface Course {
   /** @readonly Period of the course. */
   period: number;
   /** @readonly Subject of the course. */
-  subject: Subjects;
+  subject: Subject;
 }
 
 export interface StudentCourse extends Course {

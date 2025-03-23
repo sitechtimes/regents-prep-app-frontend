@@ -6,4 +6,4 @@ export const subjectColors = {
   Russian: "var(--russian)" //purple
 } as const;
 
-export type Subjects = keyof typeof subjectColors;
+export type Subject = keyof typeof subjectColors;

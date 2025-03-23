@@ -152,3 +152,18 @@ export async function submitCreateAssignment(
 export async function getTeacherQuestionStatistic<T extends boolean = false>(assignmentId: number, includeGuaranteedQuestions?: T, studentIds?: number[]) {
   return requestEndpoint<TeacherAssignmentStatistic<T>>(`/courses/teacher/assignment/${assignmentId}/per-question-statistics/${!!includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`);
 }
+
+/** Requests the `questions/teacher/topics/<topicId>` endpoint */
+export async function getTopics(topicId: number) {
+  return requestEndpoint<Topic[]>(`/questions/teacher/topics/${topicId}`);
+}
+
+/** Requests the `questions/teacher/topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>` endpoint
+ * @param topicId - The ID of the topic to get questions under.
+ * @param offset - The index to get questions at. Defaults to 0.
+ * @param includeQuestionCount - Whether to include the number of questions under the topic. Defaults to false.
+ * @param numOfQuestions - The number of questions to get. Defaults to 10.
+ */
+export async function getQuestionsUnderTopic(topicId: number, offset = 0, includeQuestionCount = false, numOfQuestions = 10) {
+  return requestEndpoint<{ questions: QuestionInterface[] }>(`/questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}`);
+}

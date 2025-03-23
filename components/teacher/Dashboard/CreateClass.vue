@@ -62,13 +62,13 @@ const userStore = useUserStore();
 
 const successModal = useTemplateRef("successModal");
 
-const regentsTypes: Readonly<Record<Subjects, string[]>> = {
+const regentsTypes = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
   English: ["English"],
   Science: ["Chemistry", "Physics", "Biology"],
   History: ["World History", "US History"],
   Russian: ["Russian"]
-};
+} as const satisfies Record<Subject, string[]>;
 
 const courseName = ref("");
 const courseSubject = ref("");
@@ -81,9 +81,9 @@ onBeforeUnmount(() => {
 });
 
 async function createCourse() {
-  if (!courseName.value || !courseSubject.value || !Object.values(regentsTypes).flat().includes(courseSubject.value) || !coursePeriod.value) return;
+  if (!courseName.value || !courseSubject.value || !coursePeriod.value) return;
 
-  const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
+  const subjectCode = Object.values(regentsTypes).findIndex((regents) => regents.includes(courseSubject.value as never));
 
   const { data: course, error } = await tryCatch(submitCreateCourse(courseName.value, coursePeriod.value, subjectCode));
   if (error) return console.error("Failed to create course:", error);
