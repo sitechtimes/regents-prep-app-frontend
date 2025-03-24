@@ -1,9 +1,15 @@
 <template>
   <div class="flex grow flex-col items-start justify-start gap-6">
-    <div class="flex w-full items-center justify-start gap-3 px-10 py-2">
+    <div class="flex w-full items-center justify-start gap-2 px-10 py-2">
+      <button class="mr-10 flex select-none items-center justify-center gap-2 rounded-lg bg-neutral-200 px-6 pb-1.5 pt-2 text-lg font-medium hover:bg-neutral-300" type="button" @click="goBack">
+        <img class="size-5" src="/ui/arrowLeft.svg" aria-hidden="true" />
+        <span>Back</span>
+      </button>
+
       <button class="rounded-lg bg-neutral-200 px-6 pb-0.5 pt-1 text-lg font-medium hover:bg-neutral-300" type="button" @click="currentTopic = undefined">ALL TOPICS</button>
       <img v-show="currentTopicPath.length" class="size-5" src="/ui/doubleChevronRight.svg" aria-hidden="true" />
-      <div v-for="(topic, index) in currentTopicPath" class="flex items-center justify-center gap-3">
+
+      <div v-for="(topic, index) in currentTopicPath" class="flex items-center justify-center gap-2">
         <button
           class="rounded-lg bg-neutral-200 px-6 pb-0.5 pt-1 text-lg font-medium hover:bg-neutral-300"
           type="button"
@@ -95,13 +101,17 @@ const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
 watch(currentTopic, (topic) => {
   if (!topic) return (currentTopicPath.value = []);
+
   if (currentTopicPath.value.includes(topic.id)) currentTopicPath.value = currentTopicPath.value.slice(0, currentTopicPath.value.indexOf(topic.id));
 
-  if (topic) {
-    void loadTopics(topic.id);
-    currentTopicPath.value.push(topic.id);
-  }
+  void loadTopics(topic.id);
+  currentTopicPath.value.push(topic.id);
 });
+
+function goBack() {
+  currentTopic.value = loadedTopics.value[currentTopicPath.value[currentTopicPath.value.length - 2]];
+  currentTopicPath.value = currentTopicPath.value.slice(0, currentTopicPath.value.length - 1);
+}
 
 onMounted(async () => {
   const topics = await loadTopics(1);
