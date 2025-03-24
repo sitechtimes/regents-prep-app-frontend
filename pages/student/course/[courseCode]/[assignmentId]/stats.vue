@@ -135,24 +135,4 @@ function isDropdownOpen(index: number): boolean {
 }
 </script>
 
-<style scoped>
-.table-auto {
-  width: 100%;
-  margin-top: 20px;
-}
-
-.table th,
-.table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-.table th {
-  background-color: #f2f2f2;
-  text-align: left;
-}
-
-.progress {
-  height: 1.5rem;
-}
-</style>
+<style scoped></style>
