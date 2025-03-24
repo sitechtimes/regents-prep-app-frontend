@@ -40,7 +40,7 @@
           </div>
         </div>
         <div v-show="isDropdownOpen(i)" class="dropdown-content rounded bg-gray-100 p-4">
-          <p><strong>Full Question:</strong> <span v-html="questionInstance.question.text"></span></p>
+          <p><strong>Question:</strong> <span v-html="questionInstance.question.text"></span></p>
           <p><strong>Choices:</strong></p>
           <ul>
             <li v-for="(answer, index) in questionInstance.question.answers" :key="index" class="flex items-center">
