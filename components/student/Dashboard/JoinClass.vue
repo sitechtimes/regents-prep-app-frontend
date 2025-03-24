@@ -71,9 +71,6 @@ async function submit() {
     setTimeout(() => {
       isSuccess.value = false;
       closeModal();
-      setTimeout(() => {
-        window.location.reload();
-      }, 100);
     }, 1500);
   } catch (error) {
     console.error(error);
