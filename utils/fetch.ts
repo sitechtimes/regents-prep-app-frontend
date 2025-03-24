@@ -1,3 +1,4 @@
+import sanitizeHtml from "sanitize-html";
 /** Makes a request to the given endpoint with the given method and body.
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
@@ -18,7 +19,8 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
   if (method) {
     options.method = method;
     options.headers = { "Content-Type": "application/json" };
-    options.body = JSON.stringify(body);
+    const sanitizedBody = sanitizeHtml(JSON.stringify(body));
+    options.body = sanitizedBody;
   }
 
   const res = await fetch(config.public.backend + endpoint, options);
@@ -27,7 +29,9 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
   const contentLength = res.headers.get("Content-Length");
   if (contentLength === "0") return undefined as T;
 
-  return res.json();
+  const data = await res.json();
+
+  return sanitizeHtml(data) as T;
 }
 
 /** Requests the `courses/courseId/assignments/` endpoint */
