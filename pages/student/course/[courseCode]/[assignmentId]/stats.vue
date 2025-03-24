@@ -10,16 +10,12 @@
     <div v-else class="text-center">
       <p>No assignment found for the provided ID.</p>
     </div>
-
-    <!-- Progress Bar -->
     <div class="relative my-4 flex justify-center">
       <div class="relative h-8 w-125 rounded-full border-[1.5px] border-gray-300 bg-red-500">
         <div class="h-full rounded-full bg-green-500" :style="{ width: (assignmentResults.questionsCorrect / assignmentResults.numQuestions) * 100 + '%' }"></div>
       </div>
       <span class="absolute inset-0 flex items-center justify-center text-xl font-semibold text-black"> {{ assignmentResults.questionsCorrect }}/{{ assignmentResults.numQuestions }} </span>
     </div>
-
-    <!-- Results Table -->
     <div class="mb-4 flex w-full flex-col">
       <div class="flex items-center border-b py-2 font-semibold">
         <div class="w-16 text-center">#</div>
@@ -80,15 +76,10 @@ onMounted(async () => {
   try {
     const courseId = studentCurrentCourse.value?.id;
     if (courseId) {
-      // Fetch all assignments for the course
       const assignmentId = parseInt(route.params.assignmentId as string);
       allAssignments.value = await getAssignments(assignmentId);
-
-      // Fetch results for the specific assignment
       currentAssignment.value = allAssignments.value.find((assignment: StudentAssignment) => assignment.id === assignmentId) ?? null;
-
-      // Fetch the assignment results
-      assignmentResults.value = await getAssignmentResults(assignmentId); // This should be implemented
+      assignmentResults.value = await getAssignmentResults(assignmentId);
     }
   } catch (error) {
     console.error("Error fetching assignment data:", error);
