@@ -1,7 +1,8 @@
 <template>
   <div
-    class="flex cursor-pointer flex-col items-center justify-center justify-self-center overflow-hidden rounded-2xl border-2 border-[var(--faded-bg-color)] transition-all duration-300 ease-in-out hover:border-[var(--primary)] hover:shadow-lg sm:w-[11rem] md:w-[16rem] lg:w-[30rem] hover:dark:shadow-[var(--gray)]"
+    class="flex w-[calc(33.33%-24px)] cursor-pointer flex-col items-center justify-center justify-self-center overflow-hidden rounded-2xl border-2 border-[var(--faded-bg-color)] transition-all duration-300 ease-in-out hover:border-[var(--primary)] hover:shadow-lg sm:min-w-[11rem] md:min-w-[16rem] hover:dark:shadow-[var(--gray)]"
   >
+    <!-- sm:w-[11rem] md:w-[16rem] lg:w-[30rem]-->
     <div class="flex h-1/2 w-full flex-col items-center justify-end p-2 drop-shadow-md" :style="{ backgroundColor: subjectColors[course.subject] }">
       <h2 :title="course.name" class="sm:text-l mt-4 h-1/2 w-full overflow-hidden overflow-ellipsis text-nowrap text-center font-semibold md:text-2xl lg:text-3xl">{{ course.name }}</h2>
 
