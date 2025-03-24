@@ -12,7 +12,10 @@
     </div>
     <div class="relative my-4 flex justify-center">
       <div class="relative h-8 w-125 rounded-full border-[1.5px] border-gray-300 bg-red-500">
-        <div class="h-full rounded-full bg-green-500" :style="{ width: (assignmentResults.questionsCorrect / assignmentResults.numQuestions) * 100 + '%' }"></div>
+        <div
+          class="h-full rounded-full bg-green-500"
+          :style="{ width: ((assignmentResults.questionsCorrect ?? assignmentResults.questionsCompleted) / assignmentResults.numQuestions) * 100 + '%' }"
+        ></div>
       </div>
       <span class="absolute inset-0 flex items-center justify-center text-xl font-semibold text-black"> {{ assignmentResults.questionsCorrect }}/{{ assignmentResults.numQuestions }} </span>
     </div>
@@ -26,9 +29,7 @@
       </div>
       <div v-for="(questionInstance, questionId) in assignmentResults.questionInstances" :key="questionId" class="mb-4 flex flex-col">
         <div class="flex items-center border-b py-2">
-          <button type="button" class="w-16 cursor-pointer text-center font-semibold" @click="dropdownStates[questionId] = !dropdownStates[questionId]">
-            {{ questionId + 1 }}
-          </button>
+          <button type="button" class="w-16 cursor-pointer text-center font-semibold" @click="dropdownStates[questionId] = !dropdownStates[questionId]">🔽{{ questionId + 1 }}</button>
           <div class="flex-1 px-4">
             <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
           </div>
