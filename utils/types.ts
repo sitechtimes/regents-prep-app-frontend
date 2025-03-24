@@ -10,6 +10,8 @@ export interface Answer {
   selected: boolean;
   /** @readonly Selected answer. */
   staticUserAnswer: number | null;
+  /** @readonly Whether or not the answer is correct. */
+  isCorrect: boolean;
 }
 
 export interface Question {
