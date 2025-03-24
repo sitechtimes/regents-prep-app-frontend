@@ -24,11 +24,13 @@
         <div class="w-1/4 text-center">Correct Answer</div>
         <div class="w-1/4 text-center">Result</div>
       </div>
-      <div v-for="(questionInstance, i) in assignmentResults.questionInstances" :key="i" class="mb-4 flex flex-col">
+      <div v-for="(questionInstance, questionId) in assignmentResults.questionInstances" :key="questionId" class="mb-4 flex flex-col">
         <div class="flex items-center border-b py-2">
-          <div class="w-16 cursor-pointer text-center font-semibold" @click="toggleDropdown(i)">{{ i + 1 }}</div>
+          <button type="button" class="w-16 cursor-pointer text-center font-semibold" @click="dropdownStates[questionId] = !dropdownStates[questionId]">
+            {{ questionId + 1 }}
+          </button>
           <div class="flex-1 px-4">
-            <span v-html="truncateQuestion(questionInstance.question.text)"></span>
+            <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
           </div>
           <div class="w-1/4 text-center">
             <span>{{ getUserAnswer(questionInstance.question, questionInstance.userAnswers) }}</span>
@@ -39,7 +41,7 @@
             <span v-else class="text-red-600">❌</span>
           </div>
         </div>
-        <div v-show="isDropdownOpen(i)" class="dropdown-content rounded bg-gray-100 p-4">
+        <div v-show="dropdownStates[questionId]" class="dropdown-content rounded bg-gray-100 p-4">
           <p><strong>Question:</strong> <span v-html="questionInstance.question.text"></span></p>
           <p><strong>Choices:</strong></p>
           <ul>
@@ -59,18 +61,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
 definePageMeta({
-  layout: "student"
+  layout: "student",
+  middleware: "student-get-course",
+  requiresAuth: true
 });
-
-import { useRoute } from "vue-router";
 const route = useRoute();
 const userStore = useUserStore();
 const { studentCurrentCourse } = storeToRefs(userStore);
-const assignmentResults = ref<AssignmentResults | null>(null);
+const assignmentResults = ref<AssignmentResults | undefined>(undefined);
 const allAssignments = ref<StudentAssignment[]>([]);
 const currentAssignment = ref<StudentAssignment | null>(null);
+const dropdownStates = ref<boolean[]>([]);
 
 onMounted(async () => {
   try {
@@ -86,7 +88,7 @@ onMounted(async () => {
   }
 });
 
-function formatDate(date: Date | null): string {
+function formatDate(date: Date | null) {
   if (!date) return "N/A";
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
@@ -96,21 +98,13 @@ function formatDate(date: Date | null): string {
   return formattedDate;
 }
 
-function truncateQuestion(questionText: string): string {
-  const maxLength = 50;
-  return questionText.length > maxLength ? `${questionText.substring(0, maxLength)}...` : questionText;
-}
-
 function getUserAnswer(question: Question, userAnswers: string[]): string {
-  if (!userAnswers || !question.answers) {
-    return "-";
-  }
-  return (
-    question.answers
-      .filter((answer: Answer) => userAnswers.includes(answer.id.toString()))
-      .map((answer: Answer) => answer.text)
-      .join(", ") || "-"
-  );
+  return !userAnswers || !question.answers
+    ? "-"
+    : question.answers
+        .filter((answer) => userAnswers.includes(answer.id.toString()))
+        .map((answer) => answer.text)
+        .join(", ") || "-";
 }
 
 function getCorrectAnswer(question: Question): string {
@@ -123,15 +117,6 @@ function isAnswerCorrect(questionInstance: { question: Question; userAnswers: st
   const correctAnswer = getCorrectAnswer(questionInstance.question);
 
   return userAnswer === correctAnswer;
-}
-const dropdownStates = ref<boolean[]>([]);
-
-function toggleDropdown(index: number) {
-  dropdownStates.value[index] = !dropdownStates.value[index];
-}
-
-function isDropdownOpen(index: number): boolean {
-  return dropdownStates.value[index];
 }
 </script>
 
