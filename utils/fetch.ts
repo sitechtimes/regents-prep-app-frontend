@@ -19,8 +19,7 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
   if (method) {
     options.method = method;
     options.headers = { "Content-Type": "application/json" };
-    const sanitizedBody = sanitizeHtml(JSON.stringify(body));
-    options.body = sanitizedBody;
+    options.body = JSON.stringify(body);
   }
 
   const res = await fetch(config.public.backend + endpoint, options);
@@ -29,9 +28,9 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
   const contentLength = res.headers.get("Content-Length");
   if (contentLength === "0") return undefined as T;
 
-  const data = await res.json();
-
-  return sanitizeHtml(data) as T;
+  const jsonResponse = await res.json();
+  const sanitizedResponse = sanitizeHtml(JSON.stringify(jsonResponse));
+  return JSON.parse(sanitizedResponse) as T;
 }
 
 /** Requests the `courses/courseId/assignments/` endpoint */
