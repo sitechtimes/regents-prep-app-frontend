@@ -14,6 +14,10 @@ export const useUserStore = defineStore("userStore", () => {
   const teacherCurrentCourse = ref<TeacherCourse>();
 
   const currentQuestion = ref<DynamicQuestionInterface | StaticQuestionInterface>();
+  /** @example { [id]: Topic } */
+  const loadedTopics = ref<Record<number, TopicMapped>>({});
+  /** @example { [id]: QuestionInterface } */
+  const loadedQuestions = ref<Record<number, TopicQuestionInterface>>({});
 
   async function init(): Promise<void> {
     const res = await fetch(`${config.public.backend}init/`, {
@@ -64,5 +68,21 @@ export const useUserStore = defineStore("userStore", () => {
     void router.push("/");
   }
 
-  return { name, isAuth, userType, isDarkMode, showSideMenu, studentCourses, teacherCourses, studentCurrentCourse, teacherCurrentCourse, currentQuestion, init, login, logout };
+  return {
+    name,
+    isAuth,
+    userType,
+    isDarkMode,
+    showSideMenu,
+    studentCourses,
+    teacherCourses,
+    studentCurrentCourse,
+    teacherCurrentCourse,
+    currentQuestion,
+    loadedTopics,
+    loadedQuestions,
+    init,
+    login,
+    logout
+  };
 });

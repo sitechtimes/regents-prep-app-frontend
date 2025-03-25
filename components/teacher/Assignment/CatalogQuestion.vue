@@ -1,14 +1,21 @@
 <template>
-  <div class="group flex w-[45%] max-w-[50%] grow flex-col items-center justify-around gap-6 self-baseline rounded-xl bg-neutral-100 px-12 py-3">
-    <button
-      v-if="!viewOnly"
-      class="flex h-9 items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white p-0 transition duration-500 hover:border-neutral-400 lg:justify-start lg:p-2 lg:px-4 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-neutral-700"
-      type="button"
-      @click="emit('select')"
-    >
-      <img class="size-5 transition duration-500 dark:invert" src="/ui/plus.svg" aria-hidden="true" />
-      <p class="hidden grow translate-y-px transition duration-500 lg:block">Add to assignment</p>
-    </button>
+  <div class="group flex w-[45%] max-w-[50%] grow flex-col items-center justify-around gap-6 self-baseline rounded-xl bg-neutral-100 p-6">
+    <div class="flex w-full items-center justify-start gap-3">
+      <TeacherAssignmentCatalogQuestionButton
+        v-if="!viewOnly"
+        :click-function="() => emit('select')"
+        :img="`/ui/${isInAssignment ? 'minus' : 'plus'}.svg`"
+        :text="`${isInAssignment ? 'Remove from' : 'Add to'} assignment`"
+      />
+      <div :class="{ 'du-tooltip': showAnswerOverride }" data-tip="Hide all questions first!">
+        <TeacherAssignmentCatalogQuestionButton
+          :click-function="() => (showAnswer = !showAnswer)"
+          :disable="showAnswerOverride"
+          :img="`/ui/${showAnswer ? 'eyeHide' : 'eyeShow'}.svg`"
+          :text="`${showAnswer ? 'Hide' : 'Show'} Answer`"
+        />
+      </div>
+    </div>
 
     <span class="question-text space-y-3 text-neutral-100" v-html="question?.text"></span>
 
@@ -16,8 +23,8 @@
       <div
         v-if="question?.answerType === 'Multiple Choice'"
         v-for="choice in question?.answers"
-        class="text-nowrap rounded-lg bg-neutral-200 px-6 py-2 shadow-sm"
-        :class="{ 'bg-neutral-400': choice.isCorrect }"
+        class="text-nowrap rounded-lg px-6 py-2 shadow-sm"
+        :class="(showAnswerOverride || showAnswer) && choice.isCorrect ? 'bg-green-400' : 'bg-neutral-200'"
         v-html="choice.text"
       ></div>
     </div>
@@ -25,16 +32,16 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   viewOnly: boolean;
   question: TopicQuestionInterface;
+  showAnswerOverride: boolean;
+  currentQuestions: CreateAssignmentQuestion[];
 }>();
 const emit = defineEmits<{ select: [void] }>();
+
+const showAnswer = ref(false);
+const isInAssignment = computed(() => props.currentQuestions.find((_question) => props.question.id === _question.questionId));
 </script>
 
-<!-- eslint-disable-next-line vue/enforce-style-attribute -->
-<style>
-.question-text em {
-  @apply italic;
-}
-</style>
+<style scoped></style>

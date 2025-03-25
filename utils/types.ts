@@ -83,7 +83,7 @@ export interface Topic {
 export interface TopicMapped extends Topic {
   /** IDs of child topics */
   children: number[] | null;
-  questions: TopicQuestionInterface[];
+  questionIds: number[];
 }
 
 export interface CreateCourse {
@@ -245,4 +245,9 @@ export interface AssignmentResults extends SubmitAssignment {
     /** @readonly The data for the question referenced by the instance. */
     question: Question;
   }[];
+}
+
+export interface CreateAssignmentQuestion {
+  questionId: number;
+  isGuaranteed: boolean;
 }

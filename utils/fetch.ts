@@ -161,9 +161,9 @@ export async function getTopics(topicId: number) {
 /** Requests the `questions/teacher/topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>` endpoint
  * @param topicId - The ID of the topic to get questions under.
  * @param offset - The index to get questions at. Defaults to 0.
- * @param includeQuestionCount - Whether to include the number of questions under the topic. Defaults to false.
- * @param numOfQuestions - The number of questions to get. Defaults to 10.
+ * @param includeQuestionCount - Whether to include the number of questions under the topic. Defaults to true.
+ * @param numOfQuestions - The number of questions to get. Defaults to 20.
  */
-export async function getQuestionsUnderTopic(topicId: number, offset = 0, includeQuestionCount = false, numOfQuestions = 10) {
+export async function getQuestionsUnderTopic(topicId: number, offset = 0, includeQuestionCount = true, numOfQuestions = 20) {
   return requestEndpoint<{ questions: TopicQuestionInterface[] }>(`/questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}`);
 }

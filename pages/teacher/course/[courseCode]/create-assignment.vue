@@ -1,6 +1,6 @@
 <template>
-  <div class="flex w-full items-start justify-center gap-4">
-    <form class="sticky top-20 flex w-[30rem] shrink-0 flex-col gap-2 rounded-xl bg-neutral-100 p-6" @submit.prevent="createAssignment">
+  <div class="flex w-full items-start justify-center gap-8">
+    <form class="sticky top-20 flex w-[35rem] shrink-0 flex-col gap-2 rounded-xl bg-neutral-100 p-6" @submit.prevent="createAssignment">
       <h3 class="text-2xl font-bold">Create Assignment</h3>
 
       <div>
@@ -18,7 +18,7 @@
 
       <div class="flex w-full items-center justify-center gap-3">
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0" for="time-per-question">Seconds per question</label>
+          <label class="fo-label fo-label-text shrink-0" for="time-per-question">Time limit (minutes)</label>
           <input id="time-per-question" v-model.number="assignmentInfo.timeAllotted" required type="number" class="fo-input" placeholder="Unlimited" />
         </div>
 
@@ -37,9 +37,30 @@
             <p class="w-3/4 text-center text-sm font-medium text-neutral-400">Select questions and topics from the question bank to add them to this assignment!</p>
           </div>
 
-          <div v-else class="flex h-full flex-col items-center justify-center overflow-y-scroll p-2">
-            <div v-for="question in assignmentInfo.questionIds" :key="question.id">{{ question.id }}</div>
-          </div>
+          <ul v-else class="flex h-full w-full flex-col items-start justify-start gap-2 overflow-y-scroll py-2 pl-4">
+            <li v-for="(question, index) in assignmentInfo.questionIds" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
+              <span>{{ index + 1 }}.</span>
+
+              <!-- * the regex is to remove images and combine all tags into 1 <p> -->
+              <p
+                class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap"
+                v-html="
+                  loadedQuestions[question.questionId].text
+                    .replace(/<img\b[^>]*>/gi, '(image)')
+                    .replace(/<[^>]+>/g, ' ')
+                    .replace(/\s+/g, ' ')
+                    .trim()
+                "
+              ></p>
+
+              <div class="flex items-center justify-center gap-2">
+                <div class="du-tooltip du-tooltip-bottom" :data-tip="`Switch to ${question.isGuaranteed ? 'Random' : 'Guaranteed'}`">
+                  <TeacherAssignmentCatalogQuestionButton :click-function="() => (question.isGuaranteed = !question.isGuaranteed)" :img="`/ui/${question.isGuaranteed ? 'check' : 'dice'}.svg`" />
+                </div>
+                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeQuestion(question.questionId)" img="/ui/trash.svg" />
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -61,7 +82,7 @@
       </div>
     </form>
 
-    <TeacherAssignmentQuestionCatalog :view-only="false" @select-question="(id) => assignmentInfo.questionIds.push({ id, isGuaranteed: true })" />
+    <TeacherAssignmentQuestionCatalog :view-only="false" :current-questions="assignmentInfo.questionIds" :current-topic-ids="assignmentInfo.topicIds" @select-question="addQuestion" />
   </div>
 </template>
 
@@ -73,7 +94,7 @@ definePageMeta({
 
 const route = useRoute();
 const userStore = useUserStore();
-const { showSideMenu } = storeToRefs(userStore);
+const { showSideMenu, loadedQuestions } = storeToRefs(userStore);
 
 const currentDateISO = (() => {
   const now = new Date();
@@ -91,14 +112,24 @@ const assignmentInfo = reactive({
     date: currentDateISO,
     time: "23:59"
   },
-  questionIds: ref<{ id: number; isGuaranteed: boolean }[]>([]),
+  questionIds: ref<CreateAssignmentQuestion[]>([]),
   topicIds: ref<number[]>([]),
   lateSubmissions: false,
+  /** In minutes */
   timeAllotted: ref<number>(),
   attemptsAllowed: ref<number>()
 });
 
 const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length));
+
+function removeQuestion(questionId: number) {
+  // prettier-ignore
+  assignmentInfo.questionIds.splice(assignmentInfo.questionIds.findIndex((question) => question.questionId === questionId), 1);
+}
+function addQuestion(questionId: number) {
+  if (!assignmentInfo.questionIds.find((question) => question.questionId === questionId)) assignmentInfo.questionIds.push({ questionId, isGuaranteed: true });
+  else removeQuestion(questionId);
+}
 
 const createAssignmentResult = reactive({
   isLoading: false,

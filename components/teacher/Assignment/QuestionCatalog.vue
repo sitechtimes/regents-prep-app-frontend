@@ -35,14 +35,24 @@
       </div>
 
       <div class="flex w-full flex-col items-start justify-center gap-4">
-        <h3 class="px-5 text-2xl font-bold">Questions</h3>
+        <div ref="questions" class="sticky top-20 z-10 flex items-center justify-center gap-8 rounded-full bg-body px-5 py-2" :class="{ 'shadow-lg': isSticky }">
+          <h3 class="text-2xl font-bold">Questions</h3>
+          <TeacherAssignmentCatalogQuestionButton
+            :click-function="() => (showQuestionAnswers = !showQuestionAnswers)"
+            :img="`/ui/${showQuestionAnswers ? 'eyeHide' : 'eyeShow'}.svg`"
+            :text="`${showQuestionAnswers ? 'Hide' : 'Show'} All Answers`"
+          />
+        </div>
+
         <div class="flex w-full flex-wrap items-center justify-start gap-4">
-          <TeacherAssignmentCatalogQuestion
-            v-for="question in currentTopic ? currentTopic.questions : initialQuestions"
-            :key="question.id"
+          <LazyTeacherAssignmentCatalogQuestion
+            v-for="question in currentTopic ? currentTopic.questionIds : initialQuestions"
+            :key="typeof question === 'number' ? question : question.id"
             :view-only="viewOnly"
-            :question="question"
-            @select="emit('selectQuestion', question.id)"
+            :question="typeof question === 'number' ? loadedQuestions[question] : question"
+            :show-answer-override="showQuestionAnswers"
+            :current-questions="currentQuestions"
+            @select="emit('selectQuestion', typeof question === 'number' ? question : question.id)"
           />
         </div>
       </div>
@@ -51,21 +61,34 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{ viewOnly: boolean }>();
+defineProps<{
+  viewOnly: boolean;
+  currentQuestions: CreateAssignmentQuestion[];
+  currentTopicIds: number[];
+}>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
   selectTopic: [topicId: number];
 }>();
 
-/** @example { [id]: Topic } */
-const loadedTopics = ref<Record<number, TopicMapped>>({});
+const userStore = useUserStore();
+const { loadedTopics, loadedQuestions } = storeToRefs(userStore);
+
 const initialTopics = ref<Topic[]>([]);
 const initialQuestions = ref<TopicQuestionInterface[]>([]);
 
+const showQuestionAnswers = ref(true);
+
 async function loadQuestions(topicId: number) {
-  const { data: questions, error } = await tryCatch(getQuestionsUnderTopic(topicId));
+  const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId));
   if (error) return console.error(error);
-  return questions.questions;
+
+  const questions = data.questions;
+
+  if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = questions.map((question) => question.id);
+  for (const question of questions) if (!loadedQuestions.value[question.id]) loadedQuestions.value[question.id] = question;
+
+  return questions;
 }
 
 async function loadTopics(topicId: number) {
@@ -73,7 +96,10 @@ async function loadTopics(topicId: number) {
   const parentIsLoaded = parent !== undefined;
   if (parentIsLoaded && parent.hasChildren && parent.children?.length) return;
 
-  async function loadTopicsRecursively(topic: Topic) {
+  const { data: topics, error } = await tryCatch(getTopics(topicId));
+  if (error) return console.error(error);
+
+  for (const topic of topics) {
     const loadedTopic = loadedTopics.value[topic.id];
 
     if (loadedTopic) return;
@@ -81,31 +107,26 @@ async function loadTopics(topicId: number) {
     const mappedTopic: TopicMapped = {
       ...topic,
       children: topic.hasChildren ? [] : null,
-      questions: (await loadQuestions(topic.id)) ?? []
+      questionIds: []
     };
     loadedTopics.value[topic.id] = mappedTopic;
     if (parentIsLoaded) parent.children?.push(topic.id);
   }
 
-  const { data: topics, error } = await tryCatch(getTopics(topicId));
-  if (error) return console.error(error);
-
-  console.log(topics);
-
-  for (const topic of topics) void loadTopicsRecursively(topic);
-
+  console.log(loadedTopics.value);
   return topics;
 }
 
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
-watch(currentTopic, (topic) => {
+watch(currentTopic, async (topic) => {
   if (!topic) return (currentTopicPath.value = []);
 
   if (currentTopicPath.value.includes(topic.id)) currentTopicPath.value = currentTopicPath.value.slice(0, currentTopicPath.value.indexOf(topic.id));
 
-  void loadTopics(topic.id);
   currentTopicPath.value.push(topic.id);
+  await loadTopics(topic.id);
+  await loadQuestions(topic.id);
 });
 
 function goBack() {
@@ -119,6 +140,22 @@ onMounted(async () => {
   if (topics) initialTopics.value = topics;
   if (questions) initialQuestions.value = questions;
 });
+
+const questionsHeader = useTemplateRef("questions");
+const isSticky = ref(false);
+let previousPosition = 0;
+function detectSticky() {
+  if (!questionsHeader.value) return;
+  const newPosition = questionsHeader.value.getBoundingClientRect().top;
+
+  if (newPosition === previousPosition) return (isSticky.value = true);
+
+  previousPosition = newPosition;
+  isSticky.value = false;
+}
+
+onMounted(() => window.addEventListener("scroll", detectSticky));
+onBeforeUnmount(() => window.removeEventListener("scroll", detectSticky));
 </script>
 
 <style scoped></style>
