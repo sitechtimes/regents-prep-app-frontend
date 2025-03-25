@@ -1,9 +1,9 @@
 <template>
   <NuxtLink
     :to="
-      assignment.assignment.dueDate >= currentTime || assignment.assignment.lateSubmissions
-        ? `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`
-        : `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}/stats`
+      assignment.dateSubmitted !== null || (assignment.assignment.dueDate < currentTime && !assignment.assignment.lateSubmissions)
+        ? `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}/stats`
+        : `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`
     "
     class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
   >
