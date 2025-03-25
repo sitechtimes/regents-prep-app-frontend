@@ -3,13 +3,13 @@
     <div class="flex w-full items-center justify-start gap-3">
       <TeacherAssignmentCatalogQuestionButton
         v-if="!viewOnly"
-        :click-function="() => emit('select')"
+        :click-function="emitSelect"
         :img="`/ui/${isInAssignment ? 'minus' : 'plus'}.svg`"
         :text="`${isInAssignment ? 'Remove from' : 'Add to'} assignment`"
       />
       <div :class="{ 'du-tooltip': showAnswerOverride }" data-tip="Hide all questions first!">
         <TeacherAssignmentCatalogQuestionButton
-          :click-function="() => (showAnswer = !showAnswer)"
+          :click-function="toggleAnswer"
           :disable="showAnswerOverride"
           :img="`/ui/${showAnswer ? 'eyeHide' : 'eyeShow'}.svg`"
           :text="`${showAnswer ? 'Hide' : 'Show'} Answer`"
@@ -23,7 +23,7 @@
       <div
         v-if="question?.answerType === 'Multiple Choice'"
         v-for="choice in question?.answers"
-        class="text-nowrap rounded-lg px-6 py-2 shadow-sm"
+        class="rounded-lg px-6 py-2 shadow-sm"
         :class="(showAnswerOverride || showAnswer) && choice.isCorrect ? 'bg-green-400' : 'bg-neutral-200'"
         v-html="choice.text"
       ></div>
@@ -42,6 +42,16 @@ const emit = defineEmits<{ select: [void] }>();
 
 const showAnswer = ref(false);
 const isInAssignment = computed(() => props.currentQuestions.find((_question) => props.question.id === _question.questionId));
+
+// * these are better for performance probably
+// if these werent used then we would need to do `() => emit('select')` in the `@click-function`,
+// which would make a new function for each component instance i think (which is bad)
+function emitSelect() {
+  emit("select");
+}
+function toggleAnswer() {
+  showAnswer.value = !showAnswer.value;
+}
 </script>
 
 <style scoped></style>

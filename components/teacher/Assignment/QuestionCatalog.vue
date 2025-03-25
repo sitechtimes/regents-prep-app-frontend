@@ -38,7 +38,7 @@
         <div ref="questions" class="sticky top-20 z-10 flex items-center justify-center gap-8 rounded-full bg-body px-5 py-2" :class="{ 'shadow-lg': isSticky }">
           <h3 class="text-2xl font-bold">Questions</h3>
           <TeacherAssignmentCatalogQuestionButton
-            :click-function="() => (showQuestionAnswers = !showQuestionAnswers)"
+            :click-function="toggleAnswers"
             :img="`/ui/${showQuestionAnswers ? 'eyeHide' : 'eyeShow'}.svg`"
             :text="`${showQuestionAnswers ? 'Hide' : 'Show'} All Answers`"
           />
@@ -78,6 +78,9 @@ const initialTopics = ref<Topic[]>([]);
 const initialQuestions = ref<TopicQuestionInterface[]>([]);
 
 const showQuestionAnswers = ref(true);
+function toggleAnswers() {
+  showQuestionAnswers.value = !showQuestionAnswers.value;
+}
 
 async function loadQuestions(topicId: number) {
   const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId));
