@@ -11,7 +11,7 @@
       <p>No assignment found for the provided ID.</p>
     </div>
     <div class="relative my-4 flex justify-center">
-      <div class="relative h-8 w-125 rounded-full border-[1.5px] border-gray-300 bg-red-500">
+      <div class="relative h-8 w-125 rounded-full border border-neutral-700 bg-red-500">
         <div
           class="h-full rounded-full bg-green-500"
           :style="{ width: ((assignmentResults.questionsCorrect ?? assignmentResults.questionsCompleted) / assignmentResults.numQuestions) * 100 + '%' }"
@@ -20,7 +20,7 @@
       <span class="absolute inset-0 flex items-center justify-center text-xl font-semibold text-black"> {{ assignmentResults.questionsCorrect }}/{{ assignmentResults.numQuestions }} </span>
     </div>
     <div class="mb-4 flex w-full flex-col">
-      <div class="flex items-center border-b py-2 font-semibold">
+      <div class="flex items-center border-b py-2 font-semibold dark:border-neutral-500">
         <div class="w-16 text-center">#</div>
         <div class="flex-1 px-4">Question</div>
         <div class="w-1/4 text-center">Your Answer</div>
@@ -28,7 +28,7 @@
         <div class="w-1/4 text-center">Result</div>
       </div>
       <div v-for="(questionInstance, questionId) in assignmentResults.questionInstances" :key="questionId" class="mb-4 flex flex-col">
-        <div class="flex items-center border-b py-2">
+        <div class="flex items-center border-b py-2 dark:border-neutral-500">
           <button type="button" class="w-16 cursor-pointer text-center font-semibold hover:bg-slate-200" @click="dropdownStates[questionId] = !dropdownStates[questionId]">{{ questionId + 1 }}</button>
           <div class="flex-1 px-4">
             <span class="overflow-hidden text-ellipsis hover:bg-slate-200" v-html="questionInstance.question.text"></span>
