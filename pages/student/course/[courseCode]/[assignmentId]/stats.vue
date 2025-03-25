@@ -71,7 +71,7 @@ const userStore = useUserStore();
 const { studentCurrentCourse } = storeToRefs(userStore);
 const assignmentResults = ref<AssignmentResults>();
 const allAssignments = ref<StudentAssignment[]>([]);
-const currentAssignment = ref();
+const currentAssignment = ref<StudentAssignment>();
 const dropdownStates = ref<boolean[]>([]);
 
 onMounted(async () => {
@@ -80,7 +80,7 @@ onMounted(async () => {
     if (courseId) {
       const assignmentId = parseInt(route.params.assignmentId as string);
       allAssignments.value = await getAssignments(assignmentId);
-      currentAssignment.value = allAssignments.value.find((assignment) => assignment.id === assignmentId) ?? null;
+      currentAssignment.value = allAssignments.value.find((assignment) => assignment.id === assignmentId);
       assignmentResults.value = await getAssignmentResults(assignmentId);
     }
   } catch (error) {
