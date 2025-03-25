@@ -20,7 +20,8 @@ global.fetch = vi.fn(() =>
                 numQuestions: 5,
                 lateSubmissions: false,
                 dueDate: new Date(),
-                dateAssigned: new Date()
+                dateAssigned: new Date(),
+                isStatic: false
               }
             }
           ]
