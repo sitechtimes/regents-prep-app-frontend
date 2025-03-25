@@ -57,10 +57,7 @@ export async function submitQuestionAnswer(questionId: number, answerId: number)
   return requestEndpoint<SubmitAnswer>("courses/student/submit-answer/", "POST", { questionInstanceID: questionId, answerID: answerId });
 }
 
-/**
- * Requests the `student/increment-question-time/` endpoint
- * @returns The current date from Date.now()
- */
+/** Requests the `courses/student/increment-question-time/` endpoint */
 export async function incrementQuestionTime(questionId: number, seconds: number) {
   const rat = Date.now();
   document.body.insertAdjacentHTML(
