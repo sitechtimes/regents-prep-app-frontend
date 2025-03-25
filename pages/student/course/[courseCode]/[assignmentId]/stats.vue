@@ -64,15 +64,14 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "student-get-course",
-  requiresAuth: true
+  middleware: "student-get-course"
 });
 const route = useRoute();
 const userStore = useUserStore();
 const { studentCurrentCourse } = storeToRefs(userStore);
-const assignmentResults = ref<AssignmentResults | undefined>(undefined);
+const assignmentResults = ref<AssignmentResults>();
 const allAssignments = ref<StudentAssignment[]>([]);
-const currentAssignment = ref<StudentAssignment | null>(null);
+const currentAssignment = ref<StudentAssignment | null>();
 const dropdownStates = ref<boolean[]>([]);
 
 onMounted(async () => {
@@ -81,7 +80,7 @@ onMounted(async () => {
     if (courseId) {
       const assignmentId = parseInt(route.params.assignmentId as string);
       allAssignments.value = await getAssignments(assignmentId);
-      currentAssignment.value = allAssignments.value.find((assignment: StudentAssignment) => assignment.id === assignmentId) ?? null;
+      currentAssignment.value = allAssignments.value.find((assignment) => assignment.id === assignmentId) ?? null;
       assignmentResults.value = await getAssignmentResults(assignmentId);
     }
   } catch (error) {
@@ -99,21 +98,21 @@ function formatDate(date: Date | null) {
   return formattedDate;
 }
 
-function getUserAnswer(question: Question, userAnswers: string[]): string {
+function getUserAnswer(question: Question, userAnswers: string[]) {
   return !userAnswers || !question.answers
     ? "-"
     : question.answers
         .filter((answer) => userAnswers.includes(answer.id.toString()))
         .map((answer) => answer.text)
-        .join(", ") || "-";
+        .join(", ");
 }
 
-function getCorrectAnswer(question: Question): string {
-  const correctAnswers = question.answers.filter((answer: Answer) => answer.isCorrect).map((answer: Answer) => answer.text);
+function getCorrectAnswer(question: Question) {
+  const correctAnswers = question.answers.filter((answer) => answer.isCorrect).map((answer) => answer.text);
   return correctAnswers.join(", ") || "-";
 }
 
-function isAnswerCorrect(questionInstance: { question: Question; userAnswers: string[] }): boolean {
+function isAnswerCorrect(questionInstance: { question: Question; userAnswers: string[] }) {
   const userAnswer = getUserAnswer(questionInstance.question, questionInstance.userAnswers);
   const correctAnswer = getCorrectAnswer(questionInstance.question);
 
