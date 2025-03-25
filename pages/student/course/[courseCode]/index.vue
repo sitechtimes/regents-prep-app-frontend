@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = !deselectFilters">
     <div v-if="loaded" class="flex w-full items-center justify-center">
-      <div v-if="studentCurrentCourse" class="flex w-2/3 flex-col items-center justify-center">
+      <div v-if="studentCurrentCourse" class="flex w-[90%] flex-col items-center justify-center sm:w-[80%] md:w-[70%] xl:w-[60%] 2xl:w-[50%]">
         <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[studentCurrentCourse.subject] }">
           <h1 class="text-4xl font-semibold">{{ studentCurrentCourse.name }}</h1>
           <h3 class="text-lg">Period {{ studentCurrentCourse.period }}</h3>
@@ -16,7 +16,7 @@
             @search="(term) => (currentSearch = term)"
           />
 
-          <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6"></div>
+          <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6 dark:border-neutral-600"></div>
           <StudentAssignmentCard v-else-if="assignments.length > 0" v-for="assignment in assignments" :key="assignment.id" :course="studentCurrentCourse" :assignment="assignment" clickable />
 
           <div v-else-if="assignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">

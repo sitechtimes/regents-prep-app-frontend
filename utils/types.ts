@@ -1,25 +1,33 @@
+export interface Answer {
+  /** @readonly ID of the answer. */
+  id: number;
+  /** @readonly What the answer choice says (HTML string). */
+  text: string;
+  /**
+   * Used to store which answer the student selected.
+   * @warning Must be manually added to `Question`; this field is not returned from the API.
+   */
+  selected: boolean;
+  /** @readonly Selected answer. */
+  staticUserAnswer: number | null;
+  /** @readonly Whether or not the answer is correct. */
+  isCorrect: boolean;
+}
+
 export interface Question {
   /** @readonly What the question says (HTML string). */
   text: string;
   /** @readonly The type of answer for the question. */
   answerType: "Multiple Choice" | "Written Response" | "True or False";
   /** @readonly Array of answers. */
-  answers: {
-    /** @readonly ID of the answer. */
-    id: number;
-    /** @readonly What the answer choice says (HTML string). */
-    text: string;
-    /**
-     * Used to store which answer the student selected.
-     * @warning Must be manually added to `Question`; this field is not returned from the API.
-     */
-    selected: boolean;
-  }[];
+  answers: Answer[];
 }
 
 export interface QuestionInterface {
   /** @readonly ID of the question. */
   id: number;
+  /** @readonly Selected answer. */
+  staticUserAnswer: number | null;
   /** @readonly Number of attempts allowed.
    *
    * If `null`, there is no limit.
@@ -79,6 +87,9 @@ export interface StudentAssignment extends Assignment {
 
     /** @readonly Date object of when the assignment was assigned (Date(UTC)). */
     dateAssigned: Date;
+
+    /** @readonly If the assignment is a static assignment.*/
+    isStatic: boolean;
 
     /** @readonly Object identifying the course assignment belongs to. */
     course?: {
@@ -143,7 +154,7 @@ export interface TeacherCourseNoAssignment extends Course {
   /** @readonly 6-digit join code for the course. */
   joinCode: string;
   /** @readonly The number of students in the course. */
-  numOfStudents: number;
+  numStudents: number;
   /** Total number of unsubmitted, future assignments. */
   assignmentsLength: number;
 }
@@ -180,11 +191,13 @@ export interface AssignmentResults extends SubmitAssignment {
   questionInstances: {
     /** @readonly ID of the question. */
     id: number;
-    /** @readonly Array of the user answers to the question. */
-    userAnswers: string[];
-    /** @readonly Tells if you if the question is complete. */
-    isComplete: boolean;
     /** @readonly The data for the question referenced by the instance. */
     question: Question;
+    /** Array of dynamic user answers (IDs of selected answers). */
+    dynamicUserAnswers: number[];
+    /** @readonly Tells if the question is complete. */
+    isComplete: boolean;
+    /** @readonly Time spent on the question (in seconds). */
+    timeSpent: number;
   }[];
 }

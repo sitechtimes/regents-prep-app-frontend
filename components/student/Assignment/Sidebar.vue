@@ -1,6 +1,6 @@
 <template>
-  <div class="sticky left-0 top-0 flex h-full w-72 shrink-0 flex-col items-start justify-start border-r border-neutral-300">
-    <button class="group my-4 ml-4 flex items-center justify-center gap-2 rounded-xl px-5 py-2 hover:bg-neutral-200" type="button" @click="emit('close')">
+  <div class="sticky left-0 top-0 flex h-full w-72 shrink-0 flex-col items-start justify-start border-r border-neutral-300 dark:border-neutral-600">
+    <button class="group my-4 ml-4 flex items-center justify-center gap-2 rounded-xl px-5 py-2 hover:bg-neutral-200 dark:bg-neutral-500 dark:hover:bg-neutral-600" type="button" @click="emit('close')">
       <img class="size-4 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
       Back to course
     </button>
@@ -14,13 +14,15 @@
           class="w-full border-l-4 border-neutral-200 py-0.5 pl-4 first:mt-6 last:mb-6"
           :class="{
             'border-neutral-400 hover:border-neutral-500': currentQuestionIndex === index, // current
-            'border-green-400 hover:border-green-500': assignment.assignment.questionInterfaces[index]?.question.answers.some((answer) => answer.selected) // completed
+            'border-green-400 hover:border-green-500': assignment.assignment.questionInterfaces[index]?.question.answers.some((answer) => answer.selected), // completed
+            'cursor-not-allowed grayscale': !assignment.assignment.isStatic //if dynamic, disable
           }"
         >
           <button
-            class="w-full rounded-xl px-5 py-2 text-left hover:bg-neutral-200"
-            :class="{ 'bg-neutral-200': currentQuestionIndex === index, 'text-neutral-400 hover:text-black': currentQuestionIndex < index }"
+            class="w-full rounded-xl px-5 py-2 text-left"
+            :class="{ 'bg-neutral-200': currentQuestionIndex === index, 'text-neutral-400': currentQuestionIndex < index, 'hover:bg-neutral-200 hover:text-black': assignment.assignment.isStatic }"
             type="button"
+            :disabled="!assignment.assignment.isStatic"
             @click="changeRouteQuery({ q: index }, 'push')"
           >
             Question {{ num }}

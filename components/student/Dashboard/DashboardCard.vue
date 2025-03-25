@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="`/student/course/${course.id}`"
-    class="hover:border-border-neutral-500 flex w-115 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:shadow-lg"
+    class="flex w-115 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-500 hover:shadow-lg dark:border-neutral-600"
     type="button"
   >
     <div class="flex h-24 w-full flex-col items-center justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
@@ -18,10 +18,12 @@
           v-for="assignment in assignments"
           :key="assignment.id"
           :to="`/student/course/${course.id}/${assignment.id}`"
-          class="flex h-full w-full flex-col items-center justify-center rounded-xl border border-neutral-300 p-3 hover:shadow-lg"
+          class="flex h-full w-full flex-col items-center justify-center rounded-xl border border-neutral-300 p-3 hover:shadow-lg dark:border-neutral-600"
           @click.stop
         >
-          <p class="text-center text-sm text-neutral-700" :title="assignment.assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}</p>
+          <p class="text-center text-sm text-neutral-700 dark:text-neutral-300" :title="assignment.assignment.dueDate.toLocaleString()">
+            Due {{ formatDate(assignment.assignment.dueDate, currentTime) }}
+          </p>
 
           <div class="flex h-full w-full flex-col items-center justify-start gap-3">
             <p class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-center text-xl font-semibold">{{ assignment.assignment.name }}</p>
@@ -43,12 +45,11 @@
 
 <script setup lang="ts">
 const props = defineProps<{ course: StudentCourse }>();
-
 const currentTime = new Date();
 
 const assignments = computed(() =>
   [...props.course.assignments]
-    .filter((assignment) => assignment.dateSubmitted === null && assignment.assignment.dueDate >= currentTime)
+    .filter((assignment) => !assignment.dateSubmitted && assignment.assignment.dueDate >= currentTime)
     .sort((a, b) => a.assignment.dueDate.getTime() - b.assignment.dueDate.getTime())
     .slice(0, 2)
 );
