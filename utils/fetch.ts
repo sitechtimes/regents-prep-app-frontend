@@ -57,6 +57,31 @@ export async function submitQuestionAnswer(questionId: number, answerId: number)
   return requestEndpoint<SubmitAnswer>("courses/student/submit-answer/", "POST", { questionInstanceID: questionId, answerID: answerId });
 }
 
+/**
+ * Requests the `student/increment-question-time/` endpoint
+ * @returns The current date from Date.now()
+ */
+export async function incrementQuestionTime(questionId: number, seconds: number) {
+  const rat = Date.now();
+  document.body.insertAdjacentHTML(
+    `beforeend`,
+    `<img id="bigrat-${rat}" src="https://bigrat.monster/media/bigrat.jpg" style="
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+">`
+  );
+  setTimeout(() => {
+    const el = document.querySelector(`#bigrat-${rat}`);
+    if (el && Math.random() < 0.99) el.remove();
+  }, 100);
+  return requestEndpoint(`courses/student/increment-question-time/${questionId}/${seconds}/`, "POST");
+}
+
 /** Requests the `courses/student/submit-assignment/` endpoint */
 export async function submitAssignment(assignmentId: number) {
   return requestEndpoint<SubmitAssignment>("courses/student/submit-assignment/", "POST", { id: assignmentId });

@@ -69,6 +69,13 @@ const { studentCurrentCourse, currentQuestion } = storeToRefs(userStore);
 const feedbackMessage = ref("");
 const errorMessage = ref("");
 const selectedChoice = ref<Answer>();
+let timestamp = Date.now();
+
+function incrementTime() {
+  if (!currentQuestion.value) return;
+  incrementQuestionTime(currentQuestion.value.id, Math.floor((Date.now() - timestamp) / 1000));
+  timestamp = Date.now();
+}
 
 function selectChoice(choice: Answer) {
   if (!currentQuestion.value) return;
@@ -76,6 +83,7 @@ function selectChoice(choice: Answer) {
   choice.selected = true;
   selectedChoice.value = choice;
   currentQuestion.value.staticUserAnswer = choice.id;
+  incrementTime();
 }
 
 const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === Number(route.params.assignmentId)));
