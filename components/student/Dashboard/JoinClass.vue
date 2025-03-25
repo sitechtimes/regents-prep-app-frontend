@@ -61,6 +61,7 @@ async function submit() {
   if (!joinCode.value) return;
   isLoading.value = true;
   isErrored.value = false;
+
   try {
     const course = await joinCourse(joinCode.value);
     isLoading.value = false;
