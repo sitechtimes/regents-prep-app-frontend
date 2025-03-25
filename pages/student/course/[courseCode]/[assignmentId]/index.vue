@@ -99,7 +99,8 @@ watch(
     if (!currentAssignment.value) return;
     if (currentAssignment.value?.assignment.isStatic && selectedChoice.value && currentQuestion.value) {
       try {
-        await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
+        //1 is a placeholder for secondsToAdd
+        await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, 1);
       } catch (error) {
         console.error("Error saving question:", error);
       }
@@ -136,8 +137,8 @@ async function switchQuestion(direction: "previous" | "next") {
 async function submitQuestion() {
   try {
     if (!selectedChoice.value || !currentQuestion.value) return;
-
-    const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
+    //1 is a placeholder for secondsToAdd
+    const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, 1);
 
     if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
     else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
