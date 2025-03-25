@@ -34,11 +34,11 @@
             <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
           </div>
           <div class="w-1/4 text-center">
-            <span>{{ getUserAnswer(questionInstance.question, questionInstance.userAnswers) }}</span>
+            <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers.map(String))"></span>
           </div>
           <div class="w-1/4 text-center" v-html="getCorrectAnswer(questionInstance.question)"></div>
           <div class="w-1/4 text-center">
-            <span v-if="isAnswerCorrect(questionInstance)" class="text-green-600">✔️</span>
+            <span v-if="isAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })" class="text-green-600">✔️</span>
             <span v-else class="text-red-600">❌</span>
           </div>
         </div>
@@ -71,7 +71,7 @@ const userStore = useUserStore();
 const { studentCurrentCourse } = storeToRefs(userStore);
 const assignmentResults = ref<AssignmentResults>();
 const allAssignments = ref<StudentAssignment[]>([]);
-const currentAssignment = ref<StudentAssignment | null>();
+const currentAssignment = ref();
 const dropdownStates = ref<boolean[]>([]);
 
 onMounted(async () => {
@@ -98,24 +98,32 @@ function formatDate(date: Date | null) {
   return formattedDate;
 }
 
-function getUserAnswer(question: Question, userAnswers: string[]) {
-  return !userAnswers || !question.answers
-    ? "-"
-    : question.answers
-        .filter((answer) => userAnswers.includes(answer.id.toString()))
-        .map((answer) => answer.text)
-        .join(", ");
+function getUserAnswer(question: Question, dynamicUserAnswers: string[]) {
+  if (!dynamicUserAnswers || dynamicUserAnswers.length === 0) return "-";
+  const lastAnswer = dynamicUserAnswers[dynamicUserAnswers.length - 1];
+  const answer = question.answers.find((answer) => answer.id.toString() === lastAnswer);
+  if (answer) {
+    const letter = String.fromCharCode(65 + question.answers.indexOf(answer));
+    return letter;
+  }
 }
 
 function getCorrectAnswer(question: Question) {
-  const correctAnswers = question.answers.filter((answer) => answer.isCorrect).map((answer) => answer.text);
-  return correctAnswers.join(", ") || "-";
+  const correctAnswers = question.answers.filter((answer) => answer.isCorrect);
+  if (correctAnswers.length > 0) {
+    return correctAnswers
+      .map((answer) => {
+        const letter = String.fromCharCode(65 + question.answers.indexOf(answer));
+        return letter;
+      })
+      .join(", ");
+  }
+  return "-";
 }
 
-function isAnswerCorrect(questionInstance: { question: Question; userAnswers: string[] }) {
-  const userAnswer = getUserAnswer(questionInstance.question, questionInstance.userAnswers);
+function isAnswerCorrect(questionInstance: { question: Question; dynamicUserAnswers: string[] }) {
+  const userAnswer = getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers);
   const correctAnswer = getCorrectAnswer(questionInstance.question);
-
   return userAnswer === correctAnswer;
 }
 </script>
