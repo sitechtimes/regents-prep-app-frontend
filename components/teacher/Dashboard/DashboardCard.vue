@@ -1,8 +1,8 @@
 <template>
   <div
-    class="flex w-[calc(33.33%-24px)] cursor-pointer flex-col items-center justify-center justify-self-center overflow-hidden rounded-2xl border-2 border-[var(--faded-bg-color)] transition-all duration-300 ease-in-out hover:border-[var(--primary)] hover:shadow-lg sm:min-w-[11rem] md:min-w-[16rem] hover:dark:shadow-[var(--gray)]"
+    class="my-2 flex h-[calc(90%)] w-[calc(85%)] cursor-pointer flex-col items-center justify-center justify-self-center overflow-hidden rounded-2xl border-2 border-[var(--faded-bg-color)] transition-all duration-300 ease-in-out hover:border-[var(--primary)] hover:shadow-lg hover:dark:shadow-[var(--gray)]"
   >
-    <!-- sm:w-[11rem] md:w-[16rem] lg:w-[30rem]-->
+    <!-- sm:w-[11rem] md:w-[16rem] lg:w-[30rem] w-[calc(33.33%-24px)]-->
     <div class="flex h-1/2 w-full flex-col items-center justify-end p-2 drop-shadow-md" :style="{ backgroundColor: subjectColors[course.subject] }">
       <h2 :title="course.name" class="sm:text-l mt-4 h-1/2 w-full overflow-hidden overflow-ellipsis text-nowrap text-center font-semibold md:text-2xl lg:text-3xl">{{ course.name }}</h2>
 
@@ -16,7 +16,7 @@
 
     <div class="flex h-full min-h-24 w-full columns-2 rounded-3xl bg-[var(--bg-color)] p-2">
       <div class="w-full">
-        <div class="sm:text-l h-1/2 text-center font-semibold md:text-xl lg:text-2xl"><h3 class="self-center pt-3">Join Code</h3></div>
+        <div class="sm:text-l h-1/2 text-center font-semibold md:text-xl lg:text-2xl"><h3 class="self-center pt-5">Join Code</h3></div>
         <div class="h-1/2 text-center text-3xl">
           <h2 id="copy" class="self-center">{{ course.joinCode }}</h2>
         </div>

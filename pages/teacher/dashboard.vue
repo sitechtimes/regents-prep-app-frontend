@@ -3,8 +3,9 @@
     <div v-if="loaded" class="h-full w-full">
       <NotFound :show-modal="showNotFound" user-type="teacher" :message="route.query.course ? 'class' : 'assignment'" />
 
-      <div class="flex h-full w-full flex-col justify-around">
-        <div v-if="teacherCourses.length > 0" class="mx-auto flex w-full flex-wrap justify-start gap-8 pe-6 ps-8">
+      <div class="flex h-full w-full flex-col justify-around overflow-hidden">
+        <div v-if="teacherCourses.length > 0" class="mx-auto grid w-full grid-cols-1 justify-start md:grid-cols-2 lg:grid-cols-3">
+          <!-- mx-auto flex w-full flex-wrap justify-start gap-8 pe-6 ps-8 -->
           <!--prettier-ignore-->
           <TeacherDashboardCard
             v-for="course in (teacherCourses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
