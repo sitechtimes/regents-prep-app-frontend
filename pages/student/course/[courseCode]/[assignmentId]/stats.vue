@@ -29,9 +29,9 @@
       </div>
       <div v-for="(questionInstance, questionId) in assignmentResults.questionInstances" :key="questionId" class="mb-4 flex flex-col">
         <div class="flex items-center border-b py-2">
-          <button type="button" class="w-16 cursor-pointer text-center font-semibold" @click="dropdownStates[questionId] = !dropdownStates[questionId]">🔽{{ questionId + 1 }}</button>
+          <button type="button" class="w-16 cursor-pointer text-center font-semibold hover:bg-slate-200" @click="dropdownStates[questionId] = !dropdownStates[questionId]">{{ questionId + 1 }}</button>
           <div class="flex-1 px-4">
-            <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
+            <span class="overflow-hidden text-ellipsis hover:bg-slate-200" v-html="questionInstance.question.text"></span>
           </div>
           <div class="w-1/4 text-center">
             <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers.map(String))"></span>
@@ -42,7 +42,7 @@
             <span v-else class="text-red-600">❌</span>
           </div>
         </div>
-        <div v-show="dropdownStates[questionId]" class="dropdown-content rounded bg-gray-100 p-4">
+        <div v-show="dropdownStates[questionId]" class="dropdown-content rounded-md p-4">
           <p><strong>Question:</strong> <span v-html="questionInstance.question.text"></span></p>
           <p><strong>Choices:</strong></p>
           <ul>
