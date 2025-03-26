@@ -1,17 +1,17 @@
 export interface Answer {
   /** @readonly ID of the answer. */
-  id: number;
+  readonly id: number;
   /** @readonly What the answer choice says (HTML string). */
-  text: string;
+  readonly text: string;
   /**
    * Used to store which answer the student selected.
    * @warning Must be manually added to `Question`; this field is not returned from the API.
    */
   selected: boolean;
   /** @readonly Selected answer. */
-  staticUserAnswer: number | null;
+  readonly staticUserAnswer: number | null;
   /** @readonly Whether or not the answer is correct. */
-  isCorrect: boolean;
+  readonly isCorrect: boolean;
 }
 
 export interface Question {
@@ -20,14 +20,14 @@ export interface Question {
   /** @readonly The type of answer for the question. */
   readonly answerType: "Multiple Choice" | "Written Response" | "True or False";
   /** @readonly Array of answers. */
-  answers: Answer[];
+  readonly answers: Answer[];
 }
 
 export interface QuestionInterface {
   /** @readonly ID of the question. */
-  id: number;
+  readonly id: number;
   /** @readonly Selected answer. */
-  staticUserAnswer: number | null;
+  readonly staticUserAnswer: number | null;
   /** @readonly Number of attempts allowed.
    *
    * If `null`, there is no limit.
@@ -72,7 +72,7 @@ export interface StudentAssignment extends Assignment {
 
   /** @readonly assignment object for assignment properties. */
 
-  assignment: {
+  readonly assignment: {
     /** @readonly Name of the assignment. */
     readonly name: string;
 
@@ -80,16 +80,16 @@ export interface StudentAssignment extends Assignment {
     readonly numQuestions: number;
 
     /** @readonly Whether or not the assignment can be turned in late. */
-    lateSubmissions: boolean;
+    readonly lateSubmissions: boolean;
 
-    /**Date object of when the assignment is due (Date(UTC)). */
-    dueDate: Date;
+    /** @readonly Date object of when the assignment is due (Date(UTC)). */
+    readonly dueDate: Date;
 
     /** @readonly Date object of when the assignment was assigned (Date(UTC)). */
     readonly dateAssigned: Date;
 
     /** @readonly If the assignment is a static assignment.*/
-    isStatic: boolean;
+    readonly isStatic: boolean;
 
     /** @readonly Object identifying the course assignment belongs to. */
     readonly course?: {
@@ -118,8 +118,8 @@ export interface TeacherAssignment extends Assignment {
   /** @readonly Date the assignment was submitted (Date(UTC)) */
   readonly dateAssigned: Date;
 
-  /** Date the assignment is due (Date(UTC)) */
-  dueDate: Date;
+  /** @readonly Date the assignment is due (Date(UTC)) */
+  readonly dueDate: Date;
 
   /** @readonly Number of questions in the assignment */
   readonly numQuestions: number;
@@ -190,14 +190,14 @@ export interface AssignmentResults extends SubmitAssignment {
   /** @readonly An array of the question results. */
   readonly questionInstances: {
     /** @readonly ID of the question. */
-    id: number;
+    readonly id: number;
     /** @readonly The data for the question referenced by the instance. */
-    question: Question;
+    readonly question: Question;
     /** Array of dynamic user answers (IDs of selected answers). */
     dynamicUserAnswers: number[];
     /** @readonly Tells if the question is complete. */
-    isComplete: boolean;
+    readonly isComplete: boolean;
     /** @readonly Time spent on the question (in seconds). */
-    timeSpent: number;
+    readonly timeSpent: number;
   }[];
 }
