@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="`/student/course/${course.id}`"
-    class="hover:border-border-neutral-500 flex w-115 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:shadow-lg dark:border-neutral-600"
+    class="flex w-115 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-500 hover:shadow-lg dark:border-neutral-600"
     type="button"
   >
     <div class="flex h-24 w-full flex-col items-center justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
@@ -45,7 +45,6 @@
 
 <script setup lang="ts">
 const props = defineProps<{ course: StudentCourse }>();
-
 const currentTime = new Date();
 
 const assignments = computed(() =>
