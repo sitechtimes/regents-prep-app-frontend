@@ -71,10 +71,20 @@ const errorMessage = ref("");
 const selectedChoice = ref<Answer>();
 let timestamp = Date.now();
 
+/**
+ * gets time spent on current question
+ * @returns how many seconds since last update
+ */
+function getDeltaTime() {
+  const diff = Math.floor((Date.now() - timestamp) / 1000);
+  timestamp = Date.now();
+  return diff;
+}
+
+/** increments time spent on current question */
 function incrementTime() {
   if (!currentQuestion.value) return;
-  incrementQuestionTime(currentQuestion.value.id, Math.floor((Date.now() - timestamp) / 1000));
-  timestamp = Date.now();
+  void incrementQuestionTime(currentQuestion.value.id, getDeltaTime());
 }
 
 function selectChoice(choice: Answer) {
@@ -83,7 +93,6 @@ function selectChoice(choice: Answer) {
   choice.selected = true;
   selectedChoice.value = choice;
   currentQuestion.value.staticUserAnswer = choice.id;
-  incrementTime();
 }
 
 const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === Number(route.params.assignmentId)));
@@ -101,17 +110,25 @@ const currentQuestionIndex = computed(() => {
   return index;
 });
 
+// increment time on index change. separate because immediate: true is not good for this
+watch(currentQuestionIndex, async () => {
+  if (!currentAssignment.value) return;
+  if (currentAssignment.value?.assignment.isStatic && currentQuestion.value) {
+    try {
+      if (selectedChoice.value) await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime());
+      else incrementTime();
+    } catch (error) {
+      console.error("Error saving question:", error);
+    }
+  }
+});
+
 watch(
   currentQuestionIndex,
   async () => {
     if (!currentAssignment.value) return;
-    if (currentAssignment.value?.assignment.isStatic && selectedChoice.value && currentQuestion.value) {
-      try {
-        await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
-      } catch (error) {
-        console.error("Error saving question:", error);
-      }
-    }
+
+    // load question
     let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
     if (!question) {
       try {
@@ -124,6 +141,8 @@ watch(
         errorMessage.value = "Error fetching question. Please try again.";
       }
     }
+
+    // highlight selected answer
     currentQuestion.value = question;
     if (question?.staticUserAnswer !== undefined) {
       question.question.answers.forEach((answer) => {
@@ -137,6 +156,7 @@ watch(
 
 async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
+
   const newIndex = direction === "previous" ? currentQuestionIndex.value - 1 : currentQuestionIndex.value + 1;
   if (newIndex >= 0 && newIndex < currentAssignment.value.assignment.numQuestions) await changeRouteQuery({ q: newIndex });
 }
@@ -145,7 +165,7 @@ async function submitQuestion() {
   try {
     if (!selectedChoice.value || !currentQuestion.value) return;
 
-    const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
+    const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime());
 
     if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
     else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
@@ -158,21 +178,35 @@ async function submitQuestion() {
   }
 }
 
+onBeforeMount(() => {
+  if (!route.query.q) void changeRouteQuery({ q: 0 });
+});
+
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
   event.preventDefault();
   // TODO: add api call to save progress
 }
 
-onBeforeMount(() => {
-  if (!route.query.q) void changeRouteQuery({ q: 0 });
-});
+function handleVisibilityTime() {
+  // tab just got hidden. increment time
+  if (document.visibilityState === "hidden") incrementTime();
+  // tab just got brought to foreground. don't count the time it was gone
+  else timestamp = Date.now();
+}
 
 onMounted(() => {
   assignmentInProgress.value = true;
   window.addEventListener("beforeunload", warnForUnsavedChanges);
+  window.addEventListener("visibilitychange", handleVisibilityTime);
 });
 
-onBeforeUnmount(() => window.removeEventListener("beforeunload", warnForUnsavedChanges));
+// for navigating off but keeping page open
+onBeforeUnmount(() => incrementTime());
+
+onUnmounted(() => {
+  window.removeEventListener("visibilitychange", handleVisibilityTime);
+  window.removeEventListener("beforeunload", warnForUnsavedChanges);
+});
 </script>
 
 <style scoped>
