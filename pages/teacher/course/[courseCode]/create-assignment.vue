@@ -7,33 +7,45 @@
       <h3 class="text-2xl font-bold">Create Assignment</h3>
 
       <div>
-        <label class="fo-label fo-label-text shrink-0" for="name">Name <span title="Required" class="font-2xl text-red-500">*</span></label>
-        <input id="name" v-model="assignmentInfo.name" required type="text" class="fo-input dark:bg-neutral-900" placeholder="Unit 3 Review" />
+        <label class="fo-label fo-label-text shrink-0 font-bold" for="name">Name <span title="Required" class="font-2xl text-red-500">*</span></label>
+        <input id="name" v-model="assignmentInfo.name" required type="text" class="fo-input dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50" placeholder="Unit 3 Review" />
       </div>
 
       <div>
-        <label class="fo-label fo-label-text shrink-0">Due <span title="Required" class="font-2xl text-red-500">*</span></label>
+        <label class="fo-label fo-label-text shrink-0 font-bold">Due <span title="Required" class="font-2xl text-red-500">*</span></label>
         <div class="flex w-full items-center justify-center gap-3">
-          <input v-model="assignmentInfo.dueDate.date" required type="date" class="fo-input dark:bg-neutral-900" :min="currentDateISO" />
-          <input v-model="assignmentInfo.dueDate.time" required type="time" class="fo-input dark:bg-neutral-900" />
+          <input v-model="assignmentInfo.dueDate.date" required type="date" class="fo-input dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50" :min="currentDateISO" />
+          <input v-model="assignmentInfo.dueDate.time" required type="time" class="fo-input dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50" />
         </div>
       </div>
 
       <div class="flex w-full items-center justify-center gap-3">
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0" for="time-per-question">Time limit (minutes)</label>
-          <input id="time-per-question" v-model.number="assignmentInfo.timeAllotted" type="number" class="fo-input dark:bg-neutral-900" placeholder="Unlimited" />
+          <label class="fo-label fo-label-text shrink-0 font-bold" for="time-per-question">Time limit (minutes)</label>
+          <input
+            id="time-per-question"
+            v-model.number="assignmentInfo.timeAllotted"
+            type="number"
+            class="fo-input dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+            placeholder="Unlimited"
+          />
         </div>
 
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0" for="attempts-per-question">Attempts per question</label>
-          <input id="attempts-per-question" v-model.number="assignmentInfo.attemptsAllowed" type="number" class="fo-input dark:bg-neutral-900" placeholder="Unlimited" />
+          <label class="fo-label fo-label-text shrink-0 font-bold" for="attempts-per-question">Attempts per question</label>
+          <input
+            id="attempts-per-question"
+            v-model.number="assignmentInfo.attemptsAllowed"
+            type="number"
+            class="fo-input dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+            placeholder="Unlimited"
+          />
         </div>
       </div>
 
       <div>
-        <p class="fo-label fo-label-text pointer-events-none shrink-0">Questions and Topics <span title="Required" class="font-2xl text-red-500">*</span></p>
-        <div class="flex h-96 w-full items-center justify-center rounded-lg border border-neutral-400 bg-white hover:border-neutral-500 dark:bg-neutral-900">
+        <p class="fo-label fo-label-text pointer-events-none shrink-0 font-bold">Questions and Topics <span title="Required" class="font-2xl text-red-500">*</span></p>
+        <div class="flex h-96 w-full items-center justify-center rounded-lg border dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50">
           <div v-if="!assignmentInfo.topicIds.length && !assignmentInfo.questionIds.length" class="mb-10 flex flex-col items-center justify-center">
             <img class="size-40 opacity-65 dark:invert" src="/ui/plus.svg" aria-hidden="true" />
             <h5 class="text-center text-xl font-bold text-neutral-500">No Questions or Topics Selected</h5>
@@ -76,7 +88,7 @@
         <div :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : 'You must have at least one question or topic'" :class="{ 'du-tooltip': !allowedToSubmit }">
           <button
             class="rounded-lg border px-8 py-1.5 text-xl font-medium"
-            :class="allowedToSubmit ? 'border-green-400 bg-green-400 hover:bg-green-300' : 'cursor-not-allowed border-neutral-400 bg-white'"
+            :class="allowedToSubmit ? 'border-green-500 bg-green-500 hover:brightness-110' : 'cursor-not-allowed bg-white dark:border-neutral-300/50 dark:bg-neutral-600/50'"
             type="submit"
           >
             Create

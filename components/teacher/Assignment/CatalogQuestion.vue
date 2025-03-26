@@ -21,12 +21,13 @@
 
     <span class="question-text space-y-3 text-neutral-100" v-html="question?.text"></span>
 
-    <div class="flex flex-wrap items-center justify-center gap-2">
+    <!-- answer choices -->
+    <div class="items-left flex flex-wrap justify-center gap-2">
       <div
         v-if="question?.answerType === 'Multiple Choice'"
         v-for="choice in question?.answers"
         class="rounded-lg px-6 py-2 shadow-sm"
-        :class="(showAnswerOverride || showAnswer) && choice.isCorrect ? 'bg-green-500' : 'bg-neutral-200'"
+        :class="(showAnswerOverride || showAnswer) && choice.isCorrect ? 'bg-green-500' : 'bg-neutral-900'"
         v-html="choice.text"
       ></div>
     </div>
