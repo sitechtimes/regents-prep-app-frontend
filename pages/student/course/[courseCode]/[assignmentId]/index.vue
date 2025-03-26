@@ -114,12 +114,10 @@ const currentQuestionIndex = computed(() => {
 watch(currentQuestionIndex, async () => {
   if (!currentAssignment.value) return;
   if (currentAssignment.value?.assignment.isStatic && currentQuestion.value) {
-    try {
-      if (selectedChoice.value) await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime());
-      else incrementTime();
-    } catch (error) {
-      console.error("Error saving question:", error);
-    }
+    if (selectedChoice.value) {
+      const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
+      if (error) console.error("Error saving question:", error);
+    } else incrementTime();
   }
 });
 
@@ -164,20 +162,17 @@ async function switchQuestion(direction: "previous" | "next") {
 }
 
 async function submitQuestion() {
-  try {
-    if (!selectedChoice.value || !currentQuestion.value) return;
+  if (!selectedChoice.value || !currentQuestion.value) return;
 
-    const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime());
+  const { data: response, error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
+  if (error) return console.error("Error submitting question:", error);
 
-    if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
-    else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
-    else if (!response.remainingAttempts) feedbackMessage.value = `Incorrect. Try again!`;
-    else feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts} attempts left.`;
+  if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
+  else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
+  else if (!response.remainingAttempts) feedbackMessage.value = `Incorrect. Try again!`;
+  else feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts} attempts left.`;
 
-    if (response.isCorrect || response.remainingAttempts === 0) await switchQuestion("next");
-  } catch (error) {
-    console.error("Error submitting question:", error);
-  }
+  if (response.isCorrect || response.remainingAttempts === 0) await switchQuestion("next");
 }
 
 onBeforeMount(() => {
