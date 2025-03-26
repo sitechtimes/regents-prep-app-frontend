@@ -5,7 +5,7 @@
         ? `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}/stats`
         : `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`
     "
-    class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
+    class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600/50 hover:shadow-lg sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
   >
     <div class="flex w-5/6 flex-col items-start justify-start">
       <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.assignment.name }}</h3>
