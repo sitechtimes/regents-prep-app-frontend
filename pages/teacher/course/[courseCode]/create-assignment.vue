@@ -149,20 +149,25 @@ async function createAssignment() {
 
   createAssignmentResult.isLoading = true;
 
-  await new Promise((resolve) => resolve(1));
+  const { error } = await tryCatch(
+    submitCreateAssignment(
+      assignmentInfo.name,
+      courseID,
+      assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId),
+      assignmentInfo.questionIds.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
+      `${assignmentInfo.dueDate.date}T${assignmentInfo.dueDate.time}`,
+      assignmentInfo.questionIds.length,
+      assignmentInfo.lateSubmissions,
+      assignmentInfo.timeAllotted ?? 0,
+      assignmentInfo.attemptsAllowed ?? 0
+    )
+  );
+  createAssignmentResult.isLoading = false;
 
-  // try {
-  //   const dueDate = new Date(dueDateInput.value).toISOString();
-  //   const guaranteedQuestions = guaranteedQuestionIDs;
-  //   const randomQuestions = randomQuestionIDs;
-  //   await submitCreateAssignment(name.value, courseID, guaranteedQuestions.value, randomQuestions.value, dueDate, numQuestions.value, lateSubmissions.value, timeAllotted.value, attemptsAllowed.value);
-  //   successMessage.value = "Assignment created successfully!";
-  // } catch (error) {
-  //   errorMessage.value = "Failed to create assignment.";
-  //   console.error(error);
-  // } finally {
-  //   loading.value = false;
-  // }
+  if (error) {
+    createAssignmentResult.error = error.message;
+    console.error(error);
+  }
 }
 </script>
 
