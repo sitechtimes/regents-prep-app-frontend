@@ -36,7 +36,7 @@
       </ul>
     </div>
 
-    <div class="bg-neutral-00/25 flex h-full w-full flex-col items-start justify-start p-4 dark:bg-none">
+    <div class="flex h-full w-full flex-col items-start justify-start bg-neutral-100/25 p-4 dark:bg-none">
       <h4 class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-2xl font-medium">{{ assignment.assignment.name }}</h4>
       <p class="text-sm font-bold">Due {{ formatDate(assignment.assignment.dueDate, currentDate) }}</p>
       <p class="text-sm text-neutral-700 dark:text-white">Assigned {{ formatDate(assignment.assignment.dateAssigned, currentDate) }}</p>
