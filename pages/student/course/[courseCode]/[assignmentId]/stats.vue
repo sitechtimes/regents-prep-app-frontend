@@ -11,7 +11,7 @@
       <p>No assignment found for the provided ID.</p>
     </div>
     <div class="relative my-4 flex justify-center">
-      <div class="relative h-8 w-4/5 rounded-full border border-neutral-300 bg-red-500">
+      <div class="relative h-8 w-4/5 rounded-full border border-neutral-300 bg-red-500 dark:border-neutral-500">
         <div
           class="h-full rounded-full bg-green-500"
           :style="{ width: ((assignmentResults.questionsCorrect ?? assignmentResults.questionsCompleted) / assignmentResults.numQuestions) * 100 + '%' }"
@@ -34,7 +34,7 @@
         class="mb-4 flex flex-col rounded-md"
         @click="dropdownStates[questionId] = !dropdownStates[questionId]"
       >
-        <div class="flex items-center border-b border-neutral-300 py-2 hover:bg-neutral-200/50 dark:border-neutral-500">
+        <div class="flex items-center border-b border-neutral-300 py-2 hover:bg-neutral-200/50 dark:border-neutral-500 dark:hover:bg-neutral-600/20">
           <button type="button" class="w-16 cursor-pointer text-center font-semibold">{{ questionId + 1 }}</button>
           <div class="flex-1 px-4">
             <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
