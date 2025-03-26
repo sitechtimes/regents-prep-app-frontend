@@ -45,10 +45,18 @@
         <div ref="questions" class="sticky top-20 z-10 flex items-center justify-center gap-8 rounded-full bg-body px-5 py-2" :class="{ 'shadow-lg': isSticky }">
           <h3 class="text-2xl font-bold">Questions</h3>
           <TeacherAssignmentCatalogQuestionButton
-            :click-function="toggleAnswers"
+            :click-function="() => (showQuestionAnswers = !showQuestionAnswers)"
             :img="`/ui/${showQuestionAnswers ? 'eyeHide' : 'eyeShow'}.svg`"
             :text="`${showQuestionAnswers ? 'Hide' : 'Show'} All Answers`"
           />
+          <div class="du-tooltip" data-tip="">
+            <TeacherAssignmentCatalogQuestionButton
+              v-if="!viewOnly"
+              :click-function="() => emit('selectTopic', currentTopic?.id ?? 1)"
+              :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
+              :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
+            />
+          </div>
         </div>
 
         <div class="flex w-full flex-wrap items-center justify-start gap-4">
@@ -90,14 +98,14 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   viewOnly: boolean;
   currentQuestions: CreateAssignmentQuestion[];
-  // TODO: currentTopicIds: number[];
+  currentTopicIds: number[];
 }>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
-  // TODO: selectTopic: [topicId: number];
+  selectTopic: [topicId: number];
 }>();
 
 const userStore = useUserStore();
@@ -106,10 +114,7 @@ const { loadedTopics, loadedQuestions } = storeToRefs(userStore);
 const initialTopics = ref<Topic[]>([]);
 const displayedQuestions = ref<(number | TopicQuestionInterface)[]>([]);
 
-const showQuestionAnswers = ref(true);
-function toggleAnswers() {
-  showQuestionAnswers.value = !showQuestionAnswers.value;
-}
+const showQuestionAnswers = ref(false);
 
 async function loadQuestions(topicId: number, offset?: number) {
   const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId, offset));
@@ -154,6 +159,7 @@ async function loadTopics(topicId: number) {
 
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
+const topicIsInAssignment = computed(() => props.currentTopicIds.includes(currentTopic.value?.id ?? 1));
 const currentQuestionPageIndex = ref(0);
 const totalQuestions = ref(0);
 watch(currentTopic, async (topic) => {
