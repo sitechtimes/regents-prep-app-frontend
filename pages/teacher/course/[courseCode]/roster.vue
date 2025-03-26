@@ -3,14 +3,14 @@
     <div class="relative flex w-full flex-col items-center justify-center gap-1">
       <input
         v-model="searchTerm"
-        class="mb-6 h-10 w-2/3 rounded-lg border bg-[var(--bg-color)] px-2 py-1 transition duration-500 hover:border-[var(--primary)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
+        class="mb-6 h-10 w-2/3 rounded-lg border border-neutral-300 px-2 py-1 transition duration-300 focus:outline focus:outline-1 focus:outline-neutral-600/50 dark:border-neutral-600 dark:hover:border-neutral-300/50"
         type="text"
         placeholder="Search for Student..."
       />
       <div class="items relative flex w-full items-center justify-center overflow-x-auto rounded-b-box rounded-se-box">
         <table class="table w-3/4">
           <thead>
-            <tr class="border-b border-[#d6d6d6]">
+            <tr class="border-b border-neutral-300 dark:border-neutral-600">
               <th class="py-3 pl-10 text-start font-bold">First Name</th>
               <th class="py-3 pl-10 text-start font-bold">Last Name</th>
               <th class="py-3 font-bold">Remove Student</th>
@@ -21,7 +21,7 @@
               <td class="py-3 pl-10">{{ student.firstName }}</td>
               <td class="py-3 pl-10">{{ student.lastName }}</td>
               <td class="flex items-center justify-center py-3">
-                <button class="btn btn-sm transition-200 flex h-8 items-center justify-center rounded-xl bg-[#fd7e78] p-3 hover:brightness-125" type="button" @click="removeStudent(student)">✕</button>
+                <button class="btn btn-sm transition-200 flex h-8 items-center justify-center rounded-xl bg-red-500 p-3 hover:brightness-125" type="button" @click="removeStudent(student)">✕</button>
               </td>
             </tr>
             <tr v-if="filteredStudents.length === 0" class="border-t">
