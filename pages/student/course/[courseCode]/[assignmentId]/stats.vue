@@ -1,7 +1,7 @@
 <template>
   <div v-if="assignmentResults" class="p-6">
     <div class="my-6 text-center">
-      <h2 class="text-2xl font-bold">Results Overview</h2>
+      <h2 class="text-4xl font-bold">Results Overview</h2>
     </div>
     <div v-if="currentAssignment" class="my-4 text-center">
       <h1 class="text-2xl font-bold">{{ currentAssignment?.assignment.name }}</h1>
@@ -11,7 +11,7 @@
       <p>No assignment found for the provided ID.</p>
     </div>
     <div class="relative my-4 flex justify-center">
-      <div class="relative h-8 w-125 rounded-full border-[1.5px] border-gray-300 bg-red-500">
+      <div class="relative h-8 w-4/5 rounded-full border border-neutral-300 bg-red-500 dark:border-neutral-500">
         <div
           class="h-full rounded-full bg-green-500"
           :style="{ width: ((assignmentResults.questionsCorrect ?? assignmentResults.questionsCompleted) / assignmentResults.numQuestions) * 100 + '%' }"
@@ -20,16 +20,22 @@
       <span class="absolute inset-0 flex items-center justify-center text-xl font-semibold text-black"> {{ assignmentResults.questionsCorrect }}/{{ assignmentResults.numQuestions }} </span>
     </div>
     <div class="mb-4 flex w-full flex-col">
-      <div class="flex items-center border-b py-2 font-semibold">
-        <div class="w-16 text-center">#</div>
-        <div class="flex-1 px-4">Question</div>
-        <div class="w-1/4 text-center">Your Answer</div>
-        <div class="w-1/4 text-center">Correct Answer</div>
-        <div class="w-1/4 text-center">Result</div>
+      <!-- header row -->
+      <div class="flex items-center border-b border-neutral-300 py-2 dark:border-neutral-500">
+        <div class="w-16 text-center font-semibold">#</div>
+        <div class="flex-1 px-4 font-semibold">Question</div>
+        <div class="w-1/4 text-center font-semibold">Your Answer</div>
+        <div class="w-1/4 text-center font-semibold">Correct Answer</div>
+        <div class="w-1/4 text-center font-semibold">Result</div>
       </div>
-      <div v-for="(questionInstance, questionId) in assignmentResults.questionInstances" :key="questionId" class="mb-4 flex flex-col">
-        <div class="flex items-center border-b py-2">
-          <button type="button" class="w-16 cursor-pointer text-center font-semibold" @click="dropdownStates[questionId] = !dropdownStates[questionId]">🔽{{ questionId + 1 }}</button>
+      <div
+        v-for="(questionInstance, questionId) in assignmentResults.questionInstances"
+        :key="questionId"
+        class="mb-4 flex flex-col rounded-md"
+        @click="dropdownStates[questionId] = !dropdownStates[questionId]"
+      >
+        <div class="flex items-center border-b border-neutral-300 py-2 hover:bg-neutral-200/50 dark:border-neutral-500 dark:hover:bg-neutral-600/20">
+          <button type="button" class="w-16 cursor-pointer text-center font-semibold">{{ questionId + 1 }}</button>
           <div class="flex-1 px-4">
             <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
           </div>
@@ -42,7 +48,8 @@
             <span v-else class="text-red-600">❌</span>
           </div>
         </div>
-        <div v-show="dropdownStates[questionId]" class="dropdown-content rounded bg-gray-100 p-4">
+        <!-- expanded question details -->
+        <div v-show="dropdownStates[questionId]" class="dropdown-content rounded-md p-4">
           <p><strong>Question:</strong> <span v-html="questionInstance.question.text"></span></p>
           <p><strong>Choices:</strong></p>
           <ul>

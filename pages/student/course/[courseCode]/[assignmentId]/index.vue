@@ -6,14 +6,16 @@
           <div v-if="assignmentInProgress" class="fixed left-0 top-0 z-50 flex h-dvh w-screen items-center justify-center bg-body">
             <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" @close="assignmentInProgress = false" />
             <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
-              <h2 class="text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
+              <!-- question number and question content -->
+              <h2 class="mb-2 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
               <p class="overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
+              <!-- multiple choice selection -->
               <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
                 <button
                   type="button"
-                  class="w-full rounded-lg bg-neutral-300 px-6 py-3 shadow-sm"
-                  :class="{ 'bg-neutral-500': choice.selected }"
+                  class="w-full rounded-lg bg-neutral-200 px-6 py-3 text-left shadow-sm hover:bg-neutral-500/50 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
+                  :class="{ 'bg-neutral-500/50 dark:bg-neutral-500/75': choice.selected }"
                   @click="selectChoice(choice)"
                   v-html="choice.text"
                 ></button>
@@ -39,11 +41,11 @@
               </div>
               <button
                 v-if="!currentAssignment.assignment.isStatic"
-                class="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-neutral-100 px-10 py-2 text-xl hover:bg-neutral-200"
+                class="mt-8 flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:text-white dark:hover:brightness-150"
                 type="button"
                 @click="submitQuestion"
               >
-                Submit
+                Submit Question
               </button>
               <p v-if="feedbackMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ feedbackMessage }}</p>
               <p v-if="errorMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ errorMessage }}</p>
