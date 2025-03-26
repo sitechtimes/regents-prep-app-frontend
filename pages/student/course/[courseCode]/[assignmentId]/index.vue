@@ -201,7 +201,7 @@ onMounted(() => {
 });
 
 // for navigating off but keeping page open
-onBeforeUnmount(() => incrementTime());
+onBeforeUnmount(incrementTime);
 
 onUnmounted(() => {
   window.removeEventListener("visibilitychange", handleVisibilityTime);
