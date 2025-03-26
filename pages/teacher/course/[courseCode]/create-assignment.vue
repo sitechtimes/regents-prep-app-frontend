@@ -13,7 +13,7 @@
           v-model="assignmentInfo.name"
           required
           type="text"
-          class="fo-input border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+          class="fo-input border-neutral-400 bg-neutral-100 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:hover:border-neutral-300/50"
           placeholder="Unit 3 Review"
         />
       </div>
@@ -25,14 +25,14 @@
             v-model="assignmentInfo.dueDate.date"
             required
             type="date"
-            class="fo-input border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+            class="fo-input border-neutral-400 bg-neutral-100 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:hover:border-neutral-300/50"
             :min="currentDateISO"
           />
           <input
             v-model="assignmentInfo.dueDate.time"
             required
             type="time"
-            class="fo-input border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+            class="fo-input border-neutral-400 bg-neutral-100 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:hover:border-neutral-300/50"
           />
         </div>
       </div>
@@ -44,7 +44,7 @@
             id="time-per-question"
             v-model.number="assignmentInfo.timeAllotted"
             type="number"
-            class="fo-input border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+            class="fo-input border-neutral-400 bg-neutral-100 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:hover:border-neutral-300/50"
             placeholder="Unlimited"
           />
         </div>
@@ -62,7 +62,9 @@
       </div>
 
       <div>
-        <p class="dark:text-whit fo-label fo-label-text pointer-events-none shrink-0 font-bold text-black">Questions and Topics <span title="Required" class="font-2xl text-red-500">*</span></p>
+        <p class="dark:text-whit fo-label fo-label-text pointer-events-none shrink-0 font-bold text-black dark:text-white">
+          Questions and Topics <span title="Required" class="font-2xl text-red-500">*</span>
+        </p>
         <div
           class="flex h-96 w-full items-center justify-center rounded-lg border border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
         >
@@ -101,14 +103,18 @@
 
       <div class="flex w-full items-center justify-between px-10">
         <div class="flex items-center gap-1">
-          <input id="late-submissions" v-model="assignmentInfo.lateSubmissions" type="checkbox" class="fo-checkbox" />
-          <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base" for="late-submissions">Allow late submissions</label>
+          <input id="late-submissions" v-model="assignmentInfo.lateSubmissions" type="checkbox" class="fo-checkbox border-neutral-400 bg-neutral-300 dark:bg-neutral-900" />
+          <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base text-black dark:text-white" for="late-submissions">Allow late submissions</label>
         </div>
 
         <div :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : 'You must have at least one question or topic'" :class="{ 'du-tooltip': !allowedToSubmit }">
           <button
-            class="rounded-lg border px-8 py-1.5 text-xl font-medium"
-            :class="allowedToSubmit ? 'border-green-500 bg-green-500 hover:brightness-110' : 'cursor-not-allowed bg-white dark:border-neutral-300/50 dark:bg-neutral-600/50'"
+            class="rounded-lg border px-8 py-1.5 text-xl font-medium text-black"
+            :class="
+              allowedToSubmit
+                ? 'border-green-500 bg-green-500 hover:brightness-110'
+                : 'cursor-not-allowed border-none border-neutral-300 bg-neutral-200 p-0 transition duration-500 hover:border-neutral-400 dark:bg-neutral-600/50'
+            "
             type="submit"
           >
             Create
