@@ -56,20 +56,16 @@ const filteredStudents = computed(() =>
 );
 
 onMounted(async () => {
-  try {
-    students.value = await getCourseStudents(courseId);
-  } catch (error) {
-    console.error(error);
-  }
+  const { data, error } = await tryCatch(getCourseStudents(courseId));
+  if (error) return console.error(error);
+  students.value = data;
 });
 
 async function removeStudent(student: TeacherStudentList) {
-  try {
-    students.value.splice(students.value.indexOf(student), 1);
-    await removeStudents(courseId, student.id);
-  } catch (error) {
-    console.error(error);
-  }
+  students.value.splice(students.value.indexOf(student), 1);
+
+  const { error } = await tryCatch(removeStudents(courseId, student.id));
+  if (error) return console.error(error);
 }
 </script>
 
