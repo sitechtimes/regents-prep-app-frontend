@@ -1,5 +1,7 @@
 <template>
-  <div class="group flex w-[45%] max-w-[50%] grow flex-col items-center justify-around gap-6 self-baseline rounded-xl bg-neutral-100 p-6">
+  <div
+    class="group flex w-[45%] max-w-[50%] grow flex-col items-center justify-around gap-6 self-baseline rounded-xl border border-neutral-300 bg-neutral-100 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
+  >
     <div class="flex w-full items-center justify-start gap-3">
       <TeacherAssignmentCatalogQuestionButton
         v-if="!viewOnly"
@@ -24,7 +26,7 @@
         v-if="question?.answerType === 'Multiple Choice'"
         v-for="choice in question?.answers"
         class="rounded-lg px-6 py-2 shadow-sm"
-        :class="(showAnswerOverride || showAnswer) && choice.isCorrect ? 'bg-green-400' : 'bg-neutral-200'"
+        :class="(showAnswerOverride || showAnswer) && choice.isCorrect ? 'bg-green-500' : 'bg-neutral-200'"
         v-html="choice.text"
       ></div>
     </div>

@@ -1,12 +1,13 @@
 <template>
   <div class="flex grow flex-col items-start justify-start gap-6">
     <div class="flex w-full items-center justify-start gap-2 px-10 py-2">
-      <button class="mr-10 flex select-none items-center justify-center gap-2 rounded-lg bg-neutral-200 px-6 pb-1.5 pt-2 text-lg font-medium hover:bg-neutral-300" type="button" @click="goBack">
-        <img class="size-5" src="/ui/arrowLeft.svg" aria-hidden="true" />
-        <span>Back</span>
+      <!-- back button -->
+      <button class="group my-4 ml-4 flex items-center justify-center gap-2 rounded-xl px-5 py-2 hover:bg-neutral-200 dark:hover:bg-neutral-500/25" type="button" @click="emit('close')">
+        <img class="size-4 group-hover:-translate-x-1 dark:invert" src="/ui/arrowLeft.svg" aria-hidden="true" />
+        Back
       </button>
 
-      <button class="rounded-lg bg-neutral-200 px-6 pb-0.5 pt-1 text-lg font-medium hover:bg-neutral-300" type="button" @click="currentTopic = undefined">ALL TOPICS</button>
+      <button class="rounded-lg bg-neutral-200 px-4 pb-0.5 pt-1 text-xl font-medium hover:bg-neutral-200/50" type="button" @click="currentTopic = undefined">ALL TOPICS</button>
       <img v-show="currentTopicPath.length" class="size-5" src="/ui/doubleChevronRight.svg" aria-hidden="true" />
 
       <div v-for="(topic, index) in currentTopicPath" class="flex items-center justify-center gap-2">
