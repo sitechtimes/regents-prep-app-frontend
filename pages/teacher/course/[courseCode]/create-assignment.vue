@@ -19,12 +19,12 @@
       <div class="flex w-full items-center justify-center gap-3">
         <div class="grow">
           <label class="fo-label fo-label-text shrink-0" for="time-per-question">Time limit (minutes)</label>
-          <input id="time-per-question" v-model.number="assignmentInfo.timeAllotted" required type="number" class="fo-input" placeholder="Unlimited" />
+          <input id="time-per-question" v-model.number="assignmentInfo.timeAllotted" type="number" class="fo-input" placeholder="Unlimited" />
         </div>
 
         <div class="grow">
           <label class="fo-label fo-label-text shrink-0" for="attempts-per-question">Attempts per question</label>
-          <input id="attempts-per-question" v-model.number="assignmentInfo.attemptsAllowed" required type="number" class="fo-input" placeholder="Unlimited" />
+          <input id="attempts-per-question" v-model.number="assignmentInfo.attemptsAllowed" type="number" class="fo-input" placeholder="Unlimited" />
         </div>
       </div>
 

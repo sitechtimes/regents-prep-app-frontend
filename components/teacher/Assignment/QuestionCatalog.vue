@@ -46,7 +46,7 @@
 
         <div class="flex w-full flex-wrap items-center justify-start gap-4">
           <LazyTeacherAssignmentCatalogQuestion
-            v-for="question in currentTopic ? currentTopic.questionIds : initialQuestions"
+            v-for="question in displayedQuestions"
             :key="typeof question === 'number' ? question : question.id"
             :view-only="viewOnly"
             :question="typeof question === 'number' ? loadedQuestions[question] : question"
@@ -54,6 +54,28 @@
             :current-questions="currentQuestions"
             @select="emit('selectQuestion', typeof question === 'number' ? question : question.id)"
           />
+        </div>
+
+        <div class="flex w-full flex-col items-center justify-center">
+          <p>
+            Showing <strong class="text-lg font-semibold">{{ currentQuestionPageIndex * 20 + 1 }}</strong> -
+            <strong class="text-lg font-semibold">{{ Math.min(currentQuestionPageIndex * 20 + 20, totalQuestions) }}</strong> of
+            {{ totalQuestions }}
+          </p>
+          <div class="flex items-center justify-center gap-3">
+            <TeacherAssignmentCatalogPageNavigationButton :disable="currentQuestionPageIndex === 0" :click-function="() => (currentQuestionPageIndex = 0)" img="/ui/doubleChevronLeft.svg" />
+            <TeacherAssignmentCatalogPageNavigationButton :disable="currentQuestionPageIndex === 0" :click-function="() => currentQuestionPageIndex--" img="/ui/chevronLeft.svg" />
+            <TeacherAssignmentCatalogPageNavigationButton
+              :disable="currentQuestionPageIndex === Math.floor(totalQuestions / 20)"
+              :click-function="() => currentQuestionPageIndex++"
+              img="/ui/chevronRight.svg"
+            />
+            <TeacherAssignmentCatalogPageNavigationButton
+              :disable="currentQuestionPageIndex === Math.floor(totalQuestions / 20)"
+              :click-function="() => (currentQuestionPageIndex = Math.floor(totalQuestions / 20))"
+              img="/ui/doubleChevronRight.svg"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -64,32 +86,36 @@
 defineProps<{
   viewOnly: boolean;
   currentQuestions: CreateAssignmentQuestion[];
-  currentTopicIds: number[];
+  // TODO: currentTopicIds: number[];
 }>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
-  selectTopic: [topicId: number];
+  // TODO: selectTopic: [topicId: number];
 }>();
 
 const userStore = useUserStore();
 const { loadedTopics, loadedQuestions } = storeToRefs(userStore);
 
 const initialTopics = ref<Topic[]>([]);
-const initialQuestions = ref<TopicQuestionInterface[]>([]);
+const displayedQuestions = ref<(number | TopicQuestionInterface)[]>([]);
 
 const showQuestionAnswers = ref(true);
 function toggleAnswers() {
   showQuestionAnswers.value = !showQuestionAnswers.value;
 }
 
-async function loadQuestions(topicId: number) {
-  const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId));
+async function loadQuestions(topicId: number, offset?: number) {
+  const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId, offset));
   if (error) return console.error(error);
 
   const questions = data.questions;
+  // eslint-disable-next-line no-use-before-define
+  totalQuestions.value = data.count;
 
   if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = questions.map((question) => question.id);
   for (const question of questions) if (!loadedQuestions.value[question.id]) loadedQuestions.value[question.id] = question;
+
+  displayedQuestions.value = questions;
 
   return questions;
 }
@@ -116,20 +142,27 @@ async function loadTopics(topicId: number) {
     if (parentIsLoaded) parent.children?.push(topic.id);
   }
 
-  console.log(loadedTopics.value);
   return topics;
 }
 
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
+const currentQuestionPageIndex = ref(0);
+const totalQuestions = ref(0);
 watch(currentTopic, async (topic) => {
-  if (!topic) return (currentTopicPath.value = []);
+  if (!topic) currentTopicPath.value = [];
+  else {
+    if (currentTopicPath.value.includes(topic.id)) currentTopicPath.value = currentTopicPath.value.slice(0, currentTopicPath.value.indexOf(topic.id));
 
-  if (currentTopicPath.value.includes(topic.id)) currentTopicPath.value = currentTopicPath.value.slice(0, currentTopicPath.value.indexOf(topic.id));
+    currentTopicPath.value.push(topic.id);
+    currentQuestionPageIndex.value = 0;
+    await loadTopics(topic.id);
+  }
 
-  currentTopicPath.value.push(topic.id);
-  await loadTopics(topic.id);
-  await loadQuestions(topic.id);
+  await loadQuestions(topic?.id ?? 1);
+});
+watch(currentQuestionPageIndex, async (index) => {
+  await loadQuestions(currentTopic.value?.id ?? 1, index * 20);
 });
 
 function goBack() {
@@ -139,9 +172,8 @@ function goBack() {
 
 onMounted(async () => {
   const topics = await loadTopics(1);
-  const questions = await loadQuestions(1);
+  await loadQuestions(1);
   if (topics) initialTopics.value = topics;
-  if (questions) initialQuestions.value = questions;
 });
 
 const questionsHeader = useTemplateRef("questions");
