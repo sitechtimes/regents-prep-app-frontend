@@ -46,14 +46,14 @@
 
   --math: #294356;
   --math-faded: #434b50;
-  --english: #55322b;
-  --english-faded: #584a47;
   --science: #42814a;
   --science-faded: #484e43;
+  --english: #55322b;
+  --english-faded: #584a47;
   --history: #624b1d;
   --history-faded: #5f5746;
-  --russian: #3d2f51;
-  --russian-faded: #4b4553;
+  --foreignlanguage: #3d2f51;
+  --foreignlanguage-faded: #4b4553;
 }
 
 body {
