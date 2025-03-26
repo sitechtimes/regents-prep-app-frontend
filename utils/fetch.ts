@@ -1,3 +1,32 @@
+interface Success<T> {
+  data: T;
+  error?: never;
+}
+interface Failure<E> {
+  data?: never;
+  error: E;
+}
+
+export type Result<T, E = Error> = Success<T> | Failure<E>;
+/** Implements try/catch for a given promise.
+ *
+ * If the promise resolves, returns an object with a `data` property. If the promise rejects, returns an object with an `error` property.
+ * @template E - the type of error to return. Defaults to `Error`.
+ * @param promise - the promise to implement try/catch for.
+ * @example
+ * const { data, error } = await tryCatch(getData());
+ * if (error) return; // handle the error
+ * doSomething(data); // data can now be used
+ */
+export async function tryCatch<T, E = Error>(promise: Promise<T>): Promise<Result<T, E>> {
+  try {
+    const data = await promise;
+    return { data };
+  } catch (error) {
+    return { error: error as E };
+  }
+}
+
 /** Makes a request to the given endpoint with the given method and body.
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
@@ -44,12 +73,12 @@ export async function getCourseStudents(courseId: number) {
 
 /** Requests the `courses/student/get-next-dynamic-question/` endpoint */
 export async function getNextDynamicQuestion(assignmentId: number) {
-  return requestEndpoint<QuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
+  return requestEndpoint<DynamicQuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
 }
 
 /** Requests the `courses/student/get-static-question/assignmentId/questionIndex/` endpoint */
 export async function getNextStaticQuestion(assignmentId: number, questionIndex: number) {
-  return requestEndpoint<QuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
+  return requestEndpoint<StaticQuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
 }
 
 /** Requests the `courses/student/submit-answer/` endpoint */
@@ -119,4 +148,28 @@ export async function submitCreateAssignment(
     timeAllotted,
     attemptsAllowed
   });
+}
+
+/** Requests the `courses/teacher/assignment/{assignmentId}/per-question-statistics/{includeGuaranteedQuestions}/{studentIds}` endpoint
+ * @param assignmentId - The ID of the assignment for which to get statistics.
+ * @param includeGuaranteedQuestions - Whether to include guarnanteed questions, or just their IDs. Defaults to false.
+ * @param studentIds - An optional array of student IDs for which to get statistics. Defaults to all students.
+ */
+export async function getTeacherQuestionStatistic<T extends boolean = false>(assignmentId: number, includeGuaranteedQuestions?: T, studentIds?: number[]) {
+  return requestEndpoint<TeacherAssignmentStatistic<T>>(`/courses/teacher/assignment/${assignmentId}/per-question-statistics/${!!includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`);
+}
+
+/** Requests the `questions/teacher/topics/<topicId>` endpoint */
+export async function getTopics(topicId: number) {
+  return requestEndpoint<Topic[]>(`/questions/teacher/topics/${topicId}`);
+}
+
+/** Requests the `questions/teacher/topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>` endpoint
+ * @param topicId - The ID of the topic to get questions under.
+ * @param offset - The index to get questions at. Defaults to 0.
+ * @param includeQuestionCount - Whether to include the number of questions under the topic. Defaults to true.
+ * @param numOfQuestions - The number of questions to get. Defaults to 20.
+ */
+export async function getQuestionsUnderTopic(topicId: number, offset = 0, includeQuestionCount = true, numOfQuestions = 20) {
+  return requestEndpoint<{ count: number; questions: TopicQuestionInterface[] }>(`/questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}`);
 }

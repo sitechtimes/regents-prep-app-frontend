@@ -82,17 +82,18 @@ const currentAssignment = ref<StudentAssignment>();
 const dropdownStates = ref<boolean[]>([]);
 
 onMounted(async () => {
-  try {
-    const courseId = studentCurrentCourse.value?.id;
-    if (courseId) {
-      const assignmentId = parseInt(route.params.assignmentId as string);
-      allAssignments.value = await getAssignments(assignmentId);
-      currentAssignment.value = allAssignments.value.find((assignment) => assignment.id === assignmentId);
-      assignmentResults.value = await getAssignmentResults(assignmentId);
-    }
-  } catch (error) {
-    console.error("Error fetching assignment data:", error);
-  }
+  const courseId = studentCurrentCourse.value?.id;
+  if (!courseId) return;
+
+  const assignmentId = parseInt(route.params.assignmentId as string);
+  const { data: assignments, error: assignmentError } = await tryCatch(getAssignments<StudentAssignment[]>(assignmentId));
+  if (assignmentError) return console.error("Error fetching assignment data:", assignmentError);
+  allAssignments.value = assignments;
+
+  currentAssignment.value = allAssignments.value.find((assignment) => assignment.id === assignmentId);
+  const { data: results, error: resultError } = await tryCatch(getAssignmentResults(assignmentId));
+  if (resultError) return console.error("Error fetching assignment data:", resultError);
+  assignmentResults.value = results;
 });
 
 function formatDate(date: Date | null) {

@@ -60,8 +60,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "student-get-course",
-  requiresAuth: true
+  middleware: "student-get-course"
 });
 
 const route = useRoute();
@@ -94,10 +93,11 @@ function selectChoice(choice: Answer) {
   currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
   choice.selected = true;
   selectedChoice.value = choice;
-  currentQuestion.value.staticUserAnswer = choice.id;
+  currentQuestion.value.selectedAnswerId = choice.id;
 }
 
-const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === Number(route.params.assignmentId)));
+const assignmentId = Number(route.params.assignmentId);
+const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
 
 const assignmentInProgress = ref(false);
 watch(assignmentInProgress, (val) => {
@@ -116,12 +116,10 @@ const currentQuestionIndex = computed(() => {
 watch(currentQuestionIndex, async () => {
   if (!currentAssignment.value) return;
   if (currentAssignment.value?.assignment.isStatic && currentQuestion.value) {
-    try {
-      if (selectedChoice.value) await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime());
-      else incrementTime();
-    } catch (error) {
-      console.error("Error saving question:", error);
-    }
+    if (selectedChoice.value) {
+      const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
+      if (error) console.error("Error saving question:", error);
+    } else incrementTime();
   }
 });
 
@@ -131,26 +129,28 @@ watch(
     if (!currentAssignment.value) return;
 
     // load question
-    let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
+    let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as StaticQuestionInterface | DynamicQuestionInterface | undefined;
     if (!question) {
-      try {
-        question = currentAssignment.value.assignment.isStatic
-          ? await getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1)
-          : await getNextDynamicQuestion(currentAssignment.value.id);
-        currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = question;
-      } catch (error) {
+      const { data, error } = currentAssignment.value.assignment.isStatic
+        ? await tryCatch(getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1))
+        : await tryCatch(getNextDynamicQuestion(currentAssignment.value.id));
+
+      if (error) {
         console.error(error);
         errorMessage.value = "Error fetching question. Please try again.";
+      } else {
+        question = data;
+        currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = data;
       }
     }
 
     // highlight selected answer
     currentQuestion.value = question;
-    if (question?.staticUserAnswer !== undefined) {
-      question.question.answers.forEach((answer) => {
-        answer.selected = answer.id === question.staticUserAnswer;
-      });
-      selectedChoice.value = question.question.answers.find((answer) => answer.id === question.staticUserAnswer);
+
+    // for static questions
+    if (question?.selectedAnswerId !== undefined) {
+      (question as StaticQuestionInterface).question.answers.forEach((answer) => (answer.selected = answer.id === question.selectedAnswerId));
+      selectedChoice.value = (question as StaticQuestionInterface).question.answers.find((answer) => answer.id === question.selectedAnswerId);
     }
   },
   { immediate: true }
@@ -164,20 +164,17 @@ async function switchQuestion(direction: "previous" | "next") {
 }
 
 async function submitQuestion() {
-  try {
-    if (!selectedChoice.value || !currentQuestion.value) return;
+  if (!selectedChoice.value || !currentQuestion.value) return;
 
-    const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime());
+  const { data: response, error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
+  if (error) return console.error("Error submitting question:", error);
 
-    if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
-    else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
-    else if (!response.remainingAttempts) feedbackMessage.value = `Incorrect. Try again!`;
-    else feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts} attempts left.`;
+  if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
+  else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
+  else if (!response.remainingAttempts) feedbackMessage.value = `Incorrect. Try again!`;
+  else feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts} attempts left.`;
 
-    if (response.isCorrect || response.remainingAttempts === 0) await switchQuestion("next");
-  } catch (error) {
-    console.error("Error submitting question:", error);
-  }
+  if (response.isCorrect || response.remainingAttempts === 0) await switchQuestion("next");
 }
 
 onBeforeMount(() => {

@@ -71,6 +71,10 @@ body {
   @apply transition-all duration-500;
 }
 
+.question-text em {
+  @apply italic;
+}
+
 button {
   touch-action: manipulation;
   text-align: center;
