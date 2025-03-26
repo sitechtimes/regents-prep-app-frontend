@@ -54,47 +54,11 @@ export async function getNextStaticQuestion(assignmentId: number, questionIndex:
 
 /** Requests the `courses/student/submit-answer/` endpoint */
 export async function submitQuestionAnswer(questionId: number, answerId: number, seconds: number) {
-  console.log(`+${seconds}s to q${questionId}`);
-  const rat = Date.now();
-  document.body.insertAdjacentHTML(
-    `beforeend`,
-    `<img id="bigrat-${rat}" src="https://bigrat.monster/media/bigrat.jpg" style="
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 99999;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-">`
-  );
-  setTimeout(() => {
-    const el = document.querySelector(`#bigrat-${rat}`);
-    if (el && Math.random() < 0.99) el.remove();
-  }, 100);
   return requestEndpoint<SubmitAnswer>(`courses/student/submit-answer/${questionId}/${answerId}/${seconds}/`, "POST");
 }
 
 /** Requests the `courses/student/increment-question-time/` endpoint */
 export async function incrementQuestionTime(questionId: number, seconds: number) {
-  console.log(`+${seconds}s to q${questionId}`);
-  const rat = Date.now();
-  document.body.insertAdjacentHTML(
-    `beforeend`,
-    `<img id="bigrat-${rat}" src="https://bigrat.monster/media/bigrat.jpg" style="
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 99999;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-">`
-  );
-  setTimeout(() => {
-    const el = document.querySelector(`#bigrat-${rat}`);
-    if (el && Math.random() < 0.99) el.remove();
-  }, 100);
   return requestEndpoint(`courses/student/increment-question-time/${questionId}/${seconds}/`, "POST");
 }
 
