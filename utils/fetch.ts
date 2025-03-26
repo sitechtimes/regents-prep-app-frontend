@@ -53,8 +53,8 @@ export async function getNextStaticQuestion(assignmentId: number, questionIndex:
 }
 
 /** Requests the `courses/student/submit-answer/` endpoint */
-export async function submitQuestionAnswer(questionId: number, answerId: number) {
-  return requestEndpoint<SubmitAnswer>("courses/student/submit-answer/", "POST", { questionInstanceID: questionId, answerID: answerId });
+export async function submitQuestionAnswer(questionId: number, answerId: number, secondsToAdd: number) {
+  return requestEndpoint<SubmitAnswer>(`courses/student/submit-answer/${questionId}/${answerId}/${secondsToAdd}/`, "POST");
 }
 
 /** Requests the `courses/student/submit-assignment/` endpoint */
