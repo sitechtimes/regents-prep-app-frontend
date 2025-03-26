@@ -53,8 +53,14 @@ export async function getNextStaticQuestion(assignmentId: number, questionIndex:
 }
 
 /** Requests the `courses/student/submit-answer/` endpoint */
-export async function submitQuestionAnswer(questionId: number, answerId: number, secondsToAdd: number) {
-  return requestEndpoint<SubmitAnswer>(`courses/student/submit-answer/${questionId}/${answerId}/${secondsToAdd}/`, "POST");
+export async function submitQuestionAnswer(questionId: number, answerId: number, seconds: number) {
+  return requestEndpoint<SubmitAnswer>(`courses/student/submit-answer/${questionId}/${answerId}/${seconds}/`, "POST");
+}
+
+/** Requests the `courses/student/increment-question-time/` endpoint */
+export async function incrementQuestionTime(questionId: number, seconds: number) {
+  if (seconds < 1) return;
+  return requestEndpoint(`courses/student/increment-question-time/${questionId}/${seconds}/`, "POST");
 }
 
 /** Requests the `courses/student/submit-assignment/` endpoint */
