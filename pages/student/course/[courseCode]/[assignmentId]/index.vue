@@ -68,6 +68,23 @@ const { studentCurrentCourse, currentQuestion } = storeToRefs(userStore);
 const feedbackMessage = ref("");
 const errorMessage = ref("");
 const selectedChoice = ref<Answer>();
+let timestamp = Date.now();
+
+/**
+ * gets time spent on current question
+ * @returns how many seconds since last update
+ */
+function getDeltaTime() {
+  const diff = Math.floor((Date.now() - timestamp) / 1000);
+  timestamp = Date.now();
+  return diff;
+}
+
+/** increments time spent on current question */
+function incrementTime() {
+  if (!currentQuestion.value) return;
+  void incrementQuestionTime(currentQuestion.value.id, getDeltaTime());
+}
 
 function selectChoice(choice: Answer) {
   if (!currentQuestion.value) return;
@@ -93,17 +110,26 @@ const currentQuestionIndex = computed(() => {
   return index;
 });
 
+// increment time on index change. separate because immediate: true is not good for this
+watch(currentQuestionIndex, async () => {
+  if (!currentAssignment.value) return;
+  if (currentAssignment.value?.assignment.isStatic && currentQuestion.value) {
+    try {
+      if (selectedChoice.value) await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime());
+      else incrementTime();
+    } catch (error) {
+      console.error("Error saving question:", error);
+    }
+  }
+});
+
 watch(
   currentQuestionIndex,
   async () => {
     if (!currentAssignment.value) return;
 
-    if (currentAssignment.value?.assignment.isStatic && selectedChoice.value && currentQuestion.value) {
-      const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id));
-      if (error) console.error(error);
-    }
-
-    let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as StaticQuestionInterface | DynamicQuestionInterface | undefined;
+    // load question
+    let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
     if (!question) {
       const { data, error } = currentAssignment.value.assignment.isStatic
         ? await tryCatch(getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1))
@@ -118,6 +144,7 @@ watch(
       }
     }
 
+    // highlight selected answer
     currentQuestion.value = question;
 
     // for static questions
@@ -131,6 +158,7 @@ watch(
 
 async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
+
   const newIndex = direction === "previous" ? currentQuestionIndex.value - 1 : currentQuestionIndex.value + 1;
   if (newIndex >= 0 && newIndex < currentAssignment.value.assignment.numQuestions) await changeRouteQuery({ q: newIndex });
 }
@@ -139,7 +167,7 @@ async function submitQuestion() {
   try {
     if (!selectedChoice.value || !currentQuestion.value) return;
 
-    const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id);
+    const response = await submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime());
 
     if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
     else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
@@ -152,21 +180,35 @@ async function submitQuestion() {
   }
 }
 
+onBeforeMount(() => {
+  if (!route.query.q) void changeRouteQuery({ q: 0 });
+});
+
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
   event.preventDefault();
   // TODO: add api call to save progress
 }
 
-onBeforeMount(() => {
-  if (!route.query.q) void changeRouteQuery({ q: 0 });
-});
+function handleVisibilityTime() {
+  // tab just got hidden. increment time
+  if (document.visibilityState === "hidden") incrementTime();
+  // tab just got brought to foreground. don't count the time it was gone
+  else timestamp = Date.now();
+}
 
 onMounted(() => {
   assignmentInProgress.value = true;
   window.addEventListener("beforeunload", warnForUnsavedChanges);
+  window.addEventListener("visibilitychange", handleVisibilityTime);
 });
 
-onBeforeUnmount(() => window.removeEventListener("beforeunload", warnForUnsavedChanges));
+// for navigating off but keeping page open
+onBeforeUnmount(incrementTime);
+
+onUnmounted(() => {
+  window.removeEventListener("visibilitychange", handleVisibilityTime);
+  window.removeEventListener("beforeunload", warnForUnsavedChanges);
+});
 </script>
 
 <style scoped>
