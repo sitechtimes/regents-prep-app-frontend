@@ -1,51 +1,71 @@
 <template>
   <div class="flex w-full items-start justify-center gap-8">
     <form
-      class="sticky top-20 flex w-[35rem] shrink-0 flex-col gap-2 rounded-xl border border-neutral-300 bg-neutral-100 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
+      class="sticky top-20 flex w-[35rem] shrink-0 flex-col gap-2 rounded-xl border border-neutral-400 bg-neutral-200/50 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
       @submit.prevent="createAssignment"
     >
       <h3 class="text-2xl font-bold">Create Assignment</h3>
 
       <div>
-        <label class="fo-label fo-label-text shrink-0 font-bold" for="name">Name <span title="Required" class="font-2xl text-red-500">*</span></label>
-        <input id="name" v-model="assignmentInfo.name" required type="text" class="fo-input dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50" placeholder="Unit 3 Review" />
+        <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="font-2xl text-red-500">*</span></label>
+        <input
+          id="name"
+          v-model="assignmentInfo.name"
+          required
+          type="text"
+          class="fo-input border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+          placeholder="Unit 3 Review"
+        />
       </div>
 
       <div>
-        <label class="fo-label fo-label-text shrink-0 font-bold">Due <span title="Required" class="font-2xl text-red-500">*</span></label>
+        <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">Due <span title="Required" class="font-2xl text-red-500">*</span></label>
         <div class="flex w-full items-center justify-center gap-3">
-          <input v-model="assignmentInfo.dueDate.date" required type="date" class="fo-input dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50" :min="currentDateISO" />
-          <input v-model="assignmentInfo.dueDate.time" required type="time" class="fo-input dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50" />
+          <input
+            v-model="assignmentInfo.dueDate.date"
+            required
+            type="date"
+            class="fo-input border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+            :min="currentDateISO"
+          />
+          <input
+            v-model="assignmentInfo.dueDate.time"
+            required
+            type="time"
+            class="fo-input border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+          />
         </div>
       </div>
 
       <div class="flex w-full items-center justify-center gap-3">
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold" for="time-per-question">Time limit (minutes)</label>
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="time-per-question">Time limit (minutes)</label>
           <input
             id="time-per-question"
             v-model.number="assignmentInfo.timeAllotted"
             type="number"
-            class="fo-input dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+            class="fo-input border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
             placeholder="Unlimited"
           />
         </div>
 
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold" for="attempts-per-question">Attempts per question</label>
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="attempts-per-question">Attempts per question</label>
           <input
             id="attempts-per-question"
             v-model.number="assignmentInfo.attemptsAllowed"
             type="number"
-            class="fo-input dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+            class="fo-input border-neutral-400 bg-neutral-100 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:hover:border-neutral-300/50"
             placeholder="Unlimited"
           />
         </div>
       </div>
 
       <div>
-        <p class="fo-label fo-label-text pointer-events-none shrink-0 font-bold">Questions and Topics <span title="Required" class="font-2xl text-red-500">*</span></p>
-        <div class="flex h-96 w-full items-center justify-center rounded-lg border dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50">
+        <p class="dark:text-whit fo-label fo-label-text pointer-events-none shrink-0 font-bold text-black">Questions and Topics <span title="Required" class="font-2xl text-red-500">*</span></p>
+        <div
+          class="flex h-96 w-full items-center justify-center rounded-lg border border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+        >
           <div v-if="!assignmentInfo.topicIds.length && !assignmentInfo.questionIds.length" class="mb-10 flex flex-col items-center justify-center">
             <img class="size-40 opacity-65 dark:invert" src="/ui/plus.svg" aria-hidden="true" />
             <h5 class="text-center text-xl font-bold text-neutral-500">No Questions or Topics Selected</h5>
