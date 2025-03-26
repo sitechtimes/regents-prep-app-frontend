@@ -22,7 +22,7 @@
           <button
             class="w-full rounded-xl px-5 py-2 text-left"
             :class="{
-              'bg-[#e5e8ef] dark:bg-neutral-500/25': currentQuestionIndex === index,
+              'bg-neutral-200 dark:bg-neutral-500/25': currentQuestionIndex === index,
               'text-neutral-400': currentQuestionIndex < index,
               'hover:bg-neutral-200 hover:text-black': assignment.assignment.isStatic
             }"

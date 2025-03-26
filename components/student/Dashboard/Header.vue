@@ -3,7 +3,7 @@
     <div class="flex items-center justify-start gap-3">
       <button
         type="button"
-        class="group du-tooltip du-tooltip-bottom flex size-10 cursor-pointer items-center justify-center rounded-full transition hover:bg-neutral-200 dark:hover:bg-neutral-700"
+        class="group du-tooltip du-tooltip-bottom flex size-10 cursor-pointer items-center justify-center rounded-full border-none transition hover:bg-neutral-200 dark:hover:bg-neutral-700"
         data-tip="Menu"
         @click="emit('toggleSideMenu')"
       >
