@@ -3,13 +3,16 @@ export interface Answer {
   id: number;
   /** @readonly What the answer choice says (HTML string). */
   text: string;
-  /**
-   * Used to store which answer the student selected.
-   * @warning Must be manually added to `Question`; this field is not returned from the API.
+  /** Used to store which answer the student selected.
+   * @warning Must be manually added to `Answer`; this field is not returned from the API.
    */
   selected: boolean;
-  /** @readonly Selected answer. */
-  staticUserAnswer: number | null;
+  /** @readonly ID of the selected answer.
+   * @warning only present for static questions.
+   */
+  selectedAnswerId: number | null;
+  /** @readonly Whether or not the answer is correct. */
+  isCorrect: boolean;
 }
 
 export interface Question {
@@ -21,20 +24,68 @@ export interface Question {
   answers: Answer[];
 }
 
-export interface QuestionInterface {
-  /** @readonly ID of the question. */
+interface QuestionInterface {
+  /** @readonly ID of the question interface. */
   id: number;
-  /** @readonly Selected answer. */
-  staticUserAnswer: number | null;
-  /** @readonly Number of attempts allowed.
-   *
-   * If `null`, there is no limit.
-   */
-  questionsRemaining: number;
-  /** Number of remaining attempts. */
-  remainingAttempts: number | null;
-  /** @readonly Question data */
   question: Question;
+  selectedAnswerId: number | null;
+}
+
+export interface DynamicQuestionInterface extends QuestionInterface {
+  /** Number of attempts used on this dynamic question. */
+  answerAttemptsUsed: number;
+}
+
+export interface StaticQuestionInterface extends QuestionInterface {
+  /** Index of the question.
+   * @warning Only present if questionIndex was not passed in the URL.
+   * @warning Starts at 1, with 0 indicating an unknown index.
+   */
+  questionIndex: number;
+}
+
+export interface TopicQuestionInterface {
+  id: number;
+  /** @readonly What the answer choice says (HTML string). */
+  text: string;
+  answerType: "Multiple Choice" | "Written Response" | "True or False";
+  difficulty: number;
+  answers: {
+    id: number;
+    /** @readonly What the answer choice says (HTML string). */
+    text: string;
+    isCorrect: boolean;
+  }[];
+  correctFirstAttempts: number;
+  totalFirstAttempts: number;
+}
+
+/** @template T - Whether the `guaranteedQuestions` field should be an array of `Question` objects or an array of question IDs */
+export interface TeacherAssignmentStatistic<T extends boolean> {
+  statisticsData: {
+    /** ID of the assignment instance */
+    assignmentInstance: number;
+    /** ID of the question */
+    question: number;
+    /** User answers for the entire assignment */
+    userAnswers: number[];
+    /** Time spent on the assignment, in seconds */
+    timeSpent: number;
+  };
+  /** Array of guaranteed questions if `T` is true, question IDs if false */
+  guaranteedQuestions: T extends true ? Question[] : number[];
+}
+
+export interface Topic {
+  id: number;
+  name: string;
+  hasChildren: boolean;
+  hasQuestions: boolean;
+}
+export interface TopicMapped extends Topic {
+  /** IDs of child topics */
+  children: number[] | null;
+  questionIds: number[];
 }
 
 export interface CreateCourse {
@@ -95,7 +146,7 @@ export interface StudentAssignment extends Assignment {
       id: number;
       /** @readonly Name of the course assignment belongs to */
       name: string;
-      subject: Subjects;
+      subject: Subject;
     };
 
     /**
@@ -141,7 +192,7 @@ interface Course {
   /** @readonly Period of the course. */
   period: number;
   /** @readonly Subject of the course. */
-  subject: Subjects;
+  subject: Subject;
 }
 
 export interface StudentCourse extends Course {
@@ -189,11 +240,18 @@ export interface AssignmentResults extends SubmitAssignment {
   questionInstances: {
     /** @readonly ID of the question. */
     id: number;
-    /** @readonly Array of the user answers to the question. */
-    userAnswers: string[];
-    /** @readonly Tells if you if the question is complete. */
-    isComplete: boolean;
     /** @readonly The data for the question referenced by the instance. */
     question: Question;
+    /** Array of dynamic user answers (IDs of selected answers). */
+    dynamicUserAnswers: number[];
+    /** @readonly Tells if the question is complete. */
+    isComplete: boolean;
+    /** @readonly Time spent on the question (in seconds). */
+    timeSpent: number;
   }[];
+}
+
+export interface CreateAssignmentQuestion {
+  questionId: number;
+  isGuaranteed: boolean;
 }

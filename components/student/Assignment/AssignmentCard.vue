@@ -1,11 +1,11 @@
 <template>
   <NuxtLink
     :to="
-      assignment.assignment.dueDate >= currentTime || assignment.assignment.lateSubmissions
-        ? `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`
-        : `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}/stats`
+      assignment.dateSubmitted !== null || (assignment.assignment.dueDate < currentTime && !assignment.assignment.lateSubmissions)
+        ? `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}/stats`
+        : `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`
     "
-    class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
+    class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600/50 hover:shadow-lg sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300/50"
   >
     <div class="flex w-5/6 flex-col items-start justify-start">
       <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">{{ assignment.assignment.name }}</h3>
@@ -24,8 +24,12 @@
         <span class="text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numQuestions) * 100) }}%)</span>
       </p>
 
-      <div v-if="assignment.dateSubmitted !== null" class="h-4 w-full rounded-full border-[1.5px] border-gray-300">
+      <div v-if="assignment.dateSubmitted !== null" class="h-4 w-full rounded-full border-[1.5px] border-gray-300 dark:border-neutral-600">
         <div class="h-full rounded-full bg-green-500" :style="{ width: ((assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.assignment.numQuestions) * 100 + '%' }"></div>
+      </div>
+
+      <div v-else class="h-4 w-full rounded-full border-[1.5px] border-gray-300 dark:border-neutral-600">
+        <div class="h-full rounded-full bg-green-500" :style="{ width: (assignment.questionsCompleted / assignment.assignment.numQuestions) * 100 + '%' }"></div>
       </div>
     </div>
 
