@@ -127,7 +127,7 @@ watch(
     if (!currentAssignment.value) return;
 
     // load question
-    let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as QuestionInterface | undefined;
+    let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as StaticQuestionInterface | DynamicQuestionInterface | undefined;
     if (!question) {
       const { data, error } = currentAssignment.value.assignment.isStatic
         ? await tryCatch(getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1))

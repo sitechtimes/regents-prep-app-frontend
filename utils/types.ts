@@ -11,6 +11,8 @@ export interface Answer {
    * @warning only present for static questions.
    */
   selectedAnswerId: number | null;
+  /** @readonly Whether or not the answer is correct. */
+  isCorrect: boolean;
 }
 
 export interface Question {

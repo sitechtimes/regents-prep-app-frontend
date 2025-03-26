@@ -5,22 +5,22 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: "teacher",
-  middleware: "teacher-get-course"
-});
+// definePageMeta({
+//   layout: "teacher",
+//   middleware: "teacher-get-course"
+// });
 
-const userStore = useUserStore();
-const { teacherCourses, teacherCurrentCourse } = storeToRefs(userStore);
-const route = useRoute();
+// const userStore = useUserStore();
+// const { teacherCourses, teacherCurrentCourse } = storeToRefs(userStore);
+// const route = useRoute();
 
-const assignmentId = Number(route.params.assignmentId);
-const currentAssignment = computed(() => teacherCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
+// const assignmentId = Number(route.params.assignmentId);
+// const currentAssignment = computed(() => teacherCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
 
-onMounted(async () => {
-  const a = await getTeacherQuestionStatistic(assignmentId);
-  console.log(a);
-});
+// onMounted(async () => {
+//   const a = await getTeacherQuestionStatistic(assignmentId);
+//   console.log(a);
+// });
 </script>
 
 <style scoped></style>
