@@ -1,25 +1,33 @@
+export interface Answer {
+  /** @readonly ID of the answer. */
+  id: number;
+  /** @readonly What the answer choice says (HTML string). */
+  text: string;
+  /**
+   * Used to store which answer the student selected.
+   * @warning Must be manually added to `Question`; this field is not returned from the API.
+   */
+  selected: boolean;
+  /** @readonly Selected answer. */
+  staticUserAnswer: number | null;
+  /** @readonly Whether or not the answer is correct. */
+  isCorrect: boolean;
+}
+
 export interface Question {
   /** @readonly What the question says (HTML string). */
   readonly text: string;
   /** @readonly The type of answer for the question. */
   readonly answerType: "Multiple Choice" | "Written Response" | "True or False";
   /** @readonly Array of answers. */
-  answers: {
-    /** @readonly ID of the answer. */
-    readonly id: number;
-    /** @readonly What the answer choice says (HTML string). */
-    readonly text: string;
-    /**
-     * Used to store which answer the student selected.
-     * @warning Must be manually added to `Question`; this field is not returned from the API.
-     */
-    selected: boolean;
-  }[];
+  answers: Answer[];
 }
 
 export interface QuestionInterface {
   /** @readonly ID of the question. */
-  readonly id: number;
+  id: number;
+  /** @readonly Selected answer. */
+  staticUserAnswer: number | null;
   /** @readonly Number of attempts allowed.
    *
    * If `null`, there is no limit.
@@ -79,6 +87,9 @@ export interface StudentAssignment extends Assignment {
 
     /** @readonly Date object of when the assignment was assigned (Date(UTC)). */
     readonly dateAssigned: Date;
+
+    /** @readonly If the assignment is a static assignment.*/
+    isStatic: boolean;
 
     /** @readonly Object identifying the course assignment belongs to. */
     readonly course?: {
@@ -179,12 +190,14 @@ export interface AssignmentResults extends SubmitAssignment {
   /** @readonly An array of the question results. */
   readonly questionInstances: {
     /** @readonly ID of the question. */
-    readonly id: number;
-    /** @readonly Array of the user answers to the question. */
-    readonly userAnswers: string[];
-    /** @readonly Tells if you if the question is complete. */
-    readonly isComplete: boolean;
+    id: number;
     /** @readonly The data for the question referenced by the instance. */
-    readonly question: Question;
+    question: Question;
+    /** Array of dynamic user answers (IDs of selected answers). */
+    dynamicUserAnswers: number[];
+    /** @readonly Tells if the question is complete. */
+    isComplete: boolean;
+    /** @readonly Time spent on the question (in seconds). */
+    timeSpent: number;
   }[];
 }
