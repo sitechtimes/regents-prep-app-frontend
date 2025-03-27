@@ -28,7 +28,7 @@ interface QuestionInterface {
   /** @readonly ID of the question interface. */
   id: number;
   question: Question;
-  selectedAnswerId: number | null;
+  staticUserAnswer: number | null;
 }
 
 export interface DynamicQuestionInterface extends QuestionInterface {

@@ -33,8 +33,9 @@ export async function tryCatch<T, E = Error>(promise: Promise<T>): Promise<Resul
  */
 function sanitize(html: string) {
   return sanitizeHtml(html, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-    allowedAttributes: sanitizeHtml.defaults.allowedAttributes
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "src"]),
+    allowedAttributes: false,
+    allowedSchemes: ["http", "https", "data"]
   });
 }
 
@@ -91,9 +92,7 @@ export async function getNextDynamicQuestion(assignmentId: number) {
 /** Requests the `courses/student/get-static-question/assignmentId/questionIndex/` endpoint */
 export async function getNextStaticQuestion(assignmentId: number, questionIndex: number) {
   const data = await requestEndpoint<StaticQuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
-  const a = { ...data, question: { ...data.question, text: sanitize(data.question.text) } };
-  console.log(a);
-  return a;
+  return { ...data, question: { ...data.question, text: sanitize(data.question.text) } };
 }
 
 /** Requests the `courses/student/submit-answer/` endpoint */

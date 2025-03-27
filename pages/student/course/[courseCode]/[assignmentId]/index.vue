@@ -93,7 +93,7 @@ function selectChoice(choice: Answer) {
   currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
   choice.selected = true;
   selectedChoice.value = choice;
-  currentQuestion.value.selectedAnswerId = choice.id;
+  currentQuestion.value.staticUserAnswer = choice.id;
 }
 
 const assignmentId = Number(route.params.assignmentId);
@@ -144,13 +144,13 @@ watch(
       }
     }
 
-    // highlight selected answer
+    // highlight selected answer for static questions
     currentQuestion.value = question;
-
-    // for static questions
-    if (question?.selectedAnswerId !== undefined) {
-      (question as StaticQuestionInterface).question.answers.forEach((answer) => (answer.selected = answer.id === question.selectedAnswerId));
-      selectedChoice.value = (question as StaticQuestionInterface).question.answers.find((answer) => answer.id === question.selectedAnswerId);
+    if (question?.staticUserAnswer !== undefined) {
+      question.question.answers.forEach((answer) => {
+        answer.selected = answer.id === question.staticUserAnswer;
+      });
+      selectedChoice.value = question.question.answers.find((answer) => answer.id === question.staticUserAnswer);
     }
   },
   { immediate: true }
