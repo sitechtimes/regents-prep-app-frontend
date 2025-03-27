@@ -9,7 +9,7 @@
         <p :title="assignment.dueDate.toLocaleString()">Due {{ formatDate(assignment.dueDate, currentDate) }}</p>
       </ClientOnly>
     </div>
-
+    <div>Remove🗑️</div>
     <div class="flex w-5/6 flex-col items-center justify-center gap-1">
       <p class="text-xl font-medium">
         Submissions: {{ assignment.numSubmitted }}/{{ course.numStudents }}
