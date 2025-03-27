@@ -91,6 +91,7 @@ export interface TopicMapped extends Topic {
 export interface CreateCourse {
   id: number;
   joinCode: string;
+  subject: number;
 }
 
 export interface TeacherStudentList {
