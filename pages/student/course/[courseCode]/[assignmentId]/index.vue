@@ -147,9 +147,7 @@ watch(
     // highlight selected answer for static questions
     currentQuestion.value = question;
     if (question?.staticUserAnswer !== undefined) {
-      question.question.answers.forEach((answer) => {
-        answer.selected = answer.id === question.staticUserAnswer;
-      });
+      question.question.answers.forEach((answer) => (answer.selected = answer.id === question.staticUserAnswer));
       selectedChoice.value = question.question.answers.find((answer) => answer.id === question.staticUserAnswer);
     }
   },
