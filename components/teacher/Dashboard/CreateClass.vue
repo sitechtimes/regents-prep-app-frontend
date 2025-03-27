@@ -62,13 +62,13 @@ const userStore = useUserStore();
 
 const successModal = useTemplateRef("successModal");
 
-const regentsTypes: Readonly<Record<Subjects, string[]>> = {
+const regentsTypes = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
-  English: ["English"],
   Science: ["Chemistry", "Physics", "Biology"],
+  English: ["English"],
   History: ["World History", "US History"],
-  Russian: ["Russian"]
-};
+  "Foreign Language": ["Russian"]
+} as const satisfies Record<Subject, string[]>;
 
 const courseName = ref("");
 const courseSubject = ref("");
@@ -81,28 +81,26 @@ onBeforeUnmount(() => {
 });
 
 async function createCourse() {
-  if (!courseName.value || !courseSubject.value || !Object.values(regentsTypes).flat().includes(courseSubject.value) || !coursePeriod.value) return;
+  if (!courseName.value || !courseSubject.value || !coursePeriod.value) return;
 
-  const subjectCode = Object.entries(regentsTypes).findIndex((regents) => regents[1].includes(courseSubject.value));
-  try {
-    const { id, joinCode } = await submitCreateCourse(courseName.value, coursePeriod.value, subjectCode);
+  const subjectCode = Object.values(regentsTypes).findIndex((regents) => regents.includes(courseSubject.value as never));
 
-    userStore.teacherCourses.push({
-      id,
-      joinCode,
-      name: courseName.value,
-      subject: Object.keys(regentsTypes)[subjectCode] as keyof typeof regentsTypes,
-      period: coursePeriod.value,
-      numStudents: 0,
-      assignmentsLength: 0,
-      teacher: userStore.name
-    });
+  const { data: course, error } = await tryCatch(submitCreateCourse(courseName.value, coursePeriod.value, subjectCode));
+  if (error) return console.error("Failed to create course:", error);
 
-    successModal.value?.showModal();
-    emit("close");
-  } catch (error) {
-    console.error("Failed to create course:", error);
-  }
+  userStore.teacherCourses.push({
+    id: course.id,
+    joinCode: course.joinCode,
+    name: courseName.value,
+    subject: Object.keys(regentsTypes)[subjectCode] as keyof typeof regentsTypes,
+    period: coursePeriod.value,
+    numStudents: 0,
+    assignmentsLength: 0,
+    teacher: userStore.name
+  });
+
+  successModal.value?.showModal();
+  emit("close");
 }
 </script>
 

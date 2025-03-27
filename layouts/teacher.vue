@@ -14,8 +14,10 @@
 </template>
 
 <script setup lang="ts">
+const userStore = useUserStore();
+const { showSideMenu } = storeToRefs(userStore);
+
 const loaded = ref(false);
-const showSideMenu = ref(true);
 
 onMounted(() => (loaded.value = true));
 
