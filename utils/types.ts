@@ -74,13 +74,13 @@ interface TeacherAssignmentStatistic<T extends boolean> {
   /** Array of guaranteed questions if `T` is true, question IDs if false */
   guaranteedQuestions: T extends true ? Question[] : number[];
 }
-export interface DynamicTeacherAssignmentStatistic<T extends boolean> extends TeacherAssignmentStatistic<T> {
+export interface DynamicTeacherAssignmentStatistic<T extends boolean = false> extends TeacherAssignmentStatistic<T> {
   statisticsData: TeacherAssignmentStatisticData & {
     /** Array of answer IDs that represent the user's answers for the question */
     dynamicUserAnswers: number[];
   };
 }
-export interface StaticTeacherAssignmentStatistic<T extends boolean> extends TeacherAssignmentStatistic<T> {
+export interface StaticTeacherAssignmentStatistic<T extends boolean = false> extends TeacherAssignmentStatistic<T> {
   statisticsData: TeacherAssignmentStatisticData & {
     staticUserAnswer: number;
   };
