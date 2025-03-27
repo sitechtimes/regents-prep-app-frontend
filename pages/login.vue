@@ -44,7 +44,6 @@
     <p>Don't have an account?</p>
     <p class="font-medium">Ask your teacher about account creation.</p>
     <NuxtLink to="/reset-password" class="mt-3 text-neutral-600"> Forgot password? Reset here. </NuxtLink>
-    <a></a>
   </div>
 </template>
 
