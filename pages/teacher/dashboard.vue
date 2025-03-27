@@ -10,7 +10,6 @@
             v-for="course in (teacherCourses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
             :key="course.id"
             :course="course"
-            @click="router.push(`/teacher/course/${course.id}`)"
           />
         </div>
         <!--The v-else needs fixing Make it an github issue/lil css-ery will help-->
@@ -32,7 +31,6 @@
 definePageMeta({ layout: "teacher" });
 
 const route = useRoute();
-const router = useRouter();
 const store = useUserStore();
 const { teacherCourses, teacherCurrentCourse } = storeToRefs(store);
 

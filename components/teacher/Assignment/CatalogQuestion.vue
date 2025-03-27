@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="group flex w-[45%] max-w-[50%] grow flex-col items-center justify-around gap-5 place-self-stretch rounded-xl border border-neutral-300 bg-neutral-100 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
-  >
+  <div class="group flex grow break-inside-avoid flex-col items-center justify-around gap-5 rounded-xl border border-neutral-300 bg-neutral-100 p-6 dark:border-neutral-600 dark:bg-neutral-600/50">
     <div class="flex w-full items-center justify-start gap-2">
       <TeacherAssignmentCatalogQuestionButton
         v-if="!viewOnly"

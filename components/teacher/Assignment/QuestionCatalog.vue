@@ -2,13 +2,19 @@
   <div class="flex grow flex-col items-start justify-start gap-6">
     <div class="flex w-full items-center justify-start gap-2 px-10 py-2">
       <!-- back button -->
-      <button class="group my-4 ml-4 flex items-center justify-center gap-2 rounded-xl px-5 py-2 text-xl" type="button" @click="emit('close')">
+      <button
+        class="group mx-4 my-4 flex items-center justify-center gap-2 rounded-xl border border-neutral-300 px-5 py-2 text-xl hover:bg-neutral-100/50 dark:bg-neutral-900 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+        :class="{ 'pointer-events-none bg-neutral-300': !currentTopicPath.length }"
+        type="button"
+        :disabled="!currentTopicPath.length"
+        @click="goBack"
+      >
         <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrowLeft.svg" aria-hidden="true" />
         Back
       </button>
 
       <button
-        class="rounded-lg border border-neutral-300 p-6 px-4 pb-0.5 pt-1 text-xl font-medium dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50"
+        class="rounded-lg border border-neutral-300 p-6 px-4 pb-0.5 pt-1 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
         type="button"
         @click="currentTopic = undefined"
       >
@@ -18,7 +24,7 @@
 
       <div v-for="(topic, index) in currentTopicPath" class="flex items-center justify-center gap-2">
         <button
-          class="rounded-lg bg-neutral-200 px-6 pb-0.5 pt-1 text-lg font-medium hover:bg-neutral-300"
+          class="rounded-lg border border-neutral-300 p-6 px-4 pb-0.5 pt-1 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
           type="button"
           @click="currentTopic = loadedTopics[topic]"
           v-html="loadedTopics[topic]?.name"
@@ -44,22 +50,28 @@
       <div class="flex w-full flex-col items-start justify-center gap-4">
         <div ref="questions" class="sticky top-20 z-10 flex items-center justify-center gap-8 rounded-full bg-body px-5 py-2" :class="{ 'shadow-lg': isSticky }">
           <h3 class="text-2xl font-bold">Questions</h3>
-          <TeacherAssignmentCatalogQuestionButton
-            :click-function="() => (showQuestionAnswers = !showQuestionAnswers)"
-            :img="`/ui/${showQuestionAnswers ? 'eyeHide' : 'eyeShow'}.svg`"
-            :text="`${showQuestionAnswers ? 'Hide' : 'Show'} All Answers`"
-          />
-          <div class="du-tooltip" data-tip="">
+          <div class="flex items-center justify-center gap-4">
+            <div
+              class="du-tooltip"
+              :class="{ 'du-tooltip-bottom': isSticky }"
+              :data-tip="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions of this topic ${topicIsInAssignment ? 'from' : 'to'} the assignment`"
+            >
+              <TeacherAssignmentCatalogQuestionButton
+                v-if="!viewOnly"
+                :click-function="() => emit('selectTopic', currentTopic?.id ?? 1)"
+                :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
+                :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
+              />
+            </div>
             <TeacherAssignmentCatalogQuestionButton
-              v-if="!viewOnly"
-              :click-function="() => emit('selectTopic', currentTopic?.id ?? 1)"
-              :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
-              :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
+              :click-function="() => (showQuestionAnswers = !showQuestionAnswers)"
+              :img="`/ui/${showQuestionAnswers ? 'eyeHide' : 'eyeShow'}.svg`"
+              :text="`${showQuestionAnswers ? 'Hide' : 'Show'} All Answers`"
             />
           </div>
         </div>
 
-        <div class="flex w-full flex-wrap items-center justify-start gap-4">
+        <div class="w-full columns-2 gap-4 space-y-4">
           <LazyTeacherAssignmentCatalogQuestion
             v-for="question in displayedQuestions"
             :key="typeof question === 'number' ? question : question.id"

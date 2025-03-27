@@ -1,7 +1,7 @@
 <template>
   <div class="flex w-full items-start justify-center gap-8">
     <form
-      class="sticky top-20 flex w-[35rem] shrink-0 flex-col gap-2 rounded-xl border border-neutral-400 bg-neutral-200/50 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
+      class="sticky top-20 flex w-[35rem] shrink-0 flex-col gap-2 rounded-xl border border-neutral-400 bg-neutral-100/50 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
       @submit.prevent="createAssignment"
     >
       <h3 class="text-2xl font-bold">Create Assignment</h3>
@@ -13,7 +13,7 @@
           v-model="assignmentInfo.name"
           required
           type="text"
-          class="fo-input border-neutral-400 bg-neutral-100 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:hover:border-neutral-300/50"
+          class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
           placeholder="Unit 3 Review"
         />
       </div>
@@ -25,14 +25,14 @@
             v-model="assignmentInfo.dueDate.date"
             required
             type="date"
-            class="fo-input border-neutral-400 bg-neutral-100 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:hover:border-neutral-300/50"
+            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             :min="currentDateISO"
           />
           <input
             v-model="assignmentInfo.dueDate.time"
             required
             type="time"
-            class="fo-input border-neutral-400 bg-neutral-100 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:hover:border-neutral-300/50"
+            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
           />
         </div>
       </div>
@@ -44,7 +44,7 @@
             id="time-per-question"
             v-model.number="assignmentInfo.timeAllotted"
             type="number"
-            class="fo-input border-neutral-400 bg-neutral-100 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:hover:border-neutral-300/50"
+            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             placeholder="Unlimited"
           />
         </div>
@@ -55,7 +55,7 @@
             id="attempts-per-question"
             v-model.number="assignmentInfo.attemptsAllowed"
             type="number"
-            class="fo-input border-neutral-400 bg-neutral-100 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:hover:border-neutral-300/50"
+            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             placeholder="Unlimited"
           />
         </div>
@@ -66,42 +66,56 @@
           Questions and Topics <span title="Required" class="font-2xl text-red-500">*</span>
         </p>
         <div
-          class="flex h-96 w-full items-center justify-center rounded-lg border border-neutral-400 bg-neutral-100 hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+          class="flex h-96 w-full items-center justify-center rounded-lg border border-neutral-400 bg-white hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
         >
           <div v-if="!assignmentInfo.topicIds.length && !assignmentInfo.questionIds.length" class="mb-10 flex flex-col items-center justify-center">
             <img class="size-40 opacity-65 dark:invert" src="/ui/plus.svg" aria-hidden="true" />
-            <h5 class="text-center text-xl font-bold text-neutral-500">No Questions or Topics Selected</h5>
+            <h5 class="text-center text-xl font-bold text-neutral-500 dark:text-white">No Questions or Topics Selected</h5>
             <p class="w-3/4 text-center text-sm font-medium text-neutral-400">Select questions and topics from the question bank to add them to this assignment!</p>
           </div>
 
-          <ul v-else class="flex h-full w-full flex-col items-start justify-start gap-2 overflow-y-scroll py-2 pl-4">
-            <li v-for="(question, index) in assignmentInfo.questionIds" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
-              <span>{{ index + 1 }}.</span>
+          <div v-else class="flex h-full w-full flex-col items-start justify-start gap-4 overflow-y-scroll py-2 pl-4">
+            <ul v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
+              <h5 v-if="assignmentInfo.topicIds.length && assignmentInfo.questionIds.length" class="text-2xl font-bold">Topics</h5>
+              <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId" class="flex w-full items-center justify-start gap-3">
+                <span>{{ index + 1 }}.</span>
 
-              <!-- * the regex is to remove images and combine all tags into 1 <p> -->
-              <p
-                class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap"
-                v-html="
-                  loadedQuestions[question.questionId].text
-                    .replace(/<img\b[^>]*>/gi, '(image)')
-                    .replace(/<[^>]+>/g, ' ')
-                    .replace(/\s+/g, ' ')
-                    .trim()
-                "
-              ></p>
+                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId]?.name ?? 'All topics'"></p>
 
-              <div class="flex items-center justify-center gap-2">
-                <div class="du-tooltip du-tooltip-bottom" :data-tip="`Switch to ${question.isGuaranteed ? 'Random' : 'Guaranteed'}`">
-                  <TeacherAssignmentCatalogQuestionButton :click-function="() => (question.isGuaranteed = !question.isGuaranteed)" :img="`/ui/${question.isGuaranteed ? 'check' : 'dice'}.svg`" />
+                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId)" img="/ui/trash.svg" />
+              </li>
+            </ul>
+
+            <ul v-if="assignmentInfo.questionIds.length" class="flex w-full flex-col items-start justify-start gap-2">
+              <h5 v-if="assignmentInfo.topicIds.length && assignmentInfo.questionIds.length" class="text-2xl font-bold">Questions</h5>
+              <li v-for="(question, index) in assignmentInfo.questionIds" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
+                <span>{{ index + 1 }}.</span>
+
+                <!-- * the regex is to remove images and combine all tags into 1 <p> -->
+                <p
+                  class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap"
+                  v-html="
+                    loadedQuestions[question.questionId].text
+                      .replace(/<img\b[^>]*>/gi, '(image)')
+                      .replace(/<[^>]+>/g, ' ')
+                      .replace(/\s+/g, ' ')
+                      .trim()
+                  "
+                ></p>
+
+                <div class="flex items-center justify-center gap-2">
+                  <div class="du-tooltip du-tooltip-bottom" :data-tip="`Switch to ${question.isGuaranteed ? 'Random' : 'Guaranteed'}`">
+                    <TeacherAssignmentCatalogQuestionButton :click-function="() => (question.isGuaranteed = !question.isGuaranteed)" :img="`/ui/${question.isGuaranteed ? 'check' : 'dice'}.svg`" />
+                  </div>
+                  <TeacherAssignmentCatalogQuestionButton :click-function="() => removeQuestion(question.questionId)" img="/ui/trash.svg" />
                 </div>
-                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeQuestion(question.questionId)" img="/ui/trash.svg" />
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <div class="flex w-full items-center justify-between px-10">
+      <div class="mt-4 flex w-full items-center justify-between px-10">
         <div class="flex items-center gap-1">
           <input id="late-submissions" v-model="assignmentInfo.lateSubmissions" type="checkbox" class="fo-checkbox border-neutral-400 bg-neutral-300 dark:bg-neutral-900" />
           <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base text-black dark:text-white" for="late-submissions">Allow late submissions</label>
@@ -123,7 +137,13 @@
       </div>
     </form>
 
-    <TeacherAssignmentQuestionCatalog :view-only="false" :current-questions="assignmentInfo.questionIds" :current-topic-ids="assignmentInfo.topicIds" @select-question="addQuestion" />
+    <TeacherAssignmentQuestionCatalog
+      :view-only="false"
+      :current-questions="assignmentInfo.questionIds"
+      :current-topic-ids="assignmentInfo.topicIds"
+      @select-question="addQuestion"
+      @select-topic="addTopic"
+    />
   </div>
 </template>
 
@@ -135,7 +155,7 @@ definePageMeta({
 
 const route = useRoute();
 const userStore = useUserStore();
-const { showSideMenu, loadedQuestions } = storeToRefs(userStore);
+const { showSideMenu, loadedTopics, loadedQuestions } = storeToRefs(userStore);
 
 const currentDateISO = (() => {
   const now = new Date();
@@ -170,6 +190,14 @@ function removeQuestion(questionId: number) {
 function addQuestion(questionId: number) {
   if (!assignmentInfo.questionIds.find((question) => question.questionId === questionId)) assignmentInfo.questionIds.push({ questionId, isGuaranteed: true });
   else removeQuestion(questionId);
+}
+
+function removeTopic(topicId: number) {
+  assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(topicId), 1);
+}
+function addTopic(topicId: number) {
+  if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) assignmentInfo.topicIds.push(topicId);
+  else removeTopic(topicId);
 }
 
 const createAssignmentResult = reactive({
