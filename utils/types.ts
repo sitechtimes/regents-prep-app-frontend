@@ -60,20 +60,30 @@ export interface TopicQuestionInterface {
   totalFirstAttempts: number;
 }
 
+interface TeacherAssignmentStatisticData {
+  /** ID of the assignment instance */
+  assignmentInstance: number;
+  /** ID of the question */
+  question: number;
+  /** Time spent on the assignment, in seconds */
+  timeSpent: number;
+}
 /** @template T - Whether the `guaranteedQuestions` field should be an array of `Question` objects or an array of question IDs */
-export interface TeacherAssignmentStatistic<T extends boolean> {
-  statisticsData: {
-    /** ID of the assignment instance */
-    assignmentInstance: number;
-    /** ID of the question */
-    question: number;
-    /** User answers for the entire assignment */
-    userAnswers: number[];
-    /** Time spent on the assignment, in seconds */
-    timeSpent: number;
-  };
+interface TeacherAssignmentStatistic<T extends boolean> {
+  statisticsData: TeacherAssignmentStatisticData;
   /** Array of guaranteed questions if `T` is true, question IDs if false */
   guaranteedQuestions: T extends true ? Question[] : number[];
+}
+export interface DynamicTeacherAssignmentStatistic<T extends boolean> extends TeacherAssignmentStatistic<T> {
+  statisticsData: TeacherAssignmentStatisticData & {
+    /** Array of answer IDs that represent the user's answers for the question */
+    dynamicUserAnswers: number[];
+  };
+}
+export interface StaticTeacherAssignmentStatistic<T extends boolean> extends TeacherAssignmentStatistic<T> {
+  statisticsData: TeacherAssignmentStatisticData & {
+    staticUserAnswer: number;
+  };
 }
 
 export interface Topic {

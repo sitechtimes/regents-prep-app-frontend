@@ -155,8 +155,11 @@ export async function submitCreateAssignment(
  * @param includeGuaranteedQuestions - Whether to include guarnanteed questions, or just their IDs. Defaults to false.
  * @param studentIds - An optional array of student IDs for which to get statistics. Defaults to all students.
  */
-export async function getTeacherQuestionStatistic<T extends boolean = false>(assignmentId: number, includeGuaranteedQuestions?: T, studentIds?: number[]) {
-  return requestEndpoint<TeacherAssignmentStatistic<T>>(`/courses/teacher/assignment/${assignmentId}/per-question-statistics/${!!includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`);
+
+export async function getTeacherQuestionStatistic<T extends boolean>(assignmentId: number, includeGuaranteedQuestions?: T, studentIds?: number[]) {
+  return requestEndpoint<StaticTeacherAssignmentStatistic<T> | DynamicTeacherAssignmentStatistic<T>>(
+    `/courses/teacher/assignment/${assignmentId}/per-question-statistics/${!!includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`
+  );
 }
 
 /** Requests the `questions/teacher/topics/<topicId>` endpoint */

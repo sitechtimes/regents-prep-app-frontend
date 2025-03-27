@@ -1,6 +1,6 @@
 <template>
   <div class="flex min-h-screen items-center justify-center">
-    <img src="https://bigrat.monster/media/bigrat.jpg" />
+    <img src="https://bigrat.monster/media/bigrat.png" />
   </div>
 </template>
 
@@ -19,6 +19,7 @@ const currentAssignment = computed(() => teacherCurrentCourse.value?.assignments
 
 onMounted(async () => {
   const a = await getTeacherQuestionStatistic(assignmentId);
+  // a.statisticsData.
   console.log(a);
 });
 </script>
