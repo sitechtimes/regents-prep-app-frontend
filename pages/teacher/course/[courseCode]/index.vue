@@ -28,7 +28,7 @@
         <button type="button" class="text-red-500 hover:underline" @click="confirmDeleteAssignment(assignment.id)">Delete Assignment 🗑️</button>
       </div>
     </div>
-
+    <!-- 
     <DeleteModal
       v-if="isModalVisible"
       :is-visible="isModalVisible"
@@ -36,7 +36,7 @@
       message="Are you sure you want to delete this?"
       :action="modalAction"
       @update:is-visible="isModalVisible = $event"
-    />
+    /> -->
   </div>
 </template>
 
@@ -76,11 +76,11 @@ function confirmDeleteCourse() {
   }
 }
 
-function confirmDeleteAssignment(assignmentId: number) {
-  modalAction.value = () => deleteAssignment(assignmentId);
+async function confirmDeleteAssignment(assignmentId: number) {
+  await deleteAssignment(assignmentId);
   isModalVisible.value = true;
 }
-
+onMounted(() => (loaded.value = true));
 // for vitest
 defineExpose({ teacherCourses, teacherCurrentCourse, loaded, filteredAssignments });
 </script>
