@@ -156,7 +156,8 @@ async function createAssignment() {
       assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.questionIds.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
       `${assignmentInfo.dueDate.date}T${assignmentInfo.dueDate.time}`,
-      assignmentInfo.questionIds.length,
+      // assignmentInfo.questionIds.length,
+      2,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,
       assignmentInfo.attemptsAllowed ?? 0
