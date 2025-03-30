@@ -43,17 +43,18 @@
 
       <div
         class="mt-auto w-full"
-        :class="{ 'du-tooltip': !Object.values(assignment.assignment.questionInterfaces).every((questionInterface) => questionInterface.question.answers.some((answer) => answer.selected)) }"
-        data-tip="Complete all questions first!"
+        :class="{ 'du-tooltip': !assignment.assignment.questionInterfaces[assignment.assignment.numQuestions - 1]?.question.answers.some((answer) => answer.selected) }"
+        data-tip="Complete all the questions first!"
       >
         <button
           class="w-full rounded-lg bg-green-accent px-5 py-1.5 text-lg font-bold hover:brightness-110"
-          :class="{ grayscale: !Object.values(assignment.assignment.questionInterfaces).every((questionInterface) => questionInterface.question.answers.some((answer) => answer.selected)) }"
           type="button"
+          :disabled="assignment.assignment.numQuestions !== assignment.questionsCompleted"
+          :class="{ 'cursor-not-allowed grayscale': assignment.assignment.numQuestions !== assignment.questionsCompleted }"
           @click="submit"
         >
-          <!-- TODO: add loading spinner -->
-          Submit
+          <span v-if="submitState.isLoading" class="du-loading du-loading-spinner du-loading-sm"></span>
+          Submit Assignment
         </button>
       </div>
     </div>
@@ -94,7 +95,7 @@ async function submit() {
   submitState.isSuccess = true;
 
   await changeRouteQuery({ q: undefined });
-  window.location.reload();
+  window.location.href = `/student/course/${props.assignment.assignment.course?.id}`;
 }
 </script>
 

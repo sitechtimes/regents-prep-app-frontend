@@ -5,8 +5,9 @@
         <Transition name="menu-slide">
           <div v-if="assignmentInProgress" class="fixed left-0 top-0 z-50 flex h-dvh w-screen items-center justify-center bg-body">
             <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" @close="assignmentInProgress = false" />
-            <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
-              <!-- question number and question content -->
+
+            <!-- question content for when not all questions are compeleted-->
+            <div v-if="!allQuestionsCompleted" class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
               <h2 class="mb-2 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
               <p class="overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
@@ -21,6 +22,7 @@
                 ></button>
               </div>
 
+              <!-- static assignment navigation -->
               <div v-if="currentAssignment.assignment.isStatic" class="mt-8 flex w-full items-center justify-end gap-6 px-10">
                 <button
                   class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
@@ -39,16 +41,29 @@
                   <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
                 </button>
               </div>
-              <button
-                v-if="!currentAssignment.assignment.isStatic"
-                class="mt-8 flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:text-white dark:hover:brightness-150"
-                type="button"
-                @click="submitQuestion"
-              >
-                Submit Question
-              </button>
+
+              <!-- dynamic assignments submit question button -->
+              <div class="" :class="{ 'du-tooltip': !selectedChoice }" data-tip="Complete all questions first!">
+                <button
+                  v-if="!currentAssignment.assignment.isStatic"
+                  class="mt-8 flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:text-white dark:hover:brightness-150"
+                  type="button"
+                  :disabled="!currentQuestion?.question.answers.some((answer) => answer.selected)"
+                  :class="{ 'cursor-not-allowed grayscale': !currentQuestion?.question.answers.some((answer) => answer.selected) }"
+                  @click="submitQuestion"
+                >
+                  Submit Question
+                </button>
+              </div>
+
+              <!-- feedback messages -->
               <p v-if="feedbackMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ feedbackMessage }}</p>
               <p v-if="errorMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ errorMessage }}</p>
+            </div>
+
+            <!-- all questions completed screen -->
+            <div v-else class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
+              <p class="text-xl font-semibold text-black">You've completed all the questions in this assignment! Please submit your assignment now.</p>
             </div>
           </div>
         </Transition>
@@ -87,6 +102,11 @@ function incrementTime() {
   if (!currentQuestion.value) return;
   void incrementQuestionTime(currentQuestion.value.id, getDeltaTime());
 }
+
+/**checks if all questions in assignment is completed */
+const allQuestionsCompleted = computed(() => {
+  return currentAssignment.value && currentAssignment.value.assignment.numQuestions === currentAssignment.value.questionsCompleted;
+});
 
 function selectChoice(choice: Answer) {
   if (!currentQuestion.value) return;
@@ -127,6 +147,8 @@ watch(
   currentQuestionIndex,
   async () => {
     if (!currentAssignment.value) return;
+
+    if (allQuestionsCompleted.value) return;
 
     // load question
     let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as StaticQuestionInterface | DynamicQuestionInterface | undefined;
