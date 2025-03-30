@@ -25,16 +25,8 @@
           <button type="button" class="text-red-500 hover:underline" @click="confirmDeleteAssignment(assignment.id)">Delete Assignment 🗑️</button>
         </div>
       </div>
+      <DeleteModal v-model="isModalVisible" @confirm="handleConfirm" />
     </div>
-    <!-- 
-    <DeleteModal
-      v-if="isModalVisible"
-      :is-visible="isModalVisible"
-      title="Confirm Deletion"
-      message="Are you sure you want to delete this?"
-      :action="modalAction"
-      @update:is-visible="isModalVisible = $event"
-    /> -->
   </div>
 </template>
 
@@ -49,35 +41,54 @@ const { teacherCourses, teacherCurrentCourse } = storeToRefs(userStore);
 const router = useRouter();
 const currentDate = new Date();
 const currentTab = ref<"current" | "past">("current");
-
 const loaded = ref(false);
 const assignments = computed(() => teacherCurrentCourse.value?.assignments);
 const filteredAssignments = computed(() =>
   assignments.value?.filter((assignment) => (currentTab.value === "current" ? new Date(assignment.dueDate) >= currentDate : new Date(assignment.dueDate) < currentDate))
 );
+const isModalVisible = ref(false);
+const deleteAction = ref<() => Promise<void>>();
 
-async function confirmDeleteCourse() {
-  if (teacherCurrentCourse.value?.id) {
+function showDeleteModal(action: () => Promise<void>) {
+  deleteAction.value = action;
+  isModalVisible.value = true;
+}
+
+async function handleConfirm() {
+  if (deleteAction.value) {
+    await deleteAction.value();
+    isModalVisible.value = false;
+  }
+}
+
+function confirmDeleteCourse() {
+  if (!teacherCurrentCourse.value?.id) return;
+
+  showDeleteModal(async () => {
     try {
-      await deleteCourse(teacherCurrentCourse.value.id);
+      if (teacherCurrentCourse.value?.id !== undefined) {
+        await deleteCourse(teacherCurrentCourse.value.id);
+      }
       userStore.teacherCourses = userStore.teacherCourses.filter((course) => course.id !== teacherCurrentCourse.value?.id);
       teacherCurrentCourse.value = undefined;
       void router.push("/teacher/dashboard");
     } catch (error) {
       console.error("Failed to delete course:", error);
     }
-  }
+  });
 }
 
-async function confirmDeleteAssignment(assignmentId: number) {
-  try {
-    await deleteAssignment(assignmentId);
-    if (teacherCurrentCourse.value) {
-      teacherCurrentCourse.value.assignments = teacherCurrentCourse.value.assignments.filter((assignment) => assignment.id !== assignmentId);
+function confirmDeleteAssignment(assignmentId: number) {
+  showDeleteModal(async () => {
+    try {
+      await deleteAssignment(assignmentId);
+      if (teacherCurrentCourse.value) {
+        teacherCurrentCourse.value.assignments = teacherCurrentCourse.value.assignments.filter((assignment) => assignment.id !== assignmentId);
+      }
+    } catch (error) {
+      console.error("Failed to delete assignment:", error);
     }
-  } catch (error) {
-    console.error("Failed to delete assignment:", error);
-  }
+  });
 }
 onMounted(() => (loaded.value = true));
 // for vitest
