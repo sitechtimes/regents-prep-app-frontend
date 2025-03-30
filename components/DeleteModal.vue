@@ -29,11 +29,11 @@ const step = ref(1);
 function confirm() {
   emit("confirm");
   emit("update:modelValue", false);
-  step.value = 1; // Reset step for next time
+  step.value = 1;
 }
 
 function cancel() {
   emit("update:modelValue", false);
-  step.value = 1; // Reset step
+  step.value = 1;
 }
 </script>
