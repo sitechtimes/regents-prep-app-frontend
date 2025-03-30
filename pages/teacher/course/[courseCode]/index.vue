@@ -19,13 +19,11 @@
         <TeacherCourseTabButton :course="teacherCurrentCourse" tab-name="past" :current-tab="currentTab" @switch-tab="(tab) => (currentTab = tab)" />
       </div>
 
-      <div class="mt-5 flex w-full flex-wrap items-center justify-center gap-4">
-        <TeacherAssignmentCard v-for="assignment in filteredAssignments" :key="assignment.id" :course="teacherCurrentCourse" :assignment="assignment" :current-date="currentDate" />
-        <p v-if="!filteredAssignments?.length" class="mb-4 text-center">No {{ currentTab }} assignments</p>
-      </div>
-
-      <div v-for="assignment in filteredAssignments" :key="assignment.id">
-        <button type="button" class="text-red-500 hover:underline" @click="confirmDeleteAssignment(assignment.id)">Delete Assignment 🗑️</button>
+      <div class="mt-5 flex w-full flex-wrap items-center justify-start gap-4">
+        <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex items-center gap-4">
+          <TeacherAssignmentCard :course="teacherCurrentCourse" :assignment="assignment" :current-date="currentDate" />
+          <button type="button" class="text-red-500 hover:underline" @click="confirmDeleteAssignment(assignment.id)">Delete Assignment 🗑️</button>
+        </div>
       </div>
     </div>
     <!-- 
@@ -48,7 +46,7 @@ definePageMeta({
 
 const userStore = useUserStore();
 const { teacherCourses, teacherCurrentCourse } = storeToRefs(userStore);
-
+const router = useRouter();
 const currentDate = new Date();
 const currentTab = ref<"current" | "past">("current");
 
@@ -58,27 +56,28 @@ const filteredAssignments = computed(() =>
   assignments.value?.filter((assignment) => (currentTab.value === "current" ? new Date(assignment.dueDate) >= currentDate : new Date(assignment.dueDate) < currentDate))
 );
 
-const isModalVisible = ref(false);
-const modalAction = ref<() => void>(() => {
-  console.warn("No action assigned to modalAction.");
-});
-
-function confirmDeleteCourse() {
+async function confirmDeleteCourse() {
   if (teacherCurrentCourse.value?.id) {
-    if (teacherCurrentCourse.value?.id !== undefined) {
-      deleteCourse(teacherCurrentCourse.value.id).catch((error: unknown) => {
-        console.error("Failed to delete course:", error);
-      });
+    try {
+      await deleteCourse(teacherCurrentCourse.value.id);
+      userStore.teacherCourses = userStore.teacherCourses.filter((course) => course.id !== teacherCurrentCourse.value?.id);
+      teacherCurrentCourse.value = undefined;
+      void router.push("/teacher/dashboard");
+    } catch (error) {
+      console.error("Failed to delete course:", error);
     }
-    isModalVisible.value = true;
-  } else {
-    console.error("teacherCurrentCourse is undefined or missing an ID.");
   }
 }
 
 async function confirmDeleteAssignment(assignmentId: number) {
-  await deleteAssignment(assignmentId);
-  isModalVisible.value = true;
+  try {
+    await deleteAssignment(assignmentId);
+    if (teacherCurrentCourse.value) {
+      teacherCurrentCourse.value.assignments = teacherCurrentCourse.value.assignments.filter((assignment) => assignment.id !== assignmentId);
+    }
+  } catch (error) {
+    console.error("Failed to delete assignment:", error);
+  }
 }
 onMounted(() => (loaded.value = true));
 // for vitest

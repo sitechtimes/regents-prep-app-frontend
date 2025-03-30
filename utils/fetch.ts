@@ -175,9 +175,9 @@ export async function getQuestionsUnderTopic(topicId: number, offset = 0, includ
 }
 
 export async function deleteAssignment(assignmentId: number) {
-  return requestEndpoint(`/courses/teacher/delete-assignment/${assignmentId}`, "DELETE");
+  return requestEndpoint<TeacherAssignment>(`/courses/teacher/delete/assignment/${assignmentId}`, "DELETE");
 }
 
 export async function deleteCourse(courseId: number) {
-  return requestEndpoint(`/courses/teacher/delete-course/${courseId}`, "DELETE");
+  return requestEndpoint<TeacherCourse>(`/courses/teacher/delete/course/${courseId}`, "DELETE");
 }
