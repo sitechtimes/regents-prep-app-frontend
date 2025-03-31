@@ -64,10 +64,10 @@ const successModal = useTemplateRef("successModal");
 
 const regentsTypes = {
   Math: ["Algebra I", "Geometry", "Algebra II"],
-  English: ["English"],
   Science: ["Chemistry", "Physics", "Biology"],
+  English: ["English"],
   History: ["World History", "US History"],
-  Russian: ["Russian"]
+  "Foreign Language": ["Russian"]
 } as const satisfies Record<Subject, string[]>;
 
 const courseName = ref("");
