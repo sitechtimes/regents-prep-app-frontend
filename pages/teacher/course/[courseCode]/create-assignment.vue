@@ -148,11 +148,6 @@ async function createAssignment() {
   if (!allowedToSubmit.value) return;
 
   createAssignmentResult.isLoading = true;
-  console.log(
-    new Date(new Date(assignmentInfo.dueDate.date).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString().slice(0, 10) +
-      `:${assignmentInfo.dueDate.time}.000Z`,
-    new Date(`${assignmentInfo.dueDate.date.slice(0, 11)}T:${assignmentInfo.dueDate.time}.000Z`).getUTCDate()
-  );
   const { error } = await tryCatch(
     submitCreateAssignment(
       assignmentInfo.name,
