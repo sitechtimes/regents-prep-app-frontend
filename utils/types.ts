@@ -80,11 +80,13 @@ export interface Topic {
   id: number;
   name: string;
   hasChildren: boolean;
+  hasParents: boolean;
   hasQuestions: boolean;
 }
 export interface TopicMapped extends Topic {
   /** IDs of child topics */
   children: number[] | null;
+  parents: number[] | null;
   questionIds: number[];
 }
 

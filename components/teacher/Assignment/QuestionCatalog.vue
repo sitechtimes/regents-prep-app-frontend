@@ -160,6 +160,7 @@ async function loadTopics(topicId: number) {
     const mappedTopic: TopicMapped = {
       ...topic,
       children: topic.hasChildren ? [] : null,
+      parents: topic.hasParents ? [] : null,
       questionIds: []
     };
     loadedTopics.value[topic.id] = mappedTopic;
@@ -171,20 +172,34 @@ async function loadTopics(topicId: number) {
 
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
+const topicCollection = ref<number[][] | null>([]);
 const topicIsInAssignment = computed(() => props.currentTopicIds.includes(currentTopic.value?.id ?? 1));
+
 const currentQuestionPageIndex = ref(0);
 const totalQuestions = ref(0);
 watch(currentTopic, async (topic) => {
   if (!topic) currentTopicPath.value = [];
   else {
     if (currentTopicPath.value.includes(topic.id)) currentTopicPath.value = currentTopicPath.value.slice(0, currentTopicPath.value.indexOf(topic.id));
+    topic.hasParents = true;
+    topic.parents = currentTopicPath.value;
 
+    /*     console.log(topicCollection.value);
+    console.log(topic.id); */
+    console.log(topicIsInAssignment);
     currentTopicPath.value.push(topic.id);
     currentQuestionPageIndex.value = 0;
     await loadTopics(topic.id);
   }
 
   await loadQuestions(topic?.id ?? 1);
+  /* Problem: can add subtopic, then parent topic.
+
+ Solution: When subtopic is added, record parent topic ids from topic length.
+
+ When topic is added, compare id to parent topic ids. If it matches, remove the subtopics the id matches with.
+
+ */
 });
 watch(currentQuestionPageIndex, async (index) => {
   await loadQuestions(currentTopic.value?.id ?? 1, index * 20);

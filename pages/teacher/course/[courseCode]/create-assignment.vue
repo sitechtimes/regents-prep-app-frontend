@@ -6,16 +6,44 @@
     >
       <h3 class="text-2xl font-bold">Create Assignment</h3>
 
-      <div>
-        <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="font-2xl text-red-500">*</span></label>
-        <input
-          id="name"
-          v-model="assignmentInfo.name"
-          required
-          type="text"
-          class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-          placeholder="Unit 3 Review"
-        />
+      <div class="flex w-full items-center justify-center gap-3">
+        <div class="grow">
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <input
+            id="name"
+            v-model="assignmentInfo.name"
+            required
+            type="text"
+            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            placeholder="Unit 3 Review"
+          />
+        </div>
+        <div class="grow">
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions"
+            >Number of Questions <span title="Required" class="font-2xl text-red-500">*</span></label
+          >
+          <input
+            id="numOfQuestions"
+            v-model="assignmentInfo.numOfQuestions"
+            @input="
+              () => {
+                if (assignmentInfo.numOfQuestions) {
+                  if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId).length) {
+                    assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
+                  } else {
+                    if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.length) {
+                      assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
+                    }
+                  }
+                }
+              }
+            "
+            required
+            type="number"
+            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            placeholder="10"
+          />
+        </div>
       </div>
 
       <div>
@@ -175,6 +203,7 @@ const assignmentInfo = reactive({
   },
   questionIds: ref<CreateAssignmentQuestion[]>([]),
   topicIds: ref<number[]>([]),
+  numOfQuestions: ref<number>(),
   lateSubmissions: false,
   /** In minutes */
   timeAllotted: ref<number>(),
@@ -206,6 +235,10 @@ const createAssignmentResult = reactive({
   isLoading: false,
   success: "",
   error: ""
+});
+
+watch(assignmentInfo.questionIds, async (idArr) => {
+  const numOfQuestionsLimit = ref<number>(idArr.filter((question) => question.isGuaranteed).map((question) => question.questionId).length);
 });
 
 let sideMenuWasOpen = false;
