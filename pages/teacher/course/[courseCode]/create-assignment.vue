@@ -159,7 +159,8 @@
             "
             type="submit"
           >
-            Create
+            <span v-if="createAssignmentResult.isLoading" class="loading du-loading du-loading-sm mt-1"></span>
+            <span v-else>Create</span>
           </button>
         </div>
       </div>
@@ -182,6 +183,7 @@ definePageMeta({
 });
 
 const route = useRoute();
+const router = useRouter();
 const userStore = useUserStore();
 const { showSideMenu, loadedTopics, loadedQuestions } = storeToRefs(userStore);
 
@@ -270,6 +272,8 @@ async function createAssignment() {
       assignmentInfo.attemptsAllowed ?? 0
     )
   );
+  router.push(`/teacher/course/${courseID}`);
+
   createAssignmentResult.isLoading = false;
 
   /*
