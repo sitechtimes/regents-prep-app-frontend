@@ -65,29 +65,35 @@ function confirmDeleteCourse() {
   if (!teacherCurrentCourse.value?.id) return;
 
   showDeleteModal(async () => {
-    try {
-      if (teacherCurrentCourse.value?.id !== undefined) {
-        await deleteCourse(teacherCurrentCourse.value.id);
-      }
-      userStore.teacherCourses = userStore.teacherCourses.filter((course) => course.id !== teacherCurrentCourse.value?.id);
-      teacherCurrentCourse.value = undefined;
-      void router.push("/teacher/dashboard");
-    } catch (error) {
-      console.error("Failed to delete course:", error);
+    if (!teacherCurrentCourse.value) {
+      return;
     }
+
+    const { error } = await tryCatch(deleteCourse(teacherCurrentCourse.value.id));
+    if (error) {
+      console.error("Failed to delete course:", error);
+      return;
+    }
+
+    userStore.teacherCourses = userStore.teacherCourses.filter((course) => course.id !== teacherCurrentCourse.value?.id);
+    teacherCurrentCourse.value = undefined;
+    void router.push("/teacher/dashboard");
   });
 }
 
 function confirmDeleteAssignment(assignmentId: number) {
   showDeleteModal(async () => {
-    try {
-      await deleteAssignment(assignmentId);
-      if (teacherCurrentCourse.value) {
-        teacherCurrentCourse.value.assignments = teacherCurrentCourse.value.assignments.filter((assignment) => assignment.id !== assignmentId);
-      }
-    } catch (error) {
-      console.error("Failed to delete assignment:", error);
+    if (!teacherCurrentCourse.value) {
+      return;
     }
+
+    const { error } = await tryCatch(deleteAssignment(assignmentId));
+    if (error) {
+      console.error("Failed to delete assignment:", error);
+      return;
+    }
+
+    teacherCurrentCourse.value.assignments = teacherCurrentCourse.value.assignments.filter((assignment) => assignment.id !== assignmentId);
   });
 }
 onMounted(() => (loaded.value = true));
