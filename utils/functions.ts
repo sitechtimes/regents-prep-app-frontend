@@ -70,6 +70,19 @@ export function formatDate(target: Date, current: Date) {
   return labels[String(diffDays)] || (diffDays > 1 && diffDays <= 7 ? week : diffDays < -1 && diffDays >= -7 ? `last ${week}` : long);
 }
 
+/** Formats a given time in seconds into hours, minutes, and seconds.
+ * @param time - The time, in seconds, to be formatted.
+ */
+export function formatTime(time: number) {
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
+  const seconds = Math.ceil(time % 60);
+  if (hours > 23) return `${hours} hours`;
+  if (hours) return `${hours}h${minutes ? `${minutes}m` : ""}${seconds ? `${seconds}s` : ""}`;
+  // i am a template literal abuser
+  return `${minutes ? `${minutes} minute${minutes === 1 ? "" : "s"}` : ""}${minutes && seconds ? " " : ""}${!minutes ? `${seconds} second${seconds === 1 ? "" : "s"}` : ""}`;
+}
+
 /**
  * Converts the `dueDate` and `dateAssigned` properties of an array of assignments to `Date` objects.
  *

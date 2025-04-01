@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <TeacherAssignmentStatsStudentsTab v-if="currentTab === 'students'" />
+      <TeacherAssignmentStatsStudentsTab v-if="currentTab === 'students'" :current-assignment="currentAssignment" :assignment-id="assignmentId" />
       <TeacherAssignmentStatsQuestionsTab v-else />
     </div>
   </div>
@@ -42,9 +42,8 @@ const currentAssignmentStats = ref<StaticTeacherAssignmentStatistic | DynamicTea
 const currentTab = ref<"students" | "questions">("students");
 
 onMounted(async () => {
-  const { data, error } = await tryCatch(getTeacherQuestionStatistic(assignmentId));
+  const { data, error } = await tryCatch(getTeacherQuestionStatistic(assignmentId, true));
   if (error) return console.error(error);
-  console.log(data);
   currentAssignmentStats.value = data;
 });
 </script>

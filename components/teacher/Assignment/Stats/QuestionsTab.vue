@@ -7,7 +7,9 @@
       <p class="w-44 text-center">Class Results</p>
     </div>
 
-    <div class="flex w-full items-center justify-center"></div>
+    <div class="flex w-full items-center justify-center">
+      <!-- TODO: just copy ap classroom's questions tab lol -->
+    </div>
   </div>
 </template>
 
