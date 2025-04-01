@@ -77,20 +77,14 @@ const route = useRoute();
 const userStore = useUserStore();
 const { studentCurrentCourse } = storeToRefs(userStore);
 const assignmentResults = ref<AssignmentResults>();
-const allAssignments = ref<StudentAssignment[]>([]);
-const currentAssignment = ref<StudentAssignment>();
 const dropdownStates = ref<boolean[]>([]);
+const assignmentId = Number(route.params.assignmentId);
+const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
 
 onMounted(async () => {
   const courseId = studentCurrentCourse.value?.id;
   if (!courseId) return;
 
-  const assignmentId = parseInt(route.params.assignmentId as string);
-  const { data: assignments, error: assignmentError } = await tryCatch(getAssignments<StudentAssignment[]>(assignmentId));
-  if (assignmentError) return console.error("Error fetching assignment data:", assignmentError);
-  allAssignments.value = assignments;
-
-  currentAssignment.value = allAssignments.value.find((assignment) => assignment.id === assignmentId);
   const { data: results, error: resultError } = await tryCatch(getAssignmentResults(assignmentId));
   if (resultError) return console.error("Error fetching assignment data:", resultError);
   assignmentResults.value = results;
@@ -106,7 +100,15 @@ function formatDate(date: Date | null) {
   return formattedDate;
 }
 
-function getUserAnswer(question: Question, dynamicUserAnswers: string[]) {
+function getUserAnswer(question: Question, dynamicUserAnswers: string[], staticUserAnswer: string) {
+  //add staticUserAnswer as a way to determine between the two
+  if (staticUserAnswer) {
+    const answer = question.answers.find((answer) => answer.id.toString() === staticUserAnswer);
+    if (answer) {
+      const letter = String.fromCharCode(65 + question.answers.indexOf(answer));
+      return letter;
+    }
+  }
   if (!dynamicUserAnswers || dynamicUserAnswers.length === 0) return "-";
   const lastAnswer = dynamicUserAnswers[dynamicUserAnswers.length - 1];
   const answer = question.answers.find((answer) => answer.id.toString() === lastAnswer);
