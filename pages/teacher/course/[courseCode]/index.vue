@@ -65,16 +65,9 @@ function confirmDeleteCourse() {
   if (!teacherCurrentCourse.value?.id) return;
 
   showDeleteModal(async () => {
-    if (!teacherCurrentCourse.value) {
-      return;
-    }
-
+    if (!teacherCurrentCourse.value) return;
     const { error } = await tryCatch(deleteCourse(teacherCurrentCourse.value.id));
-    if (error) {
-      console.error("Failed to delete course:", error);
-      return;
-    }
-
+    if (error) return console.error("Failed to delete course:", error);
     userStore.teacherCourses = userStore.teacherCourses.filter((course) => course.id !== teacherCurrentCourse.value?.id);
     teacherCurrentCourse.value = undefined;
     void router.push("/teacher/dashboard");
@@ -83,16 +76,9 @@ function confirmDeleteCourse() {
 
 function confirmDeleteAssignment(assignmentId: number) {
   showDeleteModal(async () => {
-    if (!teacherCurrentCourse.value) {
-      return;
-    }
-
+    if (!teacherCurrentCourse.value) return;
     const { error } = await tryCatch(deleteAssignment(assignmentId));
-    if (error) {
-      console.error("Failed to delete assignment:", error);
-      return;
-    }
-
+    if (error) return console.error("Failed to delete assignment:", error);
     teacherCurrentCourse.value.assignments = teacherCurrentCourse.value.assignments.filter((assignment) => assignment.id !== assignmentId);
   });
 }
