@@ -2,7 +2,7 @@ export interface Answer {
   /** @readonly ID of the answer. */
   readonly id: number;
   /** @readonly What the answer choice says (HTML string). */
-  readonly text: string
+  readonly text: string;
   /** Used to store which answer the student selected.
    * @warning Must be manually added to `Answer`; this field is not returned from the API.
    */
@@ -245,8 +245,8 @@ export interface AssignmentResults extends SubmitAssignment {
     readonly question: Question;
     /** Array of dynamic user answers (IDs of selected answers). */
     dynamicUserAnswers: number[];
-    /** @readonly Tells if the question is complete. */
-    readonly isComplete: boolean;
+    /** Tells if the question is complete. */
+    isComplete: boolean;
     /** @readonly Time spent on the question (in seconds). */
     readonly timeSpent: number;
   }[];
