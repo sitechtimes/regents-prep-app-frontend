@@ -40,20 +40,20 @@
 
   --bg-color: #191919;
   --faded-bg-color: #4d4d4d;
-  --text-color: #d7e9d2;
+  --text-color: #ffffff;
   --border-color: #3d444d;
   --hover-background: #292929;
 
   --math: #294356;
   --math-faded: #434b50;
-  --english: #55322b;
-  --english-faded: #584a47;
   --science: #42814a;
   --science-faded: #484e43;
+  --english: #55322b;
+  --english-faded: #584a47;
   --history: #624b1d;
   --history-faded: #5f5746;
-  --russian: #3d2f51;
-  --russian-faded: #4b4553;
+  --foreignlanguage: #3d2f51;
+  --foreignlanguage-faded: #4b4553;
 }
 
 body {
@@ -69,6 +69,10 @@ body {
   font-style: normal;
   color: var(--text-color);
   @apply transition-all duration-500;
+}
+
+.question-text em {
+  @apply italic;
 }
 
 button {
