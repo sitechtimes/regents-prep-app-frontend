@@ -5,9 +5,7 @@
         <Transition name="menu-slide">
           <div v-if="assignmentInProgress" class="fixed left-0 top-0 z-50 flex h-dvh w-screen items-center justify-center bg-body">
             <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" @close="assignmentInProgress = false" />
-
-            <!-- question content for when not all questions are compeleted-->
-            <div v-if="!allQuestionsCompleted" class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
+            <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
               <h2 class="mb-2 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
               <p class="overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
@@ -23,10 +21,12 @@
               </div>
 
               <!-- static assignment navigation -->
-              <div v-if="currentAssignment.assignment.isStatic" class="mt-8 flex w-full items-center justify-end gap-6 px-10">
+              <div v-if="currentAssignment.assignment.isStatic" class="mt-8 flex w-full items-center justify-between gap-6 px-10">
                 <button
                   class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
                   type="button"
+                  :disabled="currentQuestionIndex === 0"
+                  :class="{ 'cursor-not-allowed opacity-50': currentQuestionIndex === 0 }"
                   @click="switchQuestion('previous')"
                 >
                   <img class="size-5 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
@@ -35,6 +35,8 @@
                 <button
                   class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
                   type="button"
+                  :disabled="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
+                  :class="{ 'cursor-not-allowed opacity-50': currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 }"
                   @click="switchQuestion('next')"
                 >
                   Next
@@ -43,9 +45,8 @@
               </div>
 
               <!-- dynamic assignments submit question button -->
-              <div class="" :class="{ 'du-tooltip': !selectedChoice }" data-tip="Complete all questions first!">
+              <div v-if="!currentAssignment.assignment.isStatic && !allQuestionsCompleted" class="" :class="{ 'du-tooltip': !selectedChoice }" data-tip="Complete all questions first!">
                 <button
-                  v-if="!currentAssignment.assignment.isStatic"
                   class="mt-8 flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:text-white dark:hover:brightness-150"
                   type="button"
                   :disabled="!currentQuestion?.question.answers.some((answer) => answer.selected)"
@@ -59,11 +60,12 @@
               <!-- feedback messages -->
               <p v-if="feedbackMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ feedbackMessage }}</p>
               <p v-if="errorMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ errorMessage }}</p>
-            </div>
-
-            <!-- all questions completed screen -->
-            <div v-else class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
-              <p class="text-xl font-semibold text-black">You've completed all the questions in this assignment! Please submit your assignment now.</p>
+              <!-- all questions answered alert -->
+              <div v-if="currentAssignment.assignment.numQuestions === currentAssignment.questionsCompleted" class="mb-6 w-full">
+                <div class="flex items-center justify-center">
+                  <p class="text-center text-lg font-medium text-black">All questions have been answered! You may now submit your assignment.</p>
+                </div>
+              </div>
             </div>
           </div>
         </Transition>
@@ -87,6 +89,7 @@ const errorMessage = ref("");
 const selectedChoice = ref<Answer>();
 let timestamp = Date.now();
 
+const storedStaticAnswers = ref<Record<number, { selectedChoice: Answer }>>({});
 /**
  * gets time spent on current question
  * @returns how many seconds since last update
@@ -103,9 +106,13 @@ function incrementTime() {
   void incrementQuestionTime(currentQuestion.value.id, getDeltaTime());
 }
 
-/**checks if all questions in assignment is completed */
+const assignmentId = Number(route.params.assignmentId);
+const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
+
+/**checks if all questions in assignment are completed */
 const allQuestionsCompleted = computed(() => {
-  return currentAssignment.value && currentAssignment.value.assignment.numQuestions === currentAssignment.value.questionsCompleted;
+  if (!currentAssignment.value) return false;
+  currentAssignment.value.assignment.numQuestions === currentAssignment.value.questionsCompleted + 1;
 });
 
 function selectChoice(choice: Answer) {
@@ -114,10 +121,12 @@ function selectChoice(choice: Answer) {
   choice.selected = true;
   selectedChoice.value = choice;
   currentQuestion.value.selectedAnswerId = choice.id;
+  if (currentAssignment.value?.assignment.isStatic) {
+    storedStaticAnswers.value[currentQuestionIndex.value] = {
+      selectedChoice: { ...choice }
+    };
+  }
 }
-
-const assignmentId = Number(route.params.assignmentId);
-const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
 
 const assignmentInProgress = ref(false);
 watch(assignmentInProgress, (val) => {
@@ -133,15 +142,18 @@ const currentQuestionIndex = computed(() => {
 });
 
 // increment time on index change. separate because immediate: true is not good for this
-watch(currentQuestionIndex, async () => {
-  if (!currentAssignment.value) return;
-  if (currentAssignment.value?.assignment.isStatic && currentQuestion.value) {
+watch(
+  currentQuestionIndex,
+  async () => {
+    if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
     if (selectedChoice.value) {
       const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
-      if (error) console.error("Error saving question:", error);
-    } else incrementTime();
-  }
-});
+      if (error) console.error(error);
+    } else {
+      incrementTime();
+    }
+  },
+);
 
 watch(
   currentQuestionIndex,
@@ -165,14 +177,20 @@ watch(
         currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = data;
       }
     }
-
     // highlight selected answer
     currentQuestion.value = question;
 
-    // for static questions
-    if (question?.selectedAnswerId !== undefined) {
-      (question as StaticQuestionInterface).question.answers.forEach((answer) => (answer.selected = answer.id === question.selectedAnswerId));
-      selectedChoice.value = (question as StaticQuestionInterface).question.answers.find((answer) => answer.id === question.selectedAnswerId);
+    if (currentAssignment.value.assignment.isStatic) {
+      const cachedAnswer = storedStaticAnswers.value[currentQuestionIndex.value];
+      if (cachedAnswer && question) {
+        question.selectedAnswerId = cachedAnswer.selectedChoice.id;
+        question.question.answers.forEach((answer) => {
+          answer.selected = answer.id === cachedAnswer.selectedChoice.id;
+        });
+        selectedChoice.value = question.question.answers.find((answer) => answer.id === cachedAnswer.selectedChoice.id);
+      } else {
+        selectedChoice.value = undefined;
+      }
     }
   },
   { immediate: true }
@@ -180,7 +198,6 @@ watch(
 
 async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
-
   const newIndex = direction === "previous" ? currentQuestionIndex.value - 1 : currentQuestionIndex.value + 1;
   if (newIndex >= 0 && newIndex < currentAssignment.value.assignment.numQuestions) await changeRouteQuery({ q: newIndex });
 }
