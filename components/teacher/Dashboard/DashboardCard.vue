@@ -3,11 +3,11 @@
     class="flex w-115 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-600/50 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
   >
     <!-- course information -->
-    <div class="flex h-24 w-full flex-col items-center justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
-      <h2 :title="course.name" class="w-72 overflow-hidden overflow-ellipsis text-nowrap text-center text-2xl font-semibold">{{ course.name }}</h2>
+    <div class="flex h-1/2 w-full flex-col items-center justify-end pt-2 px-2 drop-shadow-md" :style="{ backgroundColor: subjectColors[course.subject] }">
+      <h2 :title="course.name" class="sm:text-l mt-4 h-1/2 w-full overflow-hidden overflow-ellipsis text-nowrap text-center font-semibold md:text-2xl lg:text-3xl self-center -mt-3 -mb-2">{{ course.name }}</h2>
       <p class="text-sm">Period {{ course.period }}</p>
       <p>{{ course.teacher }}</p>
-      <p v-if="!course.teacher">{{ userStore.name }}</p>
+      <p v-if="!course.teacher" class="h-1/4 lg:text-2xl md:text-xl sm:text-l pb-10 -mt-2">{{ userStore.name }}</p>
     </div>
 
     <div class="flex h-full min-h-24 w-full columns-2 rounded-3xl bg-[var(--bg-color)] p-2">
