@@ -1,9 +1,9 @@
 export const subjectColors = {
   Math: "var(--math)", //blue
-  English: "var(--english)", //pink
   Science: "var(--science)", //green
+  English: "var(--english)", //pink
   History: "var(--history)", //yellow
-  Russian: "var(--russian)" //purple
+  "Foreign Language": "var(--russian)" //purple
 } as const;
 
-export type Subjects = keyof typeof subjectColors;
+export type Subject = keyof typeof subjectColors;

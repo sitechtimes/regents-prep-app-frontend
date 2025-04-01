@@ -34,6 +34,7 @@ describe("Student Course Info Page", () => {
           assignment: {
             name: "Power Rule practice",
             numQuestions: 5,
+            isStatic: false,
             lateSubmissions: false,
             dueDate: new Date(),
             dateAssigned: new Date(),

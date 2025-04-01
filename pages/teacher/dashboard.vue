@@ -8,7 +8,7 @@
           <!-- mx-auto flex w-full flex-wrap justify-start gap-8 pe-6 ps-8 -->
           <!--prettier-ignore-->
           <TeacherDashboardCard
-            v-for="course in (teacherCourses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
+            v-for="course in (sortedTeacherCourses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
             :key="course.id"
             :course="course"
             @click="router.push(`/teacher/course/${course.id}`)"
@@ -36,7 +36,7 @@ const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
 const { teacherCourses, teacherCurrentCourse } = storeToRefs(store);
-
+const sortedTeacherCourses = computed(() => teacherCourses.value.sort((a, b) => a.period - b.period));
 const showNotFound = ref(false);
 const loaded = ref(false);
 const showCreateClass = ref(false);
