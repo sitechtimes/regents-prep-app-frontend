@@ -113,7 +113,7 @@
 const props = defineProps<{
   viewOnly: boolean;
   currentQuestions: CreateAssignmentQuestion[];
-  currentTopicIds: number[];
+  currentTopicIds: number[][];
 }>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
@@ -173,7 +173,7 @@ async function loadTopics(topicId: number) {
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
 const topicCollection = ref<number[][] | null>([]);
-const topicIsInAssignment = computed(() => props.currentTopicIds.includes(currentTopic.value?.id ?? 1));
+const topicIsInAssignment = computed(() =>  props.currentTopicIds.includes(Array(currentTopic.value?.id) ?? [1]));
 
 const currentQuestionPageIndex = ref(0);
 const totalQuestions = ref(0);

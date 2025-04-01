@@ -105,12 +105,12 @@
           <div v-else class="flex h-full w-full flex-col items-start justify-start gap-4 overflow-y-scroll py-2 pl-4">
             <ul v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
               <h5 v-if="assignmentInfo.topicIds.length && assignmentInfo.questionIds.length" class="text-2xl font-bold">Topics</h5>
-              <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId" class="flex w-full items-center justify-start gap-3">
+              <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId[0]" class="flex w-full items-center justify-start gap-3">
                 <span>{{ index + 1 }}.</span>
 
-                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId]?.name ?? 'All topics'"></p>
+                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId[0]]?.name ?? 'All topics'"></p>
 
-                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId)" img="/ui/trash.svg" />
+                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId[0])" img="/ui/trash.svg" />
               </li>
             </ul>
 
@@ -204,7 +204,7 @@ const assignmentInfo = reactive({
     time: "23:59"
   },
   questionIds: ref<CreateAssignmentQuestion[]>([]),
-  topicIds: ref<number[]>([]),
+  topicIds: ref<number[][]>([]),
   numOfQuestions: ref<number>(),
   lateSubmissions: false,
   /** In minutes */
@@ -226,10 +226,10 @@ function addQuestion(questionId: number) {
 }
 
 function removeTopic(topicId: number) {
-  assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(topicId), 1);
+  assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(Array(topicId)), 1);
 }
 function addTopic(topicId: number) {
-  if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) assignmentInfo.topicIds.push(topicId);
+  if (!assignmentInfo.topicIds.find((topic) => topic === Array(topicId))) assignmentInfo.topicIds.push(Array(topicId));
   else removeTopic(topicId);
 }
 
