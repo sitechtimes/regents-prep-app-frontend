@@ -173,7 +173,7 @@ async function loadTopics(topicId: number) {
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
 const topicCollection = ref<number[][] | null>([]);
-const topicIsInAssignment = computed(() =>  props.currentTopicIds.includes(Array(currentTopic.value?.id) ?? [1]));
+const topicIsInAssignment = computed(() => props.currentTopicIds.includes(Array(currentTopic.value?.id) ?? [1]));
 
 const currentQuestionPageIndex = ref(0);
 const totalQuestions = ref(0);
@@ -193,11 +193,9 @@ watch(currentTopic, async (topic) => {
   }
 
   await loadQuestions(topic?.id ?? 1);
-  /* Problem: can add subtopic, then parent topic.
-
- Solution: When subtopic is added, record parent topic ids from topic length.
-
- When topic is added, compare id to parent topic ids. If it matches, remove the subtopics the id matches with.
+  /* 
+  
+When topic is added, append current Topic Path, reverse array
 
  */
 });

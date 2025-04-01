@@ -22,10 +22,10 @@
           <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions"
             >Number of Questions <span title="Required" class="font-2xl text-red-500">*</span></label
           >
-          <input
-            id="numOfQuestions"
-            v-model="assignmentInfo.numOfQuestions"
-            @input="
+
+          <!--   
+          Was in input.
+          @input="
               () => {
                 if (assignmentInfo.numOfQuestions) {
                   if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId).length) {
@@ -37,7 +37,9 @@
                   }
                 }
               }
-            "
+            " --><input
+            id="numOfQuestions"
+            v-model="assignmentInfo.numOfQuestions"
             required
             type="number"
             class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
