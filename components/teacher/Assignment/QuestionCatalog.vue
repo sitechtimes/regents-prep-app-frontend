@@ -58,7 +58,7 @@
             >
               <TeacherAssignmentCatalogQuestionButton
                 v-if="!viewOnly"
-                :click-function="() => emit('selectTopic', currentTopic?.id ?? 1)"
+                :click-function="() => emit('selectTopic', currentTopicPath ?? [1])"
                 :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
                 :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
               />
@@ -117,7 +117,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
-  selectTopic: [topicId: number];
+  selectTopic: [topicId: number[]];
 }>();
 
 const userStore = useUserStore();
@@ -127,6 +127,13 @@ const initialTopics = ref<Topic[]>([]);
 const displayedQuestions = ref<(number | TopicQuestionInterface)[]>([]);
 
 const showQuestionAnswers = ref(false);
+
+function buttonClick(fullTopicPath: number[]) {
+  const path = ref<number[][] | null>([]);
+  // path.value.push(currentTopicPath)
+
+  emit("selectTopic", fullTopicPath ?? [1]);
+}
 
 async function loadQuestions(topicId: number, offset?: number) {
   const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId, offset));
@@ -164,7 +171,7 @@ async function loadTopics(topicId: number) {
       questionIds: []
     };
     loadedTopics.value[topic.id] = mappedTopic;
-    if (parentIsLoaded) parent.children?.push(topic.id);
+    if (parentIsLoaded) parent.children?.push(topic.id), currentTopicPath.value.forEach((topic) => parent.parents?.push(topic));
   }
 
   return topics;

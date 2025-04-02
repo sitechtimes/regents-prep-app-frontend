@@ -112,7 +112,7 @@
 
                 <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId[0]]?.name ?? 'All topics'"></p>
 
-                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId[0])" img="/ui/trash.svg" />
+                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId)" img="/ui/trash.svg" />
               </li>
             </ul>
 
@@ -227,11 +227,12 @@ function addQuestion(questionId: number) {
   else removeQuestion(questionId);
 }
 
-function removeTopic(topicId: number) {
-  assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(Array(topicId)), 1);
+function removeTopic(topicId: number[]) {
+  assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(topicId), 1);
 }
-function addTopic(topicId: number) {
-  if (!assignmentInfo.topicIds.find((topic) => topic === Array(topicId))) assignmentInfo.topicIds.push(Array(topicId));
+
+function addTopic(topicId: number[]) {
+  if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) assignmentInfo.topicIds.push(topicId);
   else removeTopic(topicId);
 }
 
