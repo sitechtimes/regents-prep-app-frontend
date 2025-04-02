@@ -39,12 +39,24 @@
           <div class="flex-1 px-4">
             <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
           </div>
-          <div class="w-1/4 text-center">
-            <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers.map(String))"></span>
+          <div v-if="questionInstance.dynamicUserAnswers" class="w-1/4 text-center">
+            <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers?.map(String) || [])"></span>
+          </div>
+          <div v-else-if="questionInstance.staticUserAnswer" class="w-1/4 text-center">
+            <span v-html="getStaticUserAnswer(questionInstance.question, Number(questionInstance.staticUserAnswer) || 0)"></span>
           </div>
           <div class="w-1/4 text-center" v-html="getCorrectAnswer(questionInstance.question)"></div>
           <div class="w-1/4 text-center">
-            <span v-if="isAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })" class="text-green-600">✔️</span>
+            <span
+              v-if="questionInstance.dynamicUserAnswers && isAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })"
+              class="text-green-600"
+              >✔️</span
+            >
+            <span
+              v-else-if="questionInstance.staticUserAnswer && isStaticAnswerCorrect({ question: questionInstance.question, staticUserAnswer: questionInstance.staticUserAnswer })"
+              class="text-green-600"
+              >✔️</span
+            >
             <span v-else class="text-red-600">❌</span>
           </div>
         </div>
@@ -100,15 +112,18 @@ function formatDate(date: Date | null) {
   return formattedDate;
 }
 
-function getUserAnswer(question: Question, dynamicUserAnswers: string[], staticUserAnswer: string) {
-  //add staticUserAnswer as a way to determine between the two
-  if (staticUserAnswer) {
-    const answer = question.answers.find((answer) => answer.id.toString() === staticUserAnswer);
-    if (answer) {
-      const letter = String.fromCharCode(65 + question.answers.indexOf(answer));
-      return letter;
-    }
+function getStaticUserAnswer(question: Question, staticUserAnswer: number) {
+  if (staticUserAnswer) return "-";
+  const answer = question.answers.find((answer) => answer.id === staticUserAnswer);
+  if (answer) {
+    const letter = String.fromCharCode(65 + question.answers.indexOf(answer));
+    console.log(letter);
+    return letter;
   }
+}
+
+function getUserAnswer(question: Question, dynamicUserAnswers: string[]) {
+  //add staticUserAnswer as a way to determine between the two
   if (!dynamicUserAnswers || dynamicUserAnswers.length === 0) return "-";
   const lastAnswer = dynamicUserAnswers[dynamicUserAnswers.length - 1];
   const answer = question.answers.find((answer) => answer.id.toString() === lastAnswer);
@@ -133,6 +148,12 @@ function getCorrectAnswer(question: Question) {
 
 function isAnswerCorrect(questionInstance: { question: Question; dynamicUserAnswers: string[] }) {
   const userAnswer = getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers);
+  const correctAnswer = getCorrectAnswer(questionInstance.question);
+  return userAnswer === correctAnswer;
+}
+
+function isStaticAnswerCorrect(questionInstance: { question: Question; staticUserAnswer: number }) {
+  const userAnswer = getStaticUserAnswer(questionInstance.question, questionInstance.staticUserAnswer);
   const correctAnswer = getCorrectAnswer(questionInstance.question);
   return userAnswer === correctAnswer;
 }
