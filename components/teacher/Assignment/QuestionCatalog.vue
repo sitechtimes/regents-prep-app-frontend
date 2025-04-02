@@ -172,7 +172,7 @@ async function loadTopics(topicId: number) {
 
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
-const topicCollection = ref<number[][] | null>([]);
+// const topicCollection = ref<number[][] | null>([]);
 const topicIsInAssignment = computed(() => props.currentTopicIds.includes(Array(currentTopic.value?.id) ?? [1]));
 
 const currentQuestionPageIndex = ref(0);
@@ -186,7 +186,7 @@ watch(currentTopic, async (topic) => {
 
     /*     console.log(topicCollection.value);
     console.log(topic.id); */
-    console.log(topicIsInAssignment);
+    // console.log(topicIsInAssignment);
     currentTopicPath.value.push(topic.id);
     currentQuestionPageIndex.value = 0;
     await loadTopics(topic.id);

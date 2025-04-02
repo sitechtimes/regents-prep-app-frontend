@@ -19,9 +19,10 @@
           />
         </div>
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions"
-            >Number of Questions <span title="Required" class="font-2xl text-red-500">*</span></label
-          >
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions">
+            Number of Questions
+            <span title="Required" class="font-2xl text-red-500">*</span>
+          </label>
 
           <!--   
           Was in input.
@@ -37,7 +38,8 @@
                   }
                 }
               }
-            " --><input
+            " -->
+          <input
             id="numOfQuestions"
             v-model="assignmentInfo.numOfQuestions"
             required
@@ -175,19 +177,22 @@
       @select-question="addQuestion"
       @select-topic="addTopic"
     />
+
+    <!-- treat unguaranteted quesitons as whatever. guaranteted -->
+    <LazyTeacherAssignmentPrintAssignment :question-ids="assignmentInfo.questionIds.map((question) => question.questionId)" />
   </div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
-  layout: "teacher",
-  middleware: "teacher-get-course"
+  layout: "teacher"
 });
 
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 const { showSideMenu, loadedTopics, loadedQuestions } = storeToRefs(userStore);
+const courseID = 1; // TODO: todo
 
 const currentDateISO = (() => {
   const now = new Date();
@@ -197,7 +202,7 @@ const currentDateISO = (() => {
 
   return `${year}-${month}-${day}`;
 })();
-const courseID = Number(route.params.courseCode);
+// const courseID = Number(route.params.courseCode);
 
 const assignmentInfo = reactive({
   name: "",
@@ -214,14 +219,13 @@ const assignmentInfo = reactive({
   attemptsAllowed: ref<number>()
 });
 
-const testDate = Number(assignmentInfo.dueDate.date).toLocaleString();
-
 const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length));
 
 function removeQuestion(questionId: number) {
   // prettier-ignore
   assignmentInfo.questionIds.splice(assignmentInfo.questionIds.findIndex((question) => question.questionId === questionId), 1);
 }
+
 function addQuestion(questionId: number) {
   if (!assignmentInfo.questionIds.find((question) => question.questionId === questionId)) assignmentInfo.questionIds.push({ questionId, isGuaranteed: true });
   else removeQuestion(questionId);
@@ -230,6 +234,7 @@ function addQuestion(questionId: number) {
 function removeTopic(topicId: number) {
   assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(Array(topicId)), 1);
 }
+
 function addTopic(topicId: number) {
   if (!assignmentInfo.topicIds.find((topic) => topic === Array(topicId))) assignmentInfo.topicIds.push(Array(topicId));
   else removeTopic(topicId);
@@ -241,14 +246,14 @@ const createAssignmentResult = reactive({
   error: ""
 });
 
-watch(assignmentInfo.questionIds, async (idArr) => {
-  const numOfQuestionsLimit = ref<number>(idArr.filter((question) => question.isGuaranteed).map((question) => question.questionId).length);
-});
-
 let sideMenuWasOpen = false;
 onMounted(() => {
   sideMenuWasOpen = showSideMenu.value;
   showSideMenu.value = false;
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "q") document.body.classList.toggle("goog");
+  });
 });
 onBeforeUnmount(() => (showSideMenu.value = sideMenuWasOpen));
 
@@ -269,18 +274,9 @@ async function createAssignment() {
       assignmentInfo.attemptsAllowed ?? 0
     )
   );
-  router.push(`/teacher/course/${courseID}`);
+  await router.push(`/teacher/course/${courseID}`);
 
   createAssignmentResult.isLoading = false;
-
-  /*
-  new Date(
-  new Date("2021-01-01T00:00:00")
-    .toLocaleString("en-US", {timeZone: "America/New_York"})
-).toISOString();
-
-
-  */
 
   if (error) {
     createAssignmentResult.error = error.message;
