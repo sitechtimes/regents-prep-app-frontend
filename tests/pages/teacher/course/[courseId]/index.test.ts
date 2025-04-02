@@ -4,7 +4,7 @@ import { createPinia, setActivePinia } from "pinia";
 import { beforeEach } from "vitest";
 import Index from "~/pages/teacher/course/[courseCode]/index.vue";
 
-describe("teacherCourse", async () => {
+describe("teacherCourse", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
   });
@@ -16,23 +16,22 @@ describe("teacherCourse", async () => {
 
   test("currentAssignmentExist", async () => {
     const page = await mountSuspended(Index);
-    const currentAssignments = ref(page.vm.currentAssignments);
-
+    const currentAssignments = ref(page.vm.filteredAssignments);
     expect(currentAssignments.value).toHaveLength(1);
   });
 
   test("currentAssignmentsTest", async () => {
     const page = await mountSuspended(Index);
-    const assignments = ref(page.vm.assignments);
+    const assignments = ref(page.vm.filteredAssignments);
 
-    const currentAssignments = ref(page.vm.currentAssignments);
+    const currentAssignments = ref(page.vm.filteredAssignments);
 
     assignments.value = [
       {
         name: "test",
         dateAssigned: new Date(),
         dueDate: new Date(),
-        numOfQuestions: 4,
+        numQuestions: 4,
         lateSubmissions: false,
         numSubmitted: 2,
         id: 9
