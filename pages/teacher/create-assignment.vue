@@ -6,6 +6,16 @@
     >
       <h3 class="text-2xl font-bold">Create Assignment</h3>
 
+      <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="courses">For <span title="Required" class="font-2xl text-red-500">*</span></label>
+      <select
+        id="courses"
+        v-model="assignmentInfo.name"
+        required
+        class="fo-select border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+        placeholder="Unit 3 Review"
+      >
+        <option>AP Physics 4 (nukes)</option>
+      </select>
       <div class="flex w-full items-center justify-center gap-3">
         <div class="grow">
           <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="font-2xl text-red-500">*</span></label>
@@ -177,9 +187,6 @@
       @select-question="addQuestion"
       @select-topic="addTopic"
     />
-
-    <!-- treat unguaranteted quesitons as whatever. guaranteted -->
-    <LazyTeacherAssignmentPrintAssignment :question-ids="assignmentInfo.questionIds.map((question) => question.questionId)" />
   </div>
 </template>
 
@@ -192,7 +199,6 @@ const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 const { showSideMenu, loadedTopics, loadedQuestions } = storeToRefs(userStore);
-const courseID = 1; // TODO: todo
 
 const currentDateISO = (() => {
   const now = new Date();
@@ -202,6 +208,7 @@ const currentDateISO = (() => {
 
   return `${year}-${month}-${day}`;
 })();
+const courseID = 1; // TODO: todo
 // const courseID = Number(route.params.courseCode);
 
 const assignmentInfo = reactive({
@@ -250,10 +257,6 @@ let sideMenuWasOpen = false;
 onMounted(() => {
   sideMenuWasOpen = showSideMenu.value;
   showSideMenu.value = false;
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "q") document.body.classList.toggle("goog");
-  });
 });
 onBeforeUnmount(() => (showSideMenu.value = sideMenuWasOpen));
 
