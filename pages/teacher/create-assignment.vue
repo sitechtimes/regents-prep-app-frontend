@@ -6,16 +6,28 @@
     >
       <h3 class="text-2xl font-bold">Create Assignment</h3>
 
-      <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="courses">For <span title="Required" class="font-2xl text-red-500">*</span></label>
-      <select
-        id="courses"
-        v-model="assignmentInfo.name"
-        required
-        class="fo-select border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-        placeholder="Unit 3 Review"
-      >
-        <option>AP Physics 4 (nukes)</option>
-      </select>
+      <fieldset>
+        <legend>For <span title="Required" class="font-2xl text-red-500">*</span></legend>
+        <div class="max-h-40 space-y-1 overflow-y-auto rounded-lg border border-neutral-400 bg-white p-3">
+          <div v-for="course in teacherCourses" :key="course.id" class="flex items-center gap-2">
+            <input
+              :id="'course-' + course.id"
+              class="du-checkbox border-neutral-400 dark:bg-neutral-900"
+              type="checkbox"
+              :disabled="course.id === initialCourse"
+              :checked="course.id === initialCourse"
+              @input="(e) => toggleCourse(course.id, e)"
+            />
+            <label
+              class="fo-label w-full text-black dark:text-white"
+              :class="course.id === initialCourse ? 'cursor-not-allowed text-neutral-600 dark:text-neutral-300' : 'cursor-pointer'"
+              :for="'course-' + course.id"
+              >{{ course.name }}</label
+            >
+          </div>
+        </div>
+      </fieldset>
+
       <div class="flex w-full items-center justify-center gap-3">
         <div class="grow">
           <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="font-2xl text-red-500">*</span></label>
@@ -159,7 +171,7 @@
 
       <div class="mt-4 flex w-full items-center justify-between px-10">
         <div class="flex items-center gap-1">
-          <input id="late-submissions" v-model="assignmentInfo.lateSubmissions" type="checkbox" class="fo-checkbox border-neutral-400 bg-neutral-300 dark:bg-neutral-900" />
+          <input id="late-submissions" v-model="assignmentInfo.lateSubmissions" type="checkbox" class="du-checkbox border-neutral-400 dark:bg-neutral-900" />
           <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base text-black dark:text-white" for="late-submissions">Allow late submissions</label>
         </div>
 
@@ -198,7 +210,7 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
-const { showSideMenu, loadedTopics, loadedQuestions } = storeToRefs(userStore);
+const { showSideMenu, loadedTopics, loadedQuestions, teacherCourses } = storeToRefs(userStore);
 
 const currentDateISO = (() => {
   const now = new Date();
@@ -208,8 +220,8 @@ const currentDateISO = (() => {
 
   return `${year}-${month}-${day}`;
 })();
-const courseID = 1; // TODO: todo
-// const courseID = Number(route.params.courseCode);
+const courseIDs = reactive<number[]>([]); // TODO: todo
+const initialCourse = Number(route.query.course);
 
 const assignmentInfo = reactive({
   name: "",
@@ -247,6 +259,14 @@ function addTopic(topicId: number) {
   else removeTopic(topicId);
 }
 
+function toggleCourse(courseID: number, event: Event) {
+  if (!event.target) return;
+
+  const index = courseIDs.indexOf(courseID);
+  if ((event.target as HTMLInputElement).checked) courseIDs.push(courseID);
+  else courseIDs.splice(index, 1);
+}
+
 const createAssignmentResult = reactive({
   isLoading: false,
   success: "",
@@ -267,7 +287,7 @@ async function createAssignment() {
   const { error } = await tryCatch(
     submitCreateAssignment(
       assignmentInfo.name,
-      courseID,
+      courseIDs,
       assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.questionIds.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
       `${new Date(new Date(assignmentInfo.dueDate.date).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString().slice(0, 10)}T${assignmentInfo.dueDate.time}`,
@@ -277,7 +297,7 @@ async function createAssignment() {
       assignmentInfo.attemptsAllowed ?? 0
     )
   );
-  await router.push(`/teacher/course/${courseID}`);
+  if (initialCourse) await router.push(`/teacher/course/${initialCourse}`);
 
   createAssignmentResult.isLoading = false;
 
