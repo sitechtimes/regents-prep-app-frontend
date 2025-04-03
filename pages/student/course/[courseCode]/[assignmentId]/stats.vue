@@ -50,13 +50,15 @@
             <span
               v-if="questionInstance.dynamicUserAnswers && isAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })"
               class="text-green-600"
-              >✔️</span
             >
+              ✔️
+            </span>
             <span
               v-else-if="questionInstance.staticUserAnswer && isStaticAnswerCorrect({ question: questionInstance.question, staticUserAnswer: questionInstance.staticUserAnswer })"
               class="text-green-600"
-              >✔️</span
             >
+              ✔️
+            </span>
             <span v-else class="text-red-600">❌</span>
           </div>
         </div>
@@ -113,17 +115,15 @@ function formatDate(date: Date | null) {
 }
 
 function getStaticUserAnswer(question: Question, staticUserAnswer: number) {
-  if (staticUserAnswer) return "-";
+  if (!staticUserAnswer) return "-";
   const answer = question.answers.find((answer) => answer.id === staticUserAnswer);
   if (answer) {
     const letter = String.fromCharCode(65 + question.answers.indexOf(answer));
-    console.log(letter);
     return letter;
   }
 }
 
 function getUserAnswer(question: Question, dynamicUserAnswers: string[]) {
-  //add staticUserAnswer as a way to determine between the two
   if (!dynamicUserAnswers || dynamicUserAnswers.length === 0) return "-";
   const lastAnswer = dynamicUserAnswers[dynamicUserAnswers.length - 1];
   const answer = question.answers.find((answer) => answer.id.toString() === lastAnswer);
