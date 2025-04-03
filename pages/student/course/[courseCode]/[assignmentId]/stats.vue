@@ -40,15 +40,15 @@
             <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
           </div>
           <div v-if="questionInstance.dynamicUserAnswers" class="w-1/4 text-center">
-            <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers?.map(String) || [])"></span>
+            <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers?.map(String) ?? [])"></span>
           </div>
           <div v-else-if="questionInstance.staticUserAnswer" class="w-1/4 text-center">
-            <span v-html="getStaticUserAnswer(questionInstance.question, Number(questionInstance.staticUserAnswer) || 0)"></span>
+            <span v-html="getStaticUserAnswer(questionInstance.question, Number(questionInstance.staticUserAnswer) ?? 0)"></span>
           </div>
           <div class="w-1/4 text-center" v-html="getCorrectAnswer(questionInstance.question)"></div>
           <div class="w-1/4 text-center">
             <span
-              v-if="questionInstance.dynamicUserAnswers && isAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })"
+              v-if="questionInstance.dynamicUserAnswers && isDynamicAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })"
               class="text-green-600"
             >
               ✔️
@@ -146,7 +146,7 @@ function getCorrectAnswer(question: Question) {
   return "-";
 }
 
-function isAnswerCorrect(questionInstance: { question: Question; dynamicUserAnswers: string[] }) {
+function isDynamicAnswerCorrect(questionInstance: { question: Question; dynamicUserAnswers: string[] }) {
   const userAnswer = getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers);
   const correctAnswer = getCorrectAnswer(questionInstance.question);
   return userAnswer === correctAnswer;
