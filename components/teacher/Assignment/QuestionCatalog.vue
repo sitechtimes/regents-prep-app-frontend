@@ -58,7 +58,7 @@
             >
               <TeacherAssignmentCatalogQuestionButton
                 v-if="!viewOnly"
-                :click-function="() => emit('selectTopic', currentTopicPath ?? [1])"
+                :click-function="() => buttonClick(1)"
                 :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
                 :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
               />
@@ -128,13 +128,6 @@ const displayedQuestions = ref<(number | TopicQuestionInterface)[]>([]);
 
 const showQuestionAnswers = ref(false);
 
-function buttonClick(fullTopicPath: number[]) {
-  const path = ref<number[][] | null>([]);
-  // path.value.push(currentTopicPath)
-
-  emit("selectTopic", fullTopicPath ?? [1]);
-}
-
 async function loadQuestions(topicId: number, offset?: number) {
   const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId, offset));
   if (error) return console.error(error);
@@ -188,24 +181,33 @@ watch(currentTopic, async (topic) => {
   if (!topic) currentTopicPath.value = [];
   else {
     if (currentTopicPath.value.includes(topic.id)) currentTopicPath.value = currentTopicPath.value.slice(0, currentTopicPath.value.indexOf(topic.id));
-    topic.hasParents = true;
+    /*  topic.hasParents = true;
     topic.parents = currentTopicPath.value;
-
-    /*     console.log(topicCollection.value);
+    console.log(topicCollection.value);
     console.log(topic.id); */
-    console.log(topicIsInAssignment);
+    console.log(topicIsInAssignment.value);
     currentTopicPath.value.push(topic.id);
     currentQuestionPageIndex.value = 0;
+    console.log(currentTopicPath.value);
     await loadTopics(topic.id);
   }
 
   await loadQuestions(topic?.id ?? 1);
-  /* 
-  
+  /*
+
 When topic is added, append current Topic Path, reverse array
 
  */
 });
+
+async function buttonClick(selectedTopicId: number) {
+  const path = ref<number[]>([]);
+  console.log(currentTopicPath);
+  currentTopicPath.value.forEach((id) => path.value.push(id));
+  path.value.push(selectedTopicId);
+  emit("selectTopic", path.value ?? [1]);
+}
+
 watch(currentQuestionPageIndex, async (index) => {
   await loadQuestions(currentTopic.value?.id ?? 1, index * 20);
 });
@@ -227,9 +229,7 @@ let previousPosition = 0;
 function detectSticky() {
   if (!questionsHeader.value) return;
   const newPosition = questionsHeader.value.getBoundingClientRect().top;
-
   if (newPosition === previousPosition) return (isSticky.value = true);
-
   previousPosition = newPosition;
   isSticky.value = false;
 }

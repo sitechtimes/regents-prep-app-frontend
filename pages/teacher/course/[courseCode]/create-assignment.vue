@@ -232,6 +232,7 @@ function removeTopic(topicId: number[]) {
 }
 
 function addTopic(topicId: number[]) {
+  console.log(topicId);
   if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) assignmentInfo.topicIds.push(topicId);
   else removeTopic(topicId);
 }
