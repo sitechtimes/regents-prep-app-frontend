@@ -187,3 +187,13 @@ export async function getTopics(topicId: number) {
 export async function getQuestionsUnderTopic(topicId: number, offset = 0, includeQuestionCount = true, numOfQuestions = 20) {
   return requestEndpoint<{ count: number; questions: TopicQuestionInterface[] }>(`/questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}`);
 }
+
+/** Requests the `/courses/teacher/delete/assignment/<assignmentId>` endpoint */
+export async function deleteAssignment(assignmentId: number) {
+  return requestEndpoint<TeacherAssignment>(`/courses/teacher/delete/assignment/${assignmentId}`, "DELETE");
+}
+
+/** Requests the `/courses/teacher/delete/course/<courseId>` endpoint */
+export async function deleteCourse(courseId: number) {
+  return requestEndpoint<TeacherCourse>(`/courses/teacher/delete/course/${courseId}`, "DELETE");
+}
