@@ -243,8 +243,10 @@ export interface AssignmentResults extends SubmitAssignment {
     id: number;
     /** @readonly The data for the question referenced by the instance. */
     question: Question;
-    /** Array of dynamic user answers (IDs of selected answers). */
-    dynamicUserAnswers: number[];
+    /** @readonly Array of dynamic user answers (IDs of selected answers). */
+    dynamicUserAnswers: number[] | null;
+    /** @readonly The ID of the chosen answer if the assignment is static.*/
+    staticUserAnswer: number | null;
     /** @readonly Tells if the question is complete. */
     isComplete: boolean;
     /** @readonly Time spent on the question (in seconds). */
