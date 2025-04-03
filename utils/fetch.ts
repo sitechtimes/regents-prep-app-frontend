@@ -1,3 +1,4 @@
+import sanitizeHtml from "sanitize-html";
 interface Success<T> {
   data: T;
   error?: never;
@@ -25,6 +26,17 @@ export async function tryCatch<T, E = Error>(promise: Promise<T>): Promise<Resul
   } catch (error) {
     return { error: error as E };
   }
+}
+
+/** Sanitizes an HTML string
+ * @param html - HTML string
+ */
+function sanitize(html: string) {
+  return sanitizeHtml(html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "src"]),
+    allowedAttributes: false,
+    allowedSchemes: ["http", "https", "data"]
+  });
 }
 
 /** Makes a request to the given endpoint with the given method and body.
@@ -73,12 +85,14 @@ export async function getCourseStudents(courseId: number) {
 
 /** Requests the `courses/student/get-next-dynamic-question/` endpoint */
 export async function getNextDynamicQuestion(assignmentId: number) {
-  return requestEndpoint<DynamicQuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
+  const data = await requestEndpoint<DynamicQuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
+  return { ...data, question: { ...data.question, text: sanitize(data.question.text) } };
 }
 
 /** Requests the `courses/student/get-static-question/assignmentId/questionIndex/` endpoint */
 export async function getNextStaticQuestion(assignmentId: number, questionIndex: number) {
-  return requestEndpoint<StaticQuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
+  const data = await requestEndpoint<StaticQuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
+  return { ...data, question: { ...data.question, text: sanitize(data.question.text) } };
 }
 
 /** Requests the `courses/student/submit-answer/` endpoint */
