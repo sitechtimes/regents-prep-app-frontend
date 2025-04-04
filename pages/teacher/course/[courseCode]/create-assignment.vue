@@ -232,7 +232,12 @@ function removeTopic(topicId: number[]) {
 }
 
 function addTopic(topicId: number[]) {
-  console.log(topicId);
+  /*   for (let i = 1; i < topicId.length; i++) {
+    if (assignmentInfo.topicIds.find((topic) => topic[i] === topicId[i])) {
+      console.log(assignmentInfo.name);
+    } else addTopic(topicId);
+  } */
+  //  if (!assignmentInfo.topicIds.forEach) assignmentInfo.topicIds.push(topicId);
   if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) assignmentInfo.topicIds.push(topicId);
   else removeTopic(topicId);
 }

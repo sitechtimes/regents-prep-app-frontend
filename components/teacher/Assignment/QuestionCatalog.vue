@@ -58,7 +58,7 @@
             >
               <TeacherAssignmentCatalogQuestionButton
                 v-if="!viewOnly"
-                :click-function="() => buttonClick(1)"
+                :click-function="() => buttonClick()"
                 :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
                 :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
               />
@@ -200,12 +200,11 @@ When topic is added, append current Topic Path, reverse array
  */
 });
 
-async function buttonClick(selectedTopicId: number) {
+async function buttonClick() {
   const path = ref<number[]>([]);
   console.log(currentTopicPath);
   currentTopicPath.value.forEach((id) => path.value.push(id));
-  path.value.push(selectedTopicId);
-  emit("selectTopic", path.value ?? [1]);
+  emit("selectTopic", path.value.reverse() ?? [1]);
 }
 
 watch(currentQuestionPageIndex, async (index) => {
