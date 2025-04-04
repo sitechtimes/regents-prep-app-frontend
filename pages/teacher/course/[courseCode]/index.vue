@@ -22,7 +22,7 @@
       <div class="mt-5 flex w-full flex-wrap items-center justify-start gap-4">
         <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex items-center gap-4">
           <TeacherAssignmentCard :course="teacherCurrentCourse" :assignment="assignment" :current-date="currentDate" />
-          <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" text="Delete Assignment" :click-function="() => confirmDeleteAssignment(assignment.id)" />
+          <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" text="Delete" :click-function="() => confirmDeleteAssignment(assignment.id)" />
         </div>
       </div>
       <DeleteModal v-model="isModalVisible" @confirm="handleConfirm" />
