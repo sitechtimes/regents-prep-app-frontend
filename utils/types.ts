@@ -111,8 +111,8 @@ interface Assignment {
 }
 
 export interface StudentAssignment extends Assignment {
-  /** @readonly Date object of when the assignment was submitted. */
-  readonly dateSubmitted: Date | null;
+  /**Date object of when the assignment was submitted. */
+  dateSubmitted: Date | null;
 
   /** Number of questions completed. */
   questionsCompleted: number;
@@ -132,11 +132,11 @@ export interface StudentAssignment extends Assignment {
     /** @readonly Whether or not the assignment can be turned in late. */
     readonly lateSubmissions: boolean;
 
-    /** @readonly Date object of when the assignment is due (Date(UTC)). */
-    readonly dueDate: Date;
+    /**Date object of when the assignment is due (Date(UTC)). */
+    dueDate: Date;
 
-    /** @readonly Date object of when the assignment was assigned (Date(UTC)). */
-    readonly dateAssigned: Date;
+    /**Date object of when the assignment was assigned (Date(UTC)). */
+    dateAssigned: Date;
 
     /** @readonly If the assignment is a static assignment.*/
     readonly isStatic: boolean;
@@ -165,11 +165,11 @@ export interface TeacherAssignment extends Assignment {
   /** @readonly Name of the assignment. */
   readonly name: string;
 
-  /** @readonly Date the assignment was submitted (Date(UTC)) */
-  readonly dateAssigned: Date;
+  /** Date the assignment was submitted (Date(UTC)) */
+  dateAssigned: Date;
 
-  /** @readonly Date the assignment is due (Date(UTC)) */
-  readonly dueDate: Date;
+  /** Date the assignment is due (Date(UTC)) */
+  dueDate: Date;
 
   /** @readonly Number of questions in the assignment */
   readonly numQuestions: number;
