@@ -11,8 +11,7 @@
         </div>
         <div class="relative flex w-96 flex-col items-center justify-center gap-1">
           <button class="w-40 items-center rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
-            <span v-if="loading" class="loading du-loading du-loading-sm mt-1"></span>
-            <p v-else class="text-lg">Send</p>
+            <p class="text-lg">Send</p>
           </button>
         </div>
       </form>
