@@ -28,7 +28,7 @@ interface QuestionInterface {
   /** @readonly ID of the question interface. */
   readonly id: number;
   question: Question;
-  selectedAnswerId: number | null;
+  staticUserAnswer: number | null;
 }
 
 export interface DynamicQuestionInterface extends QuestionInterface {
@@ -243,10 +243,12 @@ export interface AssignmentResults extends SubmitAssignment {
     readonly id: number;
     /** @readonly The data for the question referenced by the instance. */
     readonly question: Question;
-    /** Array of dynamic user answers (IDs of selected answers). */
-    dynamicUserAnswers: number[];
-    /** Tells if the question is complete. */
-    isComplete: boolean;
+    /** @readonly Array of dynamic user answers (IDs of selected answers). */
+    readonly dynamicUserAnswers: number[] | null;
+    /** @readonly The ID of the chosen answer if the assignment is static.*/
+    readonly staticUserAnswer: number | null;
+    /** @readonly Tells if the question is complete. */
+    readonly isComplete: boolean;
     /** @readonly Time spent on the question (in seconds). */
     readonly timeSpent: number;
   }[];
