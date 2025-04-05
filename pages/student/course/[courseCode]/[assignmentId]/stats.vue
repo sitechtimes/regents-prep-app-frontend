@@ -39,12 +39,26 @@
           <div class="flex-1 px-4">
             <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
           </div>
-          <div class="w-1/4 text-center">
-            <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers.map(String))"></span>
+          <div v-if="questionInstance.dynamicUserAnswers" class="w-1/4 text-center">
+            <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers?.map(String) ?? [])"></span>
+          </div>
+          <div v-else-if="questionInstance.staticUserAnswer" class="w-1/4 text-center">
+            <span v-html="getStaticUserAnswer(questionInstance.question, Number(questionInstance.staticUserAnswer) ?? 0)"></span>
           </div>
           <div class="w-1/4 text-center" v-html="getCorrectAnswer(questionInstance.question)"></div>
           <div class="w-1/4 text-center">
-            <span v-if="isAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })" class="text-green-600">✔️</span>
+            <span
+              v-if="questionInstance.dynamicUserAnswers && isDynamicAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })"
+              class="text-green-600"
+            >
+              ✔️
+            </span>
+            <span
+              v-else-if="questionInstance.staticUserAnswer && isStaticAnswerCorrect({ question: questionInstance.question, staticUserAnswer: questionInstance.staticUserAnswer })"
+              class="text-green-600"
+            >
+              ✔️
+            </span>
             <span v-else class="text-red-600">❌</span>
           </div>
         </div>
@@ -77,20 +91,14 @@ const route = useRoute();
 const userStore = useUserStore();
 const { studentCurrentCourse } = storeToRefs(userStore);
 const assignmentResults = ref<AssignmentResults>();
-const allAssignments = ref<StudentAssignment[]>([]);
-const currentAssignment = ref<StudentAssignment>();
 const dropdownStates = ref<boolean[]>([]);
+const assignmentId = Number(route.params.assignmentId);
+const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
 
 onMounted(async () => {
   const courseId = studentCurrentCourse.value?.id;
   if (!courseId) return;
 
-  const assignmentId = parseInt(route.params.assignmentId as string);
-  const { data: assignments, error: assignmentError } = await tryCatch(getAssignments<StudentAssignment[]>(assignmentId));
-  if (assignmentError) return console.error("Error fetching assignment data:", assignmentError);
-  allAssignments.value = assignments;
-
-  currentAssignment.value = allAssignments.value.find((assignment) => assignment.id === assignmentId);
   const { data: results, error: resultError } = await tryCatch(getAssignmentResults(assignmentId));
   if (resultError) return console.error("Error fetching assignment data:", resultError);
   assignmentResults.value = results;
@@ -104,6 +112,15 @@ function formatDate(date: Date | null) {
     day: "numeric"
   });
   return formattedDate;
+}
+
+function getStaticUserAnswer(question: Question, staticUserAnswer: number) {
+  if (!staticUserAnswer) return "-";
+  const answer = question.answers.find((answer) => answer.id === staticUserAnswer);
+  if (answer) {
+    const letter = String.fromCharCode(65 + question.answers.indexOf(answer));
+    return letter;
+  }
 }
 
 function getUserAnswer(question: Question, dynamicUserAnswers: string[]) {
@@ -129,8 +146,14 @@ function getCorrectAnswer(question: Question) {
   return "-";
 }
 
-function isAnswerCorrect(questionInstance: { question: Question; dynamicUserAnswers: string[] }) {
+function isDynamicAnswerCorrect(questionInstance: { question: Question; dynamicUserAnswers: string[] }) {
   const userAnswer = getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers);
+  const correctAnswer = getCorrectAnswer(questionInstance.question);
+  return userAnswer === correctAnswer;
+}
+
+function isStaticAnswerCorrect(questionInstance: { question: Question; staticUserAnswer: number }) {
+  const userAnswer = getStaticUserAnswer(questionInstance.question, questionInstance.staticUserAnswer);
   const correctAnswer = getCorrectAnswer(questionInstance.question);
   return userAnswer === correctAnswer;
 }
