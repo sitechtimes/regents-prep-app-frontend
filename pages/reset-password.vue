@@ -37,12 +37,14 @@ const sendResetEmail = async () => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to send reset email");
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to send");
     }
     alert("Password reset sent");
+    console.log(response);
   } catch (error) {
-    console.error("Error:", error);
-    alert("An error occurred.");
+    const errorMessage = (error as Error).message || "Error occurred.";
+    console.error("Error:", errorMessage);
   } finally {
     loading.value = false;
   }
