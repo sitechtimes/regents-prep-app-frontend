@@ -19,11 +19,8 @@
         <TeacherCourseTabButton :course="teacherCurrentCourse" tab-name="past" :current-tab="currentTab" @switch-tab="(tab) => (currentTab = tab)" />
       </div>
 
-      <div class="mt-5 flex w-full flex-wrap items-center justify-start gap-4">
-        <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex items-center gap-4">
-          <TeacherAssignmentCard :course="teacherCurrentCourse" :assignment="assignment" :current-date="currentDate" />
-          <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" text="Delete" :click-function="() => confirmDeleteAssignment(assignment.id)" />
-        </div>
+      <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex w-full items-center gap-4">
+        <TeacherAssignmentCard :course="teacherCurrentCourse" :assignment="assignment" :current-date="currentDate" :on-delete="confirmDeleteAssignment" />
       </div>
       <DeleteModal v-model="isModalVisible" @confirm="handleConfirm" />
     </div>

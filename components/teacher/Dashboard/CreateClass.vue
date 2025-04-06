@@ -119,4 +119,8 @@ async function createCourse() {
 .join-menu-scale-leave-to .join-menu {
   transform: scale(0.75);
 }
+
+.du-btn {
+  border-radius: 16px;
+}
 </style>

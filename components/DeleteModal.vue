@@ -7,7 +7,7 @@
         <div class="flex justify-center gap-4">
           <button v-if="step === 1" class="du-btn du-btn-md bg-red-500 px-4 py-2 text-white hover:bg-red-600" type="button" @click="step++">Confirm</button>
           <button v-else class="du-btn du-btn-md bg-red-500 text-white hover:bg-red-600" type="button" @click="confirm">Yes, Delete</button>
-          <button class="du-btn du-btn-md" type="button" @click="closeModal">Cancel</button>
+          <button class="du-btn du-btn-md rounded-md" type="button" @click="closeModal">Cancel</button>
         </div>
       </div>
     </div>
@@ -29,3 +29,9 @@ function confirm() {
   closeModal();
 }
 </script>
+
+<style scoped>
+.du-btn {
+  border-radius: 16px;
+}
+</style>
