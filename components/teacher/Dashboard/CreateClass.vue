@@ -121,6 +121,6 @@ async function createCourse() {
 }
 
 .du-btn {
-  border-radius: 16px;
+  @apply rounded-2xl;
 }
 </style>
