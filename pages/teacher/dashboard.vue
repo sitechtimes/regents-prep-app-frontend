@@ -4,7 +4,7 @@
       <NotFound :show-modal="showNotFound" user-type="teacher" :message="route.query.course ? 'class' : 'assignment'" />
 
       <div class="flex h-full w-full flex-col justify-around overflow-hidden">
-        <div v-if="teacherCourses.length > 0" class="mx-auto grid w-full grid-cols-1 justify-center items-center md:grid-cols-2 lg:grid-cols-3">
+        <div v-if="teacherCourses.length > 0" class="mx-auto grid w-full grid-cols-1 justify-center items-center md:grid-cols-2 lg:grid-cols-3 place-items-center">
           <!-- mx-auto flex w-full flex-wrap justify-start gap-8 pe-6 ps-8 -->
           <!--prettier-ignore-->
           <TeacherDashboardCard

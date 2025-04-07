@@ -1,9 +1,9 @@
 <template>
-  <div class="flex w-full flex-col items-start justify-start">
-    <div v-if="loaded" class="w-full">
+  <div class="flex h-full w-full flex-col items-center justify-center mx-auto">
+    <div v-if="loaded" class="h-full w-full">
       <NotFound :show-modal="showNotFound" user-type="student" :message="route.query.course ? 'class' : 'assignment'" />
-      <div class="flex w-full flex-col">
-        <div v-if="studentCourses.length > 0" class="flex flex-wrap content-start items-start justify-around gap-8">
+      <div class="flex h-full w-full flex-col justify-around overflow-hidden">
+        <div v-if="studentCourses.length > 0" class="mx-auto grid w-full grid-cols-1 justify-center items-center md:grid-cols-2 lg:grid-cols-2 place-items-center">
           <!--prettier-ignore-->
           <StudentDashboardCard
             v-for="course in studentCourses"

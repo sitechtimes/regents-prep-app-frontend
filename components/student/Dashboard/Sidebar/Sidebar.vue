@@ -3,10 +3,10 @@
     <div
       v-show="showSideMenu"
       id="side-menu"
-      class="sticky left-0 top-16 flex h-[calc(100dvh-4rem)] w-96 flex-col items-start justify-start border-r border-neutral-300 pt-4 dark:border-r-neutral-600"
+      class="sticky left-0 top-16 flex h-[calc(100dvh-4rem)] w-[calc(20%)] min-w-40 flex-col items-start justify-start border-r border-neutral-300 pt-4 dark:border-neutral-600"
     >
       <!-- dashboard and assignments navigation -->
-      <div class="flex w-full flex-col items-center justify-center px-2 dark:border-neutral-600">
+      <div class="flex w-full flex-col items-center justify-center px-1 dark:border-neutral-600">
         <StudentDashboardSidebarPageLink to="/student/dashboard" img-src="/ui/home.svg" text="Dashboard" />
         <StudentDashboardSidebarPageLink to="/student/todo" img-src="/ui/todo.svg" text="Assignments" />
       </div>
