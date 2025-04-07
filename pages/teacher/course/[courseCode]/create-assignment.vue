@@ -232,12 +232,19 @@ function removeTopic(topicId: number[]) {
 }
 
 function addTopic(topicId: number[]) {
-  /*   for (let i = 1; i < topicId.length; i++) {
-    if (assignmentInfo.topicIds.find((topic) => topic[i] === topicId[i])) {
-      console.log(assignmentInfo.name);
-    } else addTopic(topicId);
-  } */
-  //  if (!assignmentInfo.topicIds.forEach) assignmentInfo.topicIds.push(topicId);
+  for (let i = 0; i < topicId.length; i++) {
+    const topicIdValue = topicId[i];
+    for (let j = 0; j < assignmentInfo.topicIds.length; j++) {
+      const topicAssignment = assignmentInfo.topicIds[j];
+
+      if (topicAssignment.includes(topicIdValue)) {
+        topicAssignment.splice(j, 1);
+        console.log("topic found to remove");
+        return;
+      }
+    }
+    console.log("no topics to remove");
+  }
   if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) assignmentInfo.topicIds.push(topicId);
   else removeTopic(topicId);
 }
