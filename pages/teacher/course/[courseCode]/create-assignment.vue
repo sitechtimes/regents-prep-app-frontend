@@ -275,7 +275,7 @@ async function createAssignment() {
       courseID,
       assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.questionIds.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
-      `${new Date(new Date(assignmentInfo.dueDate.date).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString().slice(0, 10)}T${assignmentInfo.dueDate.time}`,
+      `${assignmentInfo.dueDate.date}T${assignmentInfo.dueDate.date}`,
       assignmentInfo.questionIds.length,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,
@@ -285,15 +285,6 @@ async function createAssignment() {
   router.push(`/teacher/course/${courseID}`);
 
   createAssignmentResult.isLoading = false;
-
-  /*
-  new Date(
-  new Date("2021-01-01T00:00:00")
-    .toLocaleString("en-US", {timeZone: "America/New_York"})
-).toISOString();
-
-
-  */
 
   if (error) {
     createAssignmentResult.error = error.message;
