@@ -191,9 +191,9 @@ const { showSideMenu, loadedTopics, loadedQuestions } = storeToRefs(userStore);
 
 const currentDateISO = (() => {
   const now = new Date();
-  const month = (now.getMonth() + 1).toLocaleString().padStart(2, "0");
-  const day = now.getDate().toLocaleString().padStart(2, "0");
-  const year = now.getFullYear().toLocaleString();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const year = now.getFullYear();
 
   return `${year}-${month}-${day}`;
 })();
@@ -213,8 +213,6 @@ const assignmentInfo = reactive({
   timeAllotted: ref<number>(),
   attemptsAllowed: ref<number>()
 });
-
-const testDate = Number(assignmentInfo.dueDate.date).toLocaleString();
 
 const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length));
 
@@ -275,7 +273,7 @@ async function createAssignment() {
       courseID,
       assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.questionIds.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
-      `${assignmentInfo.dueDate.date}T${assignmentInfo.dueDate.date}`,
+      `${assignmentInfo.dueDate.date}T${assignmentInfo.dueDate.time}`,
       assignmentInfo.questionIds.length,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,
