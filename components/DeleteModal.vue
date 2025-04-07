@@ -31,6 +31,21 @@ function confirm() {
 </script>
 
 <style scoped>
+.join-menu-scale-enter-active,
+.join-menu-scale-leave-active {
+  transition: all 0.2s ease-in-out;
+}
+
+.join-menu-scale-enter-from,
+.join-menu-scale-leave-to {
+  opacity: 0;
+}
+
+.join-menu-scale-enter-from .join-menu,
+.join-menu-scale-leave-to .join-menu {
+  transform: scale(0.75);
+}
+
 .du-btn {
   @apply rounded-2xl;
 }

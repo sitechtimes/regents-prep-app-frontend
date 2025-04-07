@@ -25,17 +25,17 @@
     </NuxtLink>
 
     <div class="absolute right-2 top-2 z-10 scale-[0.75]">
-      <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" text="Delete" :click-function="() => onDelete(assignment.id)" />
+      <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" text="Delete" :click-function="() => emit('deleteAssignment', assignment.id)" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const emit = defineEmits<{ deleteAssignment: [number] }>();
 defineProps<{
   course: TeacherCourse;
   assignment: TeacherAssignment;
   currentDate: Date;
-  onDelete: (assignmentId: number) => void;
 }>();
 </script>
 

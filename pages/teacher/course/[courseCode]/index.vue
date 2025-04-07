@@ -20,7 +20,7 @@
       </div>
 
       <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex w-full items-center gap-4">
-        <TeacherAssignmentCard :course="teacherCurrentCourse" :assignment="assignment" :current-date="currentDate" :on-delete="confirmDeleteAssignment" />
+        <TeacherAssignmentCard :course="teacherCurrentCourse" :assignment="assignment" :current-date="currentDate" @delete-assignment="confirmDeleteAssignment" />
       </div>
       <DeleteModal v-model="isModalVisible" @confirm="handleConfirm" />
     </div>
