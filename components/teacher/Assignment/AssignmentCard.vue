@@ -31,12 +31,12 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{ deleteAssignment: [number] }>();
 defineProps<{
   course: TeacherCourse;
   assignment: TeacherAssignment;
   currentDate: Date;
 }>();
+const emit = defineEmits<{ deleteAssignment: [number] }>();
 </script>
 
 <style scoped></style>
