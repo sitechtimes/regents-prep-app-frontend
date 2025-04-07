@@ -232,13 +232,14 @@ function removeTopic(topicId: number[]) {
 }
 
 function addTopic(topicId: number[]) {
+  console.log(topicId);
   for (let i = 0; i < topicId.length; i++) {
     const topicIdValue = topicId[i];
     for (let j = 0; j < assignmentInfo.topicIds.length; j++) {
       const topicAssignment = assignmentInfo.topicIds[j];
-
+      console.log(topicAssignment);
       if (topicAssignment.includes(topicIdValue)) {
-        topicAssignment.splice(j, 1);
+        //  topicAssignment.splice(j, 1);
         console.log("topic found to remove");
         return;
       }

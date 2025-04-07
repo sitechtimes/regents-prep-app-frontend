@@ -185,10 +185,10 @@ watch(currentTopic, async (topic) => {
     topic.parents = currentTopicPath.value;
     console.log(topicCollection.value);
     console.log(topic.id); */
-    console.log(topicIsInAssignment.value);
+    // console.log(topicIsInAssignment.value);
     currentTopicPath.value.push(topic.id);
     currentQuestionPageIndex.value = 0;
-    console.log(currentTopicPath.value);
+    //console.log(currentTopicPath.value);
     await loadTopics(topic.id);
   }
 
@@ -202,7 +202,6 @@ When topic is added, append current Topic Path, reverse array
 
 async function buttonClick() {
   const path = ref<number[]>([]);
-  console.log(currentTopicPath);
   currentTopicPath.value.forEach((id) => path.value.push(id));
   emit("selectTopic", path.value.reverse() ?? [1]);
 }
