@@ -1,7 +1,7 @@
 <template>
   <div class="relative w-full">
     <NuxtLink
-      class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
+      class="flex h-fit w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
       :to="`/teacher/course/${course.id}/${assignment.id}`"
     >
       <div class="flex w-5/6 flex-col items-start justify-start">
@@ -24,7 +24,7 @@
       </div>
     </NuxtLink>
 
-    <div class="absolute right-2 top-2 z-10 scale-[0.75]">
+    <div class="z-9 absolute bottom-0.5 left-2 scale-[0.75]">
       <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" text="Delete" :click-function="() => emit('deleteAssignment', assignment.id)" />
     </div>
   </div>
