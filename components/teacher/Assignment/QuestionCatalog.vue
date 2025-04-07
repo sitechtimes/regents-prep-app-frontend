@@ -185,7 +185,7 @@ watch(currentTopic, async (topic) => {
     topic.parents = currentTopicPath.value;
     console.log(topicCollection.value);
     console.log(topic.id); */
-    // console.log(topicIsInAssignment.value);
+    console.log(topicIsInAssignment.value);
     currentTopicPath.value.push(topic.id);
     currentQuestionPageIndex.value = 0;
     //console.log(currentTopicPath.value);
