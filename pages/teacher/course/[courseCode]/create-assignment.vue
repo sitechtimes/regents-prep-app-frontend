@@ -246,7 +246,6 @@ function addTopic(topicId: number[]) {
     console.log("no topics to remove");
   }
   if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) assignmentInfo.topicIds.push(topicId);
-  else removeTopic(topicId);
 }
 
 const createAssignmentResult = reactive({
