@@ -21,23 +21,7 @@
         <div class="grow">
           <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions"
             >Number of Questions <span title="Required" class="font-2xl text-red-500">*</span></label
-          >
-
-          <!--   
-          Was in input.
-          @input="
-              () => {
-                if (assignmentInfo.numOfQuestions) {
-                  if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId).length) {
-                    assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
-                  } else {
-                    if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.length) {
-                      assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
-                    }
-                  }
-                }
-              }
-            " --><input
+          ><input
             id="numOfQuestions"
             v-model="assignmentInfo.numOfQuestions"
             required
@@ -250,10 +234,6 @@ const createAssignmentResult = reactive({
   isLoading: false,
   success: "",
   error: ""
-});
-
-watch(assignmentInfo.questionIds, async (idArr) => {
-  const numOfQuestionsLimit = ref<number>(idArr.filter((question) => question.isGuaranteed).map((question) => question.questionId).length);
 });
 
 let sideMenuWasOpen = false;
