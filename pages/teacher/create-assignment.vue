@@ -22,8 +22,9 @@
               class="fo-label w-full text-black dark:text-white"
               :class="course.id === initialCourse ? 'cursor-not-allowed text-neutral-600 dark:text-neutral-300' : 'cursor-pointer'"
               :for="'course-' + course.id"
-              >{{ course.name }}</label
             >
+              {{ course.name }}
+            </label>
           </div>
         </div>
       </fieldset>

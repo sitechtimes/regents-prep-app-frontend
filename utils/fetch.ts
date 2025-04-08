@@ -128,7 +128,7 @@ export async function submitCreateCourse(name: string, period: number, subject: 
 
 export async function submitCreateAssignment(
   name: string,
-  courseID: number,
+  courseIDs: number[],
   guaranteedQuestions: number[],
   randomQuestions: number[],
   dueDate: string,
@@ -139,7 +139,7 @@ export async function submitCreateAssignment(
 ) {
   await requestEndpoint<void>(`courses/teacher/create-assignment/`, "POST", {
     name,
-    courseID,
+    courseIDs,
     guaranteedQuestions,
     randomQuestions,
     dueDate,
