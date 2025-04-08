@@ -14,12 +14,12 @@
     <div class="flex h-full min-h-36 w-full flex-col items-center justify-start p-2">
       <h3 class="pb-2 pt-1 text-xl font-bold">Assignments</h3>
 
-      <div v-if="assignments.length > 0" class="flex h-full w-full flex-wrap items-start justify-around gap-3 px-3 pb-3">
+      <div v-if="assignments.length > 0" class="flex h-full w-full flex-wrap items-start justify-around gap-3 px-3 pb-3 overflow-hidden">
         <NuxtLink
           v-for="assignment in assignments"
           :key="assignment.id"
           :to="`/student/course/${course.id}/${assignment.id}`"
-          class="flex h-full w-full flex-col items-center justify-center rounded-xl border border-neutral-300 p-3 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
+          class="flex lg:h-24 md:h-30 h-36 overflow-hidden w-full flex-col items-center justify-around mb-2 rounded-xl border border-neutral-300 p-3 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
           @click.stop
         >
           <p class="text-center text-sm text-neutral-700 dark:text-neutral-300" :title="assignment.assignment.dueDate.toLocaleString()">
@@ -27,7 +27,7 @@
           </p>
 
           <div class="flex h-full w-full flex-col items-center justify-start gap-3">
-            <p class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-center text-xl font-semibold">{{ assignment.assignment.name }}</p>
+            <p class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-center text-[calc(98%)] font-semibold">{{ assignment.assignment.name }}</p>
 
             <div class="flex w-full items-center justify-between gap-2">
               <span class="shrink-0">Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numQuestions }}</span>
