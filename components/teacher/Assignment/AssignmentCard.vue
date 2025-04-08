@@ -24,8 +24,13 @@
       </div>
     </NuxtLink>
 
-    <div class="z-9 absolute bottom-0.5 left-2 scale-[0.75]">
-      <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" text="Delete" :click-function="() => emit('deleteAssignment', assignment.id)" />
+    <div class="absolute right-2 top-1 z-10 flex items-center gap-2">
+      <div v-if="showDelete" class="scale-[0.75]">
+        <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" text="Delete" :click-function="() => emit('deleteAssignment', assignment.id)" />
+      </div>
+      <button class="rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-700" type="button" @click="showDelete = !showDelete">
+        <img src="/ui/ellipsisVertical.svg" alt="More options" class="h-5 w-5" />
+      </button>
     </div>
   </div>
 </template>
@@ -37,6 +42,7 @@ defineProps<{
   currentDate: Date;
 }>();
 const emit = defineEmits<{ deleteAssignment: [number] }>();
+const showDelete = ref(false);
 </script>
 
 <style scoped></style>
