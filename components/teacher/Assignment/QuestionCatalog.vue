@@ -172,7 +172,7 @@ async function loadTopics(topicId: number) {
 
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
-const topicIsInAssignment = computed(() => props.currentTopicIds.includes(currentTopicPath.value) ?? [1]);
+const topicIsInAssignment = computed(() => props.currentTopicIds.includes(currentTopicPath.value.toReversed()) ?? [1]);
 
 const currentQuestionPageIndex = ref(0);
 const totalQuestions = ref(0);
@@ -184,7 +184,7 @@ watch(currentTopic, async (topic) => {
     currentQuestionPageIndex.value = 0;
     await loadTopics(topic.id);
   }
-  console.log(props.currentTopicIds, currentTopicPath.value.reverse(), topicIsInAssignment.value);
+
   await loadQuestions(topic?.id ?? 1);
   /*
 When topic is added, append current Topic Path, reverse array
