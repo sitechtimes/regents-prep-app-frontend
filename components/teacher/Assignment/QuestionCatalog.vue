@@ -155,7 +155,7 @@ async function loadTopics(topicId: number) {
   for (const topic of topics) {
     const loadedTopic = loadedTopics.value[topic.id];
 
-    if (loadedTopic) return;
+    if (loadedTopic) return topics;
 
     const mappedTopic: TopicMapped = {
       ...topic,
