@@ -177,6 +177,7 @@ const topicIsInAssignment = computed(() => props.currentTopicIds.includes(curren
 const currentQuestionPageIndex = ref(0);
 const totalQuestions = ref(0);
 watch(currentTopic, async (topic) => {
+  console.log(currentTopicPath.value.toReversed(), props.currentTopicIds);
   if (!topic) currentTopicPath.value = [];
   else {
     if (currentTopicPath.value.includes(topic.id)) currentTopicPath.value = currentTopicPath.value.slice(0, currentTopicPath.value.indexOf(topic.id));
