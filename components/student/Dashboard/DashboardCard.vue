@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="`/student/course/${course.id}`"
-    class="flex my-2 flex h-[calc(90%)] w-[calc(85%)] flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-600/50 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
+    class="flex my-2 flex h-[calc(100%)] w-[calc(85%)] flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-600/50 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
     type="button"
   >
     <!-- course information -->
@@ -11,15 +11,15 @@
       <p>{{ course.teacher }}</p>
     </div>
 
-    <div class="flex h-full min-h-36 w-full flex-col items-center justify-start p-2">
+    <div class="flex h-full min-h-38 w-full flex-col items-center justify-start p-2">
       <h3 class="pb-2 pt-1 text-xl font-bold">Assignments</h3>
 
-      <div v-if="assignments.length > 0" class="flex h-full w-full flex-wrap items-start justify-around gap-3 px-3 pb-3 overflow-hidden">
+      <div v-if="assignments.length > 0" class="flex h-full w-full flex-wrap items-start justify-around gap-3 px-3 overflow-hidden lg:overflow-hidden">
         <NuxtLink
           v-for="assignment in assignments"
           :key="assignment.id"
           :to="`/student/course/${course.id}/${assignment.id}`"
-          class="flex lg:h-24 md:h-30 h-36 overflow-hidden w-full flex-col items-center justify-around mb-2 rounded-xl border border-neutral-300 p-3 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
+          class="flex lg:h-24 md:h-30 h-34 overflow-hidden w-full flex-col items-center justify-around rounded-xl border border-neutral-300 p-3 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
           @click.stop
         >
           <p class="text-center text-sm text-neutral-700 dark:text-neutral-300" :title="assignment.assignment.dueDate.toLocaleString()">
