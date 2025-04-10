@@ -27,7 +27,7 @@
           </p>
 
           <div class="flex h-full w-full flex-col items-center justify-start gap-3">
-            <p class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-center text-[calc(98%)] font-semibold">{{ assignment.assignment.name }}</p>
+            <p class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-center text-[calc(85%)] lg:text-[calc(120%)] md:text-[calc(98%)] font-semibold -mb-3">{{ assignment.assignment.name }}</p>
 
             <div class="flex w-full items-center justify-between gap-2">
               <span class="shrink-0">Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numQuestions }}</span>
