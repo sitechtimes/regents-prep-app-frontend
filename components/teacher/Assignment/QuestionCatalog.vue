@@ -128,19 +128,12 @@ const displayedQuestions = ref<(number | TopicQuestionInterface)[]>([]);
 
 const showQuestionAnswers = ref(false);
 
-const currentTopicPath = ref<number[]>([]); // topic id array
-const currentTopic = ref<TopicMapped>();
-const topicIsInAssignment = computed(() => props.currentTopicIds.includes(currentTopicPath.value.toReversed()) ?? [1]);
-
-const currentQuestionPageIndex = ref(0);
-const totalQuestions = ref(0);
-
 async function loadQuestions(topicId: number, offset?: number) {
   const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId, offset));
   if (error) return console.error(error);
 
   const questions = data.questions;
-
+  // eslint-disable-next-line no-use-before-define
   totalQuestions.value = data.count;
 
   if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = questions.map((question) => question.id);
@@ -171,13 +164,18 @@ async function loadTopics(topicId: number) {
       questionIds: []
     };
     loadedTopics.value[topic.id] = mappedTopic;
-    if (parentIsLoaded) parent.children?.push(topic.id);
-    currentTopicPath.value.forEach((topic) => parent.parents?.push(topic));
+    if (parentIsLoaded) parent.children?.push(topic.id), currentTopicPath.value.forEach((topic) => parent.parents?.push(topic));
   }
 
   return topics;
 }
 
+const currentTopicPath = ref<number[]>([]); // topic id array
+const currentTopic = ref<TopicMapped>();
+const topicIsInAssignment = computed(() => props.currentTopicIds.includes(currentTopicPath.value.toReversed()) ?? [1]);
+
+const currentQuestionPageIndex = ref(0);
+const totalQuestions = ref(0);
 watch(currentTopic, async (topic) => {
   console.log(currentTopicPath.value.toReversed(), props.currentTopicIds);
   if (!topic) currentTopicPath.value = [];
@@ -194,10 +192,10 @@ When topic is added, append current Topic Path, reverse array
  */
 });
 
-function buttonClick() {
-  const path: number[] = [];
-  currentTopicPath.value.forEach((id) => path.push(id));
-  emit("selectTopic", path.reverse() ?? [1]);
+async function buttonClick() {
+  const path = ref<number[]>([]);
+  currentTopicPath.value.forEach((id) => path.value.push(id));
+  emit("selectTopic", path.value.reverse() ?? [1]);
 }
 
 watch(currentQuestionPageIndex, async (index) => {
