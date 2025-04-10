@@ -137,7 +137,7 @@
 
                 <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId[0]]?.name ?? 'All topics'"></p>
 
-                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId[0])" img="/ui/trash.svg" />
+                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId)" img="/ui/trash.svg" />
               </li>
             </ul>
 
@@ -215,9 +215,9 @@ const { showSideMenu, loadedTopics, loadedQuestions, teacherCourses } = storeToR
 
 const currentDateISO = (() => {
   const now = new Date();
-  const month = (now.getMonth() + 1).toLocaleString().padStart(2, "0");
-  const day = now.getDate().toLocaleString().padStart(2, "0");
-  const year = now.getFullYear().toLocaleString();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const year = now.getFullYear();
 
   return `${year}-${month}-${day}`;
 })();
@@ -251,13 +251,25 @@ function addQuestion(questionId: number) {
   else removeQuestion(questionId);
 }
 
-function removeTopic(topicId: number) {
-  assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(Array(topicId)), 1);
+function removeTopic(topicId: number[]) {
+  assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(topicId), 1);
 }
 
-function addTopic(topicId: number) {
-  if (!assignmentInfo.topicIds.find((topic) => topic === Array(topicId))) assignmentInfo.topicIds.push(Array(topicId));
-  else removeTopic(topicId);
+function addTopic(topicId: number[]) {
+  console.log(topicId);
+  for (const topicIdValue of topicId) {
+    for (const topicAssignment of assignmentInfo.topicIds) {
+      console.log(topicAssignment);
+      if (topicAssignment.includes(topicIdValue)) {
+        removeTopic(topicAssignment);
+        if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) assignmentInfo.topicIds.push(topicId);
+        console.log("topic found to remove");
+        return;
+      }
+    }
+    console.log("no topics to remove");
+  }
+  if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) assignmentInfo.topicIds.push(topicId);
 }
 
 function toggleCourse(courseID: number, event: Event) {
@@ -291,7 +303,7 @@ async function createAssignment() {
       courseIDs,
       assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.questionIds.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
-      `${new Date(new Date(assignmentInfo.dueDate.date).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString().slice(0, 10)}T${assignmentInfo.dueDate.time}`,
+      `${assignmentInfo.dueDate.date}T${assignmentInfo.dueDate.time}`,
       assignmentInfo.questionIds.length,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,
