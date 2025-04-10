@@ -1,5 +1,6 @@
 <template>
   <div class="flex grow flex-col items-start justify-start gap-6">
+    {{ currentTopicPath }}
     <div class="flex w-full items-center justify-start gap-2 px-10 py-2">
       <!-- back button -->
       <button
@@ -58,7 +59,7 @@
             >
               <TeacherAssignmentCatalogQuestionButton
                 v-if="!viewOnly"
-                :click-function="() => emit('selectTopic', currentTopicPath)"
+                :click-function="() => emit('selectTopic', [...currentTopicPath])"
                 :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
                 :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
               />
@@ -156,7 +157,7 @@ async function loadTopics(topicId: number) {
   for (const topic of topics) {
     const loadedTopic = loadedTopics.value[topic.id];
 
-    if (loadedTopic) return;
+    if (loadedTopic) return topics;
 
     const mappedTopic: TopicMapped = {
       ...topic,
@@ -171,11 +172,14 @@ async function loadTopics(topicId: number) {
   return topics;
 }
 
-/** an array of topic ids, starting with root */
+/**
+ * an array of topic ids, the last element is the actual topic id
+ *
+ * the root topic is [1]
+ */
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
-// const topicCollection = ref<number[][] | null>([]);
-const topicIsInAssignment = computed(() => props.currentTopicIds.includes(Array(currentTopic.value?.id) ?? [1]));
+const topicIsInAssignment = computed(() => props.currentTopicIds.map((path) => path.at(-1)).includes(currentTopic.value?.id ?? 1));
 
 const currentQuestionPageIndex = ref(0);
 const totalQuestions = ref(0);

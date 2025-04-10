@@ -132,12 +132,12 @@
           <div v-else class="flex h-full w-full flex-col items-start justify-start gap-4 overflow-y-scroll py-2 pl-4">
             <ul v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
               <h5 v-if="assignmentInfo.topicIds.length && assignmentInfo.questionIds.length" class="text-2xl font-bold">Topics</h5>
-              <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId[0]" class="flex w-full items-center justify-start gap-3">
-                <span>{{ index + 1 }}.</span>
+              <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId.at(-1)" class="flex w-full items-center justify-start gap-3">
+                <span>{{ index + 1 }}. {{ topicId }}</span>
 
-                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId[0]]?.name ?? 'All topics'"></p>
+                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId.at(-1)!]?.name ?? 'All topics'"></p>
 
-                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId[0])" img="/ui/trash.svg" />
+                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId.at(-1) ?? 1)" img="/ui/trash.svg" />
               </li>
             </ul>
 
@@ -252,28 +252,36 @@ function addQuestion(questionId: number) {
 }
 
 function removeTopic(topicId: number) {
-  assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(Array(topicId)), 1);
+  // handle root
+  if (topicId === 1) assignmentInfo.topicIds = assignmentInfo.topicIds.filter((topicPath) => topicPath.length === 0);
+  // remove whatever topic we find
+  else assignmentInfo.topicIds = assignmentInfo.topicIds.filter((topicPath) => topicPath.at(-1) !== topicId);
 }
 
 /**
  * adds an entire topic into the assignment
- * the last id is the actual topic id
+ *
+ * the first id is the actual topic id
  */
-function addTopic(newTopic: number[]) {
-  console.log(newTopic);
+function addTopic(topicPath: number[]) {
+  const oldTopics = assignmentInfo.topicIds.map((oldTopic) => oldTopic.join(","));
+  const newTopic = topicPath.join(",");
 
-  // check if a parent topic is already there
-  if (
-    assignmentInfo.topicIds.some((oldTopic) => {
-      if (newTopic.join(",").startsWith(oldTopic.join(","))) {
-        console.log("I'VE SEEN THESE GAMES BEFORE!!!!!");
-        return true;
-      }
-      return false;
-    })
-  ) {
-    alert("get removed");
-  } else assignmentInfo.topicIds.push(newTopic);
+  if (oldTopics.includes(newTopic)) {
+    // is that exact topic there already
+    removeTopic(topicPath.at(-1) ?? 1);
+  } else if (oldTopics.some((oldTopic) => newTopic.startsWith(oldTopic))) {
+    // TODO: disable the button entirely if you've seen these games before
+    // check if a parent topic is already there
+    alert("I'VE SEEN THESE GAMES BEFORE!!!!!");
+  } else {
+    // it's not there. just add it
+
+    // if we are adding an oldTopic's child, nuke the child :D
+    assignmentInfo.topicIds = assignmentInfo.topicIds.filter((oldTopic) => !oldTopic.join(",").startsWith(newTopic));
+    // add after we filter so we don't nuke the child
+    assignmentInfo.topicIds.push(topicPath);
+  }
 }
 
 function toggleCourse(courseID: number, event: Event) {
