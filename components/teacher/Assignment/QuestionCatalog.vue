@@ -58,7 +58,7 @@
             >
               <TeacherAssignmentCatalogQuestionButton
                 v-if="!viewOnly"
-                :click-function="() => buttonClick()"
+                :click-function="() => emit('selectTopic', currentTopic?.id ?? 1)"
                 :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
                 :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
               />
@@ -117,7 +117,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
-  selectTopic: [topicId: number[]];
+  selectTopic: [topicId: number];
 }>();
 
 const userStore = useUserStore();
@@ -155,7 +155,7 @@ async function loadTopics(topicId: number) {
   for (const topic of topics) {
     const loadedTopic = loadedTopics.value[topic.id];
 
-    if (loadedTopic) return topics;
+    if (loadedTopic) return;
 
     const mappedTopic: TopicMapped = {
       ...topic,
@@ -164,7 +164,7 @@ async function loadTopics(topicId: number) {
       questionIds: []
     };
     loadedTopics.value[topic.id] = mappedTopic;
-    if (parentIsLoaded) parent.children?.push(topic.id), currentTopicPath.value.forEach((topic) => parent.parents?.push(topic));
+    if (parentIsLoaded) parent.children?.push(topic.id);
   }
 
   return topics;
@@ -172,32 +172,33 @@ async function loadTopics(topicId: number) {
 
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
-const topicIsInAssignment = computed(() => props.currentTopicIds.includes(currentTopicPath.value.toReversed()) ?? [1]);
+// const topicCollection = ref<number[][] | null>([]);
+const topicIsInAssignment = computed(() => props.currentTopicIds.includes(Array(currentTopic.value?.id) ?? [1]));
 
 const currentQuestionPageIndex = ref(0);
 const totalQuestions = ref(0);
 watch(currentTopic, async (topic) => {
-  console.log(currentTopicPath.value.toReversed(), props.currentTopicIds);
   if (!topic) currentTopicPath.value = [];
   else {
     if (currentTopicPath.value.includes(topic.id)) currentTopicPath.value = currentTopicPath.value.slice(0, currentTopicPath.value.indexOf(topic.id));
+    topic.hasParents = true;
+    topic.parents = currentTopicPath.value;
+
+    /*     console.log(topicCollection.value);
+    console.log(topic.id); */
+    // console.log(topicIsInAssignment);
     currentTopicPath.value.push(topic.id);
     currentQuestionPageIndex.value = 0;
     await loadTopics(topic.id);
   }
 
   await loadQuestions(topic?.id ?? 1);
-  /*
+  /* 
+  
 When topic is added, append current Topic Path, reverse array
+
  */
 });
-
-async function buttonClick() {
-  const path = ref<number[]>([]);
-  currentTopicPath.value.forEach((id) => path.value.push(id));
-  emit("selectTopic", path.value.reverse() ?? [1]);
-}
-
 watch(currentQuestionPageIndex, async (index) => {
   await loadQuestions(currentTopic.value?.id ?? 1, index * 20);
 });
@@ -219,7 +220,9 @@ let previousPosition = 0;
 function detectSticky() {
   if (!questionsHeader.value) return;
   const newPosition = questionsHeader.value.getBoundingClientRect().top;
+
   if (newPosition === previousPosition) return (isSticky.value = true);
+
   previousPosition = newPosition;
   isSticky.value = false;
 }
