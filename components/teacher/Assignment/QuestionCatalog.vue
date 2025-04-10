@@ -79,6 +79,7 @@
             :question="typeof question === 'number' ? loadedQuestions[question] : question"
             :show-answer-override="showQuestionAnswers"
             :current-questions="currentQuestions"
+            :is-in-topic="true"
             @select="emit('selectQuestion', typeof question === 'number' ? question : question.id)"
           />
         </div>

@@ -15,6 +15,12 @@
           :text="`${showAnswer ? 'Hide' : 'Show'} Answer`"
         />
       </div>
+      <TeacherAssignmentCatalogQuestionButton
+        :click-function="toggleAnswer"
+        :disable="showAnswerOverride"
+        :img="`/ui/${showAnswer ? 'sad' : 'happy'}.svg`"
+        :text="`${showAnswer ? 'Exclude' : 'Include'} Question`"
+      />
     </div>
 
     <span class="question-text space-y-3 text-neutral-100" v-html="question?.text"></span>
