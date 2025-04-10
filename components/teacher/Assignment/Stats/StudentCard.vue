@@ -15,12 +15,12 @@
           </div>
         </div>
         <div class="flex w-full flex-col items-start justify-center">
-          <p class="text-neutral-700 dark:text-neutral-300">{{ student.questionsCorrect }}/{{ numQuestions }}</p>
+          <!-- <p class="text-neutral-700 dark:text-neutral-300">{{ student.questionsCorrect }}/{{ numQuestions }}</p> -->
           <h5 class="text-xl font-semibold">{{ ((student.questionsCorrect / numQuestions) * 100).toFixed(0) }}%</h5>
         </div>
       </div>
 
-      <div class="flex grow flex-col items-center justify-center">
+      <div class="flex grow flex-col items-start justify-center">
         <p class="inline-flex items-center justify-center gap-1">
           <img class="size-5 -translate-y-0.5" src="/ui/timer.svg" aria-hidden="true" /> Average time per question: {{ formatTime(student.timeSpent / (student.questionsCompleted || 1)) }}
         </p>
