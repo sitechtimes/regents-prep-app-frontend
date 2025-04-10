@@ -58,7 +58,7 @@
             >
               <TeacherAssignmentCatalogQuestionButton
                 v-if="!viewOnly"
-                :click-function="() => emit('selectTopic', currentTopic?.id ?? 1)"
+                :click-function="() => emit('selectTopic', currentTopicPath)"
                 :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
                 :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
               />
@@ -118,7 +118,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
-  selectTopic: [topicId: number];
+  selectTopic: [topicPath: number[]];
 }>();
 
 const userStore = useUserStore();
@@ -171,6 +171,7 @@ async function loadTopics(topicId: number) {
   return topics;
 }
 
+/** an array of topic ids, starting with root */
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
 // const topicCollection = ref<number[][] | null>([]);

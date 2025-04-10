@@ -255,9 +255,25 @@ function removeTopic(topicId: number) {
   assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(Array(topicId)), 1);
 }
 
-function addTopic(topicId: number) {
-  if (!assignmentInfo.topicIds.find((topic) => topic === Array(topicId))) assignmentInfo.topicIds.push(Array(topicId));
-  else removeTopic(topicId);
+/**
+ * adds an entire topic into the assignment
+ * the last id is the actual topic id
+ */
+function addTopic(newTopic: number[]) {
+  console.log(newTopic);
+
+  // check if a parent topic is already there
+  if (
+    assignmentInfo.topicIds.some((oldTopic) => {
+      if (newTopic.join(",").startsWith(oldTopic.join(","))) {
+        console.log("I'VE SEEN THESE GAMES BEFORE!!!!!");
+        return true;
+      }
+      return false;
+    })
+  ) {
+    alert("get removed");
+  } else assignmentInfo.topicIds.push(newTopic);
 }
 
 function toggleCourse(courseID: number, event: Event) {
