@@ -45,8 +45,6 @@ const confirmResetPassword = async () => {
       const errorData = await response.json();
       throw new Error(errorData.message || "Failed to reset password");
     }
-
-    alert("Password reset successful!");
     router.push("/login");
   } catch (error) {
     const errorMessage = (error as Error).message || "Something went wrong.";
