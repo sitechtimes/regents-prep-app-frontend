@@ -8,6 +8,7 @@
     "test": "vitest",
     "lint": "eslint",
     "typecheck": "vue-tsc --noEmit",
+    "prettier": "prettier . --check",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
