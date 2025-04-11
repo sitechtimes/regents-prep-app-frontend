@@ -102,7 +102,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Typecheck
+      - name: Prettier
         run: npm run prettier
 
   test:
