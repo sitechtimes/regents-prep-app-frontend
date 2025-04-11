@@ -1,6 +1,6 @@
 <template>
   <Transition name="slide-right">
-    <div v-show="showSideMenu" id="side-menu" class="sticky left-0 top-16 flex h-[calc(100dvh-4rem)] w-[calc(20%)] min-w-40 flex-col items-start justify-start border-r border-neutral-300 pt-4 dark:border-neutral-600">
+    <div v-show="showSideMenu" id="side-menu" class="sticky left-0 top-16 flex h-[calc(100dvh-4rem)] w-40 md:w-48 lg:w-64 flex-col items-start justify-start border-r border-neutral-300 pt-4 dark:border-neutral-600">
       <div class="flex w-full flex-col items-center justify-center px-2 ">
         <TeacherDashboardSidebarPageLink to="/teacher/dashboard" img-src="/ui/home.svg" text="Dashboard" />
       </div>
@@ -31,9 +31,28 @@ const { teacherCourses } = storeToRefs(userStore);
   transition: all 0.35s ease-in-out;
 }
 
+/*smaller than medium (minimum 48rem) screens*/
 .slide-right-enter-from,
 .slide-right-leave-to {
-  transform: translateX(-24rem);
+  transform: translateX(-40rem);
   width: 0;
+}
+
+/*medium screens*/
+@media (width >= 48rem) {
+  .slide-right-enter-from,
+  .slide-right-leave-to {
+    transform: translateX(-48rem);
+    width: 0;
+  }
+}
+
+/*large screens*/
+@media (width >= 64rem) {
+  .slide-right-enter-from,
+  .slide-right-leave-to {
+    transform: translateX(-64rem);
+    width: 0;
+  }
 }
 </style>
