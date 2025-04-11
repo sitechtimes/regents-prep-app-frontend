@@ -4,7 +4,6 @@
     type="button"
     @click="emit('select', topic)"
   >
-    {{ topic }}
     <p class="text-left text-xl font-semibold" v-html="loadedTopics[typeof topic === 'number' ? topic : topic.id]?.name"></p>
     <img class="size-7 group-hover:translate-x-1.5 dark:invert" src="/ui/chevronRight.svg" alt="Click to expand" />
   </button>

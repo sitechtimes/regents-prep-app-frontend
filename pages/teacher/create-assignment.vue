@@ -133,7 +133,7 @@
             <ul v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
               <h5 v-if="assignmentInfo.topicIds.length && assignmentInfo.questionIds.length" class="text-2xl font-bold">Topics</h5>
               <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId.at(-1)" class="flex w-full items-center justify-start gap-3">
-                <span>{{ index + 1 }}. {{ topicId }}</span>
+                <span>{{ index + 1 }}. </span>
 
                 <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId.at(-1)!]?.name ?? 'All topics'"></p>
 
@@ -253,7 +253,7 @@ function addQuestion(questionId: number) {
 
 function removeTopic(topicId: number) {
   // handle root
-  if (topicId === 1) assignmentInfo.topicIds = assignmentInfo.topicIds.filter((topicPath) => topicPath.length === 0);
+  if (topicId === 1) assignmentInfo.topicIds = assignmentInfo.topicIds.filter((topicPath) => topicPath.length !== 0);
   // remove whatever topic we find
   else assignmentInfo.topicIds = assignmentInfo.topicIds.filter((topicPath) => topicPath.at(-1) !== topicId);
 }
@@ -270,10 +270,6 @@ function addTopic(topicPath: number[]) {
   if (oldTopics.includes(newTopic)) {
     // is that exact topic there already
     removeTopic(topicPath.at(-1) ?? 1);
-  } else if (oldTopics.some((oldTopic) => newTopic.startsWith(oldTopic))) {
-    // TODO: disable the button entirely if you've seen these games before
-    // check if a parent topic is already there
-    alert("I'VE SEEN THESE GAMES BEFORE!!!!!");
   } else {
     // it's not there. just add it
 

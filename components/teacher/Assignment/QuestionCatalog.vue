@@ -1,6 +1,10 @@
 <template>
   <div class="flex grow flex-col items-start justify-start gap-6">
     {{ currentTopicPath }}
+    {{ currentTopic }}
+    {{ props.currentTopicIds }}
+    <span>exact: {{ exactTopicIsInAssignment }}</span>
+    <span>topic: {{ topicIsInAssignment }}</span>
     <div class="flex w-full items-center justify-start gap-2 px-10 py-2">
       <!-- back button -->
       <button
@@ -52,16 +56,22 @@
         <div ref="questions" class="sticky top-20 z-10 flex items-center justify-center gap-8 rounded-full bg-body px-5 py-2" :class="{ 'shadow-lg': isSticky }">
           <h3 class="text-2xl font-bold">Questions</h3>
           <div class="flex items-center justify-center gap-4">
+            <!-- boolean stuff is to stop people from adding the child of an already added topic -->
             <div
               class="du-tooltip"
               :class="{ 'du-tooltip-bottom': isSticky }"
-              :data-tip="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions of this topic ${topicIsInAssignment ? 'from' : 'to'} the assignment`"
+              :data-tip="
+                exactTopicIsInAssignment === topicIsInAssignment || (exactTopicIsInAssignment && !topicIsInAssignment)
+                  ? `${exactTopicIsInAssignment ? 'Remove' : 'Add'} all questions of this topic ${exactTopicIsInAssignment ? 'from' : 'to'} the assignment`
+                  : `You've added a parent topic already!`
+              "
             >
               <TeacherAssignmentCatalogQuestionButton
                 v-if="!viewOnly"
                 :click-function="() => emit('selectTopic', [...currentTopicPath])"
-                :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
-                :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
+                :img="`/ui/${exactTopicIsInAssignment ? 'minus' : 'plus'}.svg`"
+                :text="`${exactTopicIsInAssignment ? 'Remove' : 'Add'} all questions`"
+                :disable="!(exactTopicIsInAssignment === topicIsInAssignment || (exactTopicIsInAssignment && !topicIsInAssignment))"
               />
             </div>
             <TeacherAssignmentCatalogQuestionButton
@@ -115,6 +125,7 @@
 const props = defineProps<{
   viewOnly: boolean;
   currentQuestions: CreateAssignmentQuestion[];
+  /** list of topic paths already added to the assignment */
   currentTopicIds: number[][];
 }>();
 const emit = defineEmits<{
@@ -179,7 +190,17 @@ async function loadTopics(topicId: number) {
  */
 const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
-const topicIsInAssignment = computed(() => props.currentTopicIds.map((path) => path.at(-1)).includes(currentTopic.value?.id ?? 1));
+
+/** is this exact topic id in the assignment */
+const exactTopicIsInAssignment = computed(() => {
+  const oldTopics = props.currentTopicIds.map((path) => path.at(-1) ?? 1);
+  return oldTopics.includes(currentTopic.value?.id ?? 1);
+});
+/** is this topic, or any of its parents in the assignment */
+const topicIsInAssignment = computed(() => {
+  const oldTopics = props.currentTopicIds.map((oldTopic) => oldTopic.join(","));
+  return oldTopics.some((oldTopic) => currentTopicPath.value.join(",").startsWith(oldTopic));
+});
 
 const currentQuestionPageIndex = ref(0);
 const totalQuestions = ref(0);
@@ -190,20 +211,12 @@ watch(currentTopic, async (topic) => {
     topic.hasParents = true;
     topic.parents = currentTopicPath.value;
 
-    /*     console.log(topicCollection.value);
-    console.log(topic.id); */
-    // console.log(topicIsInAssignment);
     currentTopicPath.value.push(topic.id);
     currentQuestionPageIndex.value = 0;
     await loadTopics(topic.id);
   }
 
   await loadQuestions(topic?.id ?? 1);
-  /* 
-  
-When topic is added, append current Topic Path, reverse array
-
- */
 });
 watch(currentQuestionPageIndex, async (index) => {
   await loadQuestions(currentTopic.value?.id ?? 1, index * 20);
