@@ -10,7 +10,7 @@
         <div class="flex items-center justify-center gap-4">
           <TeacherCourseActionButton :to="`/teacher/course/${teacherCurrentCourse.id}/roster`" img="/ui/users.svg" text="View Students" />
           <TeacherCourseActionButton :to="`/teacher/course/${teacherCurrentCourse.id}/create-assignment`" img="/ui/plus.svg" text="New Assignment" />
-          <button type="button" class="text-red-500 hover:underline" @click="confirmDeleteCourse">Delete Course 🗑️</button>
+          <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" class="text-red-500 hover:underline" text="Delete Course" :click-function="confirmDeleteCourse" />
         </div>
       </div>
 
@@ -19,11 +19,8 @@
         <TeacherCourseTabButton :course="teacherCurrentCourse" tab-name="past" :current-tab="currentTab" @switch-tab="(tab) => (currentTab = tab)" />
       </div>
 
-      <div class="mt-5 flex w-full flex-wrap items-center justify-start gap-4">
-        <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex items-center gap-4">
-          <TeacherAssignmentCard :course="teacherCurrentCourse" :assignment="assignment" :current-date="currentDate" />
-          <button type="button" class="text-red-500 hover:underline" @click="confirmDeleteAssignment(assignment.id)">Delete Assignment 🗑️</button>
-        </div>
+      <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex w-full items-center gap-4">
+        <TeacherAssignmentCard :course="teacherCurrentCourse" :assignment="assignment" :current-date="currentDate" @delete-assignment="confirmDeleteAssignment" />
       </div>
       <DeleteModal v-model="isModalVisible" @confirm="handleConfirm" />
     </div>
