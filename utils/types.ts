@@ -44,36 +44,64 @@ export interface StaticQuestionInterface extends QuestionInterface {
   questionIndex: number;
 }
 
+export interface TopicQuestionInterfaceAnswer {
+  id: number;
+  /** @readonly What the answer choice says (HTML string). */
+  text: string;
+  isCorrect: boolean;
+}
 export interface TopicQuestionInterface {
   id: number;
   /** @readonly What the answer choice says (HTML string). */
   readonly text: string;
   answerType: "Multiple Choice" | "Written Response" | "True or False";
   difficulty: number;
-  answers: {
-    id: number;
-    /** @readonly What the answer choice says (HTML string). */
-    readonly text: string;
-    isCorrect: boolean;
-  }[];
+  answers: TopicQuestionInterfaceAnswer[];
   correctFirstAttempts: number;
   totalFirstAttempts: number;
 }
 
+interface TeacherAssignmentStatisticData {
+  /** ID of the assignment instance */
+  assignmentInstance: number;
+  /** ID of the question */
+  question: number;
+  /** Time spent on the assignment, in seconds */
+  timeSpent: number;
+}
 /** @template T - Whether the `guaranteedQuestions` field should be an array of `Question` objects or an array of question IDs */
-export interface TeacherAssignmentStatistic<T extends boolean> {
-  statisticsData: {
-    /** ID of the assignment instance */
-    assignmentInstance: number;
-    /** ID of the question */
-    question: number;
-    /** User answers for the entire assignment */
-    userAnswers: number[];
-    /** Time spent on the assignment, in seconds */
-    timeSpent: number;
-  };
+interface TeacherAssignmentStatistic<T extends boolean> {
+  statisticsData: TeacherAssignmentStatisticData;
   /** Array of guaranteed questions if `T` is true, question IDs if false */
   guaranteedQuestions: T extends true ? Question[] : number[];
+}
+export interface DynamicTeacherAssignmentStatistic<T extends boolean = true> extends TeacherAssignmentStatistic<T> {
+  statisticsData: TeacherAssignmentStatisticData & {
+    /** Array of answer IDs that represent the user's answers for the question */
+    dynamicUserAnswers: number[];
+  };
+}
+export interface StaticTeacherAssignmentStatistic<T extends boolean = true> extends TeacherAssignmentStatistic<T> {
+  statisticsData: TeacherAssignmentStatisticData & {
+    /** Answer ID */
+    staticUserAnswer: number;
+  };
+}
+
+interface IndividualStudentStatistic<T extends boolean> {
+  /** ID of the assignment instance */
+  assignmentInstance: number;
+  /** Measured in seconds */
+  timeSpent: number;
+  /** Array of questions if `T` is true, question IDs if false */
+  question: T extends true ? TopicQuestionInterface : number;
+}
+export interface DynamicIndividualStudentStatistic<T extends boolean = true> extends IndividualStudentStatistic<T> {
+  /** Array of answer IDs that represent the user's answers for the question */
+  dynamicUserAnswers: number[];
+}
+export interface StaticIndividualStudentStatistic<T extends boolean = true> extends IndividualStudentStatistic<T> {
+  staticUserAnswer: number;
 }
 
 export interface Topic {
@@ -94,7 +122,7 @@ export interface CreateCourse {
   subject: number;
 }
 
-export interface TeacherStudentList {
+export interface StudentData {
   /** @readonly UID of the student. */
   readonly id: number;
   /** @readonly First name of the student. */
@@ -103,6 +131,20 @@ export interface TeacherStudentList {
   readonly lastName: string;
   /** @readonly Email of the student. */
   readonly email: string;
+}
+
+/** @template T - Whether the `student` field should be `StudentData` objects or an array of student IDs */
+export interface StudentStatistic<T extends boolean = true> {
+  /** Assignment instance ID */
+  id: number;
+  /** Array of student data if `T` is true, student IDs if false */
+  student: T extends true ? StudentData : number;
+  dateSubmitted: Date | null;
+  questionsCompleted: number;
+  questionsCorrect: number;
+  /** Measured in seconds */
+  timeSpent: number;
+  timeStarted: Date | null;
 }
 
 interface Assignment {
