@@ -82,10 +82,13 @@ definePageMeta({
 
 const route = useRoute();
 const router = useRouter();
+
 const userStore = useUserStore();
 const { studentCurrentCourse, currentQuestion } = storeToRefs(userStore);
+
 const feedbackMessage = ref("");
 const errorMessage = ref("");
+
 const selectedChoice = ref<Answer>();
 let timestamp = Date.now();
 
@@ -135,7 +138,7 @@ watch(assignmentInProgress, (val) => {
 
 let lastQuestionIndex = 0;
 const currentQuestionIndex = computed(() => {
-  const query = Number(route.query.q);
+  const query = Math.max(0, Number(route.query.q) - 1);
   const index = Number.isNaN(query) ? lastQuestionIndex : query;
   lastQuestionIndex = index;
   return index;
@@ -156,8 +159,8 @@ watch(
   currentQuestionIndex,
   async () => {
     if (!currentAssignment.value) return;
-
-    if (allQuestionsCompleted.value) return;
+    if (!currentAssignment.value.assignment.isStatic && currentQuestionIndex.value !== currentAssignment.value.questionsCompleted)
+      return void changeRouteQuery({ q: currentAssignment.value.questionsCompleted + 1 });
 
     // load question
     let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as StaticQuestionInterface | DynamicQuestionInterface | undefined;
@@ -174,6 +177,9 @@ watch(
         currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = data;
       }
     }
+
+    console.log(currentAssignment.value.assignment.questionInterfaces);
+
     // highlight selected answer
     currentQuestion.value = question;
 
@@ -196,7 +202,7 @@ watch(
 async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
   const newIndex = direction === "previous" ? currentQuestionIndex.value - 1 : currentQuestionIndex.value + 1;
-  if (newIndex >= 0 && newIndex < currentAssignment.value.assignment.numQuestions) await changeRouteQuery({ q: newIndex });
+  if (newIndex >= 0 && newIndex < currentAssignment.value.assignment.numQuestions) await changeRouteQuery({ q: newIndex + 1 });
 }
 
 async function submitQuestion() {
@@ -214,7 +220,7 @@ async function submitQuestion() {
 }
 
 onBeforeMount(() => {
-  if (!route.query.q) void changeRouteQuery({ q: 0 });
+  if (!route.query.q) void changeRouteQuery({ q: 1 });
 });
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {

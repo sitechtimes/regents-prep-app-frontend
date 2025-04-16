@@ -82,7 +82,7 @@ export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssig
     if ("assignment" in assignment) {
       assignment.assignment.dueDate = new Date(assignment.assignment.dueDate);
       assignment.assignment.dateAssigned = new Date(assignment.assignment.dateAssigned);
-      assignment.assignment.questionInterfaces = [];
+      assignment.assignment.questionInterfaces = {};
       if ("dateSubmitted" in assignment) assignment.dateSubmitted = assignment.dateSubmitted; // TODO: what does this do???
     } else {
       assignment.dueDate = new Date(assignment.dueDate);

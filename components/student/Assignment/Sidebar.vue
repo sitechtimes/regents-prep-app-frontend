@@ -28,7 +28,7 @@
             }"
             type="button"
             :disabled="!assignment.assignment.isStatic"
-            @click="changeRouteQuery({ q: index }, 'push')"
+            @click="changeRouteQuery({ q: index + 1 }, 'push')"
           >
             Question {{ num }}
           </button>
@@ -41,13 +41,11 @@
       <p class="text-sm font-bold">Due {{ formatDate(assignment.assignment.dueDate, currentDate) }}</p>
       <p class="text-sm text-neutral-700 dark:text-white">Assigned {{ formatDate(assignment.assignment.dateAssigned, currentDate) }}</p>
 
-      <div
-        class="mt-auto w-full"
-        :class="{ 'du-tooltip': !assignment.assignment.questionInterfaces[assignment.assignment.numQuestions - 1]?.question.answers.some((answer) => answer.selected) }"
-        data-tip="Complete all the questions first!"
-      >
+      <div class="mt-auto w-full" :class="{ 'du-tooltip': !assignmentIsComplete }" data-tip="Complete all questions first!">
         <button
-          class="w-full rounded-lg bg-green-accent px-5 py-1.5 text-lg font-bold hover:brightness-110"
+          class="w-full rounded-lg bg-green-accent px-5 py-1.5 text-lg font-bold"
+          :class="assignmentIsComplete ? 'hover:brightness-110' : 'cursor-not-allowed grayscale'"
+          :disabled="!assignmentIsComplete"
           type="button"
           :disabled="assignment.assignment.numQuestions !== assignment.questionsCompleted"
           :class="{ 'cursor-not-allowed grayscale': assignment.assignment.numQuestions !== assignment.questionsCompleted }"
@@ -76,11 +74,18 @@ const submitState = reactive({
   isErrored: false
 });
 
+const assignmentIsComplete = computed(() => {
+  const questionInterfaces = Object.values(props.assignment.assignment.questionInterfaces);
+  return (
+    questionInterfaces.length === props.assignment.assignment.numQuestions && // every question has been loaded
+    questionInterfaces.every((questionInterface) => questionInterface.question.answers.some((answer) => answer.selected)) // every question has been answered
+  );
+});
+
 async function submit() {
   submitState.isLoading = true;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: response, error } = await tryCatch(submitAssignment(props.assignment.id));
+  const { data: _response, error } = await tryCatch(submitAssignment(props.assignment.id));
   // TODO: do smth with response
 
   if (error) {
