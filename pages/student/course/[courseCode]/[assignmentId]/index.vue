@@ -142,18 +142,15 @@ const currentQuestionIndex = computed(() => {
 });
 
 // increment time on index change. separate because immediate: true is not good for this
-watch(
-  currentQuestionIndex,
-  async () => {
-    if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
-    if (selectedChoice.value) {
-      const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
-      if (error) console.error(error);
-    } else {
-      incrementTime();
-    }
-  },
-);
+watch(currentQuestionIndex, async () => {
+  if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
+  if (selectedChoice.value) {
+    const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
+    if (error) console.error(error);
+  } else {
+    incrementTime();
+  }
+});
 
 watch(
   currentQuestionIndex,
