@@ -27,6 +27,7 @@
     "@nuxt/test-utils": "^3.14.4",
     "@pinia/testing": "^0.1.7",
     "@types/sanitize-html": "^2.13.0",
+    "@vitest/ui": "^3.0.9",
     "@vue/test-utils": "^2.4.6",
     "daisyui": "^4.12.13",
     "eslint": "^9.18.0",

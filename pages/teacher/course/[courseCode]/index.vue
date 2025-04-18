@@ -39,12 +39,11 @@ const router = useRouter();
 const currentDate = new Date();
 const currentTab = ref<"current" | "past">("current");
 const loaded = ref(false);
-const assignments = computed(() => teacherCurrentCourse.value?.assignments);
-const filteredAssignments = computed(() =>
-  assignments.value?.filter((assignment) => (currentTab.value === "current" ? new Date(assignment.dueDate) >= currentDate : new Date(assignment.dueDate) < currentDate))
-);
 const isModalVisible = ref(false);
 const deleteAction = ref<() => Promise<void>>();
+const filteredAssignments = computed(() =>
+  teacherCurrentCourse.value?.assignments?.filter((assignment) => (currentTab.value === "current" ? new Date(assignment.dueDate) >= currentDate : new Date(assignment.dueDate) < currentDate))
+);
 
 function showDeleteModal(action: () => Promise<void>) {
   deleteAction.value = action;
@@ -81,7 +80,15 @@ function confirmDeleteAssignment(assignmentId: number) {
 }
 onMounted(() => (loaded.value = true));
 // for vitest
-defineExpose({ teacherCourses, teacherCurrentCourse, loaded, filteredAssignments });
+defineExpose({
+  teacherCourses,
+  teacherCurrentCourse,
+  loaded,
+  filteredAssignments,
+  currentTab,
+  currentDate,
+  isModalVisible
+});
 </script>
 
 <style scoped>

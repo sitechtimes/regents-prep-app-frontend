@@ -1,44 +1,132 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime";
-import { describe, expect, test, vi } from "vitest";
+import { flushPromises } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
-import { beforeEach } from "vitest";
-import Index from "~/pages/teacher/course/[courseCode]/index.vue";
+import { beforeEach, describe, test, expect } from "vitest";
+import { ref } from "vue";
+import Page from "~/pages/teacher/course/[courseCode]/index.vue";
 
-describe("teacherCourse", () => {
+describe("Teacher Course Info Page", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
   });
 
-  test("page should be visible", async () => {
-    const page = await mountSuspended(Index);
+  test("should be visible", async () => {
+    const page = await mountSuspended(Page);
     expect(page.exists()).toBe(true);
   });
 
-  test("currentAssignmentExist", async () => {
-    const page = await mountSuspended(Index);
-    const currentAssignments = ref(page.vm.filteredAssignments);
-    expect(currentAssignments.value).toHaveLength(1);
+  test("should show assignment cards if current assignments exist", async () => {
+    const page = await mountSuspended(Page, { route: { params: { courseCode: "1" } }, attachTo: document.body });
+    const currentCourse = ref(page.vm.teacherCurrentCourse);
+
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    currentCourse.value = {
+      id: 1,
+      name: "Physics",
+      period: 3,
+      subject: "Science",
+      joinCode: "22222d",
+      numStudents: 30,
+      assignmentsLength: 1,
+      teacher: "Wichael Mhalen",
+      assignments: [
+        {
+          id: 101,
+          dueDate: tomorrow,
+          name: "Forces HW",
+          dateAssigned: today,
+          numQuestions: 10,
+          lateSubmissions: false,
+          numSubmitted: 25
+        }
+      ]
+    };
+
+    page.vm.currentTab = "current";
+    await page.vm.$nextTick();
+    await flushPromises();
+
+    const assignments = ref(page.vm.filteredAssignments);
+    expect(assignments.value).toHaveLength(1);
+    expect(page.findComponent({ name: "AssignmentCard" }).exists()).toBe(true);
+    expect(page.find("#no-assignments").exists()).toBe(false);
   });
 
-  test("currentAssignmentsTest", async () => {
-    const page = await mountSuspended(Index);
+  test("should not show assignment cards if no current assignments exist", async () => {
+    const page = await mountSuspended(Page, { route: { params: { courseCode: "2" } }, attachTo: document.body });
+    const currentCourse = ref(page.vm.teacherCurrentCourse);
+
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    currentCourse.value = {
+      id: 3,
+      name: "Chemistry",
+      period: 1,
+      subject: "Science",
+      joinCode: "22222d",
+      numStudents: 22,
+      assignmentsLength: 1,
+      teacher: "Wichael Mhalen",
+      assignments: [
+        {
+          id: 303,
+          dueDate: yesterday,
+          name: "Balancing Equations",
+          dateAssigned: yesterday,
+          numQuestions: 20,
+          lateSubmissions: false,
+          numSubmitted: 18
+        }
+      ]
+    };
+
+    page.vm.currentTab = "current";
+    await page.vm.$nextTick();
+    await flushPromises();
+
     const assignments = ref(page.vm.filteredAssignments);
+    expect(assignments.value?.length).toBe(0);
+    expect(page.findComponent({ name: "AssignmentCard" }).exists()).toBe(false);
+  });
 
-    const currentAssignments = ref(page.vm.filteredAssignments);
+  test("should switch to past tab and show past assignments", async () => {
+    const page = await mountSuspended(Page, { route: { params: { courseCode: "2" } }, attachTo: document.body });
+    const currentCourse = ref(page.vm.teacherCurrentCourse);
 
-    assignments.value = [
-      {
-        name: "test",
-        dateAssigned: new Date(),
-        dueDate: new Date(),
-        numQuestions: 4,
-        lateSubmissions: false,
-        numSubmitted: 2,
-        id: 9
-      }
-    ];
-    await nextTick();
-    await vi.waitUntil(() => expect);
-    expect(currentAssignments.value).toBe(assignments.value[0]);
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    currentCourse.value = {
+      id: 3,
+      name: "Chemistry",
+      period: 1,
+      subject: "Science",
+      joinCode: "22222d",
+      numStudents: 22,
+      assignmentsLength: 1,
+      teacher: "Wichael Mhalen",
+      assignments: [
+        {
+          id: 303,
+          dueDate: yesterday,
+          name: "Balancing Equations",
+          dateAssigned: yesterday,
+          numQuestions: 20,
+          lateSubmissions: false,
+          numSubmitted: 18
+        }
+      ]
+    };
+
+    page.vm.currentTab = "past";
+    await flushPromises();
+
+    const assignments = ref(page.vm.filteredAssignments);
+    expect(assignments.value).toHaveLength(1);
+    expect(page.findComponent({ name: "TeacherAssignmentCard" }).exists()).toBe(true);
   });
 });
