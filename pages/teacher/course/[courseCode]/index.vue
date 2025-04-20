@@ -41,9 +41,13 @@ const currentTab = ref<"current" | "past">("current");
 const loaded = ref(false);
 const isModalVisible = ref(false);
 const deleteAction = ref<() => Promise<void>>();
-const filteredAssignments = computed(() =>
-  teacherCurrentCourse.value?.assignments?.filter((assignment) => (currentTab.value === "current" ? new Date(assignment.dueDate) >= currentDate : new Date(assignment.dueDate) < currentDate))
-);
+const filteredAssignments = computed(() => {
+  if (!teacherCurrentCourse.value?.assignments) return [];
+  return teacherCurrentCourse.value.assignments.filter((assignment) => {
+    const due = new Date(assignment.dueDate);
+    return currentTab.value === "current" ? due >= currentDate : due < currentDate;
+  });
+});
 
 function showDeleteModal(action: () => Promise<void>) {
   deleteAction.value = action;

@@ -51,7 +51,7 @@ describe("Teacher Course Info Page", () => {
 
     const assignments = ref(page.vm.filteredAssignments);
     expect(assignments.value).toHaveLength(1);
-    expect(page.findComponent({ name: "AssignmentCard" }).exists()).toBe(true);
+    expect(page.findComponent({ name: "TeacherAssignmentCard" }).exists()).toBe(true);
     expect(page.find("#no-assignments").exists()).toBe(false);
   });
 
@@ -90,7 +90,7 @@ describe("Teacher Course Info Page", () => {
 
     const assignments = ref(page.vm.filteredAssignments);
     expect(assignments.value?.length).toBe(0);
-    expect(page.findComponent({ name: "AssignmentCard" }).exists()).toBe(false);
+    expect(page.findComponent({ name: "TeacherAssignmentCard" }).exists()).toBe(false);
   });
 
   test("should switch to past tab and show past assignments", async () => {
