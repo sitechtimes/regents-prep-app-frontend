@@ -115,7 +115,7 @@ const currentAssignment = computed(() => studentCurrentCourse.value?.assignments
 /**checks if all questions in assignment are completed */
 const allQuestionsCompleted = computed(() => {
   if (!currentAssignment.value) return false;
-  currentAssignment.value.assignment.numQuestions === currentAssignment.value.questionsCompleted + 1;
+  return currentAssignment.value.assignment.numQuestions === currentAssignment.value.questionsCompleted + 1;
 });
 
 function selectChoice(choice: Answer) {
@@ -123,11 +123,12 @@ function selectChoice(choice: Answer) {
   currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
   choice.selected = true;
   selectedChoice.value = choice;
-  currentQuestion.value.selectedAnswerId = choice.id;
+  console.log(currentQuestion.value);
+  // currentQuestion.value.selectedAnswerId = choice.id;
   if (currentAssignment.value?.assignment.isStatic) {
-    storedStaticAnswers.value[currentQuestionIndex.value] = {
-      selectedChoice: { ...choice }
-    };
+    // storedStaticAnswers.value[currentQuestionIndex.value] = {
+    //   selectedChoice: { ...choice }
+    // };
   }
 }
 
@@ -186,7 +187,7 @@ watch(
     if (currentAssignment.value.assignment.isStatic) {
       const cachedAnswer = storedStaticAnswers.value[currentQuestionIndex.value];
       if (cachedAnswer && question) {
-        question.selectedAnswerId = cachedAnswer.selectedChoice.id;
+        // question.selectedAnswerId = cachedAnswer.selectedChoice.id;
         question.question.answers.forEach((answer) => {
           answer.selected = answer.id === cachedAnswer.selectedChoice.id;
         });

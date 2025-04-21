@@ -1,6 +1,6 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   if (!import.meta.client) return;
-  if (to.name === from.name) return; // prevent middleware from running when changing route queries
+  if (to.name === from.name && Object.values(to.params).every((param) => String(param) === from.params[String(param)])) return; // prevent middleware from running when changing route queries
 
   const userStore = useUserStore();
   const { studentCourses, studentCurrentCourse } = storeToRefs(userStore);

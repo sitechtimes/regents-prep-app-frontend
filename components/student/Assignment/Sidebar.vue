@@ -47,8 +47,6 @@
           :class="assignmentIsComplete ? 'hover:brightness-110' : 'cursor-not-allowed grayscale'"
           :disabled="!assignmentIsComplete"
           type="button"
-          :disabled="assignment.assignment.numQuestions !== assignment.questionsCompleted"
-          :class="{ 'cursor-not-allowed grayscale': assignment.assignment.numQuestions !== assignment.questionsCompleted }"
           @click="submit"
         >
           <span v-if="submitState.isLoading" class="du-loading du-loading-spinner du-loading-sm"></span>
