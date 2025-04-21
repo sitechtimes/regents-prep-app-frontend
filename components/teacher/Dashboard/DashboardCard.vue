@@ -1,19 +1,21 @@
 <template>
   <div
-    class="flex my-2 flex h-[calc(90%)] w-[calc(85%)] flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-600/50 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
+    class="my-2 flex h-[calc(90%)] w-[calc(85%)] flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-600/50 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
   >
     <!-- course information -->
-    <div class="flex h-1/2 w-full flex-col items-center justify-end pt-2 px-2 " :style="{ backgroundColor: subjectColors[course.subject] }">
-      <h2 :title="course.name" class="sm:text-l mt-4 mb-1 h-1/2 w-full overflow-hidden overflow-ellipsis text-nowrap text-center font-semibold md:text-2xl lg:text-3xl self-center -mt-3 -mb-2">{{ course.name }}</h2>
-      <p class="text-sm lg:text-lg md:text-lg">Period {{ course.period }}</p>
-      <p class="text-center lg:text-lg md:text-lg text-sm">{{ course.teacher }}</p>
-      <p v-if="!course.teacher" class="text-center lg:text-lg md:text-lg text-sm mb-1">{{ userStore.name }}</p>
+    <div class="flex h-1/2 w-full flex-col items-center justify-end px-2 pt-2" :style="{ backgroundColor: subjectColors[course.subject] }">
+      <h2 :title="course.name" class="text-l my-1 h-1/2 w-full self-center overflow-hidden overflow-ellipsis text-nowrap text-center font-semibold md:text-2xl lg:text-3xl">
+        {{ course.name }}
+      </h2>
+      <p class="text-sm md:text-lg lg:text-lg">Period {{ course.period }}</p>
+      <p class="text-center text-sm md:text-lg lg:text-lg">{{ course.teacher }}</p>
+      <p v-if="!course.teacher" class="mb-1 text-center text-sm md:text-lg lg:text-lg">{{ userStore.name }}</p>
     </div>
 
-    <div class="flex h-full min-h-24 w-full columns-2 rounded-3xl bg-[var(--bg-color)] p-2 ">
-      <div class="lg:w-full md:w-full w-[calc(85%)]">
-        <div class="sm:text-l h-1/2 text-center font-semibold md:text-xl lg:text-2xl sm:mb-1"><h3 class="self-center pt-5">Join Code</h3></div>
-        <div class="h-1/2 text-center lg:text-3xl md:text-2xl sm:text-xl py-2">
+    <div class="flex h-full min-h-24 w-full columns-2 rounded-3xl bg-body p-2">
+      <div class="w-[calc(85%)] md:w-full lg:w-full">
+        <div class="sm:text-l h-1/2 text-center font-semibold sm:mb-1 md:text-xl lg:text-2xl"><h3 class="self-center pt-5">Join Code</h3></div>
+        <div class="h-1/2 py-2 text-center sm:text-xl md:text-2xl lg:text-3xl">
           <h2 id="copy" class="self-center">{{ course.joinCode }}</h2>
         </div>
       </div>

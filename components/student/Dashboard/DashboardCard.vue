@@ -1,11 +1,11 @@
 <template>
   <NuxtLink
     :to="`/student/course/${course.id}`"
-    class="flex my-2 flex h-[calc(100%)] w-[calc(85%)] flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-600/50 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
+    class="flex my-2 flex h-full w-[calc(85%)] flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-600/50 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
     type="button"
   >
     <!-- course information -->
-    <div class="flex lg:h-24 md:h-24 h-2/5 w-full flex-col items-center justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
+    <div class="flex h-24 w-full flex-col items-center justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
       <h2 :title="course.name" class="w-72 overflow-hidden overflow-ellipsis text-nowrap text-center text-2xl font-semibold">{{ course.name }}</h2>
       <p class="text-sm">Period {{ course.period }}</p>
       <p>{{ course.teacher }}</p>
@@ -27,7 +27,7 @@
           </p>
 
           <div class="flex h-full w-full flex-col items-center justify-start gap-3">
-            <p class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-center text-[calc(85%)] lg:text-[calc(120%)] md:text-[calc(98%)] font-semibold -mb-3">{{ assignment.assignment.name }}</p>
+            <p class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-center text-l lg:text-xl md:text-xl font-semibold -mb-3">{{ assignment.assignment.name }}</p>
 
             <div class="flex w-full items-center justify-between gap-2">
               <span class="shrink-0">Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numQuestions }}</span>
