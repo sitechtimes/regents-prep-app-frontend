@@ -4,10 +4,10 @@
       class="sticky top-20 flex w-[35rem] shrink-0 flex-col gap-2 rounded-xl border border-neutral-400 bg-neutral-100/50 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
       @submit.prevent="createAssignment"
     >
-      <h3 class="text-2xl font-bold">Create Assignment</h3>
+      <h2 class="text-2xl font-bold">Create Assignment</h2>
 
       <fieldset>
-        <legend>For <span title="Required" class="font-2xl text-red-500">*</span></legend>
+        <legend>For <span title="Required" class="text-red-500">*</span></legend>
         <div class="max-h-40 space-y-1 overflow-y-auto rounded-lg border border-neutral-400 bg-white p-3">
           <div v-for="course in teacherCourses" :key="course.id" class="flex items-center gap-2">
             <input
@@ -31,7 +31,7 @@
 
       <div class="flex w-full items-center justify-center gap-3">
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="text-red-500">*</span></label>
           <input
             id="name"
             v-model="assignmentInfo.name"
@@ -42,28 +42,12 @@
           />
         </div>
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions">
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="number-of-questions">
             Number of Questions
-            <span title="Required" class="font-2xl text-red-500">*</span>
+            <span title="Required" class="text-red-500">*</span>
           </label>
-
-          <!--   
-          Was in input.
-          @input="
-              () => {
-                if (assignmentInfo.numOfQuestions) {
-                  if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId).length) {
-                    assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
-                  } else {
-                    if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.length) {
-                      assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
-                    }
-                  }
-                }
-              }
-            " -->
           <input
-            id="numOfQuestions"
+            id="number-of-questions"
             v-model="assignmentInfo.numOfQuestions"
             required
             type="number"
@@ -73,8 +57,11 @@
         </div>
       </div>
 
-      <div>
-        <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">Due <span title="Required" class="font-2xl text-red-500">*</span></label>
+      <fieldset>
+        <legend class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">
+          Due
+          <span title="Required" class="text-red-500">*</span>
+        </legend>
         <div class="flex w-full items-center justify-center gap-3">
           <input
             v-model="assignmentInfo.dueDate.date"
@@ -90,7 +77,7 @@
             class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
           />
         </div>
-      </div>
+      </fieldset>
 
       <div class="flex w-full items-center justify-center gap-3">
         <div class="grow">
@@ -117,21 +104,19 @@
       </div>
 
       <div>
-        <p class="dark:text-whit fo-label fo-label-text pointer-events-none shrink-0 font-bold text-black dark:text-white">
-          Questions and Topics <span title="Required" class="font-2xl text-red-500">*</span>
-        </p>
+        <p class="fo-label fo-label-text pointer-events-none shrink-0 font-bold text-black dark:text-white">Questions and Topics <span title="Required" class="text-red-500">*</span></p>
         <div
           class="flex h-96 w-full items-center justify-center rounded-lg border border-neutral-400 bg-white hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
         >
-          <div v-if="!assignmentInfo.topicIds.length && !assignmentInfo.questionIds.length" class="mb-10 flex flex-col items-center justify-center">
+          <div v-if="!assignmentInfo.topicIds.length && !assignmentInfo.questions.length" class="mb-10 flex flex-col items-center justify-center">
             <img class="size-40 opacity-65 dark:invert" src="/ui/plus.svg" aria-hidden="true" />
-            <h5 class="text-center text-xl font-bold text-neutral-500 dark:text-white">No Questions or Topics Selected</h5>
+            <p class="text-center text-xl font-bold text-neutral-500 dark:text-white">No Questions or Topics Selected</p>
             <p class="w-3/4 text-center text-sm font-medium text-neutral-400">Select questions and topics from the question bank to add them to this assignment!</p>
           </div>
 
           <div v-else class="flex h-full w-full flex-col items-start justify-start gap-4 overflow-y-scroll py-2 pl-4">
+            <h3 v-if="assignmentInfo.topicIds.length && assignmentInfo.questions.length" class="text-2xl font-bold">Topics</h3>
             <ul v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
-              <h5 v-if="assignmentInfo.topicIds.length && assignmentInfo.questionIds.length" class="text-2xl font-bold">Topics</h5>
               <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId.at(-1)" class="flex w-full items-center justify-start gap-3">
                 <span>{{ index + 1 }}. </span>
 
@@ -141,9 +126,9 @@
               </li>
             </ul>
 
-            <ul v-if="assignmentInfo.questionIds.length" class="flex w-full flex-col items-start justify-start gap-2">
-              <h5 v-if="assignmentInfo.topicIds.length && assignmentInfo.questionIds.length" class="text-2xl font-bold">Questions</h5>
-              <li v-for="(question, index) in assignmentInfo.questionIds" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
+            <h3 v-if="assignmentInfo.topicIds.length && assignmentInfo.questions.length" class="text-2xl font-bold">Questions</h3>
+            <ol v-if="assignmentInfo.questions.length" class="flex w-full list-inside list-decimal flex-col items-start justify-start gap-2">
+              <li v-for="(question, index) in assignmentInfo.questions" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
                 <span>{{ index + 1 }}.</span>
 
                 <!-- * the regex is to remove images and combine all tags into 1 <p> -->
@@ -164,6 +149,23 @@
                   </div>
                   <TeacherAssignmentCatalogQuestionButton :click-function="() => removeQuestion(question.questionId)" img="/ui/trash.svg" />
                 </div>
+              </li>
+            </ol>
+
+            <h3 v-if="assignmentInfo.excludedQuestionIds.length" class="text-2xl font-bold">Excluded Questions</h3>
+            <ul v-if="assignmentInfo.excludedQuestionIds.length" class="flex w-full flex-col items-start justify-start gap-2">
+              <li v-for="questionId in assignmentInfo.excludedQuestionIds" :key="questionId" class="flex w-full items-center justify-start gap-3">
+                <!-- * the regex is to remove images and combine all tags into 1 <p> -->
+                <p
+                  class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap"
+                  v-html="
+                    loadedQuestions[questionId].text
+                      .replace(/<img\b[^>]*>/gi, '(image)')
+                      .replace(/<[^>]+>/g, ' ')
+                      .replace(/\s+/g, ' ')
+                      .trim()
+                  "
+                ></p>
               </li>
             </ul>
           </div>
@@ -195,10 +197,11 @@
 
     <TeacherAssignmentQuestionCatalog
       :view-only="false"
-      :current-questions="assignmentInfo.questionIds"
+      :current-questions="assignmentInfo.questions"
       :current-topic-ids="assignmentInfo.topicIds"
       @select-question="addQuestion"
       @select-topic="addTopic"
+      @toggle-d-e-i-question="toggleDEIQuestion"
     />
   </div>
 </template>
@@ -230,7 +233,8 @@ const assignmentInfo = reactive({
     date: currentDateISO,
     time: "23:59"
   },
-  questionIds: ref<CreateAssignmentQuestion[]>([]),
+  questions: ref<CreateAssignmentQuestion[]>([]),
+  excludedQuestionIds: ref<number[]>([]),
   topicIds: ref<number[][]>([]),
   numOfQuestions: ref<number>(),
   lateSubmissions: false,
@@ -239,15 +243,15 @@ const assignmentInfo = reactive({
   attemptsAllowed: ref<number>()
 });
 
-const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length));
+const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questions.length || assignmentInfo.topicIds.length));
 
 function removeQuestion(questionId: number) {
   // prettier-ignore
-  assignmentInfo.questionIds.splice(assignmentInfo.questionIds.findIndex((question) => question.questionId === questionId), 1);
+  assignmentInfo.questions.splice(assignmentInfo.questions.findIndex((question) => question.questionId === questionId), 1);
 }
 
 function addQuestion(questionId: number) {
-  if (!assignmentInfo.questionIds.find((question) => question.questionId === questionId)) assignmentInfo.questionIds.push({ questionId, isGuaranteed: true });
+  if (!assignmentInfo.questions.find((question) => question.questionId === questionId)) assignmentInfo.questions.push({ questionId, isGuaranteed: true });
   else removeQuestion(questionId);
 }
 
@@ -288,6 +292,16 @@ function toggleCourse(courseID: number, event: Event) {
   else courseIDs.splice(index, 1);
 }
 
+function toggleDEIQuestion(questionId: number) {
+  const index = assignmentInfo.excludedQuestionIds.indexOf(questionId);
+
+  if (!index) return void assignmentInfo.excludedQuestionIds.splice(index, 1);
+
+  // if the question question is in the assignment, no it isn't
+  removeQuestion(questionId);
+  assignmentInfo.excludedQuestionIds.push(questionId);
+}
+
 const createAssignmentResult = reactive({
   isLoading: false,
   success: "",
@@ -309,12 +323,12 @@ async function createAssignment() {
     submitCreateAssignment(
       assignmentInfo.name,
       courseIDs,
-      assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId),
-      assignmentInfo.questionIds.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
+      assignmentInfo.questions.filter((question) => question.isGuaranteed).map((question) => question.questionId),
+      assignmentInfo.questions.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.topicIds.map((arr) => arr[0]),
       [], // todo: excluded questions
       `${new Date(new Date(assignmentInfo.dueDate.date).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString().slice(0, 10)}T${assignmentInfo.dueDate.time}`,
-      assignmentInfo.questionIds.length,
+      assignmentInfo.questions.length,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,
       assignmentInfo.attemptsAllowed ?? 0

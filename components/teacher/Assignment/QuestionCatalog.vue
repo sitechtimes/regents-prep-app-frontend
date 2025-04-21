@@ -63,7 +63,7 @@
               :data-tip="
                 exactTopicIsInAssignment === topicIsInAssignment || (exactTopicIsInAssignment && !topicIsInAssignment)
                   ? `${exactTopicIsInAssignment ? 'Remove' : 'Add'} all questions of this topic ${exactTopicIsInAssignment ? 'from' : 'to'} the assignment`
-                  : `You've added a parent topic already!`
+                  : `You've already added a parent topic!`
               "
             >
               <TeacherAssignmentCatalogQuestionButton
@@ -90,8 +90,9 @@
             :question="typeof question === 'number' ? loadedQuestions[question] : question"
             :show-answer-override="showQuestionAnswers"
             :current-questions="currentQuestions"
-            :is-in-topic="true"
+            :is-in-topic="topicIsInAssignment"
             @select="emit('selectQuestion', typeof question === 'number' ? question : question.id)"
+            @toggle-d-e-i="emit('toggleDEIQuestion', typeof question === 'number' ? question : question.id)"
           />
         </div>
 
@@ -130,6 +131,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
+  toggleDEIQuestion: [questionId: number];
   selectTopic: [topicPath: number[]];
 }>();
 

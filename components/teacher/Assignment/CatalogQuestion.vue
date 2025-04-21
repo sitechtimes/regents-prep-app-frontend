@@ -16,10 +16,10 @@
         />
       </div>
       <TeacherAssignmentCatalogQuestionButton
-        :click-function="toggleAnswer"
-        :disable="showAnswerOverride"
-        :img="`/ui/${showAnswer ? 'sad' : 'happy'}.svg`"
-        :text="`${showAnswer ? 'Exclude' : 'Include'} Question`"
+        v-if="isInTopic"
+        :click-function="toggleDEI"
+        :img="`/ui/${showAnswer ? 'happy' : 'sad'}.svg`"
+        :text="`${showAnswer ? 'Unexclude' : 'Exclude'} Question`"
       />
     </div>
 
@@ -44,8 +44,12 @@ const props = defineProps<{
   question: TopicQuestionInterface;
   showAnswerOverride: boolean;
   currentQuestions: CreateAssignmentQuestion[];
+  isInTopic: boolean;
 }>();
-const emit = defineEmits<{ select: [void] }>();
+const emit = defineEmits<{
+  select: [void];
+  toggleDEI: [void];
+}>();
 
 const showAnswer = ref(false);
 const isInAssignment = computed(() => props.currentQuestions.find((_question) => props.question.id === _question.questionId));
@@ -58,6 +62,9 @@ function emitSelect() {
 }
 function toggleAnswer() {
   showAnswer.value = !showAnswer.value;
+}
+function toggleDEI() {
+  emit("toggleDEI");
 }
 </script>
 

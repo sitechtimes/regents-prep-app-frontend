@@ -4,16 +4,16 @@
       <div class="join-menu flex flex-col items-center justify-center rounded-lg bg-white p-6" @click.stop>
         <h2 class="text-xl">Create New Course</h2>
         <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
-          <label class="du-label" for="course-name">Course Name <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <label class="du-label" for="course-name">Course Name <span title="Required" class="text-red-500">*</span></label>
           <input id="course-name" v-model="courseName" class="du-input w-96 bg-gray-200" type="text" placeholder="Enter the name of the course" />
 
-          <label class="du-label" for="course-subject">Course Subject <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <label class="du-label" for="course-subject">Course Subject <span title="Required" class="text-red-500">*</span></label>
           <select id="course-subject" v-model="courseSubject" class="du-select w-96 bg-gray-200">
             <option value="" selected>Select the subject of the course</option>
             <option v-for="regents in Object.values(regentsTypes).flat().sort()" :key="regents" :value="regents">{{ regents }}</option>
           </select>
 
-          <label class="du-label" for="course-name">Period <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <label class="du-label" for="course-name">Period <span title="Required" class="text-red-500">*</span></label>
           <div class="flex w-96 items-center justify-between">
             <button
               v-for="num in 9"
