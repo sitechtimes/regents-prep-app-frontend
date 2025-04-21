@@ -1,9 +1,13 @@
 <template>
-  <div class="group flex grow break-inside-avoid flex-col items-center justify-around gap-5 rounded-xl border border-neutral-300 bg-neutral-100 p-6 dark:border-neutral-600 dark:bg-neutral-600/50">
+  <div
+    class="group flex grow break-inside-avoid flex-col items-center justify-around gap-5 rounded-xl border border-neutral-300 bg-neutral-100 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
+    :class="isExcluded ? 'bg-neutral-200 dark:bg-neutral-800/50' : ''"
+  >
     <div class="flex w-full items-center justify-start gap-2">
       <TeacherAssignmentCatalogQuestionButton
         v-if="!viewOnly"
         :click-function="emitSelect"
+        :disable="isExcluded"
         :img="`/ui/${isInAssignment ? 'minus' : 'plus'}.svg`"
         :text="`${isInAssignment ? 'Remove from' : 'Add to'} assignment`"
       />
@@ -18,8 +22,8 @@
       <TeacherAssignmentCatalogQuestionButton
         v-if="isInTopic"
         :click-function="toggleDEI"
-        :img="`/ui/${showAnswer ? 'happy' : 'sad'}.svg`"
-        :text="`${showAnswer ? 'Unexclude' : 'Exclude'} Question`"
+        :img="`/ui/${isExcluded ? 'happy' : 'sad'}.svg`"
+        :text="`${isExcluded ? 'Unexclude' : 'Exclude'} Question`"
       />
     </div>
 
@@ -45,6 +49,7 @@ const props = defineProps<{
   showAnswerOverride: boolean;
   currentQuestions: CreateAssignmentQuestion[];
   isInTopic: boolean;
+  isExcluded: boolean;
 }>();
 const emit = defineEmits<{
   select: [void];

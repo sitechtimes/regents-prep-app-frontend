@@ -8,7 +8,7 @@
 
       <fieldset>
         <legend>For <span title="Required" class="text-red-500">*</span></legend>
-        <div class="max-h-40 space-y-1 overflow-y-auto rounded-lg border border-neutral-400 bg-white p-3">
+        <div class="max-h-40 space-y-1 overflow-y-auto rounded-lg border border-neutral-400 bg-white p-3 dark:border-neutral-600 dark:bg-neutral-900">
           <div v-for="course in teacherCourses" :key="course.id" class="flex items-center gap-2">
             <input
               :id="'course-' + course.id"
@@ -127,21 +127,11 @@
             </ul>
 
             <h3 v-if="assignmentInfo.topicIds.length && assignmentInfo.questions.length" class="text-2xl font-bold">Questions</h3>
-            <ol v-if="assignmentInfo.questions.length" class="flex w-full list-inside list-decimal flex-col items-start justify-start gap-2">
+            <ol v-if="assignmentInfo.questions.length" class="flex w-full flex-col items-start justify-start gap-2">
               <li v-for="(question, index) in assignmentInfo.questions" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
                 <span>{{ index + 1 }}.</span>
 
-                <!-- * the regex is to remove images and combine all tags into 1 <p> -->
-                <p
-                  class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap"
-                  v-html="
-                    loadedQuestions[question.questionId].text
-                      .replace(/<img\b[^>]*>/gi, '(image)')
-                      .replace(/<[^>]+>/g, ' ')
-                      .replace(/\s+/g, ' ')
-                      .trim()
-                  "
-                ></p>
+                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[question.questionId].text)"></p>
 
                 <div class="flex items-center justify-center gap-2">
                   <div class="du-tooltip du-tooltip-bottom" :data-tip="`Switch to ${question.isGuaranteed ? 'Random' : 'Guaranteed'}`">
@@ -155,17 +145,7 @@
             <h3 v-if="assignmentInfo.excludedQuestionIds.length" class="text-2xl font-bold">Excluded Questions</h3>
             <ul v-if="assignmentInfo.excludedQuestionIds.length" class="flex w-full flex-col items-start justify-start gap-2">
               <li v-for="questionId in assignmentInfo.excludedQuestionIds" :key="questionId" class="flex w-full items-center justify-start gap-3">
-                <!-- * the regex is to remove images and combine all tags into 1 <p> -->
-                <p
-                  class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap"
-                  v-html="
-                    loadedQuestions[questionId].text
-                      .replace(/<img\b[^>]*>/gi, '(image)')
-                      .replace(/<[^>]+>/g, ' ')
-                      .replace(/\s+/g, ' ')
-                      .trim()
-                  "
-                ></p>
+                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[questionId].text)"></p>
               </li>
             </ul>
           </div>
@@ -199,6 +179,7 @@
       :view-only="false"
       :current-questions="assignmentInfo.questions"
       :current-topic-ids="assignmentInfo.topicIds"
+      :excluded-question-ids="assignmentInfo.excludedQuestionIds"
       @select-question="addQuestion"
       @select-topic="addTopic"
       @toggle-d-e-i-question="toggleDEIQuestion"
@@ -300,6 +281,15 @@ function toggleDEIQuestion(questionId: number) {
   // if the question question is in the assignment, no it isn't
   removeQuestion(questionId);
   assignmentInfo.excludedQuestionIds.push(questionId);
+}
+
+/** remove images and combine all tags into 1 \<p> */
+function flattenQuestion(questionContent: string) {
+  return questionContent
+    .replace(/<img\b[^>]*>/gi, "(image)")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 const createAssignmentResult = reactive({

@@ -91,6 +91,7 @@
             :show-answer-override="showQuestionAnswers"
             :current-questions="currentQuestions"
             :is-in-topic="topicIsInAssignment"
+            :is-excluded="props.excludedQuestionIds.includes(typeof question === 'number' ? question : question.id)"
             @select="emit('selectQuestion', typeof question === 'number' ? question : question.id)"
             @toggle-d-e-i="emit('toggleDEIQuestion', typeof question === 'number' ? question : question.id)"
           />
@@ -126,6 +127,7 @@
 const props = defineProps<{
   viewOnly: boolean;
   currentQuestions: CreateAssignmentQuestion[];
+  excludedQuestionIds: number[];
   /** list of topic paths already added to the assignment */
   currentTopicIds: number[][];
 }>();
