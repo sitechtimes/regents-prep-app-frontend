@@ -115,4 +115,8 @@ async function createCourse() {
 .join-menu-scale-leave-to .join-menu {
   transform: scale(0.75);
 }
+
+.du-btn {
+  @apply rounded-2xl;
+}
 </style>
