@@ -93,7 +93,7 @@
             :is-in-topic="topicIsInAssignment"
             :is-excluded="props.excludedQuestionIds.includes(typeof question === 'number' ? question : question.id)"
             @select="emit('selectQuestion', typeof question === 'number' ? question : question.id)"
-            @toggle-d-e-i="emit('toggleDEIQuestion', typeof question === 'number' ? question : question.id)"
+            @toggle-inclusion="emit('toggleInclusion', typeof question === 'number' ? question : question.id)"
           />
         </div>
 
@@ -133,7 +133,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
-  toggleDEIQuestion: [questionId: number];
+  toggleInclusion: [questionId: number];
   selectTopic: [topicPath: number[]];
 }>();
 

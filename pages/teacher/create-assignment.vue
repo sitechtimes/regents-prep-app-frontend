@@ -116,7 +116,7 @@
 
           <div v-else class="flex h-full w-full flex-col items-start justify-start gap-4 overflow-y-scroll py-2 pl-4">
             <h3 v-if="assignmentInfo.topicIds.length && assignmentInfo.questions.length" class="text-2xl font-bold">Topics</h3>
-            <ul v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
+            <ol v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
               <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId.at(-1)" class="flex w-full items-center justify-start gap-3">
                 <span>{{ index + 1 }}. </span>
 
@@ -124,7 +124,7 @@
 
                 <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId.at(-1) ?? 1)" img="/ui/trash.svg" />
               </li>
-            </ul>
+            </ol>
 
             <h3 v-if="assignmentInfo.topicIds.length && assignmentInfo.questions.length" class="text-2xl font-bold">Questions</h3>
             <ol v-if="assignmentInfo.questions.length" class="flex w-full flex-col items-start justify-start gap-2">
@@ -145,6 +145,7 @@
             <h3 v-if="assignmentInfo.excludedQuestionIds.length" class="text-2xl font-bold">Excluded Questions</h3>
             <ul v-if="assignmentInfo.excludedQuestionIds.length" class="flex w-full flex-col items-start justify-start gap-2">
               <li v-for="questionId in assignmentInfo.excludedQuestionIds" :key="questionId" class="flex w-full items-center justify-start gap-3">
+                <span>•</span>
                 <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[questionId].text)"></p>
               </li>
             </ul>
@@ -182,7 +183,7 @@
       :excluded-question-ids="assignmentInfo.excludedQuestionIds"
       @select-question="addQuestion"
       @select-topic="addTopic"
-      @toggle-d-e-i-question="toggleDEIQuestion"
+      @toggle-inclusion="toggleInclusion"
     />
   </div>
 </template>
@@ -273,7 +274,7 @@ function toggleCourse(courseID: number, event: Event) {
   else courseIDs.splice(index, 1);
 }
 
-function toggleDEIQuestion(questionId: number) {
+function toggleInclusion(questionId: number) {
   const index = assignmentInfo.excludedQuestionIds.indexOf(questionId);
 
   if (!index) return void assignmentInfo.excludedQuestionIds.splice(index, 1);

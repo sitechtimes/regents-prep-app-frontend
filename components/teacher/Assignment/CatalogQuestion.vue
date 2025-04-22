@@ -21,7 +21,7 @@
       </div>
       <TeacherAssignmentCatalogQuestionButton
         v-if="isInTopic"
-        :click-function="toggleDEI"
+        :click-function="toggleInclusion"
         :img="`/ui/${isExcluded ? 'happy' : 'sad'}.svg`"
         :text="`${isExcluded ? 'Unexclude' : 'Exclude'} Question`"
       />
@@ -53,7 +53,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   select: [void];
-  toggleDEI: [void];
+  toggleInclusion: [void];
 }>();
 
 const showAnswer = ref(false);
@@ -68,8 +68,8 @@ function emitSelect() {
 function toggleAnswer() {
   showAnswer.value = !showAnswer.value;
 }
-function toggleDEI() {
-  emit("toggleDEI");
+function toggleInclusion() {
+  emit("toggleInclusion");
 }
 </script>
 
