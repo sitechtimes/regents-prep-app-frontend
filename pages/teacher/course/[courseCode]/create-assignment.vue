@@ -165,6 +165,12 @@
       </div>
     </form>
 
+    <!--
+    if all questions are guaranteed, check that numOfQuestions = inputField.length
+    if mixture of guaranteed and random, check that numOfQuestions >= inputField.length 
+    guaranteedQuestions.length < inputField.value < totalQuestions.length
+    -->
+
     <TeacherAssignmentQuestionCatalog
       :view-only="false"
       :current-questions="assignmentInfo.questionIds"
@@ -210,7 +216,9 @@ const assignmentInfo = reactive({
   attemptsAllowed: ref<number>()
 });
 
-const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length));
+const allowedToSubmit = computed(
+  () => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length) && assignmentInfo.numOfQuestions === assignmentInfo.questionIds.length
+);
 
 function removeQuestion(questionId: number) {
   // prettier-ignore
