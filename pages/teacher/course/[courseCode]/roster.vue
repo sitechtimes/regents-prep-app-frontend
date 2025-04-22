@@ -67,6 +67,8 @@ async function removeStudent(student: TeacherStudentList) {
   const { error } = await tryCatch(removeStudents(courseId, student.id));
   if (error) return console.error(error);
 }
+
+defineExpose({ filteredStudents, students });
 </script>
 
 <style scoped></style>
