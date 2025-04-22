@@ -1,18 +1,18 @@
 <template>
-  <div class="flex h-full w-full flex-col items-center justify-center mx-auto">
+  <div class="mx-auto flex h-full w-full flex-col items-center justify-center">
     <div v-if="loaded" class="h-full w-full">
       <NotFound :show-modal="showNotFound" user-type="teacher" :message="route.query.course ? 'class' : 'assignment'" />
 
       <div class="flex h-full w-full flex-col justify-around overflow-hidden">
-        <div v-if="teacherCourses.length > 0" class="mx-auto grid w-full grid-cols-1 justify-center items-center md:grid-cols-2 lg:grid-cols-3 place-items-center">
+        <div v-if="teacherCourses.length > 0" class="mx-auto grid w-full grid-cols-1 place-items-center items-center justify-center md:grid-cols-2 lg:grid-cols-3">
           <!-- mx-auto flex w-full flex-wrap justify-start gap-8 pe-6 ps-8 -->
           <!--prettier-ignore-->
           <TeacherDashboardCard
             v-for="course in (sortedTeacherCourses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
             :key="course.id"
             :course="course"
-            @click="router.push(`/teacher/course/${course.id}`)"
             class="mx-auto"
+            @click="router.push(`/teacher/course/${course.id}`)"
           />
         </div>
         <!--The v-else needs fixing Make it an github issue/lil css-ery will help-->

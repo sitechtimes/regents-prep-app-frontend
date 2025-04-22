@@ -2,9 +2,11 @@ import pluginVue from "eslint-plugin-vue";
 import vueParser from "vue-eslint-parser";
 import tseslint from "typescript-eslint";
 import globals from "globals";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  eslintConfigPrettier,
   {
     ignores: ["**/.nuxt", "**/node_modules", "**/.output", "**/dist"]
   },

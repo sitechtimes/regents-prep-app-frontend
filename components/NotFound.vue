@@ -2,7 +2,7 @@
   <Teleport to="body">
     <Transition name="menu-scale">
       <div v-if="showModal" class="fixed left-0 top-0 z-30 flex min-h-screen w-screen items-center justify-center bg-black/45" @click="closeModal">
-        <div class="menu bg-body w-125 flex flex-col items-center justify-center gap-4 rounded-xl p-6" @click.stop>
+        <div class="menu flex w-125 flex-col items-center justify-center gap-4 rounded-xl bg-body p-6" @click.stop>
           <div class="flex w-full items-start justify-between gap-2">
             <div class="flex flex-col items-start justify-center">
               <h1 id="not-found" class="text-3xl font-semibold">Sorry!</h1>

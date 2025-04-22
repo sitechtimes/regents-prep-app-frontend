@@ -4,7 +4,7 @@
   >
     <!-- course information -->
     <div class="flex h-1/2 w-full flex-col items-center justify-end px-2 pt-2" :style="{ backgroundColor: subjectColors[course.subject] }">
-      <h2 :title="course.name" class="text-l my-1 h-1/2 w-full self-center overflow-hidden overflow-ellipsis text-nowrap text-center font-semibold md:text-2xl lg:text-3xl">
+      <h2 :title="course.name" class="my-1 h-1/2 w-full self-center overflow-hidden overflow-ellipsis text-nowrap text-center text-lg font-semibold md:text-2xl lg:text-3xl">
         {{ course.name }}
       </h2>
       <p class="text-sm md:text-lg lg:text-lg">Period {{ course.period }}</p>
@@ -14,7 +14,7 @@
 
     <div class="flex h-full min-h-24 w-full columns-2 rounded-3xl bg-body p-2">
       <div class="w-[calc(85%)] md:w-full lg:w-full">
-        <div class="sm:text-l h-1/2 text-center font-semibold sm:mb-1 md:text-xl lg:text-2xl"><h3 class="self-center pt-5">Join Code</h3></div>
+        <div class="h-1/2 text-center font-semibold sm:mb-1 sm:text-lg md:text-xl lg:text-2xl"><h3 class="self-center pt-5">Join Code</h3></div>
         <div class="h-1/2 py-2 text-center sm:text-xl md:text-2xl lg:text-3xl">
           <h2 id="copy" class="self-center">{{ course.joinCode }}</h2>
         </div>
