@@ -93,7 +93,7 @@
             :is-in-topic="topicIsInAssignment"
             :is-excluded="props.excludedQuestionIds.includes(typeof question === 'number' ? question : question.id)"
             @select="emit('selectQuestion', typeof question === 'number' ? question : question.id)"
-            @toggle-inclusion="emit('toggleInclusion', typeof question === 'number' ? question : question.id)"
+            @toggle-question-exclusion="toggleQuestionExclusion"
           />
         </div>
 
@@ -133,7 +133,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
-  toggleInclusion: [questionId: number];
+  toggleExclusion: [question: ExcludeAssignmentQuestion];
   selectTopic: [topicPath: number[]];
 }>();
 
@@ -248,6 +248,10 @@ function detectSticky() {
 
   previousPosition = newPosition;
   isSticky.value = false;
+}
+
+function toggleQuestionExclusion(questionId: number) {
+  emit("toggleExclusion", { questionId, topicPath: currentTopicPath.value });
 }
 
 onMounted(() => window.addEventListener("scroll", detectSticky));

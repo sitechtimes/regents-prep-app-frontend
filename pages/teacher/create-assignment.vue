@@ -1,5 +1,6 @@
 <template>
   <div class="flex w-full items-start justify-center gap-8">
+    <output class="fixed right-4 w-[40rem] rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">{{ assignmentInfo }}</output>
     <form
       class="sticky top-20 flex w-[35rem] shrink-0 flex-col gap-2 rounded-xl border border-neutral-400 bg-neutral-100/50 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
       @submit.prevent="createAssignment"
@@ -142,11 +143,11 @@
               </li>
             </ol>
 
-            <h3 v-if="assignmentInfo.excludedQuestionIds.length" class="text-2xl font-bold">Excluded Questions</h3>
-            <ul v-if="assignmentInfo.excludedQuestionIds.length" class="flex w-full flex-col items-start justify-start gap-2">
-              <li v-for="questionId in assignmentInfo.excludedQuestionIds" :key="questionId" class="flex w-full items-center justify-start gap-3">
+            <h3 v-if="assignmentInfo.excludedQuestions.length" class="text-2xl font-bold">Excluded Questions</h3>
+            <ul v-if="assignmentInfo.excludedQuestions.length" class="flex w-full flex-col items-start justify-start gap-2">
+              <li v-for="question in assignmentInfo.excludedQuestions" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
                 <span>•</span>
-                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[questionId].text)"></p>
+                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[question.questionId].text)"></p>
               </li>
             </ul>
           </div>
@@ -180,10 +181,10 @@
       :view-only="false"
       :current-questions="assignmentInfo.questions"
       :current-topic-ids="assignmentInfo.topicIds"
-      :excluded-question-ids="assignmentInfo.excludedQuestionIds"
+      :excluded-question-ids="assignmentInfo.excludedQuestions.map((question) => question.questionId)"
       @select-question="addQuestion"
       @select-topic="addTopic"
-      @toggle-inclusion="toggleInclusion"
+      @toggle-exclusion="toggleExclusion"
     />
   </div>
 </template>
@@ -216,7 +217,7 @@ const assignmentInfo = reactive({
     time: "23:59"
   },
   questions: ref<CreateAssignmentQuestion[]>([]),
-  excludedQuestionIds: ref<number[]>([]),
+  excludedQuestions: ref<ExcludeAssignmentQuestion[]>([]),
   topicIds: ref<number[][]>([]),
   numOfQuestions: ref<number>(),
   lateSubmissions: false,
@@ -239,9 +240,11 @@ function addQuestion(questionId: number) {
 
 function removeTopic(topicId: number) {
   // handle root
-  if (topicId === 1) assignmentInfo.topicIds = assignmentInfo.topicIds.filter((topicPath) => topicPath.length !== 0);
+  if (topicId === 1) return void (assignmentInfo.topicIds = assignmentInfo.excludedQuestions = []);
+
   // remove whatever topic we find
-  else assignmentInfo.topicIds = assignmentInfo.topicIds.filter((topicPath) => topicPath.at(-1) !== topicId);
+  assignmentInfo.topicIds = assignmentInfo.topicIds.filter((topicPath) => topicPath.at(-1) !== topicId);
+  assignmentInfo.excludedQuestions = assignmentInfo.excludedQuestions.filter((excludedQuestion) => excludedQuestion.topicPath.includes(topicId));
 }
 
 /**
@@ -258,7 +261,6 @@ function addTopic(topicPath: number[]) {
     removeTopic(topicPath.at(-1) ?? 1);
   } else {
     // it's not there. just add it
-
     // if we are adding an oldTopic's child, nuke the child :D
     assignmentInfo.topicIds = assignmentInfo.topicIds.filter((oldTopic) => !oldTopic.join(",").startsWith(newTopic));
     // add after we filter so we don't nuke the child
@@ -274,14 +276,14 @@ function toggleCourse(courseID: number, event: Event) {
   else courseIDs.splice(index, 1);
 }
 
-function toggleInclusion(questionId: number) {
-  const index = assignmentInfo.excludedQuestionIds.indexOf(questionId);
+function toggleExclusion(targetQuestion: ExcludeAssignmentQuestion) {
+  const index = assignmentInfo.excludedQuestions.map((question) => question.questionId).indexOf(targetQuestion.questionId);
 
-  if (!index) return void assignmentInfo.excludedQuestionIds.splice(index, 1);
+  if (!index) return void assignmentInfo.excludedQuestions.splice(index, 1);
 
   // if the question question is in the assignment, no it isn't
-  removeQuestion(questionId);
-  assignmentInfo.excludedQuestionIds.push(questionId);
+  removeQuestion(targetQuestion.questionId);
+  assignmentInfo.excludedQuestions.push(targetQuestion);
 }
 
 /** remove images and combine all tags into 1 \<p> */
@@ -316,8 +318,8 @@ async function createAssignment() {
       courseIDs,
       assignmentInfo.questions.filter((question) => question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.questions.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
-      assignmentInfo.topicIds.map((arr) => arr[0]),
-      [], // todo: excluded questions
+      assignmentInfo.topicIds.map((arr) => arr.at(-1) ?? 1),
+      assignmentInfo.excludedQuestions.map((question) => question.questionId),
       `${new Date(new Date(assignmentInfo.dueDate.date).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString().slice(0, 10)}T${assignmentInfo.dueDate.time}`,
       assignmentInfo.questions.length,
       assignmentInfo.lateSubmissions,

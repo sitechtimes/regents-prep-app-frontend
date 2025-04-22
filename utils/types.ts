@@ -258,3 +258,8 @@ export interface CreateAssignmentQuestion {
   questionId: number;
   isGuaranteed: boolean;
 }
+
+export interface ExcludeAssignmentQuestion {
+  questionId: number;
+  topicPath: number[];
+}
