@@ -19,9 +19,7 @@
           />
         </div>
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions"
-            >Number of Questions <span title="Required" class="font-2xl text-red-500">*</span></label
-          >
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions">Number of Questions <span title="Required" class="font-2xl text-red-500">*</span></label>
           <input
             id="numOfQuestions"
             v-model="assignmentInfo.numOfQuestions"
@@ -32,8 +30,15 @@
             @input="
               () => {
                 if (assignmentInfo.numOfQuestions) {
-                  if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId).length) {
+                  if (
+                    assignmentInfo.numOfQuestions > assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId).length &&
+                    !assignmentInfo.topicIds
+                  ) {
                     assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
+                  } else if (assignmentInfo.topicIds) {
+                    assignmentInfo.numOfQuestions < 100;
+                    //need to make this a max of 100 questions somehow lolz
+                    //also scan how many questions a topic has
                   } else {
                     if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.length) {
                       assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
@@ -150,6 +155,7 @@
         </div>
 
         <div :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : 'You must have at least one question or topic'" :class="{ 'du-tooltip': !allowedToSubmit }">
+          <!--CHANGE THIS TO INCLUDE TOO MANY QUESTIONS ERROR-->
           <button
             class="rounded-lg border px-8 py-1.5 text-xl font-medium text-black"
             :class="
@@ -216,9 +222,7 @@ const assignmentInfo = reactive({
   attemptsAllowed: ref<number>()
 });
 
-const allowedToSubmit = computed(
-  () => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length) && assignmentInfo.numOfQuestions === assignmentInfo.questionIds.length
-);
+const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length) && (assignmentInfo.numOfQuestions ?? 0) <= 100);
 
 function removeQuestion(questionId: number) {
   // prettier-ignore
