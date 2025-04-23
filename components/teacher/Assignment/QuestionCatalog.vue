@@ -156,7 +156,7 @@ async function loadQuestions(topicId: number, offset?: number) {
   // eslint-disable-next-line no-use-before-define
   totalQuestions.value = data.count;
 
-  if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = questions.map((question) => question.id);
+  if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = Array.from(new Set([...loadedTopics.value[topicId].questionIds, ...questions.map((question) => question.id)]));
   for (const question of questions) if (!loadedQuestions.value[question.id]) loadedQuestions.value[question.id] = question;
 
   displayedQuestions.value = questions;
