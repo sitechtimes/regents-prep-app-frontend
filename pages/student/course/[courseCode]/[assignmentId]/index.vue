@@ -118,20 +118,6 @@ const allQuestionsCompleted = computed(() => {
   return currentAssignment.value.assignment.numQuestions === currentAssignment.value.questionsCompleted + 1;
 });
 
-function selectChoice(choice: Answer) {
-  if (!currentQuestion.value) return;
-  currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
-  choice.selected = true;
-  selectedChoice.value = choice;
-  console.log(currentQuestion.value);
-  // currentQuestion.value.selectedAnswerId = choice.id;
-  if (currentAssignment.value?.assignment.isStatic) {
-    // storedStaticAnswers.value[currentQuestionIndex.value] = {
-    //   selectedChoice: { ...choice }
-    // };
-  }
-}
-
 const assignmentInProgress = ref(false);
 watch(assignmentInProgress, (val) => {
   if (!val) setTimeout(() => void router.push(`/student/course/${studentCurrentCourse.value?.id}`), 200);
@@ -144,6 +130,19 @@ const currentQuestionIndex = computed(() => {
   lastQuestionIndex = index;
   return index;
 });
+
+function selectChoice(choice: Answer) {
+  if (!currentQuestion.value) return;
+  currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
+  choice.selected = true;
+  selectedChoice.value = choice;
+  if ("staticUserAnswer" in currentQuestion.value) currentQuestion.value.staticUserAnswer = choice.id;
+  if (currentAssignment.value?.assignment.isStatic) {
+    storedStaticAnswers.value[currentQuestionIndex.value] = {
+      selectedChoice: { ...choice }
+    };
+  }
+}
 
 // increment time on index change. separate because immediate: true is not good for this
 watch(currentQuestionIndex, async () => {

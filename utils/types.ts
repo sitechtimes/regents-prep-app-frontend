@@ -28,7 +28,6 @@ interface QuestionInterface {
   /** @readonly ID of the question interface. */
   readonly id: number;
   question: Question;
-  staticUserAnswer: number | null;
 }
 
 export interface DynamicQuestionInterface extends QuestionInterface {
@@ -42,6 +41,7 @@ export interface StaticQuestionInterface extends QuestionInterface {
    * @warning Starts at 1, with 0 indicating an unknown index.
    */
   questionIndex: number;
+  staticUserAnswer: number | null;
 }
 
 export interface TopicQuestionInterfaceAnswer {
