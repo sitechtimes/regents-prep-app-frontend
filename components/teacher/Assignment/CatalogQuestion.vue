@@ -3,6 +3,7 @@
     class="group flex grow break-inside-avoid flex-col items-center justify-around gap-5 rounded-xl border border-neutral-300 bg-neutral-100 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
     :class="isExcluded ? 'bg-neutral-200 dark:bg-neutral-800/50' : ''"
   >
+    <output>{{ { isInAssignment, isExcluded } }}</output>
     <div class="flex w-full items-center justify-start gap-2">
       <TeacherAssignmentCatalogQuestionButton
         v-if="!viewOnly"
@@ -20,9 +21,9 @@
         />
       </div>
       <TeacherAssignmentCatalogQuestionButton
-        v-if="isInTopic"
+        v-if="isInAssignment"
         :click-function="toggleExclusion"
-        :img="`/ui/${isExcluded ? 'happy' : 'sad'}.svg`"
+        :img="`/ui/${isExcluded ? 'square-filled' : 'square-outline'}.svg`"
         :text="`${isExcluded ? 'Unexclude' : 'Exclude'} Question`"
       />
     </div>
@@ -48,7 +49,7 @@ const props = defineProps<{
   question: TopicQuestionInterface;
   showAnswerOverride: boolean;
   currentQuestions: CreateAssignmentQuestion[];
-  isInTopic: boolean;
+  isInAssignment: boolean;
   isExcluded: boolean;
 }>();
 const emit = defineEmits<{
@@ -57,7 +58,7 @@ const emit = defineEmits<{
 }>();
 
 const showAnswer = ref(false);
-const isInAssignment = computed(() => props.currentQuestions.find((_question) => props.question.id === _question.questionId));
+const isInAssignment = computed(() => props.currentQuestions.find((question) => props.question.id === question.questionId));
 
 // * these are better for performance probably
 // if these werent used then we would need to do `() => emit('select')` in the `@click-function`,

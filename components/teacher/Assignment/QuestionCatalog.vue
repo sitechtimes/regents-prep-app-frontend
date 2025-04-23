@@ -90,7 +90,7 @@
             :question="typeof question === 'number' ? loadedQuestions[question] : question"
             :show-answer-override="showQuestionAnswers"
             :current-questions="currentQuestions"
-            :is-in-topic="topicIsInAssignment"
+            :is-in-assignment="questionIsInAssignment(typeof question === 'number' ? question : question.id)"
             :is-excluded="props.excludedQuestionIds.includes(typeof question === 'number' ? question : question.id)"
             @select="emit('selectQuestion', typeof question === 'number' ? question : question.id)"
             @toggle-question-exclusion="toggleQuestionExclusion"
@@ -200,11 +200,22 @@ const exactTopicIsInAssignment = computed(() => {
   const oldTopics = props.currentTopicIds.map((path) => path.at(-1) ?? 1);
   return oldTopics.includes(currentTopic.value?.id ?? 1);
 });
+
 /** is this topic, or any of its parents in the assignment */
 const topicIsInAssignment = computed(() => {
   const oldTopics = props.currentTopicIds.map((oldTopic) => oldTopic.join(","));
   return oldTopics.some((oldTopic) => currentTopicPath.value.join(",").startsWith(oldTopic));
 });
+
+/** is this question in the assignment or any topic added to it */
+function questionIsInAssignment(questionId: number) {
+  console.log(props.currentTopicIds.some((oldTopic) => {
+    const thing = oldTopic.at(-1);
+    return loadedTopics.value[thing].questionIds.includes(questionId)
+  })
+
+  return props.currentTopicIds.some((oldTopic) => loadedTopics.value[oldTopic.at(-1) ?? 1].questionIds.includes(questionId));
+}
 
 const currentQuestionPageIndex = ref(0);
 const totalQuestions = ref(0);

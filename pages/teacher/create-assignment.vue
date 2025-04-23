@@ -116,7 +116,7 @@
           </div>
 
           <div v-else class="flex h-full w-full flex-col items-start justify-start gap-4 overflow-y-scroll py-2 pl-4">
-            <h3 v-if="assignmentInfo.topicIds.length && assignmentInfo.questions.length" class="text-2xl font-bold">Topics</h3>
+            <h2 v-if="assignmentInfo.topicIds.length && (assignmentInfo.questions.length || assignmentInfo.excludedQuestions.length)" class="text-2xl font-bold">Topics</h2>
             <ol v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
               <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId.at(-1)" class="flex w-full items-center justify-start gap-3">
                 <span>{{ index + 1 }}. </span>
@@ -279,11 +279,13 @@ function toggleCourse(courseID: number, event: Event) {
 function toggleExclusion(targetQuestion: ExcludeAssignmentQuestion) {
   const index = assignmentInfo.excludedQuestions.map((question) => question.questionId).indexOf(targetQuestion.questionId);
 
-  if (!index) return void assignmentInfo.excludedQuestions.splice(index, 1);
+  // it's in there. remove it
+  if (index !== -1) return void assignmentInfo.excludedQuestions.splice(index, 1);
 
+  // it'sn't in there, de-remove it
+  assignmentInfo.excludedQuestions.push(targetQuestion);
   // if the question question is in the assignment, no it isn't
   removeQuestion(targetQuestion.questionId);
-  assignmentInfo.excludedQuestions.push(targetQuestion);
 }
 
 /** remove images and combine all tags into 1 \<p> */
