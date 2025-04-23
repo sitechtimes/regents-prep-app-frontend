@@ -12,7 +12,7 @@
     </div>
 
     <div class="flex items-center justify-center">
-      <NuxtLink to="/student/dashboard" class="group flex items-center justify-end gap-2 md:justify-center lg:justify-center">
+      <NuxtLink to="/student/dashboard" class="group flex items-center justify-end gap-2 md:justify-center">
         <span class="text-lg font-semibold transition duration-300 group-hover:-translate-x-0.5 md:text-xl lg:text-2xl">Regents</span>
         <img class="size-12 rounded-full transition duration-300 group-hover:shadow-md group-active:scale-95" src="/siths.png" aria-hidden="true" />
         <span class="text-lg font-semibold transition duration-300 group-hover:translate-x-0.5 md:text-xl lg:text-2xl">Prep</span>

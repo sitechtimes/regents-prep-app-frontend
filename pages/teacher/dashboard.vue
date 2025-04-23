@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto flex h-full w-full flex-col items-center justify-center">
+  <div class="flex h-full w-full flex-col items-center justify-center">
     <div v-if="loaded" class="h-full w-full">
       <NotFound :show-modal="showNotFound" user-type="teacher" :message="route.query.course ? 'class' : 'assignment'" />
 
