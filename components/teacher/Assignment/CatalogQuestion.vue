@@ -3,14 +3,13 @@
     class="group flex grow break-inside-avoid flex-col items-center justify-around gap-5 rounded-xl border border-neutral-300 bg-neutral-100 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
     :class="isExcluded ? 'bg-neutral-200 dark:bg-neutral-800/50' : ''"
   >
-    <output>{{ { isInAssignment, isExcluded } }}</output>
     <div class="flex w-full items-center justify-start gap-2">
       <TeacherAssignmentCatalogQuestionButton
         v-if="!viewOnly"
         :click-function="emitSelect"
         :disable="isExcluded"
-        :img="`/ui/${isInAssignment ? 'minus' : 'plus'}.svg`"
-        :text="`${isInAssignment ? 'Remove from' : 'Add to'} assignment`"
+        :img="`/ui/${isExactlyInAssignment ? 'minus' : 'plus'}.svg`"
+        :text="`${isExactlyInAssignment ? 'Remove from' : 'Add to'} assignment`"
       />
       <div :class="{ 'du-tooltip': showAnswerOverride }" data-tip="Hide all questions first!">
         <TeacherAssignmentCatalogQuestionButton
@@ -58,7 +57,7 @@ const emit = defineEmits<{
 }>();
 
 const showAnswer = ref(false);
-const isInAssignment = computed(() => props.currentQuestions.find((question) => props.question.id === question.questionId));
+const isExactlyInAssignment = computed(() => props.currentQuestions.find((question) => props.question.id === question.questionId));
 
 // * these are better for performance probably
 // if these werent used then we would need to do `() => emit('select')` in the `@click-function`,

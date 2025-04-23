@@ -1,10 +1,13 @@
 <template>
   <div class="flex grow flex-col items-start justify-start gap-6">
-    {{ currentTopicPath }}
-    {{ currentTopic }}
-    {{ props.currentTopicIds }}
-    <span>exact: {{ exactTopicIsInAssignment }}</span>
-    <span>topic: {{ topicIsInAssignment }}</span>
+    <!-- if user is making assignments at 3am, prank em -->
+    <div v-if="new Date().getHours() === 3" class="flex flex-col gap-2">
+      {{ currentTopicPath }}
+      {{ currentTopic }}
+      {{ props.currentTopicIds }}
+      <span>exact: {{ exactTopicIsInAssignment }}</span>
+      <span>topic: {{ topicIsInAssignment }}</span>
+    </div>
     <div class="flex w-full items-center justify-start gap-2 px-10 py-2">
       <!-- back button -->
       <button
@@ -209,12 +212,13 @@ const topicIsInAssignment = computed(() => {
 
 /** is this question in the assignment or any topic added to it */
 function questionIsInAssignment(questionId: number) {
-  console.log(props.currentTopicIds.some((oldTopic) => {
-    const thing = oldTopic.at(-1);
-    return loadedTopics.value[thing].questionIds.includes(questionId)
-  })
+  // root includes everything
+  if (props.currentTopicIds[0]?.length === 0) return true;
 
-  return props.currentTopicIds.some((oldTopic) => loadedTopics.value[oldTopic.at(-1) ?? 1].questionIds.includes(questionId));
+  return props.currentTopicIds.some((oldTopic) => {
+    const thing = oldTopic.at(-1);
+    return thing && loadedTopics.value[thing].questionIds.includes(questionId);
+  });
 }
 
 const currentQuestionPageIndex = ref(0);
