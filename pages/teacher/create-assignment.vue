@@ -1,7 +1,8 @@
 <template>
   <div class="flex w-full items-start justify-center gap-8">
     <!-- if user is making assignments at 3am, prank em -->
-    <output v-if="new Date().getHours() === 3" class="fixed right-4 w-[40rem] rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">{{ assignmentInfo }}</output>
+    <!-- v-if="new Date().getHours() === 3" -->
+    <output class="fixed right-4 w-[40rem] rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">{{ assignmentInfo }}</output>
     <form
       class="sticky top-20 flex w-[35rem] shrink-0 flex-col gap-2 rounded-xl border border-neutral-400 bg-neutral-100/50 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
       @submit.prevent="createAssignment"

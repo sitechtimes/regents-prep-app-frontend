@@ -1,7 +1,8 @@
 <template>
   <div class="flex grow flex-col items-start justify-start gap-6">
     <!-- if user is making assignments at 3am, prank em -->
-    <div v-if="new Date().getHours() === 3" class="flex flex-col gap-2">
+    <!-- v-if="new Date().getHours() === 3" -->
+    <div class="flex flex-col gap-2">
       {{ currentTopicPath }}
       {{ currentTopic }}
       {{ props.currentTopicIds }}
