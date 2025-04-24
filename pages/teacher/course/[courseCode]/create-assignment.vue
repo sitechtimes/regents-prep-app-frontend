@@ -19,7 +19,9 @@
           />
         </div>
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions">Number of Questions <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions"
+            >Number of Questions <span title="Required" class="font-2xl text-red-500">*</span></label
+          >
           <input
             id="numOfQuestions"
             v-model="assignmentInfo.numOfQuestions"
@@ -35,10 +37,9 @@
                     !assignmentInfo.topicIds
                   ) {
                     assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
-                  } else if (assignmentInfo.topicIds) {
-                    assignmentInfo.numOfQuestions < 100;
-                    //need to make this a max of 100 questions somehow lolz
-                    //also scan how many questions a topic has
+                  } else if (assignmentInfo.topicIds && assignmentInfo.numOfQuestions > totalQuestions + assignmentInfo.questionIds.length) {
+                    assignmentInfo.numOfQuestions = totalQuestions;
+                    //figure out how to access totalQuestions
                   } else {
                     if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.length) {
                       assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
@@ -154,8 +155,7 @@
           <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base text-black dark:text-white" for="late-submissions">Allow late submissions</label>
         </div>
 
-        <div :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : 'You must have at least one question or topic'" :class="{ 'du-tooltip': !allowedToSubmit }">
-          <!--CHANGE THIS TO INCLUDE TOO MANY QUESTIONS ERROR-->
+        <div :data-tip="submitErrorMessage" :class="{ 'du-tooltip': !allowedToSubmit }">
           <button
             class="rounded-lg border px-8 py-1.5 text-xl font-medium text-black"
             :class="
@@ -220,6 +220,22 @@ const assignmentInfo = reactive({
   /** In minutes */
   timeAllotted: ref<number>(),
   attemptsAllowed: ref<number>()
+});
+
+const submitErrorMessage = computed(() => {
+  if (!assignmentInfo.name) {
+    return "Assignment must have a name";
+  }
+
+  if (!assignmentInfo.questionIds.length && !assignmentInfo.topicIds.length) {
+    return "You must have at least one question or topic";
+  }
+
+  if ((assignmentInfo.numOfQuestions ?? 0) > 100) {
+    return "Number of questions cannot exceed 100";
+  }
+
+  return "";
 });
 
 const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length) && (assignmentInfo.numOfQuestions ?? 0) <= 100);
