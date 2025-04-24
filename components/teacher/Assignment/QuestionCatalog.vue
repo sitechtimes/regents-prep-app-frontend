@@ -1,18 +1,18 @@
 <template>
-  <div class="flex grow flex-col items-start justify-start gap-6">
+  <div class="flex w-fit grow flex-col items-start justify-start gap-6 px-4">
     <!-- if user is making assignments at 3am, prank em -->
     <!-- v-if="new Date().getHours() === 3" -->
-    <div class="flex flex-col gap-2">
+    <!-- <div class="flex flex-col gap-2">
       {{ currentTopicPath }}
       {{ currentTopic }}
       {{ props.currentTopicIds }}
       <span>exact: {{ exactTopicIsInAssignment }}</span>
       <span>topic: {{ topicIsInAssignment }}</span>
-    </div>
-    <div class="flex w-full items-center justify-start gap-2 px-10 py-2">
+    </div> -->
+    <div class="flex w-full flex-col items-baseline justify-start gap-2 px-4 py-2 sm:flex-row sm:items-center sm:px-10">
       <!-- back button -->
       <button
-        class="group mx-4 my-4 flex items-center justify-center gap-2 rounded-xl border border-neutral-300 px-5 py-2 text-xl hover:bg-neutral-100/50 dark:bg-neutral-900 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+        class="group m-2 flex items-center justify-center gap-2 rounded-xl border border-neutral-300 px-5 py-2 text-xl hover:bg-neutral-100/50 sm:m-4 dark:bg-neutral-900 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
         :class="{ 'pointer-events-none bg-neutral-300': !currentTopicPath.length }"
         type="button"
         :disabled="!currentTopicPath.length"
@@ -22,23 +22,27 @@
         Back
       </button>
 
-      <button
-        class="rounded-lg border border-neutral-300 p-6 px-4 pb-0.5 pt-1 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
-        type="button"
-        @click="currentTopic = undefined"
-      >
-        ALL TOPICS
-      </button>
-      <img v-show="currentTopicPath.length" class="size-5" src="/ui/doubleChevronRight.svg" aria-hidden="true" />
+      <div class="du-breadcrumbs !overflow-visible">
+        <ul class="flex flex-col flex-wrap !items-baseline !overflow-visible sm:flex-row sm:!items-center">
+          <li class="w-fit space-y-2">
+            <button
+              class="rounded-lg border border-neutral-300 p-6 px-4 pb-0.5 pt-1 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+              type="button"
+              @click="currentTopic = undefined"
+            >
+              ALL TOPICS
+            </button>
+          </li>
 
-      <div v-for="(topic, index) in currentTopicPath" class="flex items-center justify-center gap-2">
-        <button
-          class="rounded-lg border border-neutral-300 p-6 px-4 pb-0.5 pt-1 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
-          type="button"
-          @click="currentTopic = loadedTopics[topic]"
-          v-html="loadedTopics[topic]?.name"
-        ></button>
-        <img v-if="index < currentTopicPath.length - 1" class="size-5" src="/ui/doubleChevronRight.svg" aria-hidden="true" />
+          <li v-for="topic in currentTopicPath" class="flex w-fit items-center justify-center space-y-2 text-wrap">
+            <button
+              class="rounded-lg border border-neutral-300 p-6 px-4 pb-0.5 pt-1 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+              type="button"
+              @click="currentTopic = loadedTopics[topic]"
+              v-html="loadedTopics[topic]?.name"
+            ></button>
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -86,7 +90,7 @@
           </div>
         </div>
 
-        <div class="w-full columns-2 gap-4 space-y-4">
+        <div class="w-full gap-4 space-y-4 sm:columns-2">
           <LazyTeacherAssignmentCatalogQuestion
             v-for="question in displayedQuestions"
             :key="typeof question === 'number' ? question : question.id"

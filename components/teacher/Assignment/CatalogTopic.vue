@@ -1,6 +1,6 @@
 <template>
   <button
-    class="max-w-1/2 group flex w-[45%] grow items-center justify-between gap-6 self-stretch rounded-xl border border-neutral-300 bg-neutral-100 px-5 py-2 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50"
+    class="sm:max-w-1/2 group flex grow items-center justify-between gap-6 self-stretch rounded-xl border border-neutral-300 bg-neutral-100 px-5 py-2 sm:w-[45%] dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50"
     type="button"
     @click="emit('select', topic)"
   >

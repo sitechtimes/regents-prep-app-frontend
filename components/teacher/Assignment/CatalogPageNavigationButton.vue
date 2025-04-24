@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex items-center justify-center rounded-xl bg-neutral-200 p-1 hover:bg-neutral-300"
+    class="flex items-center justify-center rounded-xl bg-neutral-200 p-1 hover:bg-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700"
     :class="{ 'cursor-not-allowed bg-neutral-400 hover:bg-neutral-400': disable }"
     type="button"
     :disabled="disable"
