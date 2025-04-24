@@ -10,7 +10,7 @@
         </div>
         <div class="relative flex w-96 flex-col items-center justify-center gap-1">
           <button class="w-40 items-center rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
-            <NuxtLink to="/reset-password/confirm" class="text-lg">Snnd</NuxtLink>
+            <NuxtLink to="/reset-password/confirm" class="text-lg">Send</NuxtLink>
           </button>
         </div>
       </form>

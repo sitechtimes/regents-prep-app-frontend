@@ -197,3 +197,11 @@ export async function deleteAssignment(assignmentId: number) {
 export async function deleteCourse(courseId: number) {
   return requestEndpoint<TeacherCourse>(`/courses/teacher/delete/course/${courseId}`, "DELETE");
 }
+
+export async function resetPassword(email: string) {
+  return requestEndpoint<void>(`/accounts/reset-password/`, "POST", { email });
+}
+
+export async function confirmResetPassword(email: string, token: string, newPassword: string) {
+  return requestEndpoint<void>(`/accounts/reset-password/${email}/${token}/`, "POST", { newPassword });
+}
