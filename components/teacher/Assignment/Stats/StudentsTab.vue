@@ -84,7 +84,7 @@ watch(currentStudent, async (student) => {
 
   if (loadedStudentStatistics[student.id]) currentStudentStatistics.value = loadedStudentStatistics[student.id];
   else {
-    const { data, error } = await tryCatch(getIndividualStudentStatistics(props.currentAssignment.id, student.id, true));
+    const { data, error } = await tryCatch(getIndividualStudentStatistics(props.currentAssignment.id, true));
     if (error) return console.error(error);
 
     loadedStudentStatistics[student.id] = data;

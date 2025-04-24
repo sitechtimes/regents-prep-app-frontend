@@ -5,68 +5,27 @@
         <Transition name="menu-slide">
           <div v-if="assignmentInProgress" class="fixed left-0 top-0 z-50 flex h-dvh w-screen items-center justify-center bg-body">
             <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" @close="assignmentInProgress = false" />
-            <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
-              <h2 class="mb-2 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-              <p class="overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
-              <!-- multiple choice selection -->
-              <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
-                <button
-                  type="button"
-                  class="w-full rounded-lg bg-neutral-200 px-6 py-3 text-left shadow-sm hover:bg-neutral-500/50 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
-                  :class="{ 'bg-neutral-500/50 dark:bg-neutral-500/75': choice.selected }"
-                  @click="selectChoice(choice)"
-                  v-html="choice.text"
-                ></button>
-              </div>
-
-              <!-- static assignment navigation -->
-              <div v-if="currentAssignment.assignment.isStatic" class="mt-8 flex w-full items-center justify-between gap-6 px-10">
-                <button
-                  class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
-                  type="button"
-                  :disabled="currentQuestionIndex === 0"
-                  :class="{ 'cursor-not-allowed opacity-50': currentQuestionIndex === 0 }"
-                  @click="switchQuestion('previous')"
-                >
-                  <img class="size-5 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
-                  Back
-                </button>
-                <button
-                  class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
-                  type="button"
-                  :disabled="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
-                  :class="{ 'cursor-not-allowed opacity-50': currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 }"
-                  @click="switchQuestion('next')"
-                >
-                  Next
-                  <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
-                </button>
-              </div>
-
-              <!-- dynamic assignments submit question button -->
-              <div v-if="!currentAssignment.assignment.isStatic && !allQuestionsCompleted" class="" :class="{ 'du-tooltip': !selectedChoice }" data-tip="Complete all questions first!">
-                <button
-                  class="mt-8 flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:text-white dark:hover:brightness-150"
-                  type="button"
-                  :disabled="!currentQuestion?.question.answers.some((answer) => answer.selected)"
-                  :class="{ 'cursor-not-allowed grayscale': !currentQuestion?.question.answers.some((answer) => answer.selected) }"
-                  @click="submitQuestion"
-                >
-                  Submit Question
-                </button>
-              </div>
-
-              <!-- feedback messages -->
-              <p v-if="feedbackMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ feedbackMessage }}</p>
-              <p v-if="errorMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ errorMessage }}</p>
-              <!-- all questions answered alert -->
-              <div v-if="currentAssignment.assignment.numQuestions === currentAssignment.questionsCompleted" class="mb-6 w-full">
-                <div class="flex items-center justify-center">
-                  <p class="text-center text-lg font-medium text-black">All questions have been answered! You may now submit your assignment.</p>
-                </div>
-              </div>
-            </div>
+            <StudentAssignmentStaticQuestion
+              v-if="currentAssignment.assignment.isStatic && currentQuestion && 'staticUserAnswer' in currentQuestion"
+              :current-assignment="currentAssignment"
+              :current-question="currentQuestion"
+              :current-question-index="currentQuestionIndex"
+              :all-questions-completed="allQuestionsCompleted"
+              :selected-choice="selectedChoice"
+              @change-current-question="(question) => (currentQuestion = question)"
+              @submit-question="submitQuestion"
+              @switch-question="(direction) => switchQuestion(direction)"
+              @select-choice="(choice) => (selectedChoice = choice)"
+            />
+            <StudentAssignmentDynamicQuestion
+              v-else-if="!currentAssignment.assignment.isStatic && currentQuestion && !('staticUserAnswer' in currentQuestion)"
+              :current-assignment="currentAssignment"
+              :current-question="currentQuestion"
+              :current-question-index="currentQuestionIndex"
+              @submit-question="submitQuestion"
+              @select-choice="(choice) => (selectedChoice = choice)"
+            />
           </div>
         </Transition>
       </Teleport>
@@ -86,13 +45,69 @@ const router = useRouter();
 const userStore = useUserStore();
 const { studentCurrentCourse, currentQuestion } = storeToRefs(userStore);
 
-const feedbackMessage = ref("");
-const errorMessage = ref("");
+const assignmentId = Number(route.params.assignmentId);
+const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
+
+/**checks if all questions in assignment are completed */
+const allQuestionsCompleted = computed(() => currentAssignment.value && currentAssignment.value.assignment.numQuestions === currentAssignment.value.questionsCompleted + 1);
+
+const assignmentInProgress = ref(false);
+watch(assignmentInProgress, (val) => {
+  if (!val) setTimeout(() => void router.push(`/student/course/${studentCurrentCourse.value?.id}`), 200);
+});
+
+let lastQuestionIndex = 0;
+const currentQuestionIndex = computed(() => {
+  const query = Math.max(0, Number(route.query.q) - 1);
+  const index = Number.isNaN(query) ? lastQuestionIndex : query;
+  lastQuestionIndex = index;
+  return index;
+});
+
+async function getQuestionByIndex(index: number) {
+  if (!currentAssignment.value) return;
+
+  // load question
+  let question = currentAssignment.value.assignment.questionInterfaces[index] as StaticQuestionInterface | DynamicQuestionInterface | undefined;
+  if (!question) {
+    const { data, error } = currentAssignment.value.assignment.isStatic
+      ? await tryCatch(getNextStaticQuestion(currentAssignment.value.id, index + 1))
+      : await tryCatch(getNextDynamicQuestion(currentAssignment.value.id));
+    if (error) return;
+
+    data.question.answers.forEach((answer) => (answer.selected = answer.id === ("staticUserAnswer" in data && data.staticUserAnswer ? data.staticUserAnswer : false)));
+    question = data;
+    currentAssignment.value.assignment.questionInterfaces[index] = data;
+  }
+
+  return question;
+}
+
+async function fetchQuestionOnMounted() {
+  if (!currentAssignment.value) return;
+
+  console.log(currentAssignment.value);
+  if (!currentAssignment.value.assignment.isStatic && currentQuestionIndex.value !== currentAssignment.value.questionsCompleted) {
+    await changeRouteQuery({ q: currentAssignment.value.questionsCompleted + 1 });
+    return void fetchQuestionOnMounted();
+  }
+
+  const questionIndicesToGet = Array.from(
+    new Set([
+      currentQuestionIndex.value, // current
+      currentQuestionIndex.value - 1 > 0 ? currentQuestionIndex.value - 1 : 0, // before
+      currentQuestionIndex.value + 1 < currentAssignment.value.assignment.numQuestions ? currentQuestionIndex.value + 1 : currentAssignment.value.assignment.numQuestions - 1 // next
+    ])
+  );
+
+  const question = currentAssignment.value.assignment.isStatic ? await questionIndicesToGet.map(async (index) => getQuestionByIndex(index))[0] : await getQuestionByIndex(currentQuestionIndex.value);
+
+  if (question) currentQuestion.value = question;
+}
+onMounted(fetchQuestionOnMounted);
 
 const selectedChoice = ref<Answer>();
 let timestamp = Date.now();
-
-const storedStaticAnswers = ref<Record<number, { selectedChoice: Answer }>>({});
 /**
  * gets time spent on current question
  * @returns how many seconds since last update
@@ -109,43 +124,7 @@ function incrementTime() {
   void incrementQuestionTime(currentQuestion.value.id, getDeltaTime());
 }
 
-const assignmentId = Number(route.params.assignmentId);
-const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
-
-/**checks if all questions in assignment are completed */
-const allQuestionsCompleted = computed(() => {
-  if (!currentAssignment.value) return false;
-  return currentAssignment.value.assignment.numQuestions === currentAssignment.value.questionsCompleted + 1;
-});
-
-const assignmentInProgress = ref(false);
-watch(assignmentInProgress, (val) => {
-  if (!val) setTimeout(() => void router.push(`/student/course/${studentCurrentCourse.value?.id}`), 200);
-});
-
-let lastQuestionIndex = 0;
-const currentQuestionIndex = computed(() => {
-  const query = Math.max(0, Number(route.query.q) - 1);
-  const index = Number.isNaN(query) ? lastQuestionIndex : query;
-  lastQuestionIndex = index;
-  return index;
-});
-
-function selectChoice(choice: Answer) {
-  if (!currentQuestion.value) return;
-  currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
-  choice.selected = true;
-  selectedChoice.value = choice;
-  if ("staticUserAnswer" in currentQuestion.value) currentQuestion.value.staticUserAnswer = choice.id;
-  if (currentAssignment.value?.assignment.isStatic) {
-    storedStaticAnswers.value[currentQuestionIndex.value] = {
-      selectedChoice: { ...choice }
-    };
-  }
-}
-
-// increment time on index change. separate because immediate: true is not good for this
-watch(currentQuestionIndex, async () => {
+async function saveProgress() {
   if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
   if (selectedChoice.value) {
     const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
@@ -153,51 +132,12 @@ watch(currentQuestionIndex, async () => {
   } else {
     incrementTime();
   }
+}
+// increment time on index change. separate because immediate: true is not good for this
+watch(currentQuestionIndex, async () => {
+  if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
+  await saveProgress();
 });
-
-watch(
-  currentQuestionIndex,
-  async () => {
-    if (!currentAssignment.value) return;
-    if (!currentAssignment.value.assignment.isStatic && currentQuestionIndex.value !== currentAssignment.value.questionsCompleted)
-      return void changeRouteQuery({ q: currentAssignment.value.questionsCompleted + 1 });
-
-    // load question
-    let question = currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] as StaticQuestionInterface | DynamicQuestionInterface | undefined;
-    if (!question) {
-      const { data, error } = currentAssignment.value.assignment.isStatic
-        ? await tryCatch(getNextStaticQuestion(currentAssignment.value.id, currentQuestionIndex.value + 1))
-        : await tryCatch(getNextDynamicQuestion(currentAssignment.value.id));
-
-      if (error) {
-        console.error(error);
-        errorMessage.value = "Error fetching question. Please try again.";
-      } else {
-        question = data;
-        currentAssignment.value.assignment.questionInterfaces[currentQuestionIndex.value] = data;
-      }
-    }
-
-    console.log(currentAssignment.value.assignment.questionInterfaces);
-
-    // highlight selected answer
-    currentQuestion.value = question;
-
-    if (currentAssignment.value.assignment.isStatic) {
-      const cachedAnswer = storedStaticAnswers.value[currentQuestionIndex.value];
-      if (cachedAnswer && question) {
-        // question.selectedAnswerId = cachedAnswer.selectedChoice.id;
-        question.question.answers.forEach((answer) => {
-          answer.selected = answer.id === cachedAnswer.selectedChoice.id;
-        });
-        selectedChoice.value = question.question.answers.find((answer) => answer.id === cachedAnswer.selectedChoice.id);
-      } else {
-        selectedChoice.value = undefined;
-      }
-    }
-  },
-  { immediate: true }
-);
 
 async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
@@ -208,15 +148,13 @@ async function switchQuestion(direction: "previous" | "next") {
 async function submitQuestion() {
   if (!selectedChoice.value || !currentQuestion.value) return;
 
-  const { data: response, error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
+  const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
   if (error) return console.error("Error submitting question:", error);
 
-  if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
-  else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
-  else if (!response.remainingAttempts) feedbackMessage.value = `Incorrect. Try again!`;
-  else feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts} attempts left.`;
-
-  if (response.isCorrect || response.remainingAttempts === 0) await switchQuestion("next");
+  // if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
+  // else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
+  // else if (!response.remainingAttempts) feedbackMessage.value = `Incorrect. Try again!`;
+  // else feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts} attempts left.`;
 }
 
 onBeforeMount(() => {
@@ -225,7 +163,7 @@ onBeforeMount(() => {
 
 function warnForUnsavedChanges(event: BeforeUnloadEvent) {
   event.preventDefault();
-  // TODO: add api call to save progress
+  void saveProgress();
 }
 
 function handleVisibilityTime() {
@@ -235,7 +173,9 @@ function handleVisibilityTime() {
   else timestamp = Date.now();
 }
 
+let unguardRoute: () => void;
 onMounted(() => {
+  unguardRoute = router.beforeEach(() => void saveProgress());
   assignmentInProgress.value = true;
   window.addEventListener("beforeunload", warnForUnsavedChanges);
   window.addEventListener("visibilitychange", handleVisibilityTime);
@@ -245,6 +185,7 @@ onMounted(() => {
 onBeforeUnmount(incrementTime);
 
 onUnmounted(() => {
+  unguardRoute();
   window.removeEventListener("visibilitychange", handleVisibilityTime);
   window.removeEventListener("beforeunload", warnForUnsavedChanges);
 });

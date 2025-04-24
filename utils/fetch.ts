@@ -193,10 +193,8 @@ export async function getTeacherStudentStatistics<T extends boolean>(assignmentI
  * @param studentIds - The student IDs for which to get statistics.
  * @param includeQuestions - Whether to include questions, or just their IDs.
  */
-export async function getIndividualStudentStatistics<T extends boolean>(assignmentId: number, studentId: number, includeQuestions: T) {
-  return requestEndpoint<(StaticIndividualStudentStatistic<T> | DynamicIndividualStudentStatistic<T>)[]>(
-    `/courses/teacher/assignment/${assignmentId}/individualized-statistics/${studentId}/${includeQuestions}`
-  );
+export async function getIndividualStudentStatistics<T extends boolean>(assignmentId: number, includeQuestions: T) {
+  return requestEndpoint<(StaticIndividualStudentStatistic<T> | DynamicIndividualStudentStatistic<T>)[]>(`/courses/teacher/assignment/individualized-statistics/${assignmentId}/${includeQuestions}`);
 }
 
 /** Requests the `questions/teacher/topics/<topicId>` endpoint */

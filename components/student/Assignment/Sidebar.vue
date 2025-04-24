@@ -37,7 +37,7 @@
     </div>
 
     <div class="bg-neutral-00/25 flex h-full w-full flex-col items-start justify-start p-4 dark:bg-none">
-      <h4 class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-2xl font-medium">{{ assignment.assignment.name }}</h4>
+      <h4 class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-2xl font-medium" :title="assignment.assignment.name">{{ assignment.assignment.name }}</h4>
       <p class="text-sm font-bold">Due {{ formatDate(assignment.assignment.dueDate, currentDate) }}</p>
       <p class="text-sm text-neutral-700 dark:text-white">Assigned {{ formatDate(assignment.assignment.dateAssigned, currentDate) }}</p>
 
@@ -75,8 +75,9 @@ const submitState = reactive({
 const assignmentIsComplete = computed(() => {
   const questionInterfaces = Object.values(props.assignment.assignment.questionInterfaces);
   return (
-    questionInterfaces.length === props.assignment.assignment.numQuestions && // every question has been loaded
-    questionInterfaces.every((questionInterface) => questionInterface.question.answers.some((answer) => answer.selected)) // every question has been answered
+    (questionInterfaces.length === props.assignment.assignment.numQuestions && // every question has been loaded
+      questionInterfaces.every((questionInterface) => questionInterface.question.answers.some((answer) => answer.selected))) || // every question has been answered
+    props.assignment.assignment.numQuestions === props.assignment.questionsCompleted // not all questions loaded but everything still answered
   );
 });
 
