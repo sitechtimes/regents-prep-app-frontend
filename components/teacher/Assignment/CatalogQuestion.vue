@@ -3,7 +3,7 @@
     class="group flex grow break-inside-avoid flex-col items-center justify-around gap-5 rounded-xl border border-neutral-300 bg-neutral-100 p-6 dark:border-neutral-600 dark:bg-neutral-600/50"
     :class="isExcluded ? 'bg-neutral-200 dark:bg-neutral-800/50' : ''"
   >
-    <div class="flex w-full items-center justify-start gap-2">
+    <div class="flex w-full items-center justify-end gap-2 sm:justify-start">
       <TeacherAssignmentCatalogQuestionButton
         v-if="!viewOnly"
         :click-function="emitSelect"

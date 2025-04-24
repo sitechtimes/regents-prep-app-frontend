@@ -24,9 +24,9 @@
 
       <div class="du-breadcrumbs !overflow-visible">
         <ul class="flex flex-col flex-wrap !items-baseline !overflow-visible sm:flex-row sm:!items-center">
-          <li class="w-fit space-y-2">
+          <li class="my-2 w-fit">
             <button
-              class="rounded-lg border border-neutral-300 p-6 px-4 pb-0.5 pt-1 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+              class="rounded-lg border border-neutral-300 px-4 py-2 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
               type="button"
               @click="currentTopic = undefined"
             >
@@ -34,9 +34,9 @@
             </button>
           </li>
 
-          <li v-for="topic in currentTopicPath" class="flex w-fit items-center justify-center space-y-2 text-wrap">
+          <li v-for="topic in currentTopicPath" class="my-2 flex w-fit items-center justify-center text-wrap">
             <button
-              class="rounded-lg border border-neutral-300 p-6 px-4 pb-0.5 pt-1 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+              class="rounded-lg border border-neutral-300 px-4 py-2 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
               type="button"
               @click="currentTopic = loadedTopics[topic]"
               v-html="loadedTopics[topic]?.name"
@@ -65,23 +65,17 @@
           <h3 class="text-2xl font-bold">Questions</h3>
           <div class="flex items-center justify-center gap-4">
             <!-- boolean stuff is to stop people from adding the child of an already added topic -->
-            <div
-              class="du-tooltip"
-              :class="{ 'du-tooltip-bottom': isSticky }"
-              :data-tip="
+            <TeacherAssignmentCatalogQuestionButton
+              v-if="!viewOnly"
+              :click-function="() => emit('selectTopic', [...currentTopicPath])"
+              :img="`/ui/${exactTopicIsInAssignment ? 'minus' : 'plus'}.svg`"
+              :text="
                 exactTopicIsInAssignment === topicIsInAssignment || (exactTopicIsInAssignment && !topicIsInAssignment)
                   ? `${exactTopicIsInAssignment ? 'Remove' : 'Add'} all questions of this topic ${exactTopicIsInAssignment ? 'from' : 'to'} the assignment`
                   : `You've already added a parent topic!`
               "
-            >
-              <TeacherAssignmentCatalogQuestionButton
-                v-if="!viewOnly"
-                :click-function="() => emit('selectTopic', [...currentTopicPath])"
-                :img="`/ui/${exactTopicIsInAssignment ? 'minus' : 'plus'}.svg`"
-                :text="`${exactTopicIsInAssignment ? 'Remove' : 'Add'} all questions`"
-                :disable="!(exactTopicIsInAssignment === topicIsInAssignment || (exactTopicIsInAssignment && !topicIsInAssignment))"
-              />
-            </div>
+              :disable="!(exactTopicIsInAssignment === topicIsInAssignment || (exactTopicIsInAssignment && !topicIsInAssignment))"
+            />
             <TeacherAssignmentCatalogQuestionButton
               :click-function="() => (showQuestionAnswers = !showQuestionAnswers)"
               :img="`/ui/${showQuestionAnswers ? 'eyeHide' : 'eyeShow'}.svg`"
