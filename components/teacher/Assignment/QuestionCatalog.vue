@@ -61,6 +61,7 @@
                 :click-function="() => emit('selectTopic', currentTopic?.id ?? 1)"
                 :img="`/ui/${topicIsInAssignment ? 'minus' : 'plus'}.svg`"
                 :text="`${topicIsInAssignment ? 'Remove' : 'Add'} all questions`"
+                @click="() => emit('accessQuestions', totalQuestions ?? 1)"
               />
             </div>
             <TeacherAssignmentCatalogQuestionButton
@@ -118,6 +119,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
   selectTopic: [topicId: number];
+  accessQuestions: [totalQuestions: number];
 }>();
 
 const userStore = useUserStore();

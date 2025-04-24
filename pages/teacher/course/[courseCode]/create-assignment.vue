@@ -38,7 +38,7 @@
                   ) {
                     assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
                   } else if (assignmentInfo.topicIds && assignmentInfo.numOfQuestions > totalQuestions + assignmentInfo.questionIds.length) {
-                    assignmentInfo.numOfQuestions = totalQuestions;
+                    assignmentInfo.numOfQuestions = allTotalQuestions + assignmentInfo.questionIds.length;
                     //figure out how to access totalQuestions
                   } else {
                     if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.length) {
@@ -174,7 +174,7 @@
     <!--
     if all questions are guaranteed, check that numOfQuestions = inputField.length
     if mixture of guaranteed and random, check that numOfQuestions >= inputField.length 
-    guaranteedQuestions.length < inputField.value < totalQuestions.length
+    guaranteedQuestions.length < inputField.value < fselectTopic.length
     -->
 
     <TeacherAssignmentQuestionCatalog
@@ -183,6 +183,7 @@
       :current-topic-ids="assignmentInfo.topicIds"
       @select-question="addQuestion"
       @select-topic="addTopic"
+      @access-questions="calcTotalQuestions"
     />
   </div>
 </template>
@@ -239,6 +240,11 @@ const submitErrorMessage = computed(() => {
 });
 
 const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length) && (assignmentInfo.numOfQuestions ?? 0) <= 100);
+const allTotalQuestions = ref(0);
+
+function calcTotalQuestions(totalQuestions: number) {
+  console.log(totalQuestions);
+}
 
 function removeQuestion(questionId: number) {
   // prettier-ignore
