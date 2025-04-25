@@ -199,9 +199,14 @@ export async function deleteCourse(courseId: number) {
 }
 
 export async function resetPassword(email: string) {
-  return requestEndpoint<void>(`/accounts/reset-password/`, "POST", { email });
+  return requestEndpoint<void>(`/auth/password/reset/`, "POST", { email });
 }
 
-export async function confirmResetPassword(email: string, token: string, newPassword: string) {
-  return requestEndpoint<void>(`/accounts/reset-password/${email}/${token}/`, "POST", { newPassword });
+export async function confirmResetPassword(uid: string, token: string, newPassword1: string, newPassword2: string) {
+  return requestEndpoint<void>(`/auth/password/reset/confirm/`, "POST", {
+    uid,
+    token,
+    newPassword1,
+    newPassword2
+  });
 }

@@ -1,15 +1,38 @@
 <template>
-  <div class="flex min-h-screen w-screen flex-col items-center justify-center py-12">
-    <h1 class="text-4xl font-bold">Set New Password</h1>
-    <div class="mt-2 flex flex-col items-center rounded-2xl p-6">
-      <form class="flex flex-col gap-4" @submit.prevent="placeholder">
-        <input v-model="newPassword1" type="password" placeholder="New Password" required class="rounded-lg bg-gray-accent px-4 py-3 text-neutral-900" />
-        <input v-model="newPassword2" type="password" placeholder="Confirm New Password" required class="rounded-lg bg-gray-accent px-4 py-3 text-neutral-900" />
-        <p v-if="notMatching" class="mt-4 text-red-500">Passwords do not match</p>
-        <button type="submit" class="mt-4 w-80 rounded-lg bg-green-accent py-2">
-          <span v-if="loading" class="loading du-loading du-loading-sm"></span>
-          <span v-else>Reset Password</span>
-        </button>
+  <div class="bg-gray flex min-h-screen w-screen flex-col items-center justify-center py-12">
+    <h1 class="text-5xl font-bold">Set New Password</h1>
+    <div class="mb-4 flex flex-col items-center justify-center rounded-3xl bg-[color:var(--bg-color)] p-4">
+      <form class="login flex w-full flex-col items-center justify-center gap-7" @submit.prevent="placeholder">
+        <div class="relative flex flex-col items-start justify-center gap-1">
+          <label class="font-medium" for="newPassword1">New Password <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <input
+            id="newPassword1"
+            v-model="newPassword1"
+            class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
+            type="password"
+            required
+          />
+        </div>
+
+        <div class="relative flex flex-col items-start justify-center gap-1">
+          <label class="font-medium" for="newPassword2">Confirm New Password <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <input
+            id="newPassword2"
+            v-model="newPassword2"
+            class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
+            type="password"
+            required
+          />
+        </div>
+
+        <p v-if="notMatching" class="error font-medium text-red-500">Passwords do not match</p>
+
+        <div class="relative flex w-96 flex-col items-center justify-center gap-1">
+          <button class="w-52 items-center rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
+            <span v-if="loading" class="loading du-loading du-loading-sm mt-1"></span>
+            <span v-else class="text-lg">Reset Password</span>
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -29,4 +52,8 @@ function placeholder() {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.error {
+  @apply -bottom-7;
+}
+</style>
