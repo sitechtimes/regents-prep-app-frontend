@@ -199,11 +199,11 @@ export async function deleteCourse(courseId: number) {
 }
 
 export async function resetPassword(email: string) {
-  return requestEndpoint<void>(`/auth/password/reset/`, "POST", { email });
+  return requestEndpoint(`/auth/password/reset/`, "POST", { email });
 }
 
 export async function confirmResetPassword(uid: string, token: string, newPassword1: string, newPassword2: string) {
-  return requestEndpoint<void>(`/auth/password/reset/confirm/`, "POST", {
+  return requestEndpoint(`/auth/password/reset/confirm/`, "POST", {
     uid,
     token,
     newPassword1,
