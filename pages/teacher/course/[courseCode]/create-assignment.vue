@@ -37,7 +37,7 @@
                     !assignmentInfo.topicIds
                   ) {
                     assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
-                  } else if (assignmentInfo.topicIds && assignmentInfo.numOfQuestions > totalQuestions + assignmentInfo.questionIds.length) {
+                  } else if (assignmentInfo.topicIds && assignmentInfo.numOfQuestions > allTotalQuestions + assignmentInfo.questionIds.length) {
                     assignmentInfo.numOfQuestions = allTotalQuestions + assignmentInfo.questionIds.length;
                     //figure out how to access totalQuestions
                   } else {
@@ -243,7 +243,8 @@ const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.qu
 const allTotalQuestions = ref(0);
 
 function calcTotalQuestions(totalQuestions: number) {
-  console.log(totalQuestions);
+  allTotalQuestions.value += totalQuestions;
+  console.log(allTotalQuestions.value);
 }
 
 function removeQuestion(questionId: number) {
@@ -259,8 +260,11 @@ function removeTopic(topicId: number) {
   assignmentInfo.topicIds.splice(assignmentInfo.topicIds.indexOf(topicId), 1);
 }
 function addTopic(topicId: number) {
-  if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) assignmentInfo.topicIds.push(topicId);
-  else removeTopic(topicId);
+  if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) {
+    assignmentInfo.topicIds.push(topicId);
+    const questionsFromTopic = loadedTopics.value[topicId]?.questionIds?.length || 0;
+    calcTotalQuestions(questionsFromTopic);
+  } else removeTopic(topicId);
 }
 
 const createAssignmentResult = reactive({
