@@ -88,6 +88,7 @@ export interface TopicMapped extends Topic {
   children: number[] | null;
   parents: number[] | null;
   questionIds: number[];
+  questionCount: number;
 }
 
 export interface CreateCourse {

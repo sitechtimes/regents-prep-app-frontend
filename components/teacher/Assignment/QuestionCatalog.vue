@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-fit grow flex-col items-start justify-start gap-6 px-4">
+  <div class="flex w-fit grow flex-col items-start justify-start gap-6 lg:px-4">
     <!-- if user is making assignments at 3am, prank em -->
     <!-- v-if="new Date().getHours() === 3" -->
     <!-- <div class="flex flex-col gap-2">
@@ -9,10 +9,10 @@
       <span>exact: {{ exactTopicIsInAssignment }}</span>
       <span>topic: {{ topicIsInAssignment }}</span>
     </div> -->
-    <div class="flex w-full flex-col items-baseline justify-start gap-2 px-4 py-2 sm:flex-row sm:items-center sm:px-10">
+    <div class="flex w-full flex-col items-baseline justify-start gap-2 px-6 py-2 sm:flex-row sm:items-center sm:px-10">
       <!-- back button -->
       <button
-        class="group m-2 flex items-center justify-center gap-2 rounded-xl border border-neutral-300 px-5 py-2 text-xl hover:bg-neutral-100/50 sm:m-4 dark:bg-neutral-900 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+        class="group my-2 flex items-center justify-center gap-2 rounded-xl border border-neutral-300 px-5 py-2 text-xl hover:bg-neutral-100/50 sm:m-4 dark:bg-neutral-900 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
         :class="{ 'pointer-events-none bg-neutral-300': !currentTopicPath.length }"
         type="button"
         :disabled="!currentTopicPath.length"
@@ -49,7 +49,7 @@
     <div class="flex w-full flex-col items-center justify-center gap-10">
       <div v-if="!currentTopic || currentTopic.hasChildren" class="flex w-full flex-col items-start justify-center gap-4">
         <h3 class="px-5 text-2xl font-bold">Topics</h3>
-        <div class="flex w-full flex-wrap items-center justify-start gap-4">
+        <div class="flex w-full flex-col flex-wrap items-center justify-start gap-4">
           <TeacherAssignmentCatalogTopic
             v-for="topic in currentTopic ? currentTopic.children?.sort((a, b) => a - b) : initialTopics"
             :key="typeof topic === 'number' ? topic : topic.id"
@@ -155,7 +155,13 @@ async function loadQuestions(topicId: number, offset?: number) {
   // eslint-disable-next-line no-use-before-define
   totalQuestions.value = data.count;
 
-  if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = Array.from(new Set([...loadedTopics.value[topicId].questionIds, ...questions.map((question) => question.id)]));
+  if (loadedTopics.value[topicId]) {
+    // add question ids, but no duplicates
+    loadedTopics.value[topicId].questionIds = Array.from(new Set([...loadedTopics.value[topicId].questionIds, ...questions.map((question) => question.id)]));
+
+    loadedTopics.value[topicId].questionCount = data.count;
+  }
+
   for (const question of questions) if (!loadedQuestions.value[question.id]) loadedQuestions.value[question.id] = question;
 
   displayedQuestions.value = questions;
@@ -180,7 +186,8 @@ async function loadTopics(topicId: number) {
       ...topic,
       children: topic.hasChildren ? [] : null,
       parents: topic.hasParents ? [] : null,
-      questionIds: []
+      questionIds: [],
+      questionCount: 0
     };
     loadedTopics.value[topic.id] = mappedTopic;
     if (parentIsLoaded) parent.children?.push(topic.id);

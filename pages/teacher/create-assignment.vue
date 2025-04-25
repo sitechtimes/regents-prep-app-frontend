@@ -1,16 +1,16 @@
 <template>
-  <div class="flex w-full items-start justify-center gap-8">
+  <div class="full flex flex-col items-start justify-center gap-8 lg:flex-row">
     <!-- if user is making assignments at 3am, prank em -->
     <!-- v-if="new Date().getHours() === 3" -->
     <!-- <output class="fixed right-4 w-[40rem] rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">{{ assignmentInfo }}</output> -->
     <form
-      class="sticky top-20 hidden w-[35rem] shrink-0 flex-col gap-2 rounded-xl border border-neutral-400 bg-neutral-100/50 p-6 sm:flex dark:border-neutral-600 dark:bg-neutral-600/50"
+      class="static top-20 box-content flex h-fit w-full min-w-full shrink-0 flex-col gap-2 rounded-xl border border-8 border-neutral-400 bg-neutral-100/50 p-6 lg:sticky lg:w-[35rem] dark:border-neutral-600 dark:bg-neutral-600/50"
       @submit.prevent="createAssignment"
     >
       <h2 class="text-2xl font-bold">Create Assignment</h2>
 
       <fieldset>
-        <legend>For <span title="Required" class="text-red-500">*</span></legend>
+        <legend class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">For <span title="Required" class="text-red-500">*</span></legend>
         <div class="max-h-40 space-y-1 overflow-y-auto rounded-lg border border-neutral-400 bg-white p-3 dark:border-neutral-600 dark:bg-neutral-900">
           <div v-for="course in teacherCourses" :key="course.id" class="flex items-center gap-2">
             <input
@@ -156,7 +156,7 @@
         </div>
       </div>
 
-      <div class="mt-4 flex w-full items-center justify-between px-10">
+      <div class="mt-4 flex w-full flex-col justify-between gap-4 lg:flex-row lg:items-center lg:gap-2 lg:px-10">
         <div class="flex items-center gap-1">
           <input id="late-submissions" v-model="assignmentInfo.lateSubmissions" type="checkbox" class="du-checkbox border-neutral-400 dark:bg-neutral-900" />
           <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base text-black dark:text-white" for="late-submissions">Allow late submissions</label>
@@ -164,7 +164,7 @@
 
         <div :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : 'You must have at least one question or topic'" :class="{ 'du-tooltip': !allowedToSubmit }">
           <button
-            class="rounded-lg border px-8 py-1.5 text-xl font-medium text-black"
+            class="w-full rounded-lg border px-8 py-1.5 text-xl font-medium text-black lg:w-fit"
             :class="
               allowedToSubmit
                 ? 'border-green-500 bg-green-500 hover:brightness-110'
