@@ -15,7 +15,10 @@ const { isDarkMode } = storeToRefs(userStore);
 
 watch(isDarkMode, () => {
   document.body.classList.toggle("dark", isDarkMode.value);
-  localStorage.setItem("theme", isDarkMode.value ? "dark" : "light");
+
+  const theme = isDarkMode.value ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
 });
 
 onBeforeMount(() => {

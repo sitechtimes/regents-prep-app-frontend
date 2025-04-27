@@ -1,193 +1,200 @@
 <template>
-  <div class="full flex flex-col items-start justify-center gap-8 lg:flex-row">
-    <!-- if user is making assignments at 3am, prank em -->
-    <!-- v-if="new Date().getHours() === 3" -->
-    <!-- <output class="fixed right-4 w-[40rem] rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">{{ assignmentInfo }}</output> -->
-    <form
-      class="static top-20 box-content flex h-fit w-full min-w-full shrink-0 flex-col gap-2 rounded-xl border border-8 border-neutral-400 bg-neutral-100/50 p-6 lg:sticky lg:w-[35rem] dark:border-neutral-600 dark:bg-neutral-600/50"
-      @submit.prevent="createAssignment"
-    >
-      <h2 class="text-2xl font-bold">Create Assignment</h2>
+  <!-- evil margins and paddings are because layouts have innate p-4 and this page has WACKY spacing shenanigans... -->
+  <div class="flex max-h-full w-full grow-0">
+    <div class="flex h-full w-full grow flex-col items-start justify-center lg:-my-4 lg:h-auto lg:grow-0 lg:flex-row">
+      <!-- if user is making assignments at 3am, prank em -->
+      <!-- v-if="new Date().getHours() === 3" -->
+      <!-- <output class="fixed right-4 w-[40rem] rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">{{ assignmentInfo }}</output> -->
+      <form class="flex h-full w-full shrink-0 flex-col gap-2 lg:w-[35rem] lg:overflow-y-auto lg:p-4" @submit.prevent="createAssignment">
+        <h2 class="text-2xl font-bold">Create Assignment</h2>
 
-      <fieldset>
-        <legend class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">For <span title="Required" class="text-red-500">*</span></legend>
-        <div class="max-h-40 space-y-1 overflow-y-auto rounded-lg border border-neutral-400 bg-white p-3 dark:border-neutral-600 dark:bg-neutral-900">
-          <div v-for="course in teacherCourses" :key="course.id" class="flex items-center gap-2">
-            <input
-              :id="'course-' + course.id"
-              class="du-checkbox border-neutral-400 dark:bg-neutral-900"
-              type="checkbox"
-              :disabled="course.id === initialCourse"
-              :checked="course.id === initialCourse"
-              @input="(e) => toggleCourse(course.id, e)"
-            />
-            <label
-              class="fo-label w-full text-black dark:text-white"
-              :class="course.id === initialCourse ? 'cursor-not-allowed text-neutral-600 dark:text-neutral-300' : 'cursor-pointer'"
-              :for="'course-' + course.id"
-            >
-              {{ course.name }}
-            </label>
+        <fieldset>
+          <legend class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">For <span title="Required" class="text-red-500">*</span></legend>
+          <div class="max-h-36 space-y-1 overflow-y-auto rounded-lg border border-neutral-400 bg-white p-3 dark:border-neutral-600 dark:bg-neutral-900">
+            <div v-for="course in teacherCourses" :key="course.id" class="flex items-center gap-2">
+              <input
+                :id="'course-' + course.id"
+                class="du-checkbox border-neutral-400 dark:bg-neutral-900"
+                type="checkbox"
+                :disabled="course.id === initialCourse"
+                :checked="course.id === initialCourse"
+                @input="(e) => toggleCourse(course.id, e)"
+              />
+              <label
+                class="fo-label w-full text-black dark:text-white"
+                :class="course.id === initialCourse ? 'cursor-not-allowed text-neutral-600 dark:text-neutral-300' : 'cursor-pointer'"
+                :for="'course-' + course.id"
+              >
+                {{ course.name }}
+              </label>
+            </div>
           </div>
-        </div>
-      </fieldset>
+        </fieldset>
 
-      <div class="flex w-full items-center justify-center gap-3">
-        <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="text-red-500">*</span></label>
-          <input
-            id="name"
-            v-model="assignmentInfo.name"
-            required
-            type="text"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            placeholder="Unit 3 Review"
-          />
-        </div>
-        <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="number-of-questions">
-            Number of Questions
-            <span title="Required" class="text-red-500">*</span>
-          </label>
-          <input
-            id="number-of-questions"
-            v-model="assignmentInfo.numOfQuestions"
-            required
-            type="number"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            placeholder="10"
-          />
-        </div>
-      </div>
-
-      <fieldset>
-        <legend class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">
-          Due
-          <span title="Required" class="text-red-500">*</span>
-        </legend>
         <div class="flex w-full items-center justify-center gap-3">
-          <input
-            v-model="assignmentInfo.dueDate.date"
-            required
-            type="date"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            :min="currentDateISO"
-          />
-          <input
-            v-model="assignmentInfo.dueDate.time"
-            required
-            type="time"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-          />
-        </div>
-      </fieldset>
-
-      <div class="flex w-full items-center justify-center gap-3">
-        <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="time-per-question">Time limit (minutes)</label>
-          <input
-            id="time-per-question"
-            v-model.number="assignmentInfo.timeAllotted"
-            type="number"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            placeholder="Unlimited"
-          />
-        </div>
-
-        <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="attempts-per-question">Attempts per question</label>
-          <input
-            id="attempts-per-question"
-            v-model.number="assignmentInfo.attemptsAllowed"
-            type="number"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            placeholder="Unlimited"
-          />
-        </div>
-      </div>
-
-      <div>
-        <p class="fo-label fo-label-text pointer-events-none shrink-0 font-bold text-black dark:text-white">Questions and Topics <span title="Required" class="text-red-500">*</span></p>
-        <div
-          class="flex h-96 w-full items-center justify-center rounded-lg border border-neutral-400 bg-white hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
-        >
-          <div v-if="!assignmentInfo.topicIds.length && !assignmentInfo.questions.length" class="mb-10 flex flex-col items-center justify-center">
-            <img class="size-40 opacity-65 dark:invert" src="/ui/plus.svg" aria-hidden="true" />
-            <p class="text-center text-xl font-bold text-neutral-500 dark:text-white">No Questions or Topics Selected</p>
-            <p class="w-3/4 text-center text-sm font-medium text-neutral-400">Select questions and topics from the question bank to add them to this assignment!</p>
+          <div class="grow">
+            <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="text-red-500">*</span></label>
+            <input
+              id="name"
+              v-model="assignmentInfo.name"
+              required
+              type="text"
+              class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+              placeholder="Unit 3 Review"
+            />
           </div>
-
-          <div v-else class="flex h-full w-full flex-col items-start justify-start gap-4 overflow-y-scroll py-2 pl-4">
-            <h2 v-if="assignmentInfo.topicIds.length && (assignmentInfo.questions.length || assignmentInfo.excludedQuestions.length)" class="text-2xl font-bold">Topics</h2>
-            <ol v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
-              <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId.at(-1)" class="flex w-full items-center justify-start gap-3">
-                <span>{{ index + 1 }}. </span>
-
-                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId.at(-1)!]?.name ?? 'All topics'"></p>
-
-                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId.at(-1) ?? 1)" img="/ui/trash.svg" />
-              </li>
-            </ol>
-
-            <h3 v-if="assignmentInfo.topicIds.length && assignmentInfo.questions.length" class="text-2xl font-bold">Questions</h3>
-            <ol v-if="assignmentInfo.questions.length" class="flex w-full flex-col items-start justify-start gap-2">
-              <li v-for="(question, index) in assignmentInfo.questions" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
-                <span>{{ index + 1 }}.</span>
-
-                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[question.questionId].text)"></p>
-
-                <div class="flex items-center justify-center gap-2">
-                  <div class="du-tooltip du-tooltip-bottom" :data-tip="`Switch to ${question.isGuaranteed ? 'Random' : 'Guaranteed'}`">
-                    <TeacherAssignmentCatalogQuestionButton :click-function="() => (question.isGuaranteed = !question.isGuaranteed)" :img="`/ui/${question.isGuaranteed ? 'check' : 'dice'}.svg`" />
-                  </div>
-                  <TeacherAssignmentCatalogQuestionButton :click-function="() => removeQuestion(question.questionId)" img="/ui/trash.svg" />
-                </div>
-              </li>
-            </ol>
-
-            <h3 v-if="assignmentInfo.excludedQuestions.length" class="text-2xl font-bold">Excluded Questions</h3>
-            <ul v-if="assignmentInfo.excludedQuestions.length" class="flex w-full flex-col items-start justify-start gap-2">
-              <li v-for="question in assignmentInfo.excludedQuestions" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
-                <span>•</span>
-                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[question.questionId].text)"></p>
-              </li>
-            </ul>
+          <div class="grow">
+            <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="number-of-questions">
+              Number of Questions
+              <span title="Required" class="text-red-500">*</span>
+            </label>
+            <input
+              id="number-of-questions"
+              v-model="assignmentInfo.numOfQuestions"
+              required
+              type="number"
+              class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+              placeholder="10"
+            />
           </div>
         </div>
-      </div>
 
-      <div class="mt-4 flex w-full flex-col justify-between gap-4 lg:flex-row lg:items-center lg:gap-2 lg:px-10">
-        <div class="flex items-center gap-1">
-          <input id="late-submissions" v-model="assignmentInfo.lateSubmissions" type="checkbox" class="du-checkbox border-neutral-400 dark:bg-neutral-900" />
-          <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base text-black dark:text-white" for="late-submissions">Allow late submissions</label>
+        <fieldset>
+          <legend class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">
+            Due
+            <span title="Required" class="text-red-500">*</span>
+          </legend>
+          <div class="flex w-full items-center justify-center gap-3">
+            <input
+              v-model="assignmentInfo.dueDate.date"
+              required
+              type="date"
+              class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+              :min="currentDateISO"
+            />
+            <input
+              v-model="assignmentInfo.dueDate.time"
+              required
+              type="time"
+              class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            />
+          </div>
+        </fieldset>
+
+        <div class="flex w-full items-center justify-center gap-3">
+          <div class="grow">
+            <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="time-per-question">Time limit (minutes)</label>
+            <input
+              id="time-per-question"
+              v-model.number="assignmentInfo.timeAllotted"
+              type="number"
+              class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+              placeholder="Unlimited"
+            />
+          </div>
+
+          <div class="grow">
+            <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="attempts-per-question">Attempts per question</label>
+            <input
+              id="attempts-per-question"
+              v-model.number="assignmentInfo.attemptsAllowed"
+              type="number"
+              class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+              placeholder="Unlimited"
+            />
+          </div>
         </div>
 
-        <div :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : 'You must have at least one question or topic'" :class="{ 'du-tooltip': !allowedToSubmit }">
-          <button
-            class="w-full rounded-lg border px-8 py-1.5 text-xl font-medium text-black lg:w-fit"
-            :class="
-              allowedToSubmit
-                ? 'border-green-500 bg-green-500 hover:brightness-110'
-                : 'cursor-not-allowed border-none border-neutral-300 bg-neutral-200 p-0 transition duration-500 hover:border-neutral-400 dark:bg-neutral-600/50'
-            "
-            type="submit"
+        <div class="mb-2 flex w-full grow flex-col">
+          <p class="fo-label fo-label-text pointer-events-none shrink-0 font-bold text-black dark:text-white">Questions and Topics <span title="Required" class="text-red-500">*</span></p>
+          <div
+            class="flex h-full w-full grow items-center justify-center rounded-lg border border-neutral-400 bg-white hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
           >
-            <span v-if="createAssignmentResult.isLoading" class="loading du-loading du-loading-sm mt-1"></span>
-            <span v-else>Create</span>
-          </button>
-        </div>
-      </div>
-    </form>
+            <!-- mb is to account for the innate large (fake) mt of the image -->
+            <div v-if="!assignmentInfo.topicIds.length && !assignmentInfo.questions.length" class="mb-6 flex h-fit flex-col items-center justify-center">
+              <img class="pointer-events-none size-40 select-none opacity-65 dark:invert" src="/ui/plus.svg" aria-hidden="true" />
+              <p class="text-center text-xl font-bold text-neutral-500 dark:text-white">No Questions or Topics Selected</p>
+              <p class="w-3/4 text-center text-sm font-medium text-neutral-400">Select questions and topics from the question bank to add them to this assignment!</p>
+            </div>
 
-    <TeacherAssignmentQuestionCatalog
-      :view-only="false"
-      :current-questions="assignmentInfo.questions"
-      :current-topic-ids="assignmentInfo.topicIds"
-      :excluded-question-ids="assignmentInfo.excludedQuestions.map((question) => question.questionId)"
-      @select-question="addQuestion"
-      @select-topic="addTopic"
-      @toggle-exclusion="toggleExclusion"
-    />
+            <div v-else class="flex h-full w-full flex-col items-start justify-start gap-4 overflow-y-auto py-2 pl-4">
+              <h2 v-if="assignmentInfo.topicIds.length && (assignmentInfo.questions.length || assignmentInfo.excludedQuestions.length)" class="text-2xl font-bold">Topics</h2>
+              <ol v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
+                <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId.at(-1)" class="flex w-full items-center justify-start gap-3">
+                  <span>{{ index + 1 }}. </span>
+
+                  <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId.at(-1)!]?.name ?? 'All topics'"></p>
+
+                  <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId.at(-1) ?? 1)" img="/ui/trash.svg" />
+                </li>
+              </ol>
+
+              <h3 v-if="assignmentInfo.topicIds.length && assignmentInfo.questions.length" class="text-2xl font-bold">Questions</h3>
+              <ol v-if="assignmentInfo.questions.length" class="flex w-full flex-col items-start justify-start gap-2">
+                <li v-for="(question, index) in assignmentInfo.questions" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
+                  <span>{{ index + 1 }}.</span>
+
+                  <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[question.questionId].text)"></p>
+
+                  <div class="flex items-center justify-center gap-2">
+                    <div class="du-tooltip du-tooltip-bottom" :data-tip="`Switch to ${question.isGuaranteed ? 'Random' : 'Guaranteed'}`">
+                      <TeacherAssignmentCatalogQuestionButton :click-function="() => (question.isGuaranteed = !question.isGuaranteed)" :img="`/ui/${question.isGuaranteed ? 'check' : 'dice'}.svg`" />
+                    </div>
+                    <TeacherAssignmentCatalogQuestionButton :click-function="() => removeQuestion(question.questionId)" img="/ui/trash.svg" />
+                  </div>
+                </li>
+              </ol>
+
+              <h3 v-if="assignmentInfo.excludedQuestions.length" class="text-2xl font-bold">Excluded Questions</h3>
+              <ul v-if="assignmentInfo.excludedQuestions.length" class="flex w-full flex-col items-start justify-start gap-2">
+                <li v-for="question in assignmentInfo.excludedQuestions" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
+                  <span>•</span>
+                  <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[question.questionId].text)"></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex w-full flex-col justify-between gap-4 lg:flex-row lg:items-center lg:gap-2 lg:px-10">
+          <div class="flex items-center gap-1">
+            <input id="late-submissions" v-model="assignmentInfo.lateSubmissions" type="checkbox" class="du-checkbox border-neutral-400 dark:bg-neutral-900" />
+            <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base text-black dark:text-white" for="late-submissions">Allow late submissions</label>
+          </div>
+
+          <div :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : 'You must have at least one question or topic'" :class="{ 'du-tooltip': !allowedToSubmit }">
+            <button
+              class="w-full rounded-lg border px-8 py-1.5 text-xl font-medium text-black lg:w-fit"
+              :class="
+                allowedToSubmit
+                  ? 'border-green-500 bg-green-500 hover:brightness-110'
+                  : 'cursor-not-allowed border-none border-neutral-300 bg-neutral-200 p-0 transition duration-500 hover:border-neutral-400 dark:bg-neutral-600/50'
+              "
+              type="submit"
+            >
+              <span v-if="createAssignmentResult.isLoading" class="loading du-loading du-loading-sm mt-1"></span>
+              <span v-else>Create</span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- horizontal separator for mobile, desktop uses a border on the catalog container -->
+      <div class="my-4 w-full border border-neutral-600/50 lg:hidden dark:border-neutral-300/50"></div>
+
+      <div class="flex h-full max-h-full w-full grow-0 flex-col border-neutral-600/50 lg:-mb-4 lg:-mr-4 lg:overflow-y-auto lg:border-l lg:px-4 lg:pb-4 dark:border-neutral-300/50">
+        <TeacherAssignmentQuestionCatalog
+          class=""
+          :view-only="false"
+          :current-questions="assignmentInfo.questions"
+          :current-topic-ids="assignmentInfo.topicIds"
+          :excluded-question-ids="assignmentInfo.excludedQuestions.map((question) => question.questionId)"
+          @select-question="addQuestion"
+          @select-topic="addTopic"
+          @toggle-exclusion="toggleExclusion"
+        />
+      </div>
+    </div>
   </div>
 </template>
 

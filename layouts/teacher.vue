@@ -5,7 +5,7 @@
 
       <div class="relative flex h-full w-full items-start justify-between">
         <TeacherDashboardSidebar :show-side-menu="showSideMenu" :loaded="loaded" />
-        <div class="h-full min-h-[calc(100dvh-4rem)] w-full p-4">
+        <div class="h-[calc(100vh-4rem)] w-full p-4">
           <slot></slot>
         </div>
       </div>

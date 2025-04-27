@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-fit grow flex-col items-start justify-start gap-6 lg:px-4">
+  <div class="flex w-fit flex-col items-start justify-start gap-6">
     <!-- if user is making assignments at 3am, prank em -->
     <!-- v-if="new Date().getHours() === 3" -->
     <!-- <div class="flex flex-col gap-2">
@@ -9,10 +9,10 @@
       <span>exact: {{ exactTopicIsInAssignment }}</span>
       <span>topic: {{ topicIsInAssignment }}</span>
     </div> -->
-    <div class="flex w-full flex-col items-baseline justify-start gap-2 px-6 py-2 sm:flex-row sm:items-center sm:px-10">
+    <div class="flex w-full flex-col items-baseline justify-start gap-2 px-6 sm:flex-row sm:items-center sm:px-10 lg:py-2">
       <!-- back button -->
       <button
-        class="group my-2 flex items-center justify-center gap-2 rounded-xl border border-neutral-300 px-5 py-2 text-xl hover:bg-neutral-100/50 sm:m-4 dark:bg-neutral-900 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+        class="group mx-4 my-2 flex items-center justify-center gap-2 rounded-lg border border-neutral-300 px-5 py-2 text-xl hover:bg-neutral-100/50 dark:bg-neutral-900 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
         :class="{ 'pointer-events-none bg-neutral-300': !currentTopicPath.length }"
         type="button"
         :disabled="!currentTopicPath.length"
@@ -22,7 +22,7 @@
         Back
       </button>
 
-      <div class="du-breadcrumbs !overflow-visible">
+      <div class="du-breadcrumbs !overflow-visible py-0">
         <ul class="flex flex-col flex-wrap !items-baseline !overflow-visible sm:flex-row sm:!items-center">
           <li class="my-2 w-fit">
             <button
@@ -49,7 +49,7 @@
     <div class="flex w-full flex-col items-center justify-center gap-10">
       <div v-if="!currentTopic || currentTopic.hasChildren" class="flex w-full flex-col items-start justify-center gap-4">
         <h3 class="px-5 text-2xl font-bold">Topics</h3>
-        <div class="flex w-full flex-col flex-wrap items-center justify-start gap-4">
+        <div class="flex w-full flex-col flex-wrap items-center justify-start space-y-4">
           <TeacherAssignmentCatalogTopic
             v-for="topic in currentTopic ? currentTopic.children?.sort((a, b) => a - b) : initialTopics"
             :key="typeof topic === 'number' ? topic : topic.id"
@@ -61,7 +61,7 @@
       </div>
 
       <div class="flex w-full flex-col items-start justify-center gap-4">
-        <div ref="questions" class="sticky top-20 z-10 flex items-center justify-center gap-8 rounded-full bg-body px-5 py-2" :class="{ 'shadow-lg': isSticky }">
+        <div ref="questions" class="sticky top-20 z-10 flex items-center justify-center gap-8 rounded-full bg-body px-5 py-2 lg:top-4" :class="{ 'shadow-lg': isSticky }">
           <h3 class="text-2xl font-bold">Questions</h3>
           <div class="flex items-center justify-center gap-4">
             <!-- boolean stuff is to stop people from adding the child of an already added topic -->
@@ -99,7 +99,7 @@
           />
         </div>
 
-        <div class="flex w-full flex-col items-center justify-center">
+        <div v-if="totalQuestions > 0" class="flex w-full flex-col items-center justify-center">
           <p>
             Showing <strong class="text-lg font-semibold">{{ currentQuestionPageIndex * 20 + 1 }}</strong> -
             <strong class="text-lg font-semibold">{{ Math.min(currentQuestionPageIndex * 20 + 20, totalQuestions) }}</strong> of
