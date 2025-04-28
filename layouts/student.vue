@@ -19,8 +19,23 @@ const { showSideMenu } = storeToRefs(userStore);
 
 const loaded = ref(false);
 
-onMounted(() => (loaded.value = true));
+const checkScreenSize = () => {
+  if (window.innerWidth < 768) {
+    showSideMenu.value = false; // Start closed on small screens
+  } else {
+    showSideMenu.value = true; // Start open on larger screens
+  }
+};
 
+onMounted(() => {
+  loaded.value = true;
+  checkScreenSize(); // Initial check to set the sidebar state
+  window.addEventListener("resize", checkScreenSize); // Listen for window resize
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", checkScreenSize); // Clean up the event listener
+});
 // for vitest
 defineExpose({ loaded, showSideMenu });
 </script>
