@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-fit flex-col items-start justify-start gap-6">
+  <div class="flex h-full w-full flex-col items-start justify-start gap-6">
     <!-- if user is making assignments at 3am, prank em -->
     <!-- v-if="new Date().getHours() === 3" -->
     <!-- <div class="flex flex-col gap-2">
@@ -84,7 +84,7 @@
           </div>
         </div>
 
-        <div class="w-full gap-4 space-y-4 sm:columns-2">
+        <div class="w-full space-y-4 lg:columns-2">
           <LazyTeacherAssignmentCatalogQuestion
             v-for="question in displayedQuestions"
             :key="typeof question === 'number' ? question : question.id"
@@ -99,7 +99,7 @@
           />
         </div>
 
-        <div v-if="totalQuestions > 0" class="flex w-full flex-col items-center justify-center">
+        <div v-if="totalQuestions > 0" class="mx-auto flex w-full flex-col items-center justify-center">
           <p>
             Showing <strong class="text-lg font-semibold">{{ currentQuestionPageIndex * 20 + 1 }}</strong> -
             <strong class="text-lg font-semibold">{{ Math.min(currentQuestionPageIndex * 20 + 20, totalQuestions) }}</strong> of
