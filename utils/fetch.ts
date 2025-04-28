@@ -203,10 +203,11 @@ export async function resetPassword(email: string) {
 }
 
 export async function confirmResetPassword(uid: string, token: string, newPassword1: string, newPassword2: string) {
+  // Manually transform the data to snake_case format
   return requestEndpoint(`/auth/password/reset/confirm/`, "POST", {
     uid,
     token,
-    newPassword1,
-    newPassword2
+    new_password1: newPassword1, // snake_case
+    new_password2: newPassword2 // snake_case
   });
 }
