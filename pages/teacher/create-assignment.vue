@@ -3,7 +3,9 @@
   <div class="-m-4 flex w-auto flex-col px-4 lg:h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-4rem)] lg:flex-row lg:overflow-y-hidden">
     <!-- if user is making assignments at 3am, prank em -->
     <!-- v-if="new Date().getHours() === 3" -->
-    <!-- <output class="fixed right-4 w-[40rem] rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">{{ assignmentInfo }}</output> -->
+    <output class="fixed right-4 flex w-[40rem] flex-col gap-2 rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">
+      assignmentInfo: <span class="font-mono">{{ assignmentInfo }}</span> courses: <span class="font-mono">{{ courseIDs }}</span>
+    </output>
     <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-clip" @submit.prevent="createAssignment">
       <h2 class="text-2xl font-bold">Create Assignment</h2>
 
@@ -213,8 +215,8 @@ const currentDateISO = (() => {
 
   return `${year}-${month}-${day}`;
 })();
-const courseIDs = reactive<number[]>([]); // TODO: todo
 const initialCourse = Number(route.query.course);
+const courseIDs = reactive<number[]>([initialCourse]); // TODO: todo
 
 const assignmentInfo = reactive({
   name: "",

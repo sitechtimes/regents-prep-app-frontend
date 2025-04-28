@@ -9,7 +9,7 @@
 
         <div class="flex items-center justify-center gap-4">
           <TeacherCourseActionButton :to="`/teacher/course/${teacherCurrentCourse.id}/roster`" img="/ui/users.svg" text="View Students" />
-          <TeacherCourseActionButton :to="`/teacher/course/${teacherCurrentCourse.id}/create-assignment`" img="/ui/plus.svg" text="New Assignment" />
+          <TeacherCourseActionButton :to="`/teacher/create-assignment?course=${teacherCurrentCourse.id}`" img="/ui/plus.svg" text="New Assignment" />
         </div>
       </div>
 
