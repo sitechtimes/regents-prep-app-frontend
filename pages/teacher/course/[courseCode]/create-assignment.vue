@@ -37,9 +37,11 @@
                     !assignmentInfo.topicIds
                   ) {
                     assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
-                  } else if (assignmentInfo.topicIds && assignmentInfo.numOfQuestions > allTotalQuestions + assignmentInfo.questionIds.length) {
-                    assignmentInfo.numOfQuestions = allTotalQuestions + assignmentInfo.questionIds.length;
-                    //figure out how to access totalQuestions
+                  } else if (assignmentInfo.topicIds) {
+                    if (assignmentInfo.numOfQuestions > allTotalQuestions + assignmentInfo.questionIds.length) {
+                      assignmentInfo.numOfQuestions = allTotalQuestions + assignmentInfo.questionIds.length;
+                      console.log(assignmentInfo.numOfQuestions, allTotalQuestions, assignmentInfo.questionIds.length);
+                    }
                   } else {
                     if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.length) {
                       assignmentInfo.numOfQuestions = assignmentInfo.questionIds.length;
@@ -243,7 +245,15 @@ const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.qu
 const allTotalQuestions = ref(0);
 
 function calcTotalQuestions(totalQuestions: number) {
+  //if (assignmentInfo.topicIds.length < what it was before) {
+  //   allTotalQuestions.value -= totalQuestions;
+  // } else {
   allTotalQuestions.value += totalQuestions;
+  console.log(allTotalQuestions.value);
+}
+
+function minusTotalQuestions(totalQuestions: number) {
+  allTotalQuestions.value -= totalQuestions;
   console.log(allTotalQuestions.value);
 }
 
@@ -262,8 +272,6 @@ function removeTopic(topicId: number) {
 function addTopic(topicId: number) {
   if (!assignmentInfo.topicIds.find((topic) => topic === topicId)) {
     assignmentInfo.topicIds.push(topicId);
-    const questionsFromTopic = loadedTopics.value[topicId]?.questionIds?.length || 0;
-    calcTotalQuestions(questionsFromTopic);
   } else removeTopic(topicId);
 }
 
