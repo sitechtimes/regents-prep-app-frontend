@@ -1,10 +1,10 @@
 <template>
   <!-- evil margins and paddings are because layouts have innate p-4 and this page has WACKY scroll shenanigans... -->
-  <div class="-m-4 flex h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] w-auto flex-col overflow-hidden px-4 lg:flex-row">
+  <div class="-m-4 flex w-auto flex-col px-4 lg:h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-4rem)] lg:flex-row lg:overflow-y-hidden">
     <!-- if user is making assignments at 3am, prank em -->
     <!-- v-if="new Date().getHours() === 3" -->
     <!-- <output class="fixed right-4 w-[40rem] rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">{{ assignmentInfo }}</output> -->
-    <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 lg:w-[35rem] lg:overflow-y-clip lg:p-4" @submit.prevent="createAssignment">
+    <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-clip" @submit.prevent="createAssignment">
       <h2 class="text-2xl font-bold">Create Assignment</h2>
 
       <fieldset>
@@ -107,7 +107,7 @@
       <div class="mb-2 flex w-full grow flex-col">
         <p class="fo-label fo-label-text pointer-events-none flex-none shrink-0 font-bold text-black dark:text-white">Questions and Topics <span title="Required" class="text-red-500">*</span></p>
         <div
-          class="flex h-0 max-h-full w-full grow items-center justify-center rounded-lg border border-neutral-400 bg-white hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+          class="flex h-0 max-h-full min-h-80 w-full grow items-center justify-center rounded-lg border border-neutral-400 bg-white hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
         >
           <!-- mb is to account for the innate large (fake) mt of the image -->
           <div v-if="!assignmentInfo.topicIds.length && !assignmentInfo.questions.length" class="mb-6 flex h-fit flex-col items-center justify-center">
@@ -116,7 +116,7 @@
             <p class="w-3/4 text-center text-sm font-medium text-neutral-400">Select questions and topics from the question bank to add them to this assignment!</p>
           </div>
 
-          <div v-else class="flex h-full w-full flex-col items-start justify-start gap-4 overflow-y-scroll px-4 py-2">
+          <div v-else class="flex h-full w-full flex-col items-start justify-start gap-4 overflow-y-scroll pl-4 pr-2 pt-4">
             <h2 v-if="assignmentInfo.topicIds.length && (assignmentInfo.questions.length || assignmentInfo.excludedQuestions.length)" class="text-2xl font-bold">Topics</h2>
             <ol v-if="assignmentInfo.topicIds.length" class="flex w-full flex-col items-start justify-start gap-2">
               <li v-for="(topicId, index) in assignmentInfo.topicIds" :key="topicId.at(-1)" class="flex w-full items-center justify-start gap-3">
@@ -167,7 +167,7 @@
             :class="
               allowedToSubmit
                 ? 'border-green-500 bg-green-500 hover:brightness-110'
-                : 'cursor-not-allowed border-none border-neutral-300 bg-neutral-200 p-0 transition duration-500 hover:border-neutral-400 dark:bg-neutral-600/50'
+                : 'cursor-not-allowed border-none border-neutral-300 bg-neutral-200 p-0 transition duration-300 hover:border-neutral-400 dark:bg-neutral-600/50'
             "
             type="submit"
           >
@@ -181,7 +181,7 @@
     <!-- horizontal separator for mobile, desktop uses a border on the catalog container -->
     <div class="my-4 w-full border border-neutral-600/50 lg:hidden dark:border-neutral-300/50"></div>
 
-    <div class="flex h-full max-h-full w-full flex-col border-neutral-600/50 lg:-mr-4 lg:overflow-y-auto lg:border-l lg:px-4 lg:pb-4 dark:border-neutral-300/50">
+    <div class="flex w-full flex-col border-neutral-600/50 px-4 lg:-mr-4 lg:h-full lg:max-h-full lg:overflow-y-auto lg:border-l lg:pb-4 dark:border-neutral-300/50">
       <TeacherAssignmentQuestionCatalog
         :view-only="false"
         :current-questions="assignmentInfo.questions"

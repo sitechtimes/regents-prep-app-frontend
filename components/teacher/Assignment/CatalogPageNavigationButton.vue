@@ -6,8 +6,8 @@
     :disabled="disable"
     @click="clickFunction"
   >
-    <img v-if="img" class="size-5 transition duration-500 dark:invert" :src="img" aria-hidden="true" />
-    <p v-if="text" class="hidden grow translate-y-px transition duration-500 lg:block">{{ text }}</p>
+    <img v-if="img" class="size-5 transition duration-300 dark:invert" :src="img" aria-hidden="true" />
+    <p v-if="text" class="hidden grow translate-y-px transition duration-300 lg:block">{{ text }}</p>
   </button>
 </template>
 

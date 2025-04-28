@@ -85,7 +85,7 @@ defineExpose({ isYoda, clicks, startingCount, toggle });
 .cat {
   @apply w-full object-cover;
   transform-origin: center;
-  transition: none;
+  transition: all;
 }
 
 .cat#landing:active {

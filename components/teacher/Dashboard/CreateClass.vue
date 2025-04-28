@@ -18,7 +18,7 @@
             <button
               v-for="num in 9"
               :key="num"
-              class="h-12 flex-1 duration-200"
+              class="h-12 flex-1 duration-300"
               :class="{ 'rounded-l-lg': num == 1, 'rounded-r-lg': num == 9, 'bg-gray-accent': num != coursePeriod, 'bg-green-accent': num == coursePeriod }"
               type="button"
               @click="coursePeriod = num"
@@ -107,7 +107,7 @@ async function createCourse() {
 <style scoped>
 .join-menu-scale-enter-active,
 .join-menu-scale-leave-active {
-  transition: all 0.2s ease-in-out;
+  transition: none 0.2s ease-in-out;
 }
 
 .join-menu-scale-enter-from,

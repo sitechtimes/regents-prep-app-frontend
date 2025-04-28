@@ -85,7 +85,7 @@ async function submit() {
 <style scoped>
 .join-menu-scale-enter-active,
 .join-menu-scale-leave-active {
-  transition: all 0.2s ease-in-out;
+  transition: none 0.2s ease-in-out;
 }
 
 .join-menu-scale-enter-from,

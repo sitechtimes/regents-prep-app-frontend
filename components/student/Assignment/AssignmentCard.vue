@@ -58,7 +58,7 @@ const currentTime = new Date();
 <style scoped>
 @media (hover: hover) and (pointer: fine) {
   .assignment:hover {
-    @apply cursor-pointer duration-200;
+    @apply cursor-pointer duration-300;
   }
 }
 </style>

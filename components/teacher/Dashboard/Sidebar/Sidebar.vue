@@ -28,7 +28,7 @@ const { teacherCourses } = storeToRefs(userStore);
 <style scoped>
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all 0.35s ease-in-out;
+  transition: none 0.3s ease-in-out;
 }
 
 .slide-right-enter-from,
