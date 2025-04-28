@@ -48,11 +48,11 @@ const loading = ref(false);
 const notMatching = ref(false);
 const submitError = ref(false);
 const showModal = ref(false);
-
+const route = useRoute();
 const router = useRouter();
 
-const uid = "MjA";
-const token = "coxsug-efb839a530933f2c7925a77cd626eba3";
+const uid = String(route.query.uid ?? "");
+const token = String(route.query.token ?? "");
 
 async function onSubmit() {
   if (newPassword1.value !== newPassword2.value) {
