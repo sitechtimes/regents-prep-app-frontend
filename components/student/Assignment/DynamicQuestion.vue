@@ -1,5 +1,7 @@
 <template>
   <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
+    <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
+
     <h2 class="mb-2 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
     <p class="overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
@@ -9,30 +11,41 @@
         <button
           type="button"
           class="w-full rounded-lg bg-neutral-200 px-6 py-3 text-left shadow-sm hover:bg-neutral-500/50 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
-          :class="{ 'bg-neutral-500/50 dark:bg-neutral-500/75': choice.selected }"
+          :class="{
+            'bg-neutral-500/50 dark:bg-neutral-500/75': choice.selected && choice.isCorrect === undefined,
+            'bg-green-500/50 dark:bg-green-500/75': choice.isCorrect,
+            'bg-red-500/50 dark:bg-red-500/75': choice.isCorrect === false
+          }"
           @click="selectChoice(choice)"
           v-html="choice.text"
         ></button>
       </div>
 
       <!-- dynamic assignments submit question button -->
-      <Transition name="slide-up">
+      <div class="mt-8 flex w-full items-center justify-between gap-6 px-10">
         <button
-          v-show="currentQuestion?.question.answers.some((answer) => answer.selected)"
-          class="absolute -bottom-20 flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:text-white dark:hover:brightness-150"
+          class="flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:text-white dark:hover:brightness-150"
           type="button"
-          :disabled="!currentQuestion?.question.answers.some((answer) => answer.selected)"
-          :class="{ 'cursor-not-allowed grayscale': !currentQuestion?.question.answers.some((answer) => answer.selected) }"
-          @click="emit('submitQuestion')"
+          :disabled="mode !== 'answering' || !currentQuestion?.question.answers.some((answer) => answer.selected)"
+          :class="{ 'cursor-not-allowed grayscale': mode !== 'answering' || !currentQuestion?.question.answers.some((answer) => answer.selected) }"
+          @click="submitQuestion"
         >
           Submit Question
         </button>
-      </Transition>
+
+        <button
+          class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-8 py-2 hover:bg-neutral-200 sm:px-16 dark:bg-neutral-600 hover:dark:bg-neutral-700"
+          type="button"
+          :disabled="mode !== 'viewing' || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
+          :class="{ 'cursor-not-allowed opacity-50': mode !== 'viewing' || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 }"
+          @click="nextQuestion"
+        >
+          <span class="hidden text-xl xs:block">Next</span>
+          <img class="size-5 group-hover:translate-x-1 dark:invert" src="/ui/arrowRight.svg" aria-hidden="true" />
+        </button>
+      </div>
     </div>
 
-    <!-- feedback messages -->
-    <p v-if="feedbackMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ feedbackMessage }}</p>
-    <p v-if="errorMessage" class="group flex items-center justify-center gap-2 rounded-xl px-16 py-2 text-xl text-neutral-400">{{ errorMessage }}</p>
     <!-- all questions answered alert -->
     <div v-if="currentAssignment.assignment.numQuestions === currentAssignment.questionsCompleted" class="mb-6 w-full">
       <div class="flex items-center justify-center">
@@ -45,25 +58,59 @@
 <script setup lang="ts">
 const props = defineProps<{
   currentAssignment: StudentAssignment;
-  currentQuestion: DynamicQuestionInterface | undefined;
   currentQuestionIndex: number;
+  timestamp: number;
 }>();
 const emit = defineEmits<{
-  submitQuestion: [void];
-  selectChoice: [Answer | undefined];
+  changeTimestamp: [number];
+  goNextQuestion: [void];
+  submitAssignment: [void];
 }>();
 
-const feedbackMessage = ref("");
-const errorMessage = ref("");
+const userStore = useUserStore();
+const { currentQuestion } = storeToRefs(userStore);
+
+const currentAttempt = ref(1);
+const selectedChoice = defineModel<Answer>();
+/** viewing mode is when the student is done with the question (used all attempts or got it correct) and needs to move on */
+const mode = ref<"answering" | "viewing">("answering");
+
+function nextQuestion() {
+  mode.value = "answering";
+  emit("goNextQuestion");
+}
 
 function selectChoice(choice: Answer) {
-  if (!props.currentQuestion) return;
+  if (!currentQuestion.value) return;
   if (choice.selected) choice.selected = false;
   else {
-    props.currentQuestion?.question.answers.forEach((answer) => (answer.selected = false));
+    currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
     choice.selected = true;
   }
-  emit("selectChoice", choice);
+  selectedChoice.value = choice;
+}
+
+async function submitQuestion() {
+  if (!selectedChoice.value || !currentQuestion.value) return;
+
+  const [newTimestamp, diff] = getDeltaTime(props.timestamp);
+  emit("changeTimestamp", newTimestamp);
+
+  const { data: response, error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, diff));
+  if (error) return console.error("Error submitting question:", error);
+
+  currentQuestion.value.question.answers.forEach((answer) => (answer.selected = false));
+
+  if (response.isCorrect || response.remainingAttempts === 0) {
+    selectedChoice.value.isCorrect = response.isCorrect; // if isCorrect is false then remainingAttempts must be 0 so it should be false anyways
+    props.currentAssignment.questionsCompleted += 1;
+    mode.value = "viewing";
+    if (props.currentQuestionIndex === props.currentAssignment.assignment.numQuestions - 1) emit("submitAssignment");
+    return;
+  }
+
+  if (response.remainingAttempts !== null) currentAttempt.value = props.currentAssignment.assignment.attemptsAllowed - response.remainingAttempts + 1;
+  selectedChoice.value.isCorrect = false;
 }
 
 watch(
@@ -77,15 +124,14 @@ watch(
     if (!question) {
       const { data, error } = await tryCatch(getNextDynamicQuestion(props.currentAssignment.id));
 
-      if (error) {
-        console.error(error);
-        errorMessage.value = "Error fetching question. Please try again.";
-      } else {
-        data.question.answers.forEach((answer) => (answer.selected = false));
-        question = data;
-        props.currentAssignment.assignment.questionInterfaces[props.currentQuestionIndex] = data;
-      }
+      if (error) return console.error(error);
+
+      data.question.answers.forEach((answer) => (answer.selected = false));
+      question = data;
+      props.currentAssignment.assignment.questionInterfaces[props.currentQuestionIndex] = data;
     }
+
+    currentQuestion.value = question;
   },
   { immediate: true }
 );

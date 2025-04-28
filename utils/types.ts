@@ -7,12 +7,10 @@ export interface Answer {
    * @warning Must be manually added to `Answer`; this field is not returned from the API.
    */
   selected: boolean;
-  /** @readonly ID of the selected answer.
-   * @warning only present for static questions.
+  /** Whether or not the answer is correct.
+   * @warning Must be added manually. Should be added after submitting a question and receiving results.
    */
-  selectedAnswerId: number | null;
-  /** @readonly Whether or not the answer is correct. */
-  readonly isCorrect: boolean;
+  isCorrect?: boolean;
 }
 
 export interface Question {
@@ -165,6 +163,9 @@ export interface StudentAssignment extends Assignment {
   /** @readonly assignment object for assignment properties. */
 
   readonly assignment: {
+    /** @readonly Number of attempts allowed, if assignment is dynamic */
+    readonly attemptsAllowed: number;
+
     /** @readonly Name of the assignment. */
     readonly name: string;
 
@@ -183,7 +184,9 @@ export interface StudentAssignment extends Assignment {
     /** @readonly If the assignment is a static assignment.*/
     readonly isStatic: boolean;
 
-    /** @readonly Object identifying the course assignment belongs to. */
+    /** @readonly Object identifying the course assignment belongs to.
+     * @warning Only present if assignment is fetched for all courses.
+     */
     readonly course?: {
       /** @readonly Id of the course assignment belongs to */
       readonly id: number;
@@ -236,6 +239,8 @@ interface Course {
   readonly period: number;
   /** @readonly Subject of the course. */
   readonly subject: Subject;
+  /** @warning This field is not returned from the API, must be added manually on fetch */
+  assignmentsFetched: boolean;
 }
 
 export interface StudentCourse extends Course {
@@ -243,12 +248,12 @@ export interface StudentCourse extends Course {
 }
 
 export interface TeacherCourseNoAssignment extends Course {
+  /** @warning This field is not returned from the API, must be added manually on fetch */
+  assignments: TeacherAssignment[];
   /** @readonly 6-digit join code for the course. */
   readonly joinCode: string;
   /** The number of students in the course. */
   numStudents: number;
-  /** Total number of unsubmitted, future assignments. */
-  assignmentsLength: number;
 }
 
 export interface TeacherCourse extends TeacherCourseNoAssignment {
@@ -265,8 +270,8 @@ export interface AssignmentInstance {
 export interface SubmitAnswer {
   /** @readonly Tells you if the answer was correct. */
   readonly isCorrect: boolean;
-  /** Number of remaining attempts. */
-  remainingAttempts: number;
+  /** @readonly Number of remaining attempts. */
+  readonly remainingAttempts: number | null;
 }
 
 export interface SubmitAssignment {

@@ -93,10 +93,11 @@ export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssig
   for (const assignment of assignments) {
     // Check if assignment is of type StudentAssignment
     if ("assignment" in assignment) {
+      if (assignment.dateSubmitted === undefined) assignment.dateSubmitted = null; // dateSubmitted isnt in init data
+
       assignment.assignment.dueDate = new Date(assignment.assignment.dueDate);
       assignment.assignment.dateAssigned = new Date(assignment.assignment.dateAssigned);
       assignment.assignment.questionInterfaces = {};
-      if ("dateSubmitted" in assignment) assignment.dateSubmitted = assignment.dateSubmitted; // TODO: what does this do???
     } else {
       assignment.dueDate = new Date(assignment.dueDate);
       assignment.dateAssigned = new Date(assignment.dateAssigned);
@@ -112,6 +113,7 @@ export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssig
  */
 export function courseToDate(courses: StudentCourse[]) {
   for (const course of courses) {
+    course.assignmentsFetched = false;
     assignmentToDate(course.assignments);
   }
 }

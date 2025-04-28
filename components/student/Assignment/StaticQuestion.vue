@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
+  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-24 py-12 sm:max-h-fit">
     <h2 class="mb-2 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
     <p class="overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
@@ -7,7 +7,7 @@
     <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
       <button
         type="button"
-        class="w-full rounded-lg bg-neutral-200 px-6 py-3 text-left shadow-sm hover:bg-neutral-500/50 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
+        class="w-full rounded-lg bg-neutral-200 px-2 py-1 text-left shadow-sm hover:bg-neutral-500/50 sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
         :class="{ 'bg-neutral-500/50 dark:bg-neutral-500/75': choice.selected }"
         @click="selectChoice(choice)"
         v-html="choice.text"
@@ -15,39 +15,26 @@
     </div>
 
     <!-- static assignment navigation -->
-    <div class="mt-8 flex w-full items-center justify-between gap-6 px-10">
+    <div class="mt-8 flex w-full items-center justify-between gap-1 px-3 xs:gap-6 xs:px-10">
       <button
-        class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
+        class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-8 py-2 hover:bg-neutral-200 sm:px-16 dark:bg-neutral-600 hover:dark:bg-neutral-700"
         type="button"
         :disabled="currentQuestionIndex === 0"
         :class="{ 'cursor-not-allowed opacity-50': currentQuestionIndex === 0 }"
         @click="emit('switchQuestion', 'previous')"
       >
-        <img class="size-5 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
-        Back
+        <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrowLeft.svg" aria-hidden="true" />
+        <span class="hidden text-xl xs:block">Back</span>
       </button>
       <button
-        class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-16 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
+        class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-8 py-2 hover:bg-neutral-200 sm:px-16 dark:bg-neutral-600 hover:dark:bg-neutral-700"
         type="button"
         :disabled="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
         :class="{ 'cursor-not-allowed opacity-50': currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 }"
         @click="emit('switchQuestion', 'next')"
       >
-        Next
-        <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
-      </button>
-    </div>
-
-    <!-- dynamic assignments submit question button -->
-    <div v-if="!currentAssignment.assignment.isStatic && !allQuestionsCompleted" class="" :class="{ 'du-tooltip': !selectedChoice }" data-tip="Complete all questions first!">
-      <button
-        class="mt-8 flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:text-white dark:hover:brightness-150"
-        type="button"
-        :disabled="!currentQuestion?.question.answers.some((answer) => answer.selected)"
-        :class="{ 'cursor-not-allowed grayscale': !currentQuestion?.question.answers.some((answer) => answer.selected) }"
-        @click="emit('submitQuestion')"
-      >
-        Submit Question
+        <span class="hidden text-xl xs:block">Next</span>
+        <img class="size-5 group-hover:translate-x-1 dark:invert" src="/ui/arrowRight.svg" aria-hidden="true" />
       </button>
     </div>
 
@@ -66,32 +53,31 @@
 <script setup lang="ts">
 const props = defineProps<{
   currentAssignment: StudentAssignment;
-  currentQuestion: StaticQuestionInterface | undefined;
   currentQuestionIndex: number;
-  allQuestionsCompleted: boolean | undefined;
-  selectedChoice: Answer | undefined;
 }>();
 const emit = defineEmits<{
   changeCurrentQuestion: [StaticQuestionInterface];
-  submitQuestion: [void];
-  selectChoice: [Answer | undefined];
   switchQuestion: ["previous" | "next"];
 }>();
 
+const userStore = useUserStore();
+const { currentQuestion } = storeToRefs(userStore);
+
 const storedStaticAnswers = ref<Record<number, { selectedChoice: Answer }>>({});
+const selectedChoice = defineModel<Answer>();
 
 const feedbackMessage = ref("");
 const errorMessage = ref("");
 
 function selectChoice(choice: Answer) {
-  if (!props.currentQuestion) return;
+  if (!currentQuestion.value) return;
   if (choice.selected) choice.selected = false;
   else {
-    props.currentQuestion?.question.answers.forEach((answer) => (answer.selected = false));
+    currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
     choice.selected = true;
   }
-  emit("selectChoice", choice);
-  props.currentQuestion.staticUserAnswer = choice.id;
+  selectedChoice.value = choice;
+  (currentQuestion.value as StaticQuestionInterface).staticUserAnswer = choice.id;
   storedStaticAnswers.value[props.currentQuestionIndex] = {
     selectedChoice: { ...choice }
   };
@@ -138,13 +124,8 @@ watch(
     const cachedAnswer = storedStaticAnswers.value[props.currentQuestionIndex];
     if (cachedAnswer && question) {
       question.question.answers.forEach((answer) => (answer.selected = answer.id === cachedAnswer.selectedChoice.id));
-      emit(
-        "selectChoice",
-        question.question.answers.find((answer) => answer.id === cachedAnswer.selectedChoice.id)
-      );
-    } else {
-      emit("selectChoice", undefined);
-    }
+      selectedChoice.value = question.question.answers.find((answer) => answer.id === cachedAnswer.selectedChoice.id);
+    } else selectedChoice.value = undefined;
   }
 );
 </script>

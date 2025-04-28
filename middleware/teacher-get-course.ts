@@ -8,10 +8,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   if (!teacherCourses.value) return;
   const courseCode = Number(to.params.courseCode);
 
-  // @ts-expect-error `assignments` is declared later in file
   teacherCurrentCourse.value = teacherCourses.value.find((course) => course.id === courseCode);
   if (!teacherCurrentCourse.value) return await navigateTo(`/teacher/dashboard?course=${courseCode}`);
 
-  if (teacherCurrentCourse.value.assignments?.length !== teacherCurrentCourse.value.assignmentsLength) return;
+  if (from.name === "teacher-dashboard" && to.name !== "teacher-course-courseCode") return; // if we're not going to course page from dashboard
+  if (teacherCurrentCourse.value.assignmentsFetched) return;
   teacherCurrentCourse.value.assignments = await getAssignments<TeacherAssignment[]>(Number(to.params.courseCode));
+  teacherCurrentCourse.value.assignmentsFetched = true;
 });

@@ -4,28 +4,32 @@
       <Teleport to="body">
         <Transition name="menu-slide">
           <div v-if="assignmentInProgress" class="fixed left-0 top-0 z-50 flex h-dvh w-screen items-center justify-center bg-body">
-            <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" @close="assignmentInProgress = false" />
+            <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" :trigger-submit="triggerSubmit" @close="assignmentInProgress = false" />
+
+            <div class="fixed right-0 top-4 flex items-center justify-center gap-4 pr-10 xl:right-72">
+              <ToggleTheme />
+            </div>
 
             <StudentAssignmentStaticQuestion
               v-if="currentAssignment.assignment.isStatic && currentQuestion && 'staticUserAnswer' in currentQuestion"
+              v-model="selectedChoice"
               :current-assignment="currentAssignment"
-              :current-question="currentQuestion"
               :current-question-index="currentQuestionIndex"
-              :all-questions-completed="allQuestionsCompleted"
-              :selected-choice="selectedChoice"
               @change-current-question="(question) => (currentQuestion = question)"
-              @submit-question="submitQuestion"
               @switch-question="(direction) => switchQuestion(direction)"
-              @select-choice="(choice) => (selectedChoice = choice)"
             />
             <StudentAssignmentDynamicQuestion
               v-else-if="!currentAssignment.assignment.isStatic && currentQuestion && !('staticUserAnswer' in currentQuestion)"
+              v-model="selectedChoice"
               :current-assignment="currentAssignment"
-              :current-question="currentQuestion"
               :current-question-index="currentQuestionIndex"
-              @submit-question="submitQuestion"
-              @select-choice="(choice) => (selectedChoice = choice)"
+              :timestamp="timestamp"
+              @change-timestamp="(newTimestamp) => (timestamp = newTimestamp)"
+              @go-next-question="switchQuestion('next')"
+              @submit-assignment="triggerSubmit = true"
             />
+
+            <div class="hidden h-full w-72 shrink-0 bg-neutral-100 xl:block dark:bg-neutral-800"></div>
           </div>
         </Transition>
       </Teleport>
@@ -42,14 +46,20 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 
+const triggerSubmit = ref(false);
+watch(triggerSubmit, async (val) => {
+  if (val) {
+    await nextTick();
+    triggerSubmit.value = false;
+  }
+});
+
 const userStore = useUserStore();
 const { studentCurrentCourse, currentQuestion } = storeToRefs(userStore);
+onBeforeMount(() => (currentQuestion.value = undefined));
 
 const assignmentId = Number(route.params.assignmentId);
 const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
-
-/**checks if all questions in assignment are completed */
-const allQuestionsCompleted = computed(() => currentAssignment.value && currentAssignment.value.assignment.numQuestions === currentAssignment.value.questionsCompleted + 1);
 
 const assignmentInProgress = ref(false);
 watch(assignmentInProgress, (val) => {
@@ -86,7 +96,6 @@ async function getQuestionByIndex(index: number) {
 async function fetchQuestionOnMounted() {
   if (!currentAssignment.value) return;
 
-  console.log(currentAssignment.value);
   if (!currentAssignment.value.assignment.isStatic && currentQuestionIndex.value !== currentAssignment.value.questionsCompleted) {
     await changeRouteQuery({ q: currentAssignment.value.questionsCompleted + 1 });
     return void fetchQuestionOnMounted();
@@ -107,33 +116,32 @@ async function fetchQuestionOnMounted() {
 onMounted(fetchQuestionOnMounted);
 
 const selectedChoice = ref<Answer>();
-let timestamp = Date.now();
-/**
- * gets time spent on current question
- * @returns how many seconds since last update
- */
-function getDeltaTime() {
-  const diff = Math.floor((Date.now() - timestamp) / 1000);
-  timestamp = Date.now();
-  return diff;
-}
+
+const timestamp = ref(Date.now());
 
 /** increments time spent on current question */
 function incrementTime() {
   if (!currentQuestion.value) return;
-  void incrementQuestionTime(currentQuestion.value.id, getDeltaTime());
+
+  const [newTimestamp, diff] = getDeltaTime(timestamp.value);
+  timestamp.value = newTimestamp;
+
+  void incrementQuestionTime(currentQuestion.value.id, diff);
 }
 
 async function saveProgress() {
   if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
   if (selectedChoice.value) {
-    const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
+    const [newTimestamp, diff] = getDeltaTime(timestamp.value);
+    timestamp.value = newTimestamp;
+
+    const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, diff));
     if (error) console.error(error);
   } else {
     incrementTime();
   }
 }
-// increment time on index change. separate because immediate: true is not good for this
+// increment time on index change
 watch(currentQuestionIndex, async () => {
   if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
   await saveProgress();
@@ -143,18 +151,6 @@ async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
   const newIndex = direction === "previous" ? currentQuestionIndex.value - 1 : currentQuestionIndex.value + 1;
   if (newIndex >= 0 && newIndex < currentAssignment.value.assignment.numQuestions) await changeRouteQuery({ q: newIndex + 1 });
-}
-
-async function submitQuestion() {
-  if (!selectedChoice.value || !currentQuestion.value) return;
-
-  const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, getDeltaTime()));
-  if (error) return console.error("Error submitting question:", error);
-
-  // if (response.isCorrect) feedbackMessage.value = "Previous question correct! 🎉";
-  // else if (response.remainingAttempts === 0) feedbackMessage.value = "You've exceeded the maximum amount of attempts on the previous question. It has been marked incorrect.";
-  // else if (!response.remainingAttempts) feedbackMessage.value = `Incorrect. Try again!`;
-  // else feedbackMessage.value = `Incorrect. You have ${response.remainingAttempts} attempts left.`;
 }
 
 onBeforeMount(() => {
@@ -170,7 +166,7 @@ function handleVisibilityTime() {
   // tab just got hidden. increment time
   if (document.visibilityState === "hidden") incrementTime();
   // tab just got brought to foreground. don't count the time it was gone
-  else timestamp = Date.now();
+  else timestamp.value = Date.now();
 }
 
 let unguardRoute: () => void;
@@ -183,6 +179,8 @@ onMounted(() => {
 
 // for navigating off but keeping page open
 onBeforeUnmount(incrementTime);
+
+onUnmounted(() => currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false)));
 
 onUnmounted(() => {
   unguardRoute();

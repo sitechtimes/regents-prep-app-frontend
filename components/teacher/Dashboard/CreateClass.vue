@@ -91,8 +91,9 @@ async function createCourse() {
     subject: Object.keys(regentsTypes)[subjectCode] as keyof typeof regentsTypes,
     period: coursePeriod.value,
     numStudents: 0,
-    assignmentsLength: 0,
-    teacher: userStore.name
+    teacher: userStore.name,
+    assignments: [],
+    assignmentsFetched: false
   });
 
   successModal.value?.showModal();

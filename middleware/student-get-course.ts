@@ -11,7 +11,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   studentCurrentCourse.value = studentCourses.value.find((course) => course.id === courseCode);
   if (!studentCurrentCourse.value) return await navigateTo(`/student/dashboard?course=${courseCode}`);
 
-  // TODO: parity with teacher middleware
-  if (studentCurrentCourse.value.assignments.length) return;
+  if (from.name === "student-dashboard" && to.name !== "student-course-courseCode") return; // if we're not going to course page from dashboard
+  if (studentCurrentCourse.value.assignmentsFetched) return;
   studentCurrentCourse.value.assignments = await getAssignments<StudentAssignment[]>(Number(to.params.courseCode));
+  studentCurrentCourse.value.assignmentsFetched = true;
 });
