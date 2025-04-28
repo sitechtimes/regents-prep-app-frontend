@@ -206,7 +206,7 @@ export async function confirmResetPassword(uid: string, token: string, newPasswo
   return requestEndpoint(`/auth/password/reset/confirm/`, "POST", {
     uid,
     token,
-    new_password1: newPassword1,
-    new_password2: newPassword2
+    newPassword1,
+    newPassword2
   });
 }
