@@ -257,7 +257,7 @@ export interface AssignmentResults extends SubmitAssignment {
 
 export interface CreateAssignmentQuestion {
   questionId: number;
-  isGuaranteed: boolean;
+  isGuaranteed?: boolean;
 }
 
 export interface ExcludeAssignmentQuestion {

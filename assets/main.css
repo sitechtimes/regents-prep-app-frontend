@@ -101,6 +101,39 @@ input:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 
+/* printing nonsense */
+/* hide print when not printing */
+body:not(.goog) .print {
+  display: none;
+}
+
+/* hide everything else while printing */
+body.goog * {
+  visibility: hidden;
+  height: 0;
+}
+body.goog header {
+  display: none;
+}
+/* show printing while printing */
+body.goog .print {
+  visibility: visible;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: auto;
+}
+body.goog .print * {
+  visibility: visible;
+  height: auto;
+}
+
+@page {
+  size: letter;
+  margin: 0;
+  padding: 0.5in;
+}
+
 /* daisy ui stuff below... */
 .du-btn {
   @apply rounded-full;

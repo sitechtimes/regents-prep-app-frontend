@@ -194,6 +194,8 @@
         @toggle-exclusion="toggleExclusion"
       />
     </div>
+
+    <LazyTeacherAssignmentPrintAssignment :question-ids="assignmentInfo.questions.map((question) => question.questionId)" />
   </div>
 </template>
 
@@ -242,8 +244,11 @@ function removeQuestion(questionId: number) {
 }
 
 function addQuestion(questionId: number) {
-  if (!assignmentInfo.questions.find((question) => question.questionId === questionId)) assignmentInfo.questions.push({ questionId, isGuaranteed: true });
-  else removeQuestion(questionId);
+  if (!assignmentInfo.questions.find((question) => question.questionId === questionId)) {
+    // if they add guaranteed questions when there's no space, make space
+    const guaranteedLength = assignmentInfo.questions.push({ questionId, isGuaranteed: true });
+    if (guaranteedLength > (assignmentInfo.numOfQuestions ?? 0)) assignmentInfo.numOfQuestions = guaranteedLength;
+  } else removeQuestion(questionId);
 }
 
 function removeTopic(topicId: number) {
@@ -317,6 +322,21 @@ onMounted(() => {
   showSideMenu.value = false;
 });
 onBeforeUnmount(() => (showSideMenu.value = sideMenuWasOpen));
+
+function generateQuestions() {
+  if (!assignmentInfo.numOfQuestions) return alert("no num questions set. get out");
+
+  const questionIzzy: number[] = [...assignmentInfo.questions.map((question) => question.questionId)];
+
+  if (questionIzzy.length > assignmentInfo.numOfQuestions) alert("too many questions womp womp");
+
+  const possibleQuestions = assignmentInfo.topicIds[0].length === 0 ? [] : [];
+  // TODO: don't let questions of an added topic be gambled
+  // add random questions and topics
+  /*   while (questionIzzy.length < assignmentInfo.numOfQuestions) {
+
+  } */
+}
 
 async function createAssignment() {
   if (!allowedToSubmit.value) return;
