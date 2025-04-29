@@ -252,10 +252,13 @@ function calcTotalQuestions(totalQuestions: number) {
   console.log(allTotalQuestions.value);
 }
 
-function minusTotalQuestions(totalQuestions: number) {
-  allTotalQuestions.value -= totalQuestions;
-  console.log(allTotalQuestions.value);
-}
+watch(
+  () => assignmentInfo.topicIds.slice(),
+  (newVal, oldVal) => {
+    console.log("Old length:", oldVal.length);
+    console.log("New length:", newVal.length);
+  }
+);
 
 function removeQuestion(questionId: number) {
   // prettier-ignore
@@ -298,7 +301,7 @@ async function createAssignment() {
       courseID,
       assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.questionIds.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
-      new Date(new Date(`${assignmentInfo.dueDate.date}T${assignmentInfo.dueDate.time}`).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString(),
+      `${new Date(new Date(assignmentInfo.dueDate.date).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString().slice(0, 10)}T${assignmentInfo.dueDate.time}`,
       assignmentInfo.questionIds.length,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,
