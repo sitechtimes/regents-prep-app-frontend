@@ -17,7 +17,7 @@
           <!-- question number -->
           <th class="text-lg">{{ index + 1 }}</th>
           <!-- question preview -->
-          <td v-html="removeImage(question.text)" class="flex-1 overflow-hidden text-ellipsis text-lg"></td>
+          <td class="flex-1 overflow-hidden text-ellipsis text-lg" v-html="removeImage(question.text)"></td>
           <!-- time spent -->
           <td class="text-lg">Time spent seconds</td>
 
@@ -39,17 +39,17 @@
       <div class="w-full max-w-2xl rounded-lg bg-white p-6">
         <h2 class="mb-4 text-xl font-semibold">Question Details</h2>
 
-        <div v-html="selectedQuestion.text" class="mb-4 text-lg"></div>
+        <div class="mb-4 text-lg" v-html="selectedQuestion.text"></div>
 
         <div v-if="selectedQuestion.answerType === 'Multiple Choice'" class="flex flex-col gap-2">
           <div v-for="(answer, i) in selectedQuestion.answers" :key="answer.id" class="flex items-start gap-2">
             <span class="text-lg font-semibold">{{ String.fromCharCode(65 + i) }})</span>
-            <div v-html="answer.text" class="text-lg" />
+            <div class="text-lg" v-html="answer.text"></div>
           </div>
         </div>
         <div v-else class="text-lg italic text-gray-700">Written Response — no multiple-choice answers available.</div>
 
-        <button @click="selectedQuestion = null" class="mt-6 rounded bg-green-accent px-4 py-2 text-lg text-black hover:brightness-90">Close</button>
+        <button class="mt-6 rounded bg-green-accent px-4 py-2 text-lg text-black hover:brightness-90" @click="selectedQuestion = null">Close</button>
       </div>
     </div>
   </div>
@@ -65,13 +65,13 @@ const assignmentId = Number(route.params.assignmentId);
 const currentAssignmentStats = ref<StaticTeacherAssignmentStatistic | DynamicTeacherAssignmentStatistic>();
 const { data } = await tryCatch(getTeacherQuestionStatistic(assignmentId, true));
 currentAssignmentStats.value = data;
+const multipleChoiceQuestions = computed(() => currentAssignmentStats.value?.guaranteedQuestions.filter((q) => q.answerType === "Multiple Choice") || []);
 const selectedQuestion = ref<(typeof multipleChoiceQuestions.value)[0] | null>(null);
 function showQuestion(question: (typeof multipleChoiceQuestions.value)[0]) {
   selectedQuestion.value = question;
 }
 
 //TODO: make table applicable to written questions
-const multipleChoiceQuestions = computed(() => currentAssignmentStats.value?.guaranteedQuestions.filter((q) => q.answerType === "Multiple Choice") || []);
 const timeSpent = computed(() => {
   const stats = currentAssignmentStats.value?.statisticData || [];
   const map: Record<number, number> = {};
