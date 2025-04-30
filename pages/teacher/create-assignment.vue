@@ -4,7 +4,8 @@
     <!-- if user is making assignments at 3am, prank em -->
     <!-- v-if="new Date().getHours() === 3" -->
     <output class="fixed right-4 flex w-[40rem] flex-col gap-2 rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">
-      assignmentInfo: <span class="font-mono">{{ assignmentInfo }}</span> courses: <span class="font-mono">{{ courseIDs }}</span>
+      assignmentInfo: <span class="font-mono">{{ assignmentInfo }}</span> courses: <span class="font-mono">{{ courseIds }}</span>
+      <button role="button" @click="generateQuestions">generate the questions</button>
     </output>
     <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-clip" @submit.prevent="createAssignment">
       <h2 class="text-2xl font-bold">Create Assignment</h2>
@@ -40,7 +41,7 @@
             v-model="assignmentInfo.name"
             required
             type="text"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             placeholder="Unit 3 Review"
           />
         </div>
@@ -49,14 +50,17 @@
             Number of Questions
             <span title="Required" class="text-red-500">*</span>
           </label>
-          <input
-            id="number-of-questions"
-            v-model="assignmentInfo.numOfQuestions"
-            required
-            type="number"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            placeholder="10"
-          />
+          <div class="w-full" :class="{ 'du-tooltip': warn }" :data-tip="warn">
+            <input
+              id="number-of-questions"
+              v-model="assignmentInfo.numOfQuestions"
+              required
+              type="number"
+              class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+              :class="{ 'border-red-500 hover:border-red-500 focus:border-red-500 dark:border-red-600 dark:hover:border-red-500': warn }"
+              placeholder="10"
+            />
+          </div>
         </div>
       </div>
 
@@ -70,14 +74,14 @@
             v-model="assignmentInfo.dueDate.date"
             required
             type="date"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             :min="currentDateISO"
           />
           <input
             v-model="assignmentInfo.dueDate.time"
             required
             type="time"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
           />
         </div>
       </fieldset>
@@ -89,7 +93,7 @@
             id="time-per-question"
             v-model.number="assignmentInfo.timeAllotted"
             type="number"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             placeholder="Unlimited"
           />
         </div>
@@ -100,7 +104,7 @@
             id="attempts-per-question"
             v-model.number="assignmentInfo.attemptsAllowed"
             type="number"
-            class="fo-input border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             placeholder="Unlimited"
           />
         </div>
@@ -218,7 +222,8 @@ const currentDateISO = (() => {
   return `${year}-${month}-${day}`;
 })();
 const initialCourse = Number(route.query.course);
-const courseIDs = reactive<number[]>([initialCourse]); // TODO: todo
+const courseIds = reactive<number[]>([]);
+if (initialCourse) courseIds.push(initialCourse);
 
 const assignmentInfo = reactive({
   name: "",
@@ -238,6 +243,19 @@ const assignmentInfo = reactive({
 
 const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questions.length || assignmentInfo.topicIds.length));
 
+const guaranteedLength = computed(() => assignmentInfo.questions.filter((question) => question.isGuaranteed).length);
+const warn = computed(() => {
+  // TODO: this doesn't account for added topics. Too bad!
+
+  const numOfQuestions = assignmentInfo.numOfQuestions ?? 0;
+
+  console.log(numOfQuestions);
+  // num of questions is too high
+  if (numOfQuestions > assignmentInfo.questions.length) return `The assignment should have ${assignmentInfo.numOfQuestions} total questions, but you've added ${assignmentInfo.questions.length}`;
+
+  return null;
+});
+
 function removeQuestion(questionId: number) {
   // prettier-ignore
   assignmentInfo.questions.splice(assignmentInfo.questions.findIndex((question) => question.questionId === questionId), 1);
@@ -245,9 +263,9 @@ function removeQuestion(questionId: number) {
 
 function addQuestion(questionId: number) {
   if (!assignmentInfo.questions.find((question) => question.questionId === questionId)) {
-    // if they add guaranteed questions when there's no space, make space
-    const guaranteedLength = assignmentInfo.questions.push({ questionId, isGuaranteed: true });
-    if (guaranteedLength > (assignmentInfo.numOfQuestions ?? 0)) assignmentInfo.numOfQuestions = guaranteedLength;
+    assignmentInfo.questions.push({ questionId, isGuaranteed: true });
+    // increment num questions if it wasn't enough to fit all guaranteed questions
+    if (guaranteedLength.value > (assignmentInfo.numOfQuestions ?? 0)) assignmentInfo.numOfQuestions = guaranteedLength.value;
   } else removeQuestion(questionId);
 }
 
@@ -284,9 +302,9 @@ function addTopic(topicPath: number[]) {
 function toggleCourse(courseID: number, event: Event) {
   if (!event.target) return;
 
-  const index = courseIDs.indexOf(courseID);
-  if ((event.target as HTMLInputElement).checked) courseIDs.push(courseID);
-  else courseIDs.splice(index, 1);
+  const index = courseIds.indexOf(courseID);
+  if ((event.target as HTMLInputElement).checked) courseIds.push(courseID);
+  else courseIds.splice(index, 1);
 }
 
 function toggleExclusion(targetQuestion: ExcludeAssignmentQuestion) {
@@ -326,16 +344,21 @@ onBeforeUnmount(() => (showSideMenu.value = sideMenuWasOpen));
 function generateQuestions() {
   if (!assignmentInfo.numOfQuestions) return alert("no num questions set. get out");
 
-  const questionIzzy: number[] = [...assignmentInfo.questions.map((question) => question.questionId)];
+  const questionIzzy: number[] = [...assignmentInfo.questions.filter((question) => question.isGuaranteed).map((question) => question.questionId)];
 
   if (questionIzzy.length > assignmentInfo.numOfQuestions) alert("too many questions womp womp");
 
-  const possibleQuestions = assignmentInfo.topicIds[0].length === 0 ? [] : [];
+  // left of ternary should be root (all questions idk)
+  const possibleQuestions = assignmentInfo.questions.filter((question) => !question.isGuaranteed).map((question) => question.questionId);
   // TODO: don't let questions of an added topic be gambled
   // add random questions and topics
-  /*   while (questionIzzy.length < assignmentInfo.numOfQuestions) {
+  while (questionIzzy.length < assignmentInfo.numOfQuestions) {
+    const index = Math.floor(Math.random() * possibleQuestions.length);
+    questionIzzy.push(possibleQuestions.splice(index, 1)[0]);
+  }
 
-  } */
+  console.log(questionIzzy);
+  // if (questionIzzy.toSorted((a, b) => a - b).join(",") === questionIzzy.join(",")) alert("YOU WIN!!!");
 }
 
 async function createAssignment() {
@@ -345,7 +368,7 @@ async function createAssignment() {
   const { error } = await tryCatch(
     submitCreateAssignment(
       assignmentInfo.name,
-      courseIDs,
+      courseIds,
       assignmentInfo.questions.filter((question) => question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.questions.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.topicIds.map((arr) => arr.at(-1) ?? 1),
