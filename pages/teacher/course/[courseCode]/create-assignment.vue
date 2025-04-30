@@ -19,9 +19,9 @@
           />
         </div>
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions"
-            >Number of Questions <span title="Required" class="font-2xl text-red-500">*</span></label
-          >
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="Number of Questions">
+            Number of Questions <span title="Required" class="font-2xl text-red-500">*</span>
+          </label>
           <input
             id="numOfQuestions"
             v-model="assignmentInfo.numOfQuestions"
@@ -40,7 +40,6 @@
                   } else if (assignmentInfo.topicIds) {
                     if (assignmentInfo.numOfQuestions > allTotalQuestions + assignmentInfo.questionIds.length) {
                       assignmentInfo.numOfQuestions = allTotalQuestions + assignmentInfo.questionIds.length;
-                      console.log(assignmentInfo.numOfQuestions, allTotalQuestions, assignmentInfo.questionIds.length);
                     }
                   } else {
                     if (assignmentInfo.numOfQuestions > assignmentInfo.questionIds.length) {
@@ -242,21 +241,27 @@ const submitErrorMessage = computed(() => {
 });
 
 const allowedToSubmit = computed(() => assignmentInfo.name && (assignmentInfo.questionIds.length || assignmentInfo.topicIds.length) && (assignmentInfo.numOfQuestions ?? 0) <= 100);
+const topicQuestions = ref(0);
 const allTotalQuestions = ref(0);
+const addQuestions = ref(true);
 
 function calcTotalQuestions(totalQuestions: number) {
-  //if (assignmentInfo.topicIds.length < what it was before) {
-  //   allTotalQuestions.value -= totalQuestions;
-  // } else {
-  allTotalQuestions.value += totalQuestions;
-  console.log(allTotalQuestions.value);
+  topicQuestions.value = totalQuestions;
 }
 
 watch(
   () => assignmentInfo.topicIds.slice(),
   (newVal, oldVal) => {
-    console.log("Old length:", oldVal.length);
-    console.log("New length:", newVal.length);
+    if (oldVal.length > newVal.length) {
+      addQuestions.value = false;
+    } else if (newVal.length > oldVal.length) {
+      addQuestions.value = true;
+    }
+    if (addQuestions.value) {
+      allTotalQuestions.value += topicQuestions.value;
+    } else {
+      allTotalQuestions.value -= topicQuestions.value;
+    }
   }
 );
 
