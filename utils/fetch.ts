@@ -160,12 +160,12 @@ export async function submitCreateAssignment(
  * @param studentIds - An optional array of student IDs for which to get statistics. Defaults to all students.
  */
 export async function getTeacherQuestionStatistic<T extends boolean = false>(assignmentId: number, includeGuaranteedQuestions?: T, studentIds?: number[]) {
-  return requestEndpoint<TeacherAssignmentStatistic<T>>(`/courses/teacher/assignment/${assignmentId}/per-question-statistics/${!!includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`);
+  return requestEndpoint<TeacherAssignmentStatistic<T>>(`courses/teacher/assignment/${assignmentId}/per-question-statistics/${!!includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`);
 }
 
 /** Requests the `questions/teacher/topics/<topicId>` endpoint */
 export async function getTopics(topicId: number) {
-  return requestEndpoint<Topic[]>(`/questions/teacher/topics/${topicId}`);
+  return requestEndpoint<Topic[]>(`questions/teacher/topics/${topicId}`);
 }
 
 /** Requests the `questions/teacher/topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>` endpoint
@@ -175,5 +175,16 @@ export async function getTopics(topicId: number) {
  * @param numOfQuestions - The number of questions to get. Defaults to 20.
  */
 export async function getQuestionsUnderTopic(topicId: number, offset = 0, includeQuestionCount = true, numOfQuestions = 20) {
-  return requestEndpoint<{ count: number; questions: TopicQuestionInterface[] }>(`/questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}`);
+  return requestEndpoint<{ count: number; questions: TopicQuestionInterface[] }>(`questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}`);
+}
+
+/** Requests the `questions/teacher/random- topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>` endpoint
+ * @param topicId - The ID of the topic to get questions under.
+ * @param numOfQuestions - The number of questions to get. Defaults to 20, returns up to 50 questions.
+ * @param questionsToExclude - IDs of excluded questions. Defaults to none
+ */
+export async function getRandomQuestionsUnderTopic(topicId: number, numOfQuestions = 20, questionsToExclude: number[] = []) {
+  return requestEndpoint<{ count: number; questions: TopicQuestionInterface[] }>(
+    `questions/teacher/random-topic-questions/${topicId}/${numOfQuestions}/${questionsToExclude.length ? questionsToExclude.join(";") : 0}`
+  );
 }

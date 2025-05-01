@@ -5,7 +5,7 @@
     <!-- v-if="new Date().getHours() === 3" -->
     <output class="fixed right-4 flex w-[40rem] flex-col gap-2 rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">
       assignmentInfo: <span class="font-mono">{{ assignmentInfo }}</span> courses: <span class="font-mono">{{ courseIds }}</span>
-      <button role="button" @click="generateQuestions">generate the questions</button>
+      <button type="button" @click="generateQuestions">generate the questions</button>
     </output>
     <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-clip" @submit.prevent="createAssignment">
       <h2 class="text-2xl font-bold">Create Assignment</h2>
@@ -187,16 +187,18 @@
     <!-- horizontal separator for mobile, desktop uses a border on the catalog container -->
     <div class="my-4 w-full border border-neutral-600/50 lg:hidden dark:border-neutral-300/50"></div>
 
-    <div class="flex w-full flex-col border-neutral-600/50 px-4 lg:-mr-4 lg:h-full lg:max-h-full lg:overflow-y-auto lg:border-l lg:pb-4 dark:border-neutral-300/50">
-      <TeacherAssignmentQuestionCatalog
-        :view-only="false"
-        :current-questions="assignmentInfo.questions"
-        :current-topic-ids="assignmentInfo.topicIds"
-        :excluded-question-ids="assignmentInfo.excludedQuestions.map((question) => question.questionId)"
-        @select-question="addQuestion"
-        @select-topic="addTopic"
-        @toggle-exclusion="toggleExclusion"
-      />
+    <div class="flex w-full flex-col border-neutral-600/50 px-4 lg:-mr-4 lg:max-h-full lg:overflow-y-auto lg:border-l dark:border-neutral-300/50">
+      <div class="pb-4">
+        <TeacherAssignmentQuestionCatalog
+          :view-only="false"
+          :current-questions="assignmentInfo.questions"
+          :current-topic-ids="assignmentInfo.topicIds"
+          :excluded-question-ids="assignmentInfo.excludedQuestions.map((question) => question.questionId)"
+          @select-question="addQuestion"
+          @select-topic="addTopic"
+          @toggle-exclusion="toggleExclusion"
+        />
+      </div>
     </div>
 
     <LazyTeacherAssignmentPrintAssignment :question-ids="assignmentInfo.questions.map((question) => question.questionId)" />
@@ -358,6 +360,13 @@ function generateQuestions() {
   }
 
   console.log(questionIzzy);
+  console.log(
+    getRandomQuestionsUnderTopic(
+      assignmentInfo.topicIds[0].at(-1) ?? 1,
+      assignmentInfo.numOfQuestions,
+      assignmentInfo.excludedQuestions.map((question) => question.questionId)
+    )
+  );
   // if (questionIzzy.toSorted((a, b) => a - b).join(",") === questionIzzy.join(",")) alert("YOU WIN!!!");
 }
 
