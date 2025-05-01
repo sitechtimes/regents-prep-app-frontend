@@ -19,8 +19,7 @@
           <!-- question preview -->
           <td class="flex-1 overflow-hidden text-ellipsis text-lg" v-html="removeImage(question.text)"></td>
           <!-- time spent -->
-          <td class="text-lg">Time spent seconds</td>
-
+          <td class="text-lg">{{ timeSpent[question.id] ?? "—" }} sec</td>
           <!-- answer distribution -->
           <td class="flex flex-col gap-y-2">
             <div v-for="(answer, i) in question.answers" :key="answer.id" class="flex-row items-center">
@@ -28,7 +27,11 @@
             </div>
           </td>
           <!-- class results=number of correct students/incorrect students/unanswered -->
-          <td class="text-lg">Blue</td>
+          <td class="text-lg">
+            <div>Not Started: {{ getNotStartedCount(question.id) }} students</div>
+            <div>Incorrect: {{ getIncorrectCount(question.id) }} students</div>
+            <div>Correct: {{ getCorrectCount(question.id) }} students</div>
+          </td>
         </tr>
         <!-- end of row -->
       </tbody>
@@ -92,6 +95,21 @@ console.log("Stats raw:", currentAssignmentStats.value?.statisticData);
 console.log("Is array?", Array.isArray(currentAssignmentStats.value?.statisticData));
 
 console.log("timeSpent", timeSpent.value);
+
+function getNotStartedCount(questionId: number): number {
+  const stats = currentAssignmentStats.value?.statisticData;
+  return Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && !stat.answer).length : 0;
+}
+
+function getIncorrectCount(questionId: number): number {
+  const stats = currentAssignmentStats.value?.statisticData;
+  return Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && stat.answer && stat.answer !== stat.correctAnswer).length : 0;
+}
+
+function getCorrectCount(questionId: number): number {
+  const stats = currentAssignmentStats.value?.statisticData;
+  return Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && stat.answer === stat.correctAnswer).length : 0;
+}
 
 function removeImage(html: string): string {
   return html.replace(/<img[^>]*>/gi, "");
