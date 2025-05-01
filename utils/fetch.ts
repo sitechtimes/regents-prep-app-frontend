@@ -223,3 +223,16 @@ export async function deleteAssignment(assignmentId: number) {
 export async function deleteCourse(courseId: number) {
   return requestEndpoint<TeacherCourse>(`/courses/teacher/delete/course/${courseId}`, "DELETE");
 }
+
+export async function resetPassword(email: string) {
+  return requestEndpoint(`/auth/password/reset/`, "POST", { email });
+}
+
+export async function confirmResetPassword(uid: string, token: string, newPassword1: string, newPassword2: string) {
+  return requestEndpoint(`/auth/password/reset/confirm/`, "POST", {
+    uid,
+    token,
+    newPassword1,
+    newPassword2
+  });
+}
