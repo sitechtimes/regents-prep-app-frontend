@@ -10,5 +10,5 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (error) console.error(error);
 
   if (!userStore.isAuth && !allowedPaths.includes(to.path)) return await navigateTo("/login", { redirectCode: 301 });
-  else if (userStore.isAuth && ["/login", "/"].includes(to.path)) return await navigateTo(`/${userStore.userType}/dashboard`, { redirectCode: 301 });
+  else if (userStore.isAuth && allowedPaths.includes(to.path)) return await navigateTo(`/${userStore.userType}/dashboard`, { redirectCode: 301 });
 });
