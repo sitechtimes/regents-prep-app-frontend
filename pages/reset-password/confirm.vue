@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray flex min-h-screen w-screen flex-col items-center justify-center py-12">
     <h1 class="text-5xl font-bold">Set New Password</h1>
-    <div class="mb-4 flex flex-col items-center justify-center rounded-3xl bg-[color:var(--bg-color)] p-4">
+    <div class="mb-4 flex flex-col items-center justify-center rounded-3xl bg-body p-4">
       <form class="login flex w-full flex-col items-center justify-center gap-7" @submit.prevent="onSubmit">
         <div class="relative flex flex-col items-start justify-center gap-1">
           <label class="font-medium" for="newPassword1"> New Password <span title="Required" class="font-2xl text-red-500">*</span> </label>

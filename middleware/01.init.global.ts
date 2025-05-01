@@ -5,10 +5,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (!import.meta.client || !nuxtApp.isHydrating || !nuxtApp.payload.serverRendered) return;
 
   const userStore = useUserStore();
-
+  const allowedPaths = ["/login", "/", "/reset-password/confirm"];
   const { error } = await tryCatch(userStore.init());
   if (error) console.error(error);
 
-  if (!userStore.isAuth && !["/login", "/", "/reset-password/confirm"].includes(to.path)) return await navigateTo("/login", { redirectCode: 301 });
+  if (!userStore.isAuth && !allowedPaths.includes(to.path)) return await navigateTo("/login", { redirectCode: 301 });
   else if (userStore.isAuth && ["/login", "/"].includes(to.path)) return await navigateTo(`/${userStore.userType}/dashboard`, { redirectCode: 301 });
 });
