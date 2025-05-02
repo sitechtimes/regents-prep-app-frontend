@@ -19,18 +19,18 @@
           <!-- question preview -->
           <td class="flex-1 overflow-hidden text-ellipsis text-lg" v-html="removeImage(question.text)"></td>
           <!-- time spent -->
-          <td class="text-lg">{{ timeSpent[question.id] ?? "—" }} sec</td>
+          <td class="text-lg">{{ averageTimeSpent[question.id] ?? "—" }} sec</td>
           <!-- answer distribution -->
           <td class="flex flex-col gap-y-2">
             <div v-for="(answer, i) in question.answers" :key="answer.id" class="flex-row items-center">
-              <p class="text-lg">{{ String.fromCharCode(65 + i) }} {{ answer.selectedCount ?? 0 }} students</p>
+              <p class="text-lg">{{ String.fromCharCode(65 + i) }} {{ "selectedCount" in answer ? answer.selectedCount : 0 }} students</p>
             </div>
           </td>
           <!-- class results=number of correct students/incorrect students/unanswered -->
           <td class="text-lg">
-            <div>Not Started: {{ getNotStartedCount(question.id) }} students</div>
-            <div>Incorrect: {{ getIncorrectCount(question.id) }} students</div>
-            <div>Correct: {{ getCorrectCount(question.id) }} students</div>
+            <div>Not Started: {{ getNotStarted(question.id) }} students</div>
+            <div>Incorrect: {{ getIncorrect(question.id) }} students</div>
+            <div>Correct: {{ getCorrect(question.id) }} students</div>
           </td>
         </tr>
         <!-- end of row -->
@@ -75,40 +75,58 @@ function showQuestion(question: (typeof multipleChoiceQuestions.value)[0]) {
 }
 
 //TODO: make table applicable to written questions
-const timeSpent = computed(() => {
-  const stats = currentAssignmentStats.value?.statisticData || [];
-  const map: Record<number, number> = {};
+const averageTimeSpent = computed(() => {
+  const stats = currentAssignmentStats.value?.statisticData ?? [];
+  const map: Record<number, { total: number; count: number }> = {};
 
-  for (const stat of stats) {
-    const questionId = stat.question;
-    const spent = Number(stat.timeSpent);
-
-    if (typeof questionId === "number" && !isNaN(spent)) {
-      map[questionId] = spent;
-    }
+  if (Array.isArray(stats)) {
+    stats.forEach((stat) => {
+      const questionId = stat.question;
+      const spent = Number(stat.timeSpent);
+      if (typeof questionId === "number" && !isNaN(spent)) {
+        if (!map[questionId]) map[questionId] = { total: 0, count: 0 };
+        map[questionId].total += spent;
+        map[questionId].count += 1;
+      }
+    });
   }
 
-  return map;
+  const avgMap: Record<number, number> = {};
+  Object.entries(map).forEach(([qid, { total, count }]) => {
+    avgMap[Number(qid)] = Math.round(total / count);
+  });
+
+  console.log("Computed Average Time Spent:", avgMap);
+  return avgMap;
 });
 
 console.log("Stats raw:", currentAssignmentStats.value?.statisticData);
 console.log("Is array?", Array.isArray(currentAssignmentStats.value?.statisticData));
 
-console.log("timeSpent", timeSpent.value);
+console.log("timeSpent", averageTimeSpent.value);
 
-function getNotStartedCount(questionId: number): number {
+function getNotStarted(questionId: number) {
   const stats = currentAssignmentStats.value?.statisticData;
-  return Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && !stat.answer).length : 0;
+  console.log("Statistic Data:", stats);
+  const notStartedCount = Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && !stat.answer).length : 0;
+  console.warn(`Not Started for Question ${questionId}:`, notStartedCount);
+  return notStartedCount;
 }
 
-function getIncorrectCount(questionId: number): number {
+function getIncorrect(questionId: number): number {
   const stats = currentAssignmentStats.value?.statisticData;
-  return Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && stat.answer && stat.answer !== stat.correctAnswer).length : 0;
+  console.log("Statistic Data:", stats);
+  const incorrectCount = Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && stat.answer && stat.answer !== stat.correctAnswer).length : 0;
+  console.warn(`Incorrect for Question ${questionId}:`, incorrectCount);
+  return incorrectCount;
 }
 
-function getCorrectCount(questionId: number): number {
+function getCorrect(questionId: number): number {
   const stats = currentAssignmentStats.value?.statisticData;
-  return Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && stat.answer === stat.correctAnswer).length : 0;
+  console.log("Statistic Data:", stats);
+  const correctCount = Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && stat.answer === stat.correctAnswer).length : 0;
+  console.warn(`Correct for Question ${questionId}:`, correctCount);
+  return correctCount;
 }
 
 function removeImage(html: string): string {
