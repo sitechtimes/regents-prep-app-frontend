@@ -19,11 +19,12 @@
           <!-- question preview -->
           <td class="flex-1 overflow-hidden text-ellipsis text-lg" v-html="removeImage(question.text)"></td>
           <!-- time spent -->
-          <td class="text-lg">{{ averageTimeSpent[question.id] ?? "—" }} sec</td>
+          <td class="text-lg">{{ getAverageTimeSpent(question.id) ?? "—" }}</td>
           <!-- answer distribution -->
           <td class="flex flex-col gap-y-2">
             <div v-for="(answer, i) in question.answers" :key="answer.id" class="flex-row items-center">
-              <p class="text-lg">{{ String.fromCharCode(65 + i) }} {{ "selectedCount" in answer ? answer.selectedCount : 0 }} students</p>
+              <span class="font-semibold">{{ String.fromCharCode(65 + i) }}:</span>
+              <span>{{ answerSelections[question.id]?.[answer.id] ?? 0 }} students</span>
             </div>
           </td>
           <!-- class results=number of correct students/incorrect students/unanswered -->
@@ -63,11 +64,54 @@ definePageMeta({
   layout: "teacher",
   middleware: "teacher-get-course"
 });
-const route = useRoute();
-const assignmentId = Number(route.params.assignmentId);
-const currentAssignmentStats = ref<StaticTeacherAssignmentStatistic | DynamicTeacherAssignmentStatistic>();
-const { data } = await tryCatch(getTeacherQuestionStatistic(assignmentId, true));
-currentAssignmentStats.value = data;
+
+// const route = useRoute();
+// const assignmentId = Number(route.params.assignmentId);
+// const currentAssignmentStats = ref<StaticTeacherAssignmentStatistic | DynamicTeacherAssignmentStatistic>();
+// const { data } = await tryCatch(getTeacherQuestionStatistic(assignmentId, true));
+// currentAssignmentStats.value = data;
+
+const currentAssignmentStats = ref<{
+  guaranteedQuestions: {
+    id: number;
+    text: string;
+    answerType: string;
+    difficulty: number;
+    correctFirstAttempts: number;
+    totalFirstAttempts: number;
+    answers: { id: number; text: string; isCorrect: boolean }[];
+  }[];
+  statisticData: {
+    question: number;
+    answer: number | null;
+    correctAnswer: number;
+    timeSpent: number;
+    staticUserAnswer: number;
+  }[];
+}>({
+  guaranteedQuestions: [
+    {
+      id: 1001,
+      text: "<p>What is the acceleration of an object in free fall?</p>",
+      answerType: "Multiple Choice",
+      difficulty: 1,
+      correctFirstAttempts: 5,
+      totalFirstAttempts: 10,
+      answers: [
+        { id: 201, text: "<p>0 m/s²</p>", isCorrect: false },
+        { id: 202, text: "<p>9.8 m/s²</p>", isCorrect: true },
+        { id: 203, text: "<p>4.9 m/s²</p>", isCorrect: false },
+        { id: 204, text: "<p>Depends on mass</p>", isCorrect: false }
+      ]
+    }
+  ],
+  statisticData: [
+    { question: 1001, answer: 202, correctAnswer: 202, timeSpent: 8, staticUserAnswer: 202 },
+    { question: 1001, answer: 203, correctAnswer: 202, timeSpent: 10, staticUserAnswer: 203 },
+    { question: 1001, answer: null, correctAnswer: 202, timeSpent: 0, staticUserAnswer: 0 }
+  ]
+});
+
 const multipleChoiceQuestions = computed(() => currentAssignmentStats.value?.guaranteedQuestions.filter((q) => q.answerType === "Multiple Choice") ?? []);
 const selectedQuestion = ref<(typeof multipleChoiceQuestions.value)[0] | null>(null);
 function showQuestion(question: (typeof multipleChoiceQuestions.value)[0]) {
@@ -75,28 +119,38 @@ function showQuestion(question: (typeof multipleChoiceQuestions.value)[0]) {
 }
 
 //TODO: make table applicable to written questions
+const answerSelections = computed(() => {
+  const stats = currentAssignmentStats.value?.statisticData ?? [];
+  const map: Record<number, Record<number, number>> = {};
+
+  for (const stat of Array.isArray(stats) ? stats : []) {
+    if (stat.question && stat.answer) {
+      if (!map[stat.question]) map[stat.question] = {};
+      if (!map[stat.question][stat.answer]) map[stat.question][stat.answer] = 0;
+      map[stat.question][stat.answer]++;
+    }
+  }
+
+  return map;
+});
+
 const averageTimeSpent = computed(() => {
   const stats = currentAssignmentStats.value?.statisticData ?? [];
   const map: Record<number, { total: number; count: number }> = {};
 
-  if (Array.isArray(stats)) {
-    stats.forEach((stat) => {
-      const questionId = stat.question;
-      const spent = Number(stat.timeSpent);
-      if (typeof questionId === "number" && !isNaN(spent)) {
-        if (!map[questionId]) map[questionId] = { total: 0, count: 0 };
-        map[questionId].total += spent;
-        map[questionId].count += 1;
-      }
-    });
-  }
+  stats.forEach((stat: { question: number; timeSpent: number }) => {
+    const questionId = stat.question;
+    const spent = Number(stat.timeSpent);
+    if (!map[questionId]) map[questionId] = { total: 0, count: 0 };
+    map[questionId].total += spent;
+    map[questionId].count++;
+  });
 
   const avgMap: Record<number, number> = {};
   Object.entries(map).forEach(([qid, { total, count }]) => {
     avgMap[Number(qid)] = Math.round(total / count);
   });
 
-  console.log("Computed Average Time Spent:", avgMap);
   return avgMap;
 });
 
@@ -105,28 +159,23 @@ console.log("Is array?", Array.isArray(currentAssignmentStats.value?.statisticDa
 
 console.log("timeSpent", averageTimeSpent.value);
 
+function getAverageTimeSpent(questionId: number) {
+  return averageTimeSpent.value[questionId];
+}
+
 function getNotStarted(questionId: number) {
   const stats = currentAssignmentStats.value?.statisticData;
-  console.log("Statistic Data:", stats);
-  const notStartedCount = Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && !stat.answer).length : 0;
-  console.warn(`Not Started for Question ${questionId}:`, notStartedCount);
-  return notStartedCount;
+  return Array.isArray(stats) ? stats.filter((s) => s.question === questionId && !s.answer).length : 0;
 }
 
 function getIncorrect(questionId: number): number {
   const stats = currentAssignmentStats.value?.statisticData;
-  console.log("Statistic Data:", stats);
-  const incorrectCount = Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && stat.answer && stat.answer !== stat.correctAnswer).length : 0;
-  console.warn(`Incorrect for Question ${questionId}:`, incorrectCount);
-  return incorrectCount;
+  return Array.isArray(stats) ? stats.filter((s) => s.question === questionId && s.answer && s.answer !== s.correctAnswer).length : 0;
 }
 
 function getCorrect(questionId: number): number {
   const stats = currentAssignmentStats.value?.statisticData;
-  console.log("Statistic Data:", stats);
-  const correctCount = Array.isArray(stats) ? stats.filter((stat) => stat.question === questionId && stat.answer === stat.correctAnswer).length : 0;
-  console.warn(`Correct for Question ${questionId}:`, correctCount);
-  return correctCount;
+  return Array.isArray(stats) ? stats.filter((s) => s.question === questionId && s.answer === s.correctAnswer).length : 0;
 }
 
 function removeImage(html: string): string {
