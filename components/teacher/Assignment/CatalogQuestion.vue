@@ -27,7 +27,7 @@
       />
     </div>
 
-    <span class="question-text space-y-3 text-neutral-100" v-html="question?.text"></span>
+    <span class="question-text space-y-3" v-html="question?.text"></span>
 
     <!-- answer choices -->
     <div class="items-left flex flex-wrap justify-center gap-2">
@@ -48,6 +48,7 @@ const props = defineProps<{
   question: TopicQuestionInterface;
   showAnswerOverride: boolean;
   currentQuestions: CreateAssignmentQuestion[];
+  // used to see if we can exclude
   isInAssignment: boolean;
   isExcluded: boolean;
 }>();

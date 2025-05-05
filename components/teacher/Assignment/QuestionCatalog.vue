@@ -140,7 +140,7 @@ const emit = defineEmits<{
 }>();
 
 const userStore = useUserStore();
-const { loadedTopics, loadedQuestions } = storeToRefs(userStore);
+const { loadedTopics, loadedQuestions, totalQuestionCount } = storeToRefs(userStore);
 
 const initialTopics = ref<Topic[]>([]);
 const displayedQuestions = ref<(number | TopicQuestionInterface)[]>([]);
@@ -148,12 +148,16 @@ const displayedQuestions = ref<(number | TopicQuestionInterface)[]>([]);
 const showQuestionAnswers = ref(false);
 
 async function loadQuestions(topicId: number, offset?: number) {
+  console.log(loadedTopics);
   const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId, offset));
   if (error) return console.error(error);
 
   const questions = data.questions;
   // eslint-disable-next-line no-use-before-define
   totalQuestions.value = data.count;
+
+  // if root, store it separately (is not stored in loadedTopics)
+  if (topicId === 1) totalQuestionCount.value = data.count;
 
   if (loadedTopics.value[topicId]) {
     // add question ids, but no duplicates

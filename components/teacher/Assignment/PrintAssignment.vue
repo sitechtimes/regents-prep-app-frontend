@@ -5,7 +5,7 @@
       <span class="relative min-w-8 max-w-8 text-right">{{ index + 1 }}.</span>
 
       <div class="flex flex-col">
-        <span class="question-text mb-2 space-y-3 text-neutral-100" v-html="loadedQuestions[id].text"></span>
+        <span class="question-text mb-2 space-y-3 " v-html="loadedQuestions[id].text"></span>
         <div v-if="loadedQuestions[id].answerType === 'Multiple Choice'" class="w-fit columns-2 gap-2">
           <div v-for="(answer, jndex) in loadedQuestions[id].answers" :key="answer.id" class="mb-1 flex gap-2">
             <span class="min-w-4 max-w-4 text-right"> {{ String.fromCharCode(65 + jndex) }}) </span>
