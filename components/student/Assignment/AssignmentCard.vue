@@ -15,16 +15,14 @@
     </div>
 
     <div v-if="assignment.assignment" class="flex w-5/6 flex-col items-start justify-start gap-2 lg:w-2/3">
-      <div class="flex flex-col">
-        <p v-if="assignment.dateSubmitted !== null" class="text-xl font-medium">
-          Your Grade: {{ assignment.questionsCorrect }}/{{ assignment.assignment.numQuestions }}
-          <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.assignment.numQuestions) * 100) }}%)</span>
-        </p>
-        <p v-else class="text-xl font-medium">
-          Your Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numQuestions }}
-          <span class="flex-col text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numQuestions) * 100) }}%)</span>
-        </p>
-      </div>
+      <p v-if="assignment.dateSubmitted !== null" class="text-xl font-medium">
+        Your Grade: {{ assignment.questionsCorrect }}/{{ assignment.assignment.numQuestions }}
+        <span class="text-sm">({{ Math.floor((assignment.questionsCorrect / assignment.assignment.numQuestions) * 100) }}%)</span>
+      </p>
+      <p v-else class="text-xl font-medium">
+        Your Progress: {{ assignment.questionsCompleted }}/{{ assignment.assignment.numQuestions }}
+        <span class="flex-col text-sm">({{ Math.floor((assignment.questionsCompleted / assignment.assignment.numQuestions) * 100) }}%)</span>
+      </p>
 
       <div v-if="assignment.dateSubmitted !== null" class="h-4 w-full rounded-full border-[1.5px] border-gray-300 dark:border-neutral-600">
         <div class="h-full rounded-full bg-green-500" :style="{ width: ((assignment.questionsCorrect ?? assignment.questionsCompleted) / assignment.assignment.numQuestions) * 100 + '%' }"></div>
