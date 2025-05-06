@@ -148,7 +148,6 @@ const displayedQuestions = ref<(number | TopicQuestionInterface)[]>([]);
 const showQuestionAnswers = ref(false);
 
 async function loadQuestions(topicId: number, offset?: number) {
-  console.log(loadedTopics);
   const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId, offset));
   if (error) return console.error(error);
 
@@ -159,12 +158,8 @@ async function loadQuestions(topicId: number, offset?: number) {
   // if root, store it separately (is not stored in loadedTopics)
   if (topicId === 1) totalQuestionCount.value = data.count;
 
-  if (loadedTopics.value[topicId]) {
-    // add question ids, but no duplicates
-    loadedTopics.value[topicId].questionIds = Array.from(new Set([...loadedTopics.value[topicId].questionIds, ...questions.map((question) => question.id)]));
-
-    loadedTopics.value[topicId].questionCount = data.count;
-  }
+  // add question ids, but no duplicates
+  if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = Array.from(new Set([...loadedTopics.value[topicId].questionIds, ...questions.map((question) => question.id)]));
 
   for (const question of questions) if (!loadedQuestions.value[question.id]) loadedQuestions.value[question.id] = question;
 
@@ -190,8 +185,7 @@ async function loadTopics(topicId: number) {
       ...topic,
       children: topic.hasChildren ? [] : null,
       parents: topic.hasParents ? [] : null,
-      questionIds: [],
-      questionCount: 0
+      questionIds: []
     };
     loadedTopics.value[topic.id] = mappedTopic;
     if (parentIsLoaded) parent.children?.push(topic.id);

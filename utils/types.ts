@@ -81,14 +81,13 @@ export interface Topic {
   name: string;
   hasChildren: boolean;
   hasParents: boolean;
-  hasQuestions: boolean;
+  numQuestions: number;
 }
 export interface TopicMapped extends Topic {
   /** IDs of child topics */
   children: number[] | null;
   parents: number[] | null;
   questionIds: number[];
-  questionCount: number;
 }
 
 export interface CreateCourse {

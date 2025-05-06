@@ -256,7 +256,7 @@ const randomLength = computed(() => {
     const topicId = topicPath.at(-1);
     if (!topicId) return;
     const topic = loadedTopics.value[topicId];
-    count += topic.questionCount;
+    count += topic.numQuestions;
     // un-double count any manual questions inside an added topic
     count -= assignmentInfo.questions.filter((question) => topic.questionIds.includes(question.questionId)).length;
   });
