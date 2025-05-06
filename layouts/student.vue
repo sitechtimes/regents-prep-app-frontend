@@ -4,7 +4,7 @@
       <StudentDashboardHeader @toggle-side-menu="showSideMenu = !showSideMenu" />
 
       <div class="relative flex h-full w-full items-start justify-between">
-        <StudentDashboardSidebar :show-side-menu="showSideMenu" :loaded="loaded" class="overflow-x-hidden" />
+        <StudentDashboardSidebar :show-side-menu="showSideMenu" :loaded="loaded" class="flex-none overflow-x-hidden" />
         <div class="h-full min-h-[calc(100dvh-4rem)] w-full p-4">
           <slot></slot>
         </div>

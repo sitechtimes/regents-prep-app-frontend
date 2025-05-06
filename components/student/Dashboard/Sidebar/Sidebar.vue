@@ -3,7 +3,7 @@
     <div
       v-show="showSideMenu"
       id="side-menu"
-      class="sticky left-0 top-16 flex h-[calc(100dvh-4rem)] w-[60%] flex-col items-start justify-start border-r border-neutral-300 pt-4 md:w-48 lg:w-64 dark:border-neutral-600"
+      class="sticky left-0 top-16 flex h-[calc(100dvh-4rem)] w-2/5 flex-col items-start justify-start border-r border-neutral-300 pt-4 md:w-48 lg:w-64 dark:border-neutral-600"
     >
       <!-- dashboard and assignments navigation -->
       <div class="flex w-full flex-col items-center justify-center px-2 dark:border-neutral-600">
