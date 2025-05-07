@@ -24,13 +24,13 @@
       <!-- dynamic assignments submit question button -->
       <div class="mt-8 flex w-full items-center justify-between gap-6 px-10">
         <button
-          class="flex w-full items-center justify-center gap-2 rounded-lg bg-green-300 px-10 py-2 text-xl font-bold dark:bg-green-600 dark:text-white"
+          class="flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:bg-green-600 dark:text-white"
           type="button"
           :disabled="mode !== 'answering' || !currentQuestion?.question.answers.some((answer) => answer.selected)"
           :class="
             mode !== 'answering' || !currentQuestion?.question.answers.some((answer) => answer.selected)
               ? 'cursor-not-allowed opacity-50 brightness-75 grayscale'
-              : 'hover:bg-green-400 dark:hover:bg-green-700'
+              : 'hover:brightness-110 dark:hover:bg-green-700'
           "
           @click="submitQuestion"
         >
@@ -38,13 +38,13 @@
         </button>
 
         <button
-          class="flex items-center justify-center gap-2 rounded-xl bg-green-300 px-8 py-2 sm:px-16 dark:bg-green-600"
+          class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
           type="button"
           :disabled="mode !== 'viewing' || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
           :class="
             mode !== 'viewing' || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1
               ? 'cursor-not-allowed opacity-50 brightness-75 grayscale'
-              : 'group hover:bg-green-400 hover:dark:bg-green-700'
+              : 'group hover:brightness-110 hover:dark:bg-green-700'
           "
           @click="nextQuestion"
         >
