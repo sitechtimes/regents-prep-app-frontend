@@ -109,6 +109,7 @@ export default [
       "vue/enforce-style-attribute": "error",
       "vue/html-button-has-type": "error",
       "vue/new-line-between-multi-line-property": "error",
+      "vue/no-mutating-props": "off",
       "vue/no-static-inline-styles": "error",
       "vue/no-template-target-blank": "error",
       "vue/no-unused-emit-declarations": "error",

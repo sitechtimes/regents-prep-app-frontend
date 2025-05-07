@@ -18,7 +18,7 @@
         <NuxtLink
           v-for="assignment in assignments"
           :key="assignment.id"
-          :to="`/student/course/${course.id}/${assignment.id}`"
+          :to="`/student/course/${course.id}/${assignment.id}?q=${Math.min(assignment.questionsCompleted, assignment.assignment.numQuestions)}`"
           class="flex h-full w-full flex-col items-center justify-center rounded-xl border border-neutral-300 p-3 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
           @click.stop
         >

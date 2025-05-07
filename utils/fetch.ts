@@ -80,7 +80,7 @@ export async function getAssignments<T extends StudentAssignment[] | TeacherAssi
 
 /** Requests the `courses/courseId/teacher/student-list/` endpoint */
 export async function getCourseStudents(courseId: number) {
-  return requestEndpoint<TeacherStudentList[]>(`courses/${courseId}/teacher/student-list/`);
+  return requestEndpoint<StudentData[]>(`courses/${courseId}/teacher/student-list/`);
 }
 
 /** Requests the `courses/student/get-next-dynamic-question/` endpoint */
@@ -132,7 +132,7 @@ export async function getStudentTodo() {
 
 /** Requests the `courses/teacher/` endpoint */
 export async function removeStudents(courseId: number, studentId: number) {
-  await requestEndpoint<TeacherStudentList[]>(`courses/teacher/remove-student/${courseId}/${studentId}`, "DELETE");
+  await requestEndpoint<StudentData[]>(`courses/teacher/remove-student/${courseId}/${studentId}`, "DELETE");
 }
 
 /** Requests the `courses/teacher/create-course/` endpoint */
@@ -166,11 +166,35 @@ export async function submitCreateAssignment(
 
 /** Requests the `courses/teacher/assignment/{assignmentId}/per-question-statistics/{includeGuaranteedQuestions}/{studentIds}` endpoint
  * @param assignmentId - The ID of the assignment for which to get statistics.
- * @param includeGuaranteedQuestions - Whether to include guarnanteed questions, or just their IDs. Defaults to false.
+ * @param includeGuaranteedQuestions - Whether to include guarnanteed questions, or just their IDs.
  * @param studentIds - An optional array of student IDs for which to get statistics. Defaults to all students.
  */
-export async function getTeacherQuestionStatistic<T extends boolean = false>(assignmentId: number, includeGuaranteedQuestions?: T, studentIds?: number[]) {
-  return requestEndpoint<TeacherAssignmentStatistic<T>>(`/courses/teacher/assignment/${assignmentId}/per-question-statistics/${!!includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`);
+export async function getTeacherQuestionStatistic<T extends boolean>(assignmentId: number, includeGuaranteedQuestions: T, studentIds?: number[]) {
+  return requestEndpoint<StaticTeacherAssignmentStatistic<T> | DynamicTeacherAssignmentStatistic<T>>(
+    `/courses/teacher/assignment/${assignmentId}/per-question-statistics/${includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`
+  );
+}
+
+/** Requests the `courses/teacher/assignment/{assignmentId}/per-student-statistics/{includeStudentInfo}` endpoint
+ * @param assignmentId - The ID of the assignment for which to get statistics.
+ * @param includeGuaranteedQuestions - Whether to include student data, or just their IDs.
+ */
+export async function getTeacherStudentStatistics<T extends boolean>(assignmentId: number, includeStudentInfo: T) {
+  const studentList = await requestEndpoint<StudentStatistic<T>[]>(`/courses/teacher/assignment/${assignmentId}/per-student-statistics/${includeStudentInfo}`);
+  for (const student of studentList) {
+    student.timeStarted = student.timeStarted ? new Date(student.timeStarted) : null;
+    student.dateSubmitted = student.dateSubmitted ? new Date(student.dateSubmitted) : null;
+  }
+  return studentList;
+}
+
+/** Requests the `courses/teacher/assignment/{assignmentId}/individualized-statistics/{studentId}/{includeQuestions}` endpoint
+ * @param assignmentId - The ID of the assignment for which to get statistics.
+ * @param studentIds - The student IDs for which to get statistics.
+ * @param includeQuestions - Whether to include questions, or just their IDs.
+ */
+export async function getIndividualStudentStatistics<T extends boolean>(assignmentId: number, includeQuestions: T) {
+  return requestEndpoint<(StaticIndividualStudentStatistic<T> | DynamicIndividualStudentStatistic<T>)[]>(`/courses/teacher/assignment/individualized-statistics/${assignmentId}/${includeQuestions}`);
 }
 
 /** Requests the `questions/teacher/topics/<topicId>` endpoint */
