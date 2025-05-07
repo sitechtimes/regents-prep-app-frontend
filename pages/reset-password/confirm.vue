@@ -26,7 +26,7 @@
         </div>
 
         <p v-if="notMatching" class="error font-medium text-red-500">Passwords do not match</p>
-        <p v-if="submitError" class="error font-medium text-red-500">Something went wrong. Please try again.</p>
+        <p v-if="submitError" class="error font-medium text-red-500">Something went wrong. Please try again. {{ errorMessage.value }}</p>
 
         <div class="relative flex w-96 flex-col items-center justify-center gap-1">
           <button class="w-52 items-center rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
@@ -50,7 +50,7 @@ const submitError = ref(false);
 const showModal = ref(false);
 const route = useRoute();
 const router = useRouter();
-
+const errorMessage = ref();
 const uid = String(route.query.uid ?? "");
 const token = String(route.query.token ?? "");
 
@@ -64,16 +64,15 @@ async function onSubmit() {
   submitError.value = false;
   loading.value = true;
 
-  const { error, success } = await tryCatch(confirmResetPassword(uid, token, newPassword1.value, newPassword2.value));
+  const { data: response, error } = await tryCatch(confirmResetPassword(uid, token, newPassword1.value, newPassword2.value));
+  errorMessage.value = response;
+  console.log(errorMessage.value);
   loading.value = false;
 
   if (error) {
     console.error("Password reset failed:", error);
     submitError.value = true;
-    return;
   }
-
-  showModal.value = true;
 }
 
 async function handleConfirm() {
