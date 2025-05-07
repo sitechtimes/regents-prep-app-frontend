@@ -1,7 +1,7 @@
 <template>
   <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-24 py-12 sm:max-h-fit">
-    <h2 class="mb-2 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-    <p class="overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
+    <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
+    <p class="mb-3 overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
     <!-- multiple choice selection -->
     <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
@@ -17,20 +17,20 @@
     <!-- static assignment navigation -->
     <div class="mt-8 flex w-full items-center justify-between gap-1 px-3 xs:gap-6 xs:px-10">
       <button
-        class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-8 py-2 hover:bg-neutral-200 sm:px-16 dark:bg-neutral-600 hover:dark:bg-neutral-700"
+        class="flex items-center justify-center gap-2 rounded-xl bg-green-300 px-8 py-2 sm:px-16 dark:bg-green-600"
         type="button"
         :disabled="currentQuestionIndex === 0"
-        :class="{ 'cursor-not-allowed opacity-50': currentQuestionIndex === 0 }"
+        :class="currentQuestionIndex === 0 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:bg-green-400 hover:dark:bg-green-700'"
         @click="emit('switchQuestion', 'previous')"
       >
         <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrowLeft.svg" aria-hidden="true" />
         <span class="hidden text-xl xs:block">Back</span>
       </button>
       <button
-        class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-8 py-2 hover:bg-neutral-200 sm:px-16 dark:bg-neutral-600 hover:dark:bg-neutral-700"
+        class="flex items-center justify-center gap-2 rounded-xl bg-green-300 px-8 py-2 sm:px-16 dark:bg-green-600"
         type="button"
         :disabled="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
-        :class="{ 'cursor-not-allowed opacity-50': currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 }"
+        :class="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:bg-green-400 hover:dark:bg-green-700'"
         @click="emit('switchQuestion', 'next')"
       >
         <span class="hidden text-xl xs:block">Next</span>

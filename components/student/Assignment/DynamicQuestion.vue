@@ -2,8 +2,8 @@
   <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
     <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
 
-    <h2 class="mb-2 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-    <p class="overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
+    <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
+    <p class="mb-3 overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
     <div class="relative flex w-full flex-col">
       <!-- multiple choice selection -->
@@ -24,20 +24,28 @@
       <!-- dynamic assignments submit question button -->
       <div class="mt-8 flex w-full items-center justify-between gap-6 px-10">
         <button
-          class="flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:text-white dark:hover:brightness-150"
+          class="flex w-full items-center justify-center gap-2 rounded-lg bg-green-300 px-10 py-2 text-xl font-bold dark:bg-green-600 dark:text-white"
           type="button"
           :disabled="mode !== 'answering' || !currentQuestion?.question.answers.some((answer) => answer.selected)"
-          :class="{ 'cursor-not-allowed grayscale': mode !== 'answering' || !currentQuestion?.question.answers.some((answer) => answer.selected) }"
+          :class="
+            mode !== 'answering' || !currentQuestion?.question.answers.some((answer) => answer.selected)
+              ? 'cursor-not-allowed opacity-50 brightness-75 grayscale'
+              : 'hover:bg-green-400 dark:hover:bg-green-700'
+          "
           @click="submitQuestion"
         >
           Submit Question
         </button>
 
         <button
-          class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-8 py-2 hover:bg-neutral-200 sm:px-16 dark:bg-neutral-600 hover:dark:bg-neutral-700"
+          class="flex items-center justify-center gap-2 rounded-xl bg-green-300 px-8 py-2 sm:px-16 dark:bg-green-600"
           type="button"
           :disabled="mode !== 'viewing' || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
-          :class="{ 'cursor-not-allowed opacity-50': mode !== 'viewing' || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 }"
+          :class="
+            mode !== 'viewing' || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1
+              ? 'cursor-not-allowed opacity-50 brightness-75 grayscale'
+              : 'group hover:bg-green-400 hover:dark:bg-green-700'
+          "
           @click="nextQuestion"
         >
           <span class="hidden text-xl xs:block">Next</span>

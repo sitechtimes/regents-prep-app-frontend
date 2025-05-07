@@ -6,30 +6,30 @@
           <div v-if="assignmentInProgress" class="fixed left-0 top-0 z-50 flex h-dvh w-screen items-center justify-center bg-body">
             <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" :trigger-submit="triggerSubmit" @close="assignmentInProgress = false" />
 
-            <div class="fixed right-0 top-4 flex items-center justify-center gap-4 pr-10 xl:right-72">
+            <div class="fixed right-0 top-4 flex items-center justify-center gap-4 pr-10">
               <ToggleTheme />
             </div>
 
-            <StudentAssignmentStaticQuestion
-              v-if="currentAssignment.assignment.isStatic && currentQuestion && 'staticUserAnswer' in currentQuestion"
-              v-model="selectedChoice"
-              :current-assignment="currentAssignment"
-              :current-question-index="currentQuestionIndex"
-              @change-current-question="(question) => (currentQuestion = question)"
-              @switch-question="(direction) => switchQuestion(direction)"
-            />
-            <StudentAssignmentDynamicQuestion
-              v-else-if="!currentAssignment.assignment.isStatic && currentQuestion && !('staticUserAnswer' in currentQuestion)"
-              v-model="selectedChoice"
-              :current-assignment="currentAssignment"
-              :current-question-index="currentQuestionIndex"
-              :timestamp="timestamp"
-              @change-timestamp="(newTimestamp) => (timestamp = newTimestamp)"
-              @go-next-question="switchQuestion('next')"
-              @submit-assignment="triggerSubmit = true"
-            />
-
-            <div class="hidden h-full w-72 shrink-0 bg-neutral-100 xl:block dark:bg-neutral-800"></div>
+            <div class="grow xl:px-20 2xl:px-36">
+              <StudentAssignmentStaticQuestion
+                v-if="currentAssignment.assignment.isStatic && currentQuestion && 'staticUserAnswer' in currentQuestion"
+                v-model="selectedChoice"
+                :current-assignment="currentAssignment"
+                :current-question-index="currentQuestionIndex"
+                @change-current-question="(question) => (currentQuestion = question)"
+                @switch-question="(direction) => switchQuestion(direction)"
+              />
+              <StudentAssignmentDynamicQuestion
+                v-else-if="!currentAssignment.assignment.isStatic && currentQuestion && !('staticUserAnswer' in currentQuestion)"
+                v-model="selectedChoice"
+                :current-assignment="currentAssignment"
+                :current-question-index="currentQuestionIndex"
+                :timestamp="timestamp"
+                @change-timestamp="(newTimestamp) => (timestamp = newTimestamp)"
+                @go-next-question="switchQuestion('next')"
+                @submit-assignment="triggerSubmit = true"
+              />
+            </div>
           </div>
         </Transition>
       </Teleport>
