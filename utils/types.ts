@@ -58,6 +58,8 @@ export interface TopicQuestionInterface {
   }[];
   correctFirstAttempts: number;
   totalFirstAttempts: number;
+  /** the id of the deepest subtopic a question is in */
+  subtopic: number;
 }
 
 /** @template T - Whether the `guaranteedQuestions` field should be an array of `Question` objects or an array of question IDs */

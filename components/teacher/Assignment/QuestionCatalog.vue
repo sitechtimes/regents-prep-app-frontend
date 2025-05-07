@@ -140,7 +140,14 @@ const emit = defineEmits<{
 }>();
 
 const userStore = useUserStore();
-const { loadedTopics, loadedQuestions, totalQuestionCount } = storeToRefs(userStore);
+const { loadedTopics, loadedTopicPaths, loadedQuestions, totalQuestionCount } = storeToRefs(userStore);
+
+/**
+ * an array of topic ids, the last element is the actual topic id
+ *
+ * the root topic is [1]
+ */
+const currentTopicPath = ref<number[]>([]); // topic id array
 
 const initialTopics = ref<Topic[]>([]);
 const displayedQuestions = ref<(number | TopicQuestionInterface)[]>([]);
@@ -161,7 +168,20 @@ async function loadQuestions(topicId: number, offset?: number) {
   // add question ids, but no duplicates
   if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = Array.from(new Set([...loadedTopics.value[topicId].questionIds, ...questions.map((question) => question.id)]));
 
-  for (const question of questions) if (!loadedQuestions.value[question.id]) loadedQuestions.value[question.id] = question;
+  for (const question of questions) {
+    // add to loaded questions
+    if (!loadedQuestions.value[question.id]) loadedQuestions.value[question.id] = question;
+
+    // start loading topic paths
+    const subtopicSet = new Set<number>([]);
+    subtopicSet.add(question.subtopic);
+
+    const subtopics = Array.from(subtopicSet);
+    subtopics.filter((subtopicId) => !loadedTopicPaths.value[subtopicId]);
+
+    const paths = await getTopicAncestorPaths(subtopics);
+    subtopics.forEach((subtopicId, index) => (loadedTopicPaths.value[subtopicId] = paths[index]));
+  }
 
   displayedQuestions.value = questions;
 
@@ -194,12 +214,6 @@ async function loadTopics(topicId: number) {
   return topics;
 }
 
-/**
- * an array of topic ids, the last element is the actual topic id
- *
- * the root topic is [1]
- */
-const currentTopicPath = ref<number[]>([]); // topic id array
 const currentTopic = ref<TopicMapped>();
 
 /** is this exact topic id in the assignment */

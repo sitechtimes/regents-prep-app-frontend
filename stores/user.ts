@@ -16,6 +16,8 @@ export const useUserStore = defineStore("userStore", () => {
   const currentQuestion = ref<DynamicQuestionInterface | StaticQuestionInterface>();
   /** @example { [id]: Topic } */
   const loadedTopics = ref<Record<number, TopicMapped>>({});
+  /** @example { [id]: TopicPath } */
+  const loadedTopicPaths = ref<Record<number, number[]>>({});
   /** @example { [id]: QuestionInterface } */
   const loadedQuestions = ref<Record<number, TopicQuestionInterface>>({});
   /** how many questions are there in total total */
@@ -82,6 +84,7 @@ export const useUserStore = defineStore("userStore", () => {
     teacherCurrentCourse,
     currentQuestion,
     loadedTopics,
+    loadedTopicPaths,
     loadedQuestions,
     totalQuestionCount,
     init,

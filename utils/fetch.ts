@@ -192,8 +192,8 @@ export async function getRandomQuestionsUnderTopic(topicId: number, numOfQuestio
 }
 
 /** Requests the `/questions/teacher/get-topic-paths/<topic_ids | semicolon-delimited list of integer ids in string form>/` endpoint
- * @param topicId - The topic ID to get the path for
+ * @param topicIds - The topic IDs to get the paths for
  */
 export async function getTopicAncestorPaths(topicIds: number[]) {
-  return requestEndpoint<number[][]>(`questions/teacher/random-topic-questions/${topicIds.join(";")}/`);
+  return requestEndpoint<number[][]>(`questions/teacher/get-topic-paths/${topicIds.join(";")}/`);
 }
