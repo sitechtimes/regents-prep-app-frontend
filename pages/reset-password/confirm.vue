@@ -64,8 +64,7 @@ async function onSubmit() {
   submitError.value = false;
   loading.value = true;
 
-  const { error } = await tryCatch(confirmResetPassword(uid, token, newPassword1.value, newPassword2.value));
-
+  const { error, success } = await tryCatch(confirmResetPassword(uid, token, newPassword1.value, newPassword2.value));
   loading.value = false;
 
   if (error) {

@@ -63,12 +63,29 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
   }
 
   const res = await fetch(config.public.backend + endpoint, options);
-  if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`);
+
+  const contentType = res.headers.get("Content-Type") ?? "";
+  let json = null;
+  if (contentType.includes("application/json")) {
+    try {
+      json = await res.json();
+      console.log("Response JSON from", endpoint, ":", json);
+    } catch {
+      console.error("Failed to parse JSON from", endpoint);
+    }
+  }
+  console.log("Full response from", endpoint, ":", json);
+  if (endpoint === "/auth/password/reset/confirm/") {
+    return json;
+  }
+  if (!res.ok) {
+    throw new Error(json ? JSON.stringify(json) : `Failed to fetch ${endpoint}`);
+  }
 
   const contentLength = res.headers.get("Content-Length");
-  if (contentLength === "0") return undefined as T;
+  if (contentLength === "0" || !json) return undefined as T;
 
-  return res.json();
+  return json as T;
 }
 
 /** Requests the `courses/courseId/assignments/` endpoint */
@@ -202,11 +219,22 @@ export async function resetPassword(email: string) {
   return requestEndpoint(`/auth/password/reset/`, "POST", { email });
 }
 
-export async function confirmResetPassword(uid: string, token: string, newPassword1: string, newPassword2: string) {
-  return requestEndpoint(`/auth/password/reset/confirm/`, "POST", {
-    uid,
-    token,
-    newPassword1,
-    newPassword2
-  });
+export async function confirmResetPassword(uid: string, token: string, new_password1: string, new_password2: string) {
+  try {
+    const jsonResponse = await requestEndpoint<{ message: string }>(`/auth/password/reset/confirm/`, "POST", {
+      uid,
+      token,
+      new_password1,
+      new_password2
+    });
+
+    if (!jsonResponse?.message) {
+      console.log("Password reset failed or malformed response:", jsonResponse);
+      return jsonResponse;
+    }
+    return { success: jsonResponse.message };
+  } catch (error) {
+    console.error("Error during password reset:", error);
+    return { error: "An error occurred during the password reset." };
+  }
 }
