@@ -1,47 +1,43 @@
 <template>
-  <Transition name="join-menu-scale">
-    <div v-if="show" class="join-menu-bg fixed left-0 top-0 z-[51] flex min-h-screen w-screen items-center justify-center bg-[rgba(0,0,0,0.15)]" @click="emit('close')">
-      <div class="join-menu flex flex-col items-center justify-center rounded-lg bg-white p-6" @click.stop>
-        <h2 class="text-xl">Create New Course</h2>
-        <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
-          <label class="du-label" for="course-name">Course Name <span title="Required" class="font-2xl text-red-500">*</span></label>
-          <input id="course-name" v-model="courseName" class="du-input w-96 bg-gray-200" type="text" placeholder="Enter the name of the course" />
+  <FullScreenModal transition-name="scale-75" :show-modal="show" width-class="w-auto" @close="emit('close')">
+    <h2 class="text-xl">Create New Course</h2>
+    <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
+      <label class="du-label" for="course-name">Course Name <span title="Required" class="font-2xl text-red-500">*</span></label>
+      <input id="course-name" v-model="courseName" class="du-input w-96 bg-gray-200" type="text" placeholder="Enter the name of the course" />
 
-          <label class="du-label" for="course-subject">Course Subject <span title="Required" class="font-2xl text-red-500">*</span></label>
-          <select id="course-subject" v-model="courseSubject" class="du-select w-96 bg-gray-200">
-            <option value="" selected>Select the subject of the course</option>
-            <option v-for="regents in Object.values(regentsTypes).flat().sort()" :key="regents" :value="regents">{{ regents }}</option>
-          </select>
+      <label class="du-label" for="course-subject">Course Subject <span title="Required" class="font-2xl text-red-500">*</span></label>
+      <select id="course-subject" v-model="courseSubject" class="du-select w-96 bg-gray-200">
+        <option value="" selected>Select the subject of the course</option>
+        <option v-for="regents in Object.values(regentsTypes).flat().sort()" :key="regents" :value="regents">{{ regents }}</option>
+      </select>
 
-          <label class="du-label" for="course-name">Period <span title="Required" class="font-2xl text-red-500">*</span></label>
-          <div class="flex w-96 items-center justify-between">
-            <button
-              v-for="num in 9"
-              :key="num"
-              class="h-12 flex-1 duration-200"
-              :class="{ 'rounded-l-lg': num == 1, 'rounded-r-lg': num == 9, 'bg-gray-accent': num != coursePeriod, 'bg-green-accent': num == coursePeriod }"
-              type="button"
-              @click="coursePeriod = num"
-            >
-              {{ num }}
-            </button>
-          </div>
-        </form>
-        <div class="flex w-full justify-end gap-2">
-          <button class="du-btn du-btn-md" type="button" @click="emit('close')">Cancel</button>
-          <button
-            class="du-btn du-btn-md bg-green-accent"
-            :class="{ grayscale: !courseName || !courseSubject || !coursePeriod }"
-            :disabled="!courseName || !courseSubject || !coursePeriod"
-            form="create-course"
-            type="submit"
-          >
-            Create
-          </button>
-        </div>
+      <label class="du-label" for="course-name">Period <span title="Required" class="font-2xl text-red-500">*</span></label>
+      <div class="flex w-96 items-center justify-between">
+        <button
+          v-for="i in 9"
+          :key="i"
+          class="h-12 flex-1 duration-200"
+          :class="{ 'rounded-l-lg': i === 1, 'rounded-r-lg': i === 9, 'bg-gray-accent': i !== coursePeriod, 'bg-green-accent': i === coursePeriod }"
+          type="button"
+          @click="coursePeriod = i"
+        >
+          {{ i }}
+        </button>
       </div>
+    </form>
+    <div class="flex w-full justify-end gap-2">
+      <button class="du-btn du-btn-md" type="button" @click="emit('close')">Cancel</button>
+      <button
+        class="du-btn du-btn-md bg-green-accent"
+        :class="{ grayscale: !courseName || !courseSubject || !coursePeriod }"
+        :disabled="!courseName || !courseSubject || !coursePeriod"
+        form="create-course"
+        type="submit"
+      >
+        Create
+      </button>
     </div>
-  </Transition>
+  </FullScreenModal>
   <dialog ref="successModal" class="du-modal rounded-lg p-6">
     <div class="du-modal-box">
       <h3 class="text-lg font-bold">Congrats!</h3>
@@ -95,8 +91,9 @@ async function createCourse() {
     subject: Object.keys(regentsTypes)[subjectCode] as keyof typeof regentsTypes,
     period: coursePeriod.value,
     numStudents: 0,
-    assignmentsLength: 0,
-    teacher: userStore.name
+    teacher: userStore.name,
+    assignments: [],
+    assignmentsFetched: false
   });
 
   successModal.value?.showModal();

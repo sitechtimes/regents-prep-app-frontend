@@ -25,6 +25,7 @@ describe("Student Course Info Page", () => {
       teacher: "Wichael Mhalen",
       period: 2,
       subject: "Math",
+      assignmentsFetched: true,
       assignments: [
         {
           id: 420,
@@ -38,7 +39,8 @@ describe("Student Course Info Page", () => {
             lateSubmissions: false,
             dueDate: new Date(),
             dateAssigned: new Date(),
-            questionInterfaces: []
+            questionInterfaces: [],
+            attemptsAllowed: 0
           }
         }
       ]
@@ -61,7 +63,8 @@ describe("Student Course Info Page", () => {
       teacher: "Wichael Mhalen",
       period: 2,
       subject: "Math",
-      assignments: []
+      assignments: [],
+      assignmentsFetched: true
     };
     await flushPromises();
 

@@ -49,7 +49,7 @@ const courseId = Number(route.params.courseCode);
 
 const searchTerm = ref("");
 
-const students = ref<TeacherStudentList[]>([]);
+const students = ref<StudentData[]>([]);
 
 const filteredStudents = computed(() =>
   students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()))
@@ -61,7 +61,7 @@ onMounted(async () => {
   students.value = data;
 });
 
-async function removeStudent(student: TeacherStudentList) {
+async function removeStudent(student: StudentData) {
   students.value.splice(students.value.indexOf(student), 1);
 
   const { error } = await tryCatch(removeStudents(courseId, student.id));

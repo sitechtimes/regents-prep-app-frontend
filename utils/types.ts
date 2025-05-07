@@ -7,12 +7,10 @@ export interface Answer {
    * @warning Must be manually added to `Answer`; this field is not returned from the API.
    */
   selected: boolean;
-  /** @readonly ID of the selected answer.
-   * @warning only present for static questions.
+  /** Whether or not the answer is correct.
+   * @warning Must be added manually. Should be added after submitting a question and receiving results.
    */
-  selectedAnswerId: number | null;
-  /** @readonly Whether or not the answer is correct. */
-  readonly isCorrect: boolean;
+  isCorrect?: boolean;
 }
 
 export interface Question {
@@ -28,7 +26,6 @@ interface QuestionInterface {
   /** @readonly ID of the question interface. */
   readonly id: number;
   question: Question;
-  staticUserAnswer: number | null;
 }
 
 export interface DynamicQuestionInterface extends QuestionInterface {
@@ -42,38 +39,67 @@ export interface StaticQuestionInterface extends QuestionInterface {
    * @warning Starts at 1, with 0 indicating an unknown index.
    */
   questionIndex: number;
+  staticUserAnswer: number | null;
 }
 
+export interface TopicQuestionInterfaceAnswer {
+  id: number;
+  /** @readonly What the answer choice says (HTML string). */
+  text: string;
+  isCorrect: boolean;
+}
 export interface TopicQuestionInterface {
   id: number;
   /** @readonly What the answer choice says (HTML string). */
   readonly text: string;
   answerType: "Multiple Choice" | "Written Response" | "True or False";
   difficulty: number;
-  answers: {
-    id: number;
-    /** @readonly What the answer choice says (HTML string). */
-    readonly text: string;
-    isCorrect: boolean;
-  }[];
+  answers: TopicQuestionInterfaceAnswer[];
   correctFirstAttempts: number;
   totalFirstAttempts: number;
 }
 
+interface TeacherAssignmentStatisticData {
+  /** ID of the assignment instance */
+  assignmentInstance: number;
+  /** ID of the question */
+  question: number;
+  /** Time spent on the assignment, in seconds */
+  timeSpent: number;
+}
 /** @template T - Whether the `guaranteedQuestions` field should be an array of `Question` objects or an array of question IDs */
-export interface TeacherAssignmentStatistic<T extends boolean> {
-  statisticsData: {
-    /** ID of the assignment instance */
-    assignmentInstance: number;
-    /** ID of the question */
-    question: number;
-    /** User answers for the entire assignment */
-    userAnswers: number[];
-    /** Time spent on the assignment, in seconds */
-    timeSpent: number;
-  };
+interface TeacherAssignmentStatistic<T extends boolean> {
+  statisticsData: TeacherAssignmentStatisticData;
   /** Array of guaranteed questions if `T` is true, question IDs if false */
   guaranteedQuestions: T extends true ? Question[] : number[];
+}
+export interface DynamicTeacherAssignmentStatistic<T extends boolean = true> extends TeacherAssignmentStatistic<T> {
+  statisticsData: TeacherAssignmentStatisticData & {
+    /** Array of answer IDs that represent the user's answers for the question */
+    dynamicUserAnswers: number[];
+  };
+}
+export interface StaticTeacherAssignmentStatistic<T extends boolean = true> extends TeacherAssignmentStatistic<T> {
+  statisticsData: TeacherAssignmentStatisticData & {
+    /** Answer ID */
+    staticUserAnswer: number;
+  };
+}
+
+interface IndividualStudentStatistic<T extends boolean> {
+  /** ID of the assignment instance */
+  assignmentInstance: number;
+  /** Measured in seconds */
+  timeSpent: number;
+  /** Array of questions if `T` is true, question IDs if false */
+  question: T extends true ? TopicQuestionInterface : number;
+}
+export interface DynamicIndividualStudentStatistic<T extends boolean = true> extends IndividualStudentStatistic<T> {
+  /** Array of answer IDs that represent the user's answers for the question */
+  dynamicUserAnswers: number[];
+}
+export interface StaticIndividualStudentStatistic<T extends boolean = true> extends IndividualStudentStatistic<T> {
+  staticUserAnswer: number;
 }
 
 export interface Topic {
@@ -94,7 +120,7 @@ export interface CreateCourse {
   subject: number;
 }
 
-export interface TeacherStudentList {
+export interface StudentData {
   /** @readonly UID of the student. */
   readonly id: number;
   /** @readonly First name of the student. */
@@ -103,6 +129,20 @@ export interface TeacherStudentList {
   readonly lastName: string;
   /** @readonly Email of the student. */
   readonly email: string;
+}
+
+/** @template T - Whether the `student` field should be `StudentData` objects or an array of student IDs */
+export interface StudentStatistic<T extends boolean = true> {
+  /** Assignment instance ID */
+  id: number;
+  /** Array of student data if `T` is true, student IDs if false */
+  student: T extends true ? StudentData : number;
+  dateSubmitted: Date | null;
+  questionsCompleted: number;
+  questionsCorrect: number;
+  /** Measured in seconds */
+  timeSpent: number;
+  timeStarted: Date | null;
 }
 
 interface Assignment {
@@ -123,6 +163,9 @@ export interface StudentAssignment extends Assignment {
   /** @readonly assignment object for assignment properties. */
 
   readonly assignment: {
+    /** @readonly Number of attempts allowed, if assignment is dynamic */
+    readonly attemptsAllowed: number;
+
     /** @readonly Name of the assignment. */
     readonly name: string;
 
@@ -141,7 +184,9 @@ export interface StudentAssignment extends Assignment {
     /** @readonly If the assignment is a static assignment.*/
     readonly isStatic: boolean;
 
-    /** @readonly Object identifying the course assignment belongs to. */
+    /** @readonly Object identifying the course assignment belongs to.
+     * @warning Only present if assignment is fetched for all courses.
+     */
     readonly course?: {
       /** @readonly Id of the course assignment belongs to */
       readonly id: number;
@@ -194,6 +239,8 @@ interface Course {
   readonly period: number;
   /** @readonly Subject of the course. */
   readonly subject: Subject;
+  /** @warning This field is not returned from the API, must be added manually on fetch */
+  assignmentsFetched: boolean;
 }
 
 export interface StudentCourse extends Course {
@@ -201,12 +248,12 @@ export interface StudentCourse extends Course {
 }
 
 export interface TeacherCourseNoAssignment extends Course {
+  /** @warning This field is not returned from the API, must be added manually on fetch */
+  assignments: TeacherAssignment[];
   /** @readonly 6-digit join code for the course. */
   readonly joinCode: string;
   /** The number of students in the course. */
   numStudents: number;
-  /** Total number of unsubmitted, future assignments. */
-  assignmentsLength: number;
 }
 
 export interface TeacherCourse extends TeacherCourseNoAssignment {
@@ -223,8 +270,8 @@ export interface AssignmentInstance {
 export interface SubmitAnswer {
   /** @readonly Tells you if the answer was correct. */
   readonly isCorrect: boolean;
-  /** Number of remaining attempts. */
-  remainingAttempts: number;
+  /** @readonly Number of remaining attempts. */
+  readonly remainingAttempts: number | null;
 }
 
 export interface SubmitAssignment {
