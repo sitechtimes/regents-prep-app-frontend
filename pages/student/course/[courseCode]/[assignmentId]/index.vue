@@ -50,6 +50,10 @@ onBeforeMount(() => (currentQuestion.value = undefined));
 const assignmentId = Number(route.params.assignmentId);
 const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
 
+useSeoMeta({
+  title: () => `${studentCurrentCourse.value?.name ?? "Class Details"} - ${currentAssignment.value?.assignment.name ?? "Assignment"}`
+});
+
 const assignmentInProgress = ref(false);
 watch(assignmentInProgress, (val) => {
   if (!val) void router.push(`/student/course/${studentCurrentCourse.value?.id}`);

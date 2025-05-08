@@ -1,6 +1,8 @@
 # SITHS Regents Prep App
 
-Don't fail your regents.
+Don't fail your regents! If you do... don't blame us.
+
+Built by SITHS, for SITHS.
 
 ## Getting Started
 

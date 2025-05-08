@@ -90,10 +90,15 @@ definePageMeta({
 const route = useRoute();
 const userStore = useUserStore();
 const { studentCurrentCourse } = storeToRefs(userStore);
+
 const assignmentResults = ref<AssignmentResults>();
 const dropdownStates = ref<boolean[]>([]);
 const assignmentId = Number(route.params.assignmentId);
 const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
+
+useSeoMeta({
+  title: () => `${studentCurrentCourse.value?.name ?? "Class Details"} - ${currentAssignment.value?.assignment.name ?? "Assignment Stats"}`
+});
 
 onMounted(async () => {
   const courseId = studentCurrentCourse.value?.id;
