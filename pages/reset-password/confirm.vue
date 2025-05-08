@@ -64,15 +64,11 @@ async function onSubmit() {
   submitError.value = false;
   loading.value = true;
 
-  const { data: response, error } = await tryCatch(confirmResetPassword(uid, token, newPassword1.value, newPassword2.value));
+  const { data: response } = await tryCatch(confirmResetPassword(uid, token, newPassword1.value, newPassword2.value));
   errorMessage.value = response;
-  console.log(errorMessage.value);
+  console.log(response);
+  submitError.value = true;
   loading.value = false;
-
-  if (error) {
-    console.error("Password reset failed:", error);
-    submitError.value = true;
-  }
 }
 
 async function handleConfirm() {

@@ -43,17 +43,19 @@ function sanitize(html: string) {
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ * @param bypassError - whether to handle errors manually. Defaults to `false`. **Should only be used for confirmResetPassword**.
  */
-async function requestEndpoint(endpoint: string, method?: string, body?: object): Promise<void>;
+async function requestEndpoint(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<void>;
 /** Makes a request to the given endpoint with the given method and body.
  * @template T - the type of the request's response
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ * @param bypassError - whether to handle errors manually. Defaults to `false`. **Should only be used for confirmResetPassword**.
  * @returns the JSON response from the request.
  */
-async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T>;
-async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T | void> {
+async function requestEndpoint<T>(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<T>;
+async function requestEndpoint<T>(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<T | void> {
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
   if (method) {
@@ -64,28 +66,12 @@ async function requestEndpoint<T>(endpoint: string, method?: string, body?: obje
 
   const res = await fetch(config.public.backend + endpoint, options);
 
-  const contentType = res.headers.get("Content-Type") ?? "";
-  let json = null;
-  if (contentType.includes("application/json")) {
-    try {
-      json = await res.json();
-      console.log("Response JSON from", endpoint, ":", json);
-    } catch {
-      console.error("Failed to parse JSON from", endpoint);
-    }
-  }
-  console.log("Full response from", endpoint, ":", json);
-  if (endpoint === "/auth/password/reset/confirm/") {
-    return json;
-  }
-  if (!res.ok) {
-    throw new Error(json ? JSON.stringify(json) : `Failed to fetch ${endpoint}`);
-  }
+  if (!bypassError && !res.ok) throw new Error(`Failed to fetch ${endpoint}`);
 
   const contentLength = res.headers.get("Content-Length");
-  if (contentLength === "0" || !json) return undefined as T;
+  if (contentLength === "0") return undefined as T;
 
-  return json as T;
+  return res.json();
 }
 
 /** Requests the `courses/courseId/assignments/` endpoint */
@@ -244,21 +230,37 @@ export async function resetPassword(email: string) {
 }
 
 export async function confirmResetPassword(uid: string, token: string, new_password1: string, new_password2: string) {
-  try {
-    const jsonResponse = await requestEndpoint<{ message: string }>(`/auth/password/reset/confirm/`, "POST", {
-      uid,
-      token,
-      new_password1,
-      new_password2
-    });
+  const { data, error } = await tryCatch(
+    requestEndpoint<{ detail?: string; new_password2?: string; token?: string }>(
+      `/auth/password/reset/confirm/`,
+      "POST",
+      {
+        uid,
+        token,
+        new_password1,
+        new_password2
+      },
+      true
+    )
+  );
 
-    if (!jsonResponse?.message) {
-      console.log("Password reset failed or malformed response:", jsonResponse);
-      return jsonResponse;
+  if (error) return console.error(error);
+
+  if (data) {
+    if (data.new_password2) {
+      const returnStuff = data.new_password2[0];
+      console.log("Password validation error:", returnStuff);
+      return returnStuff;
     }
-    return { success: jsonResponse.message };
-  } catch (error) {
-    console.error("Error during password reset:", error);
-    return { error: "An error occurred during the password reset." };
+    if (data.detail) {
+      const returnStuff = data.detail[0];
+      console.log("Detail message:", returnStuff);
+      return returnStuff;
+    }
+    if (data.token) {
+      const returnStuff = data.token[0];
+      console.log("Invalid token:", returnStuff);
+      return data.token;
+    }
   }
 }
