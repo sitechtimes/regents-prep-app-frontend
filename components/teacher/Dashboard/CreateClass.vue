@@ -3,16 +3,16 @@
     <h2 class="text-xl">Create New Course</h2>
     <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
       <label class="du-label" for="course-name">Course Name <span title="Required" class="font-2xl text-red-500">*</span></label>
-      <input id="course-name" v-model="courseName" class="du-input w-96 bg-gray-200" type="text" placeholder="Enter the name of the course" />
+      <input id="course-name" v-model="courseName" class="du-input w-72 bg-gray-200 xs:w-80 sm:w-96" type="text" placeholder="Enter the name of the course" />
 
       <label class="du-label" for="course-subject">Course Subject <span title="Required" class="font-2xl text-red-500">*</span></label>
-      <select id="course-subject" v-model="courseSubject" class="du-select w-96 bg-gray-200">
+      <select id="course-subject" v-model="courseSubject" class="du-select w-72 bg-gray-200 xs:w-80 sm:w-96">
         <option value="" selected>Select the subject of the course</option>
         <option v-for="regents in Object.values(regentsTypes).flat().sort()" :key="regents" :value="regents">{{ regents }}</option>
       </select>
 
       <label class="du-label" for="course-name">Period <span title="Required" class="font-2xl text-red-500">*</span></label>
-      <div class="flex w-96 items-center justify-between">
+      <div class="flex w-72 items-center justify-between xs:w-80 sm:w-96">
         <button
           v-for="i in 9"
           :key="i"
