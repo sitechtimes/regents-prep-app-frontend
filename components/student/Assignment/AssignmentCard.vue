@@ -35,7 +35,7 @@
 
     <div class="flex w-5/6 flex-col items-start justify-start gap-2 sm:w-1/2 sm:items-end">
       <div class="flex items-center justify-center gap-2">
-        <p>{{ assignment.dateSubmitted ? "Submitted" : assignment.assignment.dueDate < currentTime ? "Past Due" : "Not Submitted" }}</p>
+        <p>{{ submissionStatus }}</p>
         <div class="h-2 w-2 rounded-full" :class="assignment.dateSubmitted ? 'bg-green-600' : assignment.assignment.dueDate < currentTime ? 'bg-red-900' : 'bg-red-600'"></div>
       </div>
 
@@ -48,11 +48,17 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   course?: StudentCourse;
   assignment: StudentAssignment;
 }>();
 const currentTime = new Date();
+
+const submissionStatus = computed(() => {
+  if (props.assignment.dateSubmitted) return "Submitted";
+  if (props.assignment.assignment.dueDate < currentTime) return props.assignment.assignment.lateSubmissions ? "Late" : "Past Due";
+  return "Not Submitted";
+});
 </script>
 
 <style scoped>
