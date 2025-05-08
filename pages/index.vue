@@ -5,8 +5,8 @@
   >
     <!-- left side -->
     <div class="flex flex-col items-center justify-center sm:block sm:grow">
-      <div class="flex items-center sm:mb-6">
-        <div class="h-32 w-1"></div>
+      <div class="flex items-center border-b-2 border-[var(--primary)] sm:mb-6 sm:border-b-0">
+        <div class="mr-6 hidden h-32 w-1 bg-[var(--primary)] sm:block"></div>
         <h1 class="flex flex-col text-center text-3xl font-bold leading-relaxed sm:text-left xl:text-4xl 2xl:text-5xl">
           <span class="text-2xl 2xl:text-3xl">Welcome to the</span>
           SITHS Regents Prep App
