@@ -11,7 +11,7 @@
       class="search-input ml-2 flex w-full grow rounded-e-full text-left text-black transition duration-500 placeholder:transition placeholder:duration-500 dark:text-white dark:placeholder:text-neutral-300"
       placeholder="Search"
     />
-    <div class="du-tooltip p-0" data-tip="Clear" :class="search ? 'visible' : 'invisible'">
+    <div class="du-tooltip w-6 p-0" data-tip="Clear" :class="search ? 'visible' : 'invisible'">
       <button tabindex="-1" class="fo-btn fo-btn-circle fo-btn-text rounded-full" type="button" @click="search = ''">
         <img class="size-5 dark:invert" src="/ui/close.svg" aria-hidden="true" />
       </button>
