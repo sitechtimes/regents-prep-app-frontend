@@ -1,15 +1,15 @@
 <template>
   <FullScreenModal transition-name="scale-75" :show-modal="show" @close="closeModal">
-    <div class="join-menu flex w-125 flex-col items-start justify-center gap-4 rounded-xl bg-body p-6" @click.stop>
+    <div class="flex w-full flex-col gap-2 md:gap-4 lg:gap-6" @click.stop>
       <h2 class="text-2xl font-semibold dark:text-white">Join a class</h2>
 
-      <form id="join-code-form" class="flex w-full flex-col rounded-xl border-2 border-neutral-200 p-6 dark:border-neutral-600" @submit.prevent="submit">
+      <form id="join-code-form" class="flex w-full flex-col" @submit.prevent="submit">
         <label for="join-code" class="text-lg font-medium">Class Code</label>
         <p class="text-sm text-neutral-700 dark:text-neutral-300">Enter the class code provided by your teacher</p>
-        <p class="my-2 font-medium leading-normal" :class="{ 'opacity-0': !isErrored && !isSuccess, 'text-red-500': isErrored, 'text-green-500': isSuccess }">
+        <p v-if="isErrored || isSuccess" class="mb-2 mt-1 font-medium leading-normal" :class="{ 'text-red-500': isErrored, 'text-green-500': isSuccess }">
           {{ isErrored ? "Something went wrong. Try again" : isSuccess ? "Successfully enrolled!" : "." }}
         </p>
-        <input id="join-code" v-model="joinCode" class="du-input w-96 rounded-lg border border-neutral-400 bg-body dark:border-neutral-600" type="text" placeholder="Class code" />
+        <input id="join-code" v-model="joinCode" class="du-input w-72 rounded-lg border border-neutral-400 bg-body sm:w-96 dark:border-neutral-600" type="text" placeholder="Class code" />
       </form>
 
       <div class="flex w-full justify-end gap-2">
