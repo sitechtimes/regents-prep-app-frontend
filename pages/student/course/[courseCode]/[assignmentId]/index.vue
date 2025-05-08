@@ -1,47 +1,36 @@
 <template>
-  <div class="flex h-full w-full flex-col items-center justify-start overflow-y-scroll">
-    <div v-if="studentCurrentCourse && currentAssignment" class="flex h-full w-2/3 flex-col items-center justify-center gap-10">
-      <Teleport to="body">
-        <Transition name="menu-slide">
-          <div v-if="assignmentInProgress" class="fixed left-0 top-0 z-50 flex h-dvh w-screen items-center justify-center bg-body">
-            <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" :trigger-submit="triggerSubmit" @close="assignmentInProgress = false" />
+  <div v-if="studentCurrentCourse && currentAssignment && assignmentInProgress" class="flex h-dvh w-full items-center justify-start gap-10 overflow-y-scroll">
+    <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" :trigger-submit="triggerSubmit" @close="assignmentInProgress = false" />
 
-            <div class="fixed right-0 top-4 flex items-center justify-center gap-4 pr-10">
-              <ToggleTheme />
-            </div>
+    <div class="fixed right-0 top-4 flex items-center justify-center gap-4 pr-10">
+      <ToggleTheme />
+    </div>
 
-            <div class="grow xl:px-20 2xl:px-36">
-              <StudentAssignmentStaticQuestion
-                v-if="currentAssignment.assignment.isStatic && currentQuestion && 'staticUserAnswer' in currentQuestion"
-                v-model="selectedChoice"
-                :current-assignment="currentAssignment"
-                :current-question-index="currentQuestionIndex"
-                @change-current-question="(question) => (currentQuestion = question)"
-                @switch-question="(direction) => switchQuestion(direction)"
-              />
-              <StudentAssignmentDynamicQuestion
-                v-else-if="!currentAssignment.assignment.isStatic && currentQuestion && !('staticUserAnswer' in currentQuestion)"
-                v-model="selectedChoice"
-                :current-assignment="currentAssignment"
-                :current-question-index="currentQuestionIndex"
-                :timestamp="timestamp"
-                @change-timestamp="(newTimestamp) => (timestamp = newTimestamp)"
-                @go-next-question="switchQuestion('next')"
-                @submit-assignment="triggerSubmit = true"
-              />
-            </div>
-          </div>
-        </Transition>
-      </Teleport>
+    <div class="grow xl:px-20 2xl:px-36">
+      <StudentAssignmentStaticQuestion
+        v-if="currentAssignment.assignment.isStatic && currentQuestion && 'staticUserAnswer' in currentQuestion"
+        v-model="selectedChoice"
+        :current-assignment="currentAssignment"
+        :current-question-index="currentQuestionIndex"
+        @change-current-question="(question) => (currentQuestion = question)"
+        @switch-question="(direction) => switchQuestion(direction)"
+      />
+      <StudentAssignmentDynamicQuestion
+        v-else-if="!currentAssignment.assignment.isStatic && currentQuestion && !('staticUserAnswer' in currentQuestion)"
+        v-model="selectedChoice"
+        :current-assignment="currentAssignment"
+        :current-question-index="currentQuestionIndex"
+        :timestamp="timestamp"
+        @change-timestamp="(newTimestamp) => (timestamp = newTimestamp)"
+        @go-next-question="switchQuestion('next')"
+        @submit-assignment="triggerSubmit = true"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: "student",
-  middleware: "student-get-course"
-});
+definePageMeta({ middleware: "student-get-course" });
 
 const route = useRoute();
 const router = useRouter();
@@ -63,7 +52,7 @@ const currentAssignment = computed(() => studentCurrentCourse.value?.assignments
 
 const assignmentInProgress = ref(false);
 watch(assignmentInProgress, (val) => {
-  if (!val) setTimeout(() => void router.push(`/student/course/${studentCurrentCourse.value?.id}`), 200);
+  if (!val) void router.push(`/student/course/${studentCurrentCourse.value?.id}`);
 });
 
 let lastQuestionIndex = 0;

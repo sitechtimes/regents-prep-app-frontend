@@ -1,9 +1,9 @@
-## Project Setup
+Thanks for completely voluntarily contributing to the SITHS Regents Prep App!
+
+## 🚀 Project Setup
 
 > \[!WARNING]\
-> If you do not follow these steps and complain about the project not working, you will receive a lawsuit within 3-5 business days.
->
-> Prepare your lawyers
+> If you do not follow these steps and complain about the project not working, expect a lawsuit within 3-5 business days.
 
 1. Ensure Node.js is installed on your machine
 
@@ -11,7 +11,7 @@
 
 3. Create a `.env` file in the root of the project
 
-> \[!NOTE]\
+> \[!IMPORTANT]\
 > Make sure you prepend a protcol `(http/https)` and append a `/`
 
 ```sh
@@ -34,9 +34,9 @@ npm run dev
 
 ## Pull Requests
 
-> \[!WARNING]\
-> If you create an extremely bad PR, expect a lawsuit within 3-5 business days.
->
-> Lock your doors
+> \[!CAUTION]\
+> Creating a bad PR may result in moderate to significant public humiliation.
 
-Ensure all checks pass.
+When submitting a Pull Request, refer to the following flowchart:
+
+![How to Submit a Pull Request](./public/how2pr.png)

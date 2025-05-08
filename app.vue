@@ -21,10 +21,10 @@ onBeforeMount(() => {
   if (localStorage.getItem("theme") === "dark") isDarkMode.value = true;
 });
 
-const userTypes: Readonly<Record<string, string>> = {
+const userTypes = {
   student: "/teacher",
   teacher: "/student"
-};
+} as const;
 
 onBeforeMount(() => (showSideMenu.value = window.innerWidth >= 540));
 

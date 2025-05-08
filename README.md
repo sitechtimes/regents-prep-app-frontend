@@ -1,3 +1,7 @@
-<h1 align="center">Regents Prep App</h1>
-<h4 align="center">Now with implicit types!</h4>
-<p align="center">"We will unregent your prep"</p>
+# SITHS Regents Prep App
+
+Don't fail your regents.
+
+## Getting Started
+
+Please follow the guide in [CONTRIBUTING.md](./CONTRIBUTING.md)!

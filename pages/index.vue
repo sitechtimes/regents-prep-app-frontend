@@ -20,12 +20,18 @@
     </div>
 
     <!-- right side -->
-    <div class="w-1/4">
-      <img v-show="isYoda" class="cat cursor-default" src="/landingYoda.png" alt="A very short-haired black cat, edited to be green" title="The almighty Yoda." />
+    <div class="w-52 xs:w-1/4">
+      <img
+        v-show="isYoda"
+        class="w-full origin-center cursor-default object-cover transition-none"
+        src="/landingYoda.png"
+        alt="A very short-haired black cat, edited to be green"
+        title="The almighty Yoda."
+      />
       <img
         id="landing"
         ref="landingCatRef"
-        class="cat z-50 cursor-help"
+        class="z-50 w-full origin-center cursor-help object-cover transition-none active:brightness-125"
         :draggable="false"
         src="/landingCat.png"
         alt="Cat on a computer"
@@ -84,14 +90,4 @@ function toggle() {
 defineExpose({ isYoda, clicks, startingCount, toggle });
 </script>
 
-<style scoped>
-.cat {
-  @apply w-full object-cover;
-  transform-origin: center;
-  transition: none;
-}
-
-.cat#landing:active {
-  filter: brightness(1.2);
-}
-</style>
+<style scoped></style>

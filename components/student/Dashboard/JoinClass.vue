@@ -9,7 +9,7 @@
         <p v-if="isErrored || isSuccess" class="mb-2 mt-1 font-medium leading-normal" :class="{ 'text-red-500': isErrored, 'text-green-500': isSuccess }">
           {{ isErrored ? "Something went wrong. Try again" : isSuccess ? "Successfully enrolled!" : "." }}
         </p>
-        <input id="join-code" v-model="joinCode" class="du-input w-72 rounded-lg border border-neutral-400 bg-body sm:w-96 dark:border-neutral-600" type="text" placeholder="Class code" />
+        <input id="join-code" v-model="joinCode" class="du-input w-64 rounded-lg border border-neutral-400 bg-body sm:w-96 dark:border-neutral-600" type="text" placeholder="Class code" />
       </form>
 
       <div class="flex w-full justify-end gap-2">
