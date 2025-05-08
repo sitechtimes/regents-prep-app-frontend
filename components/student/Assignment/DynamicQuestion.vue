@@ -3,7 +3,7 @@
     <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
 
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-    <p class="mb-3 overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
+    <p class="answer-choice mb-3 overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
     <div class="relative flex w-full flex-col">
       <!-- multiple choice selection -->
@@ -49,7 +49,7 @@
           @click="nextQuestion"
         >
           <span class="hidden text-xl xs:block">Next</span>
-          <img class="size-5 group-hover:translate-x-1 dark:invert" src="/ui/arrowRight.svg" aria-hidden="true" />
+          <img class="size-5 shrink-0 group-hover:translate-x-1 dark:invert" src="/ui/arrowRight.svg" aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -155,5 +155,9 @@ watch(
 .slide-up-leave-to {
   opacity: 0;
   transform: translateY(20dvh);
+}
+
+.answer-choice img {
+  @apply dark:invert;
 }
 </style>

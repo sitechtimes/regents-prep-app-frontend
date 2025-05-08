@@ -41,6 +41,10 @@ const currentAssignmentStats = ref<StaticTeacherAssignmentStatistic | DynamicTea
 
 const currentTab = ref<"students" | "questions">("students");
 
+useSeoMeta({
+  title: () => `${teacherCurrentCourse.value?.name ?? "Class Details"} - ${currentAssignment.value?.name ?? "Assignment"}`
+});
+
 onMounted(async () => {
   const { data, error } = await tryCatch(getTeacherQuestionStatistic(assignmentId, true));
   if (error) return console.error(error);

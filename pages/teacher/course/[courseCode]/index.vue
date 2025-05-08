@@ -33,18 +33,25 @@ definePageMeta({
   middleware: "teacher-get-course"
 });
 
+const router = useRouter();
 const userStore = useUserStore();
 const { teacherCourses, teacherCurrentCourse } = storeToRefs(userStore);
-const router = useRouter();
+
 const currentDate = new Date();
 const currentTab = ref<"current" | "past">("current");
 const loaded = ref(false);
+
 const assignments = computed(() => teacherCurrentCourse.value?.assignments);
 const filteredAssignments = computed(() =>
   assignments.value?.filter((assignment) => (currentTab.value === "current" ? new Date(assignment.dueDate) >= currentDate : new Date(assignment.dueDate) < currentDate))
 );
+
 const isModalVisible = ref(false);
 const deleteAction = ref<() => Promise<void>>();
+
+useSeoMeta({
+  title: () => teacherCurrentCourse.value?.name ?? "Class Details"
+});
 
 function showDeleteModal(action: () => Promise<void>) {
   deleteAction.value = action;

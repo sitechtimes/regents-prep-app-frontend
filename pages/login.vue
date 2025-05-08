@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: "Unregents Prep Login"
+  title: "SITHS Regents Prep - Login"
 });
 
 const userStore = useUserStore();

@@ -45,10 +45,15 @@ definePageMeta({
 
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
+const { teacherCurrentCourse } = storeToRefs(userStore);
+useSeoMeta({
+  title: () => `${teacherCurrentCourse.value?.name ?? "Class Details"} - Roster List`
+});
+
 const courseId = Number(route.params.courseCode);
 
 const searchTerm = ref("");
-
 const students = ref<StudentData[]>([]);
 
 const filteredStudents = computed(() =>
