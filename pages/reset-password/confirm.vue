@@ -26,7 +26,7 @@
         </div>
 
         <p v-if="notMatching" class="error font-medium text-red-500">Passwords do not match</p>
-        <p v-if="submitError" class="error font-medium text-red-500">Something went wrong. Please try again. {{ errorMessage.value }}</p>
+        <p v-if="submitError" class="error font-medium text-red-500">{{ errorMessage }}</p>
 
         <div class="relative flex w-96 flex-col items-center justify-center gap-1">
           <button class="w-52 items-center rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
@@ -56,6 +56,7 @@ const token = String(route.query.token ?? "");
 
 async function onSubmit() {
   if (newPassword1.value !== newPassword2.value) {
+    submitError.value = false;
     notMatching.value = true;
     return;
   }
@@ -66,7 +67,7 @@ async function onSubmit() {
 
   const { data: response } = await tryCatch(confirmResetPassword(uid, token, newPassword1.value, newPassword2.value));
   errorMessage.value = response;
-  console.log(response);
+  console.log(errorMessage.value);
   submitError.value = true;
   loading.value = false;
 }
