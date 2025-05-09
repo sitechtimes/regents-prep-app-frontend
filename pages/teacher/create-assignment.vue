@@ -88,7 +88,7 @@
 
       <div class="flex w-full items-center justify-center gap-3">
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="time-per-question">Time limit (minutes)</label>
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="time-per-question">Time limit per question (minutes)</label>
           <input
             id="time-per-question"
             v-model.number="assignmentInfo.timeAllotted"
@@ -439,6 +439,12 @@ async function createAssignment() {
     random.length = 0;
   }
 
+  const [year, month, day] = assignmentInfo.dueDate.date.split("-");
+  const time = new Date(`${month}/${day}/${year}`);
+  const [hours, minutes] = assignmentInfo.dueDate.time.split(":").map(Number);
+  time.setHours(hours);
+  time.setMinutes(minutes);
+
   const { error } = await tryCatch(
     submitCreateAssignment(
       assignmentInfo.name,
@@ -447,7 +453,7 @@ async function createAssignment() {
       random,
       assignmentInfo.topicPaths.map((arr) => arr.at(-1) ?? 1),
       assignmentInfo.excludedQuestions,
-      `${new Date(new Date(assignmentInfo.dueDate.date).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString().slice(0, 10)}T${assignmentInfo.dueDate.time}`,
+      time.getTime() / 1000,
       assignmentInfo.questions.length,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,

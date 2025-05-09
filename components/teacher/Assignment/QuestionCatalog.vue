@@ -249,7 +249,9 @@ function questionIsInAssignment(questionId: number) {
 
   return props.currentTopicIds.some((oldTopic) => {
     const oldTopicId = oldTopic.at(-1);
-    return oldTopicId && questionTopicPath.startsWith(loadedTopicPaths.value[oldTopicId].join(";"));
+    if (!oldTopicId) return;
+    if (!loadedTopicPaths.value[oldTopicId]) return; // sometimes it explodes. that's bad!
+    return questionTopicPath.startsWith(loadedTopicPaths.value[oldTopicId].join(";"));
   });
 }
 
