@@ -168,16 +168,14 @@ export async function getTopics(topicId: number) {
   return requestEndpoint<Topic[]>(`questions/teacher/topics/${topicId}/`);
 }
 
-/** Requests the `questions/teacher/topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>` endpoint
+/** Requests the `questions/teacher/topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>/` endpoint
  * @param topicId - The ID of the topic to get questions under.
  * @param offset - The index to get questions at. Defaults to 0.
  * @param includeQuestionCount - Whether to include the number of questions under the topic. Defaults to true.
  * @param numOfQuestions - The number of questions to get. Defaults to 20.
  */
 export async function getQuestionsUnderTopic(topicId: number, offset = 0, includeQuestionCount = true, numOfQuestions = 20) {
-  let endpoint = `questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}`;
-  if (includeQuestionCount) endpoint += "/";
-  return requestEndpoint<{ count: number; questions: TopicQuestionInterface[] }>(endpoint);
+  return requestEndpoint<{ count?: number; questions: TopicQuestionInterface[] }>(`questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}/`);
 }
 
 /** Requests the `questions/teacher/random-topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>` endpoint
@@ -186,14 +184,16 @@ export async function getQuestionsUnderTopic(topicId: number, offset = 0, includ
  * @param questionsToExclude - IDs of excluded questions. Defaults to none
  */
 export async function getRandomQuestionsUnderTopic(topicId: number, numOfQuestions = 20, questionsToExclude: number[] = []) {
-  return requestEndpoint<{ count: number; questions: TopicQuestionInterface[] }>(
-    `questions/teacher/random-topic-questions/${topicId}/${numOfQuestions}/${questionsToExclude.length ? questionsToExclude.join(";") : 0}`
-  );
+  return requestEndpoint<TopicQuestionInterface[]>(`questions/teacher/random-topic-questions/${topicId}/${numOfQuestions}/${questionsToExclude.length ? questionsToExclude.join(";") : 0}`);
 }
 
 /** Requests the `/questions/teacher/get-topic-paths/<topic_ids | semicolon-delimited list of integer ids in string form>/` endpoint
  * @param topicIds - The topic IDs to get the paths for
+ *
+ * @returns number[][]. each array is a topic path; [2,3,4] would be the topic path for topic id 4
  */
 export async function getTopicAncestorPaths(topicIds: number[]) {
-  return requestEndpoint<number[][]>(`questions/teacher/get-topic-paths/${topicIds.join(";")}/`);
+  if (topicIds.length === 0) return [];
+  // remove root because topic paths aren't stored starting with 1
+  return (await requestEndpoint<number[][]>(`questions/teacher/get-topic-paths/${topicIds.join(";")}/`)).map((path) => path.slice(1));
 }

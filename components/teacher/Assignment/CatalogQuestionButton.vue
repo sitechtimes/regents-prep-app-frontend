@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  clickFunction: () => any;
+  clickFunction?: () => any;
   img?: string;
   text?: string;
   disable?: boolean;

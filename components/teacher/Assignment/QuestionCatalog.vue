@@ -135,7 +135,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   selectQuestion: [questionId: number];
-  toggleExclusion: [question: ExcludeAssignmentQuestion];
+  toggleExclusion: [questionId: number];
   selectTopic: [topicPath: number[]];
 }>();
 
@@ -154,34 +154,43 @@ const displayedQuestions = ref<(number | TopicQuestionInterface)[]>([]);
 
 const showQuestionAnswers = ref(false);
 
+const currentTopic = ref<TopicMapped>();
+
+const currentQuestionPageIndex = ref(0);
+const totalQuestions = ref(0);
+
 async function loadQuestions(topicId: number, offset?: number) {
-  const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId, offset));
+  const { data, error } = await tryCatch(getQuestionsUnderTopic(topicId, offset, !loadedTopics.value[topicId]?.numQuestions));
   if (error) return console.error(error);
 
   const questions = data.questions;
-  // eslint-disable-next-line no-use-before-define
-  totalQuestions.value = data.count;
 
-  // if root, store it separately (is not stored in loadedTopics)
-  if (topicId === 1) totalQuestionCount.value = data.count;
+  if (data.count) {
+    totalQuestions.value = data.count;
+    // if root, store it separately (is not stored in loadedTopics)
+    if (topicId === 1 && data.count) totalQuestionCount.value = data.count;
+  } else {
+    totalQuestions.value = loadedTopics.value[topicId].numQuestions;
+  }
 
   // add question ids, but no duplicates
   if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = Array.from(new Set([...loadedTopics.value[topicId].questionIds, ...questions.map((question) => question.id)]));
 
-  for (const question of questions) {
+  // start loading topic paths
+  const subtopicSet = new Set<number>([]);
+
+  questions.forEach((question) => {
     // add to loaded questions
     if (!loadedQuestions.value[question.id]) loadedQuestions.value[question.id] = question;
 
-    // start loading topic paths
-    const subtopicSet = new Set<number>([]);
     subtopicSet.add(question.subtopic);
+  });
 
-    const subtopics = Array.from(subtopicSet);
-    subtopics.filter((subtopicId) => !loadedTopicPaths.value[subtopicId]);
+  // continue adding topic paths
+  const subtopics = Array.from(subtopicSet).filter((subtopicId) => !loadedTopicPaths.value[subtopicId]);
 
-    const paths = await getTopicAncestorPaths(subtopics);
-    subtopics.forEach((subtopicId, index) => (loadedTopicPaths.value[subtopicId] = paths[index]));
-  }
+  const paths = await getTopicAncestorPaths(subtopics);
+  subtopics.forEach((subtopicId, index) => (loadedTopicPaths.value[subtopicId] = paths[index]));
 
   displayedQuestions.value = questions;
 
@@ -191,7 +200,8 @@ async function loadQuestions(topicId: number, offset?: number) {
 async function loadTopics(topicId: number) {
   const parent = loadedTopics.value[topicId];
   const parentIsLoaded = parent !== undefined;
-  if (parentIsLoaded && parent.hasChildren && parent.children?.length) return;
+  // if loaded, expect it to either have children and loaded children, or no children and no children (What)
+  if (parentIsLoaded && !!parent.hasChildren === !!parent.children?.length) return;
 
   const { data: topics, error } = await tryCatch(getTopics(topicId));
   if (error) return console.error(error);
@@ -214,8 +224,6 @@ async function loadTopics(topicId: number) {
   return topics;
 }
 
-const currentTopic = ref<TopicMapped>();
-
 /** is this exact topic id in the assignment */
 const exactTopicIsInAssignment = computed(() => {
   const oldTopics = props.currentTopicIds.map((path) => path.at(-1) ?? 1);
@@ -228,19 +236,23 @@ const topicIsInAssignment = computed(() => {
   return oldTopics.some((oldTopic) => currentTopicPath.value.join(",").startsWith(oldTopic));
 });
 
-/** is this question in the assignment or any topic added to it */
+/**
+ * is this question in the assignment or any topic added to it
+ *
+ * used to determine if exclude button should be shown
+ */
 function questionIsInAssignment(questionId: number) {
   // root includes everything
   if (props.currentTopicIds[0]?.length === 0) return true;
 
+  const questionTopicPath = loadedTopicPaths.value[loadedQuestions.value[questionId].subtopic].join(";");
+
   return props.currentTopicIds.some((oldTopic) => {
-    const thing = oldTopic.at(-1);
-    return thing && loadedTopics.value[thing].questionIds.includes(questionId);
+    const oldTopicId = oldTopic.at(-1);
+    return oldTopicId && questionTopicPath.startsWith(loadedTopicPaths.value[oldTopicId].join(";"));
   });
 }
 
-const currentQuestionPageIndex = ref(0);
-const totalQuestions = ref(0);
 watch(currentTopic, async (topic) => {
   if (!topic) currentTopicPath.value = [];
   else {
@@ -284,7 +296,7 @@ function detectSticky() {
 }
 
 function toggleQuestionExclusion(questionId: number) {
-  emit("toggleExclusion", { questionId, topicPath: currentTopicPath.value });
+  emit("toggleExclusion", questionId);
 }
 
 onMounted(() => window.addEventListener("scroll", detectSticky));

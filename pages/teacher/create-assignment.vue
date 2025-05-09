@@ -1,13 +1,11 @@
 <template>
   <!-- evil margins and paddings are because layouts have innate p-4 and this page has WACKY scroll shenanigans... -->
   <div class="-m-4 flex w-auto flex-col px-4 lg:h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-4rem)] lg:flex-row lg:overflow-y-hidden">
-    <!-- if user is making assignments at 3am, prank em -->
-    <!-- v-if="new Date().getHours() === 3" -->
-    <output class="fixed left-4 z-[50] flex w-[30rem] flex-col gap-2 rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">
+    <!-- !🐴 <output class="fixed left-4 z-[50] flex w-[30rem] flex-col gap-2 rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">
       assignmentInfo: <span class="font-mono">{{ assignmentInfo }}</span> courses: <span class="font-mono">{{ courseIds }}</span> guaranteed length:
       <span class="font-mono">{{ guaranteedLength }}</span> random length: <span class="font-mono">{{ randomLength }}</span>
       <button type="button" @click="generateQuestions">generate the questions</button>
-    </output>
+    </output> -->
     <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-clip" @submit.prevent="createAssignment">
       <h2 class="text-2xl font-bold">Create Assignment</h2>
 
@@ -60,6 +58,7 @@
               class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
               :class="{ 'border-red-500 hover:border-red-500 focus:border-red-500 dark:border-red-600 dark:hover:border-red-500': warn }"
               placeholder="10"
+              min="0"
             />
           </div>
         </div>
@@ -96,17 +95,23 @@
             type="number"
             class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             placeholder="Unlimited"
+            min="0"
           />
         </div>
 
         <div class="grow">
+          <!-- disable if the assignment is static -->
+          <!-- TODO: might want to explain why it's disabled... -->
           <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="attempts-per-question">Attempts per question</label>
           <input
             id="attempts-per-question"
             v-model.number="assignmentInfo.attemptsAllowed"
             type="number"
             class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            placeholder="Unlimited"
+            :placeholder="guaranteedLength === assignmentInfo.numOfQuestions ? `1` : `Unlimited`"
+            :disabled="guaranteedLength === assignmentInfo.numOfQuestions"
+            min="0"
+            step="1"
           />
         </div>
       </div>
@@ -143,8 +148,15 @@
                 <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[question.questionId].text)"></p>
 
                 <div class="flex items-center justify-center gap-2">
-                  <div class="du-tooltip du-tooltip-bottom" :data-tip="`Switch to ${question.isGuaranteed ? 'Random' : 'Guaranteed'}`">
+                  <div
+                    v-if="!assignmentInfo.topicPaths.map((topicPath) => topicPath.at(-1)).includes(loadedQuestions[question.questionId].subtopic)"
+                    class="du-tooltip du-tooltip-bottom"
+                    :data-tip="`Switch to ${question.isGuaranteed ? 'Random' : 'Guaranteed'}`"
+                  >
                     <TeacherAssignmentCatalogQuestionButton :click-function="() => (question.isGuaranteed = !question.isGuaranteed)" :img="`/ui/${question.isGuaranteed ? 'check' : 'dice'}.svg`" />
+                  </div>
+                  <div v-else class="du-tooltip du-tooltip-left" data-tip="This question is guaranteed because you added a parent topic.">
+                    <TeacherAssignmentCatalogQuestionButton :disable="true" img="/ui/check.svg" />
                   </div>
                   <TeacherAssignmentCatalogQuestionButton :click-function="() => removeQuestion(question.questionId)" img="/ui/trash.svg" />
                 </div>
@@ -153,9 +165,9 @@
 
             <h3 v-if="assignmentInfo.excludedQuestions.length" class="text-2xl font-bold">Excluded Questions</h3>
             <ul v-if="assignmentInfo.excludedQuestions.length" class="flex w-full flex-col items-start justify-start gap-2">
-              <li v-for="question in assignmentInfo.excludedQuestions" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
+              <li v-for="questionId in assignmentInfo.excludedQuestions" :key="questionId" class="flex w-full items-center justify-start gap-3">
                 <span>•</span>
-                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[question.questionId].text)"></p>
+                <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="flattenQuestion(loadedQuestions[questionId].text)"></p>
               </li>
             </ul>
           </div>
@@ -194,7 +206,7 @@
           :view-only="false"
           :current-questions="assignmentInfo.questions"
           :current-topic-ids="assignmentInfo.topicPaths"
-          :excluded-question-ids="assignmentInfo.excludedQuestions.map((question) => question.questionId)"
+          :excluded-question-ids="assignmentInfo.excludedQuestions"
           @select-question="addQuestion"
           @select-topic="addTopic"
           @toggle-exclusion="toggleExclusion"
@@ -214,7 +226,7 @@ definePageMeta({
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
-const { showSideMenu, loadedTopics, loadedQuestions, totalQuestionCount, teacherCourses } = storeToRefs(userStore);
+const { showSideMenu, loadedTopics, loadedTopicPaths, loadedQuestions, totalQuestionCount, teacherCourses } = storeToRefs(userStore);
 
 const currentDateISO = (() => {
   const now = new Date();
@@ -235,7 +247,7 @@ const assignmentInfo = reactive({
     time: "23:59"
   },
   questions: ref<CreateAssignmentQuestion[]>([]),
-  excludedQuestions: ref<ExcludeAssignmentQuestion[]>([]),
+  excludedQuestions: ref<number[]>([]),
   topicPaths: ref<number[][]>([]),
   numOfQuestions: ref<number>(),
   lateSubmissions: false,
@@ -251,6 +263,10 @@ const randomLength = computed(() => {
   if (assignmentInfo.topicPaths[0] && assignmentInfo.topicPaths[0].length === 0) return totalQuestionCount.value - (guaranteedLength.value + assignmentInfo.excludedQuestions.length);
 
   let count = 0;
+
+  // add manual random questions
+  count += assignmentInfo.questions.length - guaranteedLength.value;
+
   // add from topics
   assignmentInfo.topicPaths.forEach((topicPath) => {
     const topicId = topicPath.at(-1);
@@ -260,31 +276,37 @@ const randomLength = computed(() => {
     // un-double count any manual questions inside an added topic
     count -= assignmentInfo.questions.filter((question) => topic.questionIds.includes(question.questionId)).length;
   });
-  // remove manually added things
-  count += assignmentInfo.questions.length - guaranteedLength.value;
   // and then blow up excluded questions
   count -= assignmentInfo.excludedQuestions.length;
   return count;
 });
 
-const allowedToSubmit = computed(() => assignmentInfo.name && guaranteedLength.value + randomLength.value);
-
 const warn = computed(() => {
-  // TODO: this doesn't account for added topics. Too bad!
-
   const numOfQuestions = assignmentInfo.numOfQuestions ?? 0;
 
   // num of questions is too high
-  if (numOfQuestions > assignmentInfo.questions.length) return `The assignment should have ${assignmentInfo.numOfQuestions} total questions, but you've added ${assignmentInfo.questions.length}`;
+  if (numOfQuestions > guaranteedLength.value + randomLength.value)
+    return `The assignment should have ${assignmentInfo.numOfQuestions} total question(s), but we only have ${guaranteedLength.value + randomLength.value} to choose from. Try adding more questions!`;
+
+  // too low
+  if (numOfQuestions < guaranteedLength.value)
+    return `The assignment should only have ${assignmentInfo.numOfQuestions} total question(s), but you've added ${guaranteedLength.value} guaranteed question(s). We can't fit that many in...`;
+
+  // not just right
+  if (numOfQuestions === guaranteedLength.value && randomLength.value > 0)
+    return `You've added ${randomLength.value} random question(s), but they'll never be used because the assignment is already full of guaranteed questions.`;
 
   return null;
 });
+
+const allowedToSubmit = computed(() => assignmentInfo.name && !warn.value && guaranteedLength.value + randomLength.value > 0);
 
 function removeQuestion(questionId: number) {
   // prettier-ignore
   assignmentInfo.questions.splice(assignmentInfo.questions.findIndex((question) => question.questionId === questionId), 1);
 }
 
+/** adds a question if not present, removes it if it is */
 function addQuestion(questionId: number) {
   if (!assignmentInfo.questions.find((question) => question.questionId === questionId)) {
     assignmentInfo.questions.push({ questionId, isGuaranteed: true });
@@ -299,15 +321,15 @@ function removeTopic(topicId: number) {
 
   // remove whatever topic we find
   assignmentInfo.topicPaths = assignmentInfo.topicPaths.filter((topicPath) => topicPath.at(-1) !== topicId);
-  assignmentInfo.excludedQuestions = assignmentInfo.excludedQuestions.filter((excludedQuestion) => excludedQuestion.topicPath.includes(topicId));
+  assignmentInfo.excludedQuestions = assignmentInfo.excludedQuestions.filter((excludedQuestion) => loadedTopicPaths.value[excludedQuestion].includes(topicId));
 }
 
 /**
  * adds an entire topic into the assignment
  *
- * the first id is the actual topic id
+ * the LAST id is the actual topic id
  */
-function addTopic(topicPath: number[]) {
+async function addTopic(topicPath: number[]) {
   const oldTopics = assignmentInfo.topicPaths.map((oldTopic) => oldTopic.join(","));
   const newTopic = topicPath.join(",");
 
@@ -320,6 +342,17 @@ function addTopic(topicPath: number[]) {
     assignmentInfo.topicPaths = assignmentInfo.topicPaths.filter((oldTopic) => !oldTopic.join(",").startsWith(newTopic));
     // add after we filter so we don't nuke the child
     assignmentInfo.topicPaths.push(topicPath);
+
+    // fill out topic ancestor paths
+    const filteredPath = topicPath.filter((topicId) => !loadedTopicPaths.value[topicId]);
+    const paths = await getTopicAncestorPaths(filteredPath);
+    filteredPath.forEach((topicId, index) => (loadedTopicPaths.value[topicId] = paths[index]));
+
+    const topicIds = assignmentInfo.topicPaths.map((topicPath) => topicPath.at(-1));
+    // set all questions already in that assignment to guaranteed
+    for (const question of assignmentInfo.questions) {
+      if (topicIds.includes(loadedQuestions.value[question.questionId].subtopic)) question.isGuaranteed = true;
+    }
   }
 }
 
@@ -331,16 +364,16 @@ function toggleCourse(courseID: number, event: Event) {
   else courseIds.splice(index, 1);
 }
 
-function toggleExclusion(targetQuestion: ExcludeAssignmentQuestion) {
-  const index = assignmentInfo.excludedQuestions.map((question) => question.questionId).indexOf(targetQuestion.questionId);
+function toggleExclusion(targetQuestionId: number) {
+  const index = assignmentInfo.excludedQuestions.indexOf(targetQuestionId);
 
-  // it's in there. remove it
+  // it's already excluded; remove it
   if (index !== -1) return void assignmentInfo.excludedQuestions.splice(index, 1);
 
-  // it'sn't in there, de-remove it
-  assignmentInfo.excludedQuestions.push(targetQuestion);
+  // it's not excluded; exclude it
+  assignmentInfo.excludedQuestions.push(targetQuestionId);
   // if the question question is in the assignment, no it isn't
-  removeQuestion(targetQuestion.questionId);
+  if (assignmentInfo.questions.map((question) => question.questionId).includes(targetQuestionId)) removeQuestion(targetQuestionId);
 }
 
 /** remove images and combine all tags into 1 \<p> */
@@ -365,45 +398,55 @@ onMounted(() => {
 });
 onBeforeUnmount(() => (showSideMenu.value = sideMenuWasOpen));
 
-function generateQuestions() {
+async function generateQuestions() {
   if (!assignmentInfo.numOfQuestions) return alert("no num questions set. get out");
 
+  // start with guaranteed questions
   const questionIzzy: number[] = [...assignmentInfo.questions.filter((question) => question.isGuaranteed).map((question) => question.questionId)];
 
-  if (questionIzzy.length > assignmentInfo.numOfQuestions) alert("too many questions womp womp");
-
-  // left of ternary should be root (all questions idk)
+  // add random questions
   const possibleQuestions = assignmentInfo.questions.filter((question) => !question.isGuaranteed).map((question) => question.questionId);
-  // TODO: don't let questions of an added topic be gambled
-  // add random questions and topics
-  while (questionIzzy.length < assignmentInfo.numOfQuestions) {
+  while (questionIzzy.length < assignmentInfo.numOfQuestions && possibleQuestions.length > 0) {
     const index = Math.floor(Math.random() * possibleQuestions.length);
     questionIzzy.push(possibleQuestions.splice(index, 1)[0]);
   }
 
-  console.log(questionIzzy);
-  console.log(
-    getRandomQuestionsUnderTopic(
-      assignmentInfo.topicPaths[0].at(-1) ?? 1,
-      assignmentInfo.numOfQuestions,
-      assignmentInfo.excludedQuestions.map((question) => question.questionId)
-    )
+  const randomQuestionsFromTopic = await getRandomQuestionsUnderTopic(assignmentInfo.topicPaths[0].at(-1) ?? 1, assignmentInfo.numOfQuestions - questionIzzy.length, assignmentInfo.excludedQuestions);
+
+  questionIzzy.concat(
+    randomQuestionsFromTopic.map((question) => {
+      // add to loaded if not already there
+      loadedQuestions.value[question.id] ??= question;
+
+      return question.id;
+    })
   );
-  // if (questionIzzy.toSorted((a, b) => a - b).join(",") === questionIzzy.join(",")) alert("YOU WIN!!!");
+
+  console.log(questionIzzy);
 }
 
 async function createAssignment() {
   if (!allowedToSubmit.value) return;
 
   createAssignmentResult.isLoading = true;
+
+  const guaranteed = assignmentInfo.questions.filter((question) => question.isGuaranteed).map((question) => question.questionId);
+  const random = assignmentInfo.questions.filter((question) => !question.isGuaranteed).map((question) => question.questionId);
+
+  // no point to randomizing, just make it static
+  if (guaranteedLength.value + randomLength.value === assignmentInfo.numOfQuestions) {
+    guaranteed.concat(random);
+    random.length = 0;
+  }
+
   const { error } = await tryCatch(
     submitCreateAssignment(
       assignmentInfo.name,
       courseIds,
-      assignmentInfo.questions.filter((question) => question.isGuaranteed).map((question) => question.questionId),
-      assignmentInfo.questions.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
+      guaranteed,
+      random,
       assignmentInfo.topicPaths.map((arr) => arr.at(-1) ?? 1),
-      assignmentInfo.excludedQuestions.map((question) => question.questionId),
+      assignmentInfo.excludedQuestions,
       `${new Date(new Date(assignmentInfo.dueDate.date).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString().slice(0, 10)}T${assignmentInfo.dueDate.time}`,
       assignmentInfo.questions.length,
       assignmentInfo.lateSubmissions,
@@ -418,7 +461,11 @@ async function createAssignment() {
   if (error) {
     createAssignmentResult.error = error.message;
     console.error(error);
+  } else {
+    createAssignmentResult.success = "Assignment created — you can leave this page now.";
+    if (!initialCourse) alert(createAssignmentResult.success);
   }
+  // TODO: make this a toast or something.........
 }
 </script>
 
