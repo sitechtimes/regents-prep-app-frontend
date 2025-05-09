@@ -168,7 +168,7 @@ async function loadQuestions(topicId: number, offset?: number) {
   if (data.count) {
     totalQuestions.value = data.count;
     // if root, store it separately (is not stored in loadedTopics)
-    if (topicId === 1 && data.count) totalQuestionCount.value = data.count;
+    if (topicId === 1) totalQuestionCount.value = data.count;
   } else {
     totalQuestions.value = loadedTopics.value[topicId].numQuestions;
   }
