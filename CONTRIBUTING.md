@@ -12,7 +12,7 @@ Thanks for completely voluntarily contributing to the SITHS Regents Prep App!
 3. Create a `.env` file in the root of the project
 
 > \[!IMPORTANT]\
-> Make sure you prepend a protcol `(http/https)` and append a `/`
+> Make sure you prepend a protocol `(http/https)` and append a `/`
 
 ```sh
 NUXT_PUBLIC_BACKEND=http://127.0.0.1:8000/
