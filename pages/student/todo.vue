@@ -1,8 +1,9 @@
 <template>
   <div v-if="!loaded" class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start"></div>
   <div v-else class="z-0 flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = true">
-    <StudentTodoToolbar :close-toolbar="deselectFilters" @sort="(sorter) => (currentSorter = sorter)" @filter="(filter) => (currentFilters = filter)" @search="(term) => (currentSearch = term)" />
-
+    <div class="flex flex-row items-start justify-start">
+      <StudentTodoToolbar :close-toolbar="deselectFilters" @sort="(sorter) => (currentSorter = sorter)" @filter="(filter) => (currentFilters = filter)" @search="(term) => (currentSearch = term)" />
+    </div>
     <div v-if="filteredAssignments" class="mt-5 flex w-4/5 flex-col items-center justify-center gap-4 sm:w-[90%] md:w-[80%]">
       <div v-for="assignment in filteredAssignments" :key="assignment.id" class="flex h-full w-full items-center justify-center gap-2">
         <NuxtLink

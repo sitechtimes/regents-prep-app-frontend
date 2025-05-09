@@ -14,10 +14,13 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router";
+
 const userStore = useUserStore();
 const { showSideMenu } = storeToRefs(userStore);
 
 const loaded = ref(false);
+const router = useRouter();
 
 const checkScreenSize = () => {
   if (window.innerWidth < 768) {
@@ -31,6 +34,10 @@ onMounted(() => {
   loaded.value = true;
   checkScreenSize(); // Initial check to set the sidebar state
   window.addEventListener("resize", checkScreenSize); // Listen for window resize
+
+  router.afterEach(() => {
+    checkScreenSize();
+  });
 });
 
 onBeforeUnmount(() => {
