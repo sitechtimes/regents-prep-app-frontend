@@ -229,7 +229,7 @@ export async function resetPassword(email: string) {
   return requestEndpoint(`/auth/password/reset/`, "POST", { email });
 }
 
-export async function confirmResetPassword(uid: string, token: string, new_password1: string, new_password2: string) {
+export async function confirmResetPassword(uid: string, token: string, newPassword1: string, newPassword2: string) {
   const { data, error } = await tryCatch(
     requestEndpoint<{ detail?: string; new_password2?: string; token?: string }>(
       `/auth/password/reset/confirm/`,
@@ -237,8 +237,8 @@ export async function confirmResetPassword(uid: string, token: string, new_passw
       {
         uid,
         token,
-        new_password1,
-        new_password2
+        newPassword1,
+        newPassword2
       },
       true
     )
@@ -249,17 +249,14 @@ export async function confirmResetPassword(uid: string, token: string, new_passw
   if (data) {
     if (data.new_password2) {
       const returnStuff = data.new_password2[0];
-      console.log("Password validation error:", returnStuff);
       return returnStuff;
     }
     if (data.detail) {
       const returnStuff = data.detail[0];
-      console.log("Detail message:", returnStuff);
+
       return returnStuff;
     }
     if (data.token) {
-      const returnStuff = data.token[0];
-      console.log("Invalid token:", returnStuff);
       return data.token;
     }
   }
