@@ -1,5 +1,5 @@
 <template>
-  <div class="xs:px-24 xs:py-12 mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 sm:max-h-fit">
+  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
     <p class="answer-choice overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
@@ -15,7 +15,7 @@
     </div>
 
     <!-- static assignment navigation -->
-    <div class="xs:gap-6 xs:px-10 mt-8 flex w-full items-center justify-between gap-1 px-3">
+    <div class="mt-8 flex w-full items-center justify-between gap-1 px-3 xs:gap-6 xs:px-10">
       <button
         class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
         type="button"
@@ -24,7 +24,7 @@
         @click="emit('switchQuestion', 'previous')"
       >
         <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrowLeft.svg" aria-hidden="true" />
-        <span class="xs:block hidden text-xl">Back</span>
+        <span class="hidden text-xl xs:block">Back</span>
       </button>
       <button
         class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
@@ -33,7 +33,7 @@
         :class="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
         @click="emit('switchQuestion', 'next')"
       >
-        <span class="xs:block hidden text-xl">Next</span>
+        <span class="hidden text-xl xs:block">Next</span>
         <img class="size-5 group-hover:translate-x-1 dark:invert" src="/ui/arrowRight.svg" aria-hidden="true" />
       </button>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="xs:px-24 xs:py-12 mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 sm:max-h-fit">
+  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
     <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
 
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
@@ -48,7 +48,7 @@
           "
           @click="nextQuestion"
         >
-          <span class="xs:block hidden text-xl">Next</span>
+          <span class="hidden text-xl xs:block">Next</span>
           <img class="size-5 shrink-0 group-hover:translate-x-1 dark:invert" src="/ui/arrowRight.svg" aria-hidden="true" />
         </button>
       </div>
