@@ -115,4 +115,5 @@ export async function confirmResetPassword(uid: string, token: string, newPasswo
   });
 }
 
+// https://nuxt.com/docs/guide/directory-structure/composables#how-files-are-scanned
 export * from "./functions/fetch";
