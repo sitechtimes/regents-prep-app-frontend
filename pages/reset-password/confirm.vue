@@ -50,7 +50,7 @@ const submitError = ref(false);
 const showModal = ref(false);
 const route = useRoute();
 const router = useRouter();
-const errorMessage = ref();
+const errorMessage = ref("");
 const uid = String(route.query.uid ?? "");
 const token = String(route.query.token ?? "");
 
@@ -66,8 +66,19 @@ async function onSubmit() {
   loading.value = true;
 
   const { data: response } = await tryCatch(confirmResetPassword(uid, token, newPassword1.value, newPassword2.value));
-  errorMessage.value = response;
-  submitError.value = true;
+
+  if (typeof response === "string") {
+    errorMessage.value = response;
+    if (response.includes("Password has been reset with the new password.")) {
+      showModal.value = true;
+    } else {
+      submitError.value = true;
+    }
+  } else {
+    submitError.value = true;
+    errorMessage.value = "An unexpected error occurred.";
+  }
+
   loading.value = false;
 }
 

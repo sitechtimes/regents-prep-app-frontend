@@ -231,7 +231,7 @@ export async function resetPassword(email: string) {
 
 export async function confirmResetPassword(uid: string, token: string, newPassword1: string, newPassword2: string) {
   const { data, error } = await tryCatch(
-    requestEndpoint<{ detail?: string; new_password2?: string; token?: string }>(
+    requestEndpoint<{ detail?: string; newPassword2?: string; token?: string }>(
       `/auth/password/reset/confirm/`,
       "POST",
       {
@@ -247,17 +247,17 @@ export async function confirmResetPassword(uid: string, token: string, newPasswo
   if (error) return console.error(error);
 
   if (data) {
-    if (data.new_password2) {
-      const returnStuff = data.new_password2[0];
-      return returnStuff;
+    if (data.newPassword2) {
+      const returnData = data.newPassword2[0];
+      return returnData;
     }
     if (data.detail) {
-      const returnStuff = data.detail[0];
-
-      return returnStuff;
+      const returnData = data.detail;
+      return returnData;
     }
     if (data.token) {
-      return data.token;
+      const returnData = data.token[0];
+      return returnData;
     }
   }
 }
