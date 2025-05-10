@@ -30,6 +30,7 @@
     "@vue/test-utils": "^2.4.6",
     "daisyui": "^4.12.13",
     "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-vue": "^9.32.0",
     "globals": "^15.14.0",
     "happy-dom": "^15.8.3",
