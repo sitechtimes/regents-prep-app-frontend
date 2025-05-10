@@ -46,9 +46,9 @@
 
         <div class="flex w-full flex-wrap items-center justify-start gap-4">
           <LazyTeacherAssignmentCatalogQuestion
-            hydrate-on-visible
             v-for="question in displayedQuestions"
             :key="typeof question === 'number' ? question : question.id"
+            hydrate-on-visible
             :view-only="viewOnly"
             :question="typeof question === 'number' ? loadedQuestions[question] : question"
             :show-answer-override="showQuestionAnswers"
