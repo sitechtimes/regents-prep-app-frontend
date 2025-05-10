@@ -55,7 +55,6 @@ const props = defineProps<{
 const currentTime = new Date();
 
 const submissionStatus = computed(() => {
-  console.log(props.assignment);
   if (props.assignment.dateSubmitted) return "Submitted";
   if (props.assignment.assignment.dueDate < currentTime) return props.assignment.assignment.lateSubmissions ? "Late" : "Past Due";
   return "Not Submitted";
