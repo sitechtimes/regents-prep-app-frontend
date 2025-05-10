@@ -30,7 +30,11 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: "student-get-course" });
+definePageMeta({
+  middleware: "student-get-course",
+  requiresAuth: true,
+  redirectIfAuth: false
+});
 
 const route = useRoute();
 const router = useRouter();

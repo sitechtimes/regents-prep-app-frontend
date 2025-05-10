@@ -48,7 +48,9 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "teacher",
-  middleware: "teacher-get-course"
+  middleware: "teacher-get-course",
+  requiresAuth: true,
+  redirectIfAuth: false
 });
 
 const router = useRouter();

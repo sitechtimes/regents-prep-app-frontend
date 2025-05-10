@@ -85,7 +85,9 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "student-get-course"
+  middleware: "student-get-course",
+  requiresAuth: true,
+  redirectIfAuth: false
 });
 const route = useRoute();
 const userStore = useUserStore();

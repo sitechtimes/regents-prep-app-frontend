@@ -30,7 +30,9 @@ const { studentCurrentCourse } = storeToRefs(userStore);
 
 definePageMeta({
   layout: "student",
-  middleware: "student-get-course"
+  middleware: "student-get-course",
+  requiresAuth: true,
+  redirectIfAuth: false
 });
 
 useSeoMeta({

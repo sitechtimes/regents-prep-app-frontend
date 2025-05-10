@@ -28,7 +28,11 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ layout: "student" });
+definePageMeta({
+  layout: "student",
+  requiresAuth: true,
+  redirectIfAuth: false
+});
 
 const route = useRoute();
 const userStore = useUserStore();
