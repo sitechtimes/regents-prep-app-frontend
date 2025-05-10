@@ -444,6 +444,7 @@ async function createAssignment() {
   const [hours, minutes] = assignmentInfo.dueDate.time.split(":").map(Number);
   time.setHours(hours);
   time.setMinutes(minutes);
+  const timezoneOffsetMins = time.getTimezoneOffset();
 
   const { error } = await tryCatch(
     submitCreateAssignment(
@@ -453,7 +454,7 @@ async function createAssignment() {
       random,
       assignmentInfo.topicPaths.map((arr) => arr.at(-1) ?? 1),
       assignmentInfo.excludedQuestions,
-      time.getTime() / 1000,
+      `${time.toISOString().slice(0, -1)}${timezoneOffsetMins < 0 ? "+" : "-"}${String(Math.floor(Math.abs(timezoneOffsetMins) / 60)).padStart(2, "0")}:${String(Math.abs(timezoneOffsetMins) % 60).padStart(2, "0")}`,
       assignmentInfo.questions.length,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,
