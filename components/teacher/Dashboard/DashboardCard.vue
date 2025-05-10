@@ -29,8 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { NuxtLink } from "#components";
-
 defineProps<{ course: TeacherCourse }>();
 const userStore = useUserStore();
 </script>
