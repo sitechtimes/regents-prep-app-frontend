@@ -104,7 +104,7 @@ onMounted(async () => {
   const courseId = studentCurrentCourse.value?.id;
   if (!courseId) return;
 
-  const { data: results, error: resultError } = await tryCatch(getAssignmentResults(assignmentId));
+  const { data: results, error: resultError } = await tryRequestEndpoint<AssignmentResults>(`courses/student/assignment-results/${assignmentId}`);
   if (resultError) return console.error("Error fetching assignment data:", resultError);
   assignmentResults.value = results;
 });

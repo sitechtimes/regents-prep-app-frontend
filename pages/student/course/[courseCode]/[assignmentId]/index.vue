@@ -119,7 +119,8 @@ function incrementTime() {
   const [newTimestamp, diff] = getDeltaTime(timestamp.value);
   timestamp.value = newTimestamp;
 
-  void incrementQuestionTime(currentQuestion.value.id, diff);
+  if (diff < 1) return;
+  void tryRequestEndpoint(`courses/student/increment-question-time/${currentQuestion.value.id}/${diff}/`, "POST");
 }
 
 async function saveProgress() {

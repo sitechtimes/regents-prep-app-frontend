@@ -61,7 +61,7 @@ const filteredStudents = computed(() =>
 );
 
 onMounted(async () => {
-  const { data, error } = await tryCatch(getCourseStudents(courseId));
+  const { data, error } = await tryRequestEndpoint<StudentData[]>(`courses/${courseId}/teacher/student-list/`);
   if (error) return console.error(error);
   students.value = data;
 });
@@ -69,7 +69,7 @@ onMounted(async () => {
 async function removeStudent(student: StudentData) {
   students.value.splice(students.value.indexOf(student), 1);
 
-  const { error } = await tryCatch(removeStudents(courseId, student.id));
+  const { error } = await tryRequestEndpoint<StudentData[]>(`courses/teacher/remove-student/${courseId}/${student.id}`, "DELETE");
   if (error) return console.error(error);
 }
 </script>

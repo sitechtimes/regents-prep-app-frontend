@@ -86,7 +86,7 @@ useSeoMeta({
 async function confirmDeleteCourse() {
   if (!teacherCurrentCourse.value?.id) return;
 
-  const { error } = await tryCatch(deleteCourse(teacherCurrentCourse.value.id));
+  const { error } = await tryRequestEndpoint<TeacherCourse>(`/courses/teacher/delete/course/${teacherCurrentCourse.value.id}`, "DELETE");
   if (error) return console.error("Failed to delete course:", error);
 
   userStore.teacherCourses = userStore.teacherCourses.filter((course) => course.id !== teacherCurrentCourse.value?.id);
@@ -96,7 +96,7 @@ async function confirmDeleteCourse() {
 async function confirmDeleteAssignment() {
   if (!teacherCurrentCourse.value || !currentDeleteAssignmentId.value) return;
 
-  const { error } = await tryCatch(deleteAssignment(currentDeleteAssignmentId.value));
+  const { error } = await tryRequestEndpoint<TeacherAssignment>(`/courses/teacher/delete/assignment/${currentDeleteAssignmentId.value}`, "DELETE");
   if (error) return console.error("Failed to delete assignment:", error);
 
   teacherCurrentCourse.value.assignments = teacherCurrentCourse.value.assignments.filter((assignment) => assignment.id !== currentDeleteAssignmentId.value);

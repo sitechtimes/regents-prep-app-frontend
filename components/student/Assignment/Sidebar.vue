@@ -114,7 +114,7 @@ const assignmentIsComplete = computed(() => {
 
 async function submit() {
   submitState.isLoading = true;
-  const { error } = await tryCatch(submitAssignment(props.assignment.id));
+  const { error } = await tryRequestEndpoint<SubmitAssignment>("courses/student/submit-assignment/", "POST", { id: props.assignment.id });
 
   submitState.isLoading = false;
   submitState.result = !error;

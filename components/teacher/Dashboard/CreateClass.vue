@@ -3,16 +3,16 @@
     <h2 class="text-xl">Create New Course</h2>
     <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
       <label class="du-label" for="course-name">Course Name <span title="Required" class="font-2xl text-red-500">*</span></label>
-      <input id="course-name" v-model="courseName" class="du-input w-72 bg-neutral-200 xs:w-80 sm:w-96 dark:bg-neutral-700" type="text" placeholder="Enter the name of the course" />
+      <input id="course-name" v-model="courseName" class="xs:w-80 du-input w-72 bg-neutral-200 sm:w-96 dark:bg-neutral-700" type="text" placeholder="Enter the name of the course" />
 
       <label class="du-label" for="course-subject">Course Subject <span title="Required" class="font-2xl text-red-500">*</span></label>
-      <select id="course-subject" v-model="courseSubject" class="du-select w-72 bg-neutral-200 xs:w-80 sm:w-96 dark:bg-neutral-700">
+      <select id="course-subject" v-model="courseSubject" class="xs:w-80 du-select w-72 bg-neutral-200 sm:w-96 dark:bg-neutral-700">
         <option value="" selected>Select the subject of the course</option>
         <option v-for="regents in Object.values(regentsTypes).flat().sort()" :key="regents" :value="regents">{{ regents }}</option>
       </select>
 
       <label class="du-label" for="course-name">Period <span title="Required" class="font-2xl text-red-500">*</span></label>
-      <div class="flex w-72 items-center justify-between xs:w-80 sm:w-96">
+      <div class="xs:w-80 flex w-72 items-center justify-between sm:w-96">
         <button
           v-for="i in 9"
           :key="i"
@@ -86,7 +86,7 @@ async function createCourse() {
 
   const subjectCode = Object.values(regentsTypes).findIndex((regents) => regents.includes(courseSubject.value as never));
 
-  const { data: course, error } = await tryCatch(submitCreateCourse(courseName.value, coursePeriod.value, subjectCode));
+  const { data: course, error } = await tryRequestEndpoint<CreateCourse>("courses/teacher/create-course/", "POST", { name: courseName.value, period: coursePeriod.value, subject: subjectCode });
   if (error) return console.error("Failed to create course:", error);
 
   newCourseId.value = course.id;

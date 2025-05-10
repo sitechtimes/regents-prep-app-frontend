@@ -125,7 +125,7 @@ async function loadTopics(topicId: number) {
   const parentIsLoaded = parent !== undefined;
   if (parentIsLoaded && parent.hasChildren && parent.children?.length) return;
 
-  const { data: topics, error } = await tryCatch(getTopics(topicId));
+  const { data: topics, error } = await tryRequestEndpoint<Topic[]>(`/questions/teacher/topics/${topicId}`);
   if (error) return console.error(error);
 
   for (const topic of topics) {

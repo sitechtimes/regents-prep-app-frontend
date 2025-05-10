@@ -57,9 +57,13 @@ const filteredAssignments = computed(() => {
 });
 
 onMounted(async () => {
-  assignments.value = await getStudentTodo();
-  studentCurrentCourse.value = undefined;
+  const { data, error } = await tryRequestEndpoint<StudentAssignment[]>("courses/0/assignments/");
+  if (error) return console.error(error);
 
+  assignmentToDate(data);
+  assignments.value = data;
+
+  studentCurrentCourse.value = undefined;
   loaded.value = true;
 });
 

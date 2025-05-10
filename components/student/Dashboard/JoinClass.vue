@@ -58,7 +58,7 @@ async function submit() {
   isLoading.value = true;
   isErrored.value = false;
 
-  const { data: course, error } = await tryCatch(joinCourse(joinCode.value));
+  const { data: course, error } = await tryRequestEndpoint<StudentCourse>(`courses/student/join/${joinCode.value}/`, "POST");
   isLoading.value = false;
 
   if (error) {
@@ -68,6 +68,7 @@ async function submit() {
     return;
   }
 
+  course.assignments = [];
   studentCourses.value.splice(0, 0, course);
   isSuccess.value = true;
 
