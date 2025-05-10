@@ -10,7 +10,7 @@
 
     <div class="relative hidden w-full lg:block">
       <!-- <div class="list-overlay pointer-events-none absolute left-0 top-0 h-full w-full border-y border-neutral-300 dark:border-neutral-600"></div> -->
-      <ul class="flex h-[70dvh] w-full shrink-0 flex-col items-start justify-start overflow-y-scroll border-neutral-300 px-4">
+      <ul class="flex h-[65dvh] w-full shrink-0 flex-col items-start justify-start overflow-y-scroll border-neutral-300 px-4 xl:h-[70dvh]">
         <li
           v-for="(num, index) in assignment.assignment.numQuestions"
           :key="index"
