@@ -17,7 +17,7 @@ export default [
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   ...pluginVue.configs["flat/recommended"],
-  ...prettierConfig,
+  prettierConfig,
   {
     name: "main",
     languageOptions: {
