@@ -3,7 +3,7 @@
     <div
       v-show="showSideMenu"
       id="side-menu"
-      class="xs:w-96 xs:border-r fixed left-0 top-16 z-20 flex h-[calc(100dvh-4rem)] w-full flex-col items-start justify-start border-neutral-300 bg-body pt-4 md:sticky dark:border-neutral-600"
+      class="fixed left-0 top-16 z-20 flex h-[calc(100dvh-4rem)] w-full flex-col items-start justify-start border-neutral-300 bg-body pt-4 xs:w-96 xs:border-r md:sticky dark:border-neutral-600"
     >
       <div class="flex w-full flex-col items-center justify-center px-2 dark:border-neutral-600">
         <TeacherDashboardSidebarPageLink to="/teacher/dashboard" img-src="/ui/home.svg" text="Dashboard" />
