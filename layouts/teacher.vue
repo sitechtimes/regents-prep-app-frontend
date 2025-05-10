@@ -14,10 +14,16 @@
 </template>
 
 <script setup lang="ts">
+const router = useRouter();
+
 const userStore = useUserStore();
 const { showSideMenu } = storeToRefs(userStore);
 
 const loaded = ref(false);
+
+router.afterEach(() => {
+  if (window.innerWidth < 540) showSideMenu.value = false;
+});
 
 onMounted(() => (loaded.value = true));
 
