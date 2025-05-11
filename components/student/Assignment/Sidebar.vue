@@ -106,7 +106,8 @@ const submitState = reactive({
 const assignmentIsComplete = computed(() => {
   const questionInterfaces = Object.values(props.assignment.assignment.questionInterfaces);
   return (
-    (questionInterfaces.length === props.assignment.assignment.numQuestions && // every question has been loaded
+    (props.assignment.assignment.isStatic && // only for statics
+      questionInterfaces.length === props.assignment.assignment.numQuestions && // every question has been loaded
       questionInterfaces.every((questionInterface) => questionInterface.question.answers.some((answer) => answer.selected))) || // every question has been answered
     props.assignment.assignment.numQuestions === props.assignment.questionsCompleted // not all questions loaded but everything still answered
   );

@@ -10,12 +10,18 @@ export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssig
     if ("assignment" in assignment) {
       if (assignment.dateSubmitted === undefined) assignment.dateSubmitted = null; // dateSubmitted isnt in init data
 
-      assignment.assignment.dueDate = new Date(assignment.assignment.dueDate);
-      assignment.assignment.dateAssigned = new Date(assignment.assignment.dateAssigned);
+      // @ts-expect-error dueDate is a unix timestamp before parsing
+      assignment.assignment.dueDate = new Date(assignment.assignment.dueDate * 1000);
+      // @ts-expect-error dateAssigned is a unix timestamp before parsing
+      assignment.assignment.dateAssigned = new Date(assignment.assignment.dateAssigned * 1000);
+      // @ts-expect-error dateSubmitted is a unix timestamp before parsing
+      assignment.dateSubmitted = assignment.dateSubmitted ? new Date(assignment.dateSubmitted * 1000) : null;
       assignment.assignment.questionInterfaces = {};
     } else {
-      assignment.dueDate = new Date(assignment.dueDate);
-      assignment.dateAssigned = new Date(assignment.dateAssigned);
+      // @ts-expect-error dueDate is a unix timestamp before parsing
+      assignment.dueDate = new Date(assignment.dueDate * 1000);
+      // @ts-expect-error dateAssigned is a unix timestamp before parsing
+      assignment.dateAssigned = new Date(assignment.dateAssigned * 1000);
     }
   }
 }

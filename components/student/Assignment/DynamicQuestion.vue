@@ -85,6 +85,7 @@ const mode = ref<"answering" | "viewing">("answering");
 
 function nextQuestion() {
   mode.value = "answering";
+  currentAttempt.value = 1;
   emit("goNextQuestion");
 }
 

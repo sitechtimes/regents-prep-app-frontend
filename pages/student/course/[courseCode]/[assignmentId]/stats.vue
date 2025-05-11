@@ -4,8 +4,8 @@
       <h2 class="text-4xl font-bold">Results Overview</h2>
     </div>
     <div v-if="currentAssignment" class="my-4 text-center">
-      <h1 class="text-2xl font-bold">{{ currentAssignment?.assignment.name }}</h1>
-      <p class="text-lg">Submitted on: {{ formatDate(currentAssignment?.dateSubmitted) }}</p>
+      <h1 class="text-2xl font-bold">{{ currentAssignment.assignment.name }}</h1>
+      <p class="text-lg">Submitted on: {{ formatDate(currentAssignment.dateSubmitted) }}</p>
     </div>
     <div v-else class="text-center">
       <p>No assignment found for the provided ID.</p>
