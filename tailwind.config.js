@@ -6,6 +6,10 @@ export default {
   content: ["./app.vue", "./pages/**/*.{vue,js,ts,jsx,tsx}", "./components/**/*.{vue,js,ts,jsx,tsx}", "./layouts/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      screens: {
+        xs: "540px",
+        "2xl": "1536px"
+      },
       colors: {
         bg: {
           light: "#FAF9E5",

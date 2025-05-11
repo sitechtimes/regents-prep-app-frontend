@@ -4,8 +4,8 @@
       <h2 class="text-4xl font-bold">Results Overview</h2>
     </div>
     <div v-if="currentAssignment" class="my-4 text-center">
-      <h1 class="text-2xl font-bold">{{ currentAssignment?.assignment.name }}</h1>
-      <p class="text-lg">Submitted on: {{ formatDate(currentAssignment?.dateSubmitted) }}</p>
+      <h1 class="text-2xl font-bold">{{ currentAssignment.assignment.name }}</h1>
+      <p class="text-lg">Submitted on: {{ formatDate(currentAssignment.dateSubmitted) }}</p>
     </div>
     <div v-else class="text-center">
       <p>No assignment found for the provided ID.</p>
@@ -85,21 +85,28 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "student",
-  middleware: "student-get-course"
+  middleware: "student-get-course",
+  requiresAuth: true,
+  redirectIfAuth: false
 });
 const route = useRoute();
 const userStore = useUserStore();
 const { studentCurrentCourse } = storeToRefs(userStore);
+
 const assignmentResults = ref<AssignmentResults>();
 const dropdownStates = ref<boolean[]>([]);
 const assignmentId = Number(route.params.assignmentId);
 const currentAssignment = computed(() => studentCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
 
+useSeoMeta({
+  title: () => `${studentCurrentCourse.value?.name ?? "Class Details"} - ${currentAssignment.value?.assignment.name ?? "Assignment Stats"}`
+});
+
 onMounted(async () => {
   const courseId = studentCurrentCourse.value?.id;
   if (!courseId) return;
 
-  const { data: results, error: resultError } = await tryCatch(getAssignmentResults(assignmentId));
+  const { data: results, error: resultError } = await tryRequestEndpoint<AssignmentResults>(`courses/student/assignment-results/${assignmentId}`);
   if (resultError) return console.error("Error fetching assignment data:", resultError);
   assignmentResults.value = results;
 });

@@ -40,15 +40,22 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "teacher",
-  middleware: "teacher-get-course"
+  middleware: "teacher-get-course",
+  requiresAuth: true,
+  redirectIfAuth: false
 });
 
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
+const { teacherCurrentCourse } = storeToRefs(userStore);
+useSeoMeta({
+  title: () => `${teacherCurrentCourse.value?.name ?? "Class Details"} - Roster List`
+});
+
 const courseId = Number(route.params.courseCode);
 
 const searchTerm = ref("");
-
 const students = ref<StudentData[]>([]);
 
 const filteredStudents = computed(() =>
@@ -56,7 +63,7 @@ const filteredStudents = computed(() =>
 );
 
 onMounted(async () => {
-  const { data, error } = await tryCatch(getCourseStudents(courseId));
+  const { data, error } = await tryRequestEndpoint<StudentData[]>(`courses/${courseId}/teacher/student-list/`);
   if (error) return console.error(error);
   students.value = data;
 });
@@ -64,7 +71,7 @@ onMounted(async () => {
 async function removeStudent(student: StudentData) {
   students.value.splice(students.value.indexOf(student), 1);
 
-  const { error } = await tryCatch(removeStudents(courseId, student.id));
+  const { error } = await tryRequestEndpoint<StudentData[]>(`courses/teacher/remove-student/${courseId}/${student.id}`, "DELETE");
   if (error) return console.error(error);
 }
 </script>

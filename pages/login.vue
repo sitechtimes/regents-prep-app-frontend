@@ -48,9 +48,11 @@
 </template>
 
 <script setup lang="ts">
-useSeoMeta({
-  title: "Unregents Prep Login"
+definePageMeta({
+  requiresAuth: false,
+  redirectIfAuth: true
 });
+useSeoMeta({ title: "SITHS Regents Prep - Login" });
 
 const userStore = useUserStore();
 const router = useRouter();

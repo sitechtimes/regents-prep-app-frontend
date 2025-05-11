@@ -42,6 +42,11 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  requiresAuth: false,
+  redirectIfAuth: true
+});
+
 const newPassword1 = ref("");
 const newPassword2 = ref("");
 const loading = ref(false);

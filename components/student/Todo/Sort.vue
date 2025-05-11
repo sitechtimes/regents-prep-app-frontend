@@ -2,8 +2,11 @@
   <div class="relative flex flex-col items-start justify-start rounded-xl">
     <!-- sort button -->
     <button
-      class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 bg-white p-0 transition duration-500 lg:w-32 lg:justify-start lg:p-2 lg:px-4 dark:bg-neutral-800"
-      :class="showSorters ? 'border-2 hover:border-neutral-600/50' : 'border-neutral-300 hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-neutral-700'"
+      class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 p-0 transition duration-500 lg:w-32 lg:justify-start lg:p-2 lg:px-4"
+      :class="[
+        showSorters ? 'border-2 hover:border-neutral-600/50' : 'border-neutral-300 hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-neutral-700',
+        currentSorter !== 'due soon' ? 'bg-green-100 dark:bg-green-700' : 'bg-white dark:bg-neutral-800'
+      ]"
       type="button"
       @click="showSorters = !showSorters"
     >
@@ -18,7 +21,7 @@
         class="absolute top-10 z-[2] flex w-44 flex-col items-start justify-center gap-1 rounded-xl border border-neutral-300 bg-white p-3 shadow-lg transition duration-500 dark:border-neutral-700 dark:bg-neutral-800"
       >
         <button v-for="(sorter, key) in sorters" class="du-label flex w-full cursor-pointer items-center justify-start gap-2" type="button" @click="selectSorter(key)">
-          <input type="checkbox" class="du-checkbox pointer-events-none bg-cover" :style="{ backgroundColor: currentSorter === key ? 'inherit' : '' }" :checked="currentSorter === key" />
+          <input type="radio" class="!du-radio pointer-events-none bg-cover" :style="{ backgroundColor: currentSorter === key ? 'inherit' : '' }" :checked="currentSorter === key" />
           <span class="text-left capitalize transition duration-500">{{ key }}</span>
         </button>
       </div>

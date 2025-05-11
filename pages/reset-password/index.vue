@@ -24,6 +24,11 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  requiresAuth: false,
+  redirectIfAuth: true
+});
+
 const email = ref("");
 const loading = ref(false);
 const error = ref(false);
@@ -34,7 +39,7 @@ async function onSubmit() {
   success.value = false;
   loading.value = true;
 
-  const { error: sendError } = await tryCatch(resetPassword(email.value));
+  const { error: sendError } = await tryRequestEndpoint(`/auth/password/reset/`, "POST", { email: email.value });
 
   loading.value = false;
 

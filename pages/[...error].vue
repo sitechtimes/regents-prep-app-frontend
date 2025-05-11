@@ -25,6 +25,11 @@
 </template>
 
 <script setup lang="ts">
+useSeoMeta({
+  title: "SITHS Regents Prep - 404",
+  description: "Sorry, we couldn't find the page you were looking for. We'll keep searching!"
+});
+
 const counter = ref(5);
 
 interface Yoda {
