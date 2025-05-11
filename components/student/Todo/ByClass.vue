@@ -1,9 +1,9 @@
 <template>
   <div class="relative flex flex-col items-start justify-start rounded-xl">
     <button
-      class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 bg-white p-0 transition duration-500 lg:w-32 lg:justify-start lg:p-2 lg:px-4 dark:bg-neutral-800"
+      class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 p-0 transition duration-500 lg:w-32 lg:justify-start lg:p-2 lg:px-4"
       type="button"
-      :class="buttonClass"
+      :class="[buttonClass, queries.length > 0 ? 'bg-green-100 dark:bg-green-700' : 'bg-white dark:bg-neutral-800']"
       @click="showClasses = !showClasses"
     >
       <img class="size-5 transition duration-500 dark:invert" src="/ui/todo.svg" aria-hidden="true" />

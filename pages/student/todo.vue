@@ -25,6 +25,10 @@ const route = useRoute();
 const userStore = useUserStore();
 const { studentCourses, studentCurrentCourse } = storeToRefs(userStore);
 
+useSeoMeta({
+  title: () => "All Assignments"
+});
+
 const loaded = ref(false);
 
 const currentFilters = ref<TodoFilter>();

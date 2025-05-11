@@ -35,10 +35,12 @@ const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
 const { teacherCourses, teacherCurrentCourse } = storeToRefs(store);
-const sortedTeacherCourses = computed(() => teacherCourses.value.sort((a, b) => a.period - b.period));
+
 const showNotFound = ref(false);
 const loaded = ref(false);
 const showCreateClass = ref(false);
+
+const sortedTeacherCourses = computed(() => teacherCourses.value.sort((a, b) => a.period - b.period));
 
 watch(
   () => route.query,

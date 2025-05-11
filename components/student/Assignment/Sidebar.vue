@@ -17,7 +17,7 @@
           class="w-full border-l-4 border-neutral-300 py-0.5 pl-4 first:mt-6 last:mb-6"
           :class="{
             'border-neutral-400 hover:border-neutral-500': currentQuestionIndex === index, // current
-            'border-green-400 hover:border-green-500': assignment.assignment.questionInterfaces[index]?.question.answers.some((answer) => answer.selected), // completed
+            '!border-green-400 hover:border-green-500': assignment.assignment.isStatic && assignment.assignment.questionInterfaces[index]?.question.answers.some((answer) => answer.selected), // completed
             'cursor-not-allowed grayscale': !assignment.assignment.isStatic //if dynamic, disable
           }"
         >
