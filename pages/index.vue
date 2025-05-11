@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="flex min-h-screen w-screen flex-col items-center justify-center gap-4 sm:flex-row sm:gap-0 sm:space-x-10 sm:px-12 md:px-32 lg:px-52 xl:px-72 2xl:px-96"
-    :class="{ 'bg-lime-300': isYoda }"
-  >
+  <div class="flex min-h-screen w-screen items-center justify-center gap-4 sm:flex-row sm:gap-0 sm:space-x-10 sm:px-12 md:px-32 lg:px-52 xl:px-72 2xl:px-96" :class="{ 'bg-lime-300': isYoda }">
     <!-- left side -->
     <div class="flex flex-col items-center justify-center sm:block sm:grow">
       <div class="flex items-center border-b-2 border-[var(--primary)] sm:mb-6 sm:border-b-0">
@@ -15,7 +12,9 @@
       <p class="mb-2 mt-4 text-2xl sm:mb-8">Don't fail your Regents.</p>
       <!-- buttons -->
       <div class="flex space-x-4">
-        <NuxtLink to="/login" class="flex items-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] hover:brightness-[0.85] hover:dark:brightness-125"> Login </NuxtLink>
+        <NuxtLink to="/login" class="flex items-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] hover:brightness-[0.85] hover:dark:brightness-125">
+          {{ isAuth ? "Continue" : "Login" }}
+        </NuxtLink>
       </div>
     </div>
 
@@ -43,6 +42,9 @@
 </template>
 
 <script setup lang="ts">
+const userStore = useUserStore();
+const { isAuth } = storeToRefs(userStore);
+
 const isYoda = ref(false);
 const landingCatRef = useTemplateRef("landingCatRef");
 const startingCount = 10; // min clicks to unleash yoda

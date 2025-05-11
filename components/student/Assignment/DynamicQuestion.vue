@@ -1,9 +1,9 @@
 <template>
-  <div class="mb-10 flex h-full w-full flex-col items-center justify-center overflow-y-auto px-24 py-12">
+  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
     <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
 
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-    <p class="answer-choice mb-3 overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
+    <p class="answer-choice overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
     <div class="relative flex w-full flex-col">
       <!-- multiple choice selection -->
@@ -85,6 +85,7 @@ const mode = ref<"answering" | "viewing">("answering");
 
 function nextQuestion() {
   mode.value = "answering";
+  currentAttempt.value = 1;
   emit("goNextQuestion");
 }
 
@@ -146,17 +147,6 @@ watch(
 </script>
 
 <style scoped>
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: all 0.35s ease-in-out;
-}
-
-.slide-up-enter-from,
-.slide-up-leave-to {
-  opacity: 0;
-  transform: translateY(20dvh);
-}
-
 .answer-choice img {
   @apply dark:invert;
 }

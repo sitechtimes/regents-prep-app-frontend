@@ -66,6 +66,7 @@ export const useUserStore = defineStore("userStore", () => {
       credentials: "include"
     });
     if (!res.ok) return;
+    isAuth.value = false;
     void router.push("/");
   }
 

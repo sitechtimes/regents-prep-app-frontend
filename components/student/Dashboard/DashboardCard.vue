@@ -2,7 +2,6 @@
   <NuxtLink
     :to="`/student/course/${course.id}`"
     class="flex w-115 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-600/50 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
-    type="button"
   >
     <!-- course information -->
     <div class="flex h-24 w-full flex-col items-center justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
