@@ -439,12 +439,9 @@ async function createAssignment() {
     random.length = 0;
   }
 
-  const [year, month, day] = assignmentInfo.dueDate.date.split("-");
-  const time = new Date(`${month}/${day}/${year}`);
+  const [year, month, day] = assignmentInfo.dueDate.date.split("-").map(Number);
   const [hours, minutes] = assignmentInfo.dueDate.time.split(":").map(Number);
-  time.setHours(hours);
-  time.setMinutes(minutes);
-  const timezoneOffsetMins = time.getTimezoneOffset();
+  const time = new Date(year, month - 1, day, hours, minutes); // creates a date object in local timezone (converted to utc timestamp later)
 
   const { error } = await tryCatch(
     submitCreateAssignment(
@@ -454,7 +451,7 @@ async function createAssignment() {
       random,
       assignmentInfo.topicPaths.map((arr) => arr.at(-1) ?? 1),
       assignmentInfo.excludedQuestions,
-      `${time.toISOString().slice(0, -1)}${timezoneOffsetMins < 0 ? "+" : "-"}${String(Math.floor(Math.abs(timezoneOffsetMins) / 60)).padStart(2, "0")}:${String(Math.abs(timezoneOffsetMins) % 60).padStart(2, "0")}`,
+      time.getTime() / 1000,
       assignmentInfo.questions.length,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,

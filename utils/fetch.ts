@@ -133,7 +133,7 @@ export async function submitCreateAssignment(
   randomQuestions: number[],
   randomTopics: number[],
   excludedQuestions: number[],
-  dueDate: string,
+  dueDate: number,
   numQuestions: number,
   lateSubmissions: boolean,
   timeAllotted: number,
