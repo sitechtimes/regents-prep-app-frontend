@@ -37,22 +37,30 @@
       </form>
     </div>
   </div>
-
-  <PasswordResetModal v-model="showModal" @confirm="handleConfirm" />
+  <FullScreenModal :show-modal="showModal" transition-name="scale-75" @close="showModal = false">
+    <h2 class="mb-2 text-xl font-semibold">Password Reset Successful!</h2>
+    <p class="mb-4 text-gray-600">Click OK to continue.</p>
+    <div class="flex justify-center gap-4">
+      <button class="du-btn du-btn-md text-white" type="button" @click="handleConfirm">OK</button>
+    </div>
+  </FullScreenModal>
 </template>
 
 <script setup lang="ts">
+const route = useRoute();
+const router = useRouter();
+
+const uid = String(route.query.uid ?? "");
+const token = String(route.query.token ?? "");
+
 const newPassword1 = ref("");
 const newPassword2 = ref("");
 const loading = ref(false);
 const notMatching = ref(false);
 const submitError = ref(false);
-const showModal = ref(false);
-const route = useRoute();
-const router = useRouter();
 const errorMessage = ref("");
-const uid = String(route.query.uid ?? "");
-const token = String(route.query.token ?? "");
+
+const showModal = ref(false);
 
 async function onSubmit() {
   if (newPassword1.value !== newPassword2.value) {
@@ -67,18 +75,15 @@ async function onSubmit() {
 
   const { data: response } = await tryCatch(confirmResetPassword(uid, token, newPassword1.value, newPassword2.value));
 
-  if (typeof response === "string") {
-    errorMessage.value = response;
-    if (response.includes("Password has been reset with the new password.")) {
-      showModal.value = true;
-    } else {
-      submitError.value = true;
-    }
-  } else {
+  if (typeof response !== "string") {
     submitError.value = true;
     errorMessage.value = "An unexpected error occurred.";
+    return;
   }
 
+  errorMessage.value = response;
+  if (response === "Password has been reset with the new password.") showModal.value = true;
+  else submitError.value = true;
   loading.value = false;
 }
 

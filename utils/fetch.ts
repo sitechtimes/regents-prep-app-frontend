@@ -230,7 +230,7 @@ export async function resetPassword(email: string) {
 }
 
 export async function confirmResetPassword(uid: string, token: string, newPassword1: string, newPassword2: string) {
-  const { data, error } = await tryCatch(
+  const { data } = await tryCatch(
     requestEndpoint<{ detail?: string; newPassword2?: string; token?: string }>(
       `/auth/password/reset/confirm/`,
       "POST",
@@ -244,20 +244,15 @@ export async function confirmResetPassword(uid: string, token: string, newPasswo
     )
   );
 
-  if (error) return console.error(error);
-
   if (data) {
     if (data.newPassword2) {
-      const returnData = data.newPassword2[0];
-      return returnData;
+      return data.newPassword2[0];
     }
     if (data.detail) {
-      const returnData = data.detail;
-      return returnData;
+      return data.detail;
     }
     if (data.token) {
-      const returnData = data.token[0];
-      return returnData;
+      return data.token[0];
     }
   }
 }
