@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 z-20 grid h-16 w-full grid-cols-3 border-b border-neutral-300 bg-body px-5 dark:border-neutral-600">
+  <header class="sticky top-0 z-30 grid h-16 w-full grid-cols-3 border-b border-neutral-300 bg-body px-5 dark:border-neutral-600">
     <div class="flex items-center justify-start gap-3">
       <button
         type="button"

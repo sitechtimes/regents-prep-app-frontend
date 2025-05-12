@@ -11,7 +11,7 @@
       @click="showSorters = !showSorters"
     >
       <img class="size-5 transition duration-500 dark:invert" src="/ui/sort.svg" aria-hidden="true" />
-      <p class="hidden grow transition duration-500 lg:block">Sort</p>
+      <p class="hidden grow translate-y-px transition duration-500 lg:block">Sort</p>
     </button>
 
     <!-- sort dropdown selection -->
