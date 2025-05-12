@@ -4,6 +4,7 @@
       <div class="flex w-full flex-col items-center justify-center px-2">
         <TeacherDashboardSidebarPageLink to="/teacher/dashboard" img-src="/ui/home.svg" text="Dashboard" />
         <TeacherDashboardSidebarPageLink to="/teacher/create-assignment" img-src="/ui/todo.svg" text="New Assignment" />
+        <TeacherDashboardSidebarPageLink to="/teacher/create-assignment?print=true" img-src="/ui/document.svg" text="Print Worksheet" />
       </div>
 
       <div class="my-4 h-px w-full bg-neutral-300 dark:bg-neutral-600"></div>
@@ -29,7 +30,7 @@ const { teacherCourses } = storeToRefs(userStore);
 <style scoped>
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: none 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .slide-right-enter-from,

@@ -60,7 +60,7 @@ defineExpose({ teacherCourses, showNotFound, loaded });
 <style scoped>
 .opacity-enter-active,
 .opacity-leave-active {
-  transition: 0.25s ease;
+  transition: 0.2s ease;
 }
 
 .opacity-enter-from,

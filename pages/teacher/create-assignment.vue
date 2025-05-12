@@ -1,15 +1,17 @@
 <template>
   <!-- evil margins and paddings are because layouts have innate p-4 and this page has WACKY scroll shenanigans... -->
   <div class="-m-4 flex w-auto flex-col px-4 lg:h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-4rem)] lg:flex-row lg:overflow-y-hidden">
-    <!-- !🐴 <output class="fixed left-4 z-[50] flex w-[30rem] flex-col gap-2 rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">
+    !🐴
+    <output class="fixed left-4 z-[50] flex w-[30rem] flex-col gap-2 rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">
       assignmentInfo: <span class="font-mono">{{ assignmentInfo }}</span> courses: <span class="font-mono">{{ courseIds }}</span> guaranteed length:
       <span class="font-mono">{{ guaranteedLength }}</span> random length: <span class="font-mono">{{ randomLength }}</span>
       <button type="button" @click="generateQuestions">generate the questions</button>
-    </output> -->
-    <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-clip" @submit.prevent="createAssignment">
-      <h2 class="text-2xl font-bold">Create Assignment</h2>
+    </output>
+    <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-clip" @submit.prevent="handleSubmit">
+      <h1 v-if="!isPrinting" class="text-2xl font-bold">Create Assignment</h1>
+      <h1 v-else class="text-2xl font-bold">Print Worksheet</h1>
 
-      <fieldset>
+      <fieldset v-if="!isPrinting">
         <legend class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">For <span title="Required" class="text-red-500">*</span></legend>
         <div class="max-h-36 space-y-1 overflow-y-auto rounded-lg border border-neutral-400 bg-white p-3 dark:border-neutral-600 dark:bg-neutral-900">
           <div v-for="course in teacherCourses" :key="course.id" class="flex items-center gap-2">
@@ -33,7 +35,7 @@
       </fieldset>
 
       <div class="flex w-full items-center justify-center gap-3">
-        <div class="grow">
+        <div v-if="!isPrinting" class="grow">
           <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="text-red-500">*</span></label>
           <input
             id="name"
@@ -64,7 +66,7 @@
         </div>
       </div>
 
-      <fieldset>
+      <fieldset v-if="!isPrinting">
         <legend class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">
           Due
           <span title="Required" class="text-red-500">*</span>
@@ -86,9 +88,9 @@
         </div>
       </fieldset>
 
-      <div class="flex w-full items-center justify-center gap-3">
+      <div v-if="!isPrinting" class="flex w-full items-center justify-center gap-3">
         <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="time-per-question">Time limit per question (minutes)</label>
+          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="time-per-question">Time limit (minutes)</label>
           <input
             id="time-per-question"
             v-model.number="assignmentInfo.timeAllotted"
@@ -119,7 +121,7 @@
       <div class="mb-2 flex w-full grow flex-col">
         <p class="fo-label fo-label-text pointer-events-none flex-none shrink-0 font-bold text-black dark:text-white">Questions and Topics <span title="Required" class="text-red-500">*</span></p>
         <div
-          class="flex h-0 max-h-full min-h-80 w-full grow items-center justify-center rounded-lg border border-neutral-400 bg-white hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
+          class="flex h-0 max-h-full min-h-60 w-full grow items-center justify-center rounded-lg border border-neutral-400 bg-white hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-300/50"
         >
           <!-- mb is to account for the innate large (fake) mt of the image -->
           <div v-if="!assignmentInfo.topicPaths.length && !assignmentInfo.questions.length" class="mb-6 flex h-fit flex-col items-center justify-center">
@@ -140,7 +142,7 @@
               </li>
             </ol>
 
-            <h3 v-if="assignmentInfo.topicPaths.length && assignmentInfo.questions.length" class="text-2xl font-bold">Questions</h3>
+            <h2 v-if="assignmentInfo.topicPaths.length && assignmentInfo.questions.length" class="text-2xl font-bold">Questions</h2>
             <ol v-if="assignmentInfo.questions.length" class="flex w-full flex-col items-start justify-start gap-2">
               <li v-for="(question, index) in assignmentInfo.questions" :key="question.questionId" class="flex w-full items-center justify-start gap-3">
                 <span>{{ index + 1 }}.</span>
@@ -163,7 +165,7 @@
               </li>
             </ol>
 
-            <h3 v-if="assignmentInfo.excludedQuestions.length" class="text-2xl font-bold">Excluded Questions</h3>
+            <h2 v-if="assignmentInfo.excludedQuestions.length" class="text-2xl font-bold">Excluded Questions</h2>
             <ul v-if="assignmentInfo.excludedQuestions.length" class="flex w-full flex-col items-start justify-start gap-2">
               <li v-for="questionId in assignmentInfo.excludedQuestions" :key="questionId" class="flex w-full items-center justify-start gap-3">
                 <span>•</span>
@@ -174,15 +176,15 @@
         </div>
       </div>
 
-      <div class="flex w-full flex-col justify-between gap-4 lg:flex-row lg:items-center lg:gap-2 lg:px-10">
-        <div class="flex items-center gap-1">
+      <div class="flex w-full flex-col gap-4 lg:flex-row lg:items-center lg:gap-2 lg:px-10" :class="isPrinting ? 'justify-end' : 'justify-between'">
+        <div v-if="!isPrinting" class="flex items-center gap-1">
           <input id="late-submissions" v-model="assignmentInfo.lateSubmissions" type="checkbox" class="du-checkbox border-neutral-400 dark:bg-neutral-900" />
           <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base text-black dark:text-white" for="late-submissions">Allow late submissions</label>
         </div>
 
         <div :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : 'You must have at least one question or topic'" :class="{ 'du-tooltip': !allowedToSubmit }">
           <button
-            class="w-full rounded-lg border px-8 py-1.5 text-xl font-medium text-black lg:w-fit"
+            class="w-full grow rounded-lg border px-8 py-1.5 text-xl font-medium text-black lg:w-fit"
             :class="
               allowedToSubmit
                 ? 'border-green-500 bg-green-500 hover:brightness-110'
@@ -191,7 +193,8 @@
             type="submit"
           >
             <span v-if="createAssignmentResult.isLoading" class="loading du-loading du-loading-sm mt-1"></span>
-            <span v-else>Create</span>
+            <span v-else-if="!isPrinting">Create</span>
+            <span v-else>Print</span>
           </button>
         </div>
       </div>
@@ -236,9 +239,23 @@ const currentDateISO = (() => {
 
   return `${year}-${month}-${day}`;
 })();
-const initialCourse = Number(route.query.course);
+let initialCourse = Number(route.query.course);
 const courseIds = reactive<number[]>([]);
 if (initialCourse) courseIds.push(initialCourse);
+
+const isPrinting = ref(false);
+watch(
+  () => route.query,
+  () => {
+    isPrinting.value = route.query.print === "true";
+
+    if (!route.query.course) {
+      courseIds.length = 0;
+      initialCourse = NaN;
+    }
+  },
+  { immediate: true }
+);
 
 const assignmentInfo = reactive({
   name: "",
@@ -299,7 +316,7 @@ const warn = computed(() => {
   return null;
 });
 
-const allowedToSubmit = computed(() => assignmentInfo.name && !warn.value && guaranteedLength.value + randomLength.value > 0);
+const allowedToSubmit = computed(() => (isPrinting || (assignmentInfo.name && !warn.value)) && guaranteedLength.value + randomLength.value > 0);
 
 function removeQuestion(questionId: number) {
   // prettier-ignore
@@ -411,7 +428,11 @@ async function generateQuestions() {
     questionIzzy.push(possibleQuestions.splice(index, 1)[0]);
   }
 
-  const randomQuestionsFromTopic = await getRandomQuestionsUnderTopic(assignmentInfo.topicPaths[0].at(-1) ?? 1, assignmentInfo.numOfQuestions - questionIzzy.length, assignmentInfo.excludedQuestions);
+  const randomQuestionsFromTopic = await getRandomQuestionsUnderTopic(
+    assignmentInfo.topicPaths.map((topicPath) => topicPath.at(-1) ?? 1),
+    assignmentInfo.excludedQuestions,
+    assignmentInfo.numOfQuestions - questionIzzy.length
+  );
 
   questionIzzy.concat(
     randomQuestionsFromTopic.map((question) => {
@@ -470,6 +491,11 @@ async function createAssignment() {
     if (!initialCourse) alert(createAssignmentResult.success);
   }
   // TODO: make this a toast or something.........
+}
+
+function handleSubmit() {
+  if (!isPrinting) createAssignment();
+  else alert("yeah you're printing well done");
 }
 </script>
 

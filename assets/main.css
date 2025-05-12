@@ -103,29 +103,33 @@ input:-webkit-autofill:focus {
 
 /* printing nonsense */
 /* hide print when not printing */
-body:not(.goog) .print {
-  display: none;
+@media not print {
+  body .print {
+    display: none;
+  }
 }
-
-/* hide everything else while printing */
-body.goog * {
-  visibility: hidden;
-  height: 0;
-}
-body.goog header {
-  display: none;
-}
-/* show printing while printing */
-body.goog .print {
-  visibility: visible;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: auto;
-}
-body.goog .print * {
-  visibility: visible;
-  height: auto;
+@media print {
+  /* hide everything else while printing */
+  body * {
+    visibility: hidden;
+    height: 0;
+    color: black;
+  }
+  body header {
+    display: none;
+  }
+  /* show printing while printing */
+  body .print {
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+  }
+  body .print * {
+    visibility: visible;
+    height: auto;
+  }
 }
 
 @page {

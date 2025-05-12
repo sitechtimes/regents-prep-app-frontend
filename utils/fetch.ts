@@ -178,13 +178,13 @@ export async function getQuestionsUnderTopic(topicId: number, offset = 0, includ
   return requestEndpoint<{ count?: number; questions: TopicQuestionInterface[] }>(`questions/teacher/topic-questions/${topicId}/${offset}/${numOfQuestions}/${includeQuestionCount}/`);
 }
 
-/** Requests the `questions/teacher/random-topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>` endpoint
- * @param topicId - The ID of the topic to get questions under.
+/** Requests the `questions/teacher/random-topics-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>` endpoint
+ * @param topicIds - The IDs of the topics to get questions under (array)
  * @param numOfQuestions - The number of questions to get. Defaults to 20, returns up to 50 questions.
  * @param questionsToExclude - IDs of excluded questions. Defaults to none
  */
-export async function getRandomQuestionsUnderTopic(topicId: number, numOfQuestions = 20, questionsToExclude: number[] = []) {
-  return requestEndpoint<TopicQuestionInterface[]>(`questions/teacher/random-topic-questions/${topicId}/${numOfQuestions}/${questionsToExclude.length ? questionsToExclude.join(";") : 0}`);
+export async function getRandomQuestionsUnderTopic(topicIds: number[], questionsToExclude: number[] = [], numOfQuestions = 20) {
+  return requestEndpoint<TopicQuestionInterface[]>(`questions/teacher/random-topics-questions/${numOfQuestions}/${topicIds.join(";")}/${questionsToExclude.length ? questionsToExclude.join(";") : 0}`);
 }
 
 /** Requests the `/questions/teacher/get-topic-paths/<topic_ids | semicolon-delimited list of integer ids in string form>/` endpoint

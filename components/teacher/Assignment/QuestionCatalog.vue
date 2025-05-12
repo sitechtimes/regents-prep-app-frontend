@@ -48,7 +48,7 @@
 
     <div class="flex w-full flex-col items-center justify-center gap-10">
       <div v-if="!currentTopic || currentTopic.hasChildren" class="flex w-full flex-col items-start justify-center gap-4">
-        <h3 class="px-5 text-2xl font-bold">Topics</h3>
+        <h2 class="px-5 text-2xl font-bold">Topics</h2>
         <div class="flex w-full flex-col flex-wrap items-center justify-start space-y-4">
           <TeacherAssignmentCatalogTopic
             v-for="topic in currentTopic ? currentTopic.children?.sort((a, b) => a - b) : initialTopics"
@@ -62,7 +62,7 @@
 
       <div class="flex w-full flex-col items-start justify-center gap-4">
         <div ref="questions" class="sticky top-20 z-10 flex items-center justify-center gap-8 rounded-full bg-body px-5 py-2 lg:top-4" :class="{ 'shadow-lg': isSticky }">
-          <h3 class="text-2xl font-bold">Questions</h3>
+          <h2 class="text-2xl font-bold">Questions</h2>
           <div class="flex items-center justify-center gap-4">
             <!-- boolean stuff is to stop people from adding the child of an already added topic -->
             <TeacherAssignmentCatalogQuestionButton
