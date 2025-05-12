@@ -4,10 +4,10 @@
 
     <td class="w-96 overflow-hidden text-ellipsis text-lg *:line-clamp-4" v-html="removeImage(question.text)"></td>
 
-    <td class="w-32 text-lg">{{ questionStat.totalTimeSpent / questionStat.totalInstances || "—" }} sec</td>
+    <td class="w-32 text-lg">{{ questionStat ? Math.round(questionStat.totalTimeSpent / questionStat.totalInstances) : "—" }} sec</td>
 
     <td>
-      <ol class="flex list-outside flex-col gap-y-1 text-lg">
+      <ol v-if="questionStat" class="flex list-outside flex-col gap-y-1 text-lg">
         <li v-for="answer in question.answers" :key="answer.id" class="list list-item" :class="{ 'marker:font-bold marker:text-green-700': answer.isCorrect }">
           <div class="flex items-center justify-center gap-2">
             <span class="w-12 shrink-0 text-nowrap" :class="{ 'font-bold text-green-700': answer.isCorrect }">{{ questionStat.studentChoices.filter((choice) => choice === answer.id).length }}</span>
@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  questionStat: QuestionStat;
+  questionStat: QuestionStat | undefined;
   question: TopicQuestionInterface;
   index: number;
 }>();

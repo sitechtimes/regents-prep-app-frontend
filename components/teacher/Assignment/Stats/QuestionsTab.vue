@@ -22,7 +22,12 @@
       </tbody>
     </table>
 
-    <FullScreenModal transition-name="slide-up-screen" :show-modal="selectedQuestion !== undefined" width-class="w-1/2" @close="selectedQuestion = undefined">
+    <FullScreenModal
+      transition-name="slide-up-screen"
+      :show-modal="selectedQuestion !== undefined"
+      width-class="w-1/2 max-h-[70dvh] overflow-y-scroll !justify-start"
+      @close="selectedQuestion = undefined"
+    >
       <div class="w-full rounded-lg p-6">
         <h2 class="mb-4 text-xl font-semibold">Question Details</h2>
         <div class="mb-4 text-lg" v-html="selectedQuestion?.text"></div>

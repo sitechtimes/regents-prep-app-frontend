@@ -43,7 +43,8 @@ const route = useRoute();
 const currentDate = new Date();
 
 const assignmentId = Number(route.params.assignmentId);
-const currentAssignment = computed(() => teacherCurrentCourse.value?.assignments.find((assignment) => assignment.id === assignmentId));
+// * .assignments?.find needs to be optionally chained cuz who knows
+const currentAssignment = computed(() => teacherCurrentCourse.value?.assignments?.find((assignment) => assignment.id === assignmentId));
 const currentAssignmentStats = ref<TeacherAssignmentStatistic>();
 
 const currentTab = ref<"students" | "questions">("students");
