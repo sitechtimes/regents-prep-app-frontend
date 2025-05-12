@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-full items-center justify-center p-4">
-    <div v-if="loaded && teacherCurrentCourse" class="flex w-1/2 flex-col items-start justify-start gap-5">
+    <div v-if="loaded && teacherCurrentCourse" class="flex w-2/3 flex-grow flex-col items-start justify-start gap-5 md:w-1/2 md:flex-initial">
       <div class="flex w-full flex-col items-end justify-center gap-4">
         <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[teacherCurrentCourse.subject] }">
           <h1 class="text-4xl font-semibold">{{ teacherCurrentCourse.name }}</h1>
