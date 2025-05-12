@@ -43,14 +43,16 @@
 
     <p>Don't have an account?</p>
     <p class="font-medium">Ask your teacher about account creation.</p>
-    <NuxtLink to="/reset-password" class="mt-3 text-neutral-600 dark:text-neutral-200"> Forgot password? Reset here. </NuxtLink>
+    <NuxtLink to="/reset-password/" class="mt-3 text-neutral-600 dark:text-neutral-200"> Forgot password? Reset here. </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
-useSeoMeta({
-  title: "Unregents Prep Login"
+definePageMeta({
+  requiresAuth: false,
+  redirectIfAuth: true
 });
+useSeoMeta({ title: "SITHS Regents Prep - Login" });
 
 const userStore = useUserStore();
 const router = useRouter();

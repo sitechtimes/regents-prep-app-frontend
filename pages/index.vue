@@ -1,28 +1,39 @@
 <template>
-  <div class="flex min-h-screen w-screen flex-row items-center justify-center space-x-10 px-8" :class="{ 'bg-lime-300': isYoda }">
+  <div
+    class="flex min-h-screen w-screen flex-col items-center justify-center gap-4 sm:flex-row sm:gap-0 sm:space-x-10 sm:px-12 md:px-32 lg:px-52 xl:px-72 2xl:px-96"
+    :class="{ 'bg-lime-300': isYoda }"
+  >
     <!-- left side -->
-    <div class="w-1/3">
-      <div class="mb-6 flex items-center">
-        <div class="mr-6 h-32 w-1 bg-[var(--primary)]"></div>
-        <h1 class="flex flex-col text-5xl font-bold leading-relaxed">
-          <span class="text-3xl">Welcome to the</span>
+    <div class="flex flex-col items-center justify-center sm:block sm:grow">
+      <div class="flex items-center border-b-2 border-[var(--primary)] sm:mb-6 sm:border-b-0">
+        <div class="mr-6 hidden h-32 w-1 bg-[var(--primary)] sm:block"></div>
+        <h1 class="flex flex-col text-center text-3xl font-bold leading-relaxed sm:text-left xl:text-4xl 2xl:text-5xl">
+          <span class="text-2xl 2xl:text-3xl">Welcome to the</span>
           SITHS Regents Prep App
         </h1>
       </div>
-      <p class="mb-8 mt-4 text-2xl">Don't fail your Regents.</p>
+      <p class="mb-2 mt-4 text-2xl sm:mb-8">Don't fail your Regents.</p>
       <!-- buttons -->
       <div class="flex space-x-4">
-        <NuxtLink to="/login" class="flex items-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] hover:brightness-[0.85] hover:dark:brightness-125"> Login </NuxtLink>
+        <NuxtLink to="/login" class="flex items-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] hover:brightness-[0.85] hover:dark:brightness-125">
+          {{ isAuth ? "Continue" : "Login" }}
+        </NuxtLink>
       </div>
     </div>
 
     <!-- right side -->
-    <div class="w-1/4">
-      <img v-show="isYoda" class="cat cursor-default" src="/landingYoda.png" alt="A very short-haired black cat, edited to be green" title="The almighty Yoda." />
+    <div class="w-52 xs:w-1/4">
+      <img
+        v-show="isYoda"
+        class="w-full origin-center cursor-default object-cover transition-none"
+        src="/landingYoda.png"
+        alt="A very short-haired black cat, edited to be green"
+        title="The almighty Yoda."
+      />
       <img
         id="landing"
         ref="landingCatRef"
-        class="cat z-50 cursor-help"
+        class="z-50 w-full origin-center cursor-help object-cover transition-none active:brightness-125"
         :draggable="false"
         src="/landingCat.png"
         alt="Cat on a computer"
@@ -34,6 +45,9 @@
 </template>
 
 <script setup lang="ts">
+const userStore = useUserStore();
+const { isAuth } = storeToRefs(userStore);
+
 const isYoda = ref(false);
 const landingCatRef = useTemplateRef("landingCatRef");
 const startingCount = 10; // min clicks to unleash yoda
@@ -81,14 +95,4 @@ function toggle() {
 defineExpose({ isYoda, clicks, startingCount, toggle });
 </script>
 
-<style scoped>
-.cat {
-  @apply w-full object-cover;
-  transform-origin: center;
-  transition: none;
-}
-
-.cat#landing:active {
-  filter: brightness(1.2);
-}
-</style>
+<style scoped></style>

@@ -43,7 +43,8 @@ describe("Student Dashboard Page", () => {
         teacher: "Wichael Mhalen",
         period: 2,
         subject: "Math",
-        assignments: []
+        assignments: [],
+        assignmentsFetched: true
       }
     ];
 

@@ -1,30 +1,23 @@
 <template>
   <div class="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-start" @click="deselectFilters = !deselectFilters">
-    <div v-if="loaded" class="flex w-full items-center justify-center">
-      <div v-if="studentCurrentCourse" class="flex w-[90%] flex-col items-center justify-center sm:w-[80%] md:w-[70%] xl:w-[60%] 2xl:w-[50%]">
-        <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[studentCurrentCourse.subject] }">
-          <h1 class="text-4xl font-semibold">{{ studentCurrentCourse.name }}</h1>
-          <h3 class="text-lg">Period {{ studentCurrentCourse.period }}</h3>
-          <h3 class="text-xl">{{ studentCurrentCourse.teacher }}</h3>
-        </div>
+    <div v-if="loaded && studentCurrentCourse" class="flex w-[90%] flex-col items-center justify-center sm:w-[80%] md:w-[70%] xl:w-[60%] 2xl:w-[50%]">
+      <div class="flex h-52 w-full flex-col items-start justify-end rounded-2xl p-6" :style="{ backgroundColor: subjectColors[studentCurrentCourse.subject] }">
+        <h1 class="text-4xl font-semibold">{{ studentCurrentCourse.name }}</h1>
+        <h3 class="text-lg">Period {{ studentCurrentCourse.period }}</h3>
+        <h3 class="text-xl">{{ studentCurrentCourse.teacher }}</h3>
+      </div>
 
-        <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
-          <StudentTodoToolbar
-            :close-toolbar="deselectFilters"
-            @sort="(sorter) => (currentSorter = sorter)"
-            @filter="(filter) => (currentFilters = filter)"
-            @search="(term) => (currentSearch = term)"
-          />
+      <div class="mt-5 flex w-full flex-col items-center justify-center gap-4">
+        <StudentTodoToolbar :close-toolbar="deselectFilters" @sort="(sorter) => (currentSorter = sorter)" @filter="(filter) => (currentFilters = filter)" @search="(term) => (currentSearch = term)" />
 
-          <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6 dark:border-neutral-600"></div>
-          <StudentAssignmentCard v-else-if="assignments.length > 0" v-for="assignment in assignments" :key="assignment.id" :course="studentCurrentCourse" :assignment="assignment" clickable />
+        <div v-if="!assignments" class="loading-div flex h-36 w-full items-center justify-center gap-2 rounded-2xl border border-[var(--border-color)] p-6 dark:border-neutral-600"></div>
+        <StudentAssignmentCard v-else-if="assignments.length > 0" v-for="assignment in assignments" :key="assignment.id" :course="studentCurrentCourse" :assignment="assignment" clickable />
 
-          <div v-else-if="assignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
-            <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="mb-4 h-16 w-16 dark:invert" />
-            <h3 class="mb-2 text-2xl font-semibold">No Assignments Yet</h3>
-            <p class="text-lg">You're all caught up!</p>
-            <p class="mt-2 text-sm">Check back later for new assignments.</p>
-          </div>
+        <div v-else-if="assignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
+          <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="mb-4 h-16 w-16 dark:invert" />
+          <h3 class="mb-2 text-2xl font-semibold">No Assignments Yet</h3>
+          <p class="text-lg">You're all caught up!</p>
+          <p class="mt-2 text-sm">Check back later for new assignments.</p>
         </div>
       </div>
     </div>
@@ -37,7 +30,9 @@ const { studentCurrentCourse } = storeToRefs(userStore);
 
 definePageMeta({
   layout: "student",
-  middleware: "student-get-course"
+  middleware: "student-get-course",
+  requiresAuth: true,
+  redirectIfAuth: false
 });
 
 useSeoMeta({

@@ -89,7 +89,9 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "teacher",
-  middleware: "teacher-get-course"
+  middleware: "teacher-get-course",
+  requiresAuth: true,
+  redirectIfAuth: false
 });
 
 const route = useRoute();
@@ -154,7 +156,7 @@ async function createAssignment() {
       courseID,
       assignmentInfo.questionIds.filter((question) => question.isGuaranteed).map((question) => question.questionId),
       assignmentInfo.questionIds.filter((question) => !question.isGuaranteed).map((question) => question.questionId),
-      `${new Date(new Date(assignmentInfo.dueDate.date).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString().slice(0, 10)}T${assignmentInfo.dueDate.time}`,
+      new Date(new Date(`${assignmentInfo.dueDate.date}T${assignmentInfo.dueDate.time}`).toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone })).toISOString(),
       assignmentInfo.questionIds.length,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,
