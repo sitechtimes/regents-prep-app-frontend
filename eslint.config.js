@@ -93,6 +93,7 @@ export default [
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
       "@typescript-eslint/no-redundant-type-constituents": "off",
+      "@typescript-eslint/restrict-plus-operands": "off",
 
       "vue/attributes-order": [
         "error",

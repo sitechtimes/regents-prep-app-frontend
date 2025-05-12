@@ -68,3 +68,21 @@ export interface AssignmentInstance {
   /** @readonly ID of the student. */
   readonly student: number;
 }
+
+export interface AssignmentResults extends SubmitAssignment {
+  /** @readonly An array of the question results. */
+  readonly questionInstances: {
+    /** @readonly ID of the question. */
+    readonly id: number;
+    /** @readonly The data for the question referenced by the instance. */
+    readonly question: Question;
+    /** @readonly Array of dynamic user answers (IDs of selected answers). */
+    readonly dynamicUserAnswers: number[] | null;
+    /** @readonly The ID of the chosen answer if the assignment is static.*/
+    readonly staticUserAnswer: number | null;
+    /** @readonly Tells if the question is complete. */
+    readonly isComplete: boolean;
+    /** @readonly Time spent on the question (in seconds). */
+    readonly timeSpent: number;
+  }[];
+}

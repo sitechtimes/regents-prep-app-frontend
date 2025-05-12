@@ -11,14 +11,12 @@
 </template>
 
 <script setup lang="ts">
-type TabName = "current" | "past";
-
 defineProps<{
-  tabName: TabName;
-  currentTab: TabName;
+  tabName: string;
+  currentTab: string;
   course: TeacherCourse;
 }>();
-const emit = defineEmits<{ switchTab: [TabName] }>();
+const emit = defineEmits<{ switchTab: [string] }>();
 </script>
 
 <style scoped></style>

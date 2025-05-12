@@ -6,23 +6,19 @@ interface TeacherAssignmentStatisticData {
   /** Time spent on the assignment, in seconds */
   timeSpent: number;
 }
+export interface DynamicTeacherAssignmentStatisticData extends TeacherAssignmentStatisticData {
+  /** Array of answer IDs that represent the user's answers for the question */
+  dynamicUserAnswers: number[];
+}
+export interface StaticTeacherAssignmentStatisticData extends TeacherAssignmentStatisticData {
+  /** Answer ID */
+  staticUserAnswer: number;
+}
 /** @template T - Whether the `guaranteedQuestions` field should be an array of `Question` objects or an array of question IDs */
-interface TeacherAssignmentStatistic<T extends boolean> {
-  statisticsData: TeacherAssignmentStatisticData;
+export interface TeacherAssignmentStatistic<T extends boolean = true> {
   /** Array of guaranteed questions if `T` is true, question IDs if false */
-  guaranteedQuestions: T extends true ? Question[] : number[];
-}
-export interface DynamicTeacherAssignmentStatistic<T extends boolean = true> extends TeacherAssignmentStatistic<T> {
-  statisticsData: TeacherAssignmentStatisticData & {
-    /** Array of answer IDs that represent the user's answers for the question */
-    dynamicUserAnswers: number[];
-  };
-}
-export interface StaticTeacherAssignmentStatistic<T extends boolean = true> extends TeacherAssignmentStatistic<T> {
-  statisticsData: TeacherAssignmentStatisticData & {
-    /** Answer ID */
-    staticUserAnswer: number;
-  };
+  guaranteedQuestions: T extends true ? TopicQuestionInterface[] : number[];
+  statisticData: (DynamicTeacherAssignmentStatisticData | StaticTeacherAssignmentStatisticData)[];
 }
 
 interface IndividualStudentStatistic<T extends boolean> {
@@ -50,20 +46,13 @@ export interface SubmitAssignment {
   questionsCorrect: number;
 }
 
-export interface AssignmentResults extends SubmitAssignment {
-  /** @readonly An array of the question results. */
-  readonly questionInstances: {
-    /** @readonly ID of the question. */
-    readonly id: number;
-    /** @readonly The data for the question referenced by the instance. */
-    readonly question: Question;
-    /** @readonly Array of dynamic user answers (IDs of selected answers). */
-    readonly dynamicUserAnswers: number[] | null;
-    /** @readonly The ID of the chosen answer if the assignment is static.*/
-    readonly staticUserAnswer: number | null;
-    /** @readonly Tells if the question is complete. */
-    readonly isComplete: boolean;
-    /** @readonly Time spent on the question (in seconds). */
-    readonly timeSpent: number;
-  }[];
+export interface QuestionStat {
+  /** Total time spent on this question */
+  totalTimeSpent: number;
+  /** Total number of times this question was answered */
+  totalInstances: number;
+  /** Array of students' answer IDs for this question */
+  studentChoices: number[];
+  /** @readonly Answer ID of the correct answer for this question */
+  readonly correctAnswer: number;
 }
