@@ -49,7 +49,7 @@
           @click="nextQuestion"
         >
           <span class="hidden text-xl xs:block">Next</span>
-          <img class="size-5 shrink-0 group-hover:translate-x-1 dark:invert" src="/ui/arrowRight.svg" aria-hidden="true" />
+          <img class="size-5 shrink-0 group-hover:translate-x-1 dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
         </button>
       </div>
     </div>

@@ -39,4 +39,4 @@ npm run dev
 
 When submitting a Pull Request, refer to the following flowchart:
 
-![How to Submit a Pull Request](./public/how2pr.png)
+![How to Submit a Pull Request](./assets/how2pr.png)

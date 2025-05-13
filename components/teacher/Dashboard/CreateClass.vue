@@ -46,7 +46,7 @@
       <p class="pb-4">You have created <span class="font-bold">{{ courseName }}</span>.</p>
 
       <div class="flex w-full items-center justify-end gap-2">
-        <TeacherCourseActionButton type="link" img="/ui/arrowRight.svg" text="Go to Course" :to="`/teacher/course/${newCourseId}`" @click="showSuccessModal = false" />
+        <TeacherCourseActionButton type="link" img="/ui/arrow-right.svg" text="Go to Course" :to="`/teacher/course/${newCourseId}`" @click="showSuccessModal = false" />
         <TeacherCourseActionButton type="button" img="/ui/close.svg" text="Close" @on-click="showSuccessModal = false" />
       </div>
     </div>

@@ -23,7 +23,7 @@
         :class="currentQuestionIndex === 0 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
         @click="emit('switchQuestion', 'previous')"
       >
-        <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrowLeft.svg" aria-hidden="true" />
+        <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
         <span class="hidden text-xl xs:block">Back</span>
       </button>
       <button
@@ -34,7 +34,7 @@
         @click="emit('switchQuestion', 'next')"
       >
         <span class="hidden text-xl xs:block">Next</span>
-        <img class="size-5 group-hover:translate-x-1 dark:invert" src="/ui/arrowRight.svg" aria-hidden="true" />
+        <img class="size-5 group-hover:translate-x-1 dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
       </button>
     </div>
 
