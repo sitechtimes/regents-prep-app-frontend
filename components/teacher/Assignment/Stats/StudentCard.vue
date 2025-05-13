@@ -6,7 +6,7 @@
     type="button"
   >
     <!-- TODO: card looks kinda bad -->
-    <div v-if="student.timeStarted" class="h-full w-full flex-col items-center justify-center p-0">
+    <div v-if="student.timeStarted" class="mb-2 h-full w-full flex-col items-center justify-center p-0">
       <div class="flex h-full grow flex-col items-start justify-start p-4">
         <h3 class="text-xl font-semibold lg:text-2xl">{{ student.student.firstName }} {{ student.student.lastName }}</h3>
 
