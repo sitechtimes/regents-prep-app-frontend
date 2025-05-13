@@ -1,8 +1,13 @@
 <template>
-  <div class="w-full">
-    <div v-for="student in students" :key="student.student.id" class="flex h-fit items-center justify-center">
-      <LazyTeacherAssignmentStatsStudentCard hydrate-on-visible :current-assignment="currentAssignment" :student="student" @click="currentStudent = student" />
-    </div>
+  <div class="flex w-full flex-col items-center justify-center gap-4">
+    <LazyTeacherAssignmentStatsStudentCard
+      v-for="student in students"
+      :key="student.student.id"
+      hydrate-on-visible
+      :current-assignment="currentAssignment"
+      :student="student"
+      @click="currentStudent = student"
+    />
 
     <FullScreenModal transition-name="slide-up-screen" :show-modal="currentStudent !== undefined" width-class="w-4/5 lg:w-1/3" @close="currentStudent = undefined">
       <div v-if="currentStudent" class="flex h-full w-full flex-col items-center justify-center gap-6">
