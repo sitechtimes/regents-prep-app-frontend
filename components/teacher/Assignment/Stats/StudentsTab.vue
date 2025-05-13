@@ -7,39 +7,40 @@
       <LazyTeacherAssignmentStatsStudentCard hydrate-on-visible :current-assignment="currentAssignment" :student="student" @click="currentStudent = student" />
     </div>
 
-    <FullScreenModal transition-name="slide-up-screen" :show-modal="currentStudent !== undefined" width-class="w-1/2" @close="currentStudent = undefined">
+    <FullScreenModal transition-name="slide-up-screen" :show-modal="currentStudent !== undefined" width-class="w-4/5 lg:w-1/2" @close="currentStudent = undefined">
       <div v-if="currentStudent" class="flex h-full w-full flex-col items-center justify-center gap-6">
         <div class="flex flex-col items-center justify-center">
-          <h3 class="text-3xl font-bold">{{ currentStudent.student.firstName }} {{ currentStudent.student.lastName }}</h3>
+          <h3 class="text-2xl font-bold">{{ currentStudent.student.firstName }} {{ currentStudent.student.lastName }}</h3>
           <p v-if="currentStudent.dateSubmitted" class="font-medium text-neutral-700">Submitted {{ currentStudent.dateSubmitted.toLocaleString() }}</p>
-          <p v-else-if="currentStudent.timeStarted" class="font-medium text-neutral-700">Started {{ currentStudent.timeStarted.toLocaleString() }}</p>
+          <p v-else-if="currentStudent.timeStarted" class="text-sm font-medium text-neutral-700">Started {{ currentStudent.timeStarted.toLocaleString() }}</p>
         </div>
 
-        <div v-if="currentQuestionIndex !== undefined && currentQuestion" class="flex flex-col items-center justify-center gap-8">
-          <span class="question-text space-y-3 text-neutral-100" v-html="currentQuestion.question.text"></span>
+        <!-- answer choice buttons -->
+        <div v-if="currentQuestionIndex !== undefined && currentQuestion" class="flex w-[99%] flex-col items-center justify-center gap-6">
+          <span class="question-text space-y-3 break-normal text-neutral-100" v-html="currentQuestion.question.text"></span>
 
           <div class="flex flex-wrap items-center justify-center gap-2">
             <div
               v-if="currentQuestion.question.answerType === 'Multiple Choice'"
               v-for="choice in currentQuestion.question.answers"
-              class="rounded-lg px-6 py-2 shadow-sm"
+              class="rounded-lg px-5 py-2 text-sm shadow-sm"
               :data-tip="`${currentStudent.student.firstName} selected this choice`"
               :class="[colorAnswerChoice(choice), { 'du-tooltip cursor-help': isSelected(choice) }]"
               v-html="choice.text"
             ></div>
           </div>
 
-          <div class="flex w-full items-center justify-between">
-            <p class="inline-flex w-1/3 items-center justify-start gap-2 text-lg font-medium">
-              <img class="size-5 -translate-y-px" src="/ui/clock.svg" aria-hidden="true" /> Time spent: {{ formatTime(currentQuestion.timeSpent) }}
+          <div class="w-full flex-col items-center justify-between">
+            <p class="inline-flex items-center justify-start gap-2 text-sm font-medium">
+              <img class="size-5 -translate-y-px" src="/ui/clock.svg" aria-hidden="true" /> Time spent:
+              {{ formatTime(currentQuestion.timeSpent) }}
             </p>
 
-            <p class="w-1/3 text-center">Question {{ currentQuestionIndex + 1 }} of {{ currentStudentStatistics?.length }}</p>
-
-            <div class="flex w-1/3 items-center justify-center gap-4">
+            <!-- back/next buttons -->
+            <div class="flex items-center justify-center gap-4">
               <button
-                class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-8 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
-                :class="{ 'cursor-not-allowed bg-neutral-200 opacity-50 brightness-50': currentQuestionIndex === 0 }"
+                class="group my-2 flex h-8 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
+                :class="{ 'cursor-not-allowed bg-neutral-200 brightness-50 grayscale': currentQuestionIndex === 0 }"
                 type="button"
                 :disabled="currentQuestionIndex === 0"
                 @click="currentQuestionIndex--"
@@ -48,8 +49,8 @@
                 Back
               </button>
               <button
-                class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-8 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
-                :class="{ 'cursor-not-allowed bg-neutral-200 opacity-50 brightness-50': currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1 }"
+                class="group my-2 flex h-8 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
+                :class="{ 'cursor-not-allowed bg-neutral-200': currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1 }"
                 type="button"
                 :disabled="currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1"
                 @click="currentQuestionIndex++"
@@ -58,6 +59,7 @@
                 <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
               </button>
             </div>
+            <p class="mt-2 text-center text-sm">Question {{ currentQuestionIndex + 1 }} of {{ currentStudentStatistics?.length }}</p>
           </div>
         </div>
       </div>
