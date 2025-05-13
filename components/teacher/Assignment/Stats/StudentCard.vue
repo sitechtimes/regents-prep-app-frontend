@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <h3 v-else class="text-3xl font-semibold">Not started yet</h3>
+    <h3 v-else class="font-semibold lg:text-2xl">Not started yet</h3>
   </button>
 </template>
 
