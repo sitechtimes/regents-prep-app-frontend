@@ -1,5 +1,5 @@
 <template>
-  <div v-if="teacherCurrentCourse" class="w-full rounded-md border border-gray-500">
+  <div v-if="teacherCurrentCourse" class="w-full rounded-md border border-gray-500 dark:border-neutral-300/50">
     <table class="du-table">
       <thead>
         <tr>

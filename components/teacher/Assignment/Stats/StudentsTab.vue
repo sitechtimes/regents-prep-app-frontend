@@ -1,29 +1,27 @@
 <template>
-  <div class="flex w-full flex-col items-center justify-center gap-3">
-    <div v-for="student in students" :key="student.student.id" class="flex h-40 w-full items-center justify-center p-4">
-      <div class="flex h-full w-52 shrink-0 items-center justify-start border-r-2 border-neutral-300 pr-4 text-xl font-medium dark:border-neutral-600">
-        {{ student.student.firstName }} {{ student.student.lastName }}
-      </div>
+  <div class="w-full">
+    <div v-for="student in students" :key="student.student.id" class="flex h-fit items-center justify-center">
       <LazyTeacherAssignmentStatsStudentCard hydrate-on-visible :current-assignment="currentAssignment" :student="student" @click="currentStudent = student" />
     </div>
 
-    <FullScreenModal transition-name="slide-up-screen" :show-modal="currentStudent !== undefined" width-class="w-4/5 lg:w-1/2" @close="currentStudent = undefined">
+    <FullScreenModal transition-name="slide-up-screen" :show-modal="currentStudent !== undefined" width-class="w-4/5 lg:w-1/3" @close="currentStudent = undefined">
       <div v-if="currentStudent" class="flex h-full w-full flex-col items-center justify-center gap-6">
         <div class="flex flex-col items-center justify-center">
-          <h3 class="text-2xl font-bold">{{ currentStudent.student.firstName }} {{ currentStudent.student.lastName }}</h3>
-          <p v-if="currentStudent.dateSubmitted" class="font-medium text-neutral-700">Submitted {{ currentStudent.dateSubmitted.toLocaleString() }}</p>
-          <p v-else-if="currentStudent.timeStarted" class="text-sm font-medium text-neutral-700">Started {{ currentStudent.timeStarted.toLocaleString() }}</p>
+          <h3 class="text-2xl font-bold lg:text-3xl">{{ currentStudent.student.firstName }} {{ currentStudent.student.lastName }}</h3>
+          <p v-if="currentStudent.dateSubmitted" class="font-medium text-neutral-700 dark:text-neutral-300">Submitted {{ currentStudent.dateSubmitted.toLocaleString() }}</p>
+          <p v-else-if="currentStudent.timeStarted" class="text-sm font-medium text-neutral-700 lg:text-lg dark:text-neutral-300">Started {{ currentStudent.timeStarted.toLocaleString() }}</p>
         </div>
 
-        <!-- answer choice buttons -->
+        <!-- question text -->
         <div v-if="currentQuestionIndex !== undefined && currentQuestion" class="flex w-[99%] flex-col items-center justify-center gap-6">
-          <span class="question-text space-y-3 break-normal text-neutral-100" v-html="currentQuestion.question.text"></span>
+          <span class="question-text space-y-3 break-normal text-neutral-100 lg:text-lg" v-html="currentQuestion.question.text"></span>
 
+          <!-- answer choice buttons -->
           <div class="flex flex-wrap items-center justify-center gap-2">
             <div
               v-if="currentQuestion.question.answerType === 'Multiple Choice'"
               v-for="choice in currentQuestion.question.answers"
-              class="rounded-lg px-5 py-2 text-sm shadow-sm"
+              class="rounded-lg px-5 py-2 text-sm shadow-sm lg:text-lg"
               :data-tip="`${currentStudent.student.firstName} selected this choice`"
               :class="[colorAnswerChoice(choice), { 'du-tooltip cursor-help': isSelected(choice) }]"
               v-html="choice.text"
@@ -31,7 +29,7 @@
           </div>
 
           <div class="w-full flex-col items-center justify-between">
-            <p class="inline-flex items-center justify-start gap-2 text-sm font-medium">
+            <p class="inline-flex items-center justify-start gap-2 text-sm font-medium lg:text-lg">
               <img class="size-5 -translate-y-px" src="/ui/clock.svg" aria-hidden="true" /> Time spent:
               {{ formatTime(currentQuestion.timeSpent) }}
             </p>
@@ -39,8 +37,8 @@
             <!-- back/next buttons -->
             <div class="flex items-center justify-center gap-4">
               <button
-                class="group my-2 flex h-8 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
-                :class="{ 'cursor-not-allowed bg-neutral-200 brightness-50 grayscale': currentQuestionIndex === 0 }"
+                class="group my-2 flex h-8 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 lg:w-1/4 lg:text-lg dark:bg-neutral-600 hover:dark:bg-neutral-700"
+                :class="{ 'cursor-not-allowed bg-neutral-200 opacity-50': currentQuestionIndex === 0 }"
                 type="button"
                 :disabled="currentQuestionIndex === 0"
                 @click="currentQuestionIndex--"
@@ -49,8 +47,8 @@
                 Back
               </button>
               <button
-                class="group my-2 flex h-8 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
-                :class="{ 'cursor-not-allowed bg-neutral-200': currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1 }"
+                class="group my-2 flex h-8 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 lg:w-1/4 lg:text-lg dark:bg-neutral-600 hover:dark:bg-neutral-700"
+                :class="{ 'cursor-not-allowed bg-neutral-200 opacity-50': currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1 }"
                 type="button"
                 :disabled="currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1"
                 @click="currentQuestionIndex++"
@@ -59,7 +57,7 @@
                 <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
               </button>
             </div>
-            <p class="mt-2 text-center text-sm">Question {{ currentQuestionIndex + 1 }} of {{ currentStudentStatistics?.length }}</p>
+            <p class="mt-2 text-center text-sm lg:text-lg">Question {{ currentQuestionIndex + 1 }} of {{ currentStudentStatistics?.length }}</p>
           </div>
         </div>
       </div>
@@ -122,7 +120,7 @@ function isSelected(choice: TopicQuestionInterfaceAnswer) {
 function colorAnswerChoice(choice: TopicQuestionInterfaceAnswer) {
   if (choice.isCorrect) return "bg-green-400";
   if (isSelected(choice)) return "bg-red-400";
-  return "bg-neutral-200";
+  return "bg-neutral-400";
 }
 </script>
 

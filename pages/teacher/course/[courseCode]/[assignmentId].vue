@@ -2,8 +2,8 @@
   <div v-if="teacherCurrentCourse" class="flex w-full flex-col items-center justify-center gap-8 p-4">
     <div v-if="currentAssignment" class="flex flex-col items-center justify-center">
       <h1 class="text-4xl font-bold">{{ currentAssignment.name }}</h1>
-      <p class="mt-3 text-neutral-700">Assigned {{ formatDate(currentAssignment.dateAssigned, currentDate) }}</p>
-      <p class="text-neutral-700">Due {{ formatDate(currentAssignment.dueDate, currentDate) }}</p>
+      <p class="text-neutral- mt-3 dark:text-neutral-300">Assigned {{ formatDate(currentAssignment.dateAssigned, currentDate) }}</p>
+      <p class="text-neutral-700 dark:text-neutral-300">Due {{ formatDate(currentAssignment.dueDate, currentDate) }}</p>
     </div>
 
     <div class="flex w-2/3 flex-col items-center justify-center gap-8">
