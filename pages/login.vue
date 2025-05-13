@@ -1,16 +1,16 @@
 <template>
-  <div class="bg-gray flex min-h-screen w-screen flex-col items-center justify-center py-12">
+  <div class="flex min-h-dvh w-screen flex-col items-center justify-center py-12">
     <h1 class="text-5xl font-bold">Welcome back!</h1>
-    <div class="mb-4 flex flex-col items-center justify-center rounded-3xl bg-[color:var(--bg-color)] p-4">
+    <div class="mb-4 flex flex-col items-center justify-center rounded-3xl px-2">
       <h3 class="mb-4">Log in to your Regents Prep App account</h3>
 
-      <form class="login flex w-full flex-col items-center justify-center gap-7" @submit="loginWithEmail" @submit.prevent>
+      <form class="flex w-full flex-col items-center justify-center gap-7" @submit="loginWithEmail" @submit.prevent>
         <div class="relative flex flex-col items-start justify-center gap-1">
           <label class="font-medium" for="email">Email Address <span title="Required" class="text-red-500">*</span></label>
           <input
             id="email"
             v-model="email"
-            class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
+            class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
             type="email"
             required
             autocomplete="email"
@@ -23,7 +23,7 @@
           <input
             id="password"
             v-model="password"
-            class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
+            class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
             type="password"
             required
             autocomplete="current-password"
@@ -43,7 +43,7 @@
 
     <p>Don't have an account?</p>
     <p class="font-medium">Ask your teacher about account creation.</p>
-    <NuxtLink to="/reset-password/" class="mt-3 text-neutral-600 dark:text-neutral-200"> Forgot password? Reset here. </NuxtLink>
+    <NuxtLink to="/reset-password/" class="mt-3 text-neutral-600 dark:text-neutral-200"> Forgot password? <span class="underline underline-offset-2">Reset here</span>. </NuxtLink>
   </div>
 </template>
 

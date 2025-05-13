@@ -68,36 +68,12 @@ export async function submitCreateAssignment(
  * @param studentIds - An optional array of student IDs for which to get statistics. Defaults to all students.
  */
 export async function getTeacherQuestionStatistic<T extends boolean>(assignmentId: number, includeGuaranteedQuestions: T, studentIds?: number[]) {
-  return await requestEndpoint<StaticTeacherAssignmentStatistic<T> | DynamicTeacherAssignmentStatistic<T>>(
+  return await requestEndpoint<TeacherAssignmentStatistic<T>>(
     `/courses/teacher/assignment/${assignmentId}/per-question-statistics/${includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`
   );
 }
 
-/** Requests the `courses/teacher/assignment/{assignmentId}/per-student-statistics/{includeStudentInfo}` endpoint
- * @param assignmentId - The ID of the assignment for which to get statistics.
- * @param includeGuaranteedQuestions - Whether to include student data, or just their IDs.
- */
-export async function getTeacherStudentStatistics<T extends boolean>(assignmentId: number, includeStudentInfo: T) {
-  const studentList = await requestEndpoint<StudentStatistic<T>[]>(`/courses/teacher/assignment/${assignmentId}/per-student-statistics/${includeStudentInfo}`);
-  for (const student of studentList) {
-    student.timeStarted = student.timeStarted ? new Date(student.timeStarted) : null;
-    student.dateSubmitted = student.dateSubmitted ? new Date(student.dateSubmitted) : null;
-  }
-  return studentList;
-}
-
-/** Requests the `courses/teacher/assignment/{assignmentId}/individualized-statistics/{studentId}/{includeQuestions}` endpoint
- * @param assignmentId - The ID of the assignment for which to get statistics.
- * @param studentIds - The student IDs for which to get statistics.
- * @param includeQuestions - Whether to include questions, or just their IDs.
- */
-export async function getIndividualStudentStatistics<T extends boolean>(assignmentId: number, includeQuestions: T) {
-  return await requestEndpoint<(StaticIndividualStudentStatistic<T> | DynamicIndividualStudentStatistic<T>)[]>(
-    `/courses/teacher/assignment/individualized-statistics/${assignmentId}/${includeQuestions}`
-  );
-}
-
-/** Requests the `questions/teacher/topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>/` endpoint
+/** Requests the `questions/teacher/topic-questions/<topicId>/<offset>/<numOfQuestions>/<includeQuestionCount>` endpoint
  * @param topicId - The ID of the topic to get questions under.
  * @param offset - The index to get questions at. Defaults to 0.
  * @param includeQuestionCount - Whether to include the number of questions under the topic. Defaults to true.

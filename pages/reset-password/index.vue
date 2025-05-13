@@ -6,7 +6,7 @@
       <form class="login flex w-full flex-col items-center justify-center gap-7" @submit.prevent="onSubmit">
         <div class="relative flex flex-col items-start justify-center gap-1">
           <label class="font-medium" for="email"> Email Address <span title="Required" class="font-2xl text-red-500">*</span> </label>
-          <input id="email" v-model="email" class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300" type="email" required autocomplete="email" />
+          <input id="email" v-model="email" class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4 transition duration-300" type="email" required autocomplete="email" />
         </div>
 
         <div class="relative flex w-96 flex-col items-center justify-center gap-1">
@@ -19,7 +19,7 @@
         <p v-if="success" class="font-medium text-green-600">Reset link sent! Please check your email.</p>
       </form>
     </div>
-    <NuxtLink to="/login" class="mt-3 text-neutral-600 dark:text-neutral-200"> Remembered your password? Login here. </NuxtLink>
+    <NuxtLink to="/login" class="mt-3 text-neutral-600 dark:text-neutral-200"> Remembered your password? <span class="underline underline-offset-2">Login here. </span></NuxtLink>
   </div>
 </template>
 

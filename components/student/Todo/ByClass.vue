@@ -6,8 +6,8 @@
       :class="[buttonClass, queries.length > 0 ? 'bg-green-100 dark:bg-green-700' : 'bg-white dark:bg-neutral-800']"
       @click="showClasses = !showClasses"
     >
-      <img class="size-5 transition duration-300 dark:invert" src="/ui/todo.svg" aria-hidden="true" />
-      <p class="hidden grow transition duration-300 lg:block">Classes</p>
+      <img class="size-5 transition duration-500 dark:invert" src="/ui/todo.svg" aria-hidden="true" />
+      <p class="hidden grow translate-y-px transition duration-500 lg:block">Classes</p>
     </button>
 
     <Transition name="slide-up">

@@ -15,8 +15,8 @@
       </div>
 
       <div class="my-4 flex w-full items-start justify-start border-b border-neutral-300">
-        <TeacherCourseTabButton :course="teacherCurrentCourse" tab-name="current" :current-tab="currentTab" @switch-tab="(tab) => (currentTab = tab)" />
-        <TeacherCourseTabButton :course="teacherCurrentCourse" tab-name="past" :current-tab="currentTab" @switch-tab="(tab) => (currentTab = tab)" />
+        <TeacherCourseTabButton :course="teacherCurrentCourse" tab-name="current" :current-tab="currentTab" @switch-tab="(tab) => (currentTab = tab as 'current' | 'past')" />
+        <TeacherCourseTabButton :course="teacherCurrentCourse" tab-name="past" :current-tab="currentTab" @switch-tab="(tab) => (currentTab = tab as 'current' | 'past')" />
       </div>
 
       <div class="flex w-full flex-col items-center gap-4">

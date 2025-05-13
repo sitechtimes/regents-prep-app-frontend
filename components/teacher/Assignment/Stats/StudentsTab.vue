@@ -1,68 +1,73 @@
 <template>
-  <div class="flex w-full flex-col items-center justify-center gap-3">
-    <div v-for="student in students" :key="student.student.id" class="flex h-40 w-full items-center justify-center p-4">
-      <div class="flex h-full w-52 items-center justify-start border-r-2 border-neutral-300 pr-4 text-xl font-medium dark:border-neutral-600">
-        {{ student.student.firstName }} {{ student.student.lastName }}
-      </div>
-      <LazyTeacherAssignmentStatsStudentCard hydrate-on-visible :current-assignment="currentAssignment" :student="student" @click="currentStudent = student" />
-    </div>
-  </div>
+  <div class="flex w-full flex-col items-center justify-center gap-4">
+    <LazyTeacherAssignmentStatsStudentCard
+      v-for="student in students"
+      :key="student.student.id"
+      hydrate-on-visible
+      :current-assignment="currentAssignment"
+      :student="student"
+      @click="currentStudent = student"
+    />
 
-  <FullScreenModal transition-name="slide-up-screen" :show-modal="currentStudent !== undefined" width-class="w-1/2" @close="currentStudent = undefined">
-    <div v-if="currentStudent" class="flex h-full w-full flex-col items-center justify-center gap-6">
-      <div class="flex flex-col items-center justify-center">
-        <h3 class="text-3xl font-bold">{{ currentStudent.student.firstName }} {{ currentStudent.student.lastName }}</h3>
-        <p v-if="currentStudent.dateSubmitted" class="font-medium text-neutral-700">Submitted {{ currentStudent.dateSubmitted.toLocaleString() }}</p>
-        <p v-else-if="currentStudent.timeStarted" class="font-medium text-neutral-700">Started {{ currentStudent.timeStarted.toLocaleString() }}</p>
-      </div>
-
-      <div v-if="currentQuestionIndex !== undefined && currentQuestion" class="flex flex-col items-center justify-center gap-8">
-        <span class="question-text space-y-3 text-neutral-100" v-html="currentQuestion.question.text"></span>
-
-        <div class="flex flex-wrap items-center justify-center gap-2">
-          <div
-            v-if="currentQuestion.question.answerType === 'Multiple Choice'"
-            v-for="choice in currentQuestion.question.answers"
-            class="rounded-lg px-6 py-2 shadow-sm"
-            :data-tip="`${currentStudent.student.firstName} selected this choice`"
-            :class="[colorAnswerChoice(choice), { 'du-tooltip cursor-help': isSelected(choice) }]"
-            v-html="choice.text"
-          ></div>
+    <FullScreenModal transition-name="slide-up-screen" :show-modal="currentStudent !== undefined" width-class="w-4/5 lg:w-1/3" @close="currentStudent = undefined">
+      <div v-if="currentStudent" class="flex h-full w-full flex-col items-center justify-center gap-6">
+        <div class="flex flex-col items-center justify-center">
+          <h3 class="text-2xl font-bold lg:text-3xl">{{ currentStudent.student.firstName }} {{ currentStudent.student.lastName }}</h3>
+          <p v-if="currentStudent.dateSubmitted" class="font-medium text-neutral-700 dark:text-neutral-300">Submitted {{ currentStudent.dateSubmitted.toLocaleString() }}</p>
+          <p v-else-if="currentStudent.timeStarted" class="text-sm font-medium text-neutral-700 lg:text-lg dark:text-neutral-300">Started {{ currentStudent.timeStarted.toLocaleString() }}</p>
         </div>
 
-        <div class="flex w-full items-center justify-between">
-          <p class="inline-flex w-1/3 items-center justify-start gap-2 text-lg font-medium">
-            <img class="size-5 -translate-y-px" src="/ui/clock.svg" aria-hidden="true" /> Time spent: {{ formatTime(currentQuestion.timeSpent) }}
-          </p>
+        <!-- question text -->
+        <div v-if="currentQuestionIndex !== undefined && currentQuestion" class="flex w-[99%] flex-col items-center justify-center gap-6">
+          <span class="question-text space-y-3 break-normal text-neutral-100 lg:text-lg" v-html="currentQuestion.question.text"></span>
 
-          <p class="w-1/3 text-center">Question {{ currentQuestionIndex + 1 }} of {{ currentStudentStatistics?.length }}</p>
+          <!-- answer choice buttons -->
+          <div class="flex flex-wrap items-center justify-center gap-2">
+            <div
+              v-if="currentQuestion.question.answerType === 'Multiple Choice'"
+              v-for="choice in currentQuestion.question.answers"
+              class="rounded-lg px-5 py-2 text-sm shadow-sm lg:text-lg"
+              :data-tip="`${currentStudent.student.firstName} selected this choice`"
+              :class="[colorAnswerChoice(choice), { 'du-tooltip cursor-help': isSelected(choice) }]"
+              v-html="choice.text"
+            ></div>
+          </div>
 
-          <div class="flex w-1/3 items-center justify-center gap-4">
-            <button
-              class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-8 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
-              :class="{ 'cursor-not-allowed bg-neutral-200 opacity-50 brightness-50': currentQuestionIndex === 0 }"
-              type="button"
-              :disabled="currentQuestionIndex === 0"
-              @click="currentQuestionIndex--"
-            >
-              <img class="size-5 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
-              Back
-            </button>
-            <button
-              class="group flex items-center justify-center gap-2 rounded-xl bg-neutral-100 px-8 py-2 text-xl hover:bg-neutral-200 dark:bg-neutral-600 hover:dark:bg-neutral-700"
-              :class="{ 'cursor-not-allowed bg-neutral-200 opacity-50 brightness-50': currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1 }"
-              type="button"
-              :disabled="currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1"
-              @click="currentQuestionIndex++"
-            >
-              Next
-              <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
-            </button>
+          <div class="w-full flex-col items-center justify-between">
+            <p class="inline-flex items-center justify-start gap-2 text-sm font-medium lg:text-lg">
+              <img class="size-5 -translate-y-px" src="/ui/clock.svg" aria-hidden="true" /> Time spent:
+              {{ formatTime(currentQuestion.timeSpent) }}
+            </p>
+
+            <!-- back/next buttons -->
+            <div class="flex items-center justify-center gap-4">
+              <button
+                class="group my-2 flex h-8 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 lg:w-1/4 lg:text-lg dark:bg-neutral-600 hover:dark:bg-neutral-700"
+                :class="{ 'cursor-not-allowed bg-neutral-200 opacity-50': currentQuestionIndex === 0 }"
+                type="button"
+                :disabled="currentQuestionIndex === 0"
+                @click="currentQuestionIndex--"
+              >
+                <img class="size-5 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
+                Back
+              </button>
+              <button
+                class="group my-2 flex h-8 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 lg:w-1/4 lg:text-lg dark:bg-neutral-600 hover:dark:bg-neutral-700"
+                :class="{ 'cursor-not-allowed bg-neutral-200 opacity-50': currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1 }"
+                type="button"
+                :disabled="currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1"
+                @click="currentQuestionIndex++"
+              >
+                Next
+                <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
+              </button>
+            </div>
+            <p class="mt-2 text-center text-sm lg:text-lg">Question {{ currentQuestionIndex + 1 }} of {{ currentStudentStatistics?.length }}</p>
           </div>
         </div>
       </div>
-    </div>
-  </FullScreenModal>
+    </FullScreenModal>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -84,7 +89,9 @@ watch(currentStudent, async (student) => {
 
   if (loadedStudentStatistics[student.id]) currentStudentStatistics.value = loadedStudentStatistics[student.id];
   else {
-    const { data, error } = await tryCatch(getIndividualStudentStatistics(props.currentAssignment.id, true));
+    const { data, error } = await tryRequestEndpoint<(StaticIndividualStudentStatistic | DynamicIndividualStudentStatistic)[]>(
+      `/courses/teacher/assignment/individualized-statistics/${props.currentAssignment.id}/true/`
+    );
     if (error) return console.error(error);
 
     loadedStudentStatistics[student.id] = data;
@@ -95,9 +102,16 @@ watch(currentStudent, async (student) => {
 });
 
 onMounted(async () => {
-  const { data, error } = await tryCatch(getTeacherStudentStatistics(props.assignmentId, true));
+  const { data: studentList, error } = await tryRequestEndpoint<StudentStatistic[]>(`/courses/teacher/assignment/${props.assignmentId}/per-student-statistics/true`);
   if (error) return console.error(error);
-  students.value = data.sort((a, b) => a.student.lastName.localeCompare(b.student.lastName));
+
+  for (const student of studentList) {
+    // @ts-expect-error timeStarted is a unix timestamp before parsing
+    student.timeStarted = student.timeStarted ? new Date(student.timeStarted * 1000) : null;
+    // @ts-expect-error dateSubmitted is a unix timestamp before parsing
+    student.dateSubmitted = student.dateSubmitted ? new Date(student.dateSubmitted * 1000) : null;
+  }
+  students.value = studentList.sort((a, b) => a.student.lastName.localeCompare(b.student.lastName));
 });
 
 function isSelected(choice: TopicQuestionInterfaceAnswer) {
@@ -111,7 +125,7 @@ function isSelected(choice: TopicQuestionInterfaceAnswer) {
 function colorAnswerChoice(choice: TopicQuestionInterfaceAnswer) {
   if (choice.isCorrect) return "bg-green-400";
   if (isSelected(choice)) return "bg-red-400";
-  return "bg-neutral-200";
+  return "bg-neutral-400";
 }
 </script>
 

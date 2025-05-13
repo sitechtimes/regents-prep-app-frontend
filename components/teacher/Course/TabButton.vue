@@ -1,6 +1,6 @@
 <template>
   <button
-    class="translate-y-0.5 border-b-4 p-2 px-8 text-2xl font-semibold capitalize transition"
+    class="border-b-4 px-4 text-lg font-semibold capitalize transition lg:text-2xl"
     :class="{ 'text-neutral-500 grayscale hover:grayscale-[.66]': currentTab !== tabName }"
     :style="{ borderColor: subjectColors[course.subject] }"
     type="button"
@@ -11,14 +11,12 @@
 </template>
 
 <script setup lang="ts">
-type TabName = "current" | "past";
-
 defineProps<{
-  tabName: TabName;
-  currentTab: TabName;
+  tabName: string;
+  currentTab: string;
   course: TeacherCourse;
 }>();
-const emit = defineEmits<{ switchTab: [TabName] }>();
+const emit = defineEmits<{ switchTab: [string] }>();
 </script>
 
 <style scoped></style>
