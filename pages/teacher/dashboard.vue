@@ -1,19 +1,18 @@
 <template>
-  <div class="flex h-full w-full flex-col items-start justify-start">
-    <div v-if="loaded" class="h-full w-full">
+  <div class="flex w-full flex-col items-start justify-start">
+    <div v-if="loaded" class="w-full">
       <NotFound :show-modal="showNotFound" user-type="teacher" :message="route.query.course ? 'class' : 'assignment'" />
 
-      <div class="flex h-full w-full flex-col">
-        <div v-if="teacherCourses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top">
+      <div class="flex w-full flex-col">
+        <div v-if="teacherCourses.length > 0" class="flex flex-wrap content-start items-start justify-around gap-8">
           <!--prettier-ignore-->
           <TeacherDashboardCard
             v-for="course in (sortedTeacherCourses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
             :key="course.id"
             :course="course"
-            @click="router.push(`/teacher/course/${course.id}`)"
           />
         </div>
-        <!--The v-else needs fixing Make it an github issue/lil css-ery will help-->
+
         <div v-else class="flex h-full w-full items-center justify-center overflow-hidden">
           <div class="flex flex-col items-center gap-4">
             <h2 id="no-classes" class="text-4xl font-extrabold text-[var(--text-color)] md:text-5xl">No classes found!</h2>
@@ -29,10 +28,13 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ layout: "teacher" });
+definePageMeta({
+  layout: "teacher",
+  requiresAuth: true,
+  redirectIfAuth: false
+});
 
 const route = useRoute();
-const router = useRouter();
 const store = useUserStore();
 const { teacherCourses, teacherCurrentCourse } = storeToRefs(store);
 

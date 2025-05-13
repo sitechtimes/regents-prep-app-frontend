@@ -47,6 +47,11 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  requiresAuth: false,
+  redirectIfAuth: true
+});
+
 const route = useRoute();
 const router = useRouter();
 

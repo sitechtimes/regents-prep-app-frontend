@@ -10,7 +10,7 @@
 
     <div class="relative hidden w-full lg:block">
       <!-- <div class="list-overlay pointer-events-none absolute left-0 top-0 h-full w-full border-y border-neutral-300 dark:border-neutral-600"></div> -->
-      <ul class="flex h-[70dvh] w-full shrink-0 flex-col items-start justify-start overflow-y-scroll border-neutral-300 px-4">
+      <ul class="flex h-[65dvh] w-full shrink-0 flex-col items-start justify-start overflow-y-scroll border-neutral-300 px-4 xl:h-[70dvh]">
         <li
           v-for="(num, index) in assignment.assignment.numQuestions"
           :key="index"
@@ -106,7 +106,8 @@ const submitState = reactive({
 const assignmentIsComplete = computed(() => {
   const questionInterfaces = Object.values(props.assignment.assignment.questionInterfaces);
   return (
-    (questionInterfaces.length === props.assignment.assignment.numQuestions && // every question has been loaded
+    (props.assignment.assignment.isStatic && // only for statics
+      questionInterfaces.length === props.assignment.assignment.numQuestions && // every question has been loaded
       questionInterfaces.every((questionInterface) => questionInterface.question.answers.some((answer) => answer.selected))) || // every question has been answered
     props.assignment.assignment.numQuestions === props.assignment.questionsCompleted // not all questions loaded but everything still answered
   );
@@ -114,7 +115,7 @@ const assignmentIsComplete = computed(() => {
 
 async function submit() {
   submitState.isLoading = true;
-  const { error } = await tryCatch(submitAssignment(props.assignment.id));
+  const { error } = await tryRequestEndpoint<SubmitAssignment>("courses/student/submit-assignment/", "POST", { id: props.assignment.id });
 
   submitState.isLoading = false;
   submitState.result = !error;

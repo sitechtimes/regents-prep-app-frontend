@@ -15,7 +15,9 @@
       <p class="mb-2 mt-4 text-2xl sm:mb-8">Don't fail your Regents.</p>
       <!-- buttons -->
       <div class="flex space-x-4">
-        <NuxtLink to="/login" class="flex items-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] hover:brightness-[0.85] hover:dark:brightness-125"> Login </NuxtLink>
+        <NuxtLink to="/login" class="flex items-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] hover:brightness-[0.85] hover:dark:brightness-125">
+          {{ isAuth ? "Continue" : "Login" }}
+        </NuxtLink>
       </div>
     </div>
 
@@ -43,6 +45,9 @@
 </template>
 
 <script setup lang="ts">
+const userStore = useUserStore();
+const { isAuth } = storeToRefs(userStore);
+
 const isYoda = ref(false);
 const landingCatRef = useTemplateRef("landingCatRef");
 const startingCount = 10; // min clicks to unleash yoda

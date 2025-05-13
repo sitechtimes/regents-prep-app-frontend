@@ -7,6 +7,13 @@
 </template>
 
 <script setup lang="ts">
+const { origin } = useRequestURL();
+useSeoMeta({
+  ogImage: () => `${origin}/siths.png`,
+  twitterCard: "summary_large_image",
+  twitterImage: () => `${origin}/siths.png`
+});
+
 const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();

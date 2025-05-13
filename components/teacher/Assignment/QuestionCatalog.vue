@@ -48,6 +48,7 @@
           <LazyTeacherAssignmentCatalogQuestion
             v-for="question in displayedQuestions"
             :key="typeof question === 'number' ? question : question.id"
+            hydrate-on-visible
             :view-only="viewOnly"
             :question="typeof question === 'number' ? loadedQuestions[question] : question"
             :show-answer-override="showQuestionAnswers"
@@ -125,7 +126,7 @@ async function loadTopics(topicId: number) {
   const parentIsLoaded = parent !== undefined;
   if (parentIsLoaded && parent.hasChildren && parent.children?.length) return;
 
-  const { data: topics, error } = await tryCatch(getTopics(topicId));
+  const { data: topics, error } = await tryRequestEndpoint<Topic[]>(`/questions/teacher/topics/${topicId}`);
   if (error) return console.error(error);
 
   for (const topic of topics) {
