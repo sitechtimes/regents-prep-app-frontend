@@ -13,17 +13,21 @@ export interface TopicQuestionInterface {
   answers: TopicQuestionInterfaceAnswer[];
   correctFirstAttempts: number;
   totalFirstAttempts: number;
+  /** the id of the deepest subtopic a question is in */
+  subtopic: number;
 }
 
 export interface Topic {
   id: number;
   name: string;
   hasChildren: boolean;
-  hasQuestions: boolean;
+  hasParents: boolean;
+  numQuestions: number;
 }
 export interface TopicMapped extends Topic {
   /** IDs of child topics */
   children: number[] | null;
+  parents: number[] | null;
   questionIds: number[];
 }
 

@@ -1,12 +1,6 @@
 <template>
   <!-- evil margins and paddings are because layouts have innate p-4 and this page has WACKY scroll shenanigans... -->
   <div class="-m-4 flex w-auto flex-col px-4 lg:h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-4rem)] lg:flex-row lg:overflow-y-hidden">
-    !🐴
-    <output class="fixed left-4 z-[50] flex w-[30rem] flex-col gap-2 rounded-xl border border-dotted border-red-500 bg-neutral-100 p-2">
-      assignmentInfo: <span class="font-mono">{{ assignmentInfo }}</span> courses: <span class="font-mono">{{ courseIds }}</span> guaranteed length:
-      <span class="font-mono">{{ guaranteedLength }}</span> random length: <span class="font-mono">{{ randomLength }}</span>
-      <button type="button" @click="generateQuestions">generate the questions</button>
-    </output>
     <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-clip" @submit.prevent="handleSubmit">
       <h1 v-if="!isPrinting" class="text-2xl font-bold">Create Assignment</h1>
       <h1 v-else class="text-2xl font-bold">Print Worksheet</h1>
@@ -217,7 +211,7 @@
       </div>
     </div>
 
-    <LazyTeacherAssignmentPrintAssignment :question-ids="assignmentInfo.questions.map((question) => question.questionId)" />
+    <LazyTeacherAssignmentPrintAssignment :question-ids="assignmentInfo.printQuestionIds" />
   </div>
 </template>
 
@@ -264,6 +258,7 @@ const assignmentInfo = reactive({
     time: "23:59"
   },
   questions: ref<CreateAssignmentQuestion[]>([]),
+  printQuestionIds: ref<number[]>([]),
   excludedQuestions: ref<number[]>([]),
   topicPaths: ref<number[][]>([]),
   numOfQuestions: ref<number>(),
@@ -362,7 +357,8 @@ async function addTopic(topicPath: number[]) {
 
     // fill out topic ancestor paths
     const filteredPath = topicPath.filter((topicId) => !loadedTopicPaths.value[topicId]);
-    const paths = await getTopicAncestorPaths(filteredPath);
+    const { data: paths, error } = await tryCatch(getTopicAncestorPaths(filteredPath));
+    if (error) return console.error(error);
     filteredPath.forEach((topicId, index) => (loadedTopicPaths.value[topicId] = paths[index]));
 
     const topicIds = assignmentInfo.topicPaths.map((topicPath) => topicPath.at(-1));
@@ -419,22 +415,26 @@ async function generateQuestions() {
   if (!assignmentInfo.numOfQuestions) return alert("no num questions set. get out");
 
   // start with guaranteed questions
-  const questionIzzy: number[] = [...assignmentInfo.questions.filter((question) => question.isGuaranteed).map((question) => question.questionId)];
+  const questionIds: number[] = [...assignmentInfo.questions.filter((question) => question.isGuaranteed).map((question) => question.questionId)];
 
   // add random questions
   const possibleQuestions = assignmentInfo.questions.filter((question) => !question.isGuaranteed).map((question) => question.questionId);
-  while (questionIzzy.length < assignmentInfo.numOfQuestions && possibleQuestions.length > 0) {
+  while (questionIds.length < assignmentInfo.numOfQuestions && possibleQuestions.length > 0) {
     const index = Math.floor(Math.random() * possibleQuestions.length);
-    questionIzzy.push(possibleQuestions.splice(index, 1)[0]);
+    questionIds.push(possibleQuestions.splice(index, 1)[0]);
   }
 
-  const randomQuestionsFromTopic = await getRandomQuestionsUnderTopic(
-    assignmentInfo.topicPaths.map((topicPath) => topicPath.at(-1) ?? 1),
-    assignmentInfo.excludedQuestions,
-    assignmentInfo.numOfQuestions - questionIzzy.length
+  // add questions from topics
+  const numOfQuestions = assignmentInfo.numOfQuestions - questionIds.length;
+  if (numOfQuestions === 0) return (assignmentInfo.printQuestionIds = questionIds);
+  const topicIds = assignmentInfo.topicPaths.map((topicPath) => topicPath.at(-1) ?? 1);
+  const questionsToExclude = assignmentInfo.excludedQuestions;
+  const { data: randomQuestionsFromTopic, error } = await tryRequestEndpoint<TopicQuestionInterface[]>(
+    `questions/teacher/random-topics-questions/${numOfQuestions}/${topicIds.join(";")}/${questionsToExclude.length ? questionsToExclude.join(";") : 0}`
   );
+  if (error) return console.error(error);
 
-  questionIzzy.concat(
+  assignmentInfo.printQuestionIds = questionIds.concat(
     randomQuestionsFromTopic.map((question) => {
       // add to loaded if not already there
       loadedQuestions.value[question.id] ??= question;
@@ -442,8 +442,6 @@ async function generateQuestions() {
       return question.id;
     })
   );
-
-  console.log(questionIzzy);
 }
 
 async function createAssignment() {
@@ -493,9 +491,10 @@ async function createAssignment() {
   // TODO: make this a toast or something.........
 }
 
-function handleSubmit() {
-  if (!isPrinting) createAssignment();
-  else alert("yeah you're printing well done");
+async function handleSubmit() {
+  if (!isPrinting) return await createAssignment();
+  await generateQuestions();
+  window.print();
 }
 </script>
 

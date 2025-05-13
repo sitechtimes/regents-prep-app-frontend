@@ -190,7 +190,9 @@ async function loadQuestions(topicId: number, offset?: number) {
   // continue adding topic paths
   const subtopics = Array.from(subtopicSet).filter((subtopicId) => !loadedTopicPaths.value[subtopicId]);
 
-  const paths = await getTopicAncestorPaths(subtopics);
+  const { data: paths, error: ancestorPathError } = await tryCatch(getTopicAncestorPaths(subtopics));
+  if (ancestorPathError) return console.error(error);
+
   subtopics.forEach((subtopicId, index) => (loadedTopicPaths.value[subtopicId] = paths[index]));
 
   displayedQuestions.value = questions;
