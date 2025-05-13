@@ -14,8 +14,8 @@
           <!-- time stats -->
           <div class="flex w-full flex-col items-start">
             <p class="text-left text-sm lg:text-lg" :title="student.timeStarted.toLocaleString()">Started {{ formatDate(student.timeStarted, currentDate) }}</p>
-            <p class="text-left text-sm lg:text-lg" v-if="student.dateSubmitted" :title="student.dateSubmitted.toLocaleString()">Submitted {{ formatDate(student.dateSubmitted, currentDate) }}</p>
-            <p class="text-left text-sm lg:text-lg" v-else>Not submitted</p>
+            <p v-if="student.dateSubmitted" class="text-left text-sm lg:text-lg" :title="student.dateSubmitted.toLocaleString()">Submitted {{ formatDate(student.dateSubmitted, currentDate) }}</p>
+            <p v-else class="text-left text-sm lg:text-lg">Not submitted</p>
           </div>
 
           <!-- average stats -->
