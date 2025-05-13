@@ -492,7 +492,7 @@ async function createAssignment() {
 }
 
 async function handleSubmit() {
-  if (!isPrinting) return await createAssignment();
+  if (!isPrinting.value) return await createAssignment();
   await generateQuestions();
   window.print();
 }
