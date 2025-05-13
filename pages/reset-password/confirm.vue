@@ -39,10 +39,8 @@
   </div>
   <FullScreenModal :show-modal="showModal" transition-name="scale-75" @close="showModal = false">
     <h2 class="mb-2 text-xl font-semibold">Password Reset Successful!</h2>
-    <p class="mb-4 text-gray-600">Click OK to continue.</p>
-    <div class="flex justify-center gap-4">
-      <button class="du-btn du-btn-md text-white" type="button" @click="handleConfirm">OK</button>
-    </div>
+    <p class="mb-4 text-neutral-600 dark:text-neutral-400">Click OK to continue.</p>
+    <button class="du-btn du-btn-md bg-green-accent text-white" type="button" @click="handleConfirm">OK</button>
   </FullScreenModal>
 </template>
 
