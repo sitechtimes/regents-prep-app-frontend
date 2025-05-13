@@ -26,7 +26,7 @@
         <ul class="flex flex-col flex-wrap !items-baseline !overflow-visible sm:flex-row sm:!items-center">
           <li class="my-2 w-fit">
             <button
-              class="rounded-lg border border-neutral-300 px-4 py-2 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+              class="px-4 py-2 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
               type="button"
               @click="currentTopic = undefined"
             >
@@ -36,7 +36,7 @@
 
           <li v-for="topic in currentTopicPath" class="my-2 flex w-fit items-center justify-center text-wrap">
             <button
-              class="rounded-lg border border-neutral-300 px-4 py-2 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:bg-neutral-600/50 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+              class="px-4 py-2 text-xl font-medium hover:bg-neutral-100/50 dark:border-neutral-600 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
               type="button"
               @click="currentTopic = loadedTopics[topic]"
               v-html="loadedTopics[topic]?.name"
