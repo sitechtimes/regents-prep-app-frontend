@@ -6,7 +6,7 @@
       <p class="text-neutral-700 dark:text-neutral-300">Due {{ formatDate(currentAssignment.dueDate, currentDate) }}</p>
     </div>
 
-    <div class="flex w-2/3 flex-col items-center justify-center gap-8">
+    <div class="flex w-full flex-col items-center justify-center gap-8 lg:w-2/3">
       <TeacherAssignmentStatsCompletionBar :current-assignment="currentAssignment" />
 
       <div v-if="currentAssignmentStats" class="flex w-full items-start justify-start border-b border-neutral-300">

@@ -1,12 +1,12 @@
 <template>
   <div v-if="teacherCurrentCourse" class="w-full rounded-md border border-gray-500 dark:border-neutral-300/50">
-    <table class="du-table">
+    <table class="du-table w-full table-fixed text-left text-sm lg:text-lg">
       <thead>
         <tr>
-          <th></th>
-          <th class="text-lg font-bold">Question</th>
-          <th class="text-lg font-bold">Avg. Time</th>
-          <th class="text-lg font-bold">Class Results</th>
+          <th class="w-4"></th>
+          <th class="break-words px-2 text-sm font-semibold lg:text-lg">Question</th>
+          <th class="break-words px-2 text-sm font-semibold lg:text-lg">Avg. Time</th>
+          <th class="break-words px-2 text-sm font-semibold lg:text-lg">Class Results</th>
         </tr>
       </thead>
       <tbody>
@@ -25,22 +25,22 @@
     <FullScreenModal
       transition-name="slide-up-screen"
       :show-modal="selectedQuestion !== undefined"
-      width-class="w-1/2 max-h-[70dvh] overflow-y-scroll !justify-start"
+      width-class="w-11/12 lg:w-1/2 max-h-[70dvh] overflow-y-scroll !justify-start"
       @close="selectedQuestion = undefined"
     >
       <div class="w-full rounded-lg p-6">
         <h2 class="mb-4 text-xl font-semibold">Question Details</h2>
-        <div class="mb-4 text-lg" v-html="selectedQuestion?.text"></div>
+        <div class="mb-4 text-sm lg:text-lg" v-html="selectedQuestion?.text"></div>
 
         <div v-if="selectedQuestion?.answerType === 'Multiple Choice'" class="flex flex-col gap-2">
           <div v-for="(answer, i) in selectedQuestion.answers" :key="answer.id" class="flex items-start gap-2">
-            <span class="text-lg font-semibold">{{ String.fromCharCode(65 + i) }}</span>
-            <div class="text-lg" v-html="answer.text"></div>
+            <span class="text-sm font-semibold lg:text-lg">{{ String.fromCharCode(65 + i) }}</span>
+            <div class="text-sm lg:text-lg" v-html="answer.text"></div>
           </div>
         </div>
 
-        <div v-else class="text-lg italic text-gray-700">Written Response — no multiple-choice answers available.</div>
-        <button type="button" class="mt-6 rounded bg-green-accent px-4 py-2 text-lg text-black hover:brightness-90" @click="selectedQuestion = undefined">Close</button>
+        <div v-else class="text-sm italic text-gray-700 lg:text-lg">Written Response — no multiple-choice answers available.</div>
+        <button type="button" class="mt-6 rounded bg-green-accent px-4 py-2 text-sm text-black hover:brightness-90 lg:text-lg" @click="selectedQuestion = undefined">Close</button>
       </div>
     </FullScreenModal>
   </div>

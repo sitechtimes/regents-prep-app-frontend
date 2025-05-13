@@ -1,13 +1,13 @@
 <template>
   <tr class="cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-800" @click="emit('select')">
-    <th class="w-10 text-lg">{{ index + 1 }}</th>
+    <th class="w-10 text-sm lg:text-lg">{{ index + 1 }}</th>
 
-    <td class="w-96 overflow-hidden text-ellipsis text-lg *:line-clamp-4" v-html="removeImage(question.text)"></td>
+    <td class="w-96 overflow-hidden text-ellipsis text-sm *:line-clamp-4 lg:text-lg" v-html="removeImage(question.text)"></td>
 
-    <td class="w-32 text-lg">{{ questionStat ? Math.round(questionStat.totalTimeSpent / questionStat.totalInstances) : "—" }} sec</td>
+    <td class="w-32 text-sm lg:text-lg">{{ questionStat ? Math.round(questionStat.totalTimeSpent / questionStat.totalInstances) : "—" }} sec</td>
 
     <td>
-      <ol v-if="questionStat" class="flex list-outside flex-col gap-y-1 text-lg">
+      <ol v-if="questionStat" class="flex list-outside flex-col gap-y-1 text-sm lg:text-lg">
         <li v-for="answer in question.answers" :key="answer.id" class="list list-item" :class="{ 'marker:font-bold marker:text-green-700': answer.isCorrect }">
           <div class="flex items-center justify-center gap-2">
             <span class="w-12 shrink-0 text-nowrap" :class="{ 'font-bold text-green-700': answer.isCorrect }">{{ questionStat.studentChoices.filter((choice) => choice === answer.id).length }}</span>
