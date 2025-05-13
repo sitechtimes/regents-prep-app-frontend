@@ -80,14 +80,14 @@ async function onSubmit() {
   submitError.value = false;
   loading.value = true;
 
-  const { data: response } = await tryRequestEndpoint<{ detail?: string; newPassword2?: string; token?: string }>(
+  const { data: response } = await tryRequestEndpoint<{ detail?: string; new_password2?: string; token?: string }>(
     `/auth/password/reset/confirm/`,
     "POST",
     // eslint-disable-next-line camelcase
     { uid, token, new_password1: newPassword1.value, new_password2: newPassword2.value }, // backend needs it in snake_case
     true
   );
-  const data = response?.newPassword2?.[0] ?? response?.detail ?? response?.token?.[0];
+  const data = response?.new_password2?.[0] ?? response?.detail ?? response?.token?.[0];
 
   if (typeof data !== "string") {
     submitError.value = true;
