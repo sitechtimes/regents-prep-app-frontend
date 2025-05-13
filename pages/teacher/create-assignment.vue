@@ -36,7 +36,7 @@
             v-model="assignmentInfo.name"
             required
             type="text"
-            class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             placeholder="Unit 3 Review"
           />
         </div>
@@ -51,7 +51,7 @@
               v-model="assignmentInfo.numOfQuestions"
               required
               type="number"
-              class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+              class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
               :class="{ 'border-red-500 hover:border-red-500 focus:border-red-500 dark:border-red-600 dark:hover:border-red-500': warn }"
               placeholder="10"
               min="0"
@@ -70,14 +70,14 @@
             v-model="assignmentInfo.dueDate.date"
             required
             type="date"
-            class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             :min="currentDateISO"
           />
           <input
             v-model="assignmentInfo.dueDate.time"
             required
             type="time"
-            class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
           />
         </div>
       </fieldset>
@@ -89,7 +89,7 @@
             id="time-per-question"
             v-model.number="assignmentInfo.timeAllotted"
             type="number"
-            class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             placeholder="Unlimited"
             min="0"
           />
@@ -103,7 +103,7 @@
             id="attempts-per-question"
             v-model.number="assignmentInfo.attemptsAllowed"
             type="number"
-            class="du-input w-full border-neutral-400 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
+            class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
             :placeholder="guaranteedLength === assignmentInfo.numOfQuestions ? `1` : `Unlimited`"
             :disabled="guaranteedLength === assignmentInfo.numOfQuestions"
             min="0"
