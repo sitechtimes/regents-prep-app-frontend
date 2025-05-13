@@ -19,7 +19,7 @@
         <p v-if="success" class="font-medium text-green-600">Reset link sent! Please check your email.</p>
       </form>
     </div>
-    <NuxtLink to="/login" class="mt-3 text-neutral-600 dark:text-neutral-200"> Remembered your password? Login here. </NuxtLink>
+    <NuxtLink to="/login" class="mt-3 text-neutral-600 dark:text-neutral-200"> Remembered your password? <span class="underline underline-offset-2">Login here. </span></NuxtLink>
   </div>
 </template>
 

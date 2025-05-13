@@ -43,7 +43,7 @@
 
     <p>Don't have an account?</p>
     <p class="font-medium">Ask your teacher about account creation.</p>
-    <NuxtLink to="/reset-password/" class="mt-3 text-neutral-600 dark:text-neutral-200"> Forgot password? Reset here. </NuxtLink>
+    <NuxtLink to="/reset-password/" class="mt-3 text-neutral-600 dark:text-neutral-200"> Forgot password? <span class="underline underline-offset-2">Reset here</span>. </NuxtLink>
   </div>
 </template>
 
