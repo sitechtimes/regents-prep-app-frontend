@@ -1,5 +1,6 @@
 <template>
   <NuxtLink
+    :to="`/teacher/course/${course.id}`"
     class="flex w-115 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-600/50 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
     :to="`/teacher/course/${course.id}`"
   >
@@ -23,7 +24,7 @@
       <div class="h-20 w-[1px] bg-neutral-300 dark:bg-neutral-600"></div>
       <div class="w-full">
         <div class="h-full content-center text-center text-2xl">
-          <h3 class="self-center">{{ course.numStudents }} {{ course.numStudents <= 0 ? `Students` : `Student` }}</h3>
+          <h3 class="self-center">{{ course.numStudents }} Student{{ course.numStudents === 1 ? "" : "s" }}</h3>
         </div>
       </div>
     </div>

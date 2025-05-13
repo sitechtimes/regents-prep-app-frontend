@@ -8,7 +8,7 @@
     <input
       v-model="search"
       type="text"
-      class="search-input ml-2 grow rounded-e-full text-left text-black transition duration-300 placeholder:transition placeholder:duration-300 dark:text-white dark:placeholder:text-neutral-300"
+      class="search-input ml-2 w-full grow rounded-e-full text-left text-black transition duration-500 placeholder:transition placeholder:duration-500 dark:text-white dark:placeholder:text-neutral-300"
       placeholder="Search"
     />
     <div class="du-tooltip p-0" data-tip="Clear" :class="search ? 'visible' : 'invisible'">

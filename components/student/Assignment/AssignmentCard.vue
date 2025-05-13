@@ -3,7 +3,7 @@
     :to="
       assignment.dateSubmitted !== null || (assignment.assignment.dueDate < currentTime && !assignment.assignment.lateSubmissions)
         ? `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}/stats`
-        : `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}`
+        : `/student/course/${course?.id ?? assignment.assignment.course?.id}/${assignment.id}?q=${Math.min(assignment.questionsCompleted, assignment.assignment.numQuestions)}`
     "
     class="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600/50 hover:shadow-lg sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300/50"
   >
@@ -35,8 +35,8 @@
 
     <div class="flex w-5/6 flex-col items-start justify-start gap-2 sm:w-1/2 sm:items-end">
       <div class="flex items-center justify-center gap-2">
-        <p>{{ assignment.dateSubmitted ? "Submitted" : "Assigned" }}</p>
-        <div class="h-2 w-2 rounded-full" :class="assignment.dateSubmitted ? 'bg-green-600' : 'bg-red-600'"></div>
+        <p>{{ submissionStatus }}</p>
+        <div class="h-2 w-2 rounded-full" :class="assignment.dateSubmitted ? 'bg-green-600' : assignment.assignment.dueDate < currentTime ? 'bg-red-900' : 'bg-red-600'"></div>
       </div>
 
       <div v-if="assignment.dateSubmitted !== null" class="flex items-center justify-center gap-2">
@@ -48,11 +48,17 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   course?: StudentCourse;
   assignment: StudentAssignment;
 }>();
 const currentTime = new Date();
+
+const submissionStatus = computed(() => {
+  if (props.assignment.dateSubmitted) return "Submitted";
+  if (props.assignment.assignment.dueDate < currentTime) return props.assignment.assignment.lateSubmissions ? "Late" : "Past Due";
+  return "Not Submitted";
+});
 </script>
 
 <style scoped>

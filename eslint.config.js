@@ -1,3 +1,4 @@
+import prettierConfig from "eslint-config-prettier/flat";
 import pluginVue from "eslint-plugin-vue";
 import vueParser from "vue-eslint-parser";
 import tseslint from "typescript-eslint";
@@ -16,6 +17,7 @@ export default [
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   ...pluginVue.configs["flat/recommended"],
+  prettierConfig,
   {
     name: "main",
     languageOptions: {
@@ -109,6 +111,7 @@ export default [
       "vue/enforce-style-attribute": "error",
       "vue/html-button-has-type": "error",
       "vue/new-line-between-multi-line-property": "error",
+      "vue/no-mutating-props": "off",
       "vue/no-static-inline-styles": "error",
       "vue/no-template-target-blank": "error",
       "vue/no-unused-emit-declarations": "error",

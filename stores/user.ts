@@ -13,7 +13,8 @@ export const useUserStore = defineStore("userStore", () => {
   const studentCurrentCourse = ref<StudentCourse>();
   const teacherCurrentCourse = ref<TeacherCourse>();
 
-  const currentQuestion = ref<DynamicQuestionInterface | StaticQuestionInterface>();
+  const currentQuestion = ref<StaticQuestionInterface | DynamicQuestionInterface>();
+
   /** @example { [id]: Topic } */
   const loadedTopics = ref<Record<number, TopicMapped>>({});
   /** @example { [id]: TopicPath } */
@@ -69,6 +70,7 @@ export const useUserStore = defineStore("userStore", () => {
       credentials: "include"
     });
     if (!res.ok) return;
+    isAuth.value = false;
     void router.push("/");
   }
 

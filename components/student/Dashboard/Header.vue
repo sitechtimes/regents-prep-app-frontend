@@ -3,8 +3,7 @@
     <div class="flex items-center justify-start gap-3">
       <button
         type="button"
-        class="group du-tooltip du-tooltip-bottom flex size-10 cursor-pointer items-center justify-center rounded-full border-none transition hover:bg-neutral-200 dark:hover:bg-neutral-700"
-        data-tip="Menu"
+        class="group flex size-10 cursor-pointer items-center justify-center rounded-full border-none transition hover:bg-neutral-200 dark:hover:bg-neutral-700"
         @click="emit('toggleSideMenu')"
       >
         <img class="size-8 transition group-active:scale-95 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" />
@@ -13,9 +12,9 @@
 
     <div class="flex items-center justify-center">
       <NuxtLink to="/student/dashboard" class="group flex items-center justify-center gap-2">
-        <span class="text-2xl font-semibold transition duration-300 group-hover:-translate-x-0.5">Regents</span>
-        <img class="size-12 rounded-full transition duration-300 group-active:scale-95" src="/siths.png" aria-hidden="true" />
-        <span class="text-2xl font-semibold transition duration-300 group-hover:translate-x-0.5">Prep</span>
+        <span class="hidden text-2xl font-semibold transition duration-300 group-hover:-translate-x-0.5 sm:block">Regents</span>
+        <img class="size-12 rounded-full transition duration-300 group-hover:shadow-md group-active:scale-95" src="/siths.png" aria-hidden="true" />
+        <span class="hidden text-2xl font-semibold transition duration-300 group-hover:translate-x-0.5 sm:block">Prep</span>
       </NuxtLink>
     </div>
 

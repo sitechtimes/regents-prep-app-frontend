@@ -1,10 +1,10 @@
 <template>
-  <div class="flex h-full w-full flex-col items-start justify-start">
-    <div v-if="loaded" class="h-full w-full">
+  <div class="flex w-full flex-col items-start justify-start">
+    <div v-if="loaded" class="w-full">
       <NotFound :show-modal="showNotFound" user-type="teacher" :message="route.query.course ? 'class' : 'assignment'" />
 
-      <div class="flex h-full w-full flex-col">
-        <div v-if="teacherCourses.length > 0" class="flex flex-wrap items-start justify-start gap-8 align-top">
+      <div class="flex w-full flex-col">
+        <div v-if="teacherCourses.length > 0" class="flex flex-wrap content-start items-start justify-around gap-8">
           <!--prettier-ignore-->
           <TeacherDashboardCard
             v-for="course in (sortedTeacherCourses.filter((course) => !('instanceInfo' in course)) as TeacherCourse[])"
@@ -28,15 +28,21 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ layout: "teacher" });
+definePageMeta({
+  layout: "teacher",
+  requiresAuth: true,
+  redirectIfAuth: false
+});
 
 const route = useRoute();
 const store = useUserStore();
 const { teacherCourses, teacherCurrentCourse } = storeToRefs(store);
-const sortedTeacherCourses = computed(() => teacherCourses.value.sort((a, b) => a.period - b.period));
+
 const showNotFound = ref(false);
 const loaded = ref(false);
 const showCreateClass = ref(false);
+
+const sortedTeacherCourses = computed(() => teacherCourses.value.sort((a, b) => a.period - b.period));
 
 watch(
   () => route.query,
