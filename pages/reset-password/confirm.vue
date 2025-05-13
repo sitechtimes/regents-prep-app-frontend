@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray flex min-h-screen w-screen flex-col items-center justify-center py-12">
-    <h1 class="text-5xl font-bold">Set New Password</h1>
+    <h1 class="text-3xl font-bold md:text-5xl">Set New Password</h1>
     <div class="mb-4 flex flex-col items-center justify-center rounded-3xl bg-body p-4">
       <form class="login flex w-full flex-col items-center justify-center gap-7" @submit.prevent="onSubmit">
         <div class="relative flex flex-col items-start justify-center gap-1">
@@ -8,7 +8,7 @@
           <input
             id="newPassword1"
             v-model="newPassword1"
-            class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
+            class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
             type="password"
             required
           />
@@ -19,7 +19,7 @@
           <input
             id="newPassword2"
             v-model="newPassword2"
-            class="h-12 w-96 rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
+            class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
             type="password"
             required
           />
@@ -28,10 +28,10 @@
         <p v-if="notMatching" class="error font-medium text-red-500">Passwords do not match</p>
         <p v-if="submitError" class="error font-medium text-red-500">{{ errorMessage }}</p>
 
-        <div class="relative flex w-96 flex-col items-center justify-center gap-1">
-          <button class="w-52 items-center rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
+        <div class="relative flex flex-col items-center justify-center gap-1">
+          <button class="items-center rounded-lg bg-green-accent px-16 py-2 hover:brightness-[0.85]" type="submit">
             <span v-if="loading" class="loading du-loading du-loading-sm mt-1"></span>
-            <span v-else class="text-lg">Reset Password</span>
+            <span v-else class="text-nowrap text-lg">Reset Password</span>
           </button>
         </div>
       </form>
@@ -80,14 +80,14 @@ async function onSubmit() {
   submitError.value = false;
   loading.value = true;
 
-  const { data: response } = await tryRequestEndpoint<{ detail?: string; newPassword2?: string; token?: string }>(
+  const { data: response } = await tryRequestEndpoint<{ detail?: string; new_password2?: string; token?: string }>(
     `/auth/password/reset/confirm/`,
     "POST",
     // eslint-disable-next-line camelcase
     { uid, token, new_password1: newPassword1.value, new_password2: newPassword2.value }, // backend needs it in snake_case
     true
   );
-  const data = response?.newPassword2?.[0] ?? response?.detail ?? response?.token?.[0];
+  const data = response?.new_password2?.[0] ?? response?.detail ?? response?.token?.[0];
 
   if (typeof data !== "string") {
     submitError.value = true;
