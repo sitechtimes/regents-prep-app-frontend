@@ -16,7 +16,7 @@
         <TeacherAssignmentCatalogQuestionButton
           :click-function="toggleAnswer"
           :disable="showAnswerOverride"
-          :img="`/ui/${showAnswer ? 'eyeHide' : 'eyeShow'}.svg`"
+          :img="`/ui/${showAnswer ? 'eye-hide' : 'eye-show'}.svg`"
           :text="!showAnswerOverride ? `${showAnswer ? 'Hide' : 'Show'} Answer` : ''"
         />
       </div>

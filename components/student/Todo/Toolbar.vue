@@ -1,7 +1,7 @@
 <template>
   <div
     ref="toolbar"
-    class="sticky top-20 flex items-center justify-center gap-4 rounded-full border-transparent bg-body px-5 py-2 transition duration-500 sm:flex-wrap xl:flex-nowrap"
+    class="sticky top-20 z-10 flex items-center justify-center gap-4 rounded-full border-transparent bg-body px-5 py-2 transition duration-500 sm:flex-wrap xl:flex-nowrap"
     :class="{ 'shadow dark:border dark:border-neutral-700': isSticky }"
   >
     <StudentTodoByClass v-if="route.path === `/student/todo`" :close="closeClasses" @click.stop="closeOptions(true, true, true, false)" />

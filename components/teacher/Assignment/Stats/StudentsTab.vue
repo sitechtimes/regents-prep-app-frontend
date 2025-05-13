@@ -48,7 +48,7 @@
                 :disabled="currentQuestionIndex === 0"
                 @click="currentQuestionIndex--"
               >
-                <img class="size-5 group-hover:-translate-x-1" src="/ui/arrowLeft.svg" aria-hidden="true" />
+                <img class="size-5 group-hover:-translate-x-1" src="/ui/arrow-left.svg" aria-hidden="true" />
                 Back
               </button>
               <button
@@ -59,7 +59,7 @@
                 @click="currentQuestionIndex++"
               >
                 Next
-                <img class="size-5 group-hover:translate-x-1" src="/ui/arrowRight.svg" aria-hidden="true" />
+                <img class="size-5 group-hover:translate-x-1" src="/ui/arrow-right.svg" aria-hidden="true" />
               </button>
             </div>
             <p class="mt-2 text-center text-sm lg:text-lg">Question {{ currentQuestionIndex + 1 }} of {{ currentStudentStatistics?.length }}</p>

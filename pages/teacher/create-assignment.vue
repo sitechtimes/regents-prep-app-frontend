@@ -298,15 +298,15 @@ const warn = computed(() => {
 
   // num of questions is too high
   if (numOfQuestions > guaranteedLength.value + randomLength.value)
-    return `The assignment should have ${assignmentInfo.numOfQuestions} total question(s), but we only have ${guaranteedLength.value + randomLength.value} to choose from. Try adding more questions!`;
+    return `The assignment should have ${assignmentInfo.numOfQuestions} total question${assignmentInfo.numOfQuestions === 1 ? "" : "s"}, but we only have ${guaranteedLength.value + randomLength.value} to choose from. Try adding more questions!`;
 
   // too low
   if (numOfQuestions < guaranteedLength.value)
-    return `The assignment should only have ${assignmentInfo.numOfQuestions} total question(s), but you've added ${guaranteedLength.value} guaranteed question(s). We can't fit that many in...`;
+    return `The assignment should only have ${assignmentInfo.numOfQuestions} total question${assignmentInfo.numOfQuestions === 1 ? "" : "s"}, but you've added ${guaranteedLength.value} guaranteed question${guaranteedLength.value === 1 ? "" : "s"}. We can't fit that many in...`;
 
   // not just right
   if (numOfQuestions === guaranteedLength.value && randomLength.value > 0)
-    return `You've added ${randomLength.value} random question(s), but they'll never be used because the assignment is already full of guaranteed questions.`;
+    return `You've added ${randomLength.value} random question${randomLength.value === 1 ? "" : "s"}, but they'll never be used because the assignment is already full of guaranteed questions.`;
 
   return null;
 });

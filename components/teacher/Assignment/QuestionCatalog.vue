@@ -18,7 +18,7 @@
         :disabled="!currentTopicPath.length"
         @click="goBack"
       >
-        <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrowLeft.svg" aria-hidden="true" />
+        <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
         Back
       </button>
 
@@ -78,7 +78,7 @@
             />
             <TeacherAssignmentCatalogQuestionButton
               :click-function="() => (showQuestionAnswers = !showQuestionAnswers)"
-              :img="`/ui/${showQuestionAnswers ? 'eyeHide' : 'eyeShow'}.svg`"
+              :img="`/ui/${showQuestionAnswers ? 'eye-hide' : 'eye-show'}.svg`"
               :text="`${showQuestionAnswers ? 'Hide' : 'Show'} All Answers`"
             />
           </div>
@@ -107,17 +107,17 @@
             {{ totalQuestions }}
           </p>
           <div class="flex items-center justify-center gap-3">
-            <TeacherAssignmentCatalogPageNavigationButton :disable="currentQuestionPageIndex === 0" :click-function="() => (currentQuestionPageIndex = 0)" img="/ui/doubleChevronLeft.svg" />
-            <TeacherAssignmentCatalogPageNavigationButton :disable="currentQuestionPageIndex === 0" :click-function="() => currentQuestionPageIndex--" img="/ui/chevronLeft.svg" />
+            <TeacherAssignmentCatalogPageNavigationButton :disable="currentQuestionPageIndex === 0" :click-function="() => (currentQuestionPageIndex = 0)" img="/ui/double-chevron-left.svg" />
+            <TeacherAssignmentCatalogPageNavigationButton :disable="currentQuestionPageIndex === 0" :click-function="() => currentQuestionPageIndex--" img="/ui/chevron-left.svg" />
             <TeacherAssignmentCatalogPageNavigationButton
               :disable="currentQuestionPageIndex === Math.floor(totalQuestions / 20)"
               :click-function="() => currentQuestionPageIndex++"
-              img="/ui/chevronRight.svg"
+              img="/ui/chevron-right.svg"
             />
             <TeacherAssignmentCatalogPageNavigationButton
               :disable="currentQuestionPageIndex === Math.floor(totalQuestions / 20)"
               :click-function="() => (currentQuestionPageIndex = Math.floor(totalQuestions / 20))"
-              img="/ui/doubleChevronRight.svg"
+              img="/ui/double-chevron-right.svg"
             />
           </div>
         </div>

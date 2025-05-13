@@ -6,7 +6,7 @@
     >
       <div class="du-dropdown du-dropdown-end du-dropdown-hover absolute right-2 top-2 z-10">
         <button class="rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-700" type="button" @click.stop.prevent>
-          <img src="/ui/ellipsisVertical.svg" alt="More options" class="h-5 w-5" />
+          <img src="/ui/ellipsis-vertical.svg" alt="More options" class="h-5 w-5" />
         </button>
         <ul tabindex="0" class="du-dropdown-content z-[1] w-52 rounded-lg border border-[var(--border-color)] bg-[var(--bg-color)] p-2 shadow">
           <li>
