@@ -6,7 +6,7 @@
 
       <form class="flex w-full flex-col items-center justify-center gap-7" @submit="loginWithEmail" @submit.prevent>
         <div class="relative flex flex-col items-start justify-center gap-1">
-          <label class="font-medium" for="email">Email Address <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <label class="font-medium" for="email">Email Address <span title="Required" class="text-red-500">*</span></label>
           <input
             id="email"
             v-model="email"
@@ -19,7 +19,7 @@
         </div>
 
         <div class="relative flex flex-col items-start justify-center gap-1">
-          <label class="font-medium" for="password">Password <span title="Required" class="font-2xl text-red-500">*</span></label>
+          <label class="font-medium" for="password">Password <span title="Required" class="text-red-500">*</span></label>
           <input
             id="password"
             v-model="password"

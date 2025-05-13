@@ -68,7 +68,7 @@ body {
   font-weight: 400;
   font-style: normal;
   color: var(--text-color);
-  @apply transition-all duration-500;
+  @apply duration-300;
 }
 
 .question-text em {
@@ -99,6 +99,43 @@ input:-webkit-autofill {
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 30px #d1d4d8 inset;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+/* printing nonsense */
+/* hide print when not printing */
+@media not print {
+  body .print {
+    display: none;
+  }
+}
+@media print {
+  /* hide everything else while printing */
+  body * {
+    visibility: hidden;
+    height: 0;
+    color: black;
+  }
+  body header {
+    display: none;
+  }
+  /* show printing while printing */
+  body .print {
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+  }
+  body .print * {
+    visibility: visible;
+    height: auto;
+  }
+}
+
+@page {
+  size: letter;
+  margin: 0;
+  padding: 0.5in;
 }
 
 /* daisy ui stuff below... */

@@ -17,8 +17,12 @@ export const useUserStore = defineStore("userStore", () => {
 
   /** @example { [id]: Topic } */
   const loadedTopics = ref<Record<number, TopicMapped>>({});
+  /** @example { [id]: TopicPath } */
+  const loadedTopicPaths = ref<Record<number, number[]>>({});
   /** @example { [id]: QuestionInterface } */
   const loadedQuestions = ref<Record<number, TopicQuestionInterface>>({});
+  /** how many questions are there in total total */
+  const totalQuestionCount = ref<number>(0);
 
   async function init(): Promise<void> {
     const res = await fetch(`${config.public.backend}init/`, {
@@ -82,7 +86,9 @@ export const useUserStore = defineStore("userStore", () => {
     teacherCurrentCourse,
     currentQuestion,
     loadedTopics,
+    loadedTopicPaths,
     loadedQuestions,
+    totalQuestionCount,
     init,
     login,
     logout

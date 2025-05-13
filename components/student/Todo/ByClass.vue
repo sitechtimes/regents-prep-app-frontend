@@ -13,11 +13,11 @@
     <Transition name="slide-up">
       <div
         v-show="showClasses"
-        class="absolute top-10 z-[2] flex w-52 flex-col items-start justify-center gap-1 rounded-xl border border-neutral-300 bg-white p-3 shadow-lg transition duration-500 dark:border-neutral-700 dark:bg-neutral-800"
+        class="absolute top-10 z-[2] flex w-52 flex-col items-start justify-center gap-1 rounded-xl border border-neutral-300 bg-white p-3 shadow-lg transition duration-300 dark:border-neutral-700 dark:bg-neutral-800"
       >
         <button v-for="course in studentCourses" class="du-label flex w-full cursor-pointer items-center justify-start gap-2" type="button" @click="updateQuery(course.id)">
           <input type="checkbox" class="du-checkbox pointer-events-none" :checked="route.query.class?.includes(String(course.id))" />
-          <span class="text-left capitalize transition duration-500">{{ course.name }}</span>
+          <span class="text-left capitalize transition duration-300">{{ course.name }}</span>
         </button>
       </div>
     </Transition>
@@ -53,7 +53,7 @@ watch(
 <style scoped>
 .slide-up-enter-active,
 .slide-up-leave-active {
-  transition: all 0.15s ease-in-out;
+  transition: none 0.2s ease-in-out;
 }
 
 .slide-up-enter-from,

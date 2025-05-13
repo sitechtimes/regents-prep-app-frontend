@@ -18,7 +18,7 @@
     <Transition name="slide-up">
       <div
         v-show="showSorters"
-        class="absolute top-10 z-[2] flex w-44 flex-col items-start justify-center gap-1 rounded-xl border border-neutral-300 bg-white p-3 shadow-lg transition duration-500 dark:border-neutral-700 dark:bg-neutral-800"
+        class="absolute top-10 z-[2] flex w-44 flex-col items-start justify-center gap-1 rounded-xl border border-neutral-300 bg-white p-3 shadow-lg transition duration-300 dark:border-neutral-700 dark:bg-neutral-800"
       >
         <button v-for="(sorter, key) in sorters" class="du-label flex w-full cursor-pointer items-center justify-start gap-2" type="button" @click="selectSorter(key)">
           <input type="radio" class="!du-radio pointer-events-none bg-cover" :style="{ backgroundColor: currentSorter === key ? 'inherit' : '' }" :checked="currentSorter === key" />
@@ -66,7 +66,7 @@ function selectSorter(name: Sorter) {
 <style scoped>
 .slide-up-enter-active,
 .slide-up-leave-active {
-  transition: all 0.15s ease-in-out;
+  transition: none 0.2s ease-in-out;
 }
 
 .slide-up-enter-from,

@@ -38,10 +38,12 @@ export async function submitQuestionAnswer(questionId: number, answerId: number,
 /** Requests the `courses/teacher/create-assignment/` endpoint */
 export async function submitCreateAssignment(
   name: string,
-  courseID: number,
+  courseIDs: number[],
   guaranteedQuestions: number[],
   randomQuestions: number[],
-  dueDate: string,
+  randomTopics: number[],
+  excludedQuestions: number[],
+  dueDate: number,
   numQuestions: number,
   lateSubmissions: boolean,
   timeAllotted: number,
@@ -49,9 +51,11 @@ export async function submitCreateAssignment(
 ) {
   await requestEndpoint<void>(`courses/teacher/create-assignment/`, "POST", {
     name,
-    courseID,
+    courseIDs,
     guaranteedQuestions,
     randomQuestions,
+    randomTopics,
+    excludedQuestions,
     dueDate,
     numQuestions,
     lateSubmissions,
@@ -89,6 +93,17 @@ export async function confirmResetPassword(uid: string, token: string, newPasswo
     newPassword1,
     newPassword2
   });
+}
+
+/** Requests the `/questions/teacher/get-topic-paths/<topic_ids | semicolon-delimited list of integer ids in string form>/` endpoint
+ * @param topicIds - The topic IDs to get the paths for
+ *
+ * @returns number[][]. each array is a topic path; [2,3,4] would be the topic path for topic id 4
+ */
+export async function getTopicAncestorPaths(topicIds: number[]) {
+  if (topicIds.length === 0) return [];
+  // remove root because topic paths aren't stored starting with 1
+  return (await requestEndpoint<number[][]>(`questions/teacher/get-topic-paths/${topicIds.join(";")}/`)).map((path) => path.slice(1));
 }
 
 // https://nuxt.com/docs/guide/directory-structure/composables#how-files-are-scanned
