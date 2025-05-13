@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex min-h-screen w-screen flex-col items-center justify-center gap-4 sm:flex-row sm:gap-0 sm:space-x-10 sm:px-12 md:px-32 lg:px-52 xl:px-72 2xl:px-96"
+    class="flex min-h-screen w-screen flex-col-reverse items-center justify-center gap-4 pb-20 sm:flex-row sm:gap-0 sm:space-x-10 sm:px-12 sm:pb-0 md:px-32 lg:px-52 xl:px-72 2xl:px-96"
     :class="{ 'bg-lime-300': isYoda }"
   >
     <!-- left side -->
@@ -22,7 +22,7 @@
     </div>
 
     <!-- right side -->
-    <div class="w-52 xs:w-1/4">
+    <div class="mb-6 w-52 xs:mb-0 xs:w-1/4">
       <img
         v-show="isYoda"
         class="w-full origin-center cursor-default object-cover transition-none"

@@ -1,6 +1,6 @@
 <template>
   <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
-    <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
+    <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="mb-2 w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
 
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
     <p class="answer-choice overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>

@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    class="flex h-14 w-full items-center justify-start gap-3 rounded-xl pl-4 text-lg duration-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-500/25"
+    class="flex h-14 w-full items-center justify-start gap-3 rounded-xl py-4 pl-4 text-lg duration-300 hover:bg-neutral-200/50 dark:hover:bg-neutral-500/25"
     :class="{ 'bg-neutral-100 dark:bg-neutral-700': route.path.includes(`/student/course/${course.id}/`) || route.path === `/student/course/${course.id}` }"
     :to="`/student/course/${course.id}`"
   >
