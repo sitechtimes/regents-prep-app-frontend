@@ -60,6 +60,7 @@ const token = String(route.query.token ?? "");
 
 const newPassword1 = ref("");
 const newPassword2 = ref("");
+
 const loading = ref(false);
 const notMatching = ref(false);
 const submitError = ref(false);
@@ -78,16 +79,23 @@ async function onSubmit() {
   submitError.value = false;
   loading.value = true;
 
-  const { data: response } = await tryCatch(confirmResetPassword(uid, token, newPassword1.value, newPassword2.value));
+  const { data: response } = await tryRequestEndpoint<{ detail?: string; newPassword2?: string; token?: string }>(
+    `/auth/password/reset/confirm/`,
+    "POST",
+    // eslint-disable-next-line camelcase
+    { uid, token, new_password1: newPassword1.value, new_password2: newPassword2.value }, // backend needs it in snake_case
+    true
+  );
+  const data = response?.newPassword2?.[0] ?? response?.detail ?? response?.token?.[0];
 
-  if (typeof response !== "string") {
+  if (typeof data !== "string") {
     submitError.value = true;
     errorMessage.value = "An unexpected error occurred.";
     return;
   }
 
-  errorMessage.value = response;
-  if (response === "Password has been reset with the new password.") showModal.value = true;
+  errorMessage.value = data;
+  if (data === "Password has been reset with the new password.") showModal.value = true;
   else submitError.value = true;
   loading.value = false;
 }
