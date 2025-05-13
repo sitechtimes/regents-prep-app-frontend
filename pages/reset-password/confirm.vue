@@ -49,7 +49,10 @@
 <script setup lang="ts">
 definePageMeta({
   requiresAuth: false,
-  redirectIfAuth: true
+  redirectIfAuth: true,
+  middleware: (to) => {
+    if (!to.query.uid && !to.query.token) return navigateTo("/reset-password", { redirectCode: 301 });
+  }
 });
 
 const route = useRoute();
