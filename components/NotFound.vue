@@ -8,7 +8,7 @@
       </div>
 
       <button class="active:scale-90" type="button">
-        <img class="spin size-20" src="/siths.png" aria-hidden="true" />
+        <img class="spin size-20" src="/seagull.png" aria-hidden="true" />
       </button>
     </div>
 

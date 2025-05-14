@@ -9,9 +9,9 @@
 <script setup lang="ts">
 const { origin } = useRequestURL();
 useSeoMeta({
-  ogImage: () => `${origin}/siths.png`,
+  ogImage: () => `${origin}/seagull.png`,
   twitterCard: "summary_large_image",
-  twitterImage: () => `${origin}/siths.png`
+  twitterImage: () => `${origin}/banner.png`
 });
 
 const router = useRouter();
