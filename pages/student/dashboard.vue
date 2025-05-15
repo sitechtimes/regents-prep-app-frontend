@@ -24,6 +24,7 @@
         <StudentDashboardJoinClass :show="showJoinClass" @close="showJoinClass = false" />
       </div>
     </div>
+    <button v-if="showScrollToTop" @click="scrollToTop" class="fixed bottom-6 right-6 z-10 rounded-lg bg-gray-200 px-4 py-2 text-lg shadow-lg">↑ Top</button>
   </div>
 </template>
 
@@ -57,6 +58,28 @@ onBeforeMount(() => {
 onMounted(() => {
   studentCurrentCourse.value = undefined;
   loaded.value = true;
+  window.addEventListener("scroll", checkScroll);
+});
+const showScrollToTop = ref(false);
+
+const checkScroll = () => {
+  const pageHeight = document.documentElement.scrollHeight;
+  const viewportHeight = window.innerHeight;
+  const scrollTop = window.scrollY;
+
+  if (pageHeight > viewportHeight * 2 && scrollTop > viewportHeight / 2) {
+    showScrollToTop.value = true;
+  } else {
+    showScrollToTop.value = false;
+  }
+};
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", checkScroll);
 });
 
 // for vitest
