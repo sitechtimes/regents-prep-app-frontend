@@ -10,6 +10,8 @@ Built by SITHS, for SITHS.
 
 Thanks for completely voluntarily contributing to the SITHS Regents Prep App!
 
+This is the frontend repository. See [regents-prep-app-backend](https://github.com/sitechtimes/regents-prep-app-backend) for backend documentation.
+
 > \[!TIP]\
 > Install the recommended [VSCode extensions](./.vscode/extensions.json).
 >
@@ -47,7 +49,9 @@ npm run dev
 >
 > This allows you to open the site via another device, such as your phone.
 
-## Pull Requests
+## Contributing
+
+Remember to consistently merge the latest dev commits into your branches.
 
 > \[!CAUTION]\
 > Creating a bad PR may result in moderate to significant public humiliation.
