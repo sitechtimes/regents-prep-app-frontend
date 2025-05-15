@@ -17,7 +17,7 @@
     <!-- static assignment navigation -->
     <div class="mt-8 flex w-full items-center justify-between gap-1 px-3 xs:gap-6 xs:px-10">
       <button
-        class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
+        class="relative z-40 flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
         type="button"
         :disabled="currentQuestionIndex === 0"
         :class="currentQuestionIndex === 0 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
