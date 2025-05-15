@@ -7,8 +7,8 @@
     <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
       <button
         type="button"
-        class="w-full rounded-lg bg-neutral-200 px-2 py-1 text-left shadow-sm hover:bg-neutral-500/50 sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
-        :class="{ 'bg-neutral-500/50 dark:bg-neutral-500/75': choice.selected }"
+        class="w-full rounded-lg bg-neutral-200 px-2 py-1 text-left shadow-sm hover:bg-neutral-400/50 sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
+        :class="{ 'bg-neutral-400/50 dark:bg-neutral-500/75': choice.selected }"
         @click="selectChoice(choice)"
         v-html="choice.text"
       ></button>
