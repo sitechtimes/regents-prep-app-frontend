@@ -24,7 +24,7 @@
         <StudentDashboardJoinClass :show="showJoinClass" @close="showJoinClass = false" />
       </div>
     </div>
-    <button v-if="showScrollToTop" @click="scrollToTop" class="fixed bottom-6 right-6 z-10 rounded-lg bg-gray-200 px-4 py-2 text-lg shadow-lg">↑ Top</button>
+    <button v-if="showScrollToTop" @click="scrollToTop" class="fixed bottom-6 right-6 z-10 rounded-lg bg-gray-200 px-4 py-2 text-lg shadow-lg">↑</button>
   </div>
 </template>
 
