@@ -24,7 +24,7 @@
         <StudentDashboardJoinClass :show="showJoinClass" @close="showJoinClass = false" />
       </div>
     </div>
-    <button v-if="showScrollToTop" @click="scrollToTop" class="fixed bottom-6 right-6 z-10 rounded-lg bg-gray-200 px-4 py-2 text-lg shadow-lg">↑</button>
+    <button v-if="showScrollToTop" class="fixed bottom-6 right-6 z-10 rounded-lg bg-gray-200 px-4 py-2 text-lg shadow-lg" type="button" @click="scrollToTop">↑</button>
   </div>
 </template>
 
@@ -50,6 +50,22 @@ watch(
     if (!query.course && !query.assignment) showNotFound.value = false;
   }
 );
+const showScrollToTop = ref(false);
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function checkScroll() {
+  const pageHeight = document.documentElement.scrollHeight;
+  const viewportHeight = window.innerHeight;
+  const scrollTop = window.scrollY;
+
+  if (pageHeight > viewportHeight * 2 && scrollTop > viewportHeight / 2) {
+    showScrollToTop.value = true;
+  } else {
+    showScrollToTop.value = false;
+  }
+}
 
 onBeforeMount(() => {
   if (route.query.course || route.query.assignment) showNotFound.value = true;
@@ -60,23 +76,6 @@ onMounted(() => {
   loaded.value = true;
   window.addEventListener("scroll", checkScroll);
 });
-const showScrollToTop = ref(false);
-
-const checkScroll = () => {
-  const pageHeight = document.documentElement.scrollHeight;
-  const viewportHeight = window.innerHeight;
-  const scrollTop = window.scrollY;
-
-  if (pageHeight > viewportHeight * 2 && scrollTop > viewportHeight / 2) {
-    showScrollToTop.value = true;
-  } else {
-    showScrollToTop.value = false;
-  }
-};
-
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
 
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", checkScroll);
