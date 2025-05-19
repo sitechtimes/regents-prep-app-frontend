@@ -271,25 +271,35 @@ const assignmentInfo = reactive({
 const guaranteedLength = computed(() => assignmentInfo.questions.filter((question) => question.isGuaranteed).length);
 /** how many random questions, topic or manual, there are to choose from */
 const randomLength = computed(() => {
+  console.log(assignmentInfo);
+
   // if root, congratulations you get everything (minus manual/excluded questions)
   if (assignmentInfo.topicPaths[0] && assignmentInfo.topicPaths[0].length === 0) return totalQuestionCount.value - (guaranteedLength.value + assignmentInfo.excludedQuestions.length);
 
   let count = 0;
+  console.log(count);
 
   // add manual random questions
   count += assignmentInfo.questions.length - guaranteedLength.value;
+  console.log("l284", count);
 
   // add from topics
   assignmentInfo.topicPaths.forEach((topicPath) => {
     const topicId = topicPath.at(-1);
+    console.log("topicid", topicId);
     if (!topicId) return;
     const topic = loadedTopics.value[topicId];
+    console.log("topic", topic);
     count += topic.numQuestions;
+
+    console.log("l295", count);
     // un-double count any manual questions inside an added topic
     count -= assignmentInfo.questions.filter((question) => topic.questionIds.includes(question.questionId)).length;
+    console.log("l298", count);
   });
   // and then blow up excluded questions
   count -= assignmentInfo.excludedQuestions.length;
+  console.log("l302", count);
   return count;
 });
 
