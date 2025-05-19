@@ -296,6 +296,7 @@ const randomLength = computed(() => {
 const warn = computed(() => {
   const numOfQuestions = assignmentInfo.numOfQuestions ?? 0;
 
+  console.log(numOfQuestions, guaranteedLength.value, randomLength.value);
   // num of questions is too high
   if (numOfQuestions > guaranteedLength.value + randomLength.value)
     return `The assignment should have ${assignmentInfo.numOfQuestions} total question${assignmentInfo.numOfQuestions === 1 ? "" : "s"}, but we only have ${guaranteedLength.value + randomLength.value} to choose from. Try adding more questions!`;
