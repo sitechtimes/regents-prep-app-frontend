@@ -271,8 +271,8 @@ const assignmentInfo = reactive({
 const guaranteedLength = computed(() => assignmentInfo.questions.filter((question) => question.isGuaranteed).length);
 /** how many random questions, topic or manual, there are to choose from */
 const randomLength = computed(() => {
-  console.log(assignmentInfo);
-
+  console.log("l274", JSON.stringify(assignmentInfo));
+  console.log("l275", assignmentInfo.topicPaths);
   // if root, congratulations you get everything (minus manual/excluded questions)
   if (assignmentInfo.topicPaths[0] && assignmentInfo.topicPaths[0].length === 0) return totalQuestionCount.value - (guaranteedLength.value + assignmentInfo.excludedQuestions.length);
 
