@@ -1,16 +1,3 @@
-import sanitizeHtml from "sanitize-html";
-
-/** Sanitizes an HTML string
- * @param html - HTML string
- */
-function sanitize(html: string) {
-  return sanitizeHtml(html, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "src"]),
-    allowedAttributes: false,
-    allowedSchemes: ["http", "https", "data"]
-  });
-}
-
 /** Requests the `courses/courseId/assignments/` endpoint */
 export async function getAssignments<T extends StudentAssignment[] | TeacherAssignment[]>(courseId: number) {
   const data = await requestEndpoint<T>(`courses/${courseId}/assignments/`);
@@ -21,13 +8,13 @@ export async function getAssignments<T extends StudentAssignment[] | TeacherAssi
 /** Requests the `courses/student/get-next-dynamic-question/` endpoint */
 export async function getNextDynamicQuestion(assignmentId: number) {
   const data = await requestEndpoint<DynamicQuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
-  return { ...data, question: { ...data.question, text: sanitize(data.question.text) } };
+  return { ...data, question: { ...data.question, text: data.question.text.replaceAll("<script", "") } };
 }
 
 /** Requests the `courses/student/get-static-question/assignmentId/questionIndex/` endpoint */
 export async function getNextStaticQuestion(assignmentId: number, questionIndex: number) {
   const data = await requestEndpoint<StaticQuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
-  return { ...data, question: { ...data.question, text: sanitize(data.question.text) } };
+  return { ...data, question: { ...data.question, text: data.question.text.replaceAll("<script", "") } };
 }
 
 /** Requests the `courses/student/submit-answer/` endpoint */
