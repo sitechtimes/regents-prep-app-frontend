@@ -14,6 +14,7 @@
         :placeholder="placeholder"
         :min="min"
         :disabled="disabled"
+        :step="step"
       />
     </div>
   </div>
@@ -31,7 +32,7 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
-const model = defineModel();
+const model = defineModel<any>();
 const kebabLabel = computed(() =>
   props.label
     ?.toLowerCase()

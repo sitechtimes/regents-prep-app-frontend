@@ -29,22 +29,22 @@
       </fieldset>
 
       <div class="flex w-full items-center justify-center gap-3">
-        <TeacherAssignmentCreateInput v-if="!isPrinting" type="text" v-model="assignmentInfo.name" label="Name" placeholder="Unit 3 Review" required />
-        <TeacherAssignmentCreateInput type="number" v-model.number="assignmentInfo.numOfQuestions" label="Number of Questions" placeholder="10" required min="0" :warn="warn" />
-      </div>
-
-      <div class="flex w-full items-center justify-center gap-3" v-if="!isPrinting">
-        <TeacherAssignmentCreateInput class="w-[45%]" type="date" v-model="assignmentInfo.dueDate.date" label="Due" required :min="currentDateISO" />
-        <TeacherAssignmentCreateInput class="w-[45%]" type="time" v-model="assignmentInfo.dueDate.time" required />
+        <TeacherAssignmentCreateInput v-if="!isPrinting" v-model="assignmentInfo.name" type="text" label="Name" placeholder="Unit 3 Review" required />
+        <TeacherAssignmentCreateInput v-model.number="assignmentInfo.numOfQuestions" type="number" label="Number of Questions" placeholder="10" required min="0" :warn="warn" />
       </div>
 
       <div v-if="!isPrinting" class="flex w-full items-center justify-center gap-3">
-        <TeacherAssignmentCreateInput type="number" min="0" v-model.number="assignmentInfo.timeAllotted" label="Time limit (minutes)" placeholder="Unlimited" />
+        <TeacherAssignmentCreateInput v-model="assignmentInfo.dueDate.date" class="w-[45%]" type="date" label="Due" required :min="currentDateISO" />
+        <TeacherAssignmentCreateInput v-model="assignmentInfo.dueDate.time" class="w-[45%]" type="time" required />
+      </div>
+
+      <div v-if="!isPrinting" class="flex w-full items-center justify-center gap-3">
+        <TeacherAssignmentCreateInput v-model.number="assignmentInfo.timeAllotted" type="number" min="0" label="Time limit (minutes)" placeholder="Unlimited" />
         <TeacherAssignmentCreateInput
+          v-model.number="assignmentInfo.attemptsAllowed"
           type="number"
           min="0"
           step="1"
-          v-model.number="assignmentInfo.attemptsAllowed"
           label="Attempts per question"
           :placeholder="guaranteedLength === assignmentInfo.numOfQuestions ? `1` : `Unlimited`"
           :disabled="guaranteedLength === assignmentInfo.numOfQuestions"
@@ -71,7 +71,7 @@
 
                 <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId.at(-1)!]?.name ?? 'All topics'"></p>
 
-                <TeacherAssignmentCatalogQuestionButton @click="removeTopic(topicId.at(-1) ?? 1)" img="/ui/trash.svg" />
+                <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" @click="removeTopic(topicId.at(-1) ?? 1)" />
               </li>
             </ol>
 
@@ -88,12 +88,12 @@
                     class="du-tooltip du-tooltip-bottom"
                     :data-tip="`Switch to ${question.isGuaranteed ? 'Random' : 'Guaranteed'}`"
                   >
-                    <TeacherAssignmentCatalogQuestionButton @click="question.isGuaranteed = !question.isGuaranteed" :img="`/ui/${question.isGuaranteed ? 'check' : 'dice'}.svg`" />
+                    <TeacherAssignmentCatalogQuestionButton :img="`/ui/${question.isGuaranteed ? 'check' : 'dice'}.svg`" @click="question.isGuaranteed = !question.isGuaranteed" />
                   </div>
                   <div v-else class="du-tooltip du-tooltip-left" data-tip="This question is guaranteed because you added a parent topic.">
                     <TeacherAssignmentCatalogQuestionButton :disable="true" img="/ui/check.svg" />
                   </div>
-                  <TeacherAssignmentCatalogQuestionButton @click="removeQuestion(question.questionId)" img="/ui/trash.svg" />
+                  <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" @click="removeQuestion(question.questionId)" />
                 </div>
               </li>
             </ol>

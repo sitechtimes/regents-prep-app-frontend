@@ -6,24 +6,24 @@
     <div class="flex w-full items-center justify-end gap-2 lg:justify-start">
       <TeacherAssignmentCatalogQuestionButton
         v-if="!viewOnly"
-        @click="emit('select')"
         :disable="isExcluded"
         :img="`/ui/${isExactlyInAssignment ? 'minus' : 'plus'}.svg`"
         :text="`${isExactlyInAssignment ? 'Remove from' : 'Add to'} assignment`"
+        @click="emit('select')"
       />
       <div :class="{ 'du-tooltip': showAnswerOverride }" data-tip="Hide all questions first!">
         <TeacherAssignmentCatalogQuestionButton
-          @click="showAnswer = !showAnswer"
           :disable="showAnswerOverride"
           :img="`/ui/${showAnswer ? 'eye-hide' : 'eye-show'}.svg`"
           :text="!showAnswerOverride ? `${showAnswer ? 'Hide' : 'Show'} Answer` : ''"
+          @click="showAnswer = !showAnswer"
         />
       </div>
       <TeacherAssignmentCatalogQuestionButton
         v-if="isInAssignment"
-        @click="emit('toggleQuestionExclusion', props.question.id)"
         :img="`/ui/${isExcluded ? 'square-filled' : 'square-outline'}.svg`"
         :text="`${isExcluded ? 'Unexclude' : 'Exclude'} Question`"
+        @click="emit('toggleQuestionExclusion', props.question.id)"
       />
     </div>
 
