@@ -67,7 +67,7 @@
             <!-- boolean stuff is to stop people from adding the child of an already added topic -->
             <TeacherAssignmentCatalogQuestionButton
               v-if="!viewOnly"
-              :click-function="() => emit('selectTopic', [...currentTopicPath])"
+              @click="emit('selectTopic', [...currentTopicPath])"
               :img="`/ui/${exactTopicIsInAssignment ? 'minus' : 'plus'}.svg`"
               :text="
                 exactTopicIsInAssignment === topicIsInAssignment || (exactTopicIsInAssignment && !topicIsInAssignment)
@@ -77,7 +77,7 @@
               :disable="!(exactTopicIsInAssignment === topicIsInAssignment || (exactTopicIsInAssignment && !topicIsInAssignment))"
             />
             <TeacherAssignmentCatalogQuestionButton
-              :click-function="() => (showQuestionAnswers = !showQuestionAnswers)"
+              @click="showQuestionAnswers = !showQuestionAnswers"
               :img="`/ui/${showQuestionAnswers ? 'eye-hide' : 'eye-show'}.svg`"
               :text="`${showQuestionAnswers ? 'Hide' : 'Show'} All Answers`"
             />

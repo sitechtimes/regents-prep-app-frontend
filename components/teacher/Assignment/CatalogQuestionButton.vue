@@ -5,7 +5,6 @@
     type="button"
     :disabled="disable"
     :title="text"
-    @click="clickFunction"
   >
     <!-- without h-0 and w-0, the page layout explodes. i don't know why. -->
     <span class="sr-only h-0 w-0">{{ text }}</span>
@@ -15,7 +14,6 @@
 
 <script setup lang="ts">
 defineProps<{
-  clickFunction?: () => any;
   img?: string;
   text?: string;
   disable?: boolean;
