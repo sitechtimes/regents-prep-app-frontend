@@ -5,7 +5,7 @@
     :class="{ 'bg-neutral-200 dark:bg-neutral-500/25': matched }"
   >
     <img class="h-8 w-8 p-1 dark:invert" :src="imgSrc" aria-hidden="true" />
-    <p>{{ text }}</p>
+    <p class="translate-y-px">{{ text }}</p>
   </NuxtLink>
 </template>
 

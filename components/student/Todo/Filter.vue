@@ -19,7 +19,7 @@
       >
         <button v-for="(filter, key) in filters" :key="key" class="du-label flex w-full cursor-pointer items-center justify-start gap-2" type="button" @click="selectFilter(key)">
           <input type="radio" class="!du-radio pointer-events-none" :style="{ backgroundColor: getCheckboxBgColor(key) }" :checked="currentFilters.includes(key)" />
-          <span class="text-left capitalize transition duration-500">{{ key }}</span>
+          <span class="translate-y-px text-left capitalize transition duration-500">{{ key }}</span>
         </button>
       </div>
     </Transition>

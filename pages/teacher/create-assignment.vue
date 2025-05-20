@@ -149,6 +149,11 @@
       </div>
     </div>
 
+    <FullScreenModal transition-name="scale-75" :show-modal="createAssignmentResult.success" @close="createAssignmentResult.success = false">
+      <p>Assignment successfully created!</p>
+      <TeacherCourseActionButton type="button" img="/ui/close.svg" text="Close" @on-click="createAssignmentResult.success = false" />
+    </FullScreenModal>
+
     <LazyTeacherAssignmentPrintAssignment :question-ids="assignmentInfo.printQuestionIds" />
   </div>
 </template>
@@ -337,7 +342,7 @@ function flattenQuestion(questionContent: string) {
 
 const createAssignmentResult = reactive({
   isLoading: false,
-  success: "",
+  success: false,
   error: ""
 });
 
@@ -408,13 +413,17 @@ async function createAssignment() {
       assignmentInfo.topicPaths.map((arr) => arr.at(-1) ?? 1),
       assignmentInfo.excludedQuestions,
       time.getTime() / 1000,
-      assignmentInfo.questions.length,
+      assignmentInfo.numOfQuestions ?? 1,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,
       assignmentInfo.attemptsAllowed ?? 0
     )
   );
-  if (initialCourse) await router.push(`/teacher/course/${initialCourse}`);
+  if (initialCourse) {
+    const course = teacherCourses.value.find((course) => course.id === initialCourse);
+    if (course) course.assignmentsFetched = false;
+    await router.push(`/teacher/course/${initialCourse}`);
+  }
 
   createAssignmentResult.isLoading = false;
 
@@ -422,10 +431,9 @@ async function createAssignment() {
     createAssignmentResult.error = error.message;
     console.error(error);
   } else {
-    createAssignmentResult.success = "Assignment created — you can leave this page now.";
-    if (!initialCourse) alert(createAssignmentResult.success);
+    createAssignmentResult.success = true;
+    watch(createAssignmentResult, () => void router.push("/teacher/dashboard"));
   }
-  // TODO: make this a toast or something.........
 }
 
 async function handleSubmit() {

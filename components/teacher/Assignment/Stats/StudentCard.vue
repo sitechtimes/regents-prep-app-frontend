@@ -1,7 +1,7 @@
 <template>
   <button
     class="flex h-full w-full items-center justify-center rounded-lg border border-neutral-300 dark:border-neutral-300/50"
-    :class="student.timeStarted ? 'hover:shadow-lg' : 'cursor-not-allowed select-none bg-neutral-300'"
+    :class="student.timeStarted ? 'hover:shadow-lg' : 'cursor-not-allowed select-none bg-neutral-300 py-2'"
     :disabled="!student.timeStarted"
     type="button"
   >
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <h3 v-else class="font-semibold lg:text-2xl">Not started yet</h3>
+    <h3 v-else class="w-full px-4 text-left font-semibold lg:text-2xl">{{ student.student.firstName }} {{ student.student.lastName }} - Not started yet</h3>
   </button>
 </template>
 

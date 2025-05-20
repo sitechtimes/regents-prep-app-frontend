@@ -22,7 +22,7 @@
       >
         <button v-for="(sorter, key) in sorters" class="du-label flex w-full cursor-pointer items-center justify-start gap-2" type="button" @click="selectSorter(key)">
           <input type="radio" class="!du-radio pointer-events-none bg-cover" :style="{ backgroundColor: currentSorter === key ? 'inherit' : '' }" :checked="currentSorter === key" />
-          <span class="text-left capitalize transition duration-500">{{ key }}</span>
+          <span class="translate-y-px text-left capitalize transition duration-500">{{ key }}</span>
         </button>
       </div>
     </Transition>

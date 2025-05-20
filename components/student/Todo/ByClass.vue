@@ -17,7 +17,7 @@
       >
         <button v-for="course in studentCourses" class="du-label flex w-full cursor-pointer items-center justify-start gap-2" type="button" @click="updateQuery(course.id)">
           <input type="checkbox" class="du-checkbox pointer-events-none" :checked="route.query.class?.includes(String(course.id))" />
-          <span class="text-left capitalize transition duration-300">{{ course.name }}</span>
+          <span class="translate-y-px text-left capitalize transition duration-300">{{ course.name }}</span>
         </button>
       </div>
     </Transition>
