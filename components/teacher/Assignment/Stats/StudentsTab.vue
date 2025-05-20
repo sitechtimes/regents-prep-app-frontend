@@ -115,7 +115,6 @@ onMounted(async () => {
 });
 
 function isSelected(choice: TopicQuestionInterfaceAnswer) {
-  console.log(currentQuestion.value, choice);
   return (
     currentQuestion.value &&
     (("dynamicUserAnswers" in currentQuestion.value && currentQuestion.value.dynamicUserAnswers.includes(choice.id)) ||

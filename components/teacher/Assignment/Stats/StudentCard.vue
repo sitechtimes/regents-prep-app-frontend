@@ -30,8 +30,8 @@
         <h3 class="text-md font-semibold lg:mb-2 lg:text-lg">Progress: {{ ((student.questionsCorrect / numQuestions) * 100).toFixed(0) }}%</h3>
         <div class="du-tooltip du-tooltip-right h-3 w-full cursor-help" :data-tip="`${student.questionsCorrect} correct out of ${student.questionsCompleted} completed`">
           <div class="relative h-full w-full overflow-hidden rounded-full border border-neutral-300 bg-neutral-400 dark:border-neutral-600">
-            <div class="absolute bottom-0 left-0 z-[1] w-full bg-green-500" :style="{ height: `${(student.questionsCorrect / numQuestions) * 100}%` }"></div>
-            <div class="absolute bottom-0 left-0 w-full bg-red-500" :style="{ height: `${(student.questionsCompleted / numQuestions) * 100}%` }"></div>
+            <div class="absolute left-0 top-0 z-[1] h-full bg-green-500" :style="{ width: `${(student.questionsCorrect / numQuestions) * 100}%` }"></div>
+            <div class="absolute left-0 top-0 h-full bg-red-500" :style="{ width: `${(student.questionsCompleted / numQuestions) * 100}%` }"></div>
           </div>
         </div>
       </div>
