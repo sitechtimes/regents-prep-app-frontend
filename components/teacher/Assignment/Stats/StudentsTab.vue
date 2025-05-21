@@ -9,7 +9,7 @@
       @click="currentStudent = student"
     />
 
-    <FullScreenModal transition-name="slide-up-screen" :show-modal="currentStudent !== undefined" width-class="w-4/5 lg:w-1/3" @close="currentStudent = undefined">
+    <FullScreenModal transition-name="slide-up-screen" :show-modal="currentStudent !== undefined" custom-width-class="w-4/5 lg:w-1/3" @close="currentStudent = undefined">
       <div v-if="currentStudent" class="flex h-full w-full flex-col items-center justify-center gap-6">
         <div class="flex flex-col items-center justify-center">
           <h3 class="text-2xl font-bold lg:text-3xl">{{ currentStudent.student.firstName }} {{ currentStudent.student.lastName }}</h3>

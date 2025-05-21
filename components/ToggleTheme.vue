@@ -1,6 +1,6 @@
 <template>
   <div
-    class="du-tooltip du-tooltip-bottom flex size-9 cursor-pointer items-center justify-center rounded-full transition duration-500 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+    class="du-tooltip du-tooltip-bottom flex size-9 cursor-pointer items-center justify-center rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700"
     :data-tip="isDarkMode ? 'Dark' : 'Light'"
   >
     <label class="du-swap du-swap-rotate">

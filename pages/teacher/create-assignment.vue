@@ -121,7 +121,7 @@
             :class="
               allowedToSubmit
                 ? 'border-green-500 bg-green-500 hover:brightness-110'
-                : 'cursor-not-allowed border-none border-neutral-300 bg-neutral-200 p-0 transition duration-300 hover:border-neutral-400 dark:bg-neutral-600/50'
+                : 'cursor-not-allowed border-none border-neutral-300 bg-neutral-200 p-0 hover:border-neutral-400 dark:bg-neutral-600/50'
             "
             type="submit"
           >

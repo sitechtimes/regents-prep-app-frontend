@@ -34,7 +34,7 @@
       <div
         v-if="question?.answerType === 'Multiple Choice'"
         v-for="choice in question?.answers"
-        class="rounded-lg px-6 py-2 shadow-sm"
+        class="answer-choice rounded-lg px-6 py-2 shadow-sm"
         :class="(showAnswerOverride || showAnswer) && choice.isCorrect ? 'bg-green-500' : 'bg-neutral-300 dark:bg-neutral-900'"
         v-html="choice.text"
       ></div>
@@ -61,4 +61,8 @@ const showAnswer = ref(false);
 const isExactlyInAssignment = computed(() => props.currentQuestions.find((question) => props.question.id === question.questionId));
 </script>
 
-<style scoped></style>
+<style scoped>
+.answer-choice *:not(p) {
+  @apply dark:invert;
+}
+</style>

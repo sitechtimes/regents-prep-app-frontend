@@ -68,7 +68,6 @@ body {
   font-weight: 400;
   font-style: normal;
   color: var(--text-color);
-  @apply duration-300;
 }
 
 .question-text em {
@@ -98,7 +97,6 @@ input:-webkit-autofill {
 
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 30px #d1d4d8 inset;
-  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* printing nonsense */
