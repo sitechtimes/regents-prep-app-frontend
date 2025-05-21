@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex h-full w-full items-center justify-center rounded-lg border border-neutral-300 dark:border-neutral-300/50"
+    class="flex h-full w-full items-center justify-center rounded-lg border border-neutral-300 hover:transition dark:border-neutral-300/50"
     :class="student.timeStarted ? 'hover:shadow-lg' : 'cursor-not-allowed select-none bg-neutral-300 py-2'"
     :disabled="!student.timeStarted"
     type="button"

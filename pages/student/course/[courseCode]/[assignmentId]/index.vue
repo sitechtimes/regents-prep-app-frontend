@@ -148,7 +148,6 @@ async function saveProgress() {
     const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, diff));
     if (error) console.error(error);
     isSaved.value = true;
-    console.log(isSaved.value);
   } else {
     incrementTime();
     isSaved.value = true;

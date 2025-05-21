@@ -116,7 +116,7 @@
         </div>
 
         <div
-          :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : !courseIds.length ? 'Selec at least one course' : 'You must have at least one question or topic'"
+          :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : !courseIds.length ? 'Select at least one course' : 'You must have at least one question or topic'"
           :class="{ 'du-tooltip': !allowedToSubmit }"
         >
           <button

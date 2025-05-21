@@ -140,7 +140,6 @@ watch(
 watch(
   () => props.isSaved,
   (val) => {
-    console.log(val, submitTriggered.value);
     if (val && submitTriggered.value) void submitAssignment();
   }
 );
