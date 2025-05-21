@@ -10,11 +10,11 @@
       <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
         <button
           type="button"
-          class="w-full rounded-lg bg-neutral-200 px-6 py-3 text-left shadow-sm hover:bg-neutral-400/50 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
+          class="w-full rounded-lg bg-neutral-200 px-6 py-3 text-left shadow-sm hover:bg-neutral-400/50 hover:transition dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
           :class="{
             'bg-neutral-400/50 dark:bg-neutral-500/75': choice.selected && choice.isCorrect === undefined,
-            'bg-green-500/50 dark:bg-green-500/75': choice.isCorrect,
-            'bg-red-500/50 dark:bg-red-500/75': choice.isCorrect === false
+            '!bg-green-500/50 dark:!bg-green-500/75': choice.isCorrect,
+            '!bg-red-500/50 dark:!bg-red-500/75': choice.isCorrect === false
           }"
           @click="selectChoice(choice)"
           v-html="choice.text"
@@ -24,7 +24,7 @@
       <!-- dynamic assignments submit question button -->
       <div class="mt-8 flex w-full items-center justify-between gap-6 px-10">
         <button
-          class="flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:bg-green-600 dark:text-white"
+          class="flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold hover:transition dark:bg-green-600 dark:text-white"
           type="button"
           :disabled="mode !== 'answering' || !currentQuestion?.question.answers.some((answer) => answer.selected)"
           :class="
@@ -38,7 +38,7 @@
         </button>
 
         <button
-          class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
+          class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 hover:transition sm:px-16 dark:bg-green-600"
           type="button"
           :disabled="mode !== 'viewing' || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
           :class="

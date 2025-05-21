@@ -1,7 +1,7 @@
 <template>
   <div class="relative w-full">
     <NuxtLink
-      class="relative flex h-fit w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
+      class="relative flex h-fit w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg hover:transition sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
       :to="`/teacher/course/${course.id}/${assignment.id}`"
     >
       <div class="du-dropdown du-dropdown-end du-dropdown-hover absolute right-2 top-2 z-10">

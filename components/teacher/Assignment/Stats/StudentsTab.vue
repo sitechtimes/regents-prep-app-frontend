@@ -42,24 +42,24 @@
             <!-- back/next buttons -->
             <div class="flex items-center justify-center gap-4">
               <button
-                class="group my-2 flex h-9 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 lg:w-1/4 lg:text-lg dark:bg-neutral-600 hover:dark:bg-neutral-700"
+                class="group my-2 flex h-9 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 hover:transition lg:w-1/4 lg:text-lg dark:bg-neutral-600 hover:dark:bg-neutral-700"
                 :class="{ 'cursor-not-allowed bg-neutral-200 opacity-50': currentQuestionIndex === 0 }"
                 type="button"
                 :disabled="currentQuestionIndex === 0"
                 @click="currentQuestionIndex--"
               >
-                <img class="size-5 group-hover:-translate-x-1" src="/ui/arrow-left.svg" aria-hidden="true" />
+                <img class="size-5 group-hover:-translate-x-1 group-hover:transition" src="/ui/arrow-left.svg" aria-hidden="true" />
                 <span class="translate-y-px">Back</span>
               </button>
               <button
-                class="group my-2 flex h-9 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 lg:w-1/4 lg:text-lg dark:bg-neutral-600 hover:dark:bg-neutral-700"
+                class="group my-2 flex h-9 w-1/2 items-center justify-center gap-2 rounded-lg bg-neutral-100 text-sm hover:bg-neutral-200 hover:transition lg:w-1/4 lg:text-lg dark:bg-neutral-600 hover:dark:bg-neutral-700"
                 :class="{ 'cursor-not-allowed bg-neutral-200 opacity-50': currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1 }"
                 type="button"
                 :disabled="currentStudentStatistics && currentQuestionIndex === currentStudentStatistics.length - 1"
                 @click="currentQuestionIndex++"
               >
                 <span class="translate-y-px">Next</span>
-                <img class="size-5 group-hover:translate-x-1" src="/ui/arrow-right.svg" aria-hidden="true" />
+                <img class="size-5 group-hover:translate-x-1 group-hover:transition" src="/ui/arrow-right.svg" aria-hidden="true" />
               </button>
             </div>
             <p class="mt-2 text-center text-sm lg:text-lg">Question {{ currentQuestionIndex + 1 }} of {{ currentStudentStatistics?.length }}</p>
