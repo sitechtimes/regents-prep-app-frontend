@@ -4,7 +4,7 @@
     <ul tabindex="0" class="du-dropdown-content z-[1] w-52 rounded-lg border border-[var(--border-color)] bg-[var(--bg-color)] p-2 shadow">
       <li>
         <h3 class="text h-10 w-full pl-4 pt-1 text-left font-medium">{{ userStore.name }}</h3>
-        <button class="h-10 w-full rounded-lg pl-4 text-left transition-all duration-500 hover:bg-[#ff625aa9]" type="button" @click="confirmLogout">Logout</button>
+        <button class="h-10 w-full rounded-lg pl-4 text-left hover:bg-[#ff625aa9]" type="button" @click="confirmLogout">Logout</button>
       </li>
     </ul>
   </div>

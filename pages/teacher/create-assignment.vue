@@ -29,87 +29,26 @@
       </fieldset>
 
       <div class="flex w-full items-center justify-center gap-3">
-        <div v-if="!isPrinting" class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="name">Name <span title="Required" class="text-red-500">*</span></label>
-          <input
-            id="name"
-            v-model="assignmentInfo.name"
-            required
-            type="text"
-            class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            placeholder="Unit 3 Review"
-          />
-        </div>
-        <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="number-of-questions">
-            Number of Questions
-            <span title="Required" class="text-red-500">*</span>
-          </label>
-          <div class="w-full" :class="{ 'du-tooltip': warn }" :data-tip="warn">
-            <input
-              id="number-of-questions"
-              v-model="assignmentInfo.numOfQuestions"
-              required
-              type="number"
-              class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-              :class="{ 'border-red-500 hover:border-red-500 focus:border-red-500 dark:border-red-600 dark:hover:border-red-500': warn }"
-              placeholder="10"
-              min="0"
-            />
-          </div>
-        </div>
+        <TeacherAssignmentCreateInput v-if="!isPrinting" v-model="assignmentInfo.name" type="text" label="Name" placeholder="Unit 3 Review" required />
+        <TeacherAssignmentCreateInput v-model.number="assignmentInfo.numOfQuestions" type="number" label="Number of Questions" placeholder="10" required min="0" :warn="warn" />
       </div>
 
-      <fieldset v-if="!isPrinting">
-        <legend class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white">
-          Due
-          <span title="Required" class="text-red-500">*</span>
-        </legend>
-        <div class="flex w-full items-center justify-center gap-3">
-          <input
-            v-model="assignmentInfo.dueDate.date"
-            required
-            type="date"
-            class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            :min="currentDateISO"
-          />
-          <input
-            v-model="assignmentInfo.dueDate.time"
-            required
-            type="time"
-            class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-          />
-        </div>
-      </fieldset>
+      <div v-if="!isPrinting" class="flex w-full items-center justify-center gap-3">
+        <TeacherAssignmentCreateInput v-model="assignmentInfo.dueDate.date" class="w-[45%]" type="date" label="Due" required :min="currentDateISO" />
+        <TeacherAssignmentCreateInput v-model="assignmentInfo.dueDate.time" class="w-[45%]" type="time" required />
+      </div>
 
       <div v-if="!isPrinting" class="flex w-full items-center justify-center gap-3">
-        <div class="grow">
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="time-per-question">Time limit (minutes)</label>
-          <input
-            id="time-per-question"
-            v-model.number="assignmentInfo.timeAllotted"
-            type="number"
-            class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            placeholder="Unlimited"
-            min="0"
-          />
-        </div>
-
-        <div class="grow">
-          <!-- disable if the assignment is static -->
-          <!-- TODO: might want to explain why it's disabled... -->
-          <label class="fo-label fo-label-text shrink-0 font-bold text-black dark:text-white" for="attempts-per-question">Attempts per question</label>
-          <input
-            id="attempts-per-question"
-            v-model.number="assignmentInfo.attemptsAllowed"
-            type="number"
-            class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
-            :placeholder="guaranteedLength === assignmentInfo.numOfQuestions ? `1` : `Unlimited`"
-            :disabled="guaranteedLength === assignmentInfo.numOfQuestions"
-            min="0"
-            step="1"
-          />
-        </div>
+        <TeacherAssignmentCreateInput v-model.number="assignmentInfo.timeAllotted" type="number" min="0" label="Time limit (minutes)" placeholder="Unlimited" />
+        <TeacherAssignmentCreateInput
+          v-model.number="assignmentInfo.attemptsAllowed"
+          type="number"
+          min="0"
+          step="1"
+          label="Attempts per question"
+          :placeholder="guaranteedLength === assignmentInfo.numOfQuestions ? `1` : `Unlimited`"
+          :disabled="guaranteedLength === assignmentInfo.numOfQuestions"
+        />
       </div>
 
       <div class="mb-2 flex w-full grow flex-col">
@@ -132,7 +71,7 @@
 
                 <p class="w-60 grow overflow-hidden overflow-ellipsis text-nowrap" v-html="loadedTopics[topicId.at(-1)!]?.name ?? 'All topics'"></p>
 
-                <TeacherAssignmentCatalogQuestionButton :click-function="() => removeTopic(topicId.at(-1) ?? 1)" img="/ui/trash.svg" />
+                <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" @click="removeTopic(topicId.at(-1) ?? 1)" />
               </li>
             </ol>
 
@@ -149,12 +88,12 @@
                     class="du-tooltip du-tooltip-bottom"
                     :data-tip="`Switch to ${question.isGuaranteed ? 'Random' : 'Guaranteed'}`"
                   >
-                    <TeacherAssignmentCatalogQuestionButton :click-function="() => (question.isGuaranteed = !question.isGuaranteed)" :img="`/ui/${question.isGuaranteed ? 'check' : 'dice'}.svg`" />
+                    <TeacherAssignmentCatalogQuestionButton :img="`/ui/${question.isGuaranteed ? 'check' : 'dice'}.svg`" @click="question.isGuaranteed = !question.isGuaranteed" />
                   </div>
                   <div v-else class="du-tooltip du-tooltip-left" data-tip="This question is guaranteed because you added a parent topic.">
                     <TeacherAssignmentCatalogQuestionButton :disable="true" img="/ui/check.svg" />
                   </div>
-                  <TeacherAssignmentCatalogQuestionButton :click-function="() => removeQuestion(question.questionId)" img="/ui/trash.svg" />
+                  <TeacherAssignmentCatalogQuestionButton img="/ui/trash.svg" @click="removeQuestion(question.questionId)" />
                 </div>
               </li>
             </ol>
@@ -182,13 +121,12 @@
             :class="
               allowedToSubmit
                 ? 'border-green-500 bg-green-500 hover:brightness-110'
-                : 'cursor-not-allowed border-none border-neutral-300 bg-neutral-200 p-0 transition duration-300 hover:border-neutral-400 dark:bg-neutral-600/50'
+                : 'cursor-not-allowed border-none border-neutral-300 bg-neutral-200 p-0 hover:border-neutral-400 dark:bg-neutral-600/50'
             "
             type="submit"
           >
             <span v-if="createAssignmentResult.isLoading" class="loading du-loading du-loading-sm mt-1"></span>
-            <span v-else-if="!isPrinting">Create</span>
-            <span v-else>Print</span>
+            <span v-else>{{ isPrinting ? "Print" : "Create" }}</span>
           </button>
         </div>
       </div>
@@ -211,14 +149,17 @@
       </div>
     </div>
 
+    <FullScreenModal transition-name="scale-75" :show-modal="createAssignmentResult.success" @close="createAssignmentResult.success = false">
+      <p>Assignment successfully created!</p>
+      <TeacherCourseActionButton type="button" img="/ui/close.svg" text="Close" @on-click="createAssignmentResult.success = false" />
+    </FullScreenModal>
+
     <LazyTeacherAssignmentPrintAssignment :question-ids="assignmentInfo.printQuestionIds" />
   </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: "teacher"
-});
+definePageMeta({ layout: "teacher" });
 
 const route = useRoute();
 const router = useRouter();
@@ -285,6 +226,7 @@ const randomLength = computed(() => {
     if (!topicId) return;
     const topic = loadedTopics.value[topicId];
     count += topic.numQuestions;
+
     // un-double count any manual questions inside an added topic
     count -= assignmentInfo.questions.filter((question) => topic.questionIds.includes(question.questionId)).length;
   });
@@ -400,7 +342,7 @@ function flattenQuestion(questionContent: string) {
 
 const createAssignmentResult = reactive({
   isLoading: false,
-  success: "",
+  success: false,
   error: ""
 });
 
@@ -471,13 +413,17 @@ async function createAssignment() {
       assignmentInfo.topicPaths.map((arr) => arr.at(-1) ?? 1),
       assignmentInfo.excludedQuestions,
       time.getTime() / 1000,
-      assignmentInfo.questions.length,
+      assignmentInfo.numOfQuestions ?? 1,
       assignmentInfo.lateSubmissions,
       assignmentInfo.timeAllotted ?? 0,
       assignmentInfo.attemptsAllowed ?? 0
     )
   );
-  if (initialCourse) await router.push(`/teacher/course/${initialCourse}`);
+  if (initialCourse) {
+    const course = teacherCourses.value.find((course) => course.id === initialCourse);
+    if (course) course.assignmentsFetched = false;
+    await router.push(`/teacher/course/${initialCourse}`);
+  }
 
   createAssignmentResult.isLoading = false;
 
@@ -485,10 +431,9 @@ async function createAssignment() {
     createAssignmentResult.error = error.message;
     console.error(error);
   } else {
-    createAssignmentResult.success = "Assignment created — you can leave this page now.";
-    if (!initialCourse) alert(createAssignmentResult.success);
+    createAssignmentResult.success = true;
+    watch(createAssignmentResult, () => void router.push("/teacher/dashboard"));
   }
-  // TODO: make this a toast or something.........
 }
 
 async function handleSubmit() {

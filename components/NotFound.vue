@@ -18,6 +18,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
+  /** When to trigger the modal. */
   showModal: boolean;
   message: "class" | "assignment";
   userType: "student" | "teacher";

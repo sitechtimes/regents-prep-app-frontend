@@ -24,7 +24,7 @@
         @click="emit('switchQuestion', 'previous')"
       >
         <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
-        <span class="hidden text-xl xs:block">Back</span>
+        <span class="hidden translate-y-px text-xl xs:block">Back</span>
       </button>
       <button
         class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
@@ -33,7 +33,7 @@
         :class="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
         @click="emit('switchQuestion', 'next')"
       >
-        <span class="hidden text-xl xs:block">Next</span>
+        <span class="hidden translate-y-px text-xl xs:block">Next</span>
         <img class="size-5 group-hover:translate-x-1 dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
       </button>
     </div>
