@@ -8,6 +8,8 @@ export interface StudentAssignment extends Assignment {
   dateSubmitted: Date | null;
   /** Number of questions completed. */
   questionsCompleted: number;
+  /** @readonly The time an assignment was started. */
+  timeStarted: Date | null;
   /** Number of correct questions in the assignment */
   questionsCorrect: number;
   /** @readonly assignment object for assignment properties. */

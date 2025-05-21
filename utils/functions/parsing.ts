@@ -18,6 +18,8 @@ export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssig
       assignment.assignment.dueDate = unixToDate(assignment.assignment.dueDate);
       // @ts-expect-error dateAssigned is a unix timestamp before parsing
       assignment.assignment.dateAssigned = unixToDate(assignment.assignment.dateAssigned);
+      // @ts-expect-error timeStarted is a unix timestamp before parsing
+      assignment.timeStarted = unixToDate(assignment.timeStarted);
       // @ts-expect-error dateSubmitted is a unix timestamp before parsing
       assignment.dateSubmitted = assignment.dateSubmitted ? unixToDate(assignment.dateSubmitted) : null;
       assignment.assignment.questionInterfaces = {};
