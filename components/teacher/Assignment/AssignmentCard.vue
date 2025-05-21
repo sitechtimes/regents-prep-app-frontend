@@ -10,9 +10,7 @@
         </button>
         <ul tabindex="0" class="du-dropdown-content z-[1] w-52 rounded-lg border border-[var(--border-color)] bg-[var(--bg-color)] p-2 shadow">
           <li>
-            <button class="h-10 w-full rounded-lg pl-4 text-left transition-all duration-500 hover:bg-[#ff625aa9]" type="button" @click.stop.prevent="emit('deleteAssignment', assignment.id)">
-              Delete
-            </button>
+            <button class="h-10 w-full rounded-lg pl-4 text-left transition-all hover:bg-[#ff625aa9]" type="button" @click.stop.prevent="emit('deleteAssignment', assignment.id)">Delete</button>
           </li>
         </ul>
       </div>

@@ -25,7 +25,7 @@
     <FullScreenModal
       transition-name="slide-up-screen"
       :show-modal="selectedQuestion !== undefined"
-      width-class="w-11/12 lg:w-1/2 max-h-[70dvh] overflow-y-scroll !justify-start"
+      custom-width-class="w-11/12 lg:w-1/2 max-h-[70dvh] overflow-y-scroll !justify-start"
       @close="selectedQuestion = undefined"
     >
       <div class="w-full rounded-lg p-6">

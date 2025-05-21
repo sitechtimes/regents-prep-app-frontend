@@ -5,7 +5,7 @@
   >
     <button class="group my-4 ml-4 flex items-center justify-center gap-2 rounded-xl px-5 py-2 hover:bg-neutral-200 dark:hover:bg-neutral-500/25" type="button" @click="emit('close')">
       <img class="size-4 group-hover:-translate-x-1 dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
-      Back to course
+      <span class="translate-y-px">Back to course</span>
     </button>
 
     <div class="relative hidden w-full lg:block">

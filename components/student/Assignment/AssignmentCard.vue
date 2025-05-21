@@ -61,10 +61,4 @@ const submissionStatus = computed(() => {
 });
 </script>
 
-<style scoped>
-@media (hover: hover) and (pointer: fine) {
-  .assignment:hover {
-    @apply cursor-pointer duration-300;
-  }
-}
-</style>
+<style scoped></style>
