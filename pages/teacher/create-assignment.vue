@@ -115,7 +115,10 @@
           <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base text-black dark:text-white" for="late-submissions">Allow late submissions</label>
         </div>
 
-        <div :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : 'You must have at least one question or topic'" :class="{ 'du-tooltip': !allowedToSubmit }">
+        <div
+          :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : !courseIds.length ? 'Select at least one course' : 'You must have at least one question or topic'"
+          :class="{ 'du-tooltip': !allowedToSubmit }"
+        >
           <button
             class="w-full grow rounded-lg border px-8 py-1.5 text-xl font-medium text-black lg:w-fit"
             :class="
@@ -253,7 +256,7 @@ const warn = computed(() => {
   return null;
 });
 
-const allowedToSubmit = computed(() => (isPrinting || (assignmentInfo.name && !warn.value)) && guaranteedLength.value + randomLength.value > 0);
+const allowedToSubmit = computed(() => (isPrinting.value || (assignmentInfo.name && !warn.value && courseIds.length)) && guaranteedLength.value + randomLength.value > 0);
 
 function removeQuestion(questionId: number) {
   // prettier-ignore

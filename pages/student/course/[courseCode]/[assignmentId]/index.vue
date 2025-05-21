@@ -1,6 +1,13 @@
 <template>
   <div v-if="studentCurrentCourse && currentAssignment && assignmentInProgress" class="flex h-dvh w-full items-center justify-start gap-10 overflow-y-scroll">
-    <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" :trigger-submit="triggerSubmit" @close="assignmentInProgress = false" />
+    <StudentAssignmentSidebar
+      :assignment="currentAssignment"
+      :current-question-index="currentQuestionIndex"
+      :trigger-submit="triggerSubmit"
+      :is-saved="isSaved"
+      @close="assignmentInProgress = false"
+      @submitted="saveProgress"
+    />
 
     <div class="fixed right-0 top-4 flex items-center justify-center gap-4 pr-10">
       <ToggleTheme />
@@ -113,7 +120,6 @@ async function fetchQuestionOnMounted() {
 onMounted(fetchQuestionOnMounted);
 
 const selectedChoice = ref<Answer>();
-
 const timestamp = ref(Date.now());
 
 /** increments time spent on current question */
@@ -127,6 +133,12 @@ function incrementTime() {
   void tryRequestEndpoint(`courses/student/increment-question-time/${currentQuestion.value.id}/${diff}/`, "POST");
 }
 
+/** for sidebar submit */
+const isSaved = ref(false);
+watch(isSaved, async (val) => {
+  await nextTick();
+  if (val) isSaved.value = false;
+});
 async function saveProgress() {
   if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
   if (selectedChoice.value) {
@@ -135,8 +147,10 @@ async function saveProgress() {
 
     const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, diff));
     if (error) console.error(error);
+    isSaved.value = true;
   } else {
     incrementTime();
+    isSaved.value = true;
   }
 }
 // increment time on index change
