@@ -1,3 +1,7 @@
+function unixToDate(timestamp: number) {
+  return new Date(timestamp * 1000);
+}
+
 /**
  * Converts the `dueDate` and `dateAssigned` properties of an array of assignments to `Date` objects.
  *
@@ -11,17 +15,17 @@ export function assignmentToDate(assignments: StudentAssignment[] | TeacherAssig
       if (assignment.dateSubmitted === undefined) assignment.dateSubmitted = null; // dateSubmitted isnt in init data
 
       // @ts-expect-error dueDate is a unix timestamp before parsing
-      assignment.assignment.dueDate = new Date(assignment.assignment.dueDate * 1000);
+      assignment.assignment.dueDate = unixToDate(assignment.assignment.dueDate);
       // @ts-expect-error dateAssigned is a unix timestamp before parsing
-      assignment.assignment.dateAssigned = new Date(assignment.assignment.dateAssigned * 1000);
+      assignment.assignment.dateAssigned = unixToDate(assignment.assignment.dateAssigned);
       // @ts-expect-error dateSubmitted is a unix timestamp before parsing
-      assignment.dateSubmitted = assignment.dateSubmitted ? new Date(assignment.dateSubmitted * 1000) : null;
+      assignment.dateSubmitted = assignment.dateSubmitted ? unixToDate(assignment.dateSubmitted) : null;
       assignment.assignment.questionInterfaces = {};
     } else {
       // @ts-expect-error dueDate is a unix timestamp before parsing
-      assignment.dueDate = new Date(assignment.dueDate * 1000);
+      assignment.dueDate = unixToDate(assignment.dueDate);
       // @ts-expect-error dateAssigned is a unix timestamp before parsing
-      assignment.dateAssigned = new Date(assignment.dateAssigned * 1000);
+      assignment.dateAssigned = unixToDate(assignment.dateAssigned);
     }
   }
 }

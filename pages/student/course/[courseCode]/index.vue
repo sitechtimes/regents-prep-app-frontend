@@ -14,7 +14,7 @@
         <StudentAssignmentCard v-else-if="assignments.length > 0" v-for="assignment in assignments" :key="assignment.id" :course="studentCurrentCourse" :assignment="assignment" clickable />
 
         <div v-else-if="assignments.length === 0" id="no-assignments" class="flex flex-col items-center justify-center overflow-visible p-8 text-center text-gray-accent">
-          <img src="https://cdn-icons-png.flaticon.com/512/109/109613.png" alt="No assignments icon" class="mb-4 h-16 w-16 dark:invert" />
+          <img src="/ui/clock.svg" alt="No assignments icon" class="mb-4 h-16 w-16 dark:invert" />
           <h3 class="mb-2 text-2xl font-semibold">No Assignments Yet</h3>
           <p class="text-lg">You're all caught up!</p>
           <p class="mt-2 text-sm">Check back later for new assignments.</p>

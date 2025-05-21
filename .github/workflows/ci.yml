@@ -6,6 +6,7 @@ on:
       - dev
       - prod
   pull_request:
+      - dev
 
 jobs:
   files:

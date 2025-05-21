@@ -1,5 +1,5 @@
 <template>
-  <FullScreenModal transition-name="scale-75" :show-modal="show" width-class="w-auto" @close="closeModal">
+  <FullScreenModal transition-name="scale-75" :show-modal="show" custom-width-class="w-auto" @close="closeModal">
     <h2 class="text-xl">Create New Course</h2>
     <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
       <label class="du-label" for="course-name">Course Name <span title="Required" class="font-2xl text-red-500">*</span></label>
@@ -46,7 +46,7 @@
       <p class="pb-4">You have created <span class="font-bold">{{ courseName }}</span>.</p>
 
       <div class="flex w-full items-center justify-end gap-2">
-        <TeacherCourseActionButton type="link" img="/ui/arrowRight.svg" text="Go to Course" :to="`/teacher/course/${newCourseId}`" @click="showSuccessModal = false" />
+        <TeacherCourseActionButton type="link" img="/ui/arrow-right.svg" text="Go to Course" :to="`/teacher/course/${newCourseId}`" @click="showSuccessModal = false" />
         <TeacherCourseActionButton type="button" img="/ui/close.svg" text="Close" @on-click="showSuccessModal = false" />
       </div>
     </div>

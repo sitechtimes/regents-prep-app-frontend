@@ -76,7 +76,7 @@ export async function tryRequestEndpoint(endpoint: string, method?: string, body
  * @param bypassError - whether to handle errors manually. Defaults to `false`. **Should only be used for confirmResetPassword**.
  * @returns the JSON response from the request.
  */
-export async function tryRequestEndpoint<T>(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<Result<T>>;
-export async function tryRequestEndpoint<T>(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<Result<T | void>> {
-  return tryCatch(requestEndpoint<T>(endpoint, method, body, bypassError));
+export async function tryRequestEndpoint<T, K = Error>(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<Result<T, K>>;
+export async function tryRequestEndpoint<T, K = Error>(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<Result<T | void, K>> {
+  return tryCatch<T, K>(requestEndpoint<T>(endpoint, method, body, bypassError));
 }

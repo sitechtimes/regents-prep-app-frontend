@@ -28,7 +28,7 @@ export default defineNuxtConfig({
         { name: "description", content: "Don't fail your regents! If you do... don't blame us. Built by SITHS, for SITHS." },
         { property: "og:description", content: "Don't fail your regents! If you do... don't blame us. Built by SITHS, for SITHS." }
       ],
-      link: [{ rel: "icon", type: "image/png", href: "/siths.png" }],
+      link: [{ rel: "icon", type: "image/png", href: "/seagull.png" }],
       htmlAttrs: {
         lang: "en"
       }

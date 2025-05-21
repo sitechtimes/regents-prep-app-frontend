@@ -8,7 +8,7 @@
           <input
             id="newPassword1"
             v-model="newPassword1"
-            class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
+            class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
             type="password"
             required
           />
@@ -19,7 +19,7 @@
           <input
             id="newPassword2"
             v-model="newPassword2"
-            class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4 transition duration-300 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
+            class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4 focus:bg-[color:var(--bg-color)] focus:outline focus:outline-2 focus:outline-[color:var(--primary)]"
             type="password"
             required
           />
