@@ -181,9 +181,7 @@ function handleVisibilityTime() {
   else timestamp.value = Date.now();
 }
 
-let unguardRoute: () => void;
 onMounted(() => {
-  unguardRoute = router.beforeEach(() => void saveProgress());
   assignmentInProgress.value = true;
   window.addEventListener("beforeunload", warnForUnsavedChanges);
   window.addEventListener("visibilitychange", handleVisibilityTime);
@@ -195,7 +193,6 @@ onBeforeUnmount(incrementTime);
 onUnmounted(() => currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false)));
 
 onUnmounted(() => {
-  unguardRoute();
   window.removeEventListener("visibilitychange", handleVisibilityTime);
   window.removeEventListener("beforeunload", warnForUnsavedChanges);
 });
