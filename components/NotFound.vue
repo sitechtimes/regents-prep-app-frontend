@@ -8,7 +8,7 @@
       </div>
 
       <button class="active:scale-90" type="button">
-        <img class="spin size-20" src="/siths.png" aria-hidden="true" />
+        <img class="spin size-20" src="/seagull.png" aria-hidden="true" />
       </button>
     </div>
 
@@ -18,6 +18,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
+  /** When to trigger the modal. */
   showModal: boolean;
   message: "class" | "assignment";
   userType: "student" | "teacher";

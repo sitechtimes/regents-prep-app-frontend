@@ -9,9 +9,9 @@
 <script setup lang="ts">
 const { origin } = useRequestURL();
 useSeoMeta({
-  ogImage: () => `${origin}/siths.png`,
+  ogImage: () => `${origin}/seagull.png`,
   twitterCard: "summary_large_image",
-  twitterImage: () => `${origin}/siths.png`
+  twitterImage: () => `${origin}/banner.png`
 });
 
 const router = useRouter();
@@ -22,7 +22,10 @@ const { isDarkMode, showSideMenu } = storeToRefs(userStore);
 
 watch(isDarkMode, () => {
   document.body.classList.toggle("dark", isDarkMode.value);
-  localStorage.setItem("theme", isDarkMode.value ? "dark" : "light");
+
+  const theme = isDarkMode.value ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
 });
 onBeforeMount(() => {
   if (localStorage.getItem("theme") === "dark") isDarkMode.value = true;

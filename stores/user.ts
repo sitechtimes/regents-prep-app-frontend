@@ -1,5 +1,24 @@
+type LoginSuccess = {
+  name: string;
+} & (
+  | {
+      userType: "Student";
+      courses: StudentCourse[];
+    }
+  | {
+      userType: "Teacher";
+      courses: TeacherCourseNoAssignment[];
+    }
+);
+type LoginFailure =
+  | {
+      non_field_errors: string[];
+    }
+  | {
+      email: string[];
+    };
+
 export const useUserStore = defineStore("userStore", () => {
-  const config = useRuntimeConfig();
   const router = useRouter();
 
   const isAuth = ref(false);
@@ -17,57 +36,46 @@ export const useUserStore = defineStore("userStore", () => {
 
   /** @example { [id]: Topic } */
   const loadedTopics = ref<Record<number, TopicMapped>>({});
+  /** @example { [id]: TopicPath } */
+  const loadedTopicPaths = ref<Record<number, number[]>>({});
   /** @example { [id]: QuestionInterface } */
   const loadedQuestions = ref<Record<number, TopicQuestionInterface>>({});
+  /** how many questions are there in total total */
+  const totalQuestionCount = ref<number>(0);
 
-  async function init(): Promise<void> {
-    const res = await fetch(`${config.public.backend}init/`, {
-      credentials: "include"
-    });
-    if (!res.ok) return;
-    const data = await res.json();
-
+  function handleLoginData(data: LoginSuccess): void {
     isAuth.value = true;
     name.value = data.name;
-    userType.value = data.userType.toLowerCase();
+    userType.value = data.userType.toLowerCase() as "student" | "teacher";
 
-    if (userType.value === "student") {
+    if (data.userType === "Student") {
       courseToDate(data.courses);
       return void (studentCourses.value = data.courses);
     }
 
     teacherCourses.value = data.courses;
   }
+
+  async function init() {
+    const { data, error } = await tryRequestEndpoint<LoginSuccess, LoginFailure>("init/");
+    if (error) return;
+
+    handleLoginData(data);
+  }
   async function login(email: string, password: string) {
-    const res = await fetch(`${config.public.backend}auth/login/`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email, password: password })
-    });
-    const data = await res.json();
-    if (!res.ok) return data;
+    const { data, error } = await tryRequestEndpoint<LoginSuccess | LoginFailure>("auth/login/", "POST", { email, password }, true);
+    if (!error && data && "name" in data) return handleLoginData(data);
 
-    isAuth.value = true;
-    name.value = data.name;
-    userType.value = data.userType.toLowerCase();
-
-    if (userType.value === "student") {
-      courseToDate(data.courses);
-      return void (studentCourses.value = data.courses);
-    }
-
-    teacherCourses.value = data.courses;
+    console.error(data, error);
+    return data as LoginFailure;
   }
 
   async function logout() {
-    const res = await fetch(`${config.public.backend}auth/logout/`, {
-      method: "POST",
-      credentials: "include"
-    });
-    if (!res.ok) return;
+    const { error } = await tryRequestEndpoint("auth/logout/", "POST");
+    if (error) console.error(error);
+
     isAuth.value = false;
-    void router.push("/");
+    await router.push("/");
   }
 
   return {
@@ -82,7 +90,9 @@ export const useUserStore = defineStore("userStore", () => {
     teacherCurrentCourse,
     currentQuestion,
     loadedTopics,
+    loadedTopicPaths,
     loadedQuestions,
+    totalQuestionCount,
     init,
     login,
     logout

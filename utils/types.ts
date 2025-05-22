@@ -6,13 +6,13 @@ export interface CreateCourse {
 
 export interface StudentData {
   /** @readonly UID of the student. */
-  readonly id: number;
+  id: number;
   /** @readonly First name of the student. */
-  readonly firstName: string;
+  firstName: string;
   /** @readonly Last name of the student. */
-  readonly lastName: string;
+  lastName: string;
   /** @readonly Email of the student. */
-  readonly email: string;
+  email: string;
 }
 
 /** @template T - Whether the `student` field should be `StudentData` objects or an array of student IDs */

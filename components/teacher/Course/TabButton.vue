@@ -1,24 +1,25 @@
 <template>
   <button
-    class="translate-y-0.5 border-b-4 p-2 px-8 text-2xl font-semibold capitalize transition"
-    :class="{ 'text-neutral-500 grayscale hover:grayscale-[.66]': currentTab !== tabName }"
+    class="border-b-4 px-4 transition"
+    :class="{ 'grayscale hover:grayscale-[.66]': isInactive }"
     :style="{ borderColor: subjectColors[course.subject] }"
     type="button"
     @click="emit('switchTab', tabName)"
   >
-    {{ tabName }}
+    <!-- TODO: tailwind capitalize doesnt work only on questions tab when its disabled ?? -->
+    <span class="text-lg font-semibold capitalize lg:text-2xl" :class="{ 'text-neutral-500': isInactive }">{{ tabName[0].toUpperCase() + tabName.slice(1) }}</span>
   </button>
 </template>
 
 <script setup lang="ts">
-type TabName = "current" | "past";
-
-defineProps<{
-  tabName: TabName;
-  currentTab: TabName;
+const props = defineProps<{
+  tabName: string;
+  currentTab: string;
   course: TeacherCourse;
 }>();
-const emit = defineEmits<{ switchTab: [TabName] }>();
+const emit = defineEmits<{ switchTab: [string] }>();
+
+const isInactive = computed(() => props.currentTab !== props.tabName);
 </script>
 
 <style scoped></style>

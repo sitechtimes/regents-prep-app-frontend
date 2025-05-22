@@ -1,98 +1,32 @@
 <template>
-  <div
-    class="flex min-h-screen w-screen flex-col items-center justify-center gap-4 sm:flex-row sm:gap-0 sm:space-x-10 sm:px-12 md:px-32 lg:px-52 xl:px-72 2xl:px-96"
-    :class="{ 'bg-lime-300': isYoda }"
-  >
+  <div class="flex min-h-dvh w-full flex-col-reverse items-center justify-center gap-4 pb-20 sm:gap-0 md:flex-row md:space-x-10 md:px-12 md:pb-0 lg:px-44 xl:px-64 2xl:px-96">
     <!-- left side -->
-    <div class="flex flex-col items-center justify-center sm:block sm:grow">
-      <div class="flex items-center border-b-2 border-[var(--primary)] sm:mb-6 sm:border-b-0">
-        <div class="mr-6 hidden h-32 w-1 bg-[var(--primary)] sm:block"></div>
-        <h1 class="flex flex-col text-center text-3xl font-bold leading-relaxed sm:text-left xl:text-4xl 2xl:text-5xl">
-          <span class="text-2xl 2xl:text-3xl">Welcome to the</span>
+    <div class="flex flex-col items-center justify-center md:block md:grow">
+      <div class="flex items-center border-b-2 border-[var(--primary)] pb-4 sm:border-b-4 md:border-b-0 md:pb-0 lg:mb-6">
+        <div class="mr-6 hidden h-36 w-1 bg-[var(--primary)] md:block 2xl:h-44"></div>
+        <h1 class="flex w-96 flex-col text-center text-3xl font-semibold leading-relaxed sm:text-4xl md:text-left md:text-5xl 2xl:text-6xl">
+          <span class="text-2xl 2xl:text-4xl">Welcome to the</span>
           SITHS Regents Prep App
         </h1>
       </div>
-      <p class="mb-2 mt-4 text-2xl sm:mb-8">Don't fail your Regents.</p>
+      <p class="mb-2 mt-4 text-xl sm:mb-8 sm:text-2xl">Don't fail your Regents with this one.</p>
       <!-- buttons -->
-      <div class="flex space-x-4">
-        <NuxtLink to="/login" class="flex items-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] hover:brightness-[0.85] hover:dark:brightness-125">
+      <div class="mt-4 flex space-x-4 sm:mt-0">
+        <NuxtLink to="/login" class="flex items-center rounded-xl bg-[var(--primary)] px-6 py-2 text-2xl text-[var(--text-color)] hover:brightness-[0.85] lg:px-16 hover:dark:brightness-125">
           {{ isAuth ? "Continue" : "Login" }}
         </NuxtLink>
       </div>
     </div>
 
     <!-- right side -->
-    <div class="w-52 xs:w-1/4">
-      <img
-        v-show="isYoda"
-        class="w-full origin-center cursor-default object-cover transition-none"
-        src="/landingYoda.png"
-        alt="A very short-haired black cat, edited to be green"
-        title="The almighty Yoda."
-      />
-      <img
-        id="landing"
-        ref="landingCatRef"
-        class="z-50 w-full origin-center cursor-help object-cover transition-none active:brightness-125"
-        :draggable="false"
-        src="/landingCat.png"
-        alt="Cat on a computer"
-        title="This cat has some sort of hidden switch..?"
-        @click="toggle"
-      />
-    </div>
+
+    <img class="mb-6 w-52 xs:mb-0 xs:w-72 lg:w-100 xl:w-115 2xl:w-125" draggable="false" src="/seagull.png" alt="Regents Prep Seagull" />
   </div>
 </template>
 
 <script setup lang="ts">
 const userStore = useUserStore();
 const { isAuth } = storeToRefs(userStore);
-
-const isYoda = ref(false);
-const landingCatRef = useTemplateRef("landingCatRef");
-const startingCount = 10; // min clicks to unleash yoda
-let count = startingCount;
-const clicks = ref(0);
-
-function bye() {
-  if (!landingCatRef.value) return;
-  const rect = landingCatRef.value.getBoundingClientRect();
-  landingCatRef.value.style.left = `${rect.left}px`;
-  landingCatRef.value.style.top = `${rect.top}px`;
-  landingCatRef.value.style.width = "24%";
-  landingCatRef.value.style.position = "fixed";
-  landingCatRef.value.style.filter = "brightness(1)";
-  // strength scales with how many clicks it took. have fun
-  const vx = (clicks.value / startingCount) ** 2 * (clicks.value % 2 === 0 ? -1 : 1);
-  let vy = -10;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let iteration = 0;
-  function physics(el: HTMLImageElement) {
-    iteration++;
-    el.style.left = `${Number(el.style.left.slice(0, -2)) + vx}px`;
-    el.style.top = `${Number(el.style.top.slice(0, -2)) + vy}px`;
-    el.style.rotate = `${Number((el.style.rotate ?? "0deg").slice(0, -3)) + vx}deg`;
-    vy += 0.5;
-    if (Number(el.style.top.slice(0, -2)) < window.innerHeight)
-      setTimeout(() => {
-        physics(el);
-      }, 10);
-    else el.remove();
-  }
-  physics(landingCatRef.value);
-}
-
-function toggle() {
-  if (isYoda.value || !landingCatRef.value) return;
-  clicks.value++;
-  if (Math.random() > 0.7) count--;
-  if (count > 0) return;
-  isYoda.value = !isYoda.value;
-  bye();
-}
-
-// for vitest
-defineExpose({ isYoda, clicks, startingCount, toggle });
 </script>
 
 <style scoped></style>

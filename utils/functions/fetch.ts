@@ -31,17 +31,19 @@ export async function tryCatch<T, E = Error>(promise: Promise<T>): Promise<Resul
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ * @param bypassError - whether to handle errors manually. Defaults to `false`. **Should only be used for confirmResetPassword**.
  */
-export async function requestEndpoint(endpoint: string, method?: string, body?: object): Promise<void>;
+export async function requestEndpoint(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<void>;
 /** Makes a request to the given endpoint with the given method and body.
  * @template T - the type of the request's response
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ * @param bypassError - whether to handle errors manually. Defaults to `false`. **Should only be used for confirmResetPassword**.
  * @returns the JSON response from the request.
  */
-export async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T>;
-export async function requestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<T | void> {
+export async function requestEndpoint<T>(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<T>;
+export async function requestEndpoint<T>(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<T | void> {
   const config = useRuntimeConfig();
   const options: RequestInit = { credentials: "include" };
   if (method) {
@@ -51,7 +53,7 @@ export async function requestEndpoint<T>(endpoint: string, method?: string, body
   }
 
   const res = await fetch(config.public.backend + endpoint, options);
-  if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`);
+  if (!bypassError && !res.ok) throw new Error(`Failed to fetch ${endpoint}`);
 
   const contentLength = res.headers.get("Content-Length");
   if (contentLength === "0") return undefined as T;
@@ -63,16 +65,18 @@ export async function requestEndpoint<T>(endpoint: string, method?: string, body
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ * @param bypassError - whether to handle errors manually. Defaults to `false`. **Should only be used for confirmResetPassword**.
  */
-export async function tryRequestEndpoint(endpoint: string, method?: string, body?: object): Promise<Result<void>>;
+export async function tryRequestEndpoint(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<Result<void>>;
 /** **Serves as a wrapper for `tryCatch(requestEndpoint())`.**
  * @template T - the type of the request's response
  * @param endpoint - the endpoint to request. It will be automatically appended to the base URL, **so it should NOT start with a `/`**.
  * @param method - the HTTP method to use for the request. Defaults to `"GET"`.
  * @param body - the body of the request as an object. It will be automaitcally converted to a JSON object.
+ * @param bypassError - whether to handle errors manually. Defaults to `false`. **Should only be used for confirmResetPassword**.
  * @returns the JSON response from the request.
  */
-export async function tryRequestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<Result<T>>;
-export async function tryRequestEndpoint<T>(endpoint: string, method?: string, body?: object): Promise<Result<T | void>> {
-  return tryCatch(requestEndpoint<T>(endpoint, method, body));
+export async function tryRequestEndpoint<T, K = Error>(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<Result<T, K>>;
+export async function tryRequestEndpoint<T, K = Error>(endpoint: string, method?: string, body?: object, bypassError?: boolean): Promise<Result<T | void, K>> {
+  return tryCatch<T, K>(requestEndpoint<T>(endpoint, method, body, bypassError));
 }

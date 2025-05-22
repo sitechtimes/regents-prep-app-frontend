@@ -45,7 +45,7 @@ export default {
   },
   plugins: [daisyUi, flyonUi],
   daisyui: { prefix: "du-", logs: false },
-  flyonui: { prefix: "fo-", logs: false },
+  flyonui: { prefix: "fo-", logs: false, themes: ["light", "dark"] },
   darkMode: "selector",
   future: { hoverOnlyWhenSupported: true } // mobile support for hover until tailwind v4 is out and this is default behavior
 };

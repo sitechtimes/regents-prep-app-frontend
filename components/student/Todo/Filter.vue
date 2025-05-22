@@ -2,24 +2,24 @@
   <div class="relative flex flex-col items-start justify-start rounded-xl">
     <!-- filter button -->
     <button
-      class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 p-0 transition duration-500 lg:w-32 lg:justify-start lg:p-2 lg:px-4"
+      class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 p-0 lg:w-32 lg:justify-start lg:p-2 lg:px-4"
       :class="[buttonClass, !currentFilters.find((filter) => filter === 'all') ? 'bg-green-100 dark:bg-green-700' : 'bg-white dark:bg-neutral-800']"
       type="button"
       @click="showFilters = !showFilters"
     >
-      <img class="size-5 transition duration-500 dark:invert" src="/ui/filter.svg" aria-hidden="true" />
-      <p class="hidden grow transition duration-500 lg:block">Filter</p>
+      <img class="size-5 dark:invert" src="/ui/filter.svg" aria-hidden="true" />
+      <p class="hidden grow translate-y-px lg:block">Filter</p>
     </button>
 
     <!-- filters dropdown selection-->
     <Transition name="slide-up">
       <div
         v-show="showFilters"
-        class="absolute top-10 z-[2] flex w-52 flex-col items-start justify-center gap-1 rounded-xl border border-neutral-300 bg-white p-3 shadow-lg transition duration-500 dark:border-neutral-700 dark:bg-neutral-800"
+        class="absolute top-10 z-[2] flex w-52 flex-col items-start justify-center gap-1 rounded-xl border border-neutral-300 bg-white p-3 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
       >
         <button v-for="(filter, key) in filters" :key="key" class="du-label flex w-full cursor-pointer items-center justify-start gap-2" type="button" @click="selectFilter(key)">
           <input type="radio" class="!du-radio pointer-events-none" :style="{ backgroundColor: getCheckboxBgColor(key) }" :checked="currentFilters.includes(key)" />
-          <span class="text-left capitalize transition duration-500">{{ key }}</span>
+          <span class="translate-y-px text-left capitalize">{{ key }}</span>
         </button>
       </div>
     </Transition>
@@ -95,7 +95,7 @@ const buttonClass = computed(() =>
 <style scoped>
 .slide-up-enter-active,
 .slide-up-leave-active {
-  transition: all 0.15s ease-in-out;
+  transition: none 0.2s ease-in-out;
 }
 
 .slide-up-enter-from,

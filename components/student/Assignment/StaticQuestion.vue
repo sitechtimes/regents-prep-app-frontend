@@ -7,8 +7,8 @@
     <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
       <button
         type="button"
-        class="w-full rounded-lg bg-neutral-200 px-2 py-1 text-left shadow-sm hover:bg-neutral-500/50 sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
-        :class="{ 'bg-neutral-500/50 dark:bg-neutral-500/75': choice.selected }"
+        class="relative z-40 w-full rounded-lg bg-neutral-200 px-2 py-1 text-left shadow-sm hover:bg-neutral-400/50 hover:transition sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
+        :class="{ 'bg-neutral-400/50 dark:bg-neutral-500/75': choice.selected }"
         @click="selectChoice(choice)"
         v-html="choice.text"
       ></button>
@@ -17,24 +17,24 @@
     <!-- static assignment navigation -->
     <div class="mt-8 flex w-full items-center justify-between gap-1 px-3 xs:gap-6 xs:px-10">
       <button
-        class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
+        class="transition:hover relative z-40 flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
         type="button"
         :disabled="currentQuestionIndex === 0"
         :class="currentQuestionIndex === 0 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
         @click="emit('switchQuestion', 'previous')"
       >
-        <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrowLeft.svg" aria-hidden="true" />
-        <span class="hidden text-xl xs:block">Back</span>
+        <img class="size-5 group-hover:-translate-x-1 group-hover:transition dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
+        <span class="hidden translate-y-px text-xl xs:block">Back</span>
       </button>
       <button
-        class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
+        class="transition:hover flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
         type="button"
         :disabled="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
         :class="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
         @click="emit('switchQuestion', 'next')"
       >
-        <span class="hidden text-xl xs:block">Next</span>
-        <img class="size-5 group-hover:translate-x-1 dark:invert" src="/ui/arrowRight.svg" aria-hidden="true" />
+        <span class="hidden translate-y-px text-xl xs:block">Next</span>
+        <img class="size-5 group-hover:translate-x-1 group-hover:transition dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
       </button>
     </div>
 

@@ -98,6 +98,6 @@ defineExpose({ counter, yodas, spawnYoda });
 
 <style scoped>
 img {
-  transition: none;
+  transition: all;
 }
 </style>

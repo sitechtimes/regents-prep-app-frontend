@@ -1,18 +1,16 @@
 <template>
   <div class="relative w-full">
     <NuxtLink
-      class="relative flex h-fit w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
+      class="relative flex h-fit w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg hover:transition sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
       :to="`/teacher/course/${course.id}/${assignment.id}`"
     >
       <div class="du-dropdown du-dropdown-end du-dropdown-hover absolute right-2 top-2 z-10">
         <button class="rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-700" type="button" @click.stop.prevent>
-          <img src="/ui/ellipsisVertical.svg" alt="More options" class="h-5 w-5" />
+          <img src="/ui/ellipsis-vertical.svg" alt="More options" class="h-5 w-5" />
         </button>
         <ul tabindex="0" class="du-dropdown-content z-[1] w-52 rounded-lg border border-[var(--border-color)] bg-[var(--bg-color)] p-2 shadow">
           <li>
-            <button class="h-10 w-full rounded-lg pl-4 text-left transition-all duration-500 hover:bg-[#ff625aa9]" type="button" @click.stop.prevent="emit('deleteAssignment', assignment.id)">
-              Delete
-            </button>
+            <button class="h-10 w-full rounded-lg pl-4 text-left transition-all hover:bg-[#ff625aa9]" type="button" @click.stop.prevent="emit('deleteAssignment', assignment.id)">Delete</button>
           </li>
         </ul>
       </div>

@@ -1,16 +1,3 @@
-import sanitizeHtml from "sanitize-html";
-
-/** Sanitizes an HTML string
- * @param html - HTML string
- */
-function sanitize(html: string) {
-  return sanitizeHtml(html, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "src"]),
-    allowedAttributes: false,
-    allowedSchemes: ["http", "https", "data"]
-  });
-}
-
 /** Requests the `courses/courseId/assignments/` endpoint */
 export async function getAssignments<T extends StudentAssignment[] | TeacherAssignment[]>(courseId: number) {
   const data = await requestEndpoint<T>(`courses/${courseId}/assignments/`);
@@ -21,13 +8,13 @@ export async function getAssignments<T extends StudentAssignment[] | TeacherAssi
 /** Requests the `courses/student/get-next-dynamic-question/` endpoint */
 export async function getNextDynamicQuestion(assignmentId: number) {
   const data = await requestEndpoint<DynamicQuestionInterface>("courses/student/get-next-dynamic-question/", "POST", { id: assignmentId });
-  return { ...data, question: { ...data.question, text: sanitize(data.question.text) } };
+  return { ...data, question: { ...data.question, text: data.question.text.replaceAll("<script", "") } };
 }
 
 /** Requests the `courses/student/get-static-question/assignmentId/questionIndex/` endpoint */
 export async function getNextStaticQuestion(assignmentId: number, questionIndex: number) {
   const data = await requestEndpoint<StaticQuestionInterface>(`courses/student/get-static-question/${assignmentId}/${questionIndex}/`);
-  return { ...data, question: { ...data.question, text: sanitize(data.question.text) } };
+  return { ...data, question: { ...data.question, text: data.question.text.replaceAll("<script", "") } };
 }
 
 /** Requests the `courses/student/submit-answer/` endpoint */
@@ -38,10 +25,12 @@ export async function submitQuestionAnswer(questionId: number, answerId: number,
 /** Requests the `courses/teacher/create-assignment/` endpoint */
 export async function submitCreateAssignment(
   name: string,
-  courseID: number,
+  courseIDs: number[],
   guaranteedQuestions: number[],
   randomQuestions: number[],
-  dueDate: string,
+  randomTopics: number[],
+  excludedQuestions: number[],
+  dueDate: number,
   numQuestions: number,
   lateSubmissions: boolean,
   timeAllotted: number,
@@ -49,9 +38,11 @@ export async function submitCreateAssignment(
 ) {
   await requestEndpoint<void>(`courses/teacher/create-assignment/`, "POST", {
     name,
-    courseID,
+    courseIDs,
     guaranteedQuestions,
     randomQuestions,
+    randomTopics,
+    excludedQuestions,
     dueDate,
     numQuestions,
     lateSubmissions,
@@ -66,32 +57,8 @@ export async function submitCreateAssignment(
  * @param studentIds - An optional array of student IDs for which to get statistics. Defaults to all students.
  */
 export async function getTeacherQuestionStatistic<T extends boolean>(assignmentId: number, includeGuaranteedQuestions: T, studentIds?: number[]) {
-  return await requestEndpoint<StaticTeacherAssignmentStatistic<T> | DynamicTeacherAssignmentStatistic<T>>(
+  return await requestEndpoint<TeacherAssignmentStatistic<T>>(
     `/courses/teacher/assignment/${assignmentId}/per-question-statistics/${includeGuaranteedQuestions}/${studentIds ? studentIds.join(";") : 0}`
-  );
-}
-
-/** Requests the `courses/teacher/assignment/{assignmentId}/per-student-statistics/{includeStudentInfo}` endpoint
- * @param assignmentId - The ID of the assignment for which to get statistics.
- * @param includeGuaranteedQuestions - Whether to include student data, or just their IDs.
- */
-export async function getTeacherStudentStatistics<T extends boolean>(assignmentId: number, includeStudentInfo: T) {
-  const studentList = await requestEndpoint<StudentStatistic<T>[]>(`/courses/teacher/assignment/${assignmentId}/per-student-statistics/${includeStudentInfo}`);
-  for (const student of studentList) {
-    student.timeStarted = student.timeStarted ? new Date(student.timeStarted) : null;
-    student.dateSubmitted = student.dateSubmitted ? new Date(student.dateSubmitted) : null;
-  }
-  return studentList;
-}
-
-/** Requests the `courses/teacher/assignment/{assignmentId}/individualized-statistics/{studentId}/{includeQuestions}` endpoint
- * @param assignmentId - The ID of the assignment for which to get statistics.
- * @param studentIds - The student IDs for which to get statistics.
- * @param includeQuestions - Whether to include questions, or just their IDs.
- */
-export async function getIndividualStudentStatistics<T extends boolean>(assignmentId: number, includeQuestions: T) {
-  return await requestEndpoint<(StaticIndividualStudentStatistic<T> | DynamicIndividualStudentStatistic<T>)[]>(
-    `/courses/teacher/assignment/individualized-statistics/${assignmentId}/${includeQuestions}`
   );
 }
 
@@ -113,6 +80,17 @@ export async function confirmResetPassword(uid: string, token: string, newPasswo
     newPassword1,
     newPassword2
   });
+}
+
+/** Requests the `/questions/teacher/get-topic-paths/<topic_ids | semicolon-delimited list of integer ids in string form>/` endpoint
+ * @param topicIds - The topic IDs to get the paths for
+ *
+ * @returns number[][]. each array is a topic path; [2,3,4] would be the topic path for topic id 4
+ */
+export async function getTopicAncestorPaths(topicIds: number[]) {
+  if (topicIds.length === 0) return [];
+  // remove root because topic paths aren't stored starting with 1
+  return (await requestEndpoint<number[][]>(`questions/teacher/get-topic-paths/${topicIds.join(";")}/`)).map((path) => path.slice(1));
 }
 
 // https://nuxt.com/docs/guide/directory-structure/composables#how-files-are-scanned

@@ -3,7 +3,7 @@
     <div class="relative flex w-full flex-col items-center justify-center gap-1">
       <input
         v-model="searchTerm"
-        class="mb-6 h-10 w-2/3 rounded-lg border border-neutral-300 px-2 py-1 transition duration-300 focus:outline focus:outline-1 focus:outline-neutral-600/50 dark:border-neutral-600 dark:hover:border-neutral-300/50"
+        class="mb-6 h-10 w-2/3 rounded-lg border border-neutral-300 px-2 py-1 focus:outline focus:outline-1 focus:outline-neutral-600/50 dark:border-neutral-600 dark:hover:border-neutral-300/50"
         type="text"
         placeholder="Search for Student..."
       />
