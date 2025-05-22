@@ -21,12 +21,18 @@
     </div>
     <div class="mb-4 flex w-full flex-col">
       <!-- header row -->
-      <div class="flex items-center border-b border-neutral-300 py-2 dark:border-neutral-500">
-        <div class="w-16 text-center font-semibold">#</div>
-        <div class="flex-1 px-4 font-semibold">Question</div>
-        <div class="w-1/4 text-center font-semibold">Your Answer</div>
-        <div class="w-1/4 text-center font-semibold">Correct Answer</div>
-        <div class="w-1/4 text-center font-semibold">Result</div>
+      <div class="flex flex-wrap items-center border-b border-neutral-300 py-2 text-sm sm:text-base dark:border-neutral-500">
+        <div class="w-1/12 text-center font-semibold">#</div>
+        <div class="w-5/12 px-2 text-center font-semibold sm:text-left">Question</div>
+        <div class="w-2/12 text-center text-xs font-semibold sm:text-sm">
+          Your<br class="block sm:hidden" />
+          Answer
+        </div>
+        <div class="w-2/12 text-center text-xs font-semibold sm:text-sm">
+          Correct<br class="block sm:hidden" />
+          Answer
+        </div>
+        <div class="w-2/12 text-center font-semibold">Result</div>
       </div>
       <div
         v-for="(questionInstance, questionId) in assignmentResults.questionInstances"
@@ -35,33 +41,38 @@
         @click="dropdownStates[questionId] = !dropdownStates[questionId]"
       >
         <div class="flex items-center border-b border-neutral-300 py-2 hover:bg-neutral-200/50 dark:border-neutral-500 dark:hover:bg-neutral-600/20">
-          <button type="button" class="w-16 cursor-pointer text-center font-semibold">{{ questionId + 1 }}</button>
-          <div class="flex-1 px-4">
-            <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
+          <button type="button" class="w-1/12 cursor-pointer text-center font-semibold">{{ questionId + 1 }}</button>
+          <div class="w-5/12 px-2">
+            <span class="line-clamp-5 overflow-hidden sm:line-clamp-none" v-html="questionInstance.question.text"></span>
           </div>
-          <div v-if="questionInstance.dynamicUserAnswers" class="w-1/4 text-center">
+          <div v-if="questionInstance.dynamicUserAnswers" class="w-2/12 text-center">
             <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers?.map(String) ?? [])"></span>
           </div>
-          <div v-else-if="questionInstance.staticUserAnswer" class="w-1/4 text-center">
+          <div v-else-if="questionInstance.staticUserAnswer" class="w-2/12 text-center">
             <span v-html="getStaticUserAnswer(questionInstance.question, Number(questionInstance.staticUserAnswer) ?? 0)"></span>
           </div>
-          <div class="w-1/4 text-center" v-html="getCorrectAnswer(questionInstance.question)"></div>
-          <div class="w-1/4 text-center">
+
+          <div class="w-2/12 text-center" v-html="getCorrectAnswer(questionInstance.question)"></div>
+
+          <div class="w-2/12 text-center">
             <span
               v-if="questionInstance.dynamicUserAnswers && isDynamicAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })"
               class="text-green-600"
             >
-              ✔️
+              <img src="/ui/check.svg" class="inline h-5 w-5 align-middle" />
             </span>
             <span
               v-else-if="questionInstance.staticUserAnswer && isStaticAnswerCorrect({ question: questionInstance.question, staticUserAnswer: questionInstance.staticUserAnswer })"
               class="text-green-600"
             >
-              ✔️
+              <img src="/ui/check.svg" class="inline h-5 w-5 align-middle" />
             </span>
-            <span v-else class="text-red-600">❌</span>
+            <span v-else class="text-red-600">
+              <img src="/ui/close.svg" class="inline h-5 w-5 align-middle" />
+            </span>
           </div>
         </div>
+
         <!-- expanded question details -->
         <div v-show="dropdownStates[questionId]" class="dropdown-content rounded-md p-4">
           <p><strong>Question:</strong> <span v-html="questionInstance.question.text"></span></p>
