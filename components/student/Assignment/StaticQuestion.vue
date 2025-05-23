@@ -19,9 +19,9 @@
       <button
         class="relative z-40 flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 hover:transition sm:px-16 dark:bg-green-600"
         type="button"
-        :disabled="currentQuestionIndex === 0"
-        :class="currentQuestionIndex === 0 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
-        @click="emit('switchQuestion', 'previous')"
+        :disabled="onCooldown || currentQuestionIndex === 0"
+        :class="onCooldown || currentQuestionIndex === 0 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
+        @click="switchQuestion('previous')"
       >
         <img class="size-5 group-hover:-translate-x-1 group-hover:transition dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
         <span class="hidden translate-y-px text-xl xs:block">Back</span>
@@ -29,9 +29,13 @@
       <button
         class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 hover:transition sm:px-16 dark:bg-green-600"
         type="button"
-        :disabled="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
-        :class="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
-        @click="emit('switchQuestion', 'next')"
+        :disabled="onCooldown || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
+        :class="
+          onCooldown || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1
+            ? 'cursor-not-allowed opacity-50 brightness-75 grayscale'
+            : 'group hover:brightness-110 hover:dark:bg-green-700'
+        "
+        @click="switchQuestion('next')"
       >
         <span class="hidden translate-y-px text-xl xs:block">Next</span>
         <img class="size-5 group-hover:translate-x-1 group-hover:transition dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
@@ -58,6 +62,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   changeCurrentQuestion: [StaticQuestionInterface];
   switchQuestion: ["previous" | "next"];
+  triggerAutosave: [void];
 }>();
 
 const userStore = useUserStore();
@@ -69,12 +74,28 @@ const selectedChoice = defineModel<Answer>();
 const feedbackMessage = ref("");
 const errorMessage = ref("");
 
+const onCooldown = ref(false);
+function switchQuestion(direction: "previous" | "next") {
+  onCooldown.value = true;
+  emit("switchQuestion", direction);
+  setTimeout(() => (onCooldown.value = false), 300);
+}
+
+/** in unix milliseconds */
+let lastAutosave = Date.now();
 function selectChoice(choice: Answer) {
   if (!currentQuestion.value) return;
   if (choice.selected) choice.selected = false;
   else {
     currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
     choice.selected = true;
+  }
+  console.log(lastAutosave + 6000, Date.now());
+  // TODO: idk 
+  if (lastAutosave + 6000 >= Date.now()) {
+    lastAutosave = Date.now();
+    console.log("a");
+    emit("triggerAutosave");
   }
   selectedChoice.value = choice;
   (currentQuestion.value as StaticQuestionInterface).staticUserAnswer = choice.id;

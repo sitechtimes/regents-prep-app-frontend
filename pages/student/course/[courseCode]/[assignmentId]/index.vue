@@ -21,6 +21,7 @@
         :current-question-index="currentQuestionIndex"
         @change-current-question="(question) => (currentQuestion = question)"
         @switch-question="(direction) => switchQuestion(direction)"
+        @trigger-autosave="saveProgress"
       />
       <StudentAssignmentDynamicQuestion
         v-else-if="!currentAssignment.assignment.isStatic && currentQuestion && !('staticUserAnswer' in currentQuestion)"
