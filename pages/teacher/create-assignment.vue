@@ -415,7 +415,7 @@ async function createAssignment() {
       time.getTime() / 1000,
       assignmentInfo.numOfQuestions ?? 1,
       assignmentInfo.lateSubmissions,
-      assignmentInfo.timeAllotted ?? 0,
+      (assignmentInfo.timeAllotted ?? 0) * 60,
       assignmentInfo.attemptsAllowed ?? 0
     )
   );
