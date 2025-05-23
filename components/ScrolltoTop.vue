@@ -7,6 +7,7 @@
     </Transition>
   </div>
 </template>
+
 <script setup lang="ts">
 const showScrollToTop = ref(false);
 
@@ -27,6 +28,7 @@ onBeforeUnmount(() => {
   window.removeEventListener("scroll", checkScroll);
 });
 </script>
+
 <style scoped>
 .slide-from-right-enter-from {
   transform: translateX(100%);
