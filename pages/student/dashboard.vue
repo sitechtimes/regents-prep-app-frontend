@@ -24,11 +24,13 @@
         <StudentDashboardJoinClass :show="showJoinClass" @close="showJoinClass = false" />
       </div>
     </div>
-    <button v-if="showScrollToTop" class="fixed bottom-6 right-6 z-10 rounded-lg bg-gray-200 px-4 py-2 text-lg shadow-lg" type="button" @click="scrollToTop">↑</button>
+    <ScrolltoTop />
   </div>
 </template>
 
 <script setup lang="ts">
+import ScrolltoTop from "~/components/ScrolltoTop.vue";
+
 definePageMeta({
   layout: "student",
   requiresAuth: true,
@@ -50,23 +52,6 @@ watch(
     if (!query.course && !query.assignment) showNotFound.value = false;
   }
 );
-const showScrollToTop = ref(false);
-
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-function checkScroll() {
-  const pageHeight = document.documentElement.scrollHeight;
-  const viewportHeight = window.innerHeight;
-  const scrollTop = window.scrollY;
-
-  if (pageHeight > viewportHeight * 2 && scrollTop > viewportHeight / 2) {
-    showScrollToTop.value = true;
-  } else {
-    showScrollToTop.value = false;
-  }
-}
-
 onBeforeMount(() => {
   if (route.query.course || route.query.assignment) showNotFound.value = true;
 });
@@ -74,13 +59,7 @@ onBeforeMount(() => {
 onMounted(() => {
   studentCurrentCourse.value = undefined;
   loaded.value = true;
-  window.addEventListener("scroll", checkScroll);
 });
-
-onBeforeUnmount(() => {
-  window.removeEventListener("scroll", checkScroll);
-});
-
 // for vitest
 defineExpose({ studentCourses, showNotFound, showJoinClass, loaded });
 </script>
