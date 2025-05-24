@@ -85,23 +85,21 @@ function switchQuestion(direction: "previous" | "next") {
 let lastAutosave = Date.now();
 function selectChoice(choice: Answer) {
   if (!currentQuestion.value) return;
+
   if (choice.selected) choice.selected = false;
   else {
-    currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
+    currentQuestion.value.question.answers.forEach((answer) => (answer.selected = false));
     choice.selected = true;
   }
-  console.log(lastAutosave + 6000, Date.now());
-  // TODO: idk 
-  if (lastAutosave + 6000 >= Date.now()) {
+
+  if (Date.now() - lastAutosave >= 6000) {
     lastAutosave = Date.now();
-    console.log("a");
     emit("triggerAutosave");
   }
+
   selectedChoice.value = choice;
   (currentQuestion.value as StaticQuestionInterface).staticUserAnswer = choice.id;
-  storedStaticAnswers.value[props.currentQuestionIndex] = {
-    selectedChoice: { ...choice }
-  };
+  storedStaticAnswers.value[props.currentQuestionIndex] = { selectedChoice: { ...choice } };
 }
 
 async function getQuestionByIndex(index: number) {
