@@ -19,31 +19,23 @@
       </div>
       <span class="absolute inset-0 flex items-center justify-center text-xl font-semibold text-black"> {{ assignmentResults.questionsCorrect }}/{{ assignmentResults.numQuestions }} </span>
     </div>
-    <div class="mb-4 flex w-full flex-col">
+    <div class="flex w-full flex-col">
       <!-- header row -->
       <div class="flex flex-wrap items-center border-b border-neutral-300 py-2 text-sm sm:text-base dark:border-neutral-500">
         <div class="w-1/12 text-center font-semibold">#</div>
         <div class="w-5/12 px-2 text-center font-semibold sm:text-left">Question</div>
-        <div class="w-2/12 text-center text-xs font-semibold sm:text-sm">
-          Your<br class="block sm:hidden" />
-          Answer
-        </div>
-        <div class="w-2/12 text-center text-xs font-semibold sm:text-sm">
-          Correct<br class="block sm:hidden" />
-          Answer
-        </div>
+        <div class="w-2/12 text-center text-xs font-semibold sm:text-sm">Your Answer</div>
+        <div class="w-2/12 text-center text-xs font-semibold sm:text-sm">Correct Answer</div>
         <div class="w-2/12 text-center font-semibold">Result</div>
       </div>
-      <div
-        v-for="(questionInstance, questionId) in assignmentResults.questionInstances"
-        :key="questionId"
-        class="mb-4 flex flex-col rounded-md"
-        @click="dropdownStates[questionId] = !dropdownStates[questionId]"
-      >
-        <div class="flex items-center border-b border-neutral-300 py-2 hover:bg-neutral-200/50 dark:border-neutral-500 dark:hover:bg-neutral-600/20">
-          <button type="button" class="w-1/12 cursor-pointer text-center font-semibold">{{ questionId + 1 }}</button>
-          <div class="w-5/12 px-2">
-            <span class="line-clamp-5 overflow-hidden sm:line-clamp-none" v-html="questionInstance.question.text"></span>
+      <div v-for="(questionInstance, questionId) in assignmentResults.questionInstances" :key="questionId" class="flex flex-col rounded-md">
+        <div
+          class="flex cursor-pointer items-center border-b border-neutral-300 py-2 hover:bg-neutral-200/50 dark:border-neutral-500 dark:hover:bg-neutral-600/20"
+          @click="dropdownStates[questionId] = !dropdownStates[questionId]"
+        >
+          <button type="button" class="w-1/12 text-center font-semibold">{{ questionId + 1 }}</button>
+          <div class="w-5/12 px-4">
+            <span class="line-clamp-5 block overflow-hidden sm:line-clamp-none" v-html="questionInstance.question.text"></span>
           </div>
           <div v-if="questionInstance.dynamicUserAnswers" class="w-2/12 text-center">
             <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers?.map(String) ?? [])"></span>
@@ -56,33 +48,36 @@
 
           <div class="w-2/12 text-center">
             <span
-              v-if="questionInstance.dynamicUserAnswers && isDynamicAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })"
+              v-if="
+                (questionInstance.dynamicUserAnswers && isDynamicAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })) ||
+                (questionInstance.staticUserAnswer && isStaticAnswerCorrect({ question: questionInstance.question, staticUserAnswer: questionInstance.staticUserAnswer }))
               class="text-green-600"
             >
-              <img src="/ui/check.svg" class="inline h-5 w-5 align-middle" />
+              <img src="/ui/check.svg" class="inline h-5 w-5 align-middle dark:invert" />
             </span>
-            <span
-              v-else-if="questionInstance.staticUserAnswer && isStaticAnswerCorrect({ question: questionInstance.question, staticUserAnswer: questionInstance.staticUserAnswer })"
-              class="text-green-600"
-            >
-              <img src="/ui/check.svg" class="inline h-5 w-5 align-middle" />
-            </span>
-            <span v-else class="text-red-600">
-              <img src="/ui/close.svg" class="inline h-5 w-5 align-middle" />
+            <span v-else>
+              <img src="/ui/close.svg" class="inline h-5 w-5 align-middle dark:invert" />
             </span>
           </div>
         </div>
 
         <!-- expanded question details -->
-        <div v-show="dropdownStates[questionId]" class="dropdown-content rounded-md p-4">
-          <p><strong>Question:</strong> <span v-html="questionInstance.question.text"></span></p>
-          <p><strong>Choices:</strong></p>
-          <ul>
-            <li v-for="(answer, index) in questionInstance.question.answers" :key="index" class="flex items-center">
-              <span class="mr-2">{{ String.fromCharCode(65 + index) }}.</span>
-              <span v-html="answer.text"></span>
-            </li>
-          </ul>
+        <div v-show="dropdownStates[questionId]" class="dropdown-content border-x border-b border-neutral-300 bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-800/30">
+          <div class="ml-[8.33%] w-[41.67%] p-4">
+            <p class="mb-2"><strong>Question:</strong> <span v-html="questionInstance.question.text"></span></p>
+            <p class="mb-1"><strong>Choices:</strong></p>
+            <ul class="space-y-1">
+              <li
+                v-for="(answer, index) in questionInstance.question.answers"
+                :key="index"
+                class="flex items-start rounded-md px-2 py-1"
+                :class="answer.isCorrect ? 'bg-green-100 font-semibold text-green-700 dark:bg-green-900/40' : ''"
+              >
+                <span class="mr-2">{{ String.fromCharCode(65 + index) }}.</span>
+                <span v-html="answer.text"></span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
