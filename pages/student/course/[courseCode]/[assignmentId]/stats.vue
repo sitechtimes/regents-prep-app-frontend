@@ -51,6 +51,7 @@
               v-if="
                 (questionInstance.dynamicUserAnswers && isDynamicAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })) ||
                 (questionInstance.staticUserAnswer && isStaticAnswerCorrect({ question: questionInstance.question, staticUserAnswer: questionInstance.staticUserAnswer }))
+              "
               class="text-green-600"
             >
               <img src="/ui/check.svg" class="inline h-5 w-5 align-middle dark:invert" />
