@@ -34,7 +34,7 @@
       </div>
 
       <div v-if="!isPrinting" class="flex w-full items-center justify-center gap-3">
-        <TeacherAssignmentCreateInput v-model="assignmentInfo.dueDate.date" class="w-[45%]" type="date" label="Due" required :min="currentDateISO" />
+        <TeacherAssignmentCreateInput v-model="assignmentInfo.dueDate.date" class="w-[45%]" type="date" label="Due" />
         <TeacherAssignmentCreateInput v-model="assignmentInfo.dueDate.time" class="w-[45%]" type="time" required />
       </div>
 
