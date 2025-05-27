@@ -21,6 +21,7 @@
         :current-question-index="currentQuestionIndex"
         @change-current-question="(question) => (currentQuestion = question)"
         @switch-question="(direction) => switchQuestion(direction)"
+        @trigger-autosave="saveProgress"
       />
       <StudentAssignmentDynamicQuestion
         v-else-if="!currentAssignment.assignment.isStatic && currentQuestion && !('staticUserAnswer' in currentQuestion)"
@@ -140,7 +141,8 @@ watch(isSaved, async (val) => {
   if (val) isSaved.value = false;
 });
 async function saveProgress() {
-  if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
+  if (!currentAssignment.value?.assignment.isStatic || !currentQuestion.value) return; // ! dynamic assingments shouldnt be automatically saved
+
   if (selectedChoice.value) {
     const [newTimestamp, diff] = getDeltaTime(timestamp.value);
     timestamp.value = newTimestamp;
@@ -154,10 +156,7 @@ async function saveProgress() {
   }
 }
 // increment time on index change
-watch(currentQuestionIndex, async () => {
-  if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
-  await saveProgress();
-});
+watch(currentQuestionIndex, saveProgress);
 
 async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
@@ -181,9 +180,7 @@ function handleVisibilityTime() {
   else timestamp.value = Date.now();
 }
 
-let unguardRoute: () => void;
 onMounted(() => {
-  unguardRoute = router.beforeEach(() => void saveProgress());
   assignmentInProgress.value = true;
   window.addEventListener("beforeunload", warnForUnsavedChanges);
   window.addEventListener("visibilitychange", handleVisibilityTime);
@@ -195,7 +192,6 @@ onBeforeUnmount(incrementTime);
 onUnmounted(() => currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false)));
 
 onUnmounted(() => {
-  unguardRoute();
   window.removeEventListener("visibilitychange", handleVisibilityTime);
   window.removeEventListener("beforeunload", warnForUnsavedChanges);
 });
