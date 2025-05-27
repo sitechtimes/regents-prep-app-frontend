@@ -2,7 +2,7 @@
   <div>
     <Transition name="slide-from-right">
       <button v-show="showScrollToTop" class="fixed bottom-6 right-6 z-10 rounded-lg bg-gray-200 px-2 py-2 text-lg shadow-lg" type="button" @click="scrollToTop">
-        <img src="../public/ui/arrow-up.svg" class="h-6 w-6" />
+        <img src="/ui/arrow-up.svg" class="h-6 w-6" />
       </button>
     </Transition>
   </div>
@@ -30,30 +30,20 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.slide-from-right-enter-from {
+.slide-from-right-enter-from,
+.slide-from-right-leave-to {
   transform: translateX(100%);
   opacity: 0;
 }
-.slide-from-right-enter-active {
-  transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
-}
-.slide-from-right-enter-to {
-  transform: translateX(0);
-  opacity: 1;
-}
-.slide-from-right-leave-from {
-  transform: translateX(0);
-  opacity: 1;
-}
+.slide-from-right-enter-active,
 .slide-from-right-leave-active {
   transition:
     transform 0.3s ease,
     opacity 0.3s ease;
 }
-.slide-from-right-leave-to {
-  transform: translateX(100%);
-  opacity: 0;
+.slide-from-right-enter-to,
+.slide-from-right-leave-from {
+  transform: translateX(0);
+  opacity: 1;
 }
 </style>

@@ -29,8 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import ScrolltoTop from "~/components/ScrolltoTop.vue";
-
 definePageMeta({
   layout: "student",
   requiresAuth: true,
@@ -60,6 +58,7 @@ onMounted(() => {
   studentCurrentCourse.value = undefined;
   loaded.value = true;
 });
+
 // for vitest
 defineExpose({ studentCourses, showNotFound, showJoinClass, loaded });
 </script>

@@ -21,8 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import ScrolltoTop from "~/components/ScrolltoTop.vue";
-
 definePageMeta({
   layout: "student",
   requiresAuth: true,

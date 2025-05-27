@@ -29,8 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import ScrolltoTop from "~/components/ScrolltoTop.vue";
-
 definePageMeta({
   layout: "teacher",
   requiresAuth: true,
@@ -46,6 +44,7 @@ const loaded = ref(false);
 const showCreateClass = ref(false);
 
 const sortedTeacherCourses = computed(() => teacherCourses.value.sort((a, b) => a.period - b.period));
+
 watch(
   () => route.query,
   (query) => {
