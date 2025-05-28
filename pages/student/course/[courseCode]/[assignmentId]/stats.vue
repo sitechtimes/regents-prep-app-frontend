@@ -37,7 +37,13 @@
       >
         <div class="flex items-center border-t border-neutral-300 py-2 dark:border-neutral-500">
           <div class="flex w-1/12 items-center justify-center">
-            <img class="size-5 transition-transform duration-300 dark:invert" :class="{ 'rotate-180': dropdownStates[questionId] }" src="/ui/chevron-down.svg" aria-hidden="true" />
+            <img
+              class="size-5 select-none transition-transform duration-300 dark:invert"
+              :class="{ 'rotate-180': dropdownStates[questionId] }"
+              src="/ui/chevron-down.svg"
+              aria-hidden="true"
+              draggable="false"
+            />
           </div>
 
           <div class="w-1/12 text-center font-semibold">{{ questionId + 1 }}</div>
@@ -63,8 +69,8 @@
                   ? 'green-check'
                   : 'red-close'
               }.svg`"
+              class="inline h-5 w-5 select-none align-middle"
               draggable="false"
-              class="inline h-5 w-5 align-middle"
             />
           </div>
         </div>
