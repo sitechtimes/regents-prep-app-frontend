@@ -141,7 +141,6 @@
     <div class="flex w-full flex-col border-neutral-600/50 px-4 lg:-mr-4 lg:max-h-full lg:overflow-y-auto lg:border-l dark:border-neutral-300/50">
       <div class="pb-4">
         <TeacherAssignmentQuestionCatalog
-          v-if="mode === 'create'"
           :view-only="false"
           :current-questions="assignmentInfo.questions"
           :current-topic-ids="assignmentInfo.topicPaths"
@@ -150,22 +149,6 @@
           @select-topic="addTopic"
           @toggle-exclusion="toggleExclusion"
         />
-        <div v-else>
-          <StudentAssignmentStaticQuestion
-            v-if="previewStudentAssignment.assignment.isStatic"
-            :current-assignment="previewStudentAssignment"
-            :current-question-index="currentQuestionIndex"
-            @change-current-question="(question) => (currentQuestion = question)"
-            @switch-question="(direction) => switchQuestion(direction)"
-          />
-          <StudentAssignmentDynamicQuestion
-            v-else
-            :current-assignment="previewStudentAssignment"
-            :current-question-index="currentQuestionIndex"
-            :timestamp="timestamp"
-            @go-next-question="switchQuestion('next')"
-          />
-        </div>
       </div>
     </div>
 
@@ -212,8 +195,6 @@ watch(
   { immediate: true }
 );
 
-const mode = ref<"create" | "preview">("create");
-
 const assignmentInfo = reactive({
   name: "",
   dueDate: {
@@ -255,29 +236,6 @@ const randomLength = computed(() => {
   // and then blow up excluded questions
   count -= assignmentInfo.excludedQuestions.length;
   return count;
-});
-
-const previewStudentAssignment = computed(() => {
-  const [year, month, day] = assignmentInfo.dueDate.date.split("-").map(Number);
-  const [hours, minutes] = assignmentInfo.dueDate.time.split(":").map(Number);
-  const time = new Date(year, month - 1, day, hours, minutes);
-
-  return {
-    dateSubmitted: null,
-    questionsCompleted: 0,
-    questionsCorrect: 0,
-    id: 0,
-    assignment: {
-      attemptsAllowed: assignmentInfo.attemptsAllowed ?? 0,
-      name: assignmentInfo.name,
-      numQuestions: assignmentInfo.numOfQuestions ?? 0,
-      lateSubmissions: assignmentInfo.lateSubmissions,
-      dueDate: time,
-      dateAssigned: new Date(),
-      isStatic: guaranteedLength.value === assignmentInfo.numOfQuestions,
-      questionInterfaces: {}
-    }
-  } satisfies StudentAssignment;
 });
 
 const warn = computed(() => {
