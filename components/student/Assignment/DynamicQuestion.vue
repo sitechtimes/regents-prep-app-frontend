@@ -3,7 +3,7 @@
     <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="mb-2 w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
 
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-    <p class="answer-choice overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
+    <p class="answer-choice question-text text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
     <div class="relative flex w-full flex-col">
       <!-- multiple choice selection -->
@@ -149,5 +149,9 @@ watch(
 <style scoped>
 .answer-choice img {
   @apply dark:invert;
+}
+
+.question-text p {
+  @apply min-h-20 overflow-y-scroll;
 }
 </style>

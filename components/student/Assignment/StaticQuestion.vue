@@ -1,7 +1,7 @@
 <template>
   <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-    <p class="answer-choice overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
+    <p class="answer-choice question-text text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
     <!-- multiple choice selection -->
     <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
@@ -152,5 +152,9 @@ watch(
 <style scoped>
 .answer-choice img {
   @apply dark:invert;
+}
+
+.question-text p {
+  @apply min-h-20 overflow-y-scroll;
 }
 </style>
