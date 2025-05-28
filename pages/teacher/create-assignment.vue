@@ -1,7 +1,7 @@
 <template>
   <!-- evil margins and paddings are because layouts have innate p-4 and this page has WACKY scroll shenanigans... -->
   <div class="-m-4 flex w-auto flex-col px-4 lg:h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-4rem)] lg:flex-row lg:overflow-y-hidden">
-    <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:max-2xl:overflow-y-scroll" @submit.prevent="handleSubmit">
+    <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-scroll" @submit.prevent="handleSubmit">
       <h1 v-if="!isPrinting" class="text-2xl font-bold">Create Assignment</h1>
       <h1 v-else class="text-2xl font-bold">Print Worksheet</h1>
 
