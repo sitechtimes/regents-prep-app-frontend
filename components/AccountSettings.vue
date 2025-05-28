@@ -1,6 +1,6 @@
 <template>
   <div class="du-dropdown du-dropdown-end" style="position: relative">
-    <img tabindex="0" role="button" class="size-10 cursor-pointer outline-none dark:invert" src="/ui/user.svg" alt="Open account settings" @click="toggleDropdown" />
+    <img tabindex="0" role="button" class="size-10 cursor-pointer select-none outline-none dark:invert" src="/ui/user.svg" alt="Open account settings" draggable="false" @click="toggleDropdown" />
     <ul
       v-show="isOpen"
       tabindex="0"

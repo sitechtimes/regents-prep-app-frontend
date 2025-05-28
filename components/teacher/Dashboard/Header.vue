@@ -2,14 +2,14 @@
   <header class="sticky top-0 z-30 grid h-16 w-full grid-cols-3 border-b border-neutral-300 bg-body px-5 dark:border-neutral-600">
     <div class="flex items-center justify-start gap-3">
       <button type="button" class="group flex size-10 cursor-pointer items-center justify-center rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700" @click="emit('toggleSideMenu')">
-        <img class="size-8 group-active:scale-95 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" />
+        <img class="size-8 select-none group-active:scale-95 dark:invert" src="/ui/hamburger.svg" alt="Open navigation menu" draggable="false" />
       </button>
     </div>
 
     <div class="flex items-center justify-center">
       <NuxtLink to="/teacher/dashboard" class="group flex items-center justify-center gap-2">
         <span class="hidden text-2xl font-semibold group-hover:-translate-x-0.5 sm:block">Regents</span>
-        <img class="size-12 rounded-full group-hover:scale-105 group-active:scale-95" src="/seagull.png" aria-hidden="true" />
+        <img class="size-12 select-none rounded-full group-hover:scale-105 group-active:scale-95" src="/seagull.png" aria-hidden="true" draggable="false" />
         <span class="hidden text-2xl font-semibold group-hover:translate-x-0.5 sm:block">Prep</span>
       </NuxtLink>
     </div>
@@ -24,7 +24,7 @@
         data-tip="Create a class"
         @click="showClassModal = !showClassModal"
       >
-        <img class="size-7 group-active:scale-90 dark:invert" src="/ui/plus.svg" alt="Create a new course" />
+        <img class="size-7 select-none group-active:scale-90 dark:invert" src="/ui/plus.svg" alt="Create a new course" draggable="false" />
       </button>
       <ToggleTheme />
       <AccountSettings />

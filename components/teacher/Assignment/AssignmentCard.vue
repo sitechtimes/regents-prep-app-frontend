@@ -6,7 +6,7 @@
     >
       <div class="du-dropdown du-dropdown-end absolute right-2 top-2 z-10">
         <button class="rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-700" type="button" @click.stop.prevent="toggleDropdown">
-          <img src="/ui/ellipsis-vertical.svg" alt="More options" class="h-5 w-5" />
+          <img src="/ui/ellipsis-vertical.svg" alt="More options" class="h-5 w-5 select-none" draggable="false" />
         </button>
         <ul
           v-show="isOpen"

@@ -1,6 +1,6 @@
 <template>
   <button
-    class="border-b-4 px-4 transition"
+    class="select-none border-b-4 px-4 transition"
     :class="{ 'grayscale hover:grayscale-[.66]': isInactive }"
     :style="{ borderColor: subjectColors[course.subject] }"
     type="button"

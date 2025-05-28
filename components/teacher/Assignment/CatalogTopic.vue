@@ -6,7 +6,7 @@
   >
     <!-- !🐴 <span class="font-mono text-red-500">{{ loadedTopics[typeof topic === "number" ? topic : topic.id]?.id }}</span> -->
     <p class="text-left text-xl font-semibold" v-html="loadedTopics[typeof topic === 'number' ? topic : topic.id]?.name"></p>
-    <img class="size-7 group-hover:translate-x-1.5 dark:invert" src="/ui/chevron-right.svg" alt="Click to expand" />
+    <img class="size-7 select-none group-hover:translate-x-1.5 dark:invert" src="/ui/chevron-right.svg" alt="Click to expand" draggable="false" />
   </button>
 </template>
 
