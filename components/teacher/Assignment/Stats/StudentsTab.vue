@@ -89,9 +89,7 @@ watch(currentStudent, async (student) => {
 
   if (loadedStudentStatistics[student.id]) currentStudentStatistics.value = loadedStudentStatistics[student.id];
   else {
-    const { data, error } = await tryRequestEndpoint<(StaticIndividualStudentStatistic | DynamicIndividualStudentStatistic)[]>(
-      `/courses/teacher/assignment/individualized-statistics/${props.currentAssignment.id}/true/`
-    );
+    const { data, error } = await tryRequestEndpoint<IndividualStudentStatistic[]>(`/courses/teacher/assignment/individualized-statistics/${student.id}/true/`);
     if (error) return console.error(error);
 
     loadedStudentStatistics[student.id] = data;
