@@ -57,7 +57,7 @@ export const useUserStore = defineStore("userStore", () => {
   }
 
   async function init() {
-    const { data, error } = await tryRequestEndpoint<LoginSuccess, LoginFailure>("init/");
+    const { data, error } = await tryRequestEndpoint<LoginSuccess, LoginFailure>("init/false/");
     if (error) return;
 
     handleLoginData(data);
