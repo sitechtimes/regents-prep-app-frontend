@@ -26,6 +26,8 @@ export interface StudentAssignment extends Assignment {
     dueDate: Date;
     /**Date object of when the assignment was assigned (Date(UTC)). */
     dateAssigned: Date;
+    /**Time allotted for the assignment. */
+    timeAllotted: number | null;
     /** @readonly If the assignment is a static assignment.*/
     readonly isStatic: boolean;
     /** @readonly Object identifying the course assignment belongs to.

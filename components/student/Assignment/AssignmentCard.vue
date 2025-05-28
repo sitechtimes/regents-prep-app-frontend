@@ -43,6 +43,10 @@
         <p>{{ assignment.questionsCorrect > -1 ? "Graded" : "Ungraded" }}</p>
         <div class="h-2 w-2 rounded-full" :class="assignment.questionsCorrect === undefined ? 'bg-red-600' : 'bg-green-600'"></div>
       </div>
+
+      <div v-if="assignment.assignment.timeAllotted" class="flex items-center justify-center gap-2">
+        <p>Timed Assignment</p>
+      </div>
     </div>
   </NuxtLink>
 </template>
