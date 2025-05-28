@@ -5,8 +5,8 @@
   >
     <label class="du-swap du-swap-rotate">
       <input type="checkbox" class="theme-controller" value="synthwave" @click="isDarkMode = !isDarkMode" />
-      <img class="du-swap-off size-9 fill-current p-1 dark:invert" src="/ui/sun.svg" alt="Switch to dark mode" />
-      <img class="du-swap-on size-9 fill-current p-1 dark:invert" src="/ui/moon.svg" alt="Switch to light mode" />
+      <img class="du-swap-off size-9 fill-current p-1 dark:invert" src="/ui/sun.svg" alt="Switch to dark mode" draggable="false" />
+      <img class="du-swap-on size-9 fill-current p-1 dark:invert" src="/ui/moon.svg" alt="Switch to light mode" draggable="false" />
     </label>
   </div>
 </template>
