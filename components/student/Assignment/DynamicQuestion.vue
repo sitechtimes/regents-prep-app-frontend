@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
+  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-start overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
     <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="mb-2 w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
 
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
@@ -10,7 +10,7 @@
       <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
         <button
           type="button"
-          class="w-full rounded-lg bg-neutral-200 px-6 py-3 text-left shadow-sm hover:bg-neutral-400/50 hover:transition dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
+          class="relative z-40 w-full rounded-lg bg-neutral-200 px-2 py-1 text-left shadow-sm hover:bg-neutral-400/50 hover:transition sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
           :class="{
             'bg-neutral-400/50 dark:bg-neutral-500/75': choice.selected && choice.isCorrect === undefined,
             '!bg-green-500/50 dark:!bg-green-500/75': choice.isCorrect,
