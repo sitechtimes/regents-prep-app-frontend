@@ -1,6 +1,6 @@
 <template>
   <div class="du-dropdown du-dropdown-end du-dropdown-hover">
-    <img tabindex="0" role="button" class="size-10 outline-none dark:invert" src="/ui/user.svg" alt="Open account settings" />
+    <img tabindex="0" role="button" class="size-10 select-none outline-none dark:invert" src="/ui/user.svg" alt="Open account settings" draggable="false" />
     <ul tabindex="0" class="du-dropdown-content z-[1] w-52 rounded-lg border border-[var(--border-color)] bg-[var(--bg-color)] p-2 shadow">
       <li>
         <h3 class="text h-10 w-full pl-4 pt-1 text-left font-medium">{{ userStore.name }}</h3>
