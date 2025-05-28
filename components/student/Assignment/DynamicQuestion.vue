@@ -7,19 +7,28 @@
 
     <div class="relative flex w-full flex-col">
       <!-- multiple choice selection -->
-      <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
-        <button
-          type="button"
-          class="relative z-40 w-full rounded-lg bg-neutral-200 px-2 py-1 text-left shadow-sm hover:bg-neutral-400/50 hover:transition sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
-          :class="{
-            'bg-neutral-400/50 dark:bg-neutral-500/75': choice.selected && choice.isCorrect === undefined,
-            '!bg-green-500/50 dark:!bg-green-500/75': choice.isCorrect,
-            '!bg-red-500/50 dark:!bg-red-500/75': choice.isCorrect === false
-          }"
-          @click="selectChoice(choice)"
-          v-html="choice.text"
-        ></button>
-      </div>
+      <button
+        v-if="currentQuestion?.question.answerType === 'Multiple Choice'"
+        v-for="choice in currentQuestion?.question.answers"
+        type="button"
+        class="relative z-40 mt-4 flex w-full items-center justify-between rounded-lg bg-neutral-200 px-2 py-1 shadow-sm hover:bg-neutral-400/50 hover:transition sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
+        :class="{
+          'bg-neutral-400/50 dark:bg-neutral-500/75': choice.selected && choice.isCorrect === undefined,
+          '!bg-green-500/50 dark:!bg-green-500/75': choice.isCorrect,
+          '!bg-red-500/50 dark:!bg-red-500/75': choice.isCorrect === false
+        }"
+        @click="selectChoice(choice)"
+      >
+        <p class="w-full text-left" v-html="choice.text"></p>
+        <Transition name="fade">
+          <img
+            v-if="choice.isCorrect !== undefined"
+            class="size-6 shrink-0"
+            :src="`/ui/${choice.isCorrect ? 'check' : 'close'}.svg`"
+            :alt="`Your answer was ${choice.isCorrect ? 'correct' : 'incorrect'}.`"
+          />
+        </Transition>
+      </button>
 
       <!-- dynamic assignments submit question button -->
       <div class="mt-8 flex w-full items-center justify-between gap-6 px-10">
@@ -49,7 +58,7 @@
           @click="nextQuestion"
         >
           <span class="hidden translate-y-px text-xl xs:block">Next</span>
-          <img class="size-5 shrink-0 group-hover:translate-x-1 dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
+          <img class="size-5 shrink-0 group-hover:translate-x-1 group-hover:transition dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -147,6 +156,16 @@ watch(
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .answer-choice img {
   @apply dark:invert;
 }
