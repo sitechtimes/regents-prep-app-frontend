@@ -21,6 +21,7 @@
         :current-question-index="currentQuestionIndex"
         @change-current-question="(question) => (currentQuestion = question)"
         @switch-question="(direction) => switchQuestion(direction)"
+        @trigger-autosave="saveProgress"
       />
       <StudentAssignmentDynamicQuestion
         v-else-if="!currentAssignment.assignment.isStatic && currentQuestion && !('staticUserAnswer' in currentQuestion)"
@@ -140,7 +141,8 @@ watch(isSaved, async (val) => {
   if (val) isSaved.value = false;
 });
 async function saveProgress() {
-  if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
+  if (!currentAssignment.value?.assignment.isStatic || !currentQuestion.value) return; // ! dynamic assingments shouldnt be automatically saved
+
   if (selectedChoice.value) {
     const [newTimestamp, diff] = getDeltaTime(timestamp.value);
     timestamp.value = newTimestamp;
@@ -154,10 +156,7 @@ async function saveProgress() {
   }
 }
 // increment time on index change
-watch(currentQuestionIndex, async () => {
-  if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
-  await saveProgress();
-});
+watch(currentQuestionIndex, saveProgress);
 
 async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
