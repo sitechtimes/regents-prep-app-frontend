@@ -74,7 +74,7 @@ async function loginWithEmail() {
   loginErr.value = "";
   if (emailErr.value || loginErr.value) return;
   loading.value = true;
-  const data = await userStore.login(email.value, password.value);
+  const data = await userStore.login(email.value.toLowerCase(), password.value);
   if (!data) {
     void router.push(`${userStore.userType}/dashboard`);
   } else {
