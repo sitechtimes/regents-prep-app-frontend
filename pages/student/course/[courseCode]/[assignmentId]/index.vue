@@ -1,5 +1,5 @@
 <template>
-  <div v-if="studentCurrentCourse && currentAssignment && assignmentInProgress" class="flex h-dvh w-full items-center justify-start gap-10 overflow-y-scroll">
+  <div v-if="studentCurrentCourse && currentAssignment && assignmentInProgress" class="flex h-dvh w-full select-none items-center justify-start gap-10 overflow-y-scroll">
     <StudentAssignmentSidebar
       :assignment="currentAssignment"
       :current-question-index="currentQuestionIndex"
