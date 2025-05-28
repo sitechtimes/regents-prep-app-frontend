@@ -21,12 +21,9 @@ function checkScroll() {
 
   showScrollToTop.value = pageHeight > viewportHeight * 2 && scrollTop > viewportHeight / 2;
 }
-onMounted(() => {
-  window.addEventListener("scroll", checkScroll);
-});
-onBeforeUnmount(() => {
-  window.removeEventListener("scroll", checkScroll);
-});
+onMounted(() => window.addEventListener("scroll", checkScroll));
+
+onBeforeUnmount(() => window.removeEventListener("scroll", checkScroll));
 </script>
 
 <style scoped>
