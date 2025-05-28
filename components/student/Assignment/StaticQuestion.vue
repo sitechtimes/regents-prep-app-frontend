@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
+  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-start overflow-y-auto px-6 xs:px-24 xs:py-12">
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
     <p class="answer-choice question-text text-neutral-100" v-html="currentQuestion?.question.text"></p>
 

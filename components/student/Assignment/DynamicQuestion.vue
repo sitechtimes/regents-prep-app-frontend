@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-start overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
+  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-start overflow-y-auto px-6 xs:px-24 xs:py-12">
     <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="mb-2 w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
 
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
@@ -11,11 +11,11 @@
         v-if="currentQuestion?.question.answerType === 'Multiple Choice'"
         v-for="choice in currentQuestion?.question.answers"
         type="button"
-        class="relative z-40 mt-4 flex w-full items-center justify-between rounded-lg bg-neutral-200 px-2 py-1 shadow-sm hover:bg-neutral-400/50 hover:transition sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
+        class="relative z-40 mt-4 flex w-full items-center justify-between gap-3 rounded-lg bg-neutral-200 px-2 py-1 shadow-sm hover:bg-neutral-400/50 hover:transition sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
         :class="{
           'bg-neutral-400/50 dark:bg-neutral-500/75': choice.selected && choice.isCorrect === undefined,
-          '!bg-green-500/50 dark:!bg-green-500/75': choice.isCorrect,
-          '!bg-red-500/50 dark:!bg-red-500/75': choice.isCorrect === false
+          '!cursor-auto !bg-green-500/50 dark:!bg-green-500/75': choice.isCorrect,
+          '!cursor-auto !bg-red-500/50 dark:!bg-red-500/75': choice.isCorrect === false
         }"
         @click="selectChoice(choice)"
       >
@@ -99,7 +99,7 @@ function nextQuestion() {
 }
 
 function selectChoice(choice: Answer) {
-  if (!currentQuestion.value) return;
+  if (!currentQuestion.value || choice.isCorrect !== undefined) return;
   if (choice.selected) choice.selected = false;
   else {
     currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
