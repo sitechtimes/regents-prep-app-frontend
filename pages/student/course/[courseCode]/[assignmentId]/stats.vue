@@ -11,9 +11,9 @@
       <p>No assignment found for the provided ID.</p>
     </div>
     <div class="relative my-4 flex justify-center">
-      <div class="relative h-8 w-4/5 rounded-full border border-neutral-500 bg-red-400 dark:border-neutral-700 dark:bg-red-800">
+      <div class="relative h-8 w-4/5 overflow-hidden rounded-full border border-neutral-500 bg-red-400 dark:border-neutral-700 dark:bg-red-800">
         <div
-          class="h-full rounded-full bg-green-400 dark:bg-green-700"
+          class="h-full rounded-l-full bg-green-400 dark:bg-green-700"
           :style="{ width: ((assignmentResults.questionsCorrect ?? assignmentResults.questionsCompleted) / assignmentResults.numQuestions) * 100 + '%' }"
         ></div>
       </div>
