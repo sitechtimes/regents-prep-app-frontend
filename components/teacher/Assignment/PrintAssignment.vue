@@ -1,14 +1,19 @@
 <template>
-  <div class="question-container print w-full columns-2 gap-16">
-    <div v-for="(id, index) in questionIds" :key="id" class="question mb-8 inline-flex w-full gap-2 border-red-500">
-      <span class="relative min-w-8 max-w-8 text-right">{{ index + 1 }}.</span>
-
-      <div class="flex flex-col">
-        <span class="question-text mb-2 space-y-3" v-html="loadedQuestions[id].text"></span>
-        <div v-if="loadedQuestions[id].answerType === 'Multiple Choice'" class="w-fit columns-2 gap-2">
-          <div v-for="(answer, jndex) in loadedQuestions[id].answers" :key="answer.id" class="mb-1 flex gap-2">
-            <span class="min-w-4 max-w-4 text-right"> {{ String.fromCharCode(65 + jndex) }}) </span>
-            <span class="answer-text" v-html="answer.text"></span>
+  <div class="print">
+    <div class="relative col-span-2 mb-8 flex w-full text-2xl">
+      <span>Name:____________________________</span>
+      <span class="absolute inset-y-0 right-0 pr-16">Date:____________________________</span>
+    </div>
+    <div class="question-container relative w-full columns-2 gap-16">
+      <div v-for="(id, index) in questionIds" :key="id" class="question mb-8 inline-flex w-full gap-2 border-red-500">
+        <span class="relative min-w-8 max-w-8 text-right">{{ index + 1 }}.</span>
+        <div class="flex flex-col">
+          <span class="question-text mb-2 space-y-3" v-html="loadedQuestions[id].text"></span>
+          <div v-if="loadedQuestions[id].answerType === 'Multiple Choice'" class="w-fit columns-2 gap-2">
+            <div v-for="(answer, jndex) in loadedQuestions[id].answers" :key="answer.id" class="mb-1 flex gap-2">
+              <span class="min-w-4 max-w-4 text-right"> {{ String.fromCharCode(65 + jndex) }} </span>
+              <span class="answer-text" v-html="answer.text"></span>
+            </div>
           </div>
         </div>
       </div>
