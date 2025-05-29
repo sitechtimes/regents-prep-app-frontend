@@ -170,9 +170,7 @@ async function loadQuestions(topicId: number, offset?: number) {
     totalQuestions.value = data.count;
     // if root, store it separately (is not stored in loadedTopics)
     if (topicId === 1) totalQuestionCount.value = data.count;
-  } else {
-    totalQuestions.value = loadedTopics.value[topicId]?.numQuestions;
-  }
+  } else totalQuestions.value = loadedTopics.value[topicId]?.numQuestions;
 
   // add question ids, but no duplicates
   if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = Array.from(new Set([...loadedTopics.value[topicId].questionIds, ...questions.map((question) => question.id)]));
