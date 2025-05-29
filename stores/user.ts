@@ -89,7 +89,6 @@ export const useUserStore = defineStore("userStore", () => {
     name.value = data.name;
     userType.value = data.userType.toLowerCase() as "student" | "teacher";
     initTheme(data.name);
-    console.log("theme on login");
 
     if (data.userType === "Student") {
       courseToDate(data.courses);
