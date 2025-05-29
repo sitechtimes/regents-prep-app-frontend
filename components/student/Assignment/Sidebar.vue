@@ -43,7 +43,8 @@
       <h4 class="w-64 overflow-hidden overflow-ellipsis text-nowrap text-2xl font-medium" :title="assignment.assignment.name">{{ assignment.assignment.name }}</h4>
       <p class="text-sm font-bold">Due {{ formatDate(assignment.assignment.dueDate, currentDate) }}</p>
       <p class="text-sm text-neutral-700 dark:text-white">Assigned {{ formatDate(assignment.assignment.dateAssigned, currentDate) }}</p>
-      <p>Started {{ assignment.timeStarted ? formatDate(assignment.timeStarted, currentDate) : "Not started yet." }}</p>
+      <p>Started {{ formatDate(assignment.timeStarted, currentDate) }}</p>
+      <p>Current Time: {{ formatDate(currentDate, currentDate) }}</p>
 
       <div class="mt-4 w-full lg:mt-auto" :class="{ 'du-tooltip': !assignmentIsComplete }" data-tip="Complete all questions first!">
         <button
