@@ -21,7 +21,9 @@
               <td class="py-3 pl-10">{{ student.firstName }}</td>
               <td class="py-3 pl-10">{{ student.lastName }}</td>
               <td class="flex items-center justify-center py-3">
-                <button class="btn btn-sm transition-200 flex h-8 items-center justify-center rounded-xl bg-red-500 p-3 hover:brightness-125" type="button" @click="removeStudent(student)">✕</button>
+                <button class="btn btn-sm transition-200 flex h-8 items-center justify-center rounded-xl bg-red-500 p-1 hover:brightness-125" type="button" @click="removeStudent(student)">
+                  <img class="size-7 group-active:scale-90 dark:invert" src="/ui/trash.svg" alt="Remove Student" />
+                </button>
               </td>
             </tr>
             <tr v-if="filteredStudents.length === 0" class="border-t">
