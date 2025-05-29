@@ -5,26 +5,12 @@
       :to="`/teacher/course/${course.id}/${assignment.id}`"
     >
       <div class="du-dropdown du-dropdown-end absolute right-2 top-2 z-10">
-        <button class="rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-700" type="button" @click.stop.prevent="toggleDropdown">
+        <button class="rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-700" type="button" @click.prevent="isOpen = !isOpen">
           <img src="/ui/ellipsis-vertical.svg" alt="More options" class="h-5 w-5 select-none" draggable="false" />
         </button>
-        <ul
-          v-show="isOpen"
-          tabindex="0"
-          class="du-dropdown-content z-[1] w-52 rounded-lg border border-[var(--border-color)] bg-[var(--bg-color)] p-2 shadow transition-opacity duration-200"
-          @click.stop
-        >
+        <ul v-show="isOpen" tabindex="0" class="du-dropdown-content z-[1] w-52 rounded-lg border border-[var(--border-color)] bg-body p-2 shadow transition-opacity duration-200" @click.stop>
           <li>
-            <button
-              class="h-10 w-full rounded-lg pl-4 text-left transition-all hover:bg-[#ff625aa9]"
-              type="button"
-              @click.stop.prevent="
-                emit('deleteAssignment', assignment.id);
-                closeDropdown();
-              "
-            >
-              Delete
-            </button>
+            <button class="h-10 w-full rounded-lg pl-4 text-left transition-all hover:bg-red-400/70" type="button" @click.prevent="deleteAssignment">Delete</button>
           </li>
         </ul>
       </div>
@@ -52,19 +38,16 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   course: TeacherCourse;
   assignment: TeacherAssignment;
   currentDate: Date;
 }>();
-const emit = defineEmits<{ deleteAssignment: [number] }>();
+const emit = defineEmits<{ deleteAssignment: [void] }>();
 const isOpen = ref(false);
 
-function toggleDropdown() {
-  isOpen.value = !isOpen.value;
-}
-
-function closeDropdown() {
+function deleteAssignment() {
+  emit("deleteAssignment");
   isOpen.value = false;
 }
 </script>

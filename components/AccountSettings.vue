@@ -1,12 +1,7 @@
 <template>
-  <div class="du-dropdown du-dropdown-end" style="position: relative">
-    <img tabindex="0" role="button" class="size-10 cursor-pointer select-none outline-none dark:invert" src="/ui/user.svg" alt="Open account settings" draggable="false" @click="toggleDropdown" />
-    <ul
-      v-show="isOpen"
-      tabindex="0"
-      class="du-dropdown-content z-[1] w-52 rounded-lg border border-[var(--border-color)] bg-[var(--bg-color)] p-2 shadow"
-      style="position: absolute; top: 100%; right: 0"
-    >
+  <div class="du-dropdown du-dropdown-end">
+    <img tabindex="0" role="button" class="size-10 cursor-pointer select-none outline-none dark:invert" src="/ui/user.svg" alt="Open account settings" draggable="false" @click="isOpen = !isOpen" />
+    <ul v-show="isOpen" tabindex="0" class="du-dropdown-content z-[1] w-52 rounded-lg border border-[var(--border-color)] bg-body p-2 shadow">
       <li>
         <h3 class="text h-10 w-full pl-4 pt-1 text-left font-medium">{{ userStore.name }}</h3>
         <button class="h-10 w-full rounded-lg pl-4 text-left hover:bg-[#ff625aa9]" type="button" @click="confirmLogout">Logout</button>
@@ -18,10 +13,6 @@
 <script setup lang="ts">
 const userStore = useUserStore();
 const isOpen = ref(false);
-
-function toggleDropdown() {
-  isOpen.value = !isOpen.value;
-}
 
 function confirmLogout() {
   const confirmed = window.confirm("Are you sure you want to logout?");
