@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   course: TeacherCourse;
   assignment: TeacherAssignment;
   currentDate: Date;
