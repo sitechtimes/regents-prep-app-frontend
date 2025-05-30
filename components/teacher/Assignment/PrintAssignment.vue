@@ -1,8 +1,8 @@
 <template>
   <div class="print">
     <div class="relative col-span-2 mb-8 flex w-full text-2xl">
-      <span>Name:____________________________</span>
-      <span class="absolute inset-y-0 right-0 pr-16">Date:____________________________</span>
+      <span>Name: ____________________________</span>
+      <span class="absolute inset-y-0 right-0 pr-16">Date: ____________________________</span>
     </div>
     <div class="question-container relative w-full columns-2 gap-16">
       <div v-for="(id, index) in questionIds" :key="id" class="question mb-8 inline-flex w-full gap-2 border-red-500">
