@@ -10,7 +10,7 @@
         v-for="yoda in yodas"
         :key="yoda.created"
         class="pointer-events-none fixed select-none"
-        :draggable="false"
+        draggable="false"
         :style="{
           left: yoda.x + 'px',
           top: yoda.y + 'px',
@@ -25,6 +25,8 @@
 </template>
 
 <script setup lang="ts">
+/* eslint-disable id-length */
+
 useSeoMeta({
   title: "SITHS Regents Prep - 404",
   description: "Sorry, we couldn't find the page you were looking for. We'll keep searching!"
@@ -46,14 +48,14 @@ const yodas = reactive<Yoda[]>([]);
 let movementX = 0;
 let movementY = 0;
 let cooldown = 5;
-function spawnYoda(e: MouseEvent) {
-  movementX = e.movementX;
-  movementY = e.movementY;
+function spawnYoda(event: MouseEvent) {
+  movementX = event.movementX;
+  movementY = event.movementY;
   cooldown = 5;
   yodas.push({
-    x: e.screenX,
+    x: event.screenX,
     vx: movementX * 0.01,
-    y: e.screenY,
+    y: event.screenY,
     vy: movementY * 0.01,
     angle: 0,
     created: Date.now(),

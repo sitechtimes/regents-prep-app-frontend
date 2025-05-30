@@ -33,6 +33,8 @@ export default [
   {
     rules: {
       "array-callback-return": ["error", { allowImplicit: true }],
+      curly: ["error", "multi-line"],
+      "id-length": ["error", { exceptions: ["a", "b", "q", "t"] }], // .sort() and route queries
       "no-template-curly-in-string": "error",
       "no-unreachable-loop": "error",
       "no-use-before-define": "error",
