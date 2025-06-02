@@ -63,13 +63,14 @@ const questionStats = computed(() => {
   const questions: Record<number, QuestionStat> = {};
 
   statisticData.value.forEach((questionInstance) => {
-    if (!questions[questionInstance.question])
+    if (!questions[questionInstance.question]) {
       questions[questionInstance.question] = {
         totalTimeSpent: 0,
         totalInstances: 0,
         studentChoices: [],
         correctAnswer: multipleChoiceQuestions.value.find((question) => question.id === questionInstance.question)?.answers.find((answer) => answer.isCorrect)?.id ?? 0
       };
+    }
 
     const userAnswer = "staticUserAnswer" in questionInstance ? questionInstance.staticUserAnswer : questionInstance.dynamicUserAnswers.at(-1);
     if (!userAnswer) return;
