@@ -20,13 +20,9 @@ type LoginFailure =
 
 export const useUserStore = defineStore("userStore", () => {
   const router = useRouter();
-  // function getThemeKeyForUser(userName: string) {
-  //   return `theme-${userName}`;
-  // }
 
   const isAuth = ref(false);
   const isDarkMode = ref(false);
-  // const userSelectedTheme = ref(false); // only should be true if user manually selects theme
   const showSideMenu = ref(true);
   const name = ref("");
   const userType = ref<"student" | "teacher">("student");
@@ -46,49 +42,11 @@ export const useUserStore = defineStore("userStore", () => {
   const loadedQuestions = ref<Record<number, TopicQuestionInterface>>({});
   /** how many questions are there in total total */
   const totalQuestionCount = ref<number>(0);
-  // function applyThemeClass() {
-  //   document.documentElement.classList.toggle("dark", isDarkMode.value);
-  //   document.documentElement.classList.toggle("light", !isDarkMode.value);
-  // }
-
-  // function initTheme(userName: string) {
-  //   const saved = localStorage.getItem(getThemeKeyForUser(userName));
-
-  //   if (saved === "dark") {
-  //     isDarkMode.value = true;
-  //     userSelectedTheme.value = true;
-  //   } else if (saved === "light") {
-  //     isDarkMode.value = false;
-  //     userSelectedTheme.value = true;
-  //   } else {
-  //     isDarkMode.value = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  //     userSelectedTheme.value = false;
-  //   }
-
-  //   applyThemeClass();
-  // }
-
-  // function listenToThemeChanges() {
-  //   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  //   mediaQuery.addEventListener("change", (e) => {
-  //     if (userSelectedTheme.value) return; // it follows what user chose before if they did
-  //     isDarkMode.value = e.matches;
-  //     applyThemeClass();
-  //   });
-  // }
-
-  // function toggleTheme(userName: string) {
-  //   isDarkMode.value = !isDarkMode.value;
-  //   userSelectedTheme.value = true;
-  //   localStorage.setItem(getThemeKeyForUser(userName), isDarkMode.value ? "dark" : "light");
-  //   applyThemeClass();
-  // }
 
   function handleLoginData(data: LoginSuccess): void {
     isAuth.value = true;
     name.value = data.name;
     userType.value = data.userType.toLowerCase() as "student" | "teacher";
-    // initTheme(data.name);
 
     if (data.userType === "Student") {
       courseToDate(data.courses);
@@ -138,8 +96,5 @@ export const useUserStore = defineStore("userStore", () => {
     init,
     login,
     logout
-    // initTheme,
-    // listenToThemeChanges,
-    // toggleTheme
   };
 });

@@ -17,18 +17,10 @@ useSeoMeta({
 const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();
-// let userSelectedTheme = ref(false);
 
 const { isDarkMode, showSideMenu } = storeToRefs(userStore);
 
-// const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-// mediaQuery.addEventListener("change", (e) => {
-//   if (userSelectedTheme.value) return; // it follows what user chose before if they did
-//   isDarkMode.value = e.matches;
-// });
-
 watch(isDarkMode, () => {
-  // userSelectedTheme.value = true;
   document.body.classList.toggle("dark", isDarkMode.value);
 
   const theme = isDarkMode.value ? "dark" : "light";
@@ -36,7 +28,8 @@ watch(isDarkMode, () => {
   localStorage.setItem("theme", theme);
 });
 onBeforeMount(() => {
-  if (localStorage.getItem("theme") === "dark") isDarkMode.value = true;
+  const savedTheme = localStorage.getItem("theme");
+  isDarkMode.value = savedTheme ? savedTheme === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
 });
 
 const userTypes = {
