@@ -45,6 +45,7 @@
       <p class="text-sm text-neutral-700 dark:text-white">Assigned {{ formatDate(assignment.assignment.dateAssigned, currentDate) }}</p>
       <p>Started {{ formatDate(assignment.timeStarted, currentDate) }}</p>
       <p>Current Time: {{ formatDate(currentDate, currentDate) }}</p>
+      <p>Timer: {{ timer() }}</p>
 
       <div class="mt-4 w-full lg:mt-auto" :class="{ 'du-tooltip': !assignmentIsComplete }" data-tip="Complete all questions first!">
         <button
@@ -114,6 +115,19 @@ const assignmentIsComplete = computed(() => {
     props.assignment.assignment.numQuestions === props.assignment.questionsCompleted // not all questions loaded but everything still answered
   );
 });
+
+function unixToDate(timestamp: number) {
+  return new Date(timestamp * 1000);
+}
+
+function timer() {
+  const startedTime = Math.floor(Number(props.assignment.timeStarted) / 1000);
+  const currentTime = Math.floor(Date.now() / 1000);
+  let timeElapsed = currentTime - startedTime;
+  console.log(`Time started: ${startedTime}`);
+  console.log(`Time current: ${currentTime}`);
+  console.log(`Time elapsed: ${timeElapsed}`);
+}
 
 async function submit() {
   submitState.isLoading = true;
