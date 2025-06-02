@@ -1,20 +1,26 @@
 <template>
   <div class="relative w-full">
+    <div class="absolute right-2 top-2 z-10">
+      <img
+        tabindex="0"
+        role="button"
+        src="/ui/ellipsis-vertical.svg"
+        alt="More options"
+        class="h-7 w-7 cursor-pointer select-none rounded-full p-1 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+        @click.stop="isOpen = !isOpen"
+      />
+      <Transition name="slide-up">
+        <ul v-show="isOpen" tabindex="0" class="absolute right-0 z-20 mt-2 w-52 rounded-lg border border-[var(--border-color)] bg-body p-2 shadow-lg" @click.stop>
+          <li>
+            <button class="h-10 w-full rounded-lg pl-4 text-left transition-all hover:bg-red-400/70" type="button" @click="deleteAssignment">Delete</button>
+          </li>
+        </ul>
+      </Transition>
+    </div>
     <NuxtLink
       class="relative flex h-fit w-full flex-col items-center justify-center gap-2 rounded-2xl border border-neutral-300 py-4 hover:border-neutral-600 hover:shadow-lg hover:transition sm:flex-row sm:p-6 dark:border-neutral-600 dark:hover:border-neutral-300"
       :to="`/teacher/course/${course.id}/${assignment.id}`"
     >
-      <div class="du-dropdown du-dropdown-end absolute right-2 top-2 z-10">
-        <button class="rounded-full p-2 hover:bg-neutral-200 dark:hover:bg-neutral-700" type="button" @click.prevent="isOpen = !isOpen">
-          <img src="/ui/ellipsis-vertical.svg" alt="More options" class="h-5 w-5 select-none" draggable="false" />
-        </button>
-        <ul v-show="isOpen" tabindex="0" class="du-dropdown-content z-[1] w-52 rounded-lg border border-[var(--border-color)] bg-body p-2 shadow transition-opacity duration-200" @click.stop>
-          <li>
-            <button class="h-10 w-full rounded-lg pl-4 text-left transition-all hover:bg-red-400/70" type="button" @click.prevent="deleteAssignment">Delete</button>
-          </li>
-        </ul>
-      </div>
-
       <div class="flex w-5/6 flex-col items-start justify-start">
         <h3 class="w-full overflow-hidden overflow-ellipsis text-nowrap text-2xl font-semibold">
           {{ assignment.name }}
@@ -52,4 +58,14 @@ function deleteAssignment() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.2s ease-in-out;
+}
+.slide-up-enter-from,
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+</style>
