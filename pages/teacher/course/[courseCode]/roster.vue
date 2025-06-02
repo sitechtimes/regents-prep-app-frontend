@@ -36,6 +36,17 @@
         Return To Class Page
       </button>
     </div>
+    <FullScreenModal transition-name="scale-75" :show-modal="showDeleteModal" @close="showDeleteModal = false">
+      <div class="flex flex-col items-center justify-center">
+        <h2 class="mb-2 text-xl font-semibold">Confirm Deletion</h2>
+        <p class="mb-4 text-gray-600">{{ deleteStep === 1 ? `Are you sure you want to delete this ${deleteType}?` : "Are you really sure?" }}</p>
+        <div class="flex justify-center gap-4">
+          <TeacherCourseActionButton v-if="deleteStep === 1" type="button" img="/ui/trash.svg" text="Confirm" class="!bg-red-200 hover:!bg-red-400" @on-click="deleteStep++" />
+          <TeacherCourseActionButton v-else type="button" img="/ui/trash.svg" text="Yes, Delete" class="!bg-red-200 hover:!bg-red-400" @on-click="confirmDelete" />
+          <TeacherCourseActionButton type="button" img="/ui/close.svg" text="Cancel" @on-click="showDeleteModal = false" />
+        </div>
+      </div>
+    </FullScreenModal>
   </div>
 </template>
 
@@ -59,6 +70,20 @@ const courseId = Number(route.params.courseCode);
 
 const searchTerm = ref("");
 const students = ref<StudentData[]>([]);
+const showDeleteModal = ref(false);
+const deleteStep = ref<1 | 2>(1);
+const deleteType = ref<"student">();
+const currentDeleteStudentId = ref<number>();
+watch(deleteType, (type) => {
+  if (type) return (showDeleteModal.value = true);
+});
+watch(showDeleteModal, (val) => {
+  if (!val) {
+    deleteStep.value = 1;
+    deleteType.value = undefined;
+    currentDeleteStudentId.value = undefined;
+  }
+});
 
 const filteredStudents = computed(() =>
   students.value.filter((student) => student.firstName.toLowerCase().includes(searchTerm.value.toLowerCase()) || student.lastName.toLowerCase().includes(searchTerm.value.toLowerCase()))
@@ -75,6 +100,7 @@ async function removeStudent(student: StudentData) {
 
   const { error } = await tryRequestEndpoint<StudentData[]>(`courses/teacher/remove-student/${courseId}/${student.id}`, "DELETE");
   if (error) return console.error(error);
+  showDeleteModal.value = false;
 }
 </script>
 
