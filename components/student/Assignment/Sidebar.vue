@@ -44,8 +44,7 @@
       <p class="text-sm font-bold">Due {{ formatDate(assignment.assignment.dueDate, currentDate) }}</p>
       <p class="text-sm text-neutral-700 dark:text-white">Assigned {{ formatDate(assignment.assignment.dateAssigned, currentDate) }}</p>
       <p>Started {{ formatDate(assignment.timeStarted, currentDate) }}</p>
-      <p>Current Time: {{ formatDate(currentDate, currentDate) }}</p>
-      <p>Timer: {{ timer() }}</p>
+      <p v-if="assignment.assignment.timeAllotted === 0">Timer: {{ timerValue }}</p>
 
       <div class="mt-4 w-full lg:mt-auto" :class="{ 'du-tooltip': !assignmentIsComplete }" data-tip="Complete all questions first!">
         <button
@@ -116,17 +115,29 @@ const assignmentIsComplete = computed(() => {
   );
 });
 
-function unixToDate(timestamp: number) {
-  return new Date(timestamp * 1000);
+const timerValue = ref(timer());
+setInterval(() => {
+  timerValue.value = timer();
+}, 500);
+
+function secondsToHMS(totalSeconds: number) {
+  const hours = Math.floor(totalSeconds / 3600);
+  totalSeconds %= 3600;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const formattedHours = String(hours).padStart(2, "0");
+  const formattedMinutes = String(minutes).padStart(2, "0");
+  const formattedSeconds = String(seconds).padStart(2, "0");
+  return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 }
 
 function timer() {
   const startedTime = Math.floor(Number(props.assignment.timeStarted) / 1000);
   const currentTime = Math.floor(Date.now() / 1000);
   let timeElapsed = currentTime - startedTime;
-  console.log(`Time started: ${startedTime}`);
-  console.log(`Time current: ${currentTime}`);
-  console.log(`Time elapsed: ${timeElapsed}`);
+  if (props.assignment.assignment.timeAllotted === 0) {
+    return `No time limit.`;
+  } else return secondsToHMS(props.assignment.assignment.timeAllotted - timeElapsed);
 }
 
 async function submit() {
