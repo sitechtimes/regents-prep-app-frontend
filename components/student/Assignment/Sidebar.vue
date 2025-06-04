@@ -43,7 +43,7 @@
       <p class="text-sm font-bold">Due {{ formatDate(assignment.assignment.dueDate, currentDate) }}</p>
       <p class="text-sm text-neutral-700 dark:text-white">Assigned {{ formatDate(assignment.assignment.dateAssigned, currentDate) }}</p>
       <p>Started {{ formatDate(assignment.timeStarted, currentDate) }}</p>
-      <p v-if="(assignment.assignment.timeAllotted = 0)">Timer: {{ timerValue }}</p>
+      <p>Timer: {{ timerValue }}</p>
 
       <div class="w-full sm:mt-4 lg:mt-auto" :class="{ 'du-tooltip': !assignmentIsComplete }" data-tip="Complete all questions first!">
         <button
