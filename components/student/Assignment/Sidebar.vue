@@ -3,8 +3,8 @@
     class="fixed left-0 top-0 flex h-full w-72 shrink-0 flex-col items-start justify-start border-neutral-300 transition-shadow lg:sticky lg:border-r dark:border-neutral-600"
     :class="assignmentIsComplete ? 'lg:shadow-xl' : 'shadow-none'"
   >
-    <button class="group my-4 ml-4 flex items-center justify-center gap-2 rounded-xl px-5 py-2 hover:bg-neutral-200 dark:hover:bg-neutral-500/25" type="button" @click="emit('close')">
-      <img class="size-4 group-hover:-translate-x-1 dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
+    <button class="group my-4 ml-4 flex items-center justify-center gap-2 rounded-xl px-5 py-2 hover:bg-neutral-200 hover:transition dark:hover:bg-neutral-500/25" type="button" @click="emit('close')">
+      <img class="size-4 group-hover:-translate-x-1 group-hover:transition dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
       <span class="translate-y-px">Back to course</span>
     </button>
 
@@ -17,13 +17,12 @@
           class="w-full border-l-4 border-neutral-300 py-0.5 pl-4 first:mt-6 last:mb-6"
           :class="{
             'border-neutral-400 hover:border-neutral-500': currentQuestionIndex === index, // current
-            '!border-green-400 hover:border-green-500': assignment.assignment.isStatic && assignment.assignment.questionInterfaces[index]?.question.answers.some((answer) => answer.selected), // completed
             'cursor-not-allowed grayscale': !assignment.assignment.isStatic //if dynamic, disable
           }"
         >
           <!-- button for question number -->
           <button
-            class="w-full rounded-xl px-5 py-2 text-left"
+            class="w-full rounded-xl px-5 py-2 text-left hover:transition"
             :class="{
               'bg-neutral-200 dark:bg-neutral-500/25': currentQuestionIndex === index,
               'text-neutral-400': currentQuestionIndex < index,
@@ -44,9 +43,9 @@
       <p class="text-sm font-bold">Due {{ formatDate(assignment.assignment.dueDate, currentDate) }}</p>
       <p class="text-sm text-neutral-700 dark:text-white">Assigned {{ formatDate(assignment.assignment.dateAssigned, currentDate) }}</p>
       <p>Started {{ formatDate(assignment.timeStarted, currentDate) }}</p>
-      <p v-if="assignment.assignment.timeAllotted === 0">Timer: {{ timerValue }}</p>
+      <p v-if="(assignment.assignment.timeAllotted = 0)">Timer: {{ timerValue }}</p>
 
-      <div class="mt-4 w-full lg:mt-auto" :class="{ 'du-tooltip': !assignmentIsComplete }" data-tip="Complete all questions first!">
+      <div class="w-full sm:mt-4 lg:mt-auto" :class="{ 'du-tooltip': !assignmentIsComplete }" data-tip="Complete all questions first!">
         <button
           class="relative w-full rounded-lg bg-green-accent px-5 py-1.5 text-lg font-bold"
           :class="assignmentIsComplete ? 'submit-button' : 'cursor-not-allowed grayscale'"
@@ -92,8 +91,12 @@ const props = defineProps<{
   assignment: StudentAssignment;
   currentQuestionIndex: number;
   triggerSubmit: boolean;
+  isSaved: boolean;
 }>();
-const emit = defineEmits<{ close: [void] }>();
+const emit = defineEmits<{
+  close: [void];
+  submitted: [void];
+}>();
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -111,7 +114,7 @@ const assignmentIsComplete = computed(() => {
     (props.assignment.assignment.isStatic && // only for statics
       questionInterfaces.length === props.assignment.assignment.numQuestions && // every question has been loaded
       questionInterfaces.every((questionInterface) => questionInterface.question.answers.some((answer) => answer.selected))) || // every question has been answered
-    props.assignment.assignment.numQuestions === props.assignment.questionsCompleted // not all questions loaded but everything still answered
+    props.assignment.questionsCompleted >= props.assignment.assignment.numQuestions // not all questions loaded but everything still answered
   );
 });
 
@@ -141,20 +144,35 @@ function timer() {
 }
 
 async function submit() {
-  submitState.isLoading = true;
-  const { error } = await tryRequestEndpoint<SubmitAssignment>("courses/student/submit-assignment/", "POST", { id: props.assignment.id });
+  const submitTriggered = ref(false);
 
-  submitState.isLoading = false;
-  submitState.result = !error;
-  if (error) return console.error(error);
-  if (studentCurrentCourse.value) studentCurrentCourse.value.assignmentsFetched = false; // refetch assignments cuz we just submitted
-}
-watch(
-  () => props.triggerSubmit,
-  (val) => {
-    if (val) void submit();
+  function submit() {
+    submitTriggered.value = true;
+    emit("submitted");
   }
-);
+
+  async function submitAssignment() {
+    submitState.isLoading = true;
+    const { error } = await tryRequestEndpoint<SubmitAssignment>("courses/student/submit-assignment/", "POST", { id: props.assignment.id });
+
+    submitState.isLoading = false;
+    submitState.result = !error;
+    if (error) return console.error(error);
+    if (studentCurrentCourse.value) studentCurrentCourse.value.assignmentsFetched = false; // refetch assignments cuz we just submitted
+  }
+  watch(
+    () => props.triggerSubmit,
+    (val) => {
+      if (val) void submitAssignment();
+    }
+  );
+  watch(
+    () => props.isSaved,
+    (val) => {
+      if (val && submitTriggered.value) void submitAssignment();
+    }
+  );
+}
 </script>
 
 <style scoped>

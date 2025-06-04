@@ -1,30 +1,39 @@
 <template>
-  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
+  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-start overflow-y-auto px-6 xs:px-24 xs:py-12">
     <p v-if="currentAssignment.assignment.attemptsAllowed !== 0" class="mb-2 w-full text-right">Attempt {{ currentAttempt }} out of {{ currentAssignment.assignment.attemptsAllowed }}</p>
 
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-    <p class="answer-choice overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
+    <p class="answer-choice question-text text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
     <div class="relative flex w-full flex-col">
       <!-- multiple choice selection -->
-      <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
-        <button
-          type="button"
-          class="w-full rounded-lg bg-neutral-200 px-6 py-3 text-left shadow-sm hover:bg-neutral-400/50 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
-          :class="{
-            'bg-neutral-400/50 dark:bg-neutral-500/75': choice.selected && choice.isCorrect === undefined,
-            'bg-green-500/50 dark:bg-green-500/75': choice.isCorrect,
-            'bg-red-500/50 dark:bg-red-500/75': choice.isCorrect === false
-          }"
-          @click="selectChoice(choice)"
-          v-html="choice.text"
-        ></button>
-      </div>
+      <button
+        v-if="currentQuestion?.question.answerType === 'Multiple Choice'"
+        v-for="choice in currentQuestion?.question.answers"
+        type="button"
+        class="relative z-40 mt-4 flex w-full items-center justify-between gap-3 rounded-lg bg-neutral-200 px-2 py-1 shadow-sm hover:bg-neutral-400/50 hover:transition sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
+        :class="{
+          'bg-neutral-400/50 dark:bg-neutral-500/75': choice.selected && choice.isCorrect === undefined,
+          '!cursor-auto !bg-green-500/50 dark:!bg-green-500/75': choice.isCorrect,
+          '!cursor-auto !bg-red-500/50 dark:!bg-red-500/75': choice.isCorrect === false
+        }"
+        @click="selectChoice(choice)"
+      >
+        <p class="w-full text-left" v-html="choice.text"></p>
+        <Transition name="fade">
+          <img
+            v-if="choice.isCorrect !== undefined"
+            class="size-6 shrink-0"
+            :src="`/ui/${choice.isCorrect ? 'check' : 'close'}.svg`"
+            :alt="`Your answer was ${choice.isCorrect ? 'correct' : 'incorrect'}.`"
+          />
+        </Transition>
+      </button>
 
       <!-- dynamic assignments submit question button -->
       <div class="mt-8 flex w-full items-center justify-between gap-6 px-10">
         <button
-          class="flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold dark:bg-green-600 dark:text-white"
+          class="flex w-full items-center justify-center gap-2 rounded-lg bg-green-accent px-10 py-2 text-xl font-bold hover:transition dark:bg-green-600 dark:text-white"
           type="button"
           :disabled="mode !== 'answering' || !currentQuestion?.question.answers.some((answer) => answer.selected)"
           :class="
@@ -38,7 +47,7 @@
         </button>
 
         <button
-          class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
+          class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 hover:transition sm:px-16 dark:bg-green-600"
           type="button"
           :disabled="mode !== 'viewing' || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
           :class="
@@ -49,7 +58,7 @@
           @click="nextQuestion"
         >
           <span class="hidden translate-y-px text-xl xs:block">Next</span>
-          <img class="size-5 shrink-0 group-hover:translate-x-1 dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
+          <img class="size-5 shrink-0 group-hover:translate-x-1 group-hover:transition dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -90,7 +99,7 @@ function nextQuestion() {
 }
 
 function selectChoice(choice: Answer) {
-  if (!currentQuestion.value) return;
+  if (!currentQuestion.value || choice.isCorrect !== undefined) return;
   if (choice.selected) choice.selected = false;
   else {
     currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
@@ -147,7 +156,21 @@ watch(
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .answer-choice img {
   @apply dark:invert;
+}
+
+.question-text p {
+  @apply min-h-20 overflow-y-scroll;
 }
 </style>

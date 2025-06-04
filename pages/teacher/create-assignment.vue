@@ -1,7 +1,7 @@
 <template>
   <!-- evil margins and paddings are because layouts have innate p-4 and this page has WACKY scroll shenanigans... -->
   <div class="-m-4 flex w-auto flex-col px-4 lg:h-[calc(100vh-4rem)] lg:max-h-[calc(100vh-4rem)] lg:flex-row lg:overflow-y-hidden">
-    <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-clip" @submit.prevent="handleSubmit">
+    <form class="flex h-full max-h-full w-full shrink-0 flex-col gap-2 p-4 lg:w-[35rem] lg:overflow-y-scroll" @submit.prevent="handleSubmit">
       <h1 v-if="!isPrinting" class="text-2xl font-bold">Create Assignment</h1>
       <h1 v-else class="text-2xl font-bold">Print Worksheet</h1>
 
@@ -115,7 +115,10 @@
           <label class="fo-label fo-label-text shrink-0 translate-y-0.5 text-base text-black dark:text-white" for="late-submissions">Allow late submissions</label>
         </div>
 
-        <div :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : 'You must have at least one question or topic'" :class="{ 'du-tooltip': !allowedToSubmit }">
+        <div
+          :data-tip="!assignmentInfo.name ? 'Assignment must have a name' : !courseIds.length ? 'Select at least one course' : 'You must have at least one question or topic'"
+          :class="{ 'du-tooltip': !allowedToSubmit }"
+        >
           <button
             class="w-full grow rounded-lg border px-8 py-1.5 text-xl font-medium text-black lg:w-fit"
             :class="
@@ -239,21 +242,24 @@ const warn = computed(() => {
   const numOfQuestions = assignmentInfo.numOfQuestions ?? 0;
 
   // num of questions is too high
-  if (numOfQuestions > guaranteedLength.value + randomLength.value)
+  if (numOfQuestions > guaranteedLength.value + randomLength.value) {
     return `The assignment should have ${assignmentInfo.numOfQuestions} total question${assignmentInfo.numOfQuestions === 1 ? "" : "s"}, but we only have ${guaranteedLength.value + randomLength.value} to choose from. Try adding more questions!`;
+  }
 
   // too low
-  if (numOfQuestions < guaranteedLength.value)
+  if (numOfQuestions < guaranteedLength.value) {
     return `The assignment should only have ${assignmentInfo.numOfQuestions} total question${assignmentInfo.numOfQuestions === 1 ? "" : "s"}, but you've added ${guaranteedLength.value} guaranteed question${guaranteedLength.value === 1 ? "" : "s"}. We can't fit that many in...`;
+  }
 
   // not just right
-  if (numOfQuestions === guaranteedLength.value && randomLength.value > 0)
+  if (numOfQuestions === guaranteedLength.value && randomLength.value > 0) {
     return `You've added ${randomLength.value} random question${randomLength.value === 1 ? "" : "s"}, but they'll never be used because the assignment is already full of guaranteed questions.`;
+  }
 
   return null;
 });
 
-const allowedToSubmit = computed(() => (isPrinting || (assignmentInfo.name && !warn.value)) && guaranteedLength.value + randomLength.value > 0);
+const allowedToSubmit = computed(() => (isPrinting.value || (assignmentInfo.name && !warn.value && courseIds.length)) && guaranteedLength.value + randomLength.value > 0);
 
 function removeQuestion(questionId: number) {
   // prettier-ignore

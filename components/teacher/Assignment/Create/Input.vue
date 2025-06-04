@@ -7,7 +7,7 @@
       <input
         :id="kebabLabel"
         v-model="model"
-        required
+        :required="required"
         :type="type"
         class="du-input w-full border-neutral-400 bg-neutral-200 text-black hover:border-neutral-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-300 dark:hover:border-neutral-300/50"
         :class="{ 'border-red-500 hover:border-red-500 focus:border-red-500 dark:border-red-600 dark:hover:border-red-500': warn }"

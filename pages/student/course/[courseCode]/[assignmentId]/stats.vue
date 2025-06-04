@@ -11,63 +11,84 @@
       <p>No assignment found for the provided ID.</p>
     </div>
     <div class="relative my-4 flex justify-center">
-      <div class="relative h-8 w-4/5 rounded-full border border-neutral-300 bg-red-500 dark:border-neutral-500">
+      <div class="relative h-8 w-4/5 overflow-hidden rounded-full border border-neutral-500 bg-red-400 dark:border-neutral-700 dark:bg-red-800">
         <div
-          class="h-full rounded-full bg-green-500"
+          class="h-full rounded-l-full bg-green-400 dark:bg-green-700"
           :style="{ width: ((assignmentResults.questionsCorrect ?? assignmentResults.questionsCompleted) / assignmentResults.numQuestions) * 100 + '%' }"
         ></div>
       </div>
-      <span class="absolute inset-0 flex items-center justify-center text-xl font-semibold text-black"> {{ assignmentResults.questionsCorrect }}/{{ assignmentResults.numQuestions }} </span>
+      <span class="absolute inset-0 flex items-center justify-center text-xl font-semibold"> {{ assignmentResults.questionsCorrect }}/{{ assignmentResults.numQuestions }} </span>
     </div>
-    <div class="mb-4 flex w-full flex-col">
+    <div class="flex w-full flex-col">
       <!-- header row -->
-      <div class="flex items-center border-b border-neutral-300 py-2 dark:border-neutral-500">
-        <div class="w-16 text-center font-semibold">#</div>
-        <div class="flex-1 px-4 font-semibold">Question</div>
-        <div class="w-1/4 text-center font-semibold">Your Answer</div>
-        <div class="w-1/4 text-center font-semibold">Correct Answer</div>
-        <div class="w-1/4 text-center font-semibold">Result</div>
+      <div class="flex flex-wrap items-center border-t border-neutral-300 py-2 text-sm sm:text-base dark:border-neutral-500">
+        <div class="w-1/12"></div>
+        <div class="w-1/12 text-center font-semibold">#</div>
+        <div class="w-4/12 px-2 text-center font-semibold sm:w-6/12 sm:text-left">Question</div>
+        <div class="w-2/12 text-center text-xs font-semibold sm:w-1/12 sm:text-sm">Your Answer</div>
+        <div class="w-2/12 text-center text-xs font-semibold sm:w-1/12 sm:text-sm">Correct Answer</div>
+        <div class="w-2/12 text-center font-semibold">Result</div>
       </div>
       <div
         v-for="(questionInstance, questionId) in assignmentResults.questionInstances"
         :key="questionId"
-        class="mb-4 flex flex-col rounded-md"
+        class="group flex cursor-pointer flex-col rounded-md transition hover:bg-neutral-200/50 dark:hover:bg-neutral-600/20"
         @click="dropdownStates[questionId] = !dropdownStates[questionId]"
       >
-        <div class="flex items-center border-b border-neutral-300 py-2 hover:bg-neutral-200/50 dark:border-neutral-500 dark:hover:bg-neutral-600/20">
-          <button type="button" class="w-16 cursor-pointer text-center font-semibold">{{ questionId + 1 }}</button>
-          <div class="flex-1 px-4">
-            <span class="overflow-hidden text-ellipsis" v-html="questionInstance.question.text"></span>
+        <div class="flex items-center border-t border-neutral-300 py-2 dark:border-neutral-500">
+          <div class="flex w-1/12 items-center justify-center">
+            <img
+              class="size-5 select-none transition-transform duration-300 dark:invert"
+              :class="{ 'rotate-180': dropdownStates[questionId] }"
+              src="/ui/chevron-down.svg"
+              aria-hidden="true"
+              draggable="false"
+            />
           </div>
-          <div v-if="questionInstance.dynamicUserAnswers" class="w-1/4 text-center">
+
+          <div class="w-1/12 text-center font-semibold">{{ questionId + 1 }}</div>
+
+          <div class="w-4/12 px-4 sm:w-6/12">
+            <span class="line-clamp-4 overflow-hidden sm:line-clamp-none" v-html="questionInstance.question.text"></span>
+          </div>
+
+          <div v-if="questionInstance.dynamicUserAnswers" class="w-2/12 select-none text-center sm:w-1/12">
             <span v-html="getUserAnswer(questionInstance.question, questionInstance.dynamicUserAnswers?.map(String) ?? [])"></span>
           </div>
-          <div v-else-if="questionInstance.staticUserAnswer" class="w-1/4 text-center">
+          <div v-else-if="questionInstance.staticUserAnswer" class="w-2/12 select-none text-center sm:w-1/12">
             <span v-html="getStaticUserAnswer(questionInstance.question, Number(questionInstance.staticUserAnswer) ?? 0)"></span>
           </div>
-          <div class="w-1/4 text-center" v-html="getCorrectAnswer(questionInstance.question)"></div>
-          <div class="w-1/4 text-center">
-            <span
-              v-if="questionInstance.dynamicUserAnswers && isDynamicAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })"
-              class="text-green-600"
-            >
-              ✔️
-            </span>
-            <span
-              v-else-if="questionInstance.staticUserAnswer && isStaticAnswerCorrect({ question: questionInstance.question, staticUserAnswer: questionInstance.staticUserAnswer })"
-              class="text-green-600"
-            >
-              ✔️
-            </span>
-            <span v-else class="text-red-600">❌</span>
+
+          <div class="w-2/12 text-center sm:w-1/12" v-html="getCorrectAnswer(questionInstance.question)"></div>
+
+          <div class="w-2/12 text-center">
+            <img
+              :src="`/ui/${
+                (questionInstance.dynamicUserAnswers && isDynamicAnswerCorrect({ question: questionInstance.question, dynamicUserAnswers: questionInstance.dynamicUserAnswers.map(String) })) ||
+                (questionInstance.staticUserAnswer && isStaticAnswerCorrect({ question: questionInstance.question, staticUserAnswer: questionInstance.staticUserAnswer }))
+                  ? 'green-check'
+                  : 'red-close'
+              }.svg`"
+              class="inline h-5 w-5 select-none align-middle"
+              draggable="false"
+            />
           </div>
         </div>
+
         <!-- expanded question details -->
-        <div v-show="dropdownStates[questionId]" class="dropdown-content rounded-md p-4">
-          <p><strong>Question:</strong> <span v-html="questionInstance.question.text"></span></p>
-          <p><strong>Choices:</strong></p>
-          <ul>
-            <li v-for="(answer, index) in questionInstance.question.answers" :key="index" class="flex items-center">
+        <div v-show="dropdownStates[questionId]" class="dropdown-content ml-[16.66%] w-9/12 p-4 sm:w-6/12">
+          <p class="mb-2 block sm:hidden"><strong>Question:</strong> <span v-html="questionInstance.question.text"></span></p>
+          <p class="mb-1"><strong>Choices:</strong></p>
+          <ul class="space-y-1">
+            <li
+              v-for="(answer, index) in questionInstance.question.answers"
+              :key="index"
+              class="flex items-start rounded-md px-2 pb-0.5 pt-1"
+              :class="{
+                'border border-green-500 bg-green-200 dark:bg-green-900': answer.isCorrect,
+                'border border-red-500 bg-red-200 dark:bg-red-900': (questionInstance.staticUserAnswer === answer.id || questionInstance.dynamicUserAnswers?.includes(answer.id)) && !answer.isCorrect
+              }"
+            >
               <span class="mr-2">{{ String.fromCharCode(65 + index) }}.</span>
               <span v-html="answer.text"></span>
             </li>

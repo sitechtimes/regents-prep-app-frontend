@@ -20,7 +20,7 @@
 
     <!-- right side -->
 
-    <img class="mb-6 w-52 xs:mb-0 xs:w-72 lg:w-100 xl:w-115 2xl:w-125" draggable="false" src="/seagull.png" alt="Regents Prep Seagull" />
+    <img class="mb-6 w-52 select-none xs:mb-0 xs:w-72 lg:w-100 xl:w-115 2xl:w-125" src="/seagull.png" alt="Regents Prep Seagull" draggable="false" />
   </div>
 </template>
 

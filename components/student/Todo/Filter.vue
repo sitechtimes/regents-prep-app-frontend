@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col items-start justify-start rounded-xl">
+  <div class="relative flex select-none flex-col items-start justify-start rounded-xl">
     <!-- filter button -->
     <button
       class="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 p-0 lg:w-32 lg:justify-start lg:p-2 lg:px-4"
@@ -7,7 +7,7 @@
       type="button"
       @click="showFilters = !showFilters"
     >
-      <img class="size-5 dark:invert" src="/ui/filter.svg" aria-hidden="true" />
+      <img class="size-5 dark:invert" src="/ui/filter.svg" aria-hidden="true" draggable="false" />
       <p class="hidden grow translate-y-px lg:block">Filter</p>
     </button>
 

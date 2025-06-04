@@ -1,13 +1,13 @@
 <template>
-  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-center overflow-y-auto px-6 xs:px-24 xs:py-12 sm:max-h-fit">
+  <div class="mb-10 flex h-full max-h-[80lvh] w-full flex-col items-center justify-start overflow-y-auto px-6 xs:px-24 xs:py-12">
     <h2 class="mb-8 text-3xl font-semibold">Question {{ currentQuestionIndex + 1 }}</h2>
-    <p class="answer-choice overflow-y-auto text-neutral-100" v-html="currentQuestion?.question.text"></p>
+    <p class="answer-choice question-text text-neutral-100" v-html="currentQuestion?.question.text"></p>
 
     <!-- multiple choice selection -->
     <div v-if="currentQuestion?.question.answerType === 'Multiple Choice'" v-for="choice in currentQuestion?.question.answers" class="mt-4 flex w-full flex-col items-start space-y-3">
       <button
         type="button"
-        class="relative z-40 w-full rounded-lg bg-neutral-200 px-2 py-1 text-left shadow-sm hover:bg-neutral-400/50 sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
+        class="relative z-40 w-full rounded-lg bg-neutral-200 px-2 py-1 text-left shadow-sm hover:bg-neutral-400/50 hover:transition sm:px-6 sm:py-3 dark:bg-neutral-500/25 dark:hover:bg-neutral-500/50"
         :class="{ 'bg-neutral-400/50 dark:bg-neutral-500/75': choice.selected }"
         @click="selectChoice(choice)"
         v-html="choice.text"
@@ -17,24 +17,28 @@
     <!-- static assignment navigation -->
     <div class="mt-8 flex w-full items-center justify-between gap-1 px-3 xs:gap-6 xs:px-10">
       <button
-        class="relative z-40 flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
+        class="relative z-40 flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 hover:transition sm:px-16 dark:bg-green-600"
         type="button"
-        :disabled="currentQuestionIndex === 0"
-        :class="currentQuestionIndex === 0 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
-        @click="emit('switchQuestion', 'previous')"
+        :disabled="onCooldown || currentQuestionIndex === 0"
+        :class="onCooldown || currentQuestionIndex === 0 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
+        @click="switchQuestion('previous')"
       >
-        <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
+        <img class="size-5 group-hover:-translate-x-1 group-hover:transition dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
         <span class="hidden translate-y-px text-xl xs:block">Back</span>
       </button>
       <button
-        class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 sm:px-16 dark:bg-green-600"
+        class="flex items-center justify-center gap-2 rounded-xl bg-green-accent px-8 py-2 hover:transition sm:px-16 dark:bg-green-600"
         type="button"
-        :disabled="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
-        :class="currentQuestionIndex === currentAssignment.assignment.numQuestions - 1 ? 'cursor-not-allowed opacity-50 brightness-75 grayscale' : 'group hover:brightness-110 hover:dark:bg-green-700'"
-        @click="emit('switchQuestion', 'next')"
+        :disabled="onCooldown || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1"
+        :class="
+          onCooldown || currentQuestionIndex === currentAssignment.assignment.numQuestions - 1
+            ? 'cursor-not-allowed opacity-50 brightness-75 grayscale'
+            : 'group hover:brightness-110 hover:dark:bg-green-700'
+        "
+        @click="switchQuestion('next')"
       >
         <span class="hidden translate-y-px text-xl xs:block">Next</span>
-        <img class="size-5 group-hover:translate-x-1 dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
+        <img class="size-5 group-hover:translate-x-1 group-hover:transition dark:invert" src="/ui/arrow-right.svg" aria-hidden="true" />
       </button>
     </div>
 
@@ -58,6 +62,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   changeCurrentQuestion: [StaticQuestionInterface];
   switchQuestion: ["previous" | "next"];
+  triggerAutosave: [void];
 }>();
 
 const userStore = useUserStore();
@@ -69,18 +74,32 @@ const selectedChoice = defineModel<Answer>();
 const feedbackMessage = ref("");
 const errorMessage = ref("");
 
+const onCooldown = ref(false);
+function switchQuestion(direction: "previous" | "next") {
+  onCooldown.value = true;
+  emit("switchQuestion", direction);
+  setTimeout(() => (onCooldown.value = false), 300);
+}
+
+/** in unix milliseconds */
+let lastAutosave = Date.now();
 function selectChoice(choice: Answer) {
   if (!currentQuestion.value) return;
+
   if (choice.selected) choice.selected = false;
   else {
-    currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false));
+    currentQuestion.value.question.answers.forEach((answer) => (answer.selected = false));
     choice.selected = true;
   }
+
+  if (Date.now() - lastAutosave >= 6000) {
+    lastAutosave = Date.now();
+    emit("triggerAutosave");
+  }
+
   selectedChoice.value = choice;
   (currentQuestion.value as StaticQuestionInterface).staticUserAnswer = choice.id;
-  storedStaticAnswers.value[props.currentQuestionIndex] = {
-    selectedChoice: { ...choice }
-  };
+  storedStaticAnswers.value[props.currentQuestionIndex] = { selectedChoice: { ...choice } };
 }
 
 async function getQuestionByIndex(index: number) {
@@ -133,5 +152,9 @@ watch(
 <style scoped>
 .answer-choice img {
   @apply dark:invert;
+}
+
+.question-text p {
+  @apply min-h-20 overflow-y-scroll;
 }
 </style>

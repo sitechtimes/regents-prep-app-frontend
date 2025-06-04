@@ -1,7 +1,7 @@
 <template>
   <div v-if="studentCurrentCourse && currentAssignment && assignmentInProgress" class="flex h-dvh w-full items-center justify-start gap-10 overflow-y-scroll">
-    <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" :trigger-submit="triggerSubmit" @close="assignmentInProgress = false" />
-    <p v-if="assignment.assignment.timeAllotted === 0">{{ timerValue }}</p>
+    <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" :trigger-submit="triggerSubmit" :is-saved="true" @close="assignmentInProgress = false" />
+
     <div class="fixed right-0 top-4 flex items-center justify-center gap-4 pr-10">
       <ToggleTheme />
     </div>
@@ -36,12 +36,6 @@ definePageMeta({
   redirectIfAuth: false
 });
 
-const props = defineProps<{
-  assignment: StudentAssignment;
-  currentQuestionIndex: number;
-  triggerSubmit: boolean;
-}>();
-
 const route = useRoute();
 const router = useRouter();
 
@@ -52,31 +46,6 @@ watch(triggerSubmit, async (val) => {
     triggerSubmit.value = false;
   }
 });
-
-const timerValue = ref(timer());
-setInterval(() => {
-  timerValue.value = timer();
-}, 500);
-
-function secondsToHMS(totalSeconds: number) {
-  const hours = Math.floor(totalSeconds / 3600);
-  totalSeconds %= 3600;
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  const formattedHours = String(hours).padStart(2, "0");
-  const formattedMinutes = String(minutes).padStart(2, "0");
-  const formattedSeconds = String(seconds).padStart(2, "0");
-  return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-}
-
-function timer() {
-  const startedTime = Math.floor(Number(props.assignment.timeStarted) / 1000);
-  const currentTime = Math.floor(Date.now() / 1000);
-  let timeElapsed = currentTime - startedTime;
-  if (props.assignment.assignment.timeAllotted === 0) {
-    return `No time limit.`;
-  } else return secondsToHMS(props.assignment.assignment.timeAllotted - timeElapsed);
-}
 
 const userStore = useUserStore();
 const { studentCurrentCourse, currentQuestion } = storeToRefs(userStore);
