@@ -73,7 +73,7 @@ const students = ref<StudentData[]>([]);
 const showDeleteModal = ref(false);
 const deleteStep = ref<1 | 2>(1);
 const deleteType = ref<"student">();
-const currentDeleteStudentId = ref<number>();
+const currentStudentId = ref<number>();
 watch(deleteType, (type) => {
   if (type) return (showDeleteModal.value = true);
 });
@@ -81,7 +81,6 @@ watch(showDeleteModal, (val) => {
   if (!val) {
     deleteStep.value = 1;
     deleteType.value = undefined;
-    currentDeleteStudentId.value = undefined;
   }
 });
 
@@ -96,11 +95,24 @@ onMounted(async () => {
 });
 
 async function removeStudent(student: StudentData) {
-  students.value.splice(students.value.indexOf(student), 1);
+  currentStudentId.value = student.id;
+  showDeleteModal.value = true;
+  deleteType.value = "student";
+}
 
-  const { error } = await tryRequestEndpoint<StudentData[]>(`courses/teacher/remove-student/${courseId}/${student.id}`, "DELETE");
-  if (error) return console.error(error);
-  showDeleteModal.value = false;
+async function confirmDelete() {
+  if (deleteType.value === "student" && currentStudentId.value !== undefined) {
+    const student = students.value.find((s) => s.id === currentStudentId.value);
+    if (student) {
+      students.value.splice(students.value.indexOf(student), 1);
+      const { error } = await tryRequestEndpoint<StudentData[]>(`courses/teacher/remove-student/${courseId}/${student.id}`, "DELETE");
+      if (error) return console.error(error);
+    }
+    showDeleteModal.value = false;
+    deleteType.value = undefined;
+    currentStudentId.value = undefined;
+    deleteStep.value = 1;
+  }
 }
 </script>
 
