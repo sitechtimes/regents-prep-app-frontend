@@ -195,6 +195,8 @@ onUnmounted(() => {
   window.removeEventListener("visibilitychange", handleVisibilityTime);
   window.removeEventListener("beforeunload", warnForUnsavedChanges);
 });
+
+defineExpose({ studentCurrentCourse, currentQuestion, currentAssignment, assignmentId });
 </script>
 
 <style scoped>
