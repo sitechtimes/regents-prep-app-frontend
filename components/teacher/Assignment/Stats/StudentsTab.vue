@@ -35,7 +35,7 @@
 
           <div class="w-full flex-col items-center justify-between">
             <p class="inline-flex items-center justify-start gap-2 text-sm font-medium lg:text-lg">
-              <img class="size-5 -translate-y-px" src="/ui/clock.svg" aria-hidden="true" /> Time spent:
+              <img class="size-5 -translate-y-px select-none" src="/ui/clock.svg" aria-hidden="true" draggable="false" /> Time spent:
               {{ formatTime(currentQuestion.timeSpent) }}
             </p>
 
@@ -48,7 +48,7 @@
                 :disabled="currentQuestionIndex === 0"
                 @click="currentQuestionIndex--"
               >
-                <img class="size-5 group-hover:-translate-x-1 group-hover:transition" src="/ui/arrow-left.svg" aria-hidden="true" />
+                <img class="size-5 select-none group-hover:-translate-x-1 group-hover:transition" src="/ui/arrow-left.svg" aria-hidden="true" draggable="false" />
                 <span class="translate-y-px">Back</span>
               </button>
               <button
@@ -59,7 +59,7 @@
                 @click="currentQuestionIndex++"
               >
                 <span class="translate-y-px">Next</span>
-                <img class="size-5 group-hover:translate-x-1 group-hover:transition" src="/ui/arrow-right.svg" aria-hidden="true" />
+                <img class="size-5 select-none group-hover:translate-x-1 group-hover:transition" src="/ui/arrow-right.svg" aria-hidden="true" draggable="false" />
               </button>
             </div>
             <p class="mt-2 text-center text-sm lg:text-lg">Question {{ currentQuestionIndex + 1 }} of {{ currentStudentStatistics?.length }}</p>
@@ -89,9 +89,7 @@ watch(currentStudent, async (student) => {
 
   if (loadedStudentStatistics[student.id]) currentStudentStatistics.value = loadedStudentStatistics[student.id];
   else {
-    const { data, error } = await tryRequestEndpoint<(StaticIndividualStudentStatistic | DynamicIndividualStudentStatistic)[]>(
-      `/courses/teacher/assignment/individualized-statistics/${props.currentAssignment.id}/true/`
-    );
+    const { data, error } = await tryRequestEndpoint<IndividualStudentStatistic[]>(`/courses/teacher/assignment/individualized-statistics/${student.id}/true/`);
     if (error) return console.error(error);
 
     loadedStudentStatistics[student.id] = data;
