@@ -28,7 +28,8 @@ watch(isDarkMode, () => {
   localStorage.setItem("theme", theme);
 });
 onBeforeMount(() => {
-  if (localStorage.getItem("theme") === "dark") isDarkMode.value = true;
+  const savedTheme = localStorage.getItem("theme");
+  isDarkMode.value = savedTheme ? savedTheme === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
 });
 
 const userTypes = {
