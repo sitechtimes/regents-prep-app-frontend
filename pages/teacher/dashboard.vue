@@ -24,6 +24,7 @@
         <TeacherDashboardCreateClass :show="showCreateClass" @close="showCreateClass = false" />
       </div>
     </div>
+    <ScrolltoTop />
   </div>
 </template>
 
@@ -59,6 +60,7 @@ onMounted(() => {
   teacherCurrentCourse.value = undefined;
   loaded.value = true;
 });
+
 // for vitest
 defineExpose({ teacherCourses, showNotFound, loaded });
 </script>

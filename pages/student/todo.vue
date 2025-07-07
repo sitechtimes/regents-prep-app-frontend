@@ -16,6 +16,7 @@
         <StudentAssignmentCard :assignment="assignment" />
       </div>
     </div>
+    <ScrolltoTop />
   </div>
 </template>
 

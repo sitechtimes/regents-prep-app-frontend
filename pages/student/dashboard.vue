@@ -24,6 +24,7 @@
         <StudentDashboardJoinClass :show="showJoinClass" @close="showJoinClass = false" />
       </div>
     </div>
+    <ScrolltoTop />
   </div>
 </template>
 
@@ -49,7 +50,6 @@ watch(
     if (!query.course && !query.assignment) showNotFound.value = false;
   }
 );
-
 onBeforeMount(() => {
   if (route.query.course || route.query.assignment) showNotFound.value = true;
 });
