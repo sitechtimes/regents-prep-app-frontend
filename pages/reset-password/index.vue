@@ -6,7 +6,7 @@
       <form class="login flex w-full flex-col items-center justify-center gap-7" @submit.prevent="onSubmit">
         <div class="relative flex flex-col items-start justify-center gap-1">
           <label class="font-medium" for="email"> Email Address <span title="Required" class="font-2xl text-red-500">*</span> </label>
-          <input id="email" v-model="email" class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4 transition duration-300" type="email" required autocomplete="email" />
+          <input id="email" v-model="email" class="h-12 w-[22rem] rounded-lg border-0 bg-gray-accent px-4" type="email" required autocomplete="email" />
         </div>
 
         <div class="relative flex w-96 flex-col items-center justify-center gap-1">
@@ -39,16 +39,14 @@ async function onSubmit() {
   success.value = false;
   loading.value = true;
 
-  const { error: sendError } = await tryRequestEndpoint(`/auth/password/reset/`, "POST", { email: email.value });
+  const { error: sendError } = await tryRequestEndpoint(`/auth/password/reset/`, "POST", { email: email.value.toLowerCase() });
 
   loading.value = false;
 
   if (sendError) {
     error.value = true;
     console.error("Reset email failed:", sendError);
-  } else {
-    success.value = true;
-  }
+  } else success.value = true;
 }
 </script>
 

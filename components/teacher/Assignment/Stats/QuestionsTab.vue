@@ -25,7 +25,7 @@
     <FullScreenModal
       transition-name="slide-up-screen"
       :show-modal="selectedQuestion !== undefined"
-      width-class="w-11/12 lg:w-1/2 max-h-[70dvh] overflow-y-scroll !justify-start"
+      custom-width-class="w-11/12 lg:w-1/2 max-h-[70dvh] overflow-y-scroll !justify-start"
       @close="selectedQuestion = undefined"
     >
       <div class="w-full rounded-lg p-6">
@@ -63,13 +63,14 @@ const questionStats = computed(() => {
   const questions: Record<number, QuestionStat> = {};
 
   statisticData.value.forEach((questionInstance) => {
-    if (!questions[questionInstance.question])
+    if (!questions[questionInstance.question]) {
       questions[questionInstance.question] = {
         totalTimeSpent: 0,
         totalInstances: 0,
         studentChoices: [],
         correctAnswer: multipleChoiceQuestions.value.find((question) => question.id === questionInstance.question)?.answers.find((answer) => answer.isCorrect)?.id ?? 0
       };
+    }
 
     const userAnswer = "staticUserAnswer" in questionInstance ? questionInstance.staticUserAnswer : questionInstance.dynamicUserAnswers.at(-1);
     if (!userAnswer) return;

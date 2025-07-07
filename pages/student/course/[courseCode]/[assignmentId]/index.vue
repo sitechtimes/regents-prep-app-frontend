@@ -1,6 +1,13 @@
 <template>
-  <div v-if="studentCurrentCourse && currentAssignment && assignmentInProgress" class="flex h-dvh w-full items-center justify-start gap-10 overflow-y-scroll">
-    <StudentAssignmentSidebar :assignment="currentAssignment" :current-question-index="currentQuestionIndex" :trigger-submit="triggerSubmit" @close="assignmentInProgress = false" />
+  <div v-if="studentCurrentCourse && currentAssignment && assignmentInProgress" class="flex h-dvh w-full select-none items-center justify-start gap-10 overflow-y-scroll">
+    <StudentAssignmentSidebar
+      :assignment="currentAssignment"
+      :current-question-index="currentQuestionIndex"
+      :trigger-submit="triggerSubmit"
+      :is-saved="isSaved"
+      @close="assignmentInProgress = false"
+      @submitted="saveProgress"
+    />
 
     <div class="fixed right-0 top-4 flex items-center justify-center gap-4 pr-10">
       <ToggleTheme />
@@ -14,6 +21,7 @@
         :current-question-index="currentQuestionIndex"
         @change-current-question="(question) => (currentQuestion = question)"
         @switch-question="(direction) => switchQuestion(direction)"
+        @trigger-autosave="saveProgress"
       />
       <StudentAssignmentDynamicQuestion
         v-else-if="!currentAssignment.assignment.isStatic && currentQuestion && !('staticUserAnswer' in currentQuestion)"
@@ -113,7 +121,6 @@ async function fetchQuestionOnMounted() {
 onMounted(fetchQuestionOnMounted);
 
 const selectedChoice = ref<Answer>();
-
 const timestamp = ref(Date.now());
 
 /** increments time spent on current question */
@@ -127,23 +134,29 @@ function incrementTime() {
   void tryRequestEndpoint(`courses/student/increment-question-time/${currentQuestion.value.id}/${diff}/`, "POST");
 }
 
+/** for sidebar submit */
+const isSaved = ref(false);
+watch(isSaved, async (val) => {
+  await nextTick();
+  if (val) isSaved.value = false;
+});
 async function saveProgress() {
-  if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
+  if (!currentAssignment.value?.assignment.isStatic || !currentQuestion.value) return; // ! dynamic assingments shouldnt be automatically saved
+
   if (selectedChoice.value) {
     const [newTimestamp, diff] = getDeltaTime(timestamp.value);
     timestamp.value = newTimestamp;
 
     const { error } = await tryCatch(submitQuestionAnswer(currentQuestion.value.id, selectedChoice.value.id, diff));
     if (error) console.error(error);
+    isSaved.value = true;
   } else {
     incrementTime();
+    isSaved.value = true;
   }
 }
 // increment time on index change
-watch(currentQuestionIndex, async () => {
-  if (!currentAssignment.value || !currentAssignment.value.assignment.isStatic || !currentQuestion.value) return;
-  await saveProgress();
-});
+watch(currentQuestionIndex, saveProgress);
 
 async function switchQuestion(direction: "previous" | "next") {
   if (!currentAssignment.value) return;
@@ -167,9 +180,7 @@ function handleVisibilityTime() {
   else timestamp.value = Date.now();
 }
 
-let unguardRoute: () => void;
 onMounted(() => {
-  unguardRoute = router.beforeEach(() => void saveProgress());
   assignmentInProgress.value = true;
   window.addEventListener("beforeunload", warnForUnsavedChanges);
   window.addEventListener("visibilitychange", handleVisibilityTime);
@@ -181,7 +192,6 @@ onBeforeUnmount(incrementTime);
 onUnmounted(() => currentQuestion.value?.question.answers.forEach((answer) => (answer.selected = false)));
 
 onUnmounted(() => {
-  unguardRoute();
   window.removeEventListener("visibilitychange", handleVisibilityTime);
   window.removeEventListener("beforeunload", warnForUnsavedChanges);
 });

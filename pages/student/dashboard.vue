@@ -18,7 +18,7 @@
             <h2 id="no-classes" class="text-4xl font-extrabold text-[var(--text-color)] md:text-5xl">No classes found!</h2>
             <p class="text-lg text-[var(--text-color)]">It looks like you haven't added any classes yet.</p>
             <p class="text-md text-[var(--text-color)]">Click the button below to add your first class!</p>
-            <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white transition duration-300 hover:bg-gray-600" type="button" @click="showJoinClass = true">Add Class</button>
+            <button class="mt-4 rounded-lg bg-green-accent px-4 py-2 text-white hover:bg-gray-600" type="button" @click="showJoinClass = true">Add Class</button>
           </div>
         </div>
         <StudentDashboardJoinClass :show="showJoinClass" @close="showJoinClass = false" />

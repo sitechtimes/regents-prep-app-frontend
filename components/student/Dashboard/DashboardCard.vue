@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="`/student/course/${course.id}`"
-    class="flex w-115 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body transition hover:border-neutral-600/50 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
+    class="flex w-115 flex-col items-center justify-center overflow-hidden rounded-xl border border-neutral-300 bg-body hover:border-neutral-600/50 hover:shadow-lg hover:transition dark:border-neutral-600 dark:hover:border-neutral-300/50"
   >
     <!-- course information -->
     <div class="flex h-24 w-full flex-col items-center justify-end p-2" :style="{ backgroundColor: subjectColors[course.subject] }">
@@ -18,7 +18,7 @@
           v-for="assignment in assignments"
           :key="assignment.id"
           :to="`/student/course/${course.id}/${assignment.id}?q=${Math.min(assignment.questionsCompleted, assignment.assignment.numQuestions)}`"
-          class="flex h-full w-full flex-col items-center justify-center rounded-xl border border-neutral-300 p-3 hover:shadow-lg dark:border-neutral-600 dark:hover:border-neutral-300/50"
+          class="flex h-full w-full flex-col items-center justify-center rounded-xl border border-neutral-300 p-3 hover:shadow-lg hover:transition dark:border-neutral-600 dark:hover:border-neutral-300/50"
           @click.stop
         >
           <p class="text-center text-sm text-neutral-700 dark:text-neutral-300" :title="assignment.assignment.dueDate.toLocaleString()">

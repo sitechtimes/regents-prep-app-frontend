@@ -1,5 +1,5 @@
 <template>
-  <FullScreenModal transition-name="scale-75" :show-modal="show" width-class="w-auto" @close="closeModal">
+  <FullScreenModal transition-name="scale-75" :show-modal="show" custom-width-class="w-auto" @close="closeModal">
     <h2 class="text-xl">Create New Course</h2>
     <form id="create-course" class="mb-4 flex flex-col" @submit.prevent="createCourse">
       <label class="du-label" for="course-name">Course Name <span title="Required" class="font-2xl text-red-500">*</span></label>

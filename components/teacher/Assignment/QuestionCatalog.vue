@@ -12,13 +12,13 @@
     <div class="flex w-full flex-col items-baseline justify-start gap-2 px-6 sm:flex-row sm:items-center sm:px-10 lg:py-2">
       <!-- back button -->
       <button
-        class="group mx-4 my-2 flex items-center justify-center gap-2 rounded-lg border border-neutral-300 px-5 py-2 text-xl hover:bg-neutral-100/50 dark:bg-neutral-900 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
+        class="group mx-4 my-2 flex select-none items-center justify-center gap-2 rounded-lg border border-neutral-300 px-5 py-2 text-xl hover:bg-neutral-100/50 dark:bg-neutral-900 dark:hover:border-neutral-300/50 dark:hover:bg-neutral-900"
         :class="{ 'pointer-events-none bg-neutral-300': !currentTopicPath.length }"
         type="button"
         :disabled="!currentTopicPath.length"
         @click="goBack"
       >
-        <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" />
+        <img class="size-5 group-hover:-translate-x-1 dark:invert" src="/ui/arrow-left.svg" aria-hidden="true" draggable="false" />
         Back
       </button>
 
@@ -67,7 +67,6 @@
             <!-- boolean stuff is to stop people from adding the child of an already added topic -->
             <TeacherAssignmentCatalogQuestionButton
               v-if="!viewOnly"
-              :click-function="() => emit('selectTopic', [...currentTopicPath])"
               :img="`/ui/${exactTopicIsInAssignment ? 'minus' : 'plus'}.svg`"
               :text="
                 exactTopicIsInAssignment === topicIsInAssignment || (exactTopicIsInAssignment && !topicIsInAssignment)
@@ -75,11 +74,12 @@
                   : `You've already added a parent topic!`
               "
               :disable="!(exactTopicIsInAssignment === topicIsInAssignment || (exactTopicIsInAssignment && !topicIsInAssignment))"
+              @click="emit('selectTopic', [...currentTopicPath])"
             />
             <TeacherAssignmentCatalogQuestionButton
-              :click-function="() => (showQuestionAnswers = !showQuestionAnswers)"
               :img="`/ui/${showQuestionAnswers ? 'eye-hide' : 'eye-show'}.svg`"
               :text="`${showQuestionAnswers ? 'Hide' : 'Show'} All Answers`"
+              @click="showQuestionAnswers = !showQuestionAnswers"
             />
           </div>
         </div>
@@ -170,9 +170,7 @@ async function loadQuestions(topicId: number, offset?: number) {
     totalQuestions.value = data.count;
     // if root, store it separately (is not stored in loadedTopics)
     if (topicId === 1) totalQuestionCount.value = data.count;
-  } else {
-    totalQuestions.value = loadedTopics.value[topicId]?.numQuestions;
-  }
+  } else totalQuestions.value = loadedTopics.value[topicId]?.numQuestions;
 
   // add question ids, but no duplicates
   if (loadedTopics.value[topicId]) loadedTopics.value[topicId].questionIds = Array.from(new Set([...loadedTopics.value[topicId].questionIds, ...questions.map((question) => question.id)]));
