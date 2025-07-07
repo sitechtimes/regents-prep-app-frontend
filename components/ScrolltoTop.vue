@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <Transition name="slide-from-right">
-      <button v-show="showScrollToTop" class="fixed bottom-6 right-6 z-10 rounded-lg bg-gray-200 px-2 py-2 text-lg shadow-lg" type="button" @click="scrollToTop">
-        <img src="/ui/arrow-up.svg" class="h-6 w-6" />
-      </button>
-    </Transition>
-  </div>
+  <Transition name="slide-from-right">
+    <button v-show="showScrollToTop" class="fixed bottom-6 right-6 z-10 rounded-lg bg-neutral-200 px-2 py-2 text-lg shadow-lg dark:bg-neutral-800" type="button" @click="scrollToTop">
+      <img src="/ui/arrow-up.svg" class="h-6 w-6 dark:invert" />
+    </button>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -14,6 +12,7 @@ const showScrollToTop = ref(false);
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
 function checkScroll() {
   const pageHeight = document.documentElement.scrollHeight;
   const viewportHeight = window.innerHeight;
@@ -21,8 +20,8 @@ function checkScroll() {
 
   showScrollToTop.value = pageHeight > viewportHeight * 2 && scrollTop > viewportHeight / 2;
 }
-onMounted(() => window.addEventListener("scroll", checkScroll));
 
+onMounted(() => window.addEventListener("scroll", checkScroll));
 onBeforeUnmount(() => window.removeEventListener("scroll", checkScroll));
 </script>
 
